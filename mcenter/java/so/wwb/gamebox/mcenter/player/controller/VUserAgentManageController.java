@@ -14,7 +14,7 @@ import org.soul.model.common.FieldProperty;
 import org.soul.model.listop.po.SysListOperator;
 import org.soul.model.security.privilege.po.SysUserStatus;
 import org.soul.web.listop.ListOpTool;
-import org.soul.web.locale.DateQuickPicker;
+import org.soul.commons.locale.DateQuickPicker;
 import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;

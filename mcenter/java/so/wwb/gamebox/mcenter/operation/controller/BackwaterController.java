@@ -53,6 +53,7 @@ import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.NoticeParamEnum;
 import so.wwb.gamebox.model.company.site.po.SiteCustomerService;
+import so.wwb.gamebox.model.master.enums.RakebackSettleCodeEnum;
 import so.wwb.gamebox.model.master.enums.RemarkEnum;
 import so.wwb.gamebox.model.master.operation.po.*;
 import so.wwb.gamebox.model.master.operation.vo.*;
@@ -328,7 +329,7 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
      */
     @RequestMapping("/checkBackwaterActual")
     @ResponseBody
-    public String checkBackwaterActual(@RequestParam("result.rakebackActual") String actual, @RequestParam("result.rakebackTotal") String total) {
+    public String checkBackwaterActual(@RequestParam("result.rakebackActual") String actual, @RequestParam("result.rakebackPending") String total) {
         double rakebackActual = NumberTool.createDouble(actual);
         double rakebackTotal = NumberTool.createDouble(total);
         if (rakebackActual <= rakebackTotal) {
@@ -685,6 +686,25 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
         Map<Integer, Map<String, RakebackApiNosettled>> gemtypes = getService().getApiGameTypes(listVo);
         model.addAttribute("gametypes", gemtypes);
         return getViewBasePath() + "NosettledChoose";
+    }
+    @RequestMapping("/reSettleRakeback")
+    @ResponseBody
+    public Map reSettleRakeback(RakebackBillVo rakebackBillVo){
+        Map resultMap = new HashMap();
+        try{
+            String returnCode = getService().reSettleRakeback(rakebackBillVo);
+            LOG.info("调用返水重结返回值:{0}",returnCode);
+            if(RakebackSettleCodeEnum.EXCEPTION.getCode().equals(returnCode)){
+                resultMap.put("state",false);
+            }else{
+                resultMap.put("state",true);
+            }
+        }catch (Exception ex){
+            resultMap.put("state",false);
+            LOG.error(ex,"返水重结出错");
+        }
+
+        return resultMap;
     }
 
 }

@@ -4,7 +4,7 @@ import org.soul.commons.lang.DateTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.web.controller.BaseCrudController;
-import org.soul.web.locale.DateQuickPicker;
+import org.soul.commons.locale.DateQuickPicker;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

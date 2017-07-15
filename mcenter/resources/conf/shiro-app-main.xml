@@ -40,6 +40,7 @@
 				<entry key="agent" value-ref="agentDomainFilter"></entry>
 				<entry key="subsys" value-ref="subsysCodeFilter"></entry>
 				<entry key="captcha" value-ref="captcha"></entry>
+				<entry key="access" value-ref="accessFilter"></entry>
 			</map>
 		</property>
 		<property name="filterChainDefinitions">
@@ -55,7 +56,7 @@
 				/captcha/*.html = agent,captcha
 				/passport/login.html = agent,subsys,login
 				/master/passport/login.html = agent,subsys,login
-				/** = agent,subsys,kickout,authc,autho
+				/** = agent,subsys,kickout,authc,access,autho
 			</value>
 		</property>
 	</bean>

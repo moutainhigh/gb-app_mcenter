@@ -30,13 +30,19 @@
             <div class="form-group clearfix line-hi34 m-b-xxs">
                 <label class="col-xs-3 al-right">${views.column['SettlementBackwater.backwaterTotal']}：</label>
                 <input type="hidden" value="${command.result.rakebackTotal}" name="result.rakebackTotal"/>
+                <input type="hidden" value="${command.result.rakebackPending}" name="result.rakebackPending"/>
+
                 <div class="col-xs-8 p-x"><b><fmt:formatNumber value="${command.result.rakebackTotal}" pattern="0.00"/></b></div>
+            </div>
+            <div class="form-group clearfix line-hi34 m-b-xxs">
+                <label class="col-xs-3 al-right">${views.fund['rakebackwater.pendingpay']}：</label>
+                <div class="col-xs-8 p-x"><b><fmt:formatNumber value="${command.result.rakebackPaid}" pattern="0.00"/></b></div>
             </div>
             <div class="form-group clearfix line-hi34 m-b-sm">
                 <label class="col-xs-3 al-right" for="result.rakebackActual"><span class="co-red3">*</span>${views.column['SettlementBackwater.backwaterActual']}：</label>
                 <div class="col-xs-8 p-x input-group">
                     <form:input type="text" class="form-control" path="result.rakebackActual"/>
-                    <span class="input-group-addon bdn">&nbsp;&nbsp;≤<fmt:formatNumber value="${command.result.rakebackTotal}" pattern="0.00"/></span>
+                    <span class="input-group-addon bdn">&nbsp;&nbsp;≤<fmt:formatNumber value="${command.result.rakebackPending}" pattern="0.00"/></span>
                 </div>
             </div>
             <div class="form-group clearfix line-hi34 m-b-xxs">

@@ -95,6 +95,10 @@
                                                         <span class="m-l-xs">${views.report_auto['支付宝扫码支付']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkOnline" data-type="1" name="search.transactionWays" value="qqwallet_scan">
+                                                        <span class="m-l-xs">${views.report_auto['QQ钱包扫码支付']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
                                                         <input type="checkbox" class="i-checks tranType deposit checkCompany" data-type="1" name="search.transactionWays" value="wechatpay_fast">
                                                         <span class="m-l-xs">${views.report_auto['微信电子支付']}</span>
                                                     </label>
@@ -284,7 +288,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group clearfix pull-left col-md-6 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group date time-select-a">
                                     <span class="input-group-addon bg-gray">${views.report_auto['完成时间']}</span>
                                     <gb:dateRange format="${DateFormat.DAY_SECOND}"  minDate="${minDate}" useRange="true" style="width:38%;" useToday="true" btnClass="search" startName="search.startTime" endName="search.endTime" startDate="${command.search.startTime}" endDate="${command.search.endTime}"/>
@@ -334,7 +338,7 @@
                                         </span>
                                 </div>
                             </div>--%>
-                            <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm h-line-a">
+                            <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm h-line-a">
                                 <div class="input-group">
                                     <span class="input-group-addon bg-gray">${views.report_auto['来源终端']}</span>
                                     <input type="hidden" id="origin" value="${command.search.origin}">
@@ -358,19 +362,19 @@
                             <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group time-select-a">
                                     <span class="input-group-addon bg-gray">${views.report_auto['金额']}</span>
-                                    <span class="input-group-addon time-select-ico">${views.report_auto['起']}</span>
-                                    <input type="text" class="form-control" name="search.startMoney" value="${command.search.startMoney}">
+                                    <span class="input-group-addon border-right-none">${views.report_auto['起']}</span>
+                                    <input type="text" class="form-control border-left-none" name="search.startMoney" value="${command.search.startMoney}">
                                     <span class="input-group-addon time-select-t">~</span>
-                                    <span class="input-group-addon time-select-ico">${views.report_auto['止']}</span>
-                                    <input type="text" class="form-control" name="search.endMoney" value="${command.search.endMoney}">
+                                    <span class="input-group-addon border-right-none">${views.report_auto['止']}</span>
+                                    <input type="text" class="form-control border-left-none" name="search.endMoney" value="${command.search.endMoney}">
                                 </div>
                             </div>
 
                             <div class="show-demand-a">
-                                <div class="form-group clearfix pull-left col-md-6 col-sm-12 m-b-sm padding-r-none-sm">
+                                <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
                                     <div class="input-group date time-select-a">
                                         <span class="input-group-addon bg-gray">${views.report_auto['创建时间']}</span>
-                                        <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:43%" useRange="true"
+                                        <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:38%" useRange="true"
                                                       maxDate="${maxDate}" opens="right" position="down"
                                                       startDate="${command.search.startCreateTime}"
                                                       endDate="${command.search.endCreateTime}"

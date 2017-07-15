@@ -1,5 +1,3 @@
-<%@ page import="org.soul.commons.lang.string.I18nTool" %>
-<%@ page import="java.util.Locale" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
     <form id="shortcutMenu_form">

@@ -39,7 +39,7 @@ public class BackwaterActualForm implements IForm {
     @Comment("实付返水金额")
     @NotBlank
     @Pattern(message = "operation.backwater.BackwaterActualForm.backwaterActual.digits", regexp = FormValidRegExps.DECIMAL)
-    @Remote(message = "operation.backwater.BackwaterActualForm.backwaterActual.max", checkClass = BackwaterController.class, checkMethod = "checkBackwaterActual", additionalProperties = {"rakebackTotal"})
+    @Remote(message = "operation.backwater.BackwaterActualForm.backwaterActual.max", checkClass = BackwaterController.class, checkMethod = "checkBackwaterActual", additionalProperties = {"rakebackPending"})
 
     public String getResult_rakebackActual() {
         return result_rakebackActual;

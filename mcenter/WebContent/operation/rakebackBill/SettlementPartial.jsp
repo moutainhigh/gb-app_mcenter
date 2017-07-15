@@ -35,9 +35,10 @@
             </c:forEach>
             <c:set value="<span tabindex=\"0\" class=\"m-l-sm help-popover\" role=\"button\" data-container=\"body\" data-toggle=\"popover\" data-trigger=\"focus\" data-placement=\"top\" data-content=\"${views.report['rakeback.help.total']}\"><i class=\"fa fa-question-circle\"></i></span>" var="tips1"></c:set>
             <soul:orderColumn poType="${poType}" property="rakebackTotal" column="${tips1} ${views.column['SettlementBackwater.backwaterTotal']}"></soul:orderColumn>
-            <c:set var="tips2" value="<span tabindex=\"0\" class=\"m-l-sm help-popover\" role=\"button\" data-container=\"body\" data-toggle=\"popover\" data-trigger=\"focus\" data-placement=\"top\" data-content=\"${views.report['rakeback.help.actual']}\" ><i class=\"fa fa-question-circle\"></i></span>"></c:set>
-            <soul:orderColumn poType="${poType}" property="rakebackActual" column="${tips2} ${views.column['SettlementBackwater.backwaterActual']}"></soul:orderColumn>
-
+            <soul:orderColumn poType="${poType}" property="rakebackPaid" column="${views.fund['rakebackwater.haspaid']}"></soul:orderColumn>
+            <c:set var="tips2" value="<span tabindex=\"0\" class=\"m-l-sm help-popover\" role=\"button\" data-container=\"body\" data-toggle=\"popover\" data-trigger=\"focus\" data-placement=\"top\" data-content=\"${views.report['rakeback.help.paythistime']}\" ><i class=\"fa fa-question-circle\"></i></span>"></c:set>
+            <soul:orderColumn poType="${poType}" property="rakebackActual" column="${tips2} ${views.fund['rakebackwater.paythistime']}"></soul:orderColumn>
+            <soul:orderColumn poType="${poType}" property="rakebackPending" column="${views.fund['rakebackwater.pendingpay']}"></soul:orderColumn>
         <%--<soul:orderColumn poType="${poType}" property="rakebackTotal" column="${views.column['SettlementBackwater.backwaterTotal']}"></soul:orderColumn>
             <soul:orderColumn poType="${poType}" property="rakebackActual" column="${views.column['SettlementBackwater.backwaterActual']}"></soul:orderColumn>--%>
             <%--<th>${views.column['SettlementBackwater.backwaterTotal']}</th>
@@ -57,9 +58,14 @@
         <tbody>
         <c:set var="rakebackTotal" value="0"/>
         <c:set var="rakebackActual" value="0"/>
+        <c:set var="rakebackPaid" value="0"/>
+        <c:set var="rakebackPending" value="0"/>
+
         <c:forEach items="${command.result}" var="i">
             <c:set var="rakebackTotal" value="${rakebackTotal+i.rakebackTotal}"/>
             <c:set var="rakebackActual" value="${rakebackActual+i.rakebackActual}"/>
+            <c:set var="rakebackPaid" value="${rakebackPaid+i.rakebackPaid}"/>
+            <c:set var="rakebackPending" value="${rakebackPending+i.rakebackPending}"/>
             <tr>
                 <td><input type="checkbox" class="i-checks" value="${i.id}"></td>
                 <td>
@@ -87,6 +93,7 @@
                     </c:choose>
                 </c:forEach>
                 <td style="padding-left: 40px">${soulFn:formatCurrency(i.rakebackTotal)}</td>
+                <td>${soulFn:formatCurrency(i.rakebackPaid)}</td>
                 <td style="padding-left: 25px">
                     <soul:button target="${root}/operation/rakebackBill/editBackwaterActual.html?search.id=${i.id}"
                                  text=""
@@ -97,6 +104,7 @@
                         ${soulFn:formatCurrency(i.rakebackActual)}
                     </soul:button>
                 </td>
+                <td>${soulFn:formatCurrency(i.rakebackPending)}</td>
             </tr>
         </c:forEach>
         <tr>
@@ -137,7 +145,9 @@
                 </c:choose>
             </c:forEach>
             <td style="padding-left: 40px">${rakebackTotal==0?'0.00':soulFn:formatCurrency(rakebackTotal)}</td>
+            <td style="">${rakebackActual==0?'0.00':soulFn:formatCurrency(rakebackPaid)}</td>
             <td style="padding-left: 40px">${rakebackActual==0?'0.00':soulFn:formatCurrency(rakebackActual)}</td>
+            <td style="">${rakebackActual==0?'0.00':soulFn:formatCurrency(rakebackPending)}</td>
         </tr>
         </tbody>
     </table>

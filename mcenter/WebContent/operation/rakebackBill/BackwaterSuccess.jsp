@@ -23,8 +23,8 @@
                 </div>
             </div>
             <div class="form-group clearfix line-hi34 m-b-sm">
-                <label class="col-xs-4 al-right">${views.operation['backwater.settlement.backwaterTotalMoney']}${master.defaultCurrency}：</label>
-                <div class="col-xs-8 p-x fs24">${soulFn:formatCurrency(rakebackActual) }</div>
+                <label class="col-xs-4 al-right">${views.operation['backwater.settlement.backwaterTotalMoney']}：</label>
+                <div class="col-xs-8 p-x fs24">${siteCurrencySign}${soulFn:formatCurrency(rakebackActual) }</div>
             </div>
             <div class="p-xs bg-gray co-yellow">
                 <i class="fa fa-exclamation-circle"></i>

@@ -17,7 +17,7 @@ import org.soul.iservice.security.privilege.ISysResourceService;
 import org.soul.model.common.BaseVo;
 import org.soul.model.security.privilege.po.VSysUserResource;
 import org.soul.model.security.privilege.vo.SysResourceVo;
-import org.soul.web.locale.DateQuickPicker;
+import org.soul.commons.locale.DateQuickPicker;
 import org.soul.web.session.RedisSessionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

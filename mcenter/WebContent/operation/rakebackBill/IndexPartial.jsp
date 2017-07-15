@@ -18,7 +18,7 @@
                     data-content="${views.report['rakeback.help.total']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span>
             </th>
             <th>
-                ${views.column['SettlementBackwater.backwaterActual']}
+                ${views.fund['rakebackwater.haspaid']}
                 <span tabindex="0" class="m-l-sm help-popover" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
                         data-content="${views.report['rakeback.help.actual']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span>
             </th>
@@ -76,6 +76,9 @@
                                 <a href="/operation/rakebackBill/settlement.html?search.rakebackBillId=${i.id}" nav-target="mainFrame">${views.common['clearing']}</a>
                             </shiro:hasPermission>
                         </c:if>
+                        <span class="dividing-line m-r-xs m-l-xs">|</span>
+                        <soul:button target="${root}/operation/rakebackBill/reSettleRakeback.html?search.id=${i.id}" confirm="${views.fund['rakebackwater.resettle.tips']}"
+                                     text="${views.fund['rakebackwater.resettle']}" opType="ajax" callback="callBackQuery"></soul:button>
                     </td>
                 </tr>
             </c:forEach>

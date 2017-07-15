@@ -1,4 +1,5 @@
-<%--@elvariable id="command" type="so.wwb.gamebox.model.master.fund.vo.VPlayerWithdrawListVo"--%>
+<%@ page import="org.soul.web.session.RedisSessionDao" %>
+<%@ page import="so.wwb.gamebox.model.enums.UserTypeEnum" %><%--@elvariable id="command" type="so.wwb.gamebox.model.master.fund.vo.VPlayerWithdrawListVo"--%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <style type="text/css">
@@ -34,6 +35,8 @@
             </tr>
             </thead>
             <tbody class="table-tbody withdraw-tbody-record">
+            <% RedisSessionDao redisSessionDao = (RedisSessionDao) SpringTool.getBean("redisSessionDao"); %>
+            <c:set var="redisSessionDao" value='<%=redisSessionDao%>'/>
                 <c:forEach items="${command.result}" var="p" varStatus="status">
                     <tr class="tab-detail" id="record_id_${p.id}">
                         <td><input type="hidden" name="id" value="${p.id}"/>
@@ -49,7 +52,7 @@
                                       role="button" class="ico-lock co-red3 help-popover" tabindex="0"
                                       data-original-title="" title=""><i class="fa fa-warning"></i>&nbsp;</span>
                             </c:if>
-                            <c:if test="${p.onLineId>0}">
+                            <c:if test="${redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), playerId).size()>0}">
                                 <span data-content="${views.role['player.list.icon.online']}"
                                       data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
                                       role="button" class="ico-lock help-popover" tabindex="0"

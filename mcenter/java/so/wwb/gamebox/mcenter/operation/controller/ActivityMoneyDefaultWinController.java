@@ -8,9 +8,13 @@ import org.soul.model.security.privilege.po.SysUser;
 import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.iservice.master.operation.IActivityMoneyDefaultWinService;
+import so.wwb.gamebox.mcenter.operation.form.ActivityMoneyDefaultWinForm;
+import so.wwb.gamebox.mcenter.operation.form.ActivityMoneyDefaultWinSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.SubSysCodeEnum;
@@ -19,16 +23,15 @@ import so.wwb.gamebox.model.master.operation.po.ActivityMoneyDefaultWin;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMoneyAwardsRulesVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMoneyDefaultWinListVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMoneyDefaultWinVo;
-import so.wwb.gamebox.mcenter.operation.form.ActivityMoneyDefaultWinSearchForm;
-import so.wwb.gamebox.mcenter.operation.form.ActivityMoneyDefaultWinForm;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
 
 import javax.validation.Valid;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -102,7 +105,7 @@ public class ActivityMoneyDefaultWinController extends BaseCrudController<IActiv
             if(noExistName.length()>0){
                 noExistName = noExistName.substring(0,noExistName.length()-1);
                 objectVo.setSuccess(false);
-                objectVo.setErrMsg(MessageFormat.format("不存在玩家账号：{0}",noExistName));
+                objectVo.setErrMsg(MessageFormat.format(LocaleTool.tranMessage("operation_auto","不存在玩家账号：")+"{0}",noExistName));
                 return objectVo;
             }
 

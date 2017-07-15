@@ -43,7 +43,7 @@
                                         <th>${views.column['PlayerTransaction.transactionNo']}</th>
                                         <th>${views.operation['backwater.settlement.view.transactionDescription']}</th>
                                         <th>${views.column['SettlementBackwater.backwaterTotal']}</th>
-                                        <th>${views.column['SettlementBackwater.backwaterActual']}</th>
+                                        <th>${views.fund['rakebackwater.haspaid']}</th>
                                         <th>${views.column['PlayerTransaction.balance']}</th>
                                     </tr>
                                     </thead>
@@ -55,7 +55,7 @@
                                             <div>${soulFn:formatDateTz(rakebackBillVo.result.startTime, DateFormat.DAY, timeZone)} ~ ${soulFn:formatDateTz(rakebackBillVo.result.endTime, DateFormat.DAY, timeZone)}</div>
                                         </td>
                                         <td class="co-green">+${soulFn:formatCurrency(rakebackPlayer.rakebackTotal)}</td>
-                                        <td class="co-green">+${soulFn:formatCurrency(rakebackPlayer.rakebackActual)}</td>
+                                        <td class="co-green">+${soulFn:formatCurrency(rakebackPlayer.rakebackPaid)}</td>
                                         <td>${soulFn:formatCurrency(playerTransaction.balance)}</td>
                                     </tr>
                                     <tr>

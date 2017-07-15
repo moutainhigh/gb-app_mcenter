@@ -54,7 +54,7 @@ import org.soul.model.taskschedule.po.TaskSchedule;
 import org.soul.model.taskschedule.vo.TaskScheduleVo;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.listop.ListOpTool;
-import org.soul.web.locale.DateQuickPicker;
+import org.soul.commons.locale.DateQuickPicker;
 import org.soul.web.session.RedisSessionDao;
 import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.annotation.FormModel;

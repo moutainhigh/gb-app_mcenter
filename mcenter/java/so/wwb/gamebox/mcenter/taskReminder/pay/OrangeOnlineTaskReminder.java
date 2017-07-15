@@ -1,6 +1,6 @@
 package so.wwb.gamebox.mcenter.taskReminder.pay;
 
-import org.soul.web.locale.DateQuickPicker;
+import org.soul.commons.locale.DateQuickPicker;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.master.content.enums.WarningTypeEnumEnum;
 import so.wwb.gamebox.model.master.content.vo.PayWarningVo;
