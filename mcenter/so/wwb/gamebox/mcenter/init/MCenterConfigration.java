@@ -1,0 +1,27 @@
+package so.wwb.gamebox.mcenter.init;
+
+import org.soul.web.support.BaseWebConf;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import so.wwb.gamebox.web.init.ExtBaseWebConf;
+
+/**
+ * Created by Kevice on 2015/3/26 0026.
+ */
+@Component
+public class MCenterConfigration extends ExtBaseWebConf {
+    /**
+     * 总代理SubSysCode
+     * @return
+     */
+    public String getTopAgentSubSysCode() {
+        return this.getSubsysCode()+"TopAgent";
+    }
+    /**
+     * 代理SubSysCode
+     * @return
+     */
+    public String getAgentSubSysCode() {
+        return this.getSubsysCode()+"Agent";
+    }
+}

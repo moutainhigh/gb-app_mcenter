@@ -1,0 +1,112 @@
+<%--@elvariable id="command" type="so.wwb.gamebox.model.master.report.vo.OperatePlayerListVo"--%>
+<%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ include file="/include/include.inc.jsp" %>
+
+<div class="col-lg-12">
+    <div class="wrapper white-bg shadow">
+        <div class="p-sm b-title-black">
+            <h2 class="pull-left m-b-none m-t-none">
+                <c:choose>
+                    <c:when test="${command.sites.size() > 0}">
+                        ${views.report['operate.list.site']}<span class="co-blue">${gbFn:getSiteName(command.site.id)}</span> -
+			${views.report['operate.search.account.topagent']}<span class="co-blue">${command.userTop.username}</span>
+                    </c:when>
+                    <c:otherwise>
+                        ${views.report['operate.search.account.topagent']}<span class="co-blue">${command.userTop.username}</span>
+                    </c:otherwise>
+                </c:choose>
+            </h2>
+            <span class="co-grayc2 m-l">${soulFn:formatDateTz(startDate, DateFormat.DAY, timeZone)} ~ ${soulFn:formatDateTz(endDate, DateFormat.DAY, timeZone)}</span>
+            <div class="pull-right m-t-n-xxs" style="margin-top: -8px">
+                <soul:button tag="button" cssClass="btn btn-export-btn btn-primary-hide" callback="gotoExportHistory" post="getCurrentFormData"
+                             text="${views.report['fund.list.export']}" precall="validExportCount" title="${views.report['fund.list.export']}"
+                             target="${root}/report/operate/exportRecords.html?result.siteId=${command.search.siteId}" opType="ajax">
+                    <i class="fa fa-sign-out"></i><span class="hd">${views.report['operate.list.export']}</span>
+                </soul:button>
+                &nbsp;
+                <soul:button target="query" opType="function" precall="prevTopAgent" cssClass="btn btn-primary-hide pull-right" text="${views.report['operate.list.prev']}" />
+                <input type="hidden" value="${conditionJson}" id="conditionJson">
+                <input type="hidden" value="${subSysCode}" id="subSysCode">
+            </div>
+            <div class="search-params-div hide"></div>
+        </div>
+        <div class="dataTables_wrapper" role="grid">
+            <div class="panel-body">
+                <div class="tab-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover dataTable m-b-none" aria-describedby="editable_info">
+                            <thead>
+                            <tr class="bg-gray">
+                                <th colspan="9">
+                                    <span class="pull-left">${views.report['operate.list.info']}</span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <c:if test="${sameDay}"><th>${views.report['operate.list.playerNum']}</th></c:if>
+                                <th>${views.report['operate.list.price']}</th>
+                                <th>${views.report['operate.list.orderprice']}</th>
+                                <th>${views.report['operate.list.effePrice']}</th>
+                                <th>${views.report['operate.list.prosfit']}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <c:if test="${sameDay}"><td>${soulFn:formatNumber(command.agent.playerNum)}</td></c:if>
+                                <td>${soulFn:formatNumber(command.agent.transactionOrder)}</td>
+                                <td>${soulFn:formatCurrency(command.agent.transactionVolume)}</td>
+                                <td>${soulFn:formatCurrency(command.agent.effectiveTransaction)}</td>
+                                <td>${soulFn:formatCurrency(command.agent.profitLoss)}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12 m-t">
+    <div class="wrapper white-bg clearfix shadow">
+        <div class="dataTables_wrapper" role="grid">
+            <div class="panel-body">
+                <div class="tab-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover dataTable m-b-none" aria-describedby="editable_info">
+                            <thead>
+                            <tr class="bg-gray">
+                                <th colspan="7">
+                                    <span class="pull-left">${views.report['operate.detail.info']}</span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>${views.report['operate.detail.account.agent']}</th>
+                                <th>${views.report['operate.list.playerNum']}</th>
+                                <th>${views.report['operate.list.price']}</th>
+                                <th>${views.report['operate.list.orderprice']}</th>
+                                <th>${views.report['operate.list.effePrice']}</th>
+                                <th>${views.report['operate.list.prosfit']}</th>
+                                <th>${views.common['operate']}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach var="res" items="${command.result}">
+                                <tr>
+                                    <input type="hidden" name="agentId" value="${res.agentId}"/>
+                                    <td><soul:button target="query" opType="function" precall="detailAgent" text="${res.agentName}" /></td>
+                                    <td>${soulFn:formatNumber(res.playerNum)}</td>
+                                    <td>${soulFn:formatNumber(res.transactionOrder)}</td>
+                                    <td>${soulFn:formatCurrency(res.transactionVolume)}</td>
+                                    <td>${soulFn:formatCurrency(res.effectiveTransaction)}</td>
+                                    <td>${soulFn:formatCurrency(res.profitLoss)}</td>
+                                    <td><soul:button target="query" opType="function" precall="detailAgent" text="${views.common['detail']}" /></td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <soul:pagination/>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/include/include.inc.jsp" %>
+<%--@elvariable id="command" type="so.wwb.gamebox.model.master.player.vo.UserBankcardListVo"--%>
+<%--@elvariable id="banks" type="java.util.Map<java.lang.String,so.wwb.gamebox.model.company.po.Bank>"--%>
+<!--银行卡-->
+<div class="clearfix line-hi25">
+    <c:if test="${fn:length(command.result)>0}">
+        <soul:button target="${root}/userAgent/topagent/bankEdit.html?search.userId=${command.search.userId}" userId="${command.search.userId}" text="${views.role['Player.view.bank.editBankInfo']}" opType="dialog" cssClass="pull-right" callback="bankcard.query"/>
+    </c:if>
+</div>
+<div role="grid" class="dataTables_wrapper" id="editable_wrapper">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover dataTable" aria-describedby="editable_info">
+            <thead>
+            <tr>
+                <th>${views.column["VUserBankcard.bankName"]}</th>
+                <th>${views.column["VUserBankcard.bankcardMasterName"]}</th>
+                <th>${views.column["VUserBankcard.bankcardNumber"]}</th>
+                <th>${views.column["VUserBankcard.createTime"]}</th>
+                <th>${views.column["VUserBankcard.useCount"]}</th>
+                <th>${views.common['status']}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${command.result}" var="l" varStatus="vs">
+                <tr>
+                    <td><img src="${resComRoot}${banks[l.bankName].bankIcon}"></td>
+                    <td>${l.bankcardMasterName}</td>
+                    <td>${soulFn:formatBankCard(l.bankcardNumber)}</td>
+                    <td>${soulFn:formatDateTz(l.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
+                    <td class="co-red">${l.useCount}</td>
+                    <td>
+                        <c:if test="${l.isDefault}">
+                            <a href="javascript:void(0)" class="btn btn-xs btn-danger">${views.common['currentUse']}</a>
+                        </c:if>
+                        <c:if test="${!l.isDefault && l.useStauts }">
+                            <span>${views.common['historyUse']}</span>
+                        </c:if>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    curl(['site/player/topagent/BankCard'], function(BankCard) {
+        page.bankcard = new BankCard();
+    });
+</script>
