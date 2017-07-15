@@ -9,6 +9,8 @@ import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.commons.log.Log;
+import org.soul.commons.log.LogFactory;
 import org.soul.commons.support._Module;
 import org.soul.commons.tree.TreeNode;
 import org.soul.iservice.security.privilege.ISysResourceService;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.iservice.company.sys.ISysSiteService;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
@@ -61,7 +64,7 @@ public class HomeController {
     private static final String OPERATE_URL = "/home/include/Operate";
     //首页-新增菜单
     public static final String ADD_MENU_URI = "/home/AddMenu";
-
+    private static final Log LOG = LogFactory.getLog(HomeController.class);
     //private static final String DATE_FMT_MM_DD = "MM月dd日";
 
     @Autowired

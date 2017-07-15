@@ -5,7 +5,7 @@
 </head>
 <body style="max-height: 200px;">
 <form:form action="${root}/" method="post">
-        <div class="animated bounceInRight family" style="padding:15px;">
+        <div class="family" style="padding:15px;">
             ${messages.content["payAccount.remDialog.prompt"]}
             <%--当某支付方式/渠道下有多个账号时，玩家存款将按照站长设置的账号顺序依次入账。降低因短时间内大量入款，导致被第三方平台或银行视为违规，被停用账号的风险--%>
             <div>

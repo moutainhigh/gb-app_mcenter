@@ -7,25 +7,19 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.web.controller.NoMappingCrudController;
-import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.mcenter.lottery.form.SiteLotteryOddsForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.company.lottery.po.SiteLotteryOdd;
-import so.wwb.gamebox.model.company.lottery.so.SiteLotteryOddSo;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryOddListVo;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryOddVo;
 import so.wwb.gamebox.web.cache.Cache;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -175,8 +169,8 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         if (CollectionTool.isNotEmpty(updateOdds)) {
             siteLotteryOddVo.setEntities(updateOdds);
             int count = ServiceTool.siteLotteryOddService().batchUpdateOnly(siteLotteryOddVo);
-            LOG.info("保存站点彩票赔率成功,更新条数{0},更新赔率值{1}",count,JsonTool.toJson(updateOdds));
-            Cache.refreshAllSiteLotteryOdds();
+            LOG.info("保存站点彩票赔率成功,更新条数{0},更新赔率值{1}", count, JsonTool.toJson(updateOdds));
+            Cache.refreshSiteLotteryOdds(SessionManager.getSiteId());
         }
         return getVoMessage(siteLotteryOddVo);
     }

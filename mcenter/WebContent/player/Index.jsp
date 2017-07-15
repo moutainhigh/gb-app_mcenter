@@ -108,7 +108,7 @@
                             </div>
 
 
-                                    <div class="show-demand-a">
+                            <div class="show-demand-a">
 
                                     <%--真实姓名--ok--%>
                                 <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
@@ -257,7 +257,7 @@
                                                     <li role="presentation">
                                                         <label><input type="radio" name="search.createChannel"
                                                                       value="" ${empty command.search.createChannel?'checked':''}>
-                                                            ${views.player_auto['全部']}</label>
+                                                                ${views.player_auto['全部']}</label>
                                                     </li>
                                                     <li role="presentation">
                                                         <label><input type="radio"
@@ -281,7 +281,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <%--钱包余额等ok--%>
+                                    <%--钱包余额等ok--%>
                                 <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                                     <div class="input-group time-select-a">
                                         <span class="bg-gray input-group-addon bdn">
@@ -590,12 +590,12 @@
                         </div>
 
                         <div class="btn-group" style="padding-right: 10px">
-                                <soul:button precall="getSelectPlayerIds" callback="myCallback" tag="button"
-                                     target="${root}/player/groupSend/chooseSendType.html?playerIds={playerIds}"
-                                     text="${views.role['player.list.button.message']}" opType="dialog"
-                                     cssClass="btn btn-primary-hide dropdown-toggle player_tag_dropdown_btn">
-                                    <i class="fa fa-comments-o"></i>${views.role['player.list.button.message']}
-                                </soul:button>
+                            <soul:button precall="getSelectPlayerIds" callback="myCallback" tag="button"
+                                         target="${root}/player/groupSend/chooseSendType.html?playerIds={playerIds}"
+                                         text="${views.role['player.list.button.message']}" opType="dialog"
+                                         cssClass="btn btn-primary-hide dropdown-toggle player_tag_dropdown_btn">
+                                <i class="fa fa-comments-o"></i>${views.role['player.list.button.message']}
+                            </soul:button>
                         </div>
 
                     </div>

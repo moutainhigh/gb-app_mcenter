@@ -33,6 +33,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.iservice.company.sys.ISysSiteService;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminder;
@@ -98,7 +99,6 @@ public class IndexController extends BaseIndexController {
 
     @Override
     protected String content(Integer parentId, HttpServletRequest request, HttpServletResponse response, Model model) {
-
         SysResourceVo o = new SysResourceVo();
         UserTypeEnum userTypeEnum = UserTypeEnum.enumOf(SessionManager.getUser().getUserType());
         switch (userTypeEnum) {

@@ -1,7 +1,6 @@
 package so.wwb.gamebox.mcenter.content.controller;
 
 import org.apache.commons.collections.Predicate;
-import org.apache.shiro.session.Session;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.MapTool;
@@ -188,18 +187,24 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
     }
 
     private VPayAccountVo buildChannelJson(VPayAccountVo objectVo) {
-        List<Map<String, String>> channelJson = JsonTool.fromJson(objectVo.getResult().getChannelJson(), List.class);
-        if (channelJson != null) {
-            for (Map<String, String> map : channelJson) {
-                if (map.get("column").equals("key")) {
-                    String key = map.get("value");
-                    CryptoTool.aesEncrypt(key);
-                    map.put("value", CryptoTool.aesDecrypt(key));
+        String jsonString=objectVo.getResult().getChannelJson();
+        // 解决比特币和其他支付账户channelJson格式不一致问题
+        if(StringTool.isNotBlank(jsonString) && !objectVo.getResult().getChannelJson().startsWith("[")){
+            return objectVo;
+        }else{
+            List<Map<String, String>> channelJson = JsonTool.fromJson(jsonString, List.class);
+            if (channelJson != null) {
+                for (Map<String, String> map : channelJson) {
+                    if (map.get("column").equals("key")) {
+                        String key = map.get("value");
+                        CryptoTool.aesEncrypt(key);
+                        map.put("value", CryptoTool.aesDecrypt(key));
+                    }
                 }
+                objectVo.setChannelJson(channelJson);
             }
-            objectVo.setChannelJson(channelJson);
+            return objectVo;
         }
-        return objectVo;
     }
 
     /**

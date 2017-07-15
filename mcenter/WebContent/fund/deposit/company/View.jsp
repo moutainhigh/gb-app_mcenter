@@ -270,7 +270,7 @@
 								<c:if test="${r.rechargeAmount>0}">
 									<strong>${r.currencySign} ${soulFn:formatInteger(r.rechargeAmount)}<i>${soulFn:formatDecimals(r.rechargeAmount)}</i></strong>
 								</c:if>
-								<c:if test="${empty r.rechargeAmoun || r.rechargeAmount<=0}">--</c:if>
+								<c:if test="${empty r.rechargeAmount || r.rechargeAmount<=0}">--</c:if>
 								<span class="${rs == '2' ? 'co-green' : ''}${rs == '1' ? 'co-orange' : ''}${rs == '3' ? 'co-red' : ''}">[${dicts.fund.recharge_status[rs]}]</span>
 								<c:if test="${r.origin eq 'MOBILE'}">
 									<span class="fa fa-mobile mobile" data-content="${views.fund_auto['手机存款']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">

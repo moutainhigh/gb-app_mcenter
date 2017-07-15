@@ -300,15 +300,13 @@
 
             </div>
             <div class="footer">
-                <c:if test="${isDebug}">
-                    <div class="pull-right">
-                        <div class="btn-group dropup" id="divLanguage">
-                            <button type="button" class="btn btn-outline btn-filter dropdown-toggle language-btn m-sm"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                            <ul class="dropdown-menu dropdown-menu-right m-sm m-b-none"></ul>
-                        </div>
+                <div class="pull-right">
+                    <div class="btn-group dropup" id="divLanguage">
+                        <button type="button" class="btn btn-outline btn-filter dropdown-toggle language-btn m-sm"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                        <ul class="dropdown-menu dropdown-menu-right m-sm m-b-none"></ul>
                     </div>
-                </c:if>
+                </div>
                 <div class="a-copy clearfix">
                 <span class="footer-clock pull-left">
                     <span class="clock-show"><i class="icon iconfont"></i>${views.common['当前时区']}：</span>

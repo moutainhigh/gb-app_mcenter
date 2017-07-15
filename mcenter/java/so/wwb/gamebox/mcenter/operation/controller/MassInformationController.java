@@ -45,6 +45,7 @@ import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.SiteI18nEnum;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
+import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
@@ -640,9 +641,17 @@ public class MassInformationController {
         if (StringTool.isEmpty(port)) {
             port = String.valueOf(request.getServerPort());
         }
+        Map<String,SiteI18n> siteNameMap=Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_NAME);
+        String siteName="";
+        if(siteNameMap.containsKey(lanuages)){
+            siteName=siteNameMap.get(lanuages).getValue();
+        }else
+        {
+            siteName=SessionManager.getSiteName(request);
+        }
         String afterRe = StringTool.fillTemplate(content, MapTool.newHashMap(
                 /*${user}在前台进行替换*/
-                new Pair<String, String>("sitename", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_NAME).get(lanuages).getValue()),
+                new Pair<String, String>("sitename", siteName),
                 new Pair<String, String>("customer", cus),
                 new Pair<String, String>("website", "<a target='_blank' href='" + scheme + "://" + request.getServerName() + ":" + port + "'>" + scheme + "://" + request.getServerName() + ":" + port + "</a>"),
                 new Pair<String, String>("year", LocaleDateTool.formatDate(new Date(), CommonContext.getDateFormat().getYEAR(), SessionManager.getTimeZone())),

@@ -377,6 +377,9 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     private List<SysDomain> getSysDomainList(SysDomainListVo sysDomainListVo) {
         //查询该站点的支付域名列表
         SysParam sysParam = ParamTool.getSysParam(BossParamEnum.CONTENT_DOMAIN_TYPE_ONLINEPAY);
+        if (sysParam == null) {
+            return null;
+        }
         sysDomainListVo.getSearch().setSiteId(SessionManager.getSiteId());
         sysDomainListVo.getSearch().setPageUrl(sysParam.getParamValue());
         sysDomainListVo.getSearch().setType(null);
@@ -577,32 +580,33 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
 
     /**
      * 日志描述
+     *
      * @param vo
      * @param request
      * @param logVo
      * @param baseLog
      */
     private void addLog(PayAccountVo vo, HttpServletRequest request, LogVo logVo, BaseLog baseLog) {
-        List<String> list=new ArrayList<>();
+        List<String> list = new ArrayList<>();
         list.add(vo.getResult().getBankCode());
         list.add(vo.getResult().getAccount());
         String channelJson = vo.getResult().getChannelJson();
-        if(vo.getResult().getSingleDepositMin()!=null){
+        if (vo.getResult().getSingleDepositMin() != null) {
             list.add(vo.getResult().getSingleDepositMin().toString());
-        }else {
+        } else {
             list.add(null);
         }
-        if(vo.getResult().getSingleDepositMax()!=null){
+        if (vo.getResult().getSingleDepositMax() != null) {
             list.add(vo.getResult().getSingleDepositMax().toString());
-        }else {
+        } else {
             list.add(null);
         }
-        AddLogVo addLogVo=new AddLogVo();
+        AddLogVo addLogVo = new AddLogVo();
         addLogVo.setList(list);
         baseLog.setDescription("change.payAccount.online");
-        baseLog.addParam("channelJson",channelJson);
+        baseLog.addParam("channelJson", channelJson);
 
-        for(String param:addLogVo.getList()){
+        for (String param : addLogVo.getList()) {
             baseLog.addParam(param);
         }
         request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);

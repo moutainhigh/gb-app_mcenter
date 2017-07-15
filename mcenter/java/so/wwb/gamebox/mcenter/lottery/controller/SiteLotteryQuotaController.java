@@ -78,7 +78,7 @@ public class SiteLotteryQuotaController extends NoMappingCrudController {
         quotaVo.setProperties(SiteLotteryQuota.PROP_BET_QUOTA, SiteLotteryQuota.PROP_PLAY_QUOTA, SiteLotteryQuota.PROP_NUM_QUOTA);
         quotaVo.setEntities(quotaVo.getQuotaList());
         ServiceTool.siteLotteryQuotaService().batchUpdateOnly(quotaVo);
-        Cache.refreshAllSiteLotteryQuotas();
+        Cache.refreshSiteLotteryQuotas(SessionManager.getSiteId());
         return getVoMessage(quotaVo);
     }
     //endregion your codes 3
