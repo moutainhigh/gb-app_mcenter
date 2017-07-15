@@ -193,8 +193,10 @@ public class CompanyDepositController extends BaseDepositController {
     @RequestMapping("/confirmCheck")
     @ResponseBody
     public Map confirmCompanyCheck(PlayerRechargeVo vo) {
+        vo.setAcbKeyParam(ParamTool.getSysParam(SiteParamEnum.SITE_PAY_KEY));
         Map map = confirmCheck(vo);
 //        fundCheckReminder("fund/deposit/company/confirmCheck.html",vo.getSearch().getRechargeTypeParent());
+        //取消上分订单
         return map;
     }
 

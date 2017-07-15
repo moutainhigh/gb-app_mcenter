@@ -311,6 +311,8 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             objectVo.getOpenAndSupportList().add(siteCurrency);
         }
         model.addAttribute("bitChannel", BitCoinChannelEnum.values());
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SITE_ACB_SWITCH);
+        objectVo.setAcbSwitchParam(sysParam);
         objectVo.setValidateRule(JsRuleCreator.create(PayAccountCompanyForm.class, "result"));
         model.addAttribute("command", objectVo);
         return "/content/payaccount/company/Add";
@@ -346,6 +348,8 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             objectVo.setOpenAndSupportList(this.openAndSupport(objectVo.getResult().getBankCode()));
         }
         model.addAttribute("bitChannel", BitCoinChannelEnum.values());
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SITE_ACB_SWITCH);
+        objectVo.setAcbSwitchParam(sysParam);
         model.addAttribute("command", objectVo);
         return "/content/payaccount/company/Add";
     }
@@ -498,12 +502,6 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             if (PayAccountAccountType.BANKACCOUNT.getCode().equals(account.getAccountType())) {
                 account.setCustomBankName(form.get$customBankName());
             }
-            //比特币地址存在channeljson里
-            if (StringTool.isNotBlank(form.getBitCoinChannelVo_apiKey()) && StringTool.isNotBlank(form.getBitCoinChannelVo_apiSecret())) {
-                payAccountVo.getBitCoinChannelVo().setApiKey(CryptoTool.aesEncrypt(form.getBitCoinChannelVo_apiKey(), CryptoKey.KEY_BIT_COIN_CHANNEL));
-                payAccountVo.getBitCoinChannelVo().setApiSecret(CryptoTool.aesEncrypt(form.getBitCoinChannelVo_apiSecret(), CryptoKey.KEY_BIT_COIN_CHANNEL));
-                account.setChannelJson(JsonTool.toJson(payAccountVo.getBitCoinChannelVo()));
-            }
             if (account.getId() == null) {
                 if (PayAccountAccountType.BANKACCOUNT.getCode().equals(account.getAccountType()) || BankCodeEnum.OTHER.getCode().equals(account.getBankCode())) {
                     account.setQrCodeUrl(null);
@@ -521,7 +519,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             } else {
                 payAccountVo = this.getService().updatePayAccount(payAccountVo);
             }
-
+            //上分KEY参数
+            SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SITE_PAY_KEY);
+            payAccountVo.setPayKeyParam(sysParam);
+            ServiceTool.acbService().addBank(payAccountVo);
             return this.getVoMessage(payAccountVo);
         } else {
             payAccountVo.setSuccess(false);
@@ -640,8 +641,6 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             accountType = PayAccountAccountType.ALIPAY.getCode();
         } else if (bank != null && BankPayTypeEnum.WECHAT.getCode().equals(bank.getPayType())) {
             accountType = PayAccountAccountType.WECHAT.getCode();
-        } else  if(bank!=null&&BankPayTypeEnum.QQWALLET.getCode().equals(bank.getPayType())) {
-            accountType = PayAccountAccountType.QQWALLET.getCode();
         }
         vo.getResult().setAccountType(accountType);
     }
@@ -675,6 +674,9 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @ResponseBody
     public Map updateCompany(PayAccountVo payAccountVo, @FormModel("result") @Valid PayAccountCompanyEditForm form, BindingResult result) {
         if (!result.hasErrors()) {
+            //上分KEY参数
+            SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SITE_PAY_KEY);
+            payAccountVo.setPayKeyParam(sysParam);
             payAccountVo = this.getService().updatePayAccount(payAccountVo);
             return this.getVoMessage(payAccountVo);
         }
@@ -721,6 +723,9 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         properties[0] = PayAccount.PROP_STATUS;
         vo.setProperties(properties);
         this.getService().updateOnly(vo);
+        vo.getSearch().setId(vo.getResult().getId());
+//        vo = this.getService().get(vo);
+//        ServiceTool.acbService().changeBankStatus(vo);
         return "true";
     }
 
@@ -1204,7 +1209,34 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         ParamTool.refresh(SiteParamEnum.SETTING_RECHARGE_URL_RANKS);
         return getVoMessage(sysParamVo);
     }
+    /**
+     * 上分设置
+     *
+     * @param payAccountVo
+     * @return
+     */
+    @RequestMapping("/acbSetting")
+    public String acbSetting(PayAccountVo payAccountVo,Model model){
+        //开启上分功能
+        payAccountVo.setPayKeyParam(ParamTool.getSysParam(SiteParamEnum.SITE_PAY_KEY));
+        model.addAttribute("command",payAccountVo);
+        return "/content/payaccount/company/AcbSetting";
+    }
 
+    /**
+     * 保存上分设置
+     *
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/saveAcbSetting")
+    @ResponseBody
+    public Map saveAcbSetting(SysParamVo sysParamVo){
+        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+        sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+        ParamTool.refresh(SiteParamEnum.SITE_PAY_KEY);
+        return this.getVoMessage(sysParamVo);
+    }
     //endregion your codes 3
 
 }
