@@ -109,7 +109,7 @@
                 <td class="${p.balance ge 0 ?"co-red":"co-green"}">
                         ${soulFn:formatCurrency(p.balance)}
                 </td>
-                <td class="co-blue"><a href="/player/list.html.html?search.userAgentId=${p.agentId}"
+                <td class="co-blue"><a href="/player/list.html.html?search.agentId=${p.agentId}"
                                        nav-target="mainFrame">${p.effectivePlayer}</a></td>
                 <td class="co-blue3">${soulFn:formatCurrency(p.effectiveTransaction)}</td>
                 <td>${soulFn:formatCurrency(p.profitLoss)}</td>

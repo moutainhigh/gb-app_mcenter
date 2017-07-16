@@ -135,10 +135,20 @@
                             </td>
                         </c:when>
                         <c:when test="${f.key=='parentUsername'}">
-                            <td><a href="/vUserTopAgentManage/list.html?search.id=${p.parentId}" nav-target="mainFrame" class="co-blue">${p.parentUsername}</a></td>
+                            <td>
+                                <c:if test="${p.topagentId eq p.parentId}">
+                                    <a href="/vUserTopAgentManage/list.html?search.id=${p.parentId}" nav-target="mainFrame" class="co-blue">${p.parentUsername}</a>
+                                </c:if>
+                                <c:if test="${p.topagentId ne p.parentId}">
+                                    <a href="/vUserAgentManage/list.html?search.id=${p.parentId}" nav-target="mainFrame" class="co-blue">${p.parentUsername}</a>
+                                </c:if>
+                            </td>
                         </c:when>
                         <c:when test="${f.key=='playerNum'}">
-                            <td><a href="/player/list.html?search.hasReturn=true&search.userAgentId=${p.id}" nav-target='mainFrame'>${p.playerNum}</a></td>
+                            <td><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.id}" nav-target='mainFrame'>${p.playerNum}</a></td>
+                        </c:when>
+                        <c:when test="${f.key=='agentNum'}">
+                            <td><a href="/vUserAgentManage/list.html?search.hasReturn=true&search.parentId=${p.id}" nav-target='mainFrame'>${p.agentNum}</a></td>
                         </c:when>
                         <c:when test="${f.key=='rankName'}">
                             <td><a href="/vPlayerRankStatistics/list.html" nav-target='mainFrame'>${p.rankName}</a></td>
@@ -232,6 +242,10 @@
                 </c:forEach>
                 <td><span class="label ${color}">${dicts.player.user_status[p.playerStatus]}</span></td>
                 <td>
+                    <c:if test="${!(p.playerStatus eq '4')}">
+                    <a href="/userAgent/editAgent.html?search.parentId=${p.id}&editType=subAgent" nav-target="mainFrame">添加代理</a>
+                    <span class="dividing-line m-r-xs m-l-xs">|</span>
+                    </c:if>
                     <c:if test="${p.playerStatus eq '4'}">
                         <c:if test="${empty p.parentUsername||p.parentUsername=='defaulttopagent'}">
                             <shiro:hasPermission name="role:agent_check">
@@ -242,7 +256,7 @@
                     <c:if test="${!(p.playerStatus eq '4')}">
                         <%--<soul:button target="${root}/" text="${views.player_auto['编辑']}" opType="dialog" callback="query" precall=""/>--%>
                         <shiro:hasPermission name="role:agent_edit">
-                            <a href="/userAgent/edit.html?id=${p.id}" nav-target="mainFrame" class="">${views.common['edit']}</a>
+                            <a href="/userAgent/edit.html?id=${p.id}&editType=${p.parentId eq p.topagentId ?'agent':'subAgent'}" nav-target="mainFrame" class="">${views.common['edit']}</a>
                             <span class="dividing-line m-r-xs m-l-xs">|</span>
                         </shiro:hasPermission>
                         <a href="/userAgent/agent/detail.html?search.id=${p.id}" nav-target="mainFrame" class="co-blue">${views.common['detail']}</a>

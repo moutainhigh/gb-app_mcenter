@@ -23,7 +23,7 @@
                                 <form:hidden path="result.id"></form:hidden>
                                 <form:hidden path="sysUser.id"></form:hidden>
                                 <input type="hidden" value="${command.result.registCode}" class="form-control m-b" name="result.registCode">
-                                <input type="hidden" value="agent" name="editType">
+                                <input type="hidden" value="${command.editType}" name="editType">
                                     <div id="validateRule" style="display: none">${command.validateRule}</div>
                                     <%--跳轉模板編輯--%>
                                     <a nav-target="mainFrame" style="display:none" name="editTmpl" href="/noticeTmpl/tmpIndex.html?lastPage=t"><span></span></a>
@@ -38,11 +38,13 @@
                                         <%--</div>--%>
 
                                         <div class="form-group clearfix  m-b-sm">
-                                            <label class="col-sm-3 al-right line-hi34 ft-bold"><span class="co-red m-r-sm">*</span>${views.role['agent.topAgent']} :</label>
+                                            <label class="col-sm-3 al-right line-hi34 ft-bold"><span class="co-red m-r-sm">*</span>${views.column['VUserAgentManage.parentUsername']} :</label>
                                             <div class="col-sm-5">
                                                 <c:choose>
                                                     <c:when test="${empty command.result.id}">
-                                                        <gb:select name="agentUserId" list="${command.topAgents}" prompt="${views.common['pleaseSelect']}" value="${empty command.agentUserId ? command._defaultAgent:command.agentUserId}" listValue="username" callback="changeAgent" cssClass="btn-group chosen-select-no-single input-sm" listKey="id"></gb:select>
+                                                        <gb:select name="agentUserId" list="${command.topAgents}" prompt="${views.common['pleaseSelect']}"
+                                                                   value="${empty command.agentUserId ? command._defaultAgent:command.agentUserId}"
+                                                                   listValue="username" callback="changeAgent" cssClass="btn-group chosen-select-no-single input-sm" listKey="id"></gb:select>
                                                         <input type="hidden" value="${command._defaultAgent}" id="_defaultAgent">
                                                     </c:when>
                                                     <c:otherwise>

@@ -1,7 +1,6 @@
 package so.wwb.gamebox.mcenter.player.form;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.constraints.Depends;
@@ -88,7 +87,7 @@ public class UserAgentForm implements IForm {
         this.$confirmPassword = $confirmPassword;
     }
 
-    @Depends(property = {"$editType","result.id"}, operator = {Operator.EQ,Operator.IS_NULL},value ={"agent","password"})
+    @Depends(property = {"$editType","result.id"}, operator = {Operator.IN,Operator.IS_NULL},value ={"['agent','subAgent']","password"})
     public String getResult_registCode() {
         return result_registCode;
     }
@@ -137,7 +136,7 @@ public class UserAgentForm implements IForm {
         this.sysUser_countryCity = sysUser_countryCity;
     }
 
-    @Depends(property = {"result.id","$editType","$required"}, operator = {Operator.IS_NULL,Operator.EQ,Operator.IN},value ={"password","agent","paymentPassword"})
+    @Depends(property = {"result.id","$editType","$required"}, operator = {Operator.IS_NULL,Operator.IN,Operator.IN},value ={"password","['agent','subAgent']","paymentPassword"})
     @Pattern(message = "common.valid.securityPWDFormat",regexp = FormValidRegExps.SECURITY_PWD)
     public String getSysUser_permissionPwd() {
         return sysUser_permissionPwd;
@@ -147,7 +146,7 @@ public class UserAgentForm implements IForm {
         this.sysUser_permissionPwd = sysUser_permissionPwd;
     }
 
-    @Depends(property = {"$editType","$required"}, operator = {Operator.EQ,Operator.IN},value ={"agent","defaultLocale"})
+    @Depends(property = {"$editType","$required"}, operator = {Operator.IN,Operator.IN},value ={"['agent','subAgent']","defaultLocale"})
     public String getSysUser_defaultLocale() {
         return sysUser_defaultLocale;
     }
@@ -156,7 +155,7 @@ public class UserAgentForm implements IForm {
         this.sysUser_defaultLocale = sysUser_defaultLocale;
     }
     /*required qq,mainCurrency,msn,ww,*/
-    @Depends(property = {"$editType","$required"}, operator = {Operator.EQ,Operator.IN},value ={"agent","mainCurrency"})
+    @Depends(property = {"$editType","$required"}, operator = {Operator.IN,Operator.IN},value ={"['agent','subAgent']","mainCurrency"})
     public String getSysUser_mainCurrency() {
         return sysUser_mainCurrency;
     }
@@ -176,7 +175,7 @@ public class UserAgentForm implements IForm {
         this.sysUser_nickname = sysUser_nickname;
     }*/
 
-    @Depends(property = {"$editType","$required"}, operator = {Operator.EQ,Operator.IN},value ={"agent","sex"})
+    @Depends(property = {"$editType","$required"}, operator = {Operator.IN,Operator.IN},value ={"['agent','subAgent']","sex"})
     public String getSysUser_sex() {
         return sysUser_sex;
     }
@@ -188,7 +187,7 @@ public class UserAgentForm implements IForm {
 
 
 
-    @Depends(property = {"$editType","$required"}, operator = {Operator.EQ,Operator.IN},value ={"agent","birthday"})
+    @Depends(property = {"$editType","$required"}, operator = {Operator.IN,Operator.IN},value ={"['agent','subAgent']","birthday"})
     public String getSysUser_birthday() {
         return sysUser_birthday;
     }
@@ -218,7 +217,7 @@ public class UserAgentForm implements IForm {
 //        this.sysUser_serviceTerms = sysUser_serviceTerms;
 //    }
 
-    @Depends(property = {"$editType"}, operator = {Operator.EQ},value ={"agent"})
+    @Depends(property = {"$editType"}, operator = {Operator.IN},value ={"['agent','subAgent']"})
     public String get$agentUserId() {
         return $agentUserId;
     }
@@ -228,7 +227,7 @@ public class UserAgentForm implements IForm {
     }
 
 
-    @Depends(property = "$editType", operator = Operator.EQ,value = "agent")
+    @Depends(property = "$editType", operator = Operator.IN,value = "['agent','subAgent']")
     public String getUserAgentRebate_rebateId() {
         return userAgentRebate_rebateId;
     }
@@ -238,7 +237,7 @@ public class UserAgentForm implements IForm {
     }
 
 
-    @Depends(property = {"$editType","$required"}, operator = {Operator.EQ,Operator.IN},value ={"agent","securityIssues"})
+    @Depends(property = {"$editType","$required"}, operator = {Operator.IN,Operator.IN},value ={"['agent','subAgent']","securityIssues"})
     public String getSysUserProtection_question1() {
         return sysUserProtection_question1;
     }
@@ -256,7 +255,7 @@ public class UserAgentForm implements IForm {
         this.sysUserProtection_answer1 = sysUserProtection_answer1;
     }
 
-    @Depends(property = "$editType", operator = Operator.EQ,value = "agent")
+    @Depends(property = "$editType", operator = Operator.IN,value = "['agent','subAgent']")
     public String getResult_playerRankId() {
         return result_playerRankId;
     }
@@ -303,7 +302,7 @@ public class UserAgentForm implements IForm {
     /*联系方式 验证*/
 
     @Pattern(regexp = FormValidRegExps.QQ)
-    @Depends(property = {"$editType","$required"}, operator = {Operator.EQ,Operator.IN},value ={"agent","301"})
+    @Depends(property = {"$editType","$required"}, operator = {Operator.IN,Operator.IN},value ={"['agent','subAgent']","301"})
     public String get$qq_contactValue() {
         return $qq_contactValue;
     }
@@ -312,7 +311,7 @@ public class UserAgentForm implements IForm {
         this.$qq_contactValue = $qq_contactValue;
     }
     @Pattern(regexp = FormValidRegExps.EMAIL)
-    @Depends(property = {"$editType","$required"}, operator = {Operator.EQ,Operator.IN},value ={"agent","201"})
+    @Depends(property = {"$editType","$required"}, operator = {Operator.IN,Operator.IN},value ={"['agent','subAgent']","201"})
     public String get$email_contactValue() {
         return $email_contactValue;
     }
@@ -321,7 +320,7 @@ public class UserAgentForm implements IForm {
         this.$email_contactValue = $email_contactValue;
     }
     @Pattern(regexp = FormValidRegExps.NUMBER_PHONE,message = "格式错误，请输入纯数字")
-    @Depends(property = {"$editType","$required"}, operator = {Operator.EQ,Operator.IN},value ={"agent","110"})
+    @Depends(property = {"$editType","$required"}, operator = {Operator.IN,Operator.IN},value ={"['agent','subAgent']","110"})
     public String get$phone_contactValue() {
         return $phone_contactValue;
     }
