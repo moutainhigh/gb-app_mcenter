@@ -7,9 +7,9 @@
             <tr>
                 <td class="al-left">
                     <div class="elli hide">
-                        <a href="/operation/announcementMessage/systemNoticeDetail.html?search.id=${s.id}" nav-target="mainFrame">${s.content}</a>
+                        <a href="/operation/announcementMessage/systemNoticeDetail.html?search.id=${s.id}" nav-target="mainFrame">
+                                ${soulFn:replaceHtml(s.content)}</a>
                     </div>
-
                 </td>
                 <td style="width: 200px" class="co-grayc2">
                         ${soulFn:formatDateTz(s.publishTime, DateFormat.DAY_SECOND,timeZone)}
