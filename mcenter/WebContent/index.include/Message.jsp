@@ -21,7 +21,7 @@
         <c:if test="${m.announcementType=='system_announcement'}">
             <dd>
                 <a href="/operation/announcementMessage/systemNoticeDetail.html?search.id=${m.id}"
-                   title="${m.content}" nav-target="mainFrame">【${dicts.message.msg_type[m.announcementType]}】 ${fn:substring(m.content, 0, 15)}<c:if test="${fn:length(m.content)>15}">...</c:if></a>
+                   nav-target="mainFrame">【${dicts.message.msg_type[m.announcementType]}】 ${fn:substring(m.content, 0, 15)}<c:if test="${fn:length(m.content)>15}">...</c:if></a>
                 <span>${soulFn:formatDateTz(m.publishTime, DateFormat.DAY,timeZone)}</span>
             </dd>
         </c:if>
@@ -37,7 +37,7 @@
         <c:if test="${m.announcementType=='operator_announcement'}">
             <dd>
                 <a href="/operation/announcementMessage/systemNoticeDetail.html?search.id=${m.id}"
-                   title="${m.content}" nav-target="mainFrame">【${dicts.message.msg_type[m.announcementType]}】 ${fn:substring(m.content, 0, 15)}<c:if test="${fn:length(m.content)>15}">...</c:if></a>
+                   nav-target="mainFrame">【${dicts.message.msg_type[m.announcementType]}】 ${fn:substring(m.content, 0, 15)}<c:if test="${fn:length(m.content)>15}">...</c:if></a>
                 <span>${soulFn:formatDateTz(m.publishTime, DateFormat.DAY,timeZone)}</span>
             </dd>
         </c:if>
