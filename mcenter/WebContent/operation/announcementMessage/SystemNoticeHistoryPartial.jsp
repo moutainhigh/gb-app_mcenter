@@ -7,7 +7,7 @@
             <tr>
                 <td class="al-left">
                     <div class="elli hide">
-                        <a href="/operation/announcementMessage/systemNoticeDetail.html?search.id=${s.id}" title="${s.content}" nav-target="mainFrame">${s.content}</a>
+                        <a href="/operation/announcementMessage/systemNoticeDetail.html?search.id=${s.id}" nav-target="mainFrame">${s.content}</a>
                     </div>
 
                 </td>
