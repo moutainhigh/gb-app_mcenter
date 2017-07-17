@@ -1782,4 +1782,24 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             return map;
         }
     }
+
+    /**
+     * 自动打款
+     *
+     * @param playerWithdrawVo
+     * @return
+     */
+    @RequestMapping("/automaticPay")
+    @ResponseBody
+    public Map automaticPay(PlayerWithdrawVo playerWithdrawVo) {
+        boolean isSuccess = false;
+        try {
+            isSuccess = ServiceTool.playerWithdrawService().automaticPay(playerWithdrawVo);
+        } catch (Exception e) {
+            LOG.error(e, "自动打款失败");
+        }
+        playerWithdrawVo.setSuccess(isSuccess);
+        return getVoMessage(playerWithdrawVo);
+    }
+
 }
