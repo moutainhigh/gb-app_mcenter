@@ -338,24 +338,14 @@ public class IndexController extends BaseIndexController {
      *
      * @return
      */
-//    @Defense(action = DefenseAction.MAIL)
-    @Defense(action = DefenseAction.PLAYER_REGISTER)
     @RequestMapping(value = "/index/message")
     protected String message(HttpServletRequest request, Model model) {
         List<VSystemAnnouncement> unReadMsgCount = unReadMag();
+        for (VSystemAnnouncement vSystemAnnouncement : unReadMsgCount) {
+            vSystemAnnouncement.setContent(StringTool.replaceHtml(vSystemAnnouncement.getContent()));
+        }
         model.addAttribute("unReadCount", unReadMsgCount.size());
         model.addAttribute("msg", unReadMsgCount);
-        //TODO:Longer 防御
-        //ServiceTool.vPlayerWithdrawService().searchProperties()
-        IDefenseRs defense = (IDefenseRs) request.getAttribute(IDefenseRs.R_DEFENSE_RS);
-        if (defense != null && !defense.isAvalable()) {
-            DefenseRs defenseRs = defense.getDefenseRs();
-            System.out.println(defenseRs);
-        }
-
-        //todo:Longer test begin
-        request.setAttribute(IDefenseRs.R_ACTION_RS, true);
-        //todo:Longer test end
         return INDEX_MESSAGE_URI;
     }
 
