@@ -1,3 +1,4 @@
+<%--@elvariable id="command" type="so.wwb.gamebox.model.company.operator.vo.SystemAnnouncementListVo"--%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <div class="table-responsive table-min-h">
@@ -8,7 +9,7 @@
                 <td class="al-left">
                     <div class="elli hide">
                         <a href="/operation/announcementMessage/systemNoticeDetail.html?search.id=${s.id}" nav-target="mainFrame">
-                                ${soulFn:replaceHtml(s.content)}</a>
+                                ${s.contentText}</a>
                     </div>
                 </td>
                 <td style="width: 200px" class="co-grayc2">
