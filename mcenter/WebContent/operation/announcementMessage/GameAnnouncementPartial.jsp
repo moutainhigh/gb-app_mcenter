@@ -1,3 +1,4 @@
+<%--@elvariable id="command" type="so.wwb.gamebox.model.company.operator.vo.SystemAnnouncementListVo"--%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <div class="table-responsive table-min-h">
@@ -14,7 +15,7 @@
                             <p>
                                 <a href="/operation/announcementMessage/messageDetail.html?search.id=${s.id}"
                                    nav-target="mainFrame"
-                                   class="co-gray6">${fn:substring(s.content,0,30)}<c:if test="${fn:length(s.content)>30}">...</c:if></a>
+                                   class="co-gray6">${s.shortContentText50}</a>
                                 <span class="co-gray pull-right">${soulFn:formatDateTz(s.publishTime, DateFormat.DAY_SECOND,timeZone)}</span>
                             </p>
                         </div>
