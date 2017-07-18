@@ -46,7 +46,7 @@
                 </div>
                 <div class="form-group clearfix pull-left col-md-5 col-sm-12 m-b-sm padding-r-none-sm">
                     <div class="input-group date time-select-a">
-                        <span class="input-group-addon bg-gray">${views.lottery_auto['时间']}</span>
+                        <span class="input-group-addon bg-gray">${views.lottery_auto['开盘时间']}</span>
                         <gb:dateRange format="${DateFormat.DAY_SECOND}" useToday="true" useRange="true" position="down" btnClass="search"
                                       startName="search.queryStartDate" endName="search.queryEndDate" style="width:38%;"
                                       startDate="${command.search.queryStartDate}" endDate="${command.search.queryEndDate}"/>
