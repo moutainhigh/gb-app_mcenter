@@ -1792,13 +1792,11 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @RequestMapping("/automaticPay")
     @ResponseBody
     public Map automaticPay(PlayerWithdrawVo playerWithdrawVo) {
-        boolean isSuccess = false;
         try {
-            isSuccess = ServiceTool.playerWithdrawService().automaticPay(playerWithdrawVo);
+            playerWithdrawVo = ServiceTool.playerWithdrawService().automaticPay(playerWithdrawVo);
         } catch (Exception e) {
             LOG.error(e, "自动打款失败");
         }
-        playerWithdrawVo.setSuccess(isSuccess);
         return getVoMessage(playerWithdrawVo);
     }
 
