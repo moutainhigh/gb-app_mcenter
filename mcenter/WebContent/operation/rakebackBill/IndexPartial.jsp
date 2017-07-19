@@ -67,7 +67,10 @@
                     </td>
                     <td>${soulFn:formatCurrency(i.rakebackTotal)}</td>
                     <td>${soulFn:formatCurrency(i.rakebackActual)}</td>
-                    <td><span class="label ${i.lssuingState=='pending_pay'?'label-orange':''} ${i.lssuingState=='part_pay'?'label-success':''}">${dicts.operation.lssuing_state[i.lssuingState]}</span></td>
+                    <td>
+                        <span class="label ${i.lssuingState=='pending_pay'?'label-orange':''} ${i.lssuingState=='part_pay'?'label-success':''}">
+                        ${dicts.operation.lssuing_state[i.lssuingState]}</span>
+                    </td>
                     <td>
                         <a href="/operation/rakebackBill/backwaterView.html?search.rakebackBillId=${i.id}" nav-target="mainFrame">${views.common['detail']}</a>
                         <c:if test="${i.lssuingState!='all_pay'}">

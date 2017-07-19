@@ -44,12 +44,16 @@
                         <input type="number" class="form-control" placeholder="" name="search.expect">
                     </div>
                 </div>
-                <div class="form-group clearfix pull-left col-md-5 col-sm-12 m-b-sm padding-r-none-sm">
+                <div class="form-group clearfix pull-left col-md-5 col-sm-12 m-b-sm padding-r-none-sm" id="query-time-div">
                     <div class="input-group date time-select-a">
-                        <span class="input-group-addon bg-gray">${views.lottery_auto['时间']}</span>
-                        <gb:dateRange format="${DateFormat.DAY_SECOND}" useToday="true" useRange="true" position="down" btnClass="search"
+                        <span class="input-group-addon bg-gray">${views.lottery_auto['开奖时间']}</span>
+                        <gb:dateRange name="search.queryDate" value="${command.search.queryDate}" useToday="true" position="down" btnClass="search"
+                            style="width:30%" format="${DateFormat.DAY}" hideQuick="false" callback="query"></gb:dateRange>
+                        <%--<gb:dateRange format="${DateFormat.DAY_SECOND}" useToday="true" useRange="true" position="down" btnClass="search"
                                       startName="search.queryStartDate" endName="search.queryEndDate" style="width:38%;"
-                                      startDate="${command.search.queryStartDate}" endDate="${command.search.queryEndDate}"/>
+                                      startDate="${command.search.queryStartDate}" endDate="${command.search.queryEndDate}"/>--%>
+                        <soul:button target="queryResultByDate" days="0" text="今日" opType="function" cssClass="btn btn-filter btn-outline"></soul:button>
+                        <soul:button target="queryResultByDate" days="-1" text="昨日" opType="function" cssClass="btn btn-filter btn-outline"></soul:button>
                     </div>
                 </div>
 

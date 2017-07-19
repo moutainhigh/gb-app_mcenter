@@ -22,6 +22,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.company.operator.po.SystemAnnouncement;
+import so.wwb.gamebox.model.company.operator.po.VSystemAnnouncement;
 import so.wwb.gamebox.model.company.operator.vo.SystemAnnouncementListVo;
 import so.wwb.gamebox.model.company.operator.vo.SystemAnnouncementVo;
 import so.wwb.gamebox.model.company.operator.vo.VSystemAnnouncementListVo;
@@ -282,6 +283,9 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         listVo.getSearch().setAnnouncementType(AnnouncementTypeEnum.GAME.getCode());
         listVo.getSearch().setPublishTime(SessionManager.getUser().getCreateTime());
         listVo = ServiceTool.vSystemAnnouncementService().searchMasterSystemNotice(listVo);
+        for (VSystemAnnouncement vSystemAnnouncement : listVo.getResult()) {
+            vSystemAnnouncement.setContent(StringTool.replaceHtml(vSystemAnnouncement.getContent()));
+        }
         model.addAttribute("command", listVo);
 
         Map apiMap = Cache.getSiteApiI18n();

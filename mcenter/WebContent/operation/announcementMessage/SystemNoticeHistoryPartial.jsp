@@ -1,3 +1,4 @@
+<%--@elvariable id="command" type="so.wwb.gamebox.model.company.operator.vo.SystemAnnouncementListVo"--%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <div class="table-responsive table-min-h">
@@ -7,9 +8,9 @@
             <tr>
                 <td class="al-left">
                     <div class="elli hide">
-                        <a href="/operation/announcementMessage/systemNoticeDetail.html?search.id=${s.id}" title="${s.content}" nav-target="mainFrame">${s.content}</a>
+                        <a href="/operation/announcementMessage/systemNoticeDetail.html?search.id=${s.id}" nav-target="mainFrame">
+                                ${s.contentText}</a>
                     </div>
-
                 </td>
                 <td style="width: 200px" class="co-grayc2">
                         ${soulFn:formatDateTz(s.publishTime, DateFormat.DAY_SECOND,timeZone)}
