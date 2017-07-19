@@ -39,7 +39,6 @@
                                 <i class="fa fa-search"></i>
                                 <span class="hd">&nbsp;${views.common['search']}</span>
                             </soul:button>
-                            <%--<a href="/operation/rebate/list.html" nav-target="mainFrame" class="btn btn-default">${views.fund_auto['旧版入口']}</a>--%>
                         </div>
                     </div>
                 </div>
