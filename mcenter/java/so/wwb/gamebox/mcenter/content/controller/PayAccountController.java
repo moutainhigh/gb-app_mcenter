@@ -21,7 +21,6 @@ import org.soul.iservice.pay.IOnlinePayService;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.log.audit.vo.BaseLog;
 import org.soul.model.log.audit.vo.LogVo;
-import org.soul.model.log.audit.vo.Param;
 import org.soul.model.pay.vo.OnlinePayVo;
 import org.soul.model.sys.po.SysAuditLog;
 import org.soul.model.sys.po.SysParam;
@@ -89,7 +88,7 @@ import java.util.*;
 
 /**
  * 收款账户表控制器
- * <p>
+ * <p/>
  * Created by loong using soul-code-generator on 2015-7-27 15:22:07
  */
 @Controller
@@ -640,7 +639,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             accountType = PayAccountAccountType.ALIPAY.getCode();
         } else if (bank != null && BankPayTypeEnum.WECHAT.getCode().equals(bank.getPayType())) {
             accountType = PayAccountAccountType.WECHAT.getCode();
-        } else  if(bank!=null&&BankPayTypeEnum.QQWALLET.getCode().equals(bank.getPayType())) {
+        } else if (bank != null && BankPayTypeEnum.QQWALLET.getCode().equals(bank.getPayType())) {
             accountType = PayAccountAccountType.QQWALLET.getCode();
         }
         vo.getResult().setAccountType(accountType);
