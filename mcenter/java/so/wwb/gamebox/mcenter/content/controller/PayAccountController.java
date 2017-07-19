@@ -89,7 +89,7 @@ import java.util.*;
 
 /**
  * 收款账户表控制器
- * <p>
+ * <p/>
  * Created by loong using soul-code-generator on 2015-7-27 15:22:07
  */
 @Controller
@@ -556,24 +556,23 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         LogVo logVo = new LogVo();
         BaseLog baseLog = logVo.addBussLog();
         addLog(vo, request, logVo, baseLog);
-        if (!result.hasErrors()) {
-            vo.getResult().setAccount(vo.getResult().getAccount().trim());
-            // 设置支付方式
-            setAccountType(vo);
-            // 设置支付借口参数
-            setPayParam(vo);
-            if (vo.getResult().getId() == null) {
-                // 初始化vo
-                initAccountVo(vo);
-                this.getService().savePayAccount(vo);
-            } else {
-                vo = this.getService().updatePayAccountEdit(vo);
-            }
-        } else {
+        if (result.hasErrors()) {
             vo.setSuccess(false);
             Map voMessage = this.getVoMessage(vo);
             voMessage.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
             return voMessage;
+        }
+        vo.getResult().setAccount(vo.getResult().getAccount().trim());
+        // 设置支付方式
+        setAccountType(vo);
+        // 设置支付借口参数
+        setPayParam(vo);
+        if (vo.getResult().getId() == null) {
+            // 初始化vo
+            initAccountVo(vo);
+            this.getService().savePayAccount(vo);
+        } else {
+            vo = this.getService().updatePayAccountEdit(vo);
         }
         return this.getVoMessage(vo);
     }
