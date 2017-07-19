@@ -114,15 +114,15 @@
                 </c:if>
             </td>
             <th class="bg-tbcolor">${views.column['VUserAgentManage.playerNum']}：</th>
-            <td><a href="/player/list.html.html?search.agentId=${map.id}" nav-target="mainFrame">${map.player_num}</a></td>
+            <td><a href="/player/list.html.html?search.agentId=${map.id}&search.hasReturn=true" nav-target="mainFrame">${map.player_num}</a></td>
         </tr>
         <tr  class="tab-title">
             <th class="bg-tbcolor">${views.column['VUserAgentManage.agentNum']}：</th>
-            <td><a href="/vUserAgentManage/list.html.html?search.parentId=${map.id}" nav-target="mainFrame">${map.agent_num}</a></td>
+            <td><a href="/vUserAgentManage/list.html.html?search.parentId=${map.id}&search.hasReturn=true" nav-target="mainFrame">${map.agent_num}</a></td>
             <th></th><td></td><th></th><td></td><th></th><td></td>
         </tr>
         <tr class="tab-title">
-            <th class="bg-tbcolor">${views.player_auto['推广链接']}：</th>
+            <th class="bg-tbcolor">${views.role['Agent.detail.playerlinks']}：</th>
             <td colspan="7">
                 <c:if test="${not empty invitationCode&&map.freeze_status!='4'}">
                     <c:if test="${not empty indexDomains}">
@@ -149,6 +149,25 @@
                             </c:forEach>
                             <soul:button target="${root}/userAgent/showAllDomains.html?editType=agent&search.id=${command.result.id}" text="${views.player_auto['查看更多']}" title="${views.player_auto['代理推广链接']}" opType="dialog"></soul:button>
                         </c:if>
+                    </c:if>
+                </c:if>
+            </td>
+        </tr>
+        <tr class="tab-title">
+            <th class="bg-tbcolor">${views.role['Agent.detail.agentlinks']}：</th>
+            <td colspan="7">
+                <c:if test="${not empty invitationCode&&map.freeze_status!='4'}">
+                    <c:if test="${not empty domains}">
+                        <c:forEach var="item" items="${domains}" varStatus="vs">
+                            <c:if test="${vs.index==0}">
+                                http://${item.domain}/commonPage/signUp-agent.html?c=${invitationCode}
+                                <a data-clipboard-target="p${vs.index}" data-clipboard-text="http://${item.domain}/commonPage/signUp-agent.html?c=${invitationCode}" name="copy">
+                                        ${views.common['copy']}
+                                </a>
+                            </c:if>
+
+                        </c:forEach>
+                        <soul:button target="${root}/userAgent/showAllDomains.html?editType=agent&search.id=${command.result.id}" text="${views.player_auto['查看更多']}" title="${views.player_auto['代理推广链接']}" opType="dialog"></soul:button>
                     </c:if>
                 </c:if>
             </td>

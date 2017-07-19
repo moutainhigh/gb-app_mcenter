@@ -16,7 +16,7 @@
         <div class="modal-body">
             <c:if test="${not empty domains}">
                 <div class="form-group">
-                    <label>${views.player_auto['推广网址']}</label>
+                    <label>${views.role['Agent.detail.playerlinks']}</label>
                     <br>
                     <ul>
                         <c:forEach var="item" items="${domains}" varStatus="vs">
@@ -25,6 +25,22 @@
                             <a data-clipboard-target="p${vs.index}" data-clipboard-text="http://${item.domain}/?c=${invitationCode}" name="copy">
                                     ${views.common['copy']}
                             </a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+
+                </div>
+
+                <div class="form-group">
+                    <label>${views.role['Agent.detail.agentlinks']}</label>
+                    <br>
+                    <ul>
+                        <c:forEach var="item" items="${domains}" varStatus="vs">
+                            <li style="padding: 5px 0px">
+                                http://${item.domain}/commonPage/signUp-agent.html?c=${invitationCode}
+                                <a data-clipboard-target="p${vs.index}" data-clipboard-text="http://${item.domain}/commonPage/signUp-agent.html?c=${invitationCode}" name="copy">
+                                        ${views.common['copy']}
+                                </a>
                             </li>
                         </c:forEach>
                     </ul>
