@@ -89,7 +89,7 @@ import java.util.*;
 
 /**
  * 收款账户表控制器
- * <p>
+ * <p/>
  * Created by loong using soul-code-generator on 2015-7-27 15:22:07
  */
 @Controller
@@ -502,6 +502,12 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             if (PayAccountAccountType.BANKACCOUNT.getCode().equals(account.getAccountType())) {
                 account.setCustomBankName(form.get$customBankName());
             }
+            //比特币地址存在channeljson里
+            if (StringTool.isNotBlank(form.getBitCoinChannelVo_apiKey()) && StringTool.isNotBlank(form.getBitCoinChannelVo_apiSecret())) {
+                payAccountVo.getBitCoinChannelVo().setApiKey(CryptoTool.aesEncrypt(form.getBitCoinChannelVo_apiKey(), CryptoKey.KEY_BIT_COIN_CHANNEL));
+                payAccountVo.getBitCoinChannelVo().setApiSecret(CryptoTool.aesEncrypt(form.getBitCoinChannelVo_apiSecret(), CryptoKey.KEY_BIT_COIN_CHANNEL));
+                account.setChannelJson(JsonTool.toJson(payAccountVo.getBitCoinChannelVo()));
+            }
             if (account.getId() == null) {
                 if (PayAccountAccountType.BANKACCOUNT.getCode().equals(account.getAccountType()) || BankCodeEnum.OTHER.getCode().equals(account.getBankCode())) {
                     account.setQrCodeUrl(null);
@@ -641,6 +647,8 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             accountType = PayAccountAccountType.ALIPAY.getCode();
         } else if (bank != null && BankPayTypeEnum.WECHAT.getCode().equals(bank.getPayType())) {
             accountType = PayAccountAccountType.WECHAT.getCode();
+        } else if (bank != null && BankPayTypeEnum.QQWALLET.getCode().equals(bank.getPayType())) {
+            accountType = PayAccountAccountType.QQWALLET.getCode();
         }
         vo.getResult().setAccountType(accountType);
     }
@@ -724,8 +732,6 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         vo.setProperties(properties);
         this.getService().updateOnly(vo);
         vo.getSearch().setId(vo.getResult().getId());
-//        vo = this.getService().get(vo);
-//        ServiceTool.acbService().changeBankStatus(vo);
         return "true";
     }
 
