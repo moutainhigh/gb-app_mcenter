@@ -140,9 +140,9 @@
                             class="fa fa-question-circle"></i></span> ${views.operation['Activity.step.depositWay']}</label>
                     <div class="col-sm-5 input-group">
                         <c:forEach items="${activityDepositWays}" var="dw">
-                            <span class="m-r-sm">
+                            <label class="m-r-sm">
                                 <input type="checkbox" class="i-checks" name="activityRule.depositWay" value="${dw.code}" ${fn:contains(activityRule.depositWay,dw.code) ? "checked":""}/>${views.operation['Activity.step.depositWay.'.concat(dw.code)]}
-                            </span>
+                            </label>
                         </c:forEach>
                     </div>
                 </div>
@@ -154,17 +154,17 @@
                 <c:set value="${activityRule.rank}," var="bb"></c:set>
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.rank']}：</label>
-                    <span class="col-sm-5">
+                    <label class="col-sm-5">
                         <input type="checkbox" class="i-checks" id="levels" name="activityRule.isAllRank" ${activityRule.isAllRank?"checked":""} ${type eq 'edit' ? " disabled":""}/>
                         ${views.operation['Activity.step.allRank']}
-                    </span>
+                    </label>
                     <div class="col-sm-5 col-sm-offset-3" id="playerRank">
                         <c:forEach items="${playerRanks}" var="a">
                             <c:set value="${a.id}," var="b"></c:set>
-                            <span class="m-r-sm">
+                            <label class="m-r-sm">
                                 <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${!(activityType.result.code eq 'first_deposit' || activityType.result.code eq 'regist_send') ? "":fn:contains(playerRank,b)?" disabled":""}>
                                 ${a.rankName}
-                            </span>
+                            </label>
                         </c:forEach>
 
                             <%--<c:forEach items="${playerRanks}" var="a">
