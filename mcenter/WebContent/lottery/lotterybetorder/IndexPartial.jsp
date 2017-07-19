@@ -23,7 +23,7 @@
                 <th>${views.lottery_auto['派彩']}</th>
                 <th>${views.lottery_auto['投注时间']}</th>
                 <th>
-                    <gb:select name="search.status" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
+                    <gb:select name="search.status" cssClass="btn-group chosen-select-no-single" prompt="${views.common['status']}"
                                list="${orderStatus}" value="${command.search.status}" callback="query"/>
                 </th>
                 <th>${views.lottery_auto['操作']}</th>
@@ -66,11 +66,11 @@
                         </c:if>
                     </td>
                     <td>
-                        <c:if test="${p.status!='3'}">
+                        <c:if test="${p.status=='1'}">
                             <soul:button text="${views.lottery_auto['撤销']}" opType="ajax" target="${root}/lotteryBetOrder/cancelOrder.html?search.id=${p.id}"
                                          confirm="${views.lottery_auto['撤销注单将会扣除派彩金额,返回投注金额,有可能导致玩家余额为负数,请谨慎操作！']}" callback="query"></soul:button>
                         </c:if>
-                        <c:if test="${p.status=='3'}">${views.lottery_auto['撤销']}</c:if>
+                        <c:if test="${p.status!='1'}"><span class="co-gray">${views.lottery_auto['撤销']}</span></c:if>
                     </td>
                 </tr>
             </c:forEach>
