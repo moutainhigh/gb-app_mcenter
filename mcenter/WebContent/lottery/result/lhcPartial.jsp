@@ -18,8 +18,6 @@
                 <th>${views.lottery_auto['开盘时间']}</th>
                 <th>${views.lottery_auto['封盘时间']}</th>
                 <th>${views.lottery_auto['开奖时间']}</th>
-                <th>${views.lottery_auto['采集时间']}</th>
-
                 <th>${views.lottery_auto['正一']}</th>
                 <th>${views.lottery_auto['正二']}</th>
                 <th>${views.lottery_auto['正三']}</th>
@@ -53,7 +51,6 @@
                     <td>${soulFn:formatDateTz(p.openingTime, DateFormat.DAY_SECOND,timeZone)}</td>
                     <td>${soulFn:formatDateTz(p.closeTime, DateFormat.DAY_SECOND,timeZone)}</td>
                     <td>${soulFn:formatDateTz(p.openTime, DateFormat.DAY_SECOND,timeZone)}</td>
-                    <td>${soulFn:formatDateTz(p.gatherTime, DateFormat.DAY_SECOND,timeZone)}</td>
                     <c:if test="${not empty p.openCode}">
                         <c:forEach var="rs" items="${fn:split(p.openCode, ',')}" varStatus="vs">
                             <td><span class="cpq-num cpq-cqssc">${rs}</span></td>
