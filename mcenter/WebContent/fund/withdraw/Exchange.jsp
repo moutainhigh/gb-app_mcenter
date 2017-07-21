@@ -15,7 +15,7 @@
     <c:choose>
         <c:when test="${empty r}">
             <div class="modal-body clearfix">
-                <div class="m-b">无该取款记录</div>
+                <div class="m-b">${views.fund_auto['无该取款记录']}</div>
             </div>
         </c:when>
         <c:when test="${r.checkStatus!='success'}">
@@ -30,14 +30,14 @@
                 <div class="m-b">${views.fund['despoit.check.player']}： <span class="co-blue">${r.username}</span></div>
                 <div class="m-b">取款金额： ${soulFn:formatCurrency(r.withdrawAmount)}</div>
                 <div class="m-b">
-                    选择比特币账号：
+                    ${views.fund_auto['选择比特币账号']}：
                     <gb:selectPure cssClass="btn-group chosen-select-no-single" name="payAccountId" listKey="id" list="${accounts}" listValue="payName"/>
                 </div>
                 <br/>
                 <div class="m-b co-yellow">温馨提示：兑换比特币过程会比较慢，请耐心等待！</div>
             </div>
             <div class="modal-footer">
-                <soul:button tag="button" cssClass="btn btn-warning btn-deposit-result-btn" text="兑换" opType="function" target="exchange"/>
+                <soul:button tag="button" cssClass="btn btn-warning btn-deposit-result-btn" text="${views.fund_auto['兑换']}" opType="function" target="exchange"/>
                 <soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-default" opType="function" />
             </div>
         </c:otherwise>

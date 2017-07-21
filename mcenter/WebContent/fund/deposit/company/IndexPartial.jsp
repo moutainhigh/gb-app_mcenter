@@ -87,7 +87,7 @@
                                     <c:set value="${views.fund_auto['其他电子账号']}" var="data"/>
                                 </c:if>
                                 <c:if test="${rt eq 'bitcoin_fast'}">
-                                    <c:set value="比特币地址" var="data"/>
+                                    <c:set value="${views.fund_auto['比特币地址']}" var="data"/>
                                 </c:if>
                                 <span class="co-orange" data-content="${data}" data-placement="bottom"
                                       data-trigger="focus" data-toggle="popover" data-container="body" role="button"
@@ -172,7 +172,7 @@
                     </c:if>
                     <c:if test="${r.bitAmount>0}">
                         &nbsp;
-                        <span data-content="比特币" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
+                        <span data-content="${views.fund_auto['比特币']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
                             Ƀ<fmt:formatNumber value="${r.bitAmount}" pattern="#.########"/>
                         </span>
                     </c:if>
@@ -200,9 +200,9 @@
                         </c:when>
                         <c:when test="${exchange eq rs}">
                             <!--permission="fund:companydeposit_exchange" -->
-                            <soul:button  target="${root}/fund/deposit/company/exchange.html?search.id=${r.id}" text="兑换" opType="dialog"
+                            <soul:button  target="${root}/fund/deposit/company/exchange.html?search.id=${r.id}" text="${views.fund_auto['兑换']}" opType="dialog"
                                          cssClass="btn btn-sm btn-success-hide m-x-xs" tag="button" callback="callBackQuery">
-                                <i class="fa fa-check"></i>兑现
+                                <i class="fa fa-check"></i>${views.fund_auto['兑现']}
                             </soul:button>
                             <soul:button permission="fund:companydeposit_check" deposit_id="${r.id}" target="checkFailure" text="${views.fund_auto['失败']}" opType="function"
                                          cssClass="btn btn-sm btn-danger-hide m-x-xs" tag="button">

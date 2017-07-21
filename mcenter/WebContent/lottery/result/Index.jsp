@@ -52,8 +52,8 @@
                         <%--<gb:dateRange format="${DateFormat.DAY_SECOND}" useToday="true" useRange="true" position="down" btnClass="search"
                                       startName="search.queryStartDate" endName="search.queryEndDate" style="width:38%;"
                                       startDate="${command.search.queryStartDate}" endDate="${command.search.queryEndDate}"/>--%>
-                        <soul:button target="queryResultByDate" days="0" text="今日" opType="function" cssClass="btn btn-filter btn-outline"></soul:button>
-                        <soul:button target="queryResultByDate" days="-1" text="昨日" opType="function" cssClass="btn btn-filter btn-outline"></soul:button>
+                        <soul:button target="queryResultByDate" days="0" text="${views.lottery_auto['今日']}" opType="function" cssClass="btn btn-filter btn-outline"></soul:button>
+                        <soul:button target="queryResultByDate" days="-1" text="${views.lottery_auto['昨日']}" opType="function" cssClass="btn btn-filter btn-outline"></soul:button>
                     </div>
                 </div>
 
