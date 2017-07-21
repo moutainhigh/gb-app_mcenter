@@ -103,7 +103,7 @@ import java.util.*;
 
 /**
  * 资金管理
- * <p>
+ * <p/>
  * Created by Orange on 2015-08-14.
  */
 @Controller
@@ -1774,6 +1774,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @RequestMapping(value = "/exchange", method = RequestMethod.POST)
     @ResponseBody
     public Map exchange(PlayerWithdrawVo playerWithdrawVo) {
+        LOG.info("兑换比特币:用户-{1}取款id-{2}", SessionManager.getUserName(), playerWithdrawVo.getSearch().getId());
         try {
             return ServiceTool.playerWithdrawService().exchangeBtc(playerWithdrawVo);
         } catch (Exception e) {
@@ -1792,6 +1793,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @RequestMapping("/automaticPay")
     @ResponseBody
     public Map automaticPay(PlayerWithdrawVo playerWithdrawVo) {
+        LOG.info("取款自动打款:用户-{1}取款id-{2}", SessionManager.getUserName(), playerWithdrawVo.getSearch().getId());
         try {
             playerWithdrawVo = ServiceTool.playerWithdrawService().automaticPay(playerWithdrawVo);
         } catch (Exception e) {
