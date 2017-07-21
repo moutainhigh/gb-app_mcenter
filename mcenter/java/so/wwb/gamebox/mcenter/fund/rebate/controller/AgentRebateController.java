@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.fund.rebate.controller;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.web.controller.BaseCrudController;
@@ -16,6 +17,7 @@ import so.wwb.gamebox.mcenter.fund.rebate.form.AgentRebateForm;
 import so.wwb.gamebox.mcenter.fund.rebate.form.AgentRebateSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.master.fund.rebate.RebateStatusEnum;
 import so.wwb.gamebox.model.master.fund.rebate.po.AgentRebate;
 import so.wwb.gamebox.model.master.fund.rebate.vo.AgentRebateListVo;
 import so.wwb.gamebox.model.master.fund.rebate.vo.AgentRebateVo;
@@ -181,6 +183,34 @@ public class AgentRebateController extends BaseCrudController<IAgentRebateServic
         } else {
             return getErrorMessage();
         }
+    }
+    @RequestMapping("/signBill")
+    @ResponseBody
+    public Map signBill(Integer id){
+        Map resMap = new HashedMap(2);
+        resMap.put("state",true);
+        if(id==null){
+            resMap.put("state",false);
+            return resMap;
+        }
+        AgentRebateVo rebateVo = new AgentRebateVo();
+        rebateVo.getSearch().setId(id);
+        rebateVo = getService().get(rebateVo);
+        if(rebateVo.getResult()==null){
+            resMap.put("state",false);
+            return resMap;
+        }
+        AgentRebate result = rebateVo.getResult();
+        if(!RebateStatusEnum.NOTREACHED.getCode().equals(result.getRebateStatus())
+                &&!RebateStatusEnum.NOTREACHED.getCode().equals(result.getRebateStatus())){
+            resMap.put("state",false);
+            return resMap;
+        }
+        result.setRebateStatus(RebateStatusEnum.SIGNBILL.getCode());
+        rebateVo.setProperties(AgentRebate.PROP_REBATE_STATUS);
+        rebateVo = getService().updateOnly(rebateVo);
+        resMap.putAll(getVoMessage(rebateVo));
+        return resMap;
     }
 
     //endregion your codes 3
