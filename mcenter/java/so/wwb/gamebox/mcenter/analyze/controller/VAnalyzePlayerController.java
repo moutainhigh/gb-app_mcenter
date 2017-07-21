@@ -232,13 +232,13 @@ public class VAnalyzePlayerController extends BaseCrudController<IVAnalyzePlayer
         }
         ParamTool.refresh(SiteParamEnum.ANALYZE_PLAYER_STATIC_TIME_END);
         SysParam staticTime = ParamTool.getSysParam(SiteParamEnum.ANALYZE_PLAYER_STATIC_TIME_END);
-        Date date = DateTool.parseDate(staticTime.getParamValue(), CommonContext.getDateFormat().getDAY_SECOND());
+        Date date = DateTool.parseDate(staticTime.getParamValue(), DateTool.FMT_HYPHEN_DAY_CLN_SECOND);
         Date date1 = SessionManager.getDate().getToday();
         //如果是昨天的时间
         if(date.getTime()<date1.getTime()){
             staticTime.setParamValue("00:00:00");
         }else{
-            staticTime.setParamValue(DateTool.formatDate(date,CommonContext.getDateFormat().getDAY_SECOND()));
+            staticTime.setParamValue(DateTool.formatDate(date,DateTool.FMT_CLN_SECOND));
         }
         vo.setDepositCountParam(depositCount);
         vo.setDepositParam(deposit);
