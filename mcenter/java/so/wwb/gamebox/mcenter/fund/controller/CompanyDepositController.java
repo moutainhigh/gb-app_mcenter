@@ -218,6 +218,7 @@ public class CompanyDepositController extends BaseDepositController {
     @RequestMapping(value = "/exchange", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> exchange(VPlayerDepositVo vo) {
+        LOG.info("执行存款兑换,id:{0},user:{1}", vo.getSearch().getId(), SessionManager.getUserName());
         Map<String, Object> map = ServiceTool.playerRechargeService().exchangeBtc(vo);
         return map;
     }

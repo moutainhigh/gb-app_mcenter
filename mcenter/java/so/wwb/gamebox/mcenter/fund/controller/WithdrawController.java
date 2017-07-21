@@ -1776,6 +1776,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     public Map exchange(PlayerWithdrawVo playerWithdrawVo) {
         LOG.info("兑换比特币:用户-{1}取款id-{2}", SessionManager.getUserName(), playerWithdrawVo.getSearch().getId());
         try {
+            playerWithdrawVo.setOperator(SessionManager.getUserName());
+            playerWithdrawVo.setUserId(SessionManager.getUserId());
             return ServiceTool.playerWithdrawService().exchangeBtc(playerWithdrawVo);
         } catch (Exception e) {
             Map<String, Object> map = new HashMap<>(1);
@@ -1795,6 +1797,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     public Map automaticPay(PlayerWithdrawVo playerWithdrawVo) {
         LOG.info("取款自动打款:用户-{1}取款id-{2}", SessionManager.getUserName(), playerWithdrawVo.getSearch().getId());
         try {
+            playerWithdrawVo.setOperator(SessionManager.getUserName());
+            playerWithdrawVo.setUserId(SessionManager.getUserId());
             playerWithdrawVo = ServiceTool.playerWithdrawService().automaticPay(playerWithdrawVo);
         } catch (Exception e) {
             LOG.error(e, "自动打款失败");
