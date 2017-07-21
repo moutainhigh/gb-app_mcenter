@@ -21,7 +21,6 @@ import org.soul.iservice.pay.IOnlinePayService;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.log.audit.vo.BaseLog;
 import org.soul.model.log.audit.vo.LogVo;
-import org.soul.model.log.audit.vo.Param;
 import org.soul.model.pay.vo.OnlinePayVo;
 import org.soul.model.sys.po.SysAuditLog;
 import org.soul.model.sys.po.SysParam;
@@ -89,7 +88,7 @@ import java.util.*;
 
 /**
  * 收款账户表控制器
- * <p>
+ * <p/>
  * Created by loong using soul-code-generator on 2015-7-27 15:22:07
  */
 @Controller
@@ -556,24 +555,23 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         LogVo logVo = new LogVo();
         BaseLog baseLog = logVo.addBussLog();
         addLog(vo, request, logVo, baseLog);
-        if (!result.hasErrors()) {
-            vo.getResult().setAccount(vo.getResult().getAccount().trim());
-            // 设置支付方式
-            setAccountType(vo);
-            // 设置支付借口参数
-            setPayParam(vo);
-            if (vo.getResult().getId() == null) {
-                // 初始化vo
-                initAccountVo(vo);
-                this.getService().savePayAccount(vo);
-            } else {
-                vo = this.getService().updatePayAccountEdit(vo);
-            }
-        } else {
+        if (result.hasErrors()) {
             vo.setSuccess(false);
             Map voMessage = this.getVoMessage(vo);
             voMessage.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
             return voMessage;
+        }
+        vo.getResult().setAccount(vo.getResult().getAccount().trim());
+        // 设置支付方式
+        setAccountType(vo);
+        // 设置支付借口参数
+        setPayParam(vo);
+        if (vo.getResult().getId() == null) {
+            // 初始化vo
+            initAccountVo(vo);
+            this.getService().savePayAccount(vo);
+        } else {
+            vo = this.getService().updatePayAccountEdit(vo);
         }
         return this.getVoMessage(vo);
     }
@@ -640,7 +638,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             accountType = PayAccountAccountType.ALIPAY.getCode();
         } else if (bank != null && BankPayTypeEnum.WECHAT.getCode().equals(bank.getPayType())) {
             accountType = PayAccountAccountType.WECHAT.getCode();
-        } else  if(bank!=null&&BankPayTypeEnum.QQWALLET.getCode().equals(bank.getPayType())) {
+        } else if (bank != null && BankPayTypeEnum.QQWALLET.getCode().equals(bank.getPayType())) {
             accountType = PayAccountAccountType.QQWALLET.getCode();
         }
         vo.getResult().setAccountType(accountType);

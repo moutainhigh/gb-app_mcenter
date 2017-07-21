@@ -64,7 +64,7 @@
                         <c:set value="${_desc}-${dicts.common.transaction_way[pt.transactionWay]}" var="_desc"/>
                     </c:if>
                     <c:choose>
-                        <c:when test="${pt.fundType eq 'online_deposit' || pt.fundType eq 'wechatpay_scan' || pt.fundType eq 'alipay_scan'}">
+                        <c:when test="${pt.fundType eq 'online_deposit' || pt.fundType eq 'qqwallet_scan' || pt.fundType eq 'wechatpay_scan' || pt.fundType eq 'alipay_scan'}">
                             <c:set value="false" var="showSubType"></c:set>
                             <%--在线--%>
                             <c:set value="/fund/deposit/online/view.html?search.id=${pt.sourceId}" var="view_url"></c:set>

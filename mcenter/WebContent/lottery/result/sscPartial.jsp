@@ -14,6 +14,8 @@
                 <th style="width: 80px">${views.lottery_auto['序号']}</th>
                 <th>${views.lottery_auto['彩票类型']}</th>
                 <th>${views.lottery_auto['彩票期号']}</th>
+                <th>${views.lottery_auto['开盘时间']}</th>
+                <th>${views.lottery_auto['封盘时间']}</th>
                 <th>${views.lottery_auto['开奖时间']}</th>
                 <th>${views.lottery_auto['第一球']}</th>
                 <th>${views.lottery_auto['第二球']}</th>
@@ -35,6 +37,8 @@
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                     <td>${dicts.lottery.lottery[p.code]}</td>
                     <td>${p.expect}</td>
+                    <td>${soulFn:formatDateTz(p.openingTime, DateFormat.DAY_SECOND,timeZone)}</td>
+                    <td>${soulFn:formatDateTz(p.closeTime, DateFormat.DAY_SECOND,timeZone)}</td>
                     <td>${soulFn:formatDateTz(p.openTime, DateFormat.DAY_SECOND,timeZone)}</td>
                     <c:if test="${not empty p.openCode}">
                     <c:forEach var="rs" items="${fn:split(p.openCode, ',')}" varStatus="vs">
