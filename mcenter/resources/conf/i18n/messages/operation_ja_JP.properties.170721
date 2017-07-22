@@ -1,0 +1,1 @@
+activity.defalutset.remaincount.notEnough=内定名额已多于活动名额,不能进行设置!<br/>活动名额:{0},内定名额:{1}．activity.defaultset.playeraccount.formatErr=玩家账号格式不正确activity.defaultset.remaincount_empty=内定失败,活动名额已用完!activity.money.award.amount.repeat=奖项金额不能重复activity.money.period.empty=时段不能为空cancelDefaultSetPlayerTips=玩家{0}已中奖cancelDefaultSetTips=确定取消本条记录里所有玩家的内定设置吗?
