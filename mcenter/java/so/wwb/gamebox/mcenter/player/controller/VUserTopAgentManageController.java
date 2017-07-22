@@ -68,7 +68,7 @@ public class VUserTopAgentManageController extends BaseCrudController<IVUserTopA
 
     @Override
     protected VUserTopAgentManageListVo doList(VUserTopAgentManageListVo listVo, VUserTopAgentManageSearchForm form, BindingResult result, Model model) {
-        listVo.getSearch().setStatus(StatusEnum.NORMAL.getCode());
+        //listVo.getSearch().setStatus(StatusEnum.NORMAL.getCode());
         resetCondition(listVo);
         listVo = ServiceTool.vUserTopAgentManageService().searchByCustom(listVo);
         Map allListFields = ListOpTool.getFields(ListOpEnum.VUserTopAgentManageListVo);
