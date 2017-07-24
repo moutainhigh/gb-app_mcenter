@@ -243,8 +243,10 @@
                 <td><span class="label ${color}">${dicts.player.user_status[p.playerStatus]}</span></td>
                 <td>
                     <c:if test="${!(p.playerStatus eq '4')}">
-                    <a href="/userAgent/editAgent.html?search.parentId=${p.id}&editType=subAgent" nav-target="mainFrame">添加代理</a>
-                    <span class="dividing-line m-r-xs m-l-xs">|</span>
+                        <shiro:hasPermission name="role:agent_addsubagent">
+                            <a href="/userAgent/editAgent.html?search.parentId=${p.id}&editType=subAgent" nav-target="mainFrame">添加代理</a>
+                            <span class="dividing-line m-r-xs m-l-xs">|</span>
+                        </shiro:hasPermission>
                     </c:if>
                     <c:if test="${p.playerStatus eq '4'}">
                         <c:if test="${empty p.parentUsername||p.parentUsername=='defaulttopagent'}">

@@ -30,23 +30,23 @@
                     </ul>
 
                 </div>
+                <shiro:hasPermission name="role:agent_addsubagent">
+                    <div class="form-group">
+                        <label>${views.role['Agent.detail.agentlinks']}</label>
+                        <br>
+                        <ul>
+                            <c:forEach var="item" items="${domains}" varStatus="vs">
+                                <li style="padding: 5px 0px">
+                                    http://${item.domain}/commonPage/signUp-agent.html?c=${invitationCode}
+                                    <a data-clipboard-target="p${vs.index}" data-clipboard-text="http://${item.domain}/commonPage/signUp-agent.html?c=${invitationCode}" name="copy">
+                                            ${views.common['copy']}
+                                    </a>
+                                </li>
+                            </c:forEach>
+                        </ul>
 
-                <div class="form-group">
-                    <label>${views.role['Agent.detail.agentlinks']}</label>
-                    <br>
-                    <ul>
-                        <c:forEach var="item" items="${domains}" varStatus="vs">
-                            <li style="padding: 5px 0px">
-                                http://${item.domain}/commonPage/signUp-agent.html?c=${invitationCode}
-                                <a data-clipboard-target="p${vs.index}" data-clipboard-text="http://${item.domain}/commonPage/signUp-agent.html?c=${invitationCode}" name="copy">
-                                        ${views.common['copy']}
-                                </a>
-                            </li>
-                        </c:forEach>
-                    </ul>
-
-                </div>
-
+                    </div>
+                </shiro:hasPermission>
             </c:if>
             <c:if test="${not empty indexDomains}">
                 <div class="form-group">
