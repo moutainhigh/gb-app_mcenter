@@ -9,12 +9,22 @@
         <tr class="tab-title">
             <th class="bg-tbcolor">${views.column['VUserPlayer.agentName']}：</th>
             <td><a href="javascript:void(0)">${map.username}</a></td>
-            <th class="bg-tbcolor">${views.role['agent.topAgent']}：</th>
-            <td><a href="/vUserTopAgentManage/list.html?search.id=${map.parent_id}" nav-target="mainFrame">${map.general_name}</a></td>
             <th class="bg-tbcolor">${views.column['VUserAgentManage.realName']}：</th>
             <td>${map.real_name}</td>
-            <th class="bg-tbcolor">${views.column['VUserAgentManage.playerNum']}：</th>
-            <td><a href="/player/list.html.html?search.userAgentId=${map.id}" nav-target="mainFrame">${map.player_num}</a></td>
+            <th class="bg-tbcolor">${views.column['VUserAgentManage.parentUsername']}：</th>
+            <td>
+                <c:if test="${map.general_id eq map.parent_id}">
+                    <a href="/vUserTopAgentManage/list.html?search.id=${map.parent_id}&search.hasReturn=true" nav-target="mainFrame" class="co-blue">${map.parent_username}</a>
+                </c:if>
+                <c:if test="${map.general_id ne map.parent_id}">
+                    <a href="/vUserAgentManage/list.html?search.id=${map.parent_id}&search.hasReturn=true" nav-target="mainFrame" class="co-blue">${map.parent_username}</a>
+                </c:if>
+
+                <%--<a href="/vUserTopAgentManage/list.html?search.id=${map.parent_id}" nav-target="mainFrame">${map.parent_username}</a>--%>
+            </td>
+            <th class="bg-tbcolor">${views.role['agent.topAgent']}：</th>
+            <td><a href="/vUserTopAgentManage/list.html?search.id=${map.general_id}&search.hasReturn=true" nav-target="mainFrame">${map.general_name}</a></td>
+            <%----%>
         </tr>
         <tr class="tab-title">
             <th class="bg-tbcolor">${views.column['UserAgent.playerRankId']}：</th>
@@ -103,10 +113,19 @@
                     <a href="/userAgent/agent/veiwDetail.html?search.id=${command.search.id}" nav-target="mainFrame" style="display: ${empty phone.contactValue && empty email.contactValue && empty qq.contactValue && not empty weixin.contactValue?'':'none'}">${views.common['view']}</a>
                 </c:if>
             </td>
-            <th></th><td></td>
+            <th class="bg-tbcolor">${views.column['VUserAgentManage.playerNum']}：</th>
+            <td><a href="/player/list.html.html?search.agentId=${map.id}&search.hasReturn=true" nav-target="mainFrame">${map.player_num}</a></td>
         </tr>
+        <shiro:hasPermission name="role:agent_addsubagent">
+            <tr  class="tab-title">
+                <th class="bg-tbcolor">${views.column['VUserAgentManage.agentNum']}：</th>
+                <td><a href="/vUserAgentManage/list.html.html?search.parentId=${map.id}&search.hasReturn=true" nav-target="mainFrame">${map.agent_num}</a></td>
+                <th></th><td></td><th></th><td></td><th></th><td></td>
+            </tr>
+        </shiro:hasPermission>
+
         <tr class="tab-title">
-            <th class="bg-tbcolor">${views.player_auto['推广链接']}：</th>
+            <th class="bg-tbcolor">${views.role['Agent.detail.playerlinks']}：</th>
             <td colspan="7">
                 <c:if test="${not empty invitationCode&&map.freeze_status!='4'}">
                     <c:if test="${not empty indexDomains}">
@@ -137,6 +156,27 @@
                 </c:if>
             </td>
         </tr>
+        <shiro:hasPermission name="role:agent_addsubagent">
+            <tr class="tab-title">
+                <th class="bg-tbcolor">${views.role['Agent.detail.agentlinks']}：</th>
+                <td colspan="7">
+                    <c:if test="${not empty invitationCode&&map.freeze_status!='4'}">
+                        <c:if test="${not empty domains}">
+                            <c:forEach var="item" items="${domains}" varStatus="vs">
+                                <c:if test="${vs.index==0}">
+                                    http://${item.domain}/commonPage/signUp-agent.html?c=${invitationCode}
+                                    <a data-clipboard-target="p${vs.index}" data-clipboard-text="http://${item.domain}/commonPage/signUp-agent.html?c=${invitationCode}" name="copy">
+                                            ${views.common['copy']}
+                                    </a>
+                                </c:if>
+
+                            </c:forEach>
+                            <soul:button target="${root}/userAgent/showAllDomains.html?editType=agent&search.id=${command.result.id}" text="${views.player_auto['查看更多']}" title="${views.player_auto['代理推广链接']}" opType="dialog"></soul:button>
+                        </c:if>
+                    </c:if>
+                </td>
+            </tr>
+        </shiro:hasPermission>
         <tr class="tab-title">
             <th class="bg-tbcolor">${views.column['UserAgent.promotionResources']}：</th>
             <td colspan="7">${map.promotion_resources}</td>

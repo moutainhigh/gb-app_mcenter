@@ -87,7 +87,7 @@
         {{for m}}
             <li id="menuItem{{:object.id}}" class="dropdown">
                 <a data-toggle="dropdown" {{if object.resourceUrl == '' || object.resourceUrl == null}} href='#' {{else}} href='javascript:void(0);' data='/{{: object.resourceUrl}}' nav-target='mainFrame' {{/if}} role="button" aria-haspopup="true" aria-expanded="false">
-                <div class="icon"><i class="{{:object.resourceIcon}} iconfont"></i></div><span>{{:object.resourceRName}}</span>
+                <div class="icon"><i class="{{:object.resourceIcon}} iconfont "></i></div><span>{{:object.resourceRName}}</span>
                 </a>
                 {{if children!=null && children.length>0}}
                 <ul class="dropdown-menu">

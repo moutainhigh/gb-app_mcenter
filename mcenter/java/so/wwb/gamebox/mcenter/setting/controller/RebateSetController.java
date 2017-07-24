@@ -347,6 +347,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         objectVo.getResult().setCreateUserId(SessionManager.getUserId());
         objectVo.getResult().setCreateTime(new Date());
         objectVo.getResult().setStatus(UserAgentEnum.PROGRAM_STATUS_USING.getCode());
+        objectVo.getResult().setOwnerId(SessionManager.getMasterUserId());
         return super.doSave(objectVo);
     }
 

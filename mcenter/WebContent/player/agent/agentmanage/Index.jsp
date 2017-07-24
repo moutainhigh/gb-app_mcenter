@@ -20,7 +20,7 @@
             <div class="wrapper white-bg shadow">
                 <div class="clearfix filter-wraper border-b-1">
                     <shiro:hasPermission name="role:agent_add">
-                        <a href="/userAgent/editAgent.html" nav-target="mainFrame" class="btn btn-info btn-addon">
+                        <a href="/userAgent/editAgent.html?editType=agent" nav-target="mainFrame" class="btn btn-info btn-addon">
                             <i class="fa fa-plus" ></i><span class="hd">${views.role['Agent.list.createAgent']}</span>
                         </a>
                     </shiro:hasPermission>
@@ -49,6 +49,7 @@
                             <span class="input-group-btn">
                                 <input type="hidden" name="search.startTime" value="${soulFn:formatDateTz(command.search.startTime, DateFormat.DAY_SECOND, timeZone)}" />
                                 <input type="hidden" name="search.endTime" value="${soulFn:formatDateTz(command.search.endTime, DateFormat.DAY_SECOND, timeZone)}" />
+                                <input type="hidden" name="search.parentId" value="${command.search.parentId}" />
                                 <soul:button cssClass="btn btn-filter btn-query-css" precall="checksearch" tag="button" opType="function" text="${views.common['search']}" target="query">
                                     <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                                 </soul:button>

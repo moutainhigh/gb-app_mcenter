@@ -87,12 +87,9 @@ import so.wwb.gamebox.model.master.operation.vo.VAgentRebateOrderListVo;
 import so.wwb.gamebox.model.master.operation.vo.VAgentRebateOrderVo;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
 import so.wwb.gamebox.model.master.player.po.*;
-import so.wwb.gamebox.model.master.player.so.VUserTopAgentManageSo;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.model.master.setting.po.FieldSort;
-import so.wwb.gamebox.model.master.setting.po.RakebackSet;
 import so.wwb.gamebox.model.master.setting.vo.RakebackSetListVo;
-import so.wwb.gamebox.model.master.setting.vo.RakebackSetVo;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetListVo;
 import so.wwb.gamebox.model.report.enums.SettlementStateEnum;
 import so.wwb.gamebox.web.cache.Cache;
@@ -280,31 +277,32 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         SysUserListVo sysUserListVo = new SysUserListVo();
         sysUserListVo.setSearch(new SysUserSo());
         sysUserListVo.setProperties(SysUser.PROP_ID, SysUser.PROP_USERNAME);
-        sysUserListVo.getQuery().setCriterions(new Criterion[]{new Criterion(SysUser.PROP_USER_TYPE, Operator.EQ, UserTypeEnum.TOP_AGENT.getCode()),
-            new Criterion(SysUser.PROP_STATUS,Operator.EQ,SysUserStatus.NORMAL.getCode())});
+
 
         if(userAgentVo.getResult().getParentId()!=null){
-            VUserTopAgentManageVo vo =new VUserTopAgentManageVo();
-            vo.setSearch(new VUserTopAgentManageSo());
-            vo.getSearch().setId(userAgentVo.getResult().getParentId());
-            vo   = ServiceTool.vUserTopAgentManageService().get(vo);
-            if(vo!=null){
-                userAgentVo.setTopAgentName(vo.getResult().getUsername());
+            SysUserVo sysUserVo = new SysUserVo();
+            sysUserVo.getSearch().setId(userAgentVo.getResult().getParentId());
+            sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+            if(sysUserVo!=null&&sysUserVo.getResult()!=null){
+                userAgentVo.setTopAgentName(sysUserVo.getResult().getUsername());
             }else{
                 userAgentVo.setTopAgentName("");
             }
         }
         userAgentVo.setDictConstellation(DictTool.get(DictEnum.COMMON_CONSTELLATION));
-        userAgentVo.setTopAgents(ServiceTool.sysUserService().searchProperties(sysUserListVo));
+        if(UserAgentEnum.EDIT_TYPE_SUB_AGENT.getCode().equals(userAgentVo.getEditType())){
+            sysUserListVo.getQuery().setCriterions(new Criterion[]{new Criterion(SysUser.PROP_ID, Operator.EQ, userAgentVo.getSearch().getParentId())});
+            userAgentVo.setTopAgents(ServiceTool.sysUserService().searchProperties(sysUserListVo));
+            userAgentVo.setAgentUserId(userAgentVo.getSearch().getParentId());
+        }else{
+            sysUserListVo.getQuery().setCriterions(new Criterion[]{new Criterion(SysUser.PROP_USER_TYPE, Operator.EQ, UserTypeEnum.TOP_AGENT.getCode()),
+                    new Criterion(SysUser.PROP_STATUS,Operator.EQ,SysUserStatus.NORMAL.getCode())});
+            userAgentVo.setTopAgents(ServiceTool.sysUserService().searchProperties(sysUserListVo));
+
+        }
 
         SysUser master = SessionManager.getUser();
 
-        /*如果是站长子账号 站长id就是owner_id*/
-        if(master.getUserType().equals(UserTypeEnum.MASTER_SUB)){
-            userAgentVo.setMasterId(master.getOwnerId());
-        }else{
-            userAgentVo.setMasterId(master.getId());
-        }
         getAnswer(userAgentVo);
     }
     private void getAnswer(UserAgentVo userAgentVo){
@@ -884,7 +882,15 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         objectVo.getResult().setCreateChannel(UserAgentEnum.BACKGROUND_ADD.getCode());
         sysUser.setStatus(SysUserStatus.NORMAL.getCode());
         sysUser.setUserType(UserTypeEnum.AGENT.getCode());
-        sysUser.setOwnerId(parentId);
+        SysUserVo parentUserVo = new SysUserVo();
+        parentUserVo.getSearch().setId(parentId);
+        parentUserVo = ServiceTool.sysUserService().get(parentUserVo);
+        if(parentUserVo.getResult()!=null&&parentUserVo.getResult().getOwnerId()!=null){
+            sysUser.setOwnerId(parentUserVo.getResult().getOwnerId());
+        }else{
+            sysUser.setOwnerId(parentId);
+        }
+
         sysUser.setBuiltIn(false);
         sysUser.setSiteId(SessionManager.getSiteId());
         sysUser.setCreateUser(SessionManager.getUserId());
@@ -970,6 +976,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
      */
     @RequestMapping("/toCheck")
     public String toCheck(UserAgentVo vo, Model model) {
+        vo = getService().get(vo);
         Map map = this.getService().findAgentDetail(vo);
         Integer userId = vo.getSearch().getId();
         NoticeContactWay phone = getContactVal(userId, ContactWayType.CELLPHONE.getCode());

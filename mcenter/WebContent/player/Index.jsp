@@ -22,7 +22,7 @@
         <%--返水方案--%>
         <%--<input name="search.rakebackId" value="${command.search.rakebackId}" type="hidden">--%>
         <input name="search.rankId" value="${command.search.rankId}" type="hidden">
-        <input name="search.userAgentId" value="${command.search.userAgentId}" type="hidden">
+        <input name="search.agentId" value="${command.search.agentId}" type="hidden">
         <input name="search.generalAgentId" value="${command.search.generalAgentId}" type="hidden">
         <input name="search.ip" value="${operateIp}" type="hidden"/>
         <input name="search.recommendUserId" value="${command.search.recommendUserId}" type="hidden"/>
