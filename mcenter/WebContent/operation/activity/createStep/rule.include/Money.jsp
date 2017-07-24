@@ -164,13 +164,14 @@
                 <c:if test="${not empty rulesListVo.result}">
                     <c:forEach var="rule" items="${rulesListVo.result}" varStatus="vs">
                         <tr>
-                            <input type="hidden" name="moneyAwardsRules[${vs.index}].id" value="${rule.id}">
+
                             <td>${siteCurrencySign}<input type="number" onmousewheel="return false" class="input-text award_rule_amount" name="moneyAwardsRules[${vs.index}].amount" value="${rule.amount}" style="width: 80px"></td>
                             <td><input type="number" onmousewheel="return false" class="input-text" name="moneyAwardsRules[${vs.index}].audit" value="${rule.audit}" style="width: 80px">${views.operation_auto['倍']}</td>
                             <td>
                                 <span name="moneyAwardsRules[${vs.index}].showQuantity">${rule.quantity}</span>
                                 <input type="hidden" class="input-text readonly1" name="moneyAwardsRules[${vs.index}].quantity" value="${rule.quantity}" style="width: 80px;" readonly="true">${views.operation_auto['个']}
                                 <input type="hidden" name="moneyAwardsRules[${vs.index}].oldQuantity" value="${rule.quantity}">
+                                <input type="hidden" name="moneyAwardsRules[${vs.index}].id" value="${rule.id}">
                             </td>
                             <td><input type="number" onmousewheel="return false" class="input-text awards-rules-input-pro" name="moneyAwardsRules[${vs.index}].probability" value="${rule.probability}" style="width: 80px">%</td>
                             <td>
@@ -178,11 +179,9 @@
                                 <input type="hidden" name="moneyAwardsRules[${vs.index}].oldRemainCount" value="${rule.remainCount}">
                             </td>
                             <td>
-                                <c:if test="${vs.index>0}">
-                                    <soul:button target="deleteTableRow" text="" opType="function" cssClass="btn pull-left">
-                                        <span class="hd">${views.common['delete']}</span>
-                                    </soul:button>
-                                </c:if>
+                                <soul:button target="deleteTableRow" text="" opType="function" cssClass="btn pull-left">
+                                    <span class="hd">${views.common['delete']}</span>
+                                </soul:button>
                             </td>
                         </tr>
                     </c:forEach>
@@ -197,11 +196,9 @@
                             <td><input type="number" onmousewheel="return false" class="input-text" name="moneyAwardsRules[${vs.index}].quantity" style="width: 80px">${views.operation_auto['个']}</td>
                             <td><input type="number" onmousewheel="return false" class="input-text awards-rules-input-pro" name="moneyAwardsRules[${vs.index}].probability" style="width: 80px">%</td>
                             <td>
-                                <c:if test="${vs.index>0}">
-                                    <soul:button target="deleteTableRow" text="" opType="function" cssClass="btn pull-left">
-                                        <span class="hd">${views.common['delete']}</span>
-                                    </soul:button>
-                                </c:if>
+                                <soul:button target="deleteTableRow" text="" opType="function" cssClass="btn pull-left">
+                                    <span class="hd">${views.common['delete']}</span>
+                                </soul:button>
 
                             </td>
                         </tr>
