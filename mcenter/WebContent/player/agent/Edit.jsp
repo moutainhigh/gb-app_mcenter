@@ -42,7 +42,7 @@
                                             <div class="col-sm-5">
                                                 <c:choose>
                                                     <c:when test="${empty command.result.id}">
-                                                        <gb:select name="agentUserId" list="${command.topAgents}" prompt="${views.common['pleaseSelect']}"
+                                                        <gb:select name="agentUserId" list="${command.topAgents}" prompt=""
                                                                    value="${empty command.agentUserId ? command._defaultAgent:command.agentUserId}"
                                                                    listValue="username" callback="changeAgent" cssClass="btn-group chosen-select-no-single input-sm" listKey="id"></gb:select>
                                                         <input type="hidden" value="${command._defaultAgent}" id="_defaultAgent">
