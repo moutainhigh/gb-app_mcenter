@@ -41,7 +41,7 @@
                 <tr>
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                     <td>
-                        ${p.agentusername}
+                        <a href="/userAgent/agent/detail.html?search.id=${p.agentId}" nav-target="mainFrame">${p.agentusername}</a>
                     </td>
                     <td>${p.effectivePlayerNum}</td>
                     <td colspan="2" class="multiple-row-td">

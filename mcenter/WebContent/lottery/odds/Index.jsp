@@ -37,7 +37,7 @@
 
                 </div>
 
-                <div class="operate-btn">
+                <div class="operate-btn" style="text-align: center">
                     <soul:button cssClass="btn btn-filter btn-lg" text="${views.lottery_auto['确认修改']}" opType="function" target="saveLotteryOdd"/>
                 </div>
             </div>
