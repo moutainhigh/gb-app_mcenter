@@ -9,7 +9,7 @@
     <%--<a href="javascript:void(0)" code="sum">${views.lottery_auto['和数']}</a>--%>
     <span class="hide" id="showbatchupdate">
         <input type="number" name="defalutValue" id="defaultValue">
-        <soul:button cssClass="batch-update-value" target="batchUpdateValue" text="批量调整" opType="function" tag="button"></soul:button>
+        <soul:button cssClass="batch-update-value" target="batchUpdateValue" text="${views.lottery_auto['批量调整']}" opType="function" tag="button"></soul:button>
     </span>
 
 
