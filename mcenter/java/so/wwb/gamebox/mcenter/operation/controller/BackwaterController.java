@@ -125,13 +125,13 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
         listVo = joinTabTitle(listVo, backwaterDetailListVo);
 
         backwaterDetailListVo = getService().searchAllBackwaterDetail(backwaterDetailListVo);//查询返水明细
-        Map<Integer, Map<Integer, BackwaterApi>> map = new HashMap<>(listVo.getResult().size());
+        Map<Integer, Map<Integer, BackwaterApi>> map = new HashMap<>(listVo.getResult().size(),1f);
         if (CollectionTool.isNotEmpty(listVo.getResult()) && CollectionTool.isNotEmpty(backwaterDetailListVo.getResult()) && CollectionTool.isNotEmpty(listVo.getTabTitles())) {
             Map<Integer, List<RakebackApi>> data = CollectionTool.groupByProperty(backwaterDetailListVo.getResult(), RakebackPlayer.PROP_PLAYER_ID, Integer.class);//根据玩家id划分map
             //组装每个列表下的金额
             for (RakebackPlayer obj : listVo.getResult()) {
                 List<RakebackApi> details = data.get(obj.getPlayerId());
-                Map<Integer, BackwaterApi> backwaterApis = new HashMap<>(listVo.getTabTitles().size());
+                Map<Integer, BackwaterApi> backwaterApis = new HashMap<>(listVo.getTabTitles().size(),1f);
                 Map<Integer, List<RakebackApi>> data2 = CollectionTool.groupByProperty(details, RakebackApi.PROP_API_ID, Integer.class);//根据apiId划分map
                 for (TabTitle tabTitle : listVo.getTabTitles()) {
                     BackwaterApi backwaterApi = new BackwaterApi();
@@ -407,7 +407,7 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
 
                         //发送结算消息
                         userVo.getSearch().setId(obj.getPlayerId());
-                        localeTmplMap = new HashMap<>(1);
+                        localeTmplMap = new HashMap<>(1,1f);
                         userVo = ServiceTool.sysUserService().get(userVo);
                         localeTmplMap.put(userVo.getResult().getDefaultLocale(), new Pair(remarkTitle, obj.getRemark()));
                         variableNoticeVo.addUserIds(obj.getPlayerId());
@@ -636,7 +636,7 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
      * @return
      */
     private RakebackPlayerNosettledListVo rakebackApiNosettleds(Model model, RakebackPlayerNosettledListVo listVo, List<RakebackApiNosettled> apiNosettleds) {
-        Map<Integer, Map<Integer, BackwaterApi>> rakebackApisMap = new HashMap<>(listVo.getResult().size());
+        Map<Integer, Map<Integer, BackwaterApi>> rakebackApisMap = new HashMap<>(listVo.getResult().size(),1f);
         if (!apiNosettleds.isEmpty()) {
             List<TabTitle> tabTitles = listVo.getTabTitles();
             Criteria criteria;

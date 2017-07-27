@@ -297,7 +297,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     }
 
     private Map checkData(SysParam[] sysParams, String rebatePeriodParamValue) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         if (StringTool.isBlank(rebatePeriodParamValue)) {
             map.put("msg", LocaleTool.tranMessage("setting", "rakebackSetting.SettleAccountsCycleSetting.notBlank"));
             map.put("state", false);
@@ -444,7 +444,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @RequestMapping("save")
     @ResponseBody
     public Map<String, Object> saveAgentRebateDepositAndWithdrawFee(RebateSetVo rebateSetVo, @Valid @FormModel RebateSetFeeForm form, BindingResult result, Model model) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         if (result.hasErrors()) {
             map.put("state", false);
             map.put("msg", LocaleTool.tranMessage("common","save.failed"));

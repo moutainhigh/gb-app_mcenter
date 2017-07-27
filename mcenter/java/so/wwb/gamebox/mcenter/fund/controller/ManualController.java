@@ -196,7 +196,7 @@ public class ManualController {
     @ResponseBody
     @Token(valid = true)
     public Map<String, Object> manualDeposit(PlayerRechargeVo playerRechargeVo, @FormModel @Valid ManualDepositForm form, BindingResult result) {
-        Map<String, Object> map = new HashMap<>(5);
+        Map<String, Object> map = new HashMap<>(5,1f);
         if (result.hasErrors()) {
             return errorMsg(map);
         }
@@ -236,7 +236,7 @@ public class ManualController {
     @ResponseBody
     @Token(valid = true)
     public Map<String, Object> manualWithdraw(PlayerWithdrawVo playerWithdrawVo, @FormModel @Valid ManualWithdrawForm form, BindingResult result) {
-        Map<String, Object> map = new HashMap<>(3);
+        Map<String, Object> map = new HashMap<>(3,1f);
         if (result.hasErrors()) {
             return errorMsg(map);
         }
@@ -349,7 +349,7 @@ public class ManualController {
         VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
         vUserPlayerVo.getSearch().setUsername(username);
         vUserPlayerVo = ServiceTool.vUserPlayerService().search(vUserPlayerVo);
-        Map<String, String> map = new HashMap<>(3);
+        Map<String, String> map = new HashMap<>(3,1f);
         map.put(VUserPlayer.PROP_WALLET_BALANCE, CurrencyTool.formatInteger(vUserPlayerVo.getResult().getWalletBalance()));
         map.put(VUserPlayer.PROP_DEFAULT_CURRENCY, getCurrencySign(vUserPlayerVo.getResult().getDefaultCurrency()));
         map.put("decimals", CurrencyTool.formatDecimals(vUserPlayerVo.getResult().getWalletBalance()));
@@ -435,7 +435,7 @@ public class ManualController {
     @RequestMapping("/updateRemark")
     @ResponseBody
     public Map updateRemark(PlayerTransactionVo playerTransactionVo, String remarkContent) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         Integer entityId = playerTransactionVo.getResult().getSourceId();
         String transactionType = playerTransactionVo.getResult().getTransactionType();
         if (TransactionTypeEnum.FAVORABLE.getCode().equals(transactionType)) {
@@ -618,7 +618,7 @@ public class ManualController {
                 notExistUserNames.add(name);
             }
         }
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         map.put("illegalNames", notExistUserNames);
         map.put("existUser", existUser);
         return map;

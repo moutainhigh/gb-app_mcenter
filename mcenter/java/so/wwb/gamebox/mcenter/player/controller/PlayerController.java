@@ -492,7 +492,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             VPlayerTagListVo vPlayerTagListVo = new VPlayerTagListVo();
             vPlayerTagListVo.setPropertyValues(ids);
             List<VPlayerTag> vPlayerTags = ServiceTool.vPlayerTagService().inSearchById(vPlayerTagListVo);
-            Map<String,Object> map = new HashMap<>(3);
+            Map<String,Object> map = new HashMap<>(3,1f);
             for (VPlayerTag vPlayerTag : vPlayerTags) {
                 if (vPlayerTag.getBuiltIn()) {
                     if (vPlayerTag.getPlayerCount() + 1 > vPlayerTag.getQuantity()) {
@@ -556,7 +556,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      * @return
      */
     private Map<String, Object> parseSelectPlayerData(String ids, UserPlayerVo userPlayerVo, SysUserVo sysUserVo) {
-        final HashMap<String, Object> data = new HashMap<>(4);
+        final HashMap<String, Object> data = new HashMap<>(4,1f);
         /*if (StringUtils.isNoneBlank(ids)) {
             final String[] idArr = ids.split(",");
 
@@ -923,7 +923,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         } else {
             vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "update.failed"));
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", StringTool.isNotBlank(vo.getOkMsg()) ? vo.getOkMsg() : vo.getErrMsg());
         map.put("state", Boolean.valueOf(vo.isSuccess()));
         map.put("text", I18nTool.getDictsMap(SessionManager.getLocale().toString()).get(Module.PLAYER.getCode()).get(Module.PLAYER_STATUS.getCode()).get("1"));
@@ -1384,7 +1384,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //生成任务提醒
         //updateTaskNum(UserTaskEnum.PLAYERCONSULTATION);
 
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", StringTool.isNotBlank(vo.getOkMsg()) ? vo.getOkMsg() : vo.getErrMsg());
         map.put("state", Boolean.valueOf(vo.isSuccess()));
         return map;

@@ -184,7 +184,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         } else {
             agentVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "update.failed"));
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", StringTool.isNotBlank(agentVo.getOkMsg()) ? agentVo.getOkMsg() : agentVo.getErrMsg());
         map.put("state", Boolean.valueOf(agentVo.isSuccess()));
         return map;
@@ -343,7 +343,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
 //        model.addAttribute("extendedLinks",vo.getExtendedLinks());　add by eagle
 
         UserAgentRakebackListVo userAgentRakebackListVo = new UserAgentRakebackListVo();
-        Map tempMap = new HashMap(1);
+        Map tempMap = new HashMap(1,1f);
         tempMap.put(UserAgentRakeback.PROP_USER_ID,sysUserVo.getResult().getId());
         userAgentRakebackListVo.setConditions(tempMap);
         List<UserAgentRakeback> userAgentRakebackList = ServiceTool.userAgentRakebackService().andSearch(userAgentRakebackListVo);
@@ -351,7 +351,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
             model.addAttribute("rakebackId",userAgentRakebackList.get(0).getRakebackId());
         }
         UserAgentRebateListVo userAgentRebateListVo = new UserAgentRebateListVo();
-        Map tempMap2 = new HashMap(1);
+        Map tempMap2 = new HashMap(1,1f);
         tempMap2.put(UserAgentRebate.PROP_USER_ID,sysUserVo.getResult().getId());
         userAgentRebateListVo.setConditions(tempMap2);
         List<UserAgentRebate> userAgentRebateList = ServiceTool.userAgentRebateService().andSearch(userAgentRebateListVo);
@@ -752,7 +752,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
             objVo.setProperties(UserBankcard.PROP_IS_DEFAULT);
             userBankcardService.updateOnly(objVo);
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         if (objVo.isSuccess()) {
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
         } else {

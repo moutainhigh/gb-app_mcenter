@@ -91,7 +91,7 @@ public class AgentRebateController extends BaseCrudController<IAgentRebateServic
             //第一次没有返佣数据
             setDefaultNumberOfPeriod(listVo, c);
             yearMonths = new ArrayList<>();
-            Map<String, String> map = new HashMap<>(1);
+            Map<String, String> map = new HashMap<>(1,1f);
             map.put("yearmonth", listVo.getSearch().getYearmonth());
             yearMonths.add(map);
             listVo.setNumberOfPeriods(yearMonths);

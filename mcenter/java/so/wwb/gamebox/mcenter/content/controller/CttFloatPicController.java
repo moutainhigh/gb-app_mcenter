@@ -194,7 +194,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
     @RequestMapping(value = "/changeStatus", method = RequestMethod.POST)
     @ResponseBody
     public Map changeStatus(CttFloatPicVo objectVo) {
-        final HashMap<Object, Object> map = new HashMap<>(2);
+        final HashMap<Object, Object> map = new HashMap<>(2,1f);
         if (objectVo.getResult().getStatus()) {
             objectVo.getResult().setPublishTime(SessionManager.getDate().getNow());
         }
@@ -238,7 +238,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
     @RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDelete(Integer[] ids) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         if (ArrayTool.isNotEmpty(ids)) {
             CttFloatPicVo vo = new CttFloatPicVo();
             vo.setIds(Arrays.asList(ids));

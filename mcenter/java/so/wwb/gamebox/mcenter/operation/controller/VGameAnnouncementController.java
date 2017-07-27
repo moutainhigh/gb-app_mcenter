@@ -175,7 +175,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         } else {
             noticeReceiveVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "update.failed"));
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", StringTool.isNotBlank(noticeReceiveVo.getOkMsg()) ? noticeReceiveVo.getOkMsg() : noticeReceiveVo.getErrMsg());
         map.put("state", Boolean.valueOf(b));
         return map;
@@ -204,7 +204,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         } else {
             vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", StringTool.isNotBlank(vo.getOkMsg()) ? vo.getOkMsg() : vo.getErrMsg());
         map.put("state", Boolean.valueOf(vo.isSuccess()));
         return map;
@@ -401,7 +401,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         } else {
             vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", StringTool.isNotBlank(vo.getOkMsg()) ? vo.getOkMsg() : vo.getErrMsg());
         map.put("state", Boolean.valueOf(vo.isSuccess()));
         return map;

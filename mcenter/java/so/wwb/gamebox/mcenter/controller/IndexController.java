@@ -406,7 +406,7 @@ public class IndexController extends BaseIndexController {
         SysSiteVo sysSiteVo = new SysSiteVo();
         sysSiteVo.getSearch().setId(SessionManager.getSiteId());
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
-        Map<String, String> map = new HashMap<>(2);
+        Map<String, String> map = new HashMap<>(2,1f);
         map.put("dateTimeFromat", CommonContext.getDateFormat().getDAY_SECOND());
         map.put("dateTime", SessionManager.getUserDate(CommonContext.getDateFormat().getDAY_SECOND()));
         map.put("dateTime", DateTool.formatDate(new Date(), SessionManagerBase.getLocale(), TimeZone.getTimeZone(sysSiteVo.getResult().getTimezone()), CommonContext.getDateFormat().getDAY_SECOND()));
@@ -671,7 +671,7 @@ public class IndexController extends BaseIndexController {
     @RequestMapping("/index/profitLimit")
     @ResponseBody
     public Map<String, Object> profitLimit() {
-        Map<String, Object> map = new HashMap<>(3);
+        Map<String, Object> map = new HashMap<>(3,1f);
         boolean isMaster = SessionManager.isCurrentSiteMaster();
         map.put("isMaster", isMaster);
         //站长账号显示盈利上限，非站长账号不显示

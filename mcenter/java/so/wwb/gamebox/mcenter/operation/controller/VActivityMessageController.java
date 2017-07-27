@@ -144,7 +144,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         activityMessageVo.setProperties(ActivityMessage.PROP_IS_DELETED);
         activityMessageVo.getResult().setIsDeleted(true);
         activityMessageVo = ServiceTool.activityMessageService().updateOnly(activityMessageVo);
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         if (activityMessageVo.isSuccess()) {
             Cache.refreshActivityMessages();
             Cache.refreshCurrentSitePageCache();
@@ -199,7 +199,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
                 break;
             }
         }
-        Map<String, Object> map = new HashMap(4);
+        Map<String, Object> map = new HashMap(4,1f);
         map.put("isDefault", isDefault);
         if (isDefault) {
             map.put("msg", LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), "classification.defaultNotDelete"));
@@ -266,7 +266,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         }
         vo.getSearch().setKey(key);
         boolean state = getService().deleteClassification(vo);
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         map.put("state", state);
         if (state) {
             CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
@@ -404,7 +404,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
     @ResponseBody
     @Token(valid = true)
     public Map activityRelease(ActivityTypeVo activityTypeVo, VActivityMessageVo vActivityMessageVo) {
-        Map map = new HashMap(2);
+        Map map = new HashMap(2,1f);
         try{
             vActivityMessageVo.setCode(activityTypeVo.getResult().getCode());
             assignment(activityTypeVo, vActivityMessageVo);

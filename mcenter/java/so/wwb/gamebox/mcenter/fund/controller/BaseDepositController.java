@@ -134,7 +134,7 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
      * 声音开关
      */
     Map<String, Object> toneSwitch(SiteParamEnum paramEnum) {
-        Map<String, Object> map = new HashMap<>(1);
+        Map<String, Object> map = new HashMap<>(1,1f);
         SysParam param = ParamTool.getSysParam(paramEnum);
         if (param != null) {
             if (param.getActive()) {
@@ -496,7 +496,7 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
         // 更新订单状态
         vo = updateRechargeStatus(vo);
 
-        HashMap<String, Object> map = new HashMap<>(2);
+        HashMap<String, Object> map = new HashMap<>(2,1f);
         // 订单是否存在
         if (orderIsNull(vo, map)) return map;
         // 订单是否已审核

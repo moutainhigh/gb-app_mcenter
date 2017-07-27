@@ -220,7 +220,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
     public Map saveNoticeTmpl(NoticeTmplVo vo, HttpServletRequest request) {
         vo.getSearch().setCreateUser(SessionManager.getUserId());
         vo = ServiceTool.noticeTmplService().saveNoticeTmpl(vo);
-        Map map = new HashMap(2);
+        Map map = new HashMap(2,1f);
         if (vo.isSuccess()) {
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
             map.put("groupCode",vo.getResult().getGroupCode());
@@ -248,7 +248,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
         vo.getSearch().setTmplType(tmplType);
 //        vo.getSearch().setPublishMethod(NoticePublishMethod.SITE_MSG.getCode());
         vo = ServiceTool.noticeTmplService().resetActive(vo);
-        Map map = new HashMap(2);
+        Map map = new HashMap(2,1f);
         if (vo.isSuccess()) {
             map.put("msg", LocaleTool.tranMessage(Module.COMMON, "reset.success"));
         } else {

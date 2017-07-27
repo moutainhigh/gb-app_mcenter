@@ -289,7 +289,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         }
 
         domainSaveMsg(sysDomainVo);
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         if (sysDomainVo.isSuccess() && sysDomainVo.getResult().getResolveStatus().equals("5")) {
             sysDomainVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
 

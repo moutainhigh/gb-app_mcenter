@@ -377,7 +377,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         } else {
             vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "update.failed"));
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", StringTool.isNotBlank(vo.getOkMsg()) ? vo.getOkMsg() : vo.getErrMsg());
         map.put("state", Boolean.valueOf(vo.isSuccess()));
         return map;
@@ -401,7 +401,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         }else{
             vo.setSuccess(false);
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         //map.put("msg", StringTool.isNotBlank(vo.getOkMsg()) ? vo.getOkMsg() : vo.getErrMsg());
         map.put("state", vo.isSuccess());
         return map;
@@ -463,7 +463,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         objVo = ServiceTool.getAgentWithdrawOrderService().get(objVo);
         Boolean bool = null;
         bool = !AgentWithdrawOrderStatusEnum.PENDING.getCode().equals(objVo.getResult().getTransactionStatus());
-        HashMap map = new HashMap(1);
+        HashMap map = new HashMap(1,1f);
         map.put("state", bool);
         return map;
     }
@@ -581,7 +581,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
                 LogFactory.getLog(this.getClass()).error(ex,"发布消息不成功");
             }
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         //map.put("msg", StringTool.isNotBlank(objVo.getOkMsg()) ? objVo.getOkMsg() : objVo.getErrMsg());
         map.put("state", Boolean.valueOf(objVo.isSuccess()));
 
@@ -704,7 +704,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         if (failReasons!=null&&failReasons.size()>0) {
             bool = true;
         }
-        HashMap map = new HashMap(1);
+        HashMap map = new HashMap(1,1f);
         map.put("state", bool);
         return map;
     }
@@ -720,7 +720,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         if (failReasons!=null&&failReasons.size()>0) {
             bool = true;
         }
-        HashMap map = new HashMap(1);
+        HashMap map = new HashMap(1,1f);
         map.put("state", bool);
         return map;
     }

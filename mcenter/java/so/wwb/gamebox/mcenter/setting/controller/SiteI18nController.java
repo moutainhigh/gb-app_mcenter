@@ -45,7 +45,7 @@ public class SiteI18nController extends BaseCrudController<ISiteI18nService, Sit
     @RequestMapping("/batchSaveSeo")
     @ResponseBody
     public Map batchSave(SiteI18nVo objectVo,SiteI18nListVo listVo, BindingResult result) {
-        Map<String,Object> map = new HashMap<>(2);
+        Map<String,Object> map = new HashMap<>(2,1f);
         if (result.hasErrors()) {
             map.put("state",false);
             map.put("msg","保存失败");
