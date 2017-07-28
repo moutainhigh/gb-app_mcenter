@@ -9,6 +9,7 @@ import org.soul.commons.validation.form.support.AndOr;
 import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
+import so.wwb.gamebox.model.common.RegExpConstants;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -199,6 +200,7 @@ public class UserAgentForm implements IForm {
 
     @Depends(property = {"$editType","$required"}, operator = {Operator.EQ,Operator.IN},value ={"topAgent","realName"},andOr = AndOr.OR)
     @Length(max = 30,min = 0,message = "player.agent.edit.realName")
+    @Pattern(message = "player.realName.length", regexp = RegExpConstants.REALNAME)
     public String getSysUser_realName() {
         return sysUser_realName;
     }
