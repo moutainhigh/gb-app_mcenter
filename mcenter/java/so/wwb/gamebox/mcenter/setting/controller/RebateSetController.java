@@ -424,6 +424,16 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         SysParam withdrawFee = ParamTool.getSysParam(SiteParamEnum.SETTLEMENT_WITHDRAW_FEE);
         SysParam withdrawLimitMin = ParamTool.getSysParam(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MIN);
         SysParam withdrawLimitMax = ParamTool.getSysParam(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MAX);
+
+        SysParam rakebackParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_RAKEBACK_PERCENT);
+        SysParam favorableParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_PREFERENTIAL_PERCENT);
+        SysParam adminParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_ADMINISTRATOR_PERCENT);
+        SysParam otherParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_OTHER_PERCENT);
+        model.addAttribute("rakebackParam", rakebackParam);
+        model.addAttribute("favorableParam", favorableParam);
+        model.addAttribute("adminParam", adminParam);
+        model.addAttribute("otherParam", otherParam);
+
         model.addAttribute("depositFee", depositFee);
         model.addAttribute("withdrawFee", withdrawFee);
         model.addAttribute("withdrawLimitMin", withdrawLimitMin);
@@ -471,6 +481,11 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
             ParamTool.refresh(SiteParamEnum.SETTLEMENT_WITHDRAW_FEE);
             ParamTool.refresh(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MIN);
             ParamTool.refresh(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MAX);
+
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_ADMINISTRATOR_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_RAKEBACK_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_OTHER_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
         } else {
             map.put("state", false);
             map.put("msg", LocaleTool.tranMessage("common","save.failed"));
