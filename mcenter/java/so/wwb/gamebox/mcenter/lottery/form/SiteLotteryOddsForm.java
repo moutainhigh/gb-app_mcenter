@@ -8,6 +8,7 @@ import org.soul.commons.validation.form.support.Comment;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.lottery.controller.SiteLotteryOddsController;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
@@ -21,6 +22,7 @@ public class SiteLotteryOddsForm implements IForm {
     @NotBlank(message = "common.赔率不能为空")
     @Pattern(message = "player_auto.请输入数字", regexp = "^[1-9]\\d*(\\.\\d+)?$")
     @Min(message = "player_auto.请输入数字", value = 1)
+    @Digits(integer = 4,fraction = 3)
     public String[] getLotteryOdds$$_odd() {
         return lotteryOdds$$_odd;
     }
