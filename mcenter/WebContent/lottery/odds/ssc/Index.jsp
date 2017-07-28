@@ -7,10 +7,10 @@
     <a name="playcode" href="javascript:void(0)" type="lhh">${views.lottery_auto['总合/龙虎和']}</a>
    <%-- <a href="javascript:void(0)" type="group">${views.lottery_auto['组选']}</a>--%>
     <%--<a href="javascript:void(0)" code="sum">${views.lottery_auto['和数']}</a>--%>
-    <span class="hide" id="showbatchupdate">
+    <%--<span class="hide" id="showbatchupdate">
         <input type="number" name="defalutValue" id="defaultValue">
         <soul:button cssClass="batch-update-value" target="batchUpdateValue" text="${views.lottery_auto['批量调整']}" opType="function" tag="button"></soul:button>
-    </span>
+    </span>--%>
 
 
 </div>
@@ -22,11 +22,11 @@
             $(this).addClass('active');
             $(this).siblings().removeClass('active');
             var type = $(this).attr("type");
-            if(type=='two' || type=='three'){
+            /*if(type=='two' || type=='three'){
                 $("#showbatchupdate").removeClass("hide");
             }else{
                 $("#showbatchupdate").addClass("hide");
-            }
+            }*/
             //获取时时彩类别列表
             $("#lot_three_menu").load(root+'/lottery/odds/${code}/'+type+'/categoryIndex.html');
             $("#lot_three_menu").show();
