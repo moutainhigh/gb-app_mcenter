@@ -419,7 +419,8 @@
 
                     <li class="detail-list-cow">
                         <span class="title">${views.player_auto['当前使用']}</span>
-                        <c:if test="${empty userBankcard}">
+
+                        <c:if test="${fn:length(banks)==0 && bitcoinParam.paramValue=='true'}">
                             <c:if test="${command.result.playerStatus ne '2'}">
                             <div class="content">
                                 ${views.player_auto['尚未设置银行卡']}
@@ -428,6 +429,17 @@
                                              userId="${command.result.id}" callback="queryView" precall="hasRealName"
                                             text="${views.player_auto['新增银行卡']}" opType="dialog" cssClass="btn btn-link co-blue add-bank-card-btn"/>
                             </div>
+                            </c:if>
+                        </c:if>
+                        <c:if test="${fn:length(btnBanks)==0 && bitcoinParam.paramValue=='true'}">
+                            <c:if test="${command.result.playerStatus ne '2'}">
+                                <div class="content">
+                                        ${views.player_auto['尚未设置银行卡']}
+                                        <%--<a href="javascript:void(0)" class="btn btn-link co-blue">${views.player_auto['新增银行卡']}</a>--%>
+                                    <soul:button target="${root}/player/view/bankEdit.html?search.userId=${command.result.id}"
+                                                 userId="${command.result.id}" callback="queryView" precall="hasRealName"
+                                                 text="${views.player_auto['新增银行卡']}" opType="dialog" cssClass="btn btn-link co-blue add-bank-card-btn"/>
+                                </div>
                             </c:if>
                         </c:if>
                         <c:if test="${not empty userBankcard}">

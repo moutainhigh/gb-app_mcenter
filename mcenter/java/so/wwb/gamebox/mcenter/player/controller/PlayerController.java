@@ -104,6 +104,7 @@ import so.wwb.gamebox.model.master.operation.po.PlayerAdvisoryRead;
 import so.wwb.gamebox.model.master.operation.vo.PlayerAdvisoryReadVo;
 import so.wwb.gamebox.model.master.player.enums.PlayerAdvisoryEnum;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
+import so.wwb.gamebox.model.master.player.enums.UserBankcardTypeEnum;
 import so.wwb.gamebox.model.master.player.po.*;
 import so.wwb.gamebox.model.master.player.so.VUserPlayerSo;
 import so.wwb.gamebox.model.master.player.vo.*;
@@ -118,6 +119,7 @@ import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderVo;
 import so.wwb.gamebox.model.report.vo.AddLogVo;
 import so.wwb.gamebox.web.ServiceToolBase;
 import so.wwb.gamebox.web.SessionManagerCommon;
+import so.wwb.gamebox.web.bank.BankHelper;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
@@ -492,7 +494,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             VPlayerTagListVo vPlayerTagListVo = new VPlayerTagListVo();
             vPlayerTagListVo.setPropertyValues(ids);
             List<VPlayerTag> vPlayerTags = ServiceTool.vPlayerTagService().inSearchById(vPlayerTagListVo);
-            Map<String,Object> map = new HashMap<>(3,1f);
+            Map<String,Object> map = new HashMap<>(3);
             for (VPlayerTag vPlayerTag : vPlayerTags) {
                 if (vPlayerTag.getBuiltIn()) {
                     if (vPlayerTag.getPlayerCount() + 1 > vPlayerTag.getQuantity()) {
@@ -556,7 +558,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      * @return
      */
     private Map<String, Object> parseSelectPlayerData(String ids, UserPlayerVo userPlayerVo, SysUserVo sysUserVo) {
-        final HashMap<String, Object> data = new HashMap<>(4,1f);
+        final HashMap<String, Object> data = new HashMap<>(4);
         /*if (StringUtils.isNoneBlank(ids)) {
             final String[] idArr = ids.split(",");
 
@@ -642,11 +644,12 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 //        vUserPlayerVo = fetchTotalTradeAmount(vUserPlayerVo);
 //        vUserPlayerVo = fetchTotalEffectTradeAmount(vUserPlayerVo);
 
-        UserBankcardListVo bankcardListVo = queryUserBankcard(vUserPlayerVo);
-        if(bankcardListVo.getResult()!=null&&bankcardListVo.getResult().size()>0){
-            model.addAttribute("userBankcard",bankcardListVo.getResult().get(0));
-        }
-        model.addAttribute("bankcardListVo",bankcardListVo);
+        //银行卡列表
+        model.addAttribute("banks", BankHelper.queryUserBanksByUserId(vUserPlayerVo.getSearch().getId(), UserBankcardTypeEnum.TYPE_BANK, 5));
+        model.addAttribute("btnBanks", BankHelper.queryUserBanksByUserId(vUserPlayerVo.getSearch().getId(), UserBankcardTypeEnum.TYPE_BTC, 5));
+        model.addAttribute("bitcoinParam", ParamTool.getSysParam(SiteParamEnum.SETTING_WITHDRAW_TYPE_IS_BITCOIN));
+        model.addAttribute("cashParam", ParamTool.getSysParam(SiteParamEnum.SETTING_WITHDRAW_TYPE_IS_CASH));
+
         Map map = queryPlayerRecomd(vUserPlayerVo);
         model.addAttribute("playerRecomd",map);
 
@@ -923,7 +926,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         } else {
             vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "update.failed"));
         }
-        HashMap map = new HashMap(2,1f);
+        HashMap map = new HashMap(2);
         map.put("msg", StringTool.isNotBlank(vo.getOkMsg()) ? vo.getOkMsg() : vo.getErrMsg());
         map.put("state", Boolean.valueOf(vo.isSuccess()));
         map.put("text", I18nTool.getDictsMap(SessionManager.getLocale().toString()).get(Module.PLAYER.getCode()).get(Module.PLAYER_STATUS.getCode()).get("1"));
