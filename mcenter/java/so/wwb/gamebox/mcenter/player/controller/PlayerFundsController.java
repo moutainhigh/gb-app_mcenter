@@ -289,7 +289,7 @@ public class PlayerFundsController extends BaseCrudController<IPlayerTransaction
      * @return Map
      */
     private Map showMap(PlayerApiVo apiVo) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         //map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "recovery.process"));
         map.put("state", apiVo.isSuccess());
         return map;

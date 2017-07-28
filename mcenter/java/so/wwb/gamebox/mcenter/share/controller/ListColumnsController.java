@@ -47,7 +47,7 @@ public class ListColumnsController extends BaseCrudController<ISysMasterListOper
             }
             ListOpTool.refreshFields(ListOpEnum.enumOf(vo.getKeyClassName()));
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", StringTool.isNotBlank(vo.getOkMsg()) ? vo.getOkMsg() : vo.getErrMsg());
         map.put("state", Boolean.valueOf(vo.isSuccess()));
         return map;

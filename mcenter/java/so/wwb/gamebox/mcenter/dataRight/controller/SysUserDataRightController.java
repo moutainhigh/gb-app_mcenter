@@ -91,7 +91,7 @@ public class SysUserDataRightController extends BaseCrudController<ISysUserDataR
     }
 
     private Map<String,Map<Integer,SysUserDataRight>> getDataRightsByUserId(SysUserDataRightVo objectVo) {
-        Map<String,Map<Integer,SysUserDataRight>> sysUserDataRightMap = new HashMap<>(0);
+        Map<String,Map<Integer,SysUserDataRight>> sysUserDataRightMap = new HashMap<>(0,1f);
         if (objectVo.getSearch().getUserId() != null) {
             List<SysUserDataRight> list = ServiceTool.sysUserDataRightService().searchDataRightsByUserId(objectVo);
             Map<String,List<SysUserDataRight>> tempMap = CollectionTool.groupByProperty(list,SysUserDataRight.PROP_MODULE_TYPE,String.class);
@@ -109,7 +109,7 @@ public class SysUserDataRightController extends BaseCrudController<ISysUserDataR
     @ResponseBody
     @Token(valid = true)
     public Map saveAndUpdateDataRight(SysUserDataRightVo sysUserDataRightVo) {
-        Map<String,Object> map = new HashMap<>(3);
+        Map<String,Object> map = new HashMap<>(3,1f);
         //if (checkDataRights(sysUserDataRightVo, map)) return map;
         sysUserDataRightVo.setCreateUserId(SessionManager.getUserId());
         boolean isSuccess = ServiceTool.sysUserDataRightService().saveAndUpdateDataRight(sysUserDataRightVo);

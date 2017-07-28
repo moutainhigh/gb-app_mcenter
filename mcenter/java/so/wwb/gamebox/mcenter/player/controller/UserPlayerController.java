@@ -71,7 +71,7 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
         } else {
             msg = LocaleTool.tranMessage("common", "operation.failed");
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", msg);
         map.put("state", success);
         return map;
@@ -234,7 +234,7 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
             }
 
         }
-        HashMap<String,Object> map = new HashMap(2);
+        HashMap<String,Object> map = new HashMap(2,1f);
         map.put("msg", msg);
         map.put("state", success);
         return map;
@@ -282,7 +282,7 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
         } else {
             msg = LocaleTool.tranMessage("common", "operation.failed");
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", msg);
         map.put("state", maps.get("status"));
         return map;

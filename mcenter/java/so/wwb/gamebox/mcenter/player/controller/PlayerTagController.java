@@ -72,7 +72,7 @@ public class PlayerTagController extends BaseCrudController<IPlayerTagService, P
             VPlayerTagListVo vPlayerTagListVo = new VPlayerTagListVo();
             vPlayerTagListVo.setPropertyValues(playerTagVo.getSearch().getInsertTagId());
             List<VPlayerTag> vPlayerTags = ServiceTool.vPlayerTagService().inSearchById(vPlayerTagListVo);
-            Map<String,Object> map = new HashMap<>(3);
+            Map<String,Object> map = new HashMap<>(3,1f);
             for (VPlayerTag vPlayerTag : vPlayerTags) {
                 if (vPlayerTag.getBuiltIn()) {
                     if (vPlayerTag.getPlayerCount() + playerTagVo.getSearch().getPlayerIds().size() > vPlayerTag.getQuantity()) {

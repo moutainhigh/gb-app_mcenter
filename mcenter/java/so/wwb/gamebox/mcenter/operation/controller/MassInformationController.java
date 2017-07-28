@@ -824,7 +824,7 @@ public class MassInformationController {
     @ResponseBody
     public Map<String, Object> cancelPublish(VNoticeSendTextVo vo) {
         boolean success = ServiceTool.noticeService().cancelPublishJob(vo);
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         map.put("state", success);
         map.put("msg", success ? LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), "mass.info.cancelPublishSuccess") : LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), "mass.info.cancelPublishFail"));
         return map;

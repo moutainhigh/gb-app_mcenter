@@ -302,7 +302,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
     @ResponseBody
     public Map resetHide(VPayAccountListVo vPayAccountListVo, @FormModel("result") @Valid VPayAccountHideSettingForm form, BindingResult result, SysParamVo sysParamVo) {
         if (result.hasErrors()) {
-            Map map = new HashMap(2);
+            Map map = new HashMap(2,1f);
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
             map.put("state", false);
             return map;

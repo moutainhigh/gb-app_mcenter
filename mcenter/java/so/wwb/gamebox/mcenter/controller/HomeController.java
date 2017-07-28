@@ -131,7 +131,7 @@ public class HomeController {
     @RequestMapping("/siteData")
     @ResponseBody
     public Map<String, Object> siteData() {
-        Map<String, Object> map = new HashMap<>(6);
+        Map<String, Object> map = new HashMap<>(6,1f);
         List<Chart> charts = getSiteData();
         if (CollectionTool.isNotEmpty(charts)) {
             Integer size = charts.size();
@@ -211,7 +211,7 @@ public class HomeController {
     @RequestMapping("/depositData")
     @ResponseBody
     public Map<String, Object> depositData() {
-        Map<String, Object> map = new HashMap<>(4);
+        Map<String, Object> map = new HashMap<>(4,1f);
         List<Chart> charts = getDepositData();
         if (CollectionTool.isNotEmpty(charts)) {
             Integer size = charts.size();
@@ -298,7 +298,7 @@ public class HomeController {
     @RequestMapping("/gameData")
     @ResponseBody
     public Map<String, Object> gameData(Integer num) {
-        Map<String, Object> map = new HashMap<>(3);
+        Map<String, Object> map = new HashMap<>(3,1f);
 
         Map<String, ApiTypeI18n> typeMap = Cache.getApiTypeI18n();
         List<Chart> charts = getGameData(num);
@@ -431,7 +431,7 @@ public class HomeController {
         GameSurveyVo vo = initGameSurveyVo();
 
         List<Chart> charts = ServiceTool.gameSurveyService().query7DaysData(vo);
-        LinkedHashMap<String, Map<String, Object>> map = new LinkedHashMap<>(7);
+        LinkedHashMap<String, Map<String, Object>> map = new LinkedHashMap<>(7,1f);
         Map<String, ApiType> typeMap = Cache.getApiType();
 
         List<Date> dates = getRecently7Days();
@@ -448,7 +448,7 @@ public class HomeController {
             if (map.containsKey(key) && map.get(key) != null) {
                 subMap = map.get(key);
             } else {
-                subMap = new HashMap<>(4);
+                subMap = new HashMap<>(4,1f);
                 // 填充空的子map
                 for (String id : typeMap.keySet()) {
                     Chart c = new Chart();
@@ -467,7 +467,7 @@ public class HomeController {
         // 填充空的key
         for (String key : map.keySet()) {
             if (map.get(key) == null) {
-                Map<String, Object> subMap = new HashMap<>(4);
+                Map<String, Object> subMap = new HashMap<>(4,1f);
                 for (String id : typeMap.keySet()) {
                     Chart c = new Chart();
                     c.setApiTypeId(Integer.valueOf(id));
@@ -504,7 +504,7 @@ public class HomeController {
         for (String id : typeMap.keySet()) {
             vo.getSearch().setApiTypeId(Integer.valueOf(id));
             List<Chart> charts = ServiceTool.gameSurveyService().query7DaysApiData(vo);
-            LinkedHashMap<String, Map<String, Object>> secondMap = new LinkedHashMap<>(7);
+            LinkedHashMap<String, Map<String, Object>> secondMap = new LinkedHashMap<>(7,1f);
 
             for (Chart chart : charts) {
                 Map<String, Object> thirdMap = new HashMap<>();
@@ -778,7 +778,7 @@ public class HomeController {
     }
 
     private Map getVoMessage(BaseVo baseVo) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         if (baseVo.isSuccess() && StringTool.isBlank(baseVo.getOkMsg())) {
             baseVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
 

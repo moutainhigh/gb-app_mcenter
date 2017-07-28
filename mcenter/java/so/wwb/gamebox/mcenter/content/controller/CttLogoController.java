@@ -337,7 +337,7 @@ public class CttLogoController extends BaseCrudController<ICttLogoService, CttLo
         }
         Cache.refreshSiteLogo();
         Cache.refreshCurrentSitePageCache();
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", msg);
         map.put("state", cttLogoVo.isSuccess());
         return map;

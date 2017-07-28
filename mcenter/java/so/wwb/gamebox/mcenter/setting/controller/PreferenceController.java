@@ -86,7 +86,7 @@ public class PreferenceController {
     @RequestMapping("/savePreference")
     @ResponseBody
     public Map savePreference(PreferenceVo preferenceVo) {
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         boolean result = ServiceTool.preferenceService().savePreference(preferenceVo);
         if (result) {
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
@@ -165,7 +165,7 @@ public class PreferenceController {
     @RequestMapping("/uploadTone")
     @ResponseBody
     public Map uploadTone(SysParamVo sysParamVo) {
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         try {
             ServiceTool.preferenceService().uploadTone(sysParamVo);
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));

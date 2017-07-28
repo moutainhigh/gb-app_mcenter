@@ -222,7 +222,7 @@ public class VRakebackSetController extends BaseCrudController<IVRakebackSetServ
 
 
     private Map checkData(String paramValue) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         if (StringTool.isBlank(paramValue)) {
             map.put("msg", LocaleTool.tranMessage("setting", "rakebackSetting.SettleAccountsCycleSetting.notBlank"));
             map.put("state", false);

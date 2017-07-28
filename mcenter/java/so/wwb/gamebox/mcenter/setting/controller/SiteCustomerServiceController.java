@@ -136,7 +136,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     @RequestMapping({"/validateDelete"})
     @ResponseBody
     public Map validateDelete(Integer id,SiteCustomerServiceVo siteCustomerServiceVo,SiteCustomerServiceListVo siteCustomerServiceListVo,VFloatPicListVo vFloatPicListVo){
-        HashMap map = new HashMap(3);
+        HashMap map = new HashMap(3,1f);
         siteCustomerServiceVo.getSearch().setId(id);
         Integer picCount=0;
 
@@ -233,7 +233,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     @RequestMapping("/pc")
     @ResponseBody
     public Map updatePCCustomerService(SiteCustomerServiceVo objectVo, @FormModel @Valid SitePCCustomerServiceForm form, BindingResult result) {
-        Map<String,Object> map = new HashMap<>(2);
+        Map<String,Object> map = new HashMap<>(2,1f);
         if (result.hasErrors()) {
             map.put("state",false);
             map.put("msg",LocaleTool.tranMessage("common","save.failed"));
@@ -277,7 +277,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     @RequestMapping("/mobile")
     @ResponseBody
     public Map updateMobileCustomerService(SiteCustomerServiceVo objectVo, @FormModel @Valid SiteMobileCustomerServiceForm form, BindingResult result) {
-        Map<String,Object> map = new HashMap<>(2);
+        Map<String,Object> map = new HashMap<>(2,1f);
         if (result.hasErrors()) {
             map.put("state",false);
             map.put("msg",LocaleTool.tranMessage("common","save.failed"));

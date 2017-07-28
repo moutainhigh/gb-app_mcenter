@@ -83,7 +83,7 @@ public class VPlayerGameTipOrderController {
      */
     private void apiMap(Model model) {
         //展示api固定
-        Map<String, String> apiMap = new HashMap<>(2);
+        Map<String, String> apiMap = new HashMap<>(2,1f);
         apiMap.put(ApiProviderEnum.AG.getCode(), Cache.getSiteApiName(ApiProviderEnum.AG.getCode()));
         apiMap.put(ApiProviderEnum.BBIN.getCode(), Cache.getSiteApiName(ApiProviderEnum.BBIN.getCode()));
         model.addAttribute("apiMap", apiMap);
@@ -98,7 +98,7 @@ public class VPlayerGameTipOrderController {
     @RequestMapping("/statisticalData")
     @ResponseBody
     public Map<String, String> statisticalData(VPlayerGameTipOrderListVo listVo) {
-        Map<String, String> map = new HashMap<>(1);
+        Map<String, String> map = new HashMap<>(1,1f);
         if (listVo.getPaging().getTotalCount() > 0) {
             Map<String, Object> sum = ServiceTool.vPlayerGameTipOrderService().querySumTip(listVo);
             map.put("sumTip", CurrencyTool.formatCurrency(MapTool.getDouble(sum, "tip")));

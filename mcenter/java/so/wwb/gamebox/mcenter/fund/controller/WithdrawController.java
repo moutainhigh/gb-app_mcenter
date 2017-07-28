@@ -371,7 +371,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      * 声音开关
      */
     Map<String, Object> toneSwitch(SiteParamEnum paramEnum) {
-        Map<String, Object> map = new HashMap<>(1);
+        Map<String, Object> map = new HashMap<>(1,1f);
         SysParam param = ParamTool.getSysParam(paramEnum);
         if (param != null) {
             if (param.getActive()) {
@@ -625,7 +625,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     private Map<String, Object> getAuditPassList(List<PlayerTransaction> playerTransactions) {
 
-        Map<String, Object> map = new HashMap<>(6);
+        Map<String, Object> map = new HashMap<>(6,1f);
         if (playerTransactions == null || playerTransactions.size() == 0) {
             return map;
         }
@@ -1270,7 +1270,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @RequestMapping("/auditWithdraw")
     @ResponseBody
     public Map auditWithdraw(PlayerWithdrawVo vo, Remark remark, Model model) {
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         try {
             //添加备注
             remark = buildRemarkData(vo, remark);
@@ -1696,7 +1696,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (failReasons != null && failReasons.size() > 0) {
             bool = true;
         }
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         map.put("state", bool);
         map.put("feeList", vPlayerTransactionVo.getFeeList());
         return map;
@@ -1718,7 +1718,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (failReasons != null && failReasons.size() > 0) {
             bool = true;
         }
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         map.put("state", bool);
         map.put("feeList", vPlayerTransactionVo.getFeeList());
         return map;
@@ -1735,7 +1735,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     public Map<String, Object> hasNext(VPlayerWithdrawVo vo) {
         vo.getSearch().setLockPersonId(SessionManager.getAuditUserId());
         vo = getService().searchNext(vo);
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         if (vo.getResult() == null) {
             map.put("status", false);
             return map;
@@ -1780,7 +1780,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             playerWithdrawVo.setUserId(SessionManager.getUserId());
             return ServiceTool.playerWithdrawService().exchangeBtc(playerWithdrawVo);
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>(1);
+            Map<String, Object> map = new HashMap<>(1,1f);
             map.put("state", false);
             return map;
         }

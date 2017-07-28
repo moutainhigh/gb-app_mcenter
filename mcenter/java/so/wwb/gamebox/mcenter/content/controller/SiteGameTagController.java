@@ -211,7 +211,7 @@ public class SiteGameTagController extends BaseCrudController<ISiteGameTagServic
                 break;
             }
         }
-        Map<String, Object> map = new HashMap(4);
+        Map<String, Object> map = new HashMap(4,1f);
         map.put("isDefault", isDefault);
         if (isDefault) {
             map.put("msg", LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), "classification.defaultNotDelete"));
@@ -225,7 +225,7 @@ public class SiteGameTagController extends BaseCrudController<ISiteGameTagServic
     }
 
     private Map<String, Object> deleteSiteGameTag(String key) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         try{
             SiteI18nVo vo = new SiteI18nVo();
             vo.getSearch().setModule(Module.MASTER_SETTING.getCode());

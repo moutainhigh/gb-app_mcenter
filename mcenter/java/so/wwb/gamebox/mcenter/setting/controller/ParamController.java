@@ -354,7 +354,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     public Map saveYzm(Integer yzmId, String yzmValue,
                        Integer exclusionsId, String exclusionsValue, @FormModel() @Valid CaptchaForm form, BindingResult result) {
         if (result.hasErrors()) {
-            Map<String, Object> map = new HashMap<>(2);
+            Map<String, Object> map = new HashMap<>(2,1f);
             map.put("state", false);
             map.put("msg", LocaleTool.tranMessage("setting_auto", "请检查输入是否错误并且不能排除所有的字母和数字"));
             return map;
@@ -812,7 +812,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     @ResponseBody
     private Map saveServiceTrems(SiteConfineAreaVo siteConfineAreaVo, @FormModel("result") @Valid ServiceTermsForm form, BindingResult result, SiteI18nListVo siteI18nListVo) {
         if (result.hasErrors()) {
-            Map map = new HashMap(2);
+            Map map = new HashMap(2,1f);
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
             map.put("state", false);
             return map;
@@ -870,7 +870,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     @ResponseBody
     public Map saveApportion(PayAccountVo vo, @FormModel() @Valid ApportionForm form, BindingResult result) {
         if (result.hasErrors()) {
-            Map map = new HashMap(2);
+            Map map = new HashMap(2,1f);
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
             map.put("state", false);
             return map;

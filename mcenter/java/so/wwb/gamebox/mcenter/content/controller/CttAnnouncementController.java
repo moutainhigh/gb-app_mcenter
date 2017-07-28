@@ -173,7 +173,7 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
             success = false;
             msg = LocaleTool.tranMessage("common", "delete.failed");
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", msg);
         map.put("state", success);
         //

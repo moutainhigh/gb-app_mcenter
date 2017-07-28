@@ -1031,7 +1031,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @ResponseBody
     public Map saveDepositDefaultCount(PayAccountVo payAccountVo, @FormModel @Valid PayAccountDepositForm form,
                                        BindingResult result) {
-        Map<String, Object> map = new HashMap<>(3);
+        Map<String, Object> map = new HashMap<>(3,1f);
         if (result.hasErrors()) {
             map.put("state", false);
             map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
@@ -1063,7 +1063,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @ResponseBody
     public Map saveDepositDefaultTotal(PayAccountVo payAccountVo, @FormModel @Valid PayAccountDepositForm form,
                                        BindingResult result) {
-        Map<String, Object> map = new HashMap<>(3);
+        Map<String, Object> map = new HashMap<>(3,1f);
         if (result.hasErrors()) {
             map.put("state", false);
             map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
@@ -1092,7 +1092,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @RequestMapping("/recoveryData/{types}")
     @ResponseBody
     public Map recoveryData(PayAccountVo payAccountVo, @PathVariable String types) {
-        Map<String, Object> map = new HashMap<>(3);
+        Map<String, Object> map = new HashMap<>(3,1f);
         PayAccount payAccount = payAccountVo.getResult();
         if (payAccount == null || payAccount.getId() == null) {
             map.put("state", false);

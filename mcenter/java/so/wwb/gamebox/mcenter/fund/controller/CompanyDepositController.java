@@ -110,7 +110,7 @@ public class CompanyDepositController extends BaseDepositController {
     @ResponseBody
     public Map<String, Object> toneSwitch(@RequestParam("paramVal") String paramVal) {
         SessionManager.setCompanyVoiceNotice(paramVal);
-        Map<String, Object> map = new HashMap<>(1);
+        Map<String, Object> map = new HashMap<>(1,1f);
         map.put("state", true);
         return map;//toneSwitch(SiteParamEnum.WARMING_TONE_DEPOSIT);
     }
@@ -155,7 +155,7 @@ public class CompanyDepositController extends BaseDepositController {
         vo.getSearch().setRechargeStatus(RechargeStatusEnum.DEAL.getCode());
         vo.getSearch().setRechargeTypeParent(RechargeTypeParentEnum.COMPANY_DEPOSIT.getCode());
         VPlayerDeposit vPlayerDeposit = getService().nextCheckRecharge(vo);
-        Map<String, Object> map = new HashMap(2);
+        Map<String, Object> map = new HashMap(2,1f);
         if (vPlayerDeposit != null) {
             map.put("state", true);
             map.put("id", vPlayerDeposit.getId());

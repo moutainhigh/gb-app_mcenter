@@ -121,7 +121,7 @@ public class CttMaterialTextController extends BaseCrudController<ICttMaterialTe
     public Map saveCttText(CttMaterialTextVo vo) {
         vo.getSearch().setCreateUser(SessionManager.getUserId());
         vo = getService().saveCttText(vo);
-        Map map = new HashMap(2);
+        Map map = new HashMap(2,1f);
         if (vo.isSuccess()) {
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
         } else if (StringTool.isNotEmpty(vo.getErrMsg())) {
@@ -224,7 +224,7 @@ public class CttMaterialTextController extends BaseCrudController<ICttMaterialTe
         if (!result.hasErrors()) {
             vo.getSearch().setCreateUser(SessionManager.getUserId());
             vo = ServiceTool.cttMaterialPicService().editCttPic(vo);
-            Map map = new HashMap(2);
+            Map map = new HashMap(2,1f);
             if (vo.isSuccess()) {
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
             } else if (StringTool.isNotEmpty(vo.getErrMsg())) {
