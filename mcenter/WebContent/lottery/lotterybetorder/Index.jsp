@@ -27,10 +27,8 @@
       <div class="sys_tab_wrap clearfix">
         <div class="m-sm">
             <c:forEach var="lot" items="${lotterys}">
-                <c:if test="${lot.value.status=='normal'}">
-                    <soul:button text="${dicts.lottery.lottery[lot.key]}" opType="function"
-                             target="queryByLottery" type="${lot.key}" cssClass="label ssc-label ${command.search.code==lot.key?'ssc-active':''}" tag="a"></soul:button>
-                </c:if>
+                <soul:button text="${dicts.lottery.lottery[lot.key]}" opType="function"
+                         target="queryByLottery" type="${lot.key}" cssClass="label ssc-label ${command.search.code==lot.key?'ssc-active':''}" tag="a"></soul:button>
             </c:forEach>
 
         </div>
