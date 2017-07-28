@@ -34,7 +34,14 @@
                                     <input type="text" class="form-control content-width-limit-8" name="search.agentusername">
                                 </div>
                             </div>
-
+                            <%--<soul:button permission="role:player_export" tag="button"
+                                         cssClass="btn btn-export-btn btn-primary-hide"
+                                         text="${views.common['export']}" callback="gotoExportHistory"
+                                         precall="validExportCount" post="getCurrentFormData"
+                                         title="${views.role['player.dataExport']}"
+                                         target="${root}/fund/rebate/export.html" opType="ajax">
+                                <i class="fa fa-sign-out"></i><span class="hd">${views.common['export']}</span>
+                            </soul:button>--%>
                             <soul:button target="query" opType="function" tag="button" text="${views.common['search']}" cssClass="btn btn-filter">
                                 <i class="fa fa-search"></i>
                                 <span class="hd">&nbsp;${views.common['search']}</span>

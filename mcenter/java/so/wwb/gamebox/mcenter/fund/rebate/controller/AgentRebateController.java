@@ -2,7 +2,10 @@ package so.wwb.gamebox.mcenter.fund.rebate.controller;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.locale.DateQuickPicker;
+import org.soul.commons.locale.LocaleTool;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
@@ -17,11 +20,15 @@ import so.wwb.gamebox.mcenter.fund.rebate.form.AgentRebateForm;
 import so.wwb.gamebox.mcenter.fund.rebate.form.AgentRebateSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.company.setting.po.SysExport;
+import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.master.fund.rebate.RebateStatusEnum;
 import so.wwb.gamebox.model.master.fund.rebate.po.AgentRebate;
 import so.wwb.gamebox.model.master.fund.rebate.vo.AgentRebateListVo;
 import so.wwb.gamebox.model.master.fund.rebate.vo.AgentRebateVo;
+import so.wwb.gamebox.model.master.player.vo.VUserPlayerListVo;
 import so.wwb.gamebox.web.common.token.Token;
+import so.wwb.gamebox.web.report.controller.AbstractExportController;
 
 import javax.validation.Valid;
 import java.io.Serializable;
@@ -37,7 +44,7 @@ import java.util.*;
 @Controller
 //region your codes 1
 @RequestMapping("/fund/rebate")
-public class AgentRebateController extends BaseCrudController<IAgentRebateService, AgentRebateListVo, AgentRebateVo,
+public class AgentRebateController extends AbstractExportController<IAgentRebateService, AgentRebateListVo, AgentRebateVo,
         AgentRebateSearchForm, AgentRebateForm, AgentRebate, Integer> {
 //endregion your codes 1
 
@@ -211,6 +218,25 @@ public class AgentRebateController extends BaseCrudController<IAgentRebateServic
         rebateVo = getService().updateOnly(rebateVo);
         resMap.putAll(getVoMessage(rebateVo));
         return resMap;
+    }
+
+    @Override
+    protected SysExportVo buildExportData(SysExportVo vo) {
+        if (vo.getResult() == null) {
+            vo.setResult(new SysExport());
+        }
+        vo.getResult().setService(IAgentRebateService.class.getName());
+        vo.getResult().setParam(AgentRebateListVo.class.getName());
+        vo.getResult().setMethod("queryAgentRebateByCustomer");
+        vo.getResult().setUsername(SessionManager.getUserName());
+        vo.getResult().setExportUserId(SessionManager.getUserId());
+        vo.getResult().setExportUserSiteId(SessionManager.getSiteId());
+        if(vo.getResult().getSiteId()==null){
+            vo.getResult().setSiteId(SessionManager.getSiteId());
+        }
+        vo.getResult().setFileName(LocaleTool.tranView("export","agent_rebate")+"-"
+                + DateTool.formatDate(DateQuickPicker.getInstance().getNow(), SessionManager.getLocale(),SessionManager.getTimeZone(),"yyyyMMddHHmmss"));
+        return vo;
     }
 
     //endregion your codes 3
