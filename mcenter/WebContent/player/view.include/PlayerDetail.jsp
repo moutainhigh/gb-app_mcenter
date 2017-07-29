@@ -419,40 +419,31 @@
 
                     <li class="detail-list-cow">
                         <span class="title">${views.player_auto['当前使用']}</span>
-
                         <c:if test="${fn:length(banks)==0 && bitcoinParam.paramValue=='true'}">
                             <c:if test="${command.result.playerStatus ne '2'}">
+                            <br/>
                             <div class="content">
                                 ${views.player_auto['尚未设置银行卡']}
                                 <%--<a href="javascript:void(0)" class="btn btn-link co-blue">${views.player_auto['新增银行卡']}</a>--%>
                                 <soul:button target="${root}/player/view/bankEdit.html?search.userId=${command.result.id}"
-                                             userId="${command.result.id}" callback="queryView" precall="hasRealName"
+                                             userId="${command.result.id}" callback="saveOkQueryView" precall="hasRealName"
                                             text="${views.player_auto['新增银行卡']}" opType="dialog" cssClass="btn btn-link co-blue add-bank-card-btn"/>
                             </div>
                             </c:if>
                         </c:if>
-                        <c:if test="${fn:length(btnBanks)==0 && bitcoinParam.paramValue=='true'}">
-                            <c:if test="${command.result.playerStatus ne '2'}">
-                                <div class="content">
-                                        ${views.player_auto['尚未设置银行卡']}
-                                        <%--<a href="javascript:void(0)" class="btn btn-link co-blue">${views.player_auto['新增银行卡']}</a>--%>
-                                    <soul:button target="${root}/player/view/bankEdit.html?search.userId=${command.result.id}"
-                                                 userId="${command.result.id}" callback="queryView" precall="hasRealName"
-                                                 text="${views.player_auto['新增银行卡']}" opType="dialog" cssClass="btn btn-link co-blue add-bank-card-btn"/>
-                                </div>
-                            </c:if>
-                        </c:if>
-                        <c:if test="${not empty userBankcard}">
+                        <c:if test="${fn:length(userbankcards) > 0}">
+                            <c:set var="userbankcard" value="${userbankcards.get(0)}"/>
+                            <br/>
                             <div class="content">
-                                ${dicts.common.bankname[userBankcard.bankName]}
+                                ${dicts.common.bankname[userbankcard.bankName]}
                                 &nbsp;
-                                ${userBankcard.bankcardNumber}
-                                <soul:button target="showBankcardList" text="${views.player_auto['查看银行卡详细']}" opType="function" cssClass="btn btn-link show-bankcard-btn co-blue"></soul:button>
+                                ${userbankcard.bankcardNumber}
+                                <soul:button target="showBankcardList" data="bankcard-list" text="${views.player_auto['查看银行卡详细']}" opType="function" cssClass="btn btn-link show-bankcard-btn co-blue"></soul:button>
                                 <c:if test="${command.result.playerStatus ne '2'}">
-                                    <soul:button target="${root}/player/view/bankEdit.html?search.userId=${command.result.id}" userId="${command.result.id}" callback="queryView"
-                                         text="${views.role['Player.detail.bank.editBankInfo']}" opType="dialog" cssClass="btn btn-link co-blue edit-bank-card-btn hide"/>
+                                    <soul:button target="${root}/player/view/bankEdit.html?search.userId=${command.result.id}" userId="${command.result.id}" callback="saveOkQueryView"
+                                                 text="${views.role['Player.detail.bank.editBankInfo']}" opType="dialog" cssClass="btn btn-link co-blue edit-bank-card-btn hide"/>
                                 </c:if>
-                                <soul:button target="hideBankcardList" text="${views.player_auto['返回']}" opType="function" fromShowBtn="true" cssClass="btn btn-link co-blue hide hide-bankcard-btn"></soul:button>
+                                <soul:button target="hideBankcardList" data="bankcard-list" text="${views.player_auto['返回']}" opType="function" fromShowBtn="true" cssClass="btn btn-link co-blue hide hide-bankcard-btn"></soul:button>
                             </div>
                             <div id="bankcard-list" class="dataTables_wrapper hide" role="grid">
                                 <div class="table-responsive">
@@ -469,7 +460,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach var="bankCard" items="${bankcardListVo.result}" varStatus="vs">
+                                        <c:forEach var="bankCard" items="${userbankcards}" varStatus="vs">
                                             <c:set value="${fn:toLowerCase(bankCard.bankName)}" var="bankName"></c:set>
                                             <tr class="gradeA ${vs.index%2==0?'odd':'even'}">
                                                 <td>
@@ -478,6 +469,67 @@
                                                 <td>${bankCard.bankcardMasterName}</td>
                                                 <td>${soulFn:formatBankCard(bankCard.bankcardNumber)}</td>
                                                 <td>${bankCard.bankDeposit}</td>
+                                                <td>${soulFn:formatDateTz(bankCard.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
+                                                <td class="co-red">${bankCard.useCount}</td>
+                                                <td>
+                                                    <c:if test="${bankCard.isDefault}">
+                                                        <span class="btn btn-xs btn-danger">${views.common['currentUse']}</span>
+                                                    </c:if>
+                                                    <c:if test="${!bankCard.isDefault}">
+                                                        <span>${views.common['historyUse']}</span>
+                                                    </c:if>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${fn:length(btnBanks)==0 && bitcoinParam.paramValue=='true'}">
+                            <c:if test="${command.result.playerStatus ne '2'}">
+                                <br/>
+                                <div class="content">
+                                       尚未设置比特币地址
+                                    <soul:button target="${root}/player/view/btcEdit.html?search.userId=${command.result.id}" callback="saveOkQueryView" text="新增比特币地址" opType="dialog" cssClass="btn btn-link co-blue add-bank-card-btn"/>
+                                </div>
+                            </c:if>
+                        </c:if>
+                        <c:if test="${fn:length(btnBanks)>0}">
+                            <c:set var="btc" value="${btnBanks.get(0)}"/>
+                            <br/>
+                            <div class="content">
+                                ${dicts.common.bankname[btc.bankName]}
+                                &nbsp;
+                                ${btc.bankcardNumber}&nbsp;
+                                <soul:button target="showBankcardList" data="btn-list" text="${views.player_auto['查看比特币详细']}" opType="function" cssClass="btn show-bankcard-btn co-blue"></soul:button>
+                                <c:if test="${command.result.playerStatus ne '2'}">
+                                    <soul:button target="${root}/player/view/btcEdit.html?search.userId=${command.result.id}" userId="${command.result.id}" callback="saveOkQueryView"
+                                                 text="${views.role['Player.detail.bank.editBankInfo']}" opType="dialog" cssClass="btn btn-link co-blue edit-bank-card-btn hide"/>
+                                </c:if>
+                                <soul:button target="hideBankcardList" data="btn-list" text="${views.player_auto['返回']}" opType="function" fromShowBtn="true" cssClass="btn btn-link co-blue hide hide-bankcard-btn"></soul:button>
+                            </div>
+                            <div id="btn-list" class="dataTables_wrapper hide" role="grid">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-desc-list" aria-describedby="editable_info" style="width: 700px">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>钱包地址</th>
+                                            <th>${views.player_auto['卡号']}</th>
+                                            <th>${views.player_auto['添加时间']}</th>
+                                            <th>${views.player_auto['使用次数']}</th>
+                                            <th>${views.player_auto['状态']}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach var="bankCard" items="${btnBanks}" varStatus="vs">
+                                            <c:set value="${fn:toLowerCase(bankCard.bankName)}" var="bankName"></c:set>
+                                            <tr class="gradeA ${vs.index%2==0?'odd':'even'}">
+                                                <td>
+                                                    <span class="pay-third ${bankName}"></span><%--${dicts.common.bankname[bankName]}--%>
+                                                </td>
+                                                <td>${soulFn:formatBankCard(bankCard.bankcardNumber)}</td>
                                                 <td>${soulFn:formatDateTz(bankCard.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
                                                 <td class="co-red">${bankCard.useCount}</td>
                                                 <td>
