@@ -1106,22 +1106,19 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     public String bankEdit(UserBankcardVo objVo, Model model, BankListVo bankListVo) {
         UserBankcard userBankcard = BankHelper.getUserBankcard(objVo.getSearch().getUserId(), UserBankcardTypeEnum.TYPE_BANK);
         objVo.setResult(userBankcard);
-        objVo = ServiceTool.userBankcardService().search(objVo);
         if (userBankcard == null) {
             objVo.setResult(new UserBankcard());
             objVo.getResult().setUserId(objVo.getSearch().getUserId());
         }
         model.addAttribute("command", objVo);
-        bankListVo.getSearch().setType(BankEnum.TYPE_BANK.getCode());
-        bankListVo.getSearch().setIsUse(true);
-        bankListVo.setPaging(null);
-        bankListVo = ServiceTool.bankService().search(bankListVo);
-        model.addAttribute("bankListVo", bankListVo);
+
+        model.addAttribute("bankListVo", BankHelper.getBankListVo());
 
         SysUserVo sysUserVo = new SysUserVo();
         sysUserVo.getSearch().setId(objVo.getResult().getUserId());
         sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
         model.addAttribute("sysUser", sysUserVo.getResult());
+
         //表单校验
         model.addAttribute("validate", JsRuleCreator.create(UserBankcardForm.class));
 
