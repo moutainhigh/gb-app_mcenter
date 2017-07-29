@@ -27,11 +27,12 @@ import so.wwb.gamebox.model.ModuleType;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.enums.CommonStatusEnum;
 import so.wwb.gamebox.model.master.fund.enums.TransactionTypeEnum;
-import so.wwb.gamebox.model.master.player.po.UserBankcard;
+import so.wwb.gamebox.model.master.player.enums.UserBankcardTypeEnum;
 import so.wwb.gamebox.model.master.player.po.VUserPlayer;
 import so.wwb.gamebox.model.master.player.so.VUserPlayerSo;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionListVo;
+import so.wwb.gamebox.web.bank.BankHelper;
 import so.wwb.gamebox.web.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
@@ -135,16 +136,16 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
             objVo.getResult().setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), objVo.getResult().getId()).size());
         }
         model.addAttribute("command1", objVo);
-        if(objVo.getResult()!=null){
-            model.addAttribute("playerMoneyData",queryPlayerMoney(objVo.getResult().getId()));
+        if (objVo.getResult() != null) {
+            model.addAttribute("playerMoneyData", queryPlayerMoney(objVo.getResult().getId()));
         }
 
         return ServletTool.isAjaxSoulRequest(request) ? PLAYERDETECTION_INDEX_URI + "Partial" : PLAYERDETECTION_INDEX_URI;
     }
 
-    public Map queryPlayerMoney(Integer playerId){
+    public Map queryPlayerMoney(Integer playerId) {
         Map map = new HashMap();
-        if(playerId==null){
+        if (playerId == null) {
             return map;
         }
         PlayerTransactionListVo playerTransactionListVo = new PlayerTransactionListVo();
@@ -163,7 +164,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
     @RequestMapping("/sale")
     public String sale(Model model, Integer playerId, String username, Double rakeback) {
         countPlayerFavorable(playerId, model);
-        playerFavorableCount(playerId,model);
+        playerFavorableCount(playerId, model);
         model.addAttribute("username", username);
         model.addAttribute("rakeback", rakeback);
         return SALE_URI;
@@ -367,9 +368,9 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
      */
     @RequestMapping(value = "/bankList")
     public String bankList(String playerId, UserBankcardListVo userBankcardListVo, Model model) {
-        userBankcardListVo.getSearch().setUserId(Integer.parseInt(playerId));
-        List<UserBankcard> userBankcards = ServiceTool.userBankcardService().findUserBankCardByUserId(userBankcardListVo);
-        model.addAttribute("command", userBankcards);
+        Integer userId = Integer.parseInt(playerId);
+        model.addAttribute("bankcards", BankHelper.queryUserBanksByUserId(userId, UserBankcardTypeEnum.TYPE_BANK, null));
+        model.addAttribute("btnBanks", BankHelper.queryUserBanksByUserId(userId, UserBankcardTypeEnum.TYPE_BTC, null));
         return FUND_PLAYER_DETECT_BANK_LIST;
     }
 
@@ -391,7 +392,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
         model.addAttribute("favorableVal", favorableValue);
     }
 
-    private void playerFavorableCount(Integer playerId,Model model){
+    private void playerFavorableCount(Integer playerId, Model model) {
         //统计优惠次数
         PlayerTransactionListVo playerTransactionListVo = new PlayerTransactionListVo();
         List<String> transactionTypes = new ArrayList<>();
@@ -401,7 +402,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
         playerTransactionListVo.getSearch().setStatus(CommonStatusEnum.SUCCESS.getCode());
         playerTransactionListVo.getSearch().setTransactionTypes(transactionTypes);
         long count = ServiceTool.getPlayerTransactionService().countFavorable(playerTransactionListVo);
-        model.addAttribute("favorableCount",count);
+        model.addAttribute("favorableCount", count);
     }
     //endregion
 
