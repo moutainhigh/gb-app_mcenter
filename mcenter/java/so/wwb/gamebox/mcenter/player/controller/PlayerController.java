@@ -190,12 +190,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     private static final String RAKEBACK_INDEX = "player/player/rakeback/Index";
 
     private Map<String, Serializable> phoneCode = DictTool.get(DictEnum.REGION_CALLING_CODE);
-    private Map<String, Serializable> sexDict = DictTool.get(DictEnum.COMMON_SEX);
-    private Map<String, Serializable> imType = DictTool.get(DictEnum.COMMON_IM_TYPE);
-    private Map<String, Serializable> nation = DictTool.get(DictEnum.COMMON_NATION);
-    private Map<String, Serializable> constellation = DictTool.get(DictEnum.COMMON_CONSTELLATION);
-    private Map<String, Serializable> language = DictTool.get(DictEnum.COMMON_LANGUAGE);
-
     private String root;
 
     public String getRoot() {
