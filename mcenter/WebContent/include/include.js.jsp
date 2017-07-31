@@ -8,6 +8,6 @@
     });
     curl(['zeroClipboard','UE'], function (zeroClipboard,UE) {
        window.ZeroClipboard=zeroClipboard;
-        window.UE=UE;
+       window.UE=UE;
     });
 </script>
