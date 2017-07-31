@@ -115,7 +115,6 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         vo.getSearch().setStatus(RankStatusEnum.NORMAL.getCode());
         List<PlayerRank> playerRanks = ServiceTool.playerRankService().queryUsableList(vo);
         listVo.setPlayerRanks(playerRanks);
-        DictTool.refresh(DictEnum.PAY_ACCOUNT_STATUS);
         Map<String, Serializable> status = DictTool.get(DictEnum.PAY_ACCOUNT_STATUS);
         status.remove(PayAccountStatusEnum.DELETED.getCode());
        // Map<String, Bank> filterDeposit = Cache.getBank();
