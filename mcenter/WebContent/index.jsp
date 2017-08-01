@@ -140,12 +140,12 @@
                     <i class="icon-logins iconfont"></i>
                 </a>
                 <ul class="information nav-shadow">
-                    <%--<li>
+                    <li>
                         <a href="javascript:void(0)">
                             <i class="fa fa-user"></i>
                             ${sessionSysUser.username}
                         </a>
-                    </li>--%>
+                    </li>
                     <shiro:hasPermission name="system:subaccount_role">
                         <li><a href="/subAccount/role.html" nav-target="mainFrame"><i class="fa fa-user"></i>${views.common['我的权限']}</a></li>
                     </shiro:hasPermission>
