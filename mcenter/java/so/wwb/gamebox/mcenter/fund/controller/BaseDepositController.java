@@ -405,12 +405,6 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
                         listVo.getSearch().setAccountNames(names);
                     }
                 }
-
-                Paging paging = listVo.getPaging();
-                paging.setTotalCount(ServiceTool.vPlayerDepositService().countPlayerDeposit(listVo));
-                paging.cal();
-
-                listVo = ServiceTool.vPlayerDepositService().searchPlayerDeposit(listVo);
                 if (listVo.getSearch().isTodaySales()) {
                     //今日成功统计--jerry
                     VPlayerDepositListVo vPlayerDepositListVo = new VPlayerDepositListVo();
@@ -433,8 +427,10 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
                     Double sum = ServiceTool.vPlayerDepositService().sumPlayerDeposit(listVo);
                     listVo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
                 }
-
-
+                Paging paging = listVo.getPaging();
+                paging.setTotalCount(ServiceTool.vPlayerDepositService().countPlayerDeposit(listVo));
+                paging.cal();
+                listVo = ServiceTool.vPlayerDepositService().searchPlayerDeposit(listVo);
             } else {
                 listVo = getTotalDeposit(listVo, form, result, model);
             }
@@ -486,8 +482,8 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
             listVo.setPropertyName(VPlayerDeposit.PROP_RECHARGE_AMOUNT);
             Number sum = this.getService().sum(listVo);
             listVo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum.doubleValue()));
-            listVo = super.doList(listVo, form, result, model);
         }
+        listVo = super.doList(listVo, form, result, model);
         return listVo;
     }
 
