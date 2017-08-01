@@ -945,8 +945,27 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
             objectVo.getSysUser().setDefaultCurrency(SessionManager.getUser().getDefaultCurrency());
         }
         objectVo.setEditType(objectVo.getEditTypeAgent());
+        objectVo.setChangeRebate(hasChangeRebate(objectVo));
         objectVo = getService().updateAgentInfo(objectVo);
         return objectVo;
+    }
+
+    private boolean hasChangeRebate(UserAgentVo objectVo){
+        Integer userId = objectVo.getSysUser().getId();
+        if(userId!=null){
+            UserAgentRebateVo userAgentRebateVo = new UserAgentRebateVo();
+            userAgentRebateVo.getSearch().setUserId(userId);
+            userAgentRebateVo = ServiceTool.userAgentRebateService().search(userAgentRebateVo);
+            if(userAgentRebateVo.getResult()!=null){
+                Integer rebateId = userAgentRebateVo.getResult().getRebateId();
+                Integer newRebateId = objectVo.getUserAgentRebate().getRebateId();
+                if(rebateId!=null&&newRebateId!=null&&!rebateId.equals(newRebateId)){
+                    return true;
+                }
+            }
+
+        }
+        return false;
     }
 
     @RequestMapping("/getMasterQuestion/{question}")
