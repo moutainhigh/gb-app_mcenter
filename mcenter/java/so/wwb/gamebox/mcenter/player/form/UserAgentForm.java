@@ -321,7 +321,7 @@ public class UserAgentForm implements IForm {
     public void set$email_contactValue(String $email_contactValue) {
         this.$email_contactValue = $email_contactValue;
     }
-    @Pattern(regexp = FormValidRegExps.NUMBER_PHONE,message = "格式错误，请输入纯数字")
+    @Pattern(regexp = FormValidRegExps.NUMBER_PHONE,message = "player_auto.格式错误")
     @Depends(property = {"$editType","$required"}, operator = {Operator.IN,Operator.IN},value ={"['agent','subAgent']","110"})
     public String get$phone_contactValue() {
         return $phone_contactValue;
@@ -350,7 +350,7 @@ public class UserAgentForm implements IForm {
     public void setSysUser_defaultCurrency(String sysUser_defaultCurrency) {
         this.sysUser_defaultCurrency = sysUser_defaultCurrency;
     }
-    @Length(min = 2,max = 20,message = "微信号格式不对，2-20个字符，类型不限")
+    @Length(min = 2,max = 20,message = "player_auto.微信号格式不对")
     @Depends(property = "$required", operator = Operator.IN, value = "304")
     public String get$weixin_contactValue() {
         return $weixin_contactValue;
