@@ -149,7 +149,9 @@
                                     </tr>
                                     <c:forEach items="${command.rebateGrads}" var="rebateGrad" varStatus="status">
                                         <tr class="bg-color apiGrad">
-                                            <td><input type="text"value="${rebateGrad.totalProfit}" name="rebateGrads[${status.index}].totalProfit" data-name="rebateGrads[{n}].totalProfit" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.profit']}"></td>
+                                            <td>
+                                                <input type="hidden" name="rebateGrads[${status.index}].id" value="${rebateGrad.id}">
+                                                <input type="text"value="${rebateGrad.totalProfit}" name="rebateGrads[${status.index}].totalProfit" data-name="rebateGrads[{n}].totalProfit" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.profit']}"></td>
                                             <td><input type="text"value="${rebateGrad.validPlayerNum}" name="rebateGrads[${status.index}].validPlayerNum" data-name="rebateGrads[{n}].validPlayerNum" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.validPlayer']}"></td>
                                             <c:set var="game_status_index" value="0"/>
                                             <c:forEach items="${command.apiIds}" var="api">

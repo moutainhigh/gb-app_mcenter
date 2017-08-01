@@ -1757,6 +1757,14 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.company.lottery.ISiteLotteryOddService siteLotteryOddService() {
         return getService(so.wwb.gamebox.iservice.company.lottery.ISiteLotteryOddService.class);
     }
+    /**
+     * 返回返佣梯度方案远程服务实例
+     *
+     * @return 返佣梯度方案远程服务实例
+     */
+    public static so.wwb.gamebox.iservice.master.setting.IRebateGradsSetService rebateGradsSetService() {
+        return getService(so.wwb.gamebox.iservice.master.setting.IRebateGradsSetService.class);
+    }
 
 //endregion your codes 1
 

@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.ListTool;
 import org.soul.commons.collections.MapTool;
@@ -32,6 +33,7 @@ import so.wwb.gamebox.mcenter.setting.form.RebateSetSearchForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.company.enums.GameStatusEnum;
 import so.wwb.gamebox.model.company.setting.po.Api;
 import so.wwb.gamebox.model.company.site.po.SiteApi;
@@ -45,6 +47,7 @@ import so.wwb.gamebox.model.master.setting.vo.RebateSetListVo;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetVo;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
+import so.wwb.gamebox.web.common.token.TokenHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,6 +83,8 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
 
     @Override
     protected RebateSetListVo doList(RebateSetListVo listVo, RebateSetSearchForm form, BindingResult result, Model model) {
+        listVo.getSearch().setSearchFrom(SubSysCodeEnum.MCENTER.getCode());
+        listVo.getSearch().setOwnerId(SessionManager.getMasterInfo().getId());
         listVo = searchFromTopAgent(listVo);
         return this.getService().searchCalRebateSet(listVo);
     }
@@ -339,7 +344,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
 
     @Override
     protected RebateSetVo doEdit(RebateSetVo objectVo, Model model) {
-        return setGame(super.doEdit(objectVo, model));
+        return setGame(getService().queryRebateById(objectVo));
     }
 
     @Override
@@ -347,19 +352,21 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         objectVo.getResult().setCreateUserId(SessionManager.getUserId());
         objectVo.getResult().setCreateTime(new Date());
         objectVo.getResult().setStatus(UserAgentEnum.PROGRAM_STATUS_USING.getCode());
-        objectVo.getResult().setOwnerId(SessionManager.getMasterUserId());
-        return super.doSave(objectVo);
+        objectVo.getResult().setOwnerId(SessionManager.getMasterInfo().getId());
+        objectVo = getService().saveNewRebateSet(objectVo);
+        return objectVo;
     }
 
     @Override
     protected RebateSetVo doUpdate(RebateSetVo objectVo) {
         objectVo.getResult().setStatus(UserAgentEnum.PROGRAM_STATUS_USING.getCode());
-        return super.doUpdate(objectVo);
+        objectVo = getService().updateNewRebateSet(objectVo);
+        return objectVo;
     }
 
     @Override
     protected RebateSetVo doView(RebateSetVo objectVo, Model model) {
-        return setGame(super.doView(objectVo, model));
+        return setGame(getService().queryRebateById(objectVo));
     }
 
     /**
@@ -406,7 +413,19 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @Override
     @Token(valid = true)
     public Map persist(RebateSetVo objectVo, @FormModel("result") @Valid RebateSetForm form, BindingResult result) {
-        return super.persist(objectVo, form, result);
+        Map persist = new HashMap(3,1f);
+        try{
+            persist = super.persist(objectVo, form, result);
+
+        }catch (Exception ex){
+            persist.put("state",false);
+            String msg = LocaleTool.tranMessage("common", "save.failed");
+            persist.put("msg",msg);
+            persist.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+            LOG.error(ex,"保存返佣方案出错");
+        }
+
+        return  persist;
     }
 
     /**
