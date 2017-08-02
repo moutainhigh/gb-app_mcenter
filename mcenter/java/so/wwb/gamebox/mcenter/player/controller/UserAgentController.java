@@ -326,6 +326,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         model.addAttribute("now",new Date());
 
         Map map = this.getService().findAgentDetail(vo);
+        vo=getService().get(vo);
         Integer userId = vo.getSearch().getId();
         NoticeContactWay phone = getContactVal(userId, ContactWayType.CELLPHONE.getCode());
         NoticeContactWay email = getContactVal(userId, ContactWayType.EMAIL.getCode());
