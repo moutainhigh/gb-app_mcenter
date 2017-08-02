@@ -225,22 +225,13 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 Paging paging = vo.getPaging();
                 paging.setTotalCount(ServiceTool.vPlayerWithdrawService().countPlayerWithdraw(vo));
                 paging.cal();
-                Double sum = ServiceTool.vPlayerWithdrawService().sumPlayerWithdraw(vo);
-
-                //今日成功统计--jerry
-                VPlayerWithdrawListVo vPlayerWithdrawListVo = new VPlayerWithdrawListVo();
-                vPlayerWithdrawListVo._setContextParam(vo._getContextParam());
-                Date today = SessionManager.getDate().getToday();
-                Date todayEnd = DateTool.addDays(SessionManager.getDate().getToday(), 1);
-                vPlayerWithdrawListVo.getSearch().setCheckTimeStart(today);
-                vPlayerWithdrawListVo.getSearch().setCheckTimeEnd(todayEnd);
-                vPlayerWithdrawListVo.getSearch().setCheckStatus(CheckStatusEnum.SUCCESS.getCode());
-                vPlayerWithdrawListVo.getSearch().setDataRightUserId(SessionManager.getUserId());
-                vPlayerWithdrawListVo.getSearch().setModuleType(vo.getSearch().getModuleType());
-                Number todayTotal = ServiceTool.vPlayerWithdrawService().sumTodayPlayerWithdraw(vPlayerWithdrawListVo);
-                vo.setTodayTotal(CurrencyTool.formatCurrency(todayTotal == null ? 0 : todayTotal));
-
-                vo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
+                if (vo.getSearch().isTodaySales()) {
+                    //今日成功统计--jerry
+                    todayTotal(vo);
+                } else {
+                    Double sum = ServiceTool.vPlayerWithdrawService().sumPlayerWithdraw(vo);
+                    vo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
+                }
                 vo = ServiceTool.vPlayerWithdrawService().searchPlayerWithdraw(vo);
             } else {
                 vo = getTotalWithdraw(vo);
@@ -313,23 +304,15 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     //总额计算
     private VPlayerWithdrawListVo getTotalWithdraw(VPlayerWithdrawListVo vo) {
-        vo.setPropertyName(VPlayerWithdraw.PROP_WITHDRAW_ACTUAL_AMOUNT);
-        Number sum = this.getService().sum(vo);
-        vo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum.doubleValue()));
+        if (vo.getSearch().isTodaySales()) {
+            //今日成功统计--jerry
+            todayTotal(vo);
+        } else {
+            vo.setPropertyName(VPlayerWithdraw.PROP_WITHDRAW_ACTUAL_AMOUNT);
+            Number sum = this.getService().sum(vo);
+            vo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum.doubleValue()));
+        }
         vo = ServiceTool.getVPlayerWithdrawService().searchWithdraw(vo);
-
-
-        //今日成功统计--jerry
-        VPlayerWithdrawListVo vPlayerWithdrawListVo = new VPlayerWithdrawListVo();
-        vPlayerWithdrawListVo._setContextParam(vo._getContextParam());
-        Date today = SessionManager.getDate().getToday();
-        Date todayEnd = DateTool.addDays(SessionManager.getDate().getToday(), 1);
-        vPlayerWithdrawListVo.getSearch().setCheckTimeStart(today);
-        vPlayerWithdrawListVo.getSearch().setCheckTimeEnd(todayEnd);
-        vPlayerWithdrawListVo.getSearch().setCheckStatus(CheckStatusEnum.SUCCESS.getCode());
-        vPlayerWithdrawListVo.setPropertyName(VPlayerWithdraw.PROP_WITHDRAW_AMOUNT);
-        sum = this.getService().todayTotal(vPlayerWithdrawListVo);
-        vo.setTodayTotal(CurrencyTool.formatCurrency(sum == null ? 0 : sum));
         return vo;
     }
 

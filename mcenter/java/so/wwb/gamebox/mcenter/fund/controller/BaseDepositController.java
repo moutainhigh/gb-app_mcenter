@@ -45,7 +45,6 @@ import so.wwb.gamebox.model.master.dataRight.po.SysUserDataRight;
 import so.wwb.gamebox.model.master.dataRight.vo.SysUserDataRightVo;
 import so.wwb.gamebox.model.master.enums.ActivityApplyCheckStatusEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeStatusEnum;
-import so.wwb.gamebox.model.master.fund.enums.RechargeTypeEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeParentEnum;
 import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
 import so.wwb.gamebox.model.master.fund.po.VPlayerDeposit;
@@ -406,32 +405,32 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
                         listVo.getSearch().setAccountNames(names);
                     }
                 }
-
+                if (listVo.getSearch().isTodaySales()) {
+                    //今日成功统计--jerry
+                    VPlayerDepositListVo vPlayerDepositListVo = new VPlayerDepositListVo();
+                    vPlayerDepositListVo._setContextParam(listVo._getContextParam());
+                    Date today = SessionManager.getDate().getToday();
+                    Date todayEnd = DateTool.addDays(SessionManager.getDate().getToday(), 1);
+                    vPlayerDepositListVo.getSearch().setCheckTimeStart(today);
+                    vPlayerDepositListVo.getSearch().setCheckTimeEnd(todayEnd);
+                    if (listVo.getSearch().getRechargeTypeParent().equals(RechargeTypeParentEnum.COMPANY_DEPOSIT.getCode())) {
+                        vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.SUCCESS.getCode());
+                    } else {
+                        vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.ONLINE_SUCCESS.getCode());
+                    }
+                    vPlayerDepositListVo.getSearch().setRechargeTypeParent(listVo.getSearch().getRechargeTypeParent());
+                    vPlayerDepositListVo.getSearch().setModuleType(listVo.getSearch().getModuleType());
+                    vPlayerDepositListVo.getSearch().setDataRightUserId(SessionManager.getUserId());
+                    Double sum = ServiceTool.vPlayerDepositService().sumPlayerDeposit(vPlayerDepositListVo);
+                    listVo.setTodayTotal(CurrencyTool.formatCurrency(sum == null ? 0 : sum));
+                } else {
+                    Double sum = ServiceTool.vPlayerDepositService().sumPlayerDeposit(listVo);
+                    listVo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
+                }
                 Paging paging = listVo.getPaging();
                 paging.setTotalCount(ServiceTool.vPlayerDepositService().countPlayerDeposit(listVo));
                 paging.cal();
-                Double sum = ServiceTool.vPlayerDepositService().sumPlayerDeposit(listVo);
-                listVo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
                 listVo = ServiceTool.vPlayerDepositService().searchPlayerDeposit(listVo);
-
-                //今日成功统计--jerry
-                VPlayerDepositListVo vPlayerDepositListVo = new VPlayerDepositListVo();
-                vPlayerDepositListVo._setContextParam(listVo._getContextParam());
-                Date today = SessionManager.getDate().getToday();
-                Date todayEnd = DateTool.addDays(SessionManager.getDate().getToday(), 1);
-                vPlayerDepositListVo.getSearch().setCheckTimeStart(today);
-                vPlayerDepositListVo.getSearch().setCheckTimeEnd(todayEnd);
-                if (listVo.getSearch().getRechargeTypeParent().equals(RechargeTypeParentEnum.COMPANY_DEPOSIT.getCode())) {
-                    vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.SUCCESS.getCode());
-                } else {
-                    vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.ONLINE_SUCCESS.getCode());
-                }
-                vPlayerDepositListVo.getSearch().setRechargeTypeParent(listVo.getSearch().getRechargeTypeParent());
-                vPlayerDepositListVo.getSearch().setModuleType(listVo.getSearch().getModuleType());
-                vPlayerDepositListVo.getSearch().setDataRightUserId(SessionManager.getUserId());
-                sum = ServiceTool.vPlayerDepositService().sumPlayerDeposit(vPlayerDepositListVo);
-                listVo.setTodayTotal(CurrencyTool.formatCurrency(sum == null ? 0 : sum));
-
             } else {
                 listVo = getTotalDeposit(listVo, form, result, model);
             }
@@ -461,29 +460,30 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
 
     //总额计算
     private VPlayerDepositListVo getTotalDeposit(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
-        listVo.setPropertyName(VPlayerDeposit.PROP_RECHARGE_AMOUNT);
-        Number sum = this.getService().sum(listVo);
-        listVo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum.doubleValue()));
-        listVo = super.doList(listVo, form, result, model);
-
-
-        //今日成功统计--jerry
-        VPlayerDepositListVo vPlayerDepositListVo = new VPlayerDepositListVo();
-        vPlayerDepositListVo._setContextParam(listVo._getContextParam());
-        Date today = SessionManager.getDate().getToday();
-        Date todayEnd = DateTool.addDays(SessionManager.getDate().getToday(), 1);
-        vPlayerDepositListVo.getSearch().setCheckTimeStart(today);
-        vPlayerDepositListVo.getSearch().setCheckTimeEnd(todayEnd);
-        //公司和在线支付的审核状态不同
-        if (listVo.getSearch().getRechargeTypeParent().equals(RechargeTypeParentEnum.COMPANY_DEPOSIT.getCode())) {
-            vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.SUCCESS.getCode());
+        if (listVo.getSearch().isTodaySales()) {
+            //今日成功统计--jerry
+            VPlayerDepositListVo vPlayerDepositListVo = new VPlayerDepositListVo();
+            vPlayerDepositListVo._setContextParam(listVo._getContextParam());
+            Date today = SessionManager.getDate().getToday();
+            Date todayEnd = DateTool.addDays(SessionManager.getDate().getToday(), 1);
+            vPlayerDepositListVo.getSearch().setCheckTimeStart(today);
+            vPlayerDepositListVo.getSearch().setCheckTimeEnd(todayEnd);
+            //公司和在线支付的审核状态不同
+            if (listVo.getSearch().getRechargeTypeParent().equals(RechargeTypeParentEnum.COMPANY_DEPOSIT.getCode())) {
+                vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.SUCCESS.getCode());
+            } else {
+                vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.ONLINE_SUCCESS.getCode());
+            }
+            vPlayerDepositListVo.getSearch().setRechargeTypeParent(listVo.getSearch().getRechargeTypeParent());
+            vPlayerDepositListVo.setPropertyName(VPlayerDeposit.PROP_RECHARGE_AMOUNT);
+            Number sum = this.getService().sum(vPlayerDepositListVo);
+            listVo.setTodayTotal(CurrencyTool.formatCurrency(sum == null ? 0 : sum));
         } else {
-            vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.ONLINE_SUCCESS.getCode());
+            listVo.setPropertyName(VPlayerDeposit.PROP_RECHARGE_AMOUNT);
+            Number sum = this.getService().sum(listVo);
+            listVo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum.doubleValue()));
         }
-        vPlayerDepositListVo.getSearch().setRechargeTypeParent(listVo.getSearch().getRechargeTypeParent());
-        vPlayerDepositListVo.setPropertyName(VPlayerDeposit.PROP_RECHARGE_AMOUNT);
-        sum = this.getService().sum(vPlayerDepositListVo);
-        listVo.setTodayTotal(CurrencyTool.formatCurrency(sum == null ? 0 : sum));
+        listVo = super.doList(listVo, form, result, model);
         return listVo;
     }
 
