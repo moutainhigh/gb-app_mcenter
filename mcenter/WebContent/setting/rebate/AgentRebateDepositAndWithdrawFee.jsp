@@ -37,21 +37,21 @@
                 <input type="number" class="form-control" name="sysParamLimit[1].paramValue" value="${empty withdrawLimitMax.paramValue ? withdrawLimitMax.defaultValue : withdrawLimitMax.paramValue}">
             </div>
         </div>
-        <div class="m-b" style="margin-top: 20px;">设置返佣分摊比例</div>
+        <div class="m-b" style="margin-top: 20px;">${views.operation_auto['设置返佣分摊比例']}</div>
         <div class="m-t-xs">
             <div class="input-group content-width-limit-400" style="padding: 10px 0px">
-                <span class="input-group-addon abroder-no p-x"><b>返水费用:</b></span>
+                <span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['返水费用']}:</b></span>
                 <input type="number" class="form-control" name="sysParam[2].paramValue" value="${empty rakebackParam.paramValue ? rakebackParam.defaultValue : rakebackParam.paramValue}">
                 <span class="input-group-addon">%</span>
-                <span class="input-group-addon abroder-no p-x"><b>优惠费用:</b></span>
+                <span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['优惠费用']}:</b></span>
                 <input type="number" class="form-control" name="sysParam[3].paramValue" value="${empty favorableParam.paramValue ? favorableParam.defaultValue : favorableParam.paramValue}">
                 <span class="input-group-addon">%</span>
             </div>
             <div class="input-group content-width-limit-400"  style="padding: 10px 0px">
-                <span class="input-group-addon abroder-no p-x"><b>行政费用:</b></span>
+                <span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['行政费用']}:</b></span>
                 <input type="number" class="form-control" name="sysParam[4].paramValue" value="${empty adminParam.paramValue ? adminParam.defaultValue : adminParam.paramValue}">
                 <span class="input-group-addon">%</span>
-                <span class="input-group-addon abroder-no p-x"><b>其它费用:</b></span>
+                <span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['其它费用']}:</b></span>
                 <input type="number" class="form-control" name="sysParam[5].paramValue" value="${empty otherParam.paramValue ? otherParam.defaultValue : otherParam.paramValue}">
                 <span class="input-group-addon">%</span>
             </div>

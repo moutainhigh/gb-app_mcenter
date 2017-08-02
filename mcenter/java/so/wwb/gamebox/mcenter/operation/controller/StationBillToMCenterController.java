@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.operation.controller;
 
 import org.soul.commons.bean.Pair;
+import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
@@ -12,6 +13,9 @@ import org.soul.commons.support._Module;
 import org.soul.model.msg.notice.enums.NoticePublishMethod;
 import org.soul.model.msg.notice.po.NoticeTmpl;
 import org.soul.model.msg.notice.vo.NoticeVo;
+import org.soul.model.sys.po.SysParam;
+import org.soul.model.sys.vo.SysParamVo;
+import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +25,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.iservice.report.operation.IStationBillService;
 import so.wwb.gamebox.mcenter.operation.form.StationBillForm;
 import so.wwb.gamebox.mcenter.operation.form.StationBillSearchForm;
+import so.wwb.gamebox.mcenter.operation.form.TopagentParamForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.mcenter.setting.form.RebateSetFeeForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.CacheBase;
+import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteI18nEnum;
+import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.company.platform.vo.VContractSchemeVo;
@@ -44,6 +52,7 @@ import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.stationbill.controller.StationBillController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.*;
 
 
@@ -309,6 +318,63 @@ public class StationBillToMCenterController extends StationBillController<IStati
         } catch (Exception e) {
             LOG.warn("站内信发送异常");
         }
+    }
+
+    /**
+     * topagent.rakeback.percent
+     topagent.preferential.percent
+     topagent.poundage.percent
+     topagent.rebate.percent
+     * @return
+     */
+    @RequestMapping("/toSetParam")
+    public String toSetParam(Model model){
+        //优惠活动分摊比例
+        SysParam preferentialParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+        //手续费分摊比例
+        SysParam poundageParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_POUNDAGE_PERCENT);
+        //返水优惠分摊比例
+        SysParam rakbackParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
+        //佣金分摊比例
+        SysParam rebateParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_REBATE_PERCENT);
+        model.addAttribute("preferentialParam",preferentialParam);
+        model.addAttribute("poundageParam",poundageParam);
+        model.addAttribute("rakbackParam",rakbackParam);
+        model.addAttribute("rebateParam",rebateParam);
+        model.addAttribute("validateRule",JsRuleCreator.create(TopagentParamForm.class));
+        return getViewBasePath() + "distributor/TopagentSettingParam";
+    }
+
+    @RequestMapping("/saveParam")
+    @ResponseBody
+    public Map saveParam(StationBillVo stationBillVo,@Valid @FormModel TopagentParamForm form, BindingResult result){
+        Map<String, Object> map = new HashMap<>(2);
+        if (result.hasErrors()) {
+            map.put("state", false);
+            map.put("msg", LocaleTool.tranMessage("common","save.failed"));
+            return map;
+        }
+        if(CollectionTool.isEmpty(stationBillVo.getSysParam())){
+            map.put("state", false);
+            map.put("msg", LocaleTool.tranMessage("common","save.failed"));
+            return map;
+        }
+        SysParamVo paramVo = new SysParamVo();
+        paramVo.setEntities(stationBillVo.getSysParam());
+        paramVo.setProperties(SysParam.PROP_PARAM_VALUE);
+        int res = ServiceTool.getSysParamService().batchUpdateOnly(paramVo);
+        if (res > 0) {
+            map.put("state", true);
+            map.put("msg", LocaleTool.tranMessage("common","save.success"));
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_POUNDAGE_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_REBATE_PERCENT);
+        } else {
+            map.put("state", false);
+            map.put("msg", LocaleTool.tranMessage("common","save.failed"));
+        }
+        return map;
     }
 
     //endregion your codes 3

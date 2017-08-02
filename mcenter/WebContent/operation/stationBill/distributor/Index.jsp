@@ -39,7 +39,9 @@
                             <input type="text" class="form-control" placeholder="${views.operation['Bill.distributor.list.topAgentName']}" name="search.topagentName">
                             <span class="input-group-btn">
                                 <soul:button target="query" text="${views.common['search']}" opType="function" cssClass="btn btn-filter"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span></soul:button>
+                                <soul:button target="${root}/operation/stationbill/toSetParam.html" text="${views.operation_auto['分摊参数设置']}" opType="dialog" cssClass="btn btn-filter btn-outline"></soul:button>
                             </span>
+
                         </div>
                     </div>
                 </div>
