@@ -148,6 +148,16 @@
                                 <soul:button permission="fund:playerwithdraw_check" dataId="${p.id}" target="withdrawAuditView"  callback="query"  size="auditLogCss" cssClass="label label-info p-x-md" text="${dicts.fund.withdraw_status[p.withdrawStatus]}" opType="function" />
                             </c:if>
                             <c:if test="${p.withdrawStatus=='4'}">
+                                <c:set var="text" value="${dicts.fund.withdraw_status[p.withdrawStatus]}"/>
+                                <c:if test="${p.remittanceWay=='2'&&p.checkStatus=='success'}">
+                                    <c:set var="text" value="${dicts.fund.withdraw_status[p.withdrawStatus]}[未兑币]"/>
+                                </c:if>
+                                <c:if test="${p.remittanceWay=='2'&&p.checkStatus=='exchange_bit'}">
+                                    <c:set var="text" value="${dicts.fund.withdraw_status[p.withdrawStatus]}[已兑币]"/>
+                                </c:if>
+                                <c:if test="${p.remittanceWay=='2'&&p.checkStatus=='automatic_pay'}">
+                                    <c:set var="text" value="${dicts.fund.withdraw_status[p.withdrawStatus]}[已打款]"/>
+                                </c:if>
                                 <soul:button target="withdrawAuditView" dataId="${p.id}" size="auditLogCss" cssClass="label label-success p-x-md" text="${dicts.fund.withdraw_status[p.withdrawStatus]}" opType="function" />
                             </c:if>
                             <c:if test="${p.withdrawStatus=='5'}">
