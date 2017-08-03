@@ -149,6 +149,15 @@
                             </c:if>
                             <c:if test="${p.withdrawStatus=='4'}">
                                 <soul:button target="withdrawAuditView" dataId="${p.id}" size="auditLogCss" cssClass="label label-success p-x-md" text="${dicts.fund.withdraw_status[p.withdrawStatus]}" opType="function" />
+                                <c:if test="${p.remittanceWay=='2'&&p.checkStatus=='success'}">
+                                    [未兑币]
+                                </c:if>
+                                <c:if test="${p.remittanceWay=='2'&&p.checkStatus=='exchange_bit'}">
+                                    [已兑币]
+                                </c:if>
+                                <c:if test="${p.remittanceWay=='2'&&p.checkStatus=='automatic_pay'}">
+                                    [已打款]
+                                </c:if>
                             </c:if>
                             <c:if test="${p.withdrawStatus=='5'}">
                                 <soul:button target="withdrawAuditView" dataId="${p.id}" size="auditLogCss" cssClass="label label-danger p-x-md" text="${dicts.fund.withdraw_status[p.withdrawStatus]}" opType="function" />

@@ -33,7 +33,7 @@
                             ${pts.playerCount}
                         </c:otherwise>
                     </c:choose>
-                    <c:if test="${pts.builtIn && pts.quantity gt 0}">(限${pts.quantity}位)</c:if></span>
+                    <c:if test="${pts.builtIn && pts.quantity gt 0}">(${fn:replace(views.player_auto['限'],"{0}",pts.quantity)})</c:if></span>
                 </td>
                 <td>
                     <c:choose>
