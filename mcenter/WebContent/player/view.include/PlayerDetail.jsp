@@ -553,20 +553,20 @@
                                   data-html="true" data-content="${views.content['annotation.deposit']}">
                                 <i class="fa fa-question-circle" ></i>
                             </span>${views.player_auto['存款']}
-                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=deposit&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username" nav-target="mainFrame">
+                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=<%=TransactionTypeEnum.DEPOSIT.getCode()%>&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username" nav-target="mainFrame">
                             <span class="co-blue" id="rechargeCount">${views.player_auto['计算中']}...</span></a>${views.player_auto['次']}，
                             ${views.player_auto['共计']}${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=deposit&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username" nav-target="mainFrame">
+                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=<%=TransactionTypeEnum.DEPOSIT.getCode()%>&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username" nav-target="mainFrame">
                                 <span class="co-blue" id="rechargeTotal">${views.player_auto['计算中']}...</span>
                             </a>；
                             <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
                                   data-html="true" data-content="${views.player_auto['包含人工取出的所有类型']}。">
                                 <i class="fa fa-question-circle" ></i>
                             </span>${views.player_auto['取款']}
-                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.PLAYER_WITHDRAW.getCode()%>&search.manualWithdraws=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_RAKEBACK.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame"><span class="co-blue" id="withdrawCountTime">${views.player_auto['计算中']}...</span></a>${views.player_auto['次']}，
+                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username&search.transactionType=<%=TransactionTypeEnum.WITHDRAWALS.getCode()%>" nav-target="mainFrame"><span class="co-blue" id="withdrawCountTime">${views.player_auto['计算中']}...</span></a>${views.player_auto['次']}，
                             ${views.player_auto['共计']}
                             ${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.PLAYER_WITHDRAW.getCode()%>&search.manualWithdraws=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_RAKEBACK.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame"><span class="co-blue" id="withdrawTotalMoney">${views.player_auto['计算中']}...</span></a>；
+                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username&search.transactionType=<%=TransactionTypeEnum.WITHDRAWALS.getCode()%>" nav-target="mainFrame"><span class="co-blue" id="withdrawTotalMoney">${views.player_auto['计算中']}...</span></a>；
                             <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
                                   data-html="true" data-width="500px" data-content="${views.content['annotation.totalProfitLoss']}">
                                 <i class="fa fa-question-circle" ></i>
@@ -578,18 +578,17 @@
                                   data-html="true" data-content="${views.content['annotation.favorable']}">
                                 <i class="fa fa-question-circle" ></i>
                             </span>${views.player_auto['获得优惠']}
-                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable" nav-target="mainFrame">
+                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable&search.transactionType=<%=TransactionTypeEnum.FAVORABLE.getCode()%>" nav-target="mainFrame">
                             <span class="co-blue" id="favCount">${views.player_auto['计算中']}...</span>
                             </a>
                             ${views.player_auto['次']}，
                             ${views.player_auto['共计']}${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable" nav-target="mainFrame">
+                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable&search.transactionType=<%=TransactionTypeEnum.FAVORABLE.getCode()%>" nav-target="mainFrame">
                                 <span class="co-blue" id="favMoney">${views.player_auto['计算中']}...</span>
                             </a>；
                             <a href="/fund/deposit/company/list.html?search.username=${command.result.username}&search.playerId=${command.result.id}" class="btn btn-link co-blue" nav-target="mainFrame">${views.player_auto['公司入款记录']}</a>
                             <a href="/fund/deposit/online/list.html?search.username=${command.result.username}&search.playerId=${command.result.id}" class="btn btn-link co-blue" nav-target="mainFrame">${views.player_auto['线上支付记录']}</a>
                             <a href="/fund/withdraw/withdrawList.html?search.username=${command.result.username}&search.playerId=${command.result.id}" class="btn btn-link co-blue" nav-target="mainFrame">${views.player_auto['取款记录']}</a>
-                            <%--<a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.DEPOSIT_SEND.getCode()%>,<%=TransactionWayEnum.REGIST_SEND.getCode()%>,<%=TransactionWayEnum.RELIEF_FUND.getCode()%>,<%=TransactionWayEnum.PROFIT_LOSS.getCode()%>,<%=TransactionWayEnum.EFFECTIVE_TRANSACTION.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable" class="btn btn-link co-blue" nav-target="mainFrame">${views.player_auto['优惠记录']}</a>--%>
 
                         </div>
                     </li>
