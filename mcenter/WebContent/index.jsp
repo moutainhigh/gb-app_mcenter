@@ -137,7 +137,11 @@
             </li>
             <li class="infos show-info">
                 <a href="javascript:void(0)" class="locate" data-toggle="dropdown">
-                    <i class="icon-logins iconfont"></i>
+                    <span data-content="${sessionSysUser.username}" data-html="true" class="top-tip"
+                          data-placement="bottom" data-trigger="focus" data-container="body" role="button" tabindex="0">
+                        <i class="icon-logins iconfont"></i>
+                    </span>
+
                 </a>
                 <ul class="information nav-shadow">
                     <%--<li>
