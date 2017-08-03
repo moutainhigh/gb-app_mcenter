@@ -74,12 +74,17 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group clearfix m-b-none">
-                <soul:button target="query" opType="function" text="" cssClass="btn btn-filter pull-right">
+                <soul:button target="query" opType="function" text="" cssClass="btn btn-filter pull-right btn-search-css">
                     <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                 </soul:button>
             </div>
         </div>
       </div>
+        <div class="p-sm">
+            <b>投注总金额：</b><span class="co-red3" id="betAmount">0</span> 元
+            <b class="m-l">派彩总金额：</b><span class="co-red3" id="payoutAmount">0</span>元
+            <b class="m-l">赢利总金额：</b><span class="co-red3" id="profitLoss">0</span>元
+        </div>
       <div class="search-list-container">
         <%@ include file="IndexPartial.jsp" %>
       </div>
