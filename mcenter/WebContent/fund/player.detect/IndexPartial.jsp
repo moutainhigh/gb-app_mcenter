@@ -133,13 +133,13 @@
                         ${views.fund['playerDetect.view.totalDeposit']}：
                     </th>
                     <td style="width: 150px">
-                        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=deposit&search.hasReturn=true&search.usernames=${command1.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.ONLINE_BANK.getCode()%>,<%=TransactionWayEnum.WECHATPAY_FAST.getCode()%>,<%=TransactionWayEnum.ALIPAY_FAST.getCode()%>,<%=TransactionWayEnum.ATM_COUNTER.getCode()%>,<%=TransactionWayEnum.OTHER_FAST.getCode()%>,<%=TransactionWayEnum.ONLINE_DEPOSIT.getCode()%>,<%=TransactionWayEnum.WECHATPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ALIPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ATM_MONEY.getCode()%>,<%=TransactionWayEnum.ATM_RECHARGE.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>&search.orderType=manualSave" nav-target="mainFrame">
+                        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=deposit&search.hasReturn=true&search.usernames=${command1.result.username}&search.userTypes=username" nav-target="mainFrame">
                             ${empty playerMoneyData.depositcounttime?'0':playerMoneyData.depositcounttime}
                         </a>
                     </td>
                     <th class="bg-tbcolor" style="width: 150px;text-align: right">${views.fund['playerDetect.view.totalDepositAmount']}：</th>
                     <td style="width: 150px">
-                        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=deposit&search.hasReturn=true&search.usernames=${command1.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.ONLINE_BANK.getCode()%>,<%=TransactionWayEnum.WECHATPAY_FAST.getCode()%>,<%=TransactionWayEnum.ALIPAY_FAST.getCode()%>,<%=TransactionWayEnum.ATM_COUNTER.getCode()%>,<%=TransactionWayEnum.OTHER_FAST.getCode()%>,<%=TransactionWayEnum.ONLINE_DEPOSIT.getCode()%>,<%=TransactionWayEnum.WECHATPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ALIPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ATM_MONEY.getCode()%>,<%=TransactionWayEnum.ATM_RECHARGE.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>&search.orderType=manualSave" nav-target="mainFrame">
+                        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=deposit&search.hasReturn=true&search.usernames=${command1.result.username}&search.userTypes=username" nav-target="mainFrame">
                             ${empty playerMoneyData.deposittotalmoney?'0':playerMoneyData.deposittotalmoney}
                         </a>
                     </td>

@@ -80,6 +80,9 @@
                                                 <td class="al-left" style="padding-left: 15px;">
                                                     <c:set var="depositType" value="<%=TransactionTypeEnum.DEPOSIT.getCode()%>"/>
                                                     <c:set var="withdrawType" value="<%=TransactionTypeEnum.WITHDRAWALS.getCode()%>"/>
+                                                    <c:set var="favorable" value="<%=TransactionTypeEnum.FAVORABLE.getCode()%>"/>
+                                                    <c:set var="recommend" value="<%=TransactionTypeEnum.RECOMMEND.getCode()%>"/>
+                                                    <c:set var="backwater" value="<%=TransactionTypeEnum.BACKWATER.getCode()%>"/>
                                                     <label class="fwn m-r-sm">
                                                         <input type="checkbox" class="i-checks tranType deposit checkOnline" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="online_deposit">
                                                         <span class="m-l-xs">${views.report_auto['线上支付']}</span>
@@ -127,7 +130,7 @@
                                                         <span class="m-l-xs">${views.report_auto['点卡支付']}</span>
                                                     </label>--%>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType withdraw" data-type="1" transaction-type="${depositType}"  name="search.transactionWays" value="player_withdraw">
+                                                        <input type="checkbox" class="i-checks tranType withdraw" data-type="1" transaction-type="${withdrawType}"  name="search.transactionWays" value="player_withdraw">
                                                         <span class="m-r-xs">${views.report_auto['玩家取款']}</span>
                                                     </label>
                                                 </td>
@@ -151,19 +154,19 @@
                                                             <span class="m-l-xs">${views.report_auto['人工存取']}</span>
                                                         </label>
                                                         <label class="fwn m-r-sm">
-                                                            <input type="checkbox" class="i-checks tranType" data-type="2" transaction-type="${depositType}" name="search.manualSaves" value="manual_favorable">
+                                                            <input type="checkbox" class="i-checks tranType" data-type="2" transaction-type="${favorable}" name="search.manualSaves" value="manual_favorable">
                                                             <span class="m-l-xs">${views.report_auto['优惠活动']}</span>
                                                         </label>
                                                         <label class="fwn m-r-sm">
-                                                            <input type="checkbox" class="i-checks tranType" data-type="2" transaction-type="${depositType}" name="search.manualSaves" value="manual_rakeback">
+                                                            <input type="checkbox" class="i-checks tranType" data-type="2" transaction-type="${favorable}" name="search.manualSaves" value="manual_rakeback">
                                                             <span class="m-l-xs">${views.report_auto['返水']}</span>
                                                         </label>
                                                         <label class="fwn m-r-sm">
-                                                            <input type="checkbox" class="i-checks tranType deposit" transaction-type="${depositType}" data-type="2" name="search.manualSaves" value="manual_payout">
+                                                            <input type="checkbox" class="i-checks tranType deposit" transaction-type="${depositType},${favorable}" data-type="2" name="search.manualSaves" value="manual_payout">
                                                             <span class="m-l-xs">${views.report_auto['派彩']}</span>
                                                         </label>
                                                         <label class="fwn m-r-sm">
-                                                            <input type="checkbox" class="i-checks tranType deposit" transaction-type="${depositType}" data-type="2" name="search.manualSaves" value="manual_other">
+                                                            <input type="checkbox" class="i-checks tranType deposit" transaction-type="${depositType},${favorable}" data-type="2" name="search.manualSaves" value="manual_other">
                                                             <span class="m-l-xs">${views.report_auto['其他']}</span>
                                                         </label>
                                                     </td>
@@ -183,23 +186,23 @@
                                             <tr>
                                                 <td class="al-left" style="padding-left: 15px;">
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType withdraw" transaction-type="${depositType}" data-type="3" name="search.manualWithdraws" value="manual_deposit">
+                                                        <input type="checkbox" class="i-checks tranType withdraw" transaction-type="${withdrawType}" data-type="3" name="search.manualWithdraws" value="manual_deposit">
                                                         <span class="m-l-xs">${views.report_auto['人工存取']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType withdraw" transaction-type="${depositType}" data-type="3" name="search.manualWithdraws" value="manual_favorable">
+                                                        <input type="checkbox" class="i-checks tranType withdraw" transaction-type="${withdrawType}" data-type="3" name="search.manualWithdraws" value="manual_favorable">
                                                         <span class="m-l-xs">${views.report_auto['优惠活动']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType withdraw" transaction-type="${depositType}" data-type="3" name="search.manualWithdraws" value="manual_rakeback">
+                                                        <input type="checkbox" class="i-checks tranType withdraw" transaction-type="${withdrawType}" data-type="3" name="search.manualWithdraws" value="manual_rakeback">
                                                         <span class="m-l-xs">${views.report_auto['返水']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType withdraw" transaction-type="${depositType}" data-type="3" name="search.manualWithdraws" value="manual_payout">
+                                                        <input type="checkbox" class="i-checks tranType withdraw" transaction-type="${withdrawType}" data-type="3" name="search.manualWithdraws" value="manual_payout">
                                                         <span class="m-l-xs">${views.report_auto['派彩']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType withdraw" transaction-type="${depositType}" data-type="3" name="search.manualWithdraws" value="manual_other">
+                                                        <input type="checkbox" class="i-checks tranType withdraw" transaction-type="${withdrawType}" data-type="3" name="search.manualWithdraws" value="manual_other">
                                                         <span class="m-l-xs">${views.report_auto['其他']}</span>
                                                     </label>
                                                 </td>
@@ -219,31 +222,31 @@
                                             <tr>
                                                 <td class="al-left" style="padding-left: 15px;">
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType" transaction-type="${depositType}" data-type="4" name="search.transactionWays" value="first_deposit">
+                                                        <input type="checkbox" class="i-checks tranType" transaction-type="${favorable}" data-type="4" name="search.transactionWays" value="first_deposit">
                                                         <span class="m-l-xs">${views.report_auto['首存送']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType" transaction-type="${depositType}" data-type="4" name="search.transactionWays" value="deposit_send">
+                                                        <input type="checkbox" class="i-checks tranType" transaction-type="${favorable}" data-type="4" name="search.transactionWays" value="deposit_send">
                                                         <span class="m-l-xs">${views.report_auto['存就送']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${depositType}" name="search.transactionWays" value="regist_send">
+                                                        <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${favorable}" name="search.transactionWays" value="regist_send">
                                                         <span class="m-l-xs">${views.report_auto['注册送']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${depositType}" name="search.transactionWays" value="relief_fund">
+                                                        <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${favorable}" name="search.transactionWays" value="relief_fund">
                                                         <span class="m-l-xs">${views.report_auto['救济金']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${depositType}" name="search.transactionWays" value="profit_loss">
+                                                        <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${favorable}" name="search.transactionWays" value="profit_loss">
                                                         <span class="m-l-xs">${views.report_auto['盈亏送']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${depositType}" name="search.transactionWays" value="effective_transaction">
+                                                        <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${favorable}" name="search.transactionWays" value="effective_transaction">
                                                         <span class="m-l-xs">${views.report_auto['有效投注额']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${depositType}" name="search.transactionWays" value="money">
+                                                        <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${favorable}" name="search.transactionWays" value="money">
                                                         <span class="m-l-xs">${views.report_auto['红包']}</span>
                                                     </label>
                                                 </td>
@@ -261,11 +264,11 @@
                                             <tr>
                                                 <td class="al-left" style="padding-left: 15px;">
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType" data-type="5" transaction-type="${depositType}" name="search.transactionWays" value="single_reward">
+                                                        <input type="checkbox" class="i-checks tranType" data-type="5" transaction-type="${recommend}" name="search.transactionWays" value="single_reward">
                                                         <span class="m-r-xs">${views.report_auto['单次奖励']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType" data-type="5" transaction-type="${depositType}" name="search.transactionWays" value="bonus_awards">
+                                                        <input type="checkbox" class="i-checks tranType" data-type="5" transaction-type="${recommend}" name="search.transactionWays" value="bonus_awards">
                                                         <span class="m-l-xs">${views.report_auto['推荐红利']}</span>
                                                     </label>
                                                 </td>
@@ -275,13 +278,13 @@
                                             <tr class="title-search">
                                                 <td class=" al-left">
                                                     <label>
-                                                        <input type="checkbox" class="i-checks tranType backWater" transaction-type="${depositType}" name="search.transactionWays" value="back_water">
+                                                        <input type="checkbox" class="i-checks tranType backWater" transaction-type="${backwater}" name="search.transactionWays" value="back_water">
                                                         <span class="search-game-title m-l-xs">
                                                             <b>${views.report_auto['返水结算']}</b>
                                                         </span>
                                                     </label>
                                                     <label>
-                                                        <input type="checkbox" class="i-checks tranType backMoney" transaction-type="${depositType}" name="search.transactionWays" value="refund_fee">
+                                                        <input type="checkbox" class="i-checks tranType backMoney" transaction-type="${favorable}" name="search.transactionWays" value="refund_fee">
                                                         <span class="search-game-title m-l-xs">
                                                             <b>${views.report_auto['返手续费']}</b>
                                                         </span>
