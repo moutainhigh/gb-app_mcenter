@@ -129,8 +129,8 @@
                     <dd class="infos-none t-left">
                         <div>${views.common['当前时区']}：<%= SessionManager.getTimeZone().getID() %></div>
                         <div>${views.common['当前时间']}：<div id="index-clock" class="clock-show"></div></div>
-                        <div>${views.common['当前在线人数']}： <i class="co-orange" id="onlinePlayerNum">0</i> 人</div>
-                        <div>${views.common['当前活跃人数']}： <i class="co-orange" id="activePlayerNum">0</i> 人</div>
+                        <div>${views.common['当前在线人数']}： <i class="co-orange" id="onlinePlayerNum">0</i>${views.common['人']}</div>
+                        <div>${views.common['当前活跃人数']}： <i class="co-orange" id="activePlayerNum">0</i>${views.common['人']}</div>
 
                     </dd>
                 </dl>
