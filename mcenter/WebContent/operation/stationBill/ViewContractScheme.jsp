@@ -31,7 +31,7 @@
 							<span class="m-l-xs">${soulFn:formatCurrency(command.result.maintenanceCharges)} <span tabindex="0" class=" help-popover" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" data-content="${views.operation_auto['线路费用']}"><i class="fa fa-question-circle"></i></span></span>
 						</dd>
 						<%--<dd class="pull-left p-xs text-oflow-m60">--%>
-							<%--<b>使用运营商:</b>--%>
+							<%--<b>${views.operation_auto['使用运营商']}:</b>--%>
 							<%--<span class="m-l-xs">${command.result.centerChooseNum}个</span>--%>
 						<%--</dd>--%>
 						<dd class="pull-left p-xs text-oflow-m60">

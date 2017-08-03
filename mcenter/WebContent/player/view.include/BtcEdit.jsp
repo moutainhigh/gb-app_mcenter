@@ -16,7 +16,7 @@
     <input type="hidden" name="result.userId" value="${command.search.userId}"/>
     <div class="modal-body">
         <div class="form-group over clearfix">
-            <label class="col-xs-3 al-right">比特币地址：</label>
+            <label class="col-xs-3 al-right">${views.player_auto['比特币地址']}：</label>
             <div class="col-xs-9 p-x">
                 <input type="text" name="result.bankcardNumber" value="${command.result.bankcardNumber}" class="form-control"/>
             </div>

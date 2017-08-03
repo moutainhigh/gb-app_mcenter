@@ -490,8 +490,8 @@
                             <c:if test="${command.result.playerStatus ne '2'}">
                                 <br/>
                                 <div class="content">
-                                       尚未设置比特币地址
-                                    <soul:button target="${root}/player/view/btcEdit.html?search.userId=${command.result.id}" callback="saveOkQueryView" text="新增比特币地址" opType="dialog" cssClass="btn btn-link co-blue add-bank-card-btn"/>
+                                       ${views.player_auto['尚未设置比特币地址']}
+                                    <soul:button target="${root}/player/view/btcEdit.html?search.userId=${command.result.id}" callback="saveOkQueryView" text="${views.player_auto['新增比特币地址']}" opType="dialog" cssClass="btn btn-link co-blue add-bank-card-btn"/>
                                 </div>
                             </c:if>
                         </c:if>
@@ -502,10 +502,10 @@
                                 ${dicts.common.bankname[btc.bankName]}
                                 &nbsp;
                                 ${btc.bankcardNumber}&nbsp;
-                                <soul:button target="showBankcardList" data="btn-list" text="查看比特币详细" opType="function" cssClass="btn show-bankcard-btn co-blue"></soul:button>
+                                <soul:button target="showBankcardList" data="btn-list" text="${views.player_auto['查看比特币详细']}" opType="function" cssClass="btn show-bankcard-btn co-blue"></soul:button>
                                 <c:if test="${command.result.playerStatus ne '2'}">
                                     <soul:button target="${root}/player/view/btcEdit.html?search.userId=${command.result.id}" userId="${command.result.id}" callback="saveOkQueryView"
-                                                 text="修改比特币地址" opType="dialog" cssClass="btn btn-link co-blue edit-bank-card-btn hide"/>
+                                                 text="${views.player_auto['修改比特币地址']}" opType="dialog" cssClass="btn btn-link co-blue edit-bank-card-btn hide"/>
                                 </c:if>
                                 <soul:button target="hideBankcardList" data="btn-list" text="${views.player_auto['返回']}" opType="function" fromShowBtn="true" cssClass="btn btn-link co-blue hide hide-bankcard-btn"></soul:button>
                             </div>
@@ -515,7 +515,7 @@
                                         <thead>
                                         <tr>
                                             <th></th>
-                                            <th>钱包地址</th>
+                                            <th>${views.player_auto['钱包地址']}</th>
                                             <th>${views.player_auto['添加时间']}</th>
                                             <th>${views.player_auto['使用次数']}</th>
                                             <th>${views.player_auto['状态']}</th>

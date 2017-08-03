@@ -19,7 +19,7 @@
         <soul:button target="${root}/cttAnnouncement/addAnnouncement.html" title="${views.content['cttAnnouncement.create']}" tag="button" opType="dialog" text="${views.common['create']}" cssClass="btn btn-info btn-addon" callback="callBackQuery"><i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span></soul:button>
 
         <div class="function-menu-show hide">
-            <soul:button tag="button" target="${root}/cttAnnouncement/batchDeleteAnn.html" precall="" opType="ajax" text="${views.common['delete']}" post="getSelectIds" cssClass="btn btn-danger-hide _delete" callback="query" confirm="确认删除?"><i class="fa fa-trash-o"></i><span class="hd">${views.common['delete']}</span></soul:button>
+            <soul:button tag="button" target="${root}/cttAnnouncement/batchDeleteAnn.html" precall="" opType="ajax" text="${views.common['delete']}" post="getSelectIds" cssClass="btn btn-danger-hide _delete" callback="query" confirm="${views.content_auto['确认删除']}?"><i class="fa fa-trash-o"></i><span class="hd">${views.common['delete']}</span></soul:button>
         </div>
 
         <div class="search-wrapper btn-group pull-right m-r-n-xs">

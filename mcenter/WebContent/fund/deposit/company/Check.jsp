@@ -84,13 +84,13 @@
                                     <c:if test="${r.rechargeType=='wechatpay_fast'||r.rechargeType=='alipay_fast'||r.rechargeType=='other_fast'}">
                                         <tr>
                                             <c:if test="${r.rechargeType=='wechatpay_fast'}">
-                                                <c:set var="data" value="微信账号："/>
+                                                <c:set var="data" value="${views.fund_auto['微信账号']}："/>
                                             </c:if>
                                             <c:if test="${r.rechargeType=='alipay_fast'}">
-                                                <c:set var="data" value="支付宝账号："/>
+                                                <c:set var="data" value="${views.fund_auto['支付宝账号']}："/>
                                             </c:if>
                                             <c:if test="${r.rechargeType=='other_fast'}">
-                                                <c:set var="data" value="其他电子账号："/>
+                                                <c:set var="data" value="${views.fund_auto['其他电子账号']}："/>
                                             </c:if>
                                             <th scope="row" class="text-right active">${data}</th>
                                             <td>
