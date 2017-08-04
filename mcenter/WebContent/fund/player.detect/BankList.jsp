@@ -45,13 +45,13 @@
     <br/>
 </c:if>
 <c:if test="${fn:length(btnBanks)>0}">
-    <div class="detect-title">比特币地址记录</div>
+    <div class="detect-title">${views.fund_auto['比特币地址记录']}</div>
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-desc-list">
             <thead>
             <tr>
                 <th></th>
-                <th>比特币地址</th>
+                <th>${views.fund_auto['比特币地址']}</th>
                 <th>${views.column["UserBankcard.createTime"]}</th>
                 <th>${views.column["UserBankcard.useCount"]}</th>
                 <th>${views.common['status']}</th>

@@ -187,7 +187,7 @@
                                         <soul:button target="deleteDocument" text="${views.common['delete']}" opType="function" documentId="${sub.id}" status="${sub.status}" checkStatus="${sub.checkStatus}" isParent="${empty sub.parentId?'true':'false'}"></soul:button>
                                     </c:if>
                                 <%--<soul:button target="${root}/vCttDocument/deleteCttDocument.html?search.id=${sub.id}"
-                                             confirm="确认删除吗？" text="${views.common['delete']}" opType="ajax" callback="query" >${views.common['delete']}</soul:button>--%>
+                                             confirm="${views.content_auto['确认删除吗']}？" text="${views.common['delete']}" opType="ajax" callback="query" >${views.common['delete']}</soul:button>--%>
                             </td>
                         </tr>
                     </c:forEach>

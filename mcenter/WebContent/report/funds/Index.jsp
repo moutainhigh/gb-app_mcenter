@@ -113,7 +113,7 @@
                                                     </label>
                                                     <label class="fwn m-r-sm">
                                                         <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="alipay_fast">
-                                                        <span class="m-l-xs">比特币支付</span>
+                                                        <span class="m-l-xs">${views.report_auto['比特币支付']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
                                                         <input type="checkbox" id="atm_money" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="atm_money">

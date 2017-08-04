@@ -228,9 +228,9 @@
                                 </soul:button>
                             </c:if>
                             <c:if test="${command.result.checkStatus=='exchange_bit'&&command.result.remittanceWay eq '2'}">
-                                <soul:button permission="fund:playerwithdraw_automaticPay" callback="refreshBack" confirm="确认自动打款?" target="${root}/fund/withdraw/automaticPay.html?search.id=${command.result.id}" text="自动打款" opType="ajax"
+                                <soul:button permission="fund:playerwithdraw_automaticPay" callback="refreshBack" confirm="${views.fund_auto['确认自动打款']}?" target="${root}/fund/withdraw/automaticPay.html?search.id=${command.result.id}" text="${views.fund_auto['自动打款']}" opType="ajax"
                                              cssClass="btn p-x-sm m-l-sm btn-success-hide" tag="button">
-                                    <i class="fa fa-check"></i>自动打款
+                                    <i class="fa fa-check"></i>${views.fund_auto['自动打款']}
                                 </soul:button>
                             </c:if>
                         </c:otherwise>
