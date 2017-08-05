@@ -23,7 +23,7 @@
                         </a>
                     </shiro:hasPermission>
                     <a nav-target="mainFrame" href="/vUserTopAgentManage/list.html" class="btn btn-primary-hide" ><i class="fa fa-refresh"></i><span class="hd">${views.common['refresh']}</span></a>
-                    <soul:button tag="button" cssClass="btn btn-warning-hide" text="${views.common['filter']}" target="${root}/vUserTopAgentManage/filters.html" opType="dialog" callback="showFiltersCallBack">
+                    <soul:button tag="button" cssClass="btn btn-warning-hide" text="${views.common['filter']}" target="${root}/vUserTopAgentManage/filters.html" size="open-dialog-50" opType="dialog" callback="showFiltersCallBack">
                         <i class="fa fa-filter"></i>
                         <span class="hd">${views.common['filter']}</span>
                     </soul:button>
