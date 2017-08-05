@@ -72,8 +72,8 @@ public class RakebackSetForm implements IForm {
     }
 
     @NotNull(message = "setting.rakeback.edit.validValueNotNull")
-    @Range(max = 99999999,min = 0,message = "setting.rakeback.edit.validValueRange")
-    @Digits(integer = 8,fraction = 0,message = "setting.rakeback.edit.validValueFormt")
+    @Range(max = 9999999999999L,min = 0,message = "setting.rakeback.edit.validValueRange")
+    @Digits(integer = 14,fraction = 0,message = "setting.rakeback.edit.validValueFormt")
     @Series(message = "setting.rakeback.edit.validValueSeries",type = SeriesType.INC)
     public BigDecimal[] getRakebackGrads$$_validValue() {
         return rakebackGrads$$_validValue;
@@ -82,8 +82,8 @@ public class RakebackSetForm implements IForm {
         this.rakebackGrads$$_validValue = rakebackGrads$$_validValue;
     }
 
-    @Range(max = 99999999,min = 1,message = "setting.rakeback.edit.maxRakebackRange")
-    @Digits(integer = 8,fraction = 0,message = "setting.rakeback.edit.maxRakebackFormt")
+    @Range(max = 9999999999999L,min = 1,message = "setting.rakeback.edit.maxRakebackRange")
+    @Digits(integer = 14,fraction = 0,message = "setting.rakeback.edit.maxRakebackFormt")
     public BigDecimal[] getRakebackGrads$$_maxRakeback() {
         return rakebackGrads$$_maxRakeback;
     }

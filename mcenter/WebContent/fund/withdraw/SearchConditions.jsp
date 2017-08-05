@@ -167,6 +167,54 @@
                     <input type="text" class="form-control list-search-input-text searchKey" name="${searchkey}" value="${searchVal}" placeholder="${views.fund_auto['收款人姓名']}">
                 </div>
             </div>
+
+
+            <%--层级--%>
+            <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                <div class="input-group">
+                    <span class="input-group-addon bg-gray">${views.player_auto['层级']}</span>
+                    <span class="bdn right-btn-down">
+                        <div class="btn-group table-desc-right-t-dropdown" initprompt="10条"
+                             callback="query">
+                            <button type="button" class="btn btn btn-default right-radius rank-btn">
+                                <span class="rankText" prompt="prompt">${views.player_auto['请选择']}</span>
+                                <span class="caret-a pull-right"></span>
+                            </button>
+                            <c:forEach items="${command.search.rankIds}" var="p">
+                                <input type="hidden" class="playerRanks" data-value="${p}"/>
+                            </c:forEach>
+                            <div class="dropdown-menu playerRank">
+                                <div class="search-top-menu"
+                                     style="margin-top: 10px;margin-left: 10px;">
+                                    <button type="button" data-type="all"
+                                            class="btn btn-filter btn-xs">${views.operation['backwater.settlement.choose.allChoose']}</button>
+                                    <button type="button" data-type="clear"
+                                            class="btn btn-outline btn-filter btn-xs">${views.operation['backwater.settlement.choose.clear']}</button>
+                                </div>
+                                <div class="m-t">
+                                    <table class="table table-bordered m-b-xxs">
+                                        <tr>
+                                            <th class="al-left">
+                                                <c:forEach items="${playerRanks}" var="pr"
+                                                           varStatus="i">
+                                                    <label class="m-r-sm">
+                                                        <input type="checkbox" name="search.rankIds"
+                                                               class="i-checks" value="${pr.id}">
+                                                        <span class="m-l-xs">${pr.rankName}</span>
+                                                    </label>
+                                                </c:forEach>
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </span>
+                </div>
+            </div>
+
+
         </div>
 
         <div class="col-sm-9 clearfix  search_2 m-b-xs">

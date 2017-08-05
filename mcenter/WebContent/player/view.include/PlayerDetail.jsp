@@ -419,7 +419,7 @@
 
                     <li class="detail-list-cow">
                         <span class="title">${views.player_auto['当前使用']}</span>
-                        <c:if test="${fn:length(banks)==0 && bitcoinParam.paramValue=='true'}">
+                        <c:if test="${fn:length(userbankcards)==0 && cashParam.paramValue=='true'}">
                             <c:if test="${command.result.playerStatus ne '2'}">
                             <br/>
                             <div class="content">

@@ -38,7 +38,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.mcenter.content.form.RegLimitForm;
 import so.wwb.gamebox.mcenter.player.form.RecommendedForm;
@@ -133,7 +132,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             return this.getVoMessage(vo);
         }
         vo.getResult().setParamValue(state);
-        ServiceTool.getSysParamService().update(vo);
+        vo.setProperties(SysParam.PROP_PARAM_VALUE);
+        ServiceTool.getSysParamService().updateOnly(vo);
         //查询是否已经发过站内信
         SiteI18nListVo siteI18nListVo = new SiteI18nListVo();
         siteI18nListVo._setDataSourceId(SessionManager.getSiteParentId());

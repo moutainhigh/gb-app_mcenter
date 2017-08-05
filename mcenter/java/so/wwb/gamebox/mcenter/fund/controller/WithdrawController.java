@@ -200,17 +200,14 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         String ipStr = vo.getSearch().getIpStr();
         vo.getSearch().setIpWithdraw(StringTool.isBlank(ipStr) ? null : IpTool.ipv4StringToLong(vo.getSearch().getIpStr()));
         if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
-            String moduleType = DataRightModuleType.PLAYERWITHDRAW.getCode();
-            SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
-            sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
-            sysUserDataRightVo.getSearch().setModuleType(moduleType);
-            List<SysUserDataRight> sysUserDataRights = ServiceTool.sysUserDataRightService().searchDataRightsByUserId(sysUserDataRightVo);
+            List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
+            buildPlayerRankData(model, sysUserDataRights);
             if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
                 vo.getSearch().setCheckStatus(CheckStatusEnum.WITHOUT_REVIEW.getCode());
                 vo.getSearch().setWithdrawSta(new String[]{WithdrawStatusEnum.PENDING_SUB.getCode(),
                         WithdrawStatusEnum.CANCELLATION_OF_ORDERS.getCode()});
                 vo.getSearch().setDataRightUserId(SessionManager.getUserId());
-                vo.getSearch().setModuleType(moduleType);
+                vo.getSearch().setModuleType(DataRightModuleType.PLAYERWITHDRAW.getCode());
 
                 if (StringTool.isNotEmpty(vo.getSearch().getUsername())) {
                     String username = vo.getSearch().getUsername().toLowerCase();
@@ -239,6 +236,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
         } else {
             vo = getTotalWithdraw(vo);
+            model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
         }
 
         // 公司入款声音参数
@@ -263,6 +261,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.fund_withdraw_player_check.getCode()));
         vo.setThisUserId(SessionManager.getAuditUserId());
         model.addAttribute("command", vo);
+
         //把转义符合去掉
         if (StringTool.isNotBlank(search.getUsername())) {
             search.setUsername(search.getUsername().replaceAll("\\\\", ""));
@@ -284,6 +283,29 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         }
         vo.setSearch(search);
         return ServletTool.isAjaxSoulRequest(request) ? WITHDRAW_INDEX_PARIAL_URl : WITHDRAW_INDEX_URL;
+    }
+
+    /**
+     * 子账号查询的层级权限
+     * @param model
+     * @param sysUserDataRights
+     */
+    private void buildPlayerRankData(Model model, List<SysUserDataRight> sysUserDataRights) {
+        List<Integer> rankIds = CollectionTool.extractToList(sysUserDataRights,SysUserDataRight.PROP_ENTITY_ID);
+        PlayerRankVo rankVo = new PlayerRankVo();
+        rankVo.getSearch().setIds(rankIds);
+        model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(rankVo));
+    }
+
+    /**
+     * 子账号的数据权限
+     * @return
+     */
+    private List<SysUserDataRight> querySysUserDataRights() {
+        SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
+        sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
+        sysUserDataRightVo.getSearch().setModuleType(DataRightModuleType.PLAYERWITHDRAW.getCode());
+        return ServiceTool.sysUserDataRightService().searchDataRightsByUserId(sysUserDataRightVo);
     }
 
 
@@ -528,10 +550,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     private boolean isDataRight(Integer rankId) {
         boolean flag = false;
-        SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
-        sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
-        sysUserDataRightVo.getSearch().setModuleType(DataRightModuleType.PLAYERWITHDRAW.getCode());
-        List<SysUserDataRight> sysUserDataRights = ServiceTool.sysUserDataRightService().searchDataRightsByUserId(sysUserDataRightVo);
+        List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
         if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
             for (SysUserDataRight sysUserDataRight : sysUserDataRights) {
                 if (sysUserDataRight.getEntityId().equals(rankId)) {
