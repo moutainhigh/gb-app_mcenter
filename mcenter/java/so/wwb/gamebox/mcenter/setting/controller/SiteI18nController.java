@@ -48,7 +48,7 @@ public class SiteI18nController extends BaseCrudController<ISiteI18nService, Sit
         Map<String,Object> map = new HashMap<>(2,1f);
         if (result.hasErrors()) {
             map.put("state",false);
-            map.put("msg","保存失败");
+            map.put("msg",LocaleTool.tranMessage("setting_auto","保存失败"));
             return map;
         }
         //需要保存的code类型
