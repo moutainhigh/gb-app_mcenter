@@ -34,7 +34,7 @@
                 </ul>
                 <div class="clearfix filter-wraper border-b-1">
 
-                    <soul:button permission="content:domain:add" target="${root}/content/sysDomain/create.html" title="${views.content['sysDoamin.createTitle']}" callback="query" cssClass="btn btn-info btn-addon" tag="button" text="${views.common['create']}" opType="dialog">
+                    <soul:button permission="content:domain:add" target="${root}/content/sysDomain/create.html" title="${views.content['sysDoamin.createTitle']}" callback="query" cssClass="btn btn-info btn-addon" tag="button" text="${views.common['create']}" size="open-dialog-900-jp" opType="dialog">
                         <i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span>
                     </soul:button>
 
