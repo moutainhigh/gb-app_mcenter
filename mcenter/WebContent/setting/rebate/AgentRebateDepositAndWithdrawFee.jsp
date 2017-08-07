@@ -21,7 +21,7 @@
     <input type="hidden" name="sysParamLimit[1].id" value="${withdrawLimitMax.id}">
     <div id="validateRule" style="display: none">${validateRule}</div>
     <div class="modal-body">
-        <div class="m-b">${views.setting_auto['设置存取款手续费']}</div>
+        <div class="m-b"><b>${views.setting_auto['设置存取款手续费']}</b></div>
         <div class="m-t-xs">
             <div class="input-group content-width-limit-400">
                 <span class="input-group-addon abroder-no p-x"><b>${views.setting_auto['存款']}:</b></span>
@@ -32,7 +32,7 @@
                 <span class="input-group-addon">%</span>
             </div>
         </div>
-        <div class="m-b" style="margin-top: 20px;">${views.setting_auto['设置取款上下限']}</div>
+        <div class="m-b" style="margin-top: 20px;"><b>${views.setting_auto['设置取款上下限']}</b></div>
         <div class="m-t-xs">
             <div class="input-group content-width-limit-400">
                 <span class="input-group-addon abroder-no p-x"><b>${views.setting_auto['最小值']}:</b></span>
@@ -41,14 +41,14 @@
                 <input type="number" class="form-control" name="sysParamLimit[1].paramValue" value="${empty withdrawLimitMax.paramValue ? withdrawLimitMax.defaultValue : withdrawLimitMax.paramValue}">
             </div>
         </div>
-        <div class="m-b" style="margin-top: 20px;">${views.operation_auto['设置返佣分摊比例']}</div>
+        <div class="m-b abroder-no p-x" style="margin-top: 20px;"><b>${views.operation_auto['设置返佣分摊比例']}</b></div>
         <div class="m-t-xs">
             <table class="" width="100%">
                 <thead>
                     <tr>
                         <td width="15%"></td>
-                        <td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">代理分摊</span></td>
-                        <td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">总代分摊</span></td>
+                        <td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">${views.setting['apportion.page.item.agent.percent']}</span></td>
+                        <td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">${views.setting['apportion.page.item.topagent.percent']}</span></td>
                         <td></td>
                     </tr>
                 </thead>
