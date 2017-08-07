@@ -30,7 +30,7 @@ public interface FormValidRegExps extends RegExpConstants {
     String CNANDEN_NUMBER = "^[0-9a-zA-Z\u4e00-\u9fa5]+$";
 
     //中文、字符或英文大小写
-    String CNANDEN_CHAR = "^[!@#$^&*~%\\u4e00-\\u9fa5a-zA-Z]+$";
+    String CNANDEN_CHAR = "^[!@#$^&*~%\\u4E00-\\u9FA5\\u0800-\\u4e00\\\\u9fa5a-zA-Z]+$";
 
     //验证金额
     String MONEY = "^(?!0+(?:\\.0+)?$)(?:[1-9]\\d*|0)(?:\\.\\d{1,2})?$";
