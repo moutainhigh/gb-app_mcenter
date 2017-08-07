@@ -175,12 +175,12 @@
                                 <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                                     <div class="input-group time-select-a">
                                         <span class="input-group-addon bg-gray">${views.player_auto['存款总额']}</span>
-                                        <span class="input-group-addon time-select-ico">${views.player_auto['起']}</span>
-                                        <input type="type" class="form-control" name="" id="rechargeTotalBegin"
+                                        <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
+                                        <input type="type" class="form-control border-left-none" name="" id="rechargeTotalBegin"
                                                value="${command.search.rechargeTotalBegin}">
                                         <span class="input-group-addon time-select-t">~</span>
-                                        <span class="input-group-addon time-select-ico">${views.player_auto['止']}</span>
-                                        <input type="type" class="form-control" name="" id="rechargeTotalEnd"
+                                        <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
+                                        <input type="type" class="form-control border-left-none" name="" id="rechargeTotalEnd"
                                                value="${command.search.rechargeTotalEnd}">
                                     </div>
                                 </div>
@@ -217,12 +217,12 @@
                                 <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                                     <div class="input-group time-select-a">
                                         <span class="input-group-addon bg-gray">${views.player_auto['取款总额']}</span>
-                                        <span class="input-group-addon time-select-ico">${views.player_auto['起']}</span>
-                                        <input type="type" class="form-control" name="" id="txTotalBegin"
+                                        <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
+                                        <input type="type" class="form-control border-left-none" name="" id="txTotalBegin"
                                                value="${command.search.txTotalBegin}">
                                         <span class="input-group-addon time-select-t">~</span>
-                                        <span class="input-group-addon time-select-ico">${views.player_auto['止']}</span>
-                                        <input type="type" class="form-control" name="" id="txTotalEnd"
+                                        <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
+                                        <input type="type" class="form-control border-left-none" name="" id="txTotalEnd"
                                                value="${command.search.txTotalEnd}">
                                     </div>
                                 </div>
@@ -305,24 +305,24 @@
                                         </span>
                                         <input value="${command.search.fundTypes}" type="hidden" id="fundType">
                                         <c:if test="${not empty command.search.walletBalanceBegin||(empty command.search.walletBalanceBegin&&empty command.search.totalAssetsBegin)}">
-                                            <span class="input-group-addon time-select-ico">${views.player_auto['起']}</span>
-                                            <input type="type" class="form-control" name="search.walletBalanceBegin"
+                                            <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
+                                            <input type="type" class="form-control border-left-none" name="search.walletBalanceBegin"
                                                    value="${command.search.walletBalanceBegin}"
                                                    id="operator3">
                                             <span class="input-group-addon time-select-t">~</span>
-                                            <span class="input-group-addon time-select-ico">${views.player_auto['止']}</span>
-                                            <input type="type" class="form-control" name="search.walletBalanceEnd"
+                                            <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
+                                            <input type="type" class="form-control border-left-none" name="search.walletBalanceEnd"
                                                    value="${command.search.walletBalanceEnd}"
                                                    id="operator4">
                                         </c:if>
                                         <c:if test="${not empty command.search.totalAssetsBegin}">
-                                            <span class="input-group-addon time-select-ico">${views.player_auto['起']}</span>
-                                            <input type="type" class="form-control" name="search.totalAssetsBegin"
+                                            <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
+                                            <input type="type" class="form-control border-left-none" name="search.totalAssetsBegin"
                                                    value="${command.search.totalAssetsBegin}"
                                                    id="operator3">
                                             <span class="input-group-addon time-select-t">~</span>
-                                            <span class="input-group-addon time-select-ico">${views.player_auto['止']}</span>
-                                            <input type="type" class="form-control" name="search.totalAssetsEnd"
+                                            <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
+                                            <input type="type" class="form-control border-left-none" name="search.totalAssetsEnd"
                                                    value="${command.search.totalAssetsEnd}"
                                                    id="operator4">
                                         </c:if>
@@ -376,24 +376,24 @@
                                 <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                                     <div class="input-group time-select-a">
                                         <span class="input-group-addon bg-gray">${views.player_auto['存款次数']}</span>
-                                        <span class="input-group-addon time-select-ico">${views.player_auto['起']}</span>
-                                        <input type="type" class="form-control" name="" id="rechargeCountBegin"
+                                        <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
+                                        <input type="type" class="form-control border-left-none" name="" id="rechargeCountBegin"
                                                value="${command.search.rechargeCountBegin}">
                                         <span class="input-group-addon time-select-t">~</span>
-                                        <span class="input-group-addon time-select-ico">${views.player_auto['止']}</span>
-                                        <input type="type" class="form-control" name="" id="rechargeCountEnd"
+                                        <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
+                                        <input type="type" class="form-control border-left-none" name="" id="rechargeCountEnd"
                                                value="${command.search.rechargeCountEnd}">
                                     </div>
                                 </div>
                                 <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                                     <div class="input-group time-select-a">
                                         <span class="input-group-addon bg-gray">${views.player_auto['取款次数']}</span>
-                                        <span class="input-group-addon time-select-ico">${views.player_auto['起']}</span>
-                                        <input type="type" class="form-control" name="" id="txCountBegin"
+                                        <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
+                                        <input type="type" class="form-control border-left-none" name="" id="txCountBegin"
                                                value="${command.search.txCountBegin}">
                                         <span class="input-group-addon time-select-t">~</span>
-                                        <span class="input-group-addon time-select-ico">${views.player_auto['止']}</span>
-                                        <input type="type" class="form-control" name="" id="txCountEnd"
+                                        <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
+                                        <input type="type" class="form-control border-left-none" name="" id="txCountEnd"
                                                value="${command.search.txCountEnd}">
                                     </div>
                                 </div>
@@ -410,35 +410,35 @@
                                         <input value="${command.search.favorableTypes}" type="hidden"
                                                id="favorableType">
                                         <c:if test="${not empty command.search.rakebackBegin||(empty command.search.rakebackBegin&&empty command.search.favorableTotalBegin&&empty command.search.totalProfitLossBegin)}">
-                                            <span class="input-group-addon time-select-ico">${views.player_auto['起']}</span>
-                                            <input type="number" class="form-control" name="search.rakebackBegin"
+                                            <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
+                                            <input type="number" class="form-control border-left-none" name="search.rakebackBegin"
                                                    value="${command.search.rakebackBegin}"
                                                    id="operator7">
                                             <span class="input-group-addon time-select-t">~</span>
-                                            <span class="input-group-addon time-select-ico">${views.player_auto['止']}</span>
-                                            <input type="number" class="form-control" name="search.rakebackEnd"
+                                            <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
+                                            <input type="number" class="form-control border-left-none" name="search.rakebackEnd"
                                                    value="${command.search.rakebackEnd}"
                                                    id="operator8">
                                         </c:if>
                                         <c:if test="${not empty command.search.favorableTotalBegin}">
-                                            <span class="input-group-addon time-select-ico">${views.player_auto['起']}</span>
-                                            <input type="number" class="form-control" name="search.favorableTotalBegin"
+                                            <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
+                                            <input type="number" class="form-control border-left-none" name="search.favorableTotalBegin"
                                                    value="${command.search.favorableTotalBegin}"
                                                    id="operator7">
                                             <span class="input-group-addon time-select-t">~</span>
-                                            <span class="input-group-addon time-select-ico">${views.player_auto['止']}</span>
-                                            <input type="number" class="form-control" name="search.favorableTotalEnd"
+                                            <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
+                                            <input type="number" class="form-control border-left-none" name="search.favorableTotalEnd"
                                                    value="${command.search.favorableTotalEnd}"
                                                    id="operator8">
                                         </c:if>
                                         <c:if test="${not empty command.search.totalProfitLossBegin}">
-                                            <span class="input-group-addon time-select-ico">${views.player_auto['起']}</span>
-                                            <input type="number" class="form-control" name="search.totalProfitLossBegin"
+                                            <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
+                                            <input type="number" class="form-control border-left-none" name="search.totalProfitLossBegin"
                                                    value="${command.search.totalProfitLossBegin}"
                                                    id="operator7">
                                             <span class="input-group-addon time-select-t">~</span>
-                                            <span class="input-group-addon time-select-ico">${views.player_auto['止']}</span>
-                                            <input type="number" class="form-control" name="search.totalProfitLossEnd"
+                                            <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
+                                            <input type="number" class="form-control border-left-none" name="search.totalProfitLossEnd"
                                                    value="${command.search.totalProfitLossEnd}"
                                                    id="operator8">
                                         </c:if>

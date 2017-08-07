@@ -130,7 +130,8 @@ public class AnalyzePlayerController extends BaseCrudController<IAnalyzePlayerSe
             param.setParamValue(DateTool.formatDate(cdate,DateTool.FMT_HYPHEN_DAY_CLN_SECOND));
             SysParamVo sysParamVo = new SysParamVo();
             sysParamVo.setResult(param);
-            ServiceTool.getSysParamService().update(sysParamVo);
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            ServiceTool.getSysParamService().updateOnly(sysParamVo);
             ParamTool.refresh(SiteParamEnum.ANALYZE_PLAYER_STATIC_TIME_END);
 //        }
         return staticTime;

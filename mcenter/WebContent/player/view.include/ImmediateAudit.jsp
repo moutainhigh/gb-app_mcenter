@@ -52,7 +52,7 @@
                     </span>
                 </li>
                 <c:if test="${fn:length(listVo)>0 && user.status ne '2'}">
-                    <soul:button target="showEditField" text="${views.fund['withdraw.index.editAudit']}" opType="function"  cssClass="pull-right-examine edit-field-btn show-edit-field"/>
+                    <soul:button target="showEditField" text="${views.fund['withdraw.index.editAudit']}" opType="function"  style="right:80px" cssClass="pull-right-examine edit-field-btn show-edit-field btndist"/>
                     <soul:button target="hideEditField" text="${views.player_auto['取消修改']}" opType="function"  cssClass="pull-right-examine cancel-field-btn show-edit-field hide"/>
 
                     <soul:button cssClass="pull-right-examine clear-all hide-edit-field " opType="ajax" target="${root}/fund/withdraw/clearAudit.html"

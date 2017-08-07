@@ -195,9 +195,7 @@ public class SiteConfineIpController extends BaseCrudController<ISiteConfineIpSe
     public Map changeParamValue(SiteConfineIpListVo listVo){
         SysParamVo sysParamVo = new SysParamVo();
         sysParamVo.setResult(listVo.getSysParam());
-        String[] properties = new String[1];
-        properties[0] = SysParam.PROP_PARAM_VALUE;
-        sysParamVo.setProperties(properties);
+        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
         ServiceTool.getSysParamService().updateOnly(sysParamVo);
         ParamTool.refresh(SiteParamEnum.SETTING_VISIT);
         return this.getVoMessage(listVo);
