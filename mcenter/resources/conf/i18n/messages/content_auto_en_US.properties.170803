@@ -1,1 +1,1 @@
-bankCode不能为空=bankCode不能为空不能为空=不能为空不能跟主域名相同=不能跟主域名相同输入的域名=输入的域名[{0}]格式不正确
+bankCode不能为空=bankCode can not be empty 不能为空=can not be empty 不能跟主域名相同=不能跟主域名相同can not have same  name with domain 输入的域名=please enter domain name [{0}] format incorrect 

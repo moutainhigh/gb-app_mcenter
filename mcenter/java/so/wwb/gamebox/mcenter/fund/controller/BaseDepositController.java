@@ -59,6 +59,7 @@ import so.wwb.gamebox.model.master.operation.vo.ActivityPlayerApplyVo;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMessageListVo;
 import so.wwb.gamebox.model.master.player.po.PlayerRank;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankListVo;
+import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.web.cache.Cache;
 
 import java.util.*;
@@ -384,7 +385,17 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
                 FilterSelectConstant.contain, TabTypeEnum.CHECKBOX, rechargeWays);
     }
 
-
+    /**
+     * 子账号查询的层级权限
+     * @param model
+     * @param sysUserDataRights
+     */
+    private void buildPlayerRankData(Model model, List<SysUserDataRight> sysUserDataRights) {
+        List<Integer> rankIds = CollectionTool.extractToList(sysUserDataRights,SysUserDataRight.PROP_ENTITY_ID);
+        PlayerRankVo rankVo = new PlayerRankVo();
+        rankVo.getSearch().setIds(rankIds);
+        model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(rankVo));
+    }
     protected VPlayerDepositListVo getPlayerDeposit(VPlayerDepositListVo listVo, String moduleType,
                                                     VPlayerDepositSearchForm form, BindingResult result, Model model) {
 
@@ -394,6 +405,7 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
             sysUserDataRightVo.getSearch().setModuleType(moduleType);
             List<SysUserDataRight> sysUserDataRights = ServiceTool.sysUserDataRightService().searchDataRightsByUserId(sysUserDataRightVo);
             if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
+                buildPlayerRankData(model,sysUserDataRights);
                 listVo.getSearch().setDataRightUserId(SessionManager.getUserId());
                 listVo.getSearch().setModuleType(moduleType);
                 if (StringTool.isNotEmpty(listVo.getSearch().getUsername())) {
@@ -433,9 +445,11 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
                 listVo = ServiceTool.vPlayerDepositService().searchPlayerDeposit(listVo);
             } else {
                 listVo = getTotalDeposit(listVo, form, result, model);
+                buildPlayerRankData(model,sysUserDataRights);
             }
         } else {
             listVo = getTotalDeposit(listVo, form, result, model);
+            buildPlayerRankData(model,null);
         }
         //转义搜索条件中的_
         VPlayerDepositSo search = listVo.getSearch();

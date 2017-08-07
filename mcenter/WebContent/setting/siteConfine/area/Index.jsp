@@ -31,7 +31,7 @@
                                 class="fa fa-trash-o"></i><span
                                 class="hd">${views.setting['common.delete']}</span></soul:button>
                     </div>
-                    <div class="btn-group pull-right m-r-n-xs content-width-limit-400">
+                    <div class="btn-group pull-right m-r-n-xs content-width-limit-400 area_limit_width">
                         <div class="input-group">
 
                             <div class="col-xs-4">
