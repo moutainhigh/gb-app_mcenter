@@ -438,6 +438,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @RequestMapping("agentRebateDAWF")
     public String agentRebateDepositAndWithdrawFee(Model model) {
         model.addAttribute("validateRule", JsRuleCreator.create(RebateSetFeeForm.class));
+
         // 获取存取款手续费
         SysParam depositFee = ParamTool.getSysParam(SiteParamEnum.SETTLEMENT_DEPOSIT_FEE);
         SysParam withdrawFee = ParamTool.getSysParam(SiteParamEnum.SETTLEMENT_WITHDRAW_FEE);
@@ -457,6 +458,19 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         model.addAttribute("withdrawFee", withdrawFee);
         model.addAttribute("withdrawLimitMin", withdrawLimitMin);
         model.addAttribute("withdrawLimitMax", withdrawLimitMax);
+
+        //优惠活动分摊比例
+        SysParam preferentialParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+        //行政费用
+        SysParam topAdminParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_ADMINISTRATOR_PERCENT);
+        //返水优惠分摊比例
+        SysParam rakbackParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
+        //佣金分摊比例
+        SysParam topOtherParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_OTHER_PERCENT);
+        model.addAttribute("preferentialParam",preferentialParam);
+        model.addAttribute("topAdminParam",topAdminParam);
+        model.addAttribute("rakbackParam",rakbackParam);
+        model.addAttribute("topOtherParam",topOtherParam);
 
         return this.getViewBasePath() + "AgentRebateDepositAndWithdrawFee";
     }
@@ -505,6 +519,11 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
             ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_RAKEBACK_PERCENT);
             ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_OTHER_PERCENT);
             ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_ADMINISTRATOR_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_OTHER_PERCENT);
         } else {
             map.put("state", false);
             map.put("msg", LocaleTool.tranMessage("common","save.failed"));

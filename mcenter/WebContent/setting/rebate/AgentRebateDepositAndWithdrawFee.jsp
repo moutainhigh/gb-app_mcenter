@@ -13,6 +13,10 @@
     <input type="hidden" name="sysParam[3].id" value="${favorableParam.id}">
     <input type="hidden" name="sysParam[4].id" value="${adminParam.id}">
     <input type="hidden" name="sysParam[5].id" value="${otherParam.id}">
+    <input type="hidden" name="sysParam[6].id" value="${preferentialParam.id}">
+    <input type="hidden" name="sysParam[7].id" value="${topAdminParam.id}">
+    <input type="hidden" name="sysParam[8].id" value="${rakbackParam.id}">
+    <input type="hidden" name="sysParam[9].id" value="${topOtherParam.id}">
     <input type="hidden" name="sysParamLimit[0].id" value="${withdrawLimitMin.id}">
     <input type="hidden" name="sysParamLimit[1].id" value="${withdrawLimitMax.id}">
     <div id="validateRule" style="display: none">${validateRule}</div>
@@ -39,7 +43,45 @@
         </div>
         <div class="m-b" style="margin-top: 20px;">${views.operation_auto['设置返佣分摊比例']}</div>
         <div class="m-t-xs">
-            <div class="input-group content-width-limit-400" style="padding: 10px 0px">
+            <table class="" width="100%">
+                <thead>
+                    <tr>
+                        <td width="15%"></td>
+                        <td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">代理分摊</span></td>
+                        <td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">总代分摊</span></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['返水费用']}</b></span></td>
+                        <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" name="sysParam[2].paramValue" value="${empty rakebackParam.paramValue ? rakebackParam.defaultValue : rakebackParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td class="top_agent"><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" readonly name="sysParam[8].paramValue" value="${empty rakbackParam.paramValue ? rakbackParam.defaultValue : rakbackParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['优惠费用']}</b></span></td>
+                        <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" name="sysParam[3].paramValue" value="${empty favorableParam.paramValue ? favorableParam.defaultValue : favorableParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td class="top_agent"><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" readonly name="sysParam[6].paramValue" value="${empty preferentialParam.paramValue ? preferentialParam.defaultValue : preferentialParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['行政费用']}</b></span></td>
+                        <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" name="sysParam[4].paramValue" value="${empty adminParam.paramValue ? adminParam.defaultValue : adminParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td class="top_agent"><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" readonly name="sysParam[7].paramValue" value="${empty topAdminParam.paramValue ? topAdminParam.defaultValue : topAdminParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['其它费用']}</b></span></td>
+                        <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" name="sysParam[5].paramValue" value="${empty otherParam.paramValue ? otherParam.defaultValue : otherParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td class="top_agent"><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" readonly name="sysParam[9].paramValue" value="${empty topOtherParam.paramValue ? topOtherParam.defaultValue : topOtherParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <%--<div class="input-group content-width-limit-400" style="padding: 10px 0px">
                 <span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['返水费用']}:</b></span>
                 <input type="number" class="form-control" name="sysParam[2].paramValue" value="${empty rakebackParam.paramValue ? rakebackParam.defaultValue : rakebackParam.paramValue}">
                 <span class="input-group-addon">%</span>
@@ -54,7 +96,7 @@
                 <span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['其它费用']}:</b></span>
                 <input type="number" class="form-control" name="sysParam[5].paramValue" value="${empty otherParam.paramValue ? otherParam.defaultValue : otherParam.paramValue}">
                 <span class="input-group-addon">%</span>
-            </div>
+            </div>--%>
         </div>
     </div>
     <div class="modal-footer">
@@ -67,5 +109,5 @@
 </form:form>
 </body>
 <%@ include file="/include/include.js.jsp" %>
-<soul:import type="edit"/>
+<soul:import res="site/setting/rebate/EditParam"/>
 </html>

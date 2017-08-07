@@ -320,63 +320,6 @@ public class StationBillToMCenterController extends StationBillController<IStati
         }
     }
 
-    /**
-     * topagent.rakeback.percent
-     topagent.preferential.percent
-     topagent.poundage.percent
-     topagent.rebate.percent
-     * @return
-     */
-    @RequestMapping("/toSetParam")
-    public String toSetParam(Model model){
-        //优惠活动分摊比例
-        SysParam preferentialParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
-        //手续费分摊比例
-        SysParam poundageParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_POUNDAGE_PERCENT);
-        //返水优惠分摊比例
-        SysParam rakbackParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
-        //佣金分摊比例
-        SysParam rebateParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_REBATE_PERCENT);
-        model.addAttribute("preferentialParam",preferentialParam);
-        model.addAttribute("poundageParam",poundageParam);
-        model.addAttribute("rakbackParam",rakbackParam);
-        model.addAttribute("rebateParam",rebateParam);
-        model.addAttribute("validateRule",JsRuleCreator.create(TopagentParamForm.class));
-        return getViewBasePath() + "distributor/TopagentSettingParam";
-    }
-
-    @RequestMapping("/saveParam")
-    @ResponseBody
-    public Map saveParam(StationBillVo stationBillVo,@Valid @FormModel TopagentParamForm form, BindingResult result){
-        Map<String, Object> map = new HashMap<>(2);
-        if (result.hasErrors()) {
-            map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common","save.failed"));
-            return map;
-        }
-        if(CollectionTool.isEmpty(stationBillVo.getSysParam())){
-            map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common","save.failed"));
-            return map;
-        }
-        SysParamVo paramVo = new SysParamVo();
-        paramVo.setEntities(stationBillVo.getSysParam());
-        paramVo.setProperties(SysParam.PROP_PARAM_VALUE);
-        int res = ServiceTool.getSysParamService().batchUpdateOnly(paramVo);
-        if (res > 0) {
-            map.put("state", true);
-            map.put("msg", LocaleTool.tranMessage("common","save.success"));
-            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
-            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_POUNDAGE_PERCENT);
-            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
-            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_REBATE_PERCENT);
-        } else {
-            map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common","save.failed"));
-        }
-        return map;
-    }
-
     //endregion your codes 3
 
 }
