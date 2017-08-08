@@ -146,7 +146,7 @@
 											<td>
 												<span class="co-green">${soulFn:formatDateTz(r.returnTime,DateFormat.DAY_SECOND,timeZone)}</span>
 												<c:if test="${!empty r.bankOrder}">
-													<a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${r.bankOrder}" name="copy"><i class="fa fa-copy" title="${views.common['copy']}"></i></a>
+													<a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${soulFn:formatDateTz(r.returnTime,DateFormat.DAY_SECOND,timeZone)}" name="copy"><i class="fa fa-copy" title="${views.common['copy']}"></i></a>
 												</c:if>
 											</td>
 										</tr>
