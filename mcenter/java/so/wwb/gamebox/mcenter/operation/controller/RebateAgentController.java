@@ -107,10 +107,12 @@ public class RebateAgentController extends BaseCrudController<IRebateAgentServic
         model.addAttribute("periodMap",periodMap);
         List<Map<String, String>> ranks = queryAgentRank(listVo);
         model.addAttribute("agentRanks",ranks);
-        listVo.getQuery().addOrder(RebateAgent.PROP_SETTLEMENT_STATE,Direction.DESC);
+        listVo.getQuery().addOrder("order_num",Direction.ASC);
         listVo.getQuery().addOrder(RebateAgent.PROP_REBATE_TOTAL,Direction.DESC);
         listVo.getQuery().addOrder(RebateAgent.PROP_AGENT_NAME,Direction.ASC);
-        return super.doList(listVo, form, result, model);
+
+        listVo = getService().queryRebateAgent(listVo);
+        return listVo;
     }
 
     /**
@@ -229,9 +231,19 @@ public class RebateAgentController extends BaseCrudController<IRebateAgentServic
         rebateAgentVo = getService().get(rebateAgentVo);
         if(rebateAgentVo.getResult()==null){
             resMap.put("state",false);
+            String msg = LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), MessageI18nConst.OPERATION_REBATE_NORECORD);
+            resMap.put("msg",msg);
             return resMap;
         }
         if(!SettlementStateEnum.PENDING_LSSUING.getCode().equals(rebateAgentVo.getResult().getSettlementState())){
+            String msg = LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), MessageI18nConst.OPERATION_REBATE_ERRORSTATUS);
+            resMap.put("msg",msg);
+            resMap.put("state",false);
+            return resMap;
+        }
+        if(hasNextPeriod(rebateAgentVo)){
+            String msg = LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), MessageI18nConst.OPERATION_REBATE_HASNEXTBILL);
+            resMap.put("msg",msg);
             resMap.put("state",false);
             return resMap;
         }
@@ -242,6 +254,26 @@ public class RebateAgentController extends BaseCrudController<IRebateAgentServic
         resMap = getVoMessage(rebateAgentVo);
         return resMap;
     }
+
+    private boolean hasNextPeriod(RebateAgentVo rebateAgentVo){
+        RebateBillVo rebateBillVo = new RebateBillVo();
+        rebateBillVo.getSearch().setId(rebateAgentVo.getResult().getRebateBillId());
+        rebateBillVo = ServiceTool.rebateBillService().get(rebateBillVo);
+        if(rebateAgentVo.getResult()!=null){
+            String period = rebateBillVo.getResult().getPeriod();
+            Date date = DateTool.parseDate(period, "yyyy-MM");
+            Date nextMonth = DateTool.addMonths(date, 1);
+            String formatDate = DateTool.formatDate(nextMonth, "yyyy-MM");
+            rebateBillVo = new RebateBillVo();
+            rebateBillVo.getSearch().setPeriod(formatDate);
+            rebateBillVo = ServiceTool.rebateBillService().search(rebateBillVo);
+            if(rebateBillVo.getResult()!=null){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @RequestMapping("/clear")
     @ResponseBody
     public Map clear(Integer id){
