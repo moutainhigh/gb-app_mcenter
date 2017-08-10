@@ -332,7 +332,7 @@
             <div class="content clearfix" style="padding-top: 10px">
                 <div class="clearfix m-b">
                     <div class="ft-bold pull-left" style="width: 100px;text-align: right;">
-                        ${views.setting['发送邮件服务器地址(FMTP):']}
+                        ${views.setting['发送邮件服务器地址(FMTP)']}
                     </div>
                     <div class="col-xs-5"><input type="text" name="result.serverAddress"
                                                  value="${emailInterface.serverAddress}"
