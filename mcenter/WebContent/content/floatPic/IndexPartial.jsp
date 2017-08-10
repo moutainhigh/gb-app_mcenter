@@ -12,7 +12,7 @@
             <th>${views.column['CttFloatPic.title']}</th>
             <th>${views.column['CttFloatPic.preview']}</th>
             <th>
-                <select id="float_pic_language_select" data-placeholder="${views.column['CttFloatPic.allLanguage']}" name="search.language" class="btn-group chosen-select-no-single" callback="query">
+                <select id="float_pic_language_select" data-placeholder="${views.column['CttFloatPic.allLanguage']}" name="search.language" class="btn-group chosen-select-no-single btn-us" callback="query">
                     <option value="">${views.column['CttFloatPic.allLanguage']}</option>
                     <c:forEach items="${langs}" var="lang">
                         <option value="${lang.language}" ${(command.search.language == lang.language) ? 'selected' : ''}>${views.common[lang.language]}</option>
