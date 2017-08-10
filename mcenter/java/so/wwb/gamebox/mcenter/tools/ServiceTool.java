@@ -1758,14 +1758,6 @@ public class ServiceTool {
         return getService(so.wwb.gamebox.iservice.company.lottery.ISiteLotteryOddService.class);
     }
 
-    /**
-     * 返回买分记录远程服务实例
-     *
-     * @return 买分记录远程服务实例
-     */
-    public static so.wwb.gamebox.iservice.credit.ICreditRecordService creditRecordService() {
-        return getService(so.wwb.gamebox.iservice.credit.ICreditRecordService.class);
-    }
 //endregion your codes 1
 
 }
