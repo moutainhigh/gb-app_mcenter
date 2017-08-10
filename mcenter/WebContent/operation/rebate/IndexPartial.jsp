@@ -1,5 +1,5 @@
 <%@ page import="so.wwb.gamebox.model.master.operation.po.RebateBill" %>
-<%--@elvariable id="command" type="so.wwb.gamebox.model.master.operation.vo.RebateBillVo"--%>
+<%--@elvariable id="command" type="so.wwb.gamebox.model.master.operation.vo.RebateBillListVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <c:set value="<%=RebateBill.class%>" var="poType"></c:set>
@@ -105,11 +105,11 @@
                     </td>
                     <td>
                         <c:if test="${p.lssuingState ne 'next_pay'}">
-                            <a href="/operation/rebate/detail.html?id=${p.id}" nav-target="mainFrame">${views.common['detail']}</a>
+                            <a href="/rebateBill/detail.html?id=${p.id}" nav-target="mainFrame">${views.common['detail']}</a>
                             <c:if test="${(p.lssuingState eq 'pending_pay') or p.lssuingState eq 'part_pay'}">
-                                <shiro:hasPermission name="operate:rebate_settle">
+                                <shiro:hasPermission name="operate:rebatesettle">
                                     <span class="dividing-line m-r-xs m-l-xs">|</span>
-                                    <a href="/operation/rebate/clearing.html?id=${p.id}" nav-target="mainFrame">${views.common['clearing']}</a>
+                                    <a href="/rebateBill/clearing.html?id=${p.id}" nav-target="mainFrame">${views.common['clearing']}</a>
                                 </shiro:hasPermission>
                             </c:if>
                         </c:if>

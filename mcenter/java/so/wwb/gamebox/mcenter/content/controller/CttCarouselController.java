@@ -231,6 +231,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         objectVo.getResult().setCreateTime(new Date());
             objectVo.getResult().setId(objectVo.getSearch().getId());
         }
+        objectVo.getResult().setStatus(true);
         objectVo = getService().saveCarousel(objectVo);
         return objectVo;
     }

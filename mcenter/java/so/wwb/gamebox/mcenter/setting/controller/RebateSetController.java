@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.ListTool;
 import org.soul.commons.collections.MapTool;
@@ -32,6 +33,7 @@ import so.wwb.gamebox.mcenter.setting.form.RebateSetSearchForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.company.enums.GameStatusEnum;
 import so.wwb.gamebox.model.company.setting.po.Api;
 import so.wwb.gamebox.model.company.site.po.SiteApi;
@@ -45,6 +47,7 @@ import so.wwb.gamebox.model.master.setting.vo.RebateSetListVo;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetVo;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
+import so.wwb.gamebox.web.common.token.TokenHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,6 +83,8 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
 
     @Override
     protected RebateSetListVo doList(RebateSetListVo listVo, RebateSetSearchForm form, BindingResult result, Model model) {
+        listVo.getSearch().setSearchFrom(SubSysCodeEnum.MCENTER.getCode());
+        listVo.getSearch().setOwnerId(SessionManager.getMasterInfo().getId());
         listVo = searchFromTopAgent(listVo);
         return this.getService().searchCalRebateSet(listVo);
     }
@@ -339,7 +344,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
 
     @Override
     protected RebateSetVo doEdit(RebateSetVo objectVo, Model model) {
-        return setGame(super.doEdit(objectVo, model));
+        return setGame(getService().queryRebateById(objectVo));
     }
 
     @Override
@@ -347,19 +352,21 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         objectVo.getResult().setCreateUserId(SessionManager.getUserId());
         objectVo.getResult().setCreateTime(new Date());
         objectVo.getResult().setStatus(UserAgentEnum.PROGRAM_STATUS_USING.getCode());
-        objectVo.getResult().setOwnerId(SessionManager.getMasterUserId());
-        return super.doSave(objectVo);
+        objectVo.getResult().setOwnerId(SessionManager.getMasterInfo().getId());
+        objectVo = getService().saveNewRebateSet(objectVo);
+        return objectVo;
     }
 
     @Override
     protected RebateSetVo doUpdate(RebateSetVo objectVo) {
         objectVo.getResult().setStatus(UserAgentEnum.PROGRAM_STATUS_USING.getCode());
-        return super.doUpdate(objectVo);
+        objectVo = getService().updateNewRebateSet(objectVo);
+        return objectVo;
     }
 
     @Override
     protected RebateSetVo doView(RebateSetVo objectVo, Model model) {
-        return setGame(super.doView(objectVo, model));
+        return setGame(getService().queryRebateById(objectVo));
     }
 
     /**
@@ -406,7 +413,19 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @Override
     @Token(valid = true)
     public Map persist(RebateSetVo objectVo, @FormModel("result") @Valid RebateSetForm form, BindingResult result) {
-        return super.persist(objectVo, form, result);
+        Map persist = new HashMap(3,1f);
+        try{
+            persist = super.persist(objectVo, form, result);
+
+        }catch (Exception ex){
+            persist.put("state",false);
+            String msg = LocaleTool.tranMessage("common", "save.failed");
+            persist.put("msg",msg);
+            persist.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+            LOG.error(ex,"保存返佣方案出错");
+        }
+
+        return  persist;
     }
 
     /**
@@ -419,15 +438,39 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @RequestMapping("agentRebateDAWF")
     public String agentRebateDepositAndWithdrawFee(Model model) {
         model.addAttribute("validateRule", JsRuleCreator.create(RebateSetFeeForm.class));
+
         // 获取存取款手续费
         SysParam depositFee = ParamTool.getSysParam(SiteParamEnum.SETTLEMENT_DEPOSIT_FEE);
         SysParam withdrawFee = ParamTool.getSysParam(SiteParamEnum.SETTLEMENT_WITHDRAW_FEE);
         SysParam withdrawLimitMin = ParamTool.getSysParam(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MIN);
         SysParam withdrawLimitMax = ParamTool.getSysParam(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MAX);
+
+        SysParam rakebackParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_RAKEBACK_PERCENT);
+        SysParam favorableParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_PREFERENTIAL_PERCENT);
+        SysParam adminParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_ADMINISTRATOR_PERCENT);
+        SysParam otherParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_OTHER_PERCENT);
+        model.addAttribute("rakebackParam", rakebackParam);
+        model.addAttribute("favorableParam", favorableParam);
+        model.addAttribute("adminParam", adminParam);
+        model.addAttribute("otherParam", otherParam);
+
         model.addAttribute("depositFee", depositFee);
         model.addAttribute("withdrawFee", withdrawFee);
         model.addAttribute("withdrawLimitMin", withdrawLimitMin);
         model.addAttribute("withdrawLimitMax", withdrawLimitMax);
+
+        //优惠活动分摊比例
+        SysParam preferentialParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+        //行政费用
+        SysParam topAdminParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_ADMINISTRATOR_PERCENT);
+        //返水优惠分摊比例
+        SysParam rakbackParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
+        //佣金分摊比例
+        SysParam topOtherParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_OTHER_PERCENT);
+        model.addAttribute("preferentialParam",preferentialParam);
+        model.addAttribute("topAdminParam",topAdminParam);
+        model.addAttribute("rakbackParam",rakbackParam);
+        model.addAttribute("topOtherParam",topOtherParam);
 
         return this.getViewBasePath() + "AgentRebateDepositAndWithdrawFee";
     }
@@ -471,6 +514,16 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
             ParamTool.refresh(SiteParamEnum.SETTLEMENT_WITHDRAW_FEE);
             ParamTool.refresh(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MIN);
             ParamTool.refresh(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MAX);
+
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_ADMINISTRATOR_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_RAKEBACK_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_OTHER_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_ADMINISTRATOR_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_OTHER_PERCENT);
         } else {
             map.put("state", false);
             map.put("msg", LocaleTool.tranMessage("common","save.failed"));

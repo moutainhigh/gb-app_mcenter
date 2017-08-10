@@ -326,6 +326,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         model.addAttribute("now",new Date());
 
         Map map = this.getService().findAgentDetail(vo);
+        vo=getService().get(vo);
         Integer userId = vo.getSearch().getId();
         NoticeContactWay phone = getContactVal(userId, ContactWayType.CELLPHONE.getCode());
         NoticeContactWay email = getContactVal(userId, ContactWayType.EMAIL.getCode());
@@ -873,30 +874,32 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
 
     @Override
     protected UserAgentVo doSave(UserAgentVo objectVo) {
-        SysUser sysUser = objectVo.getSysUser();
-        Integer parentId = objectVo.getAgentUserId();
+        doInitByParentId(objectVo);
         objectVo.getResult().setSitesId(SessionManager.getSiteId());
-
-        objectVo.getResult().setParentId(parentId);
         objectVo.getResult().setBuiltIn(false);
         objectVo.getResult().setCreateChannel(UserAgentEnum.BACKGROUND_ADD.getCode());
+        SysUser sysUser = buildUserData(objectVo);
+        objectVo.setSysUser(sysUser);
+        objectVo.getResult().setCheckTime(new Date());
+        objectVo.getResult().setCheckUserId(SessionManager.getUser().getId());
+        objectVo = getService().saveAgentInfo(objectVo);
+        sendSiteMsg(objectVo);
+        return objectVo;
+    }
+    /**
+     * 组状用户信息
+     * @param objectVo
+     * @return
+     */
+    private SysUser buildUserData(UserAgentVo objectVo) {
+        SysUser sysUser = objectVo.getSysUser();
         sysUser.setStatus(SysUserStatus.NORMAL.getCode());
         sysUser.setUserType(UserTypeEnum.AGENT.getCode());
-        SysUserVo parentUserVo = new SysUserVo();
-        parentUserVo.getSearch().setId(parentId);
-        parentUserVo = ServiceTool.sysUserService().get(parentUserVo);
-        if(parentUserVo.getResult()!=null&&parentUserVo.getResult().getOwnerId()!=null){
-            sysUser.setOwnerId(parentUserVo.getResult().getOwnerId());
-        }else{
-            sysUser.setOwnerId(parentId);
-        }
-
+        doInitUserOwnerId(objectVo, sysUser);
         sysUser.setBuiltIn(false);
         sysUser.setSiteId(SessionManager.getSiteId());
         sysUser.setCreateUser(SessionManager.getUserId());
         sysUser.setCreateTime(new Date());
-
-        //sysUser.setRegisterIp(SessionManager.getIpDb().getIp());
         sysUser.setRegisterIp(SessionManager.getUser().getLoginIp());
         sysUser.setSubsysCode(ConfigManager.getConfigration().getAgentSubSysCode());
         if(StringTool.isBlank(sysUser.getDefaultLocale())){
@@ -905,7 +908,15 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         if(StringTool.isBlank(sysUser.getDefaultCurrency())){
             sysUser.setDefaultCurrency(SessionManager.getUser().getDefaultCurrency());
         }
-        /*密码*/
+        doInitUserPassword(sysUser);
+        return sysUser;
+    }
+    /**
+     * 设置用户密码
+     * @param sysUser
+     */
+    private void doInitUserPassword(SysUser sysUser) {
+    /*密码*/
         String password = sysUser.getPassword();
         String PermissionPwd = sysUser.getPermissionPwd();
 
@@ -915,15 +926,56 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         if(!StringTool.isBlank(PermissionPwd)){
             sysUser.setPermissionPwd(AuthTool.md5SysUserPermission(PermissionPwd, sysUser.getUsername()));
         }
-        //TODO 等待发送邮件接口
+    }
 
-        objectVo.setSysUser(sysUser);
-        objectVo.getResult().setCheckTime(new Date());
-        objectVo.getResult().setCheckUserId(SessionManager.getUser().getId());
-        objectVo = getService().saveAgentInfo(objectVo);
-        //objectVo = super.doSave(objectVo);
-        sendSiteMsg(objectVo);
-        return objectVo;
+    private UserAgent fetchParentAgent(Integer parentId){
+        if(parentId==null){
+            return null;
+        }
+        UserAgentVo userAgentVo = new UserAgentVo();
+        userAgentVo.getSearch().setId(parentId);
+        userAgentVo = getService().get(userAgentVo);
+        return userAgentVo.getResult();
+    }
+    /**
+     * 设置代理的上级代理信息
+     * @param objectVo
+     */
+    private void doInitByParentId(UserAgentVo objectVo) {
+        Integer parentId = objectVo.getAgentUserId();
+        objectVo.getResult().setParentId(parentId);
+        UserAgent userAgent = fetchParentAgent(parentId);
+        Integer[] parentArray = userAgent.getParentArray();
+        Integer[] newArray = new Integer[0];
+        if(parentArray!=null){
+            newArray = new Integer[parentArray.length+1];
+            for(int i =0;i<parentArray.length;i++){
+                newArray[i]= parentArray[i];
+            }
+        }else {
+            newArray = new Integer[1];
+        }
+        newArray[newArray.length-1]=parentId;
+        objectVo.getResult().setParentArray(newArray);
+        if(userAgent!=null&&userAgent.getAgentRank()!=null){
+            objectVo.getResult().setAgentRank(userAgent.getAgentRank()+1);
+        }
+    }
+    /**
+     * 设置用户的拥有者
+     * @param objectVo
+     * @param sysUser
+     */
+    private void doInitUserOwnerId(UserAgentVo objectVo, SysUser sysUser) {
+        Integer parentId = objectVo.getAgentUserId();
+        SysUserVo parentUserVo = new SysUserVo();
+        parentUserVo.getSearch().setId(parentId);
+        parentUserVo = ServiceTool.sysUserService().get(parentUserVo);
+        if(parentUserVo.getResult()!=null&&parentUserVo.getResult().getOwnerId()!=null){
+            sysUser.setOwnerId(parentUserVo.getResult().getOwnerId());
+        }else{
+            sysUser.setOwnerId(parentId);
+        }
     }
 
     @Override
@@ -945,8 +997,27 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
             objectVo.getSysUser().setDefaultCurrency(SessionManager.getUser().getDefaultCurrency());
         }
         objectVo.setEditType(objectVo.getEditTypeAgent());
+        objectVo.setChangeRebate(hasChangeRebate(objectVo));
         objectVo = getService().updateAgentInfo(objectVo);
         return objectVo;
+    }
+
+    private boolean hasChangeRebate(UserAgentVo objectVo){
+        Integer userId = objectVo.getSysUser().getId();
+        if(userId!=null){
+            UserAgentRebateVo userAgentRebateVo = new UserAgentRebateVo();
+            userAgentRebateVo.getSearch().setUserId(userId);
+            userAgentRebateVo = ServiceTool.userAgentRebateService().search(userAgentRebateVo);
+            if(userAgentRebateVo.getResult()!=null){
+                Integer rebateId = userAgentRebateVo.getResult().getRebateId();
+                Integer newRebateId = objectVo.getUserAgentRebate().getRebateId();
+                if(rebateId!=null&&newRebateId!=null&&!rebateId.equals(newRebateId)){
+                    return true;
+                }
+            }
+
+        }
+        return false;
     }
 
     @RequestMapping("/getMasterQuestion/{question}")
@@ -1174,15 +1245,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         sysUser.setSiteId(SessionManager.getSiteId());
         objectVo.getResult().setRegistCode(RandomStringTool.randomAlphanumeric(6).toLowerCase());
         /*密码*/
-        String password = sysUser.getPassword();
-        String PermissionPwd = sysUser.getPermissionPwd();
-
-        if(!StringTool.isBlank(password)){
-            sysUser.setPassword(AuthTool.md5SysUserPassword(password, sysUser.getUsername()));
-        }
-        if(!StringTool.isBlank(PermissionPwd)){
-            sysUser.setPermissionPwd(AuthTool.md5SysUserPermission(PermissionPwd, sysUser.getUsername()));
-        }
+        doInitUserPassword(sysUser);
         return objectVo;
     }
 

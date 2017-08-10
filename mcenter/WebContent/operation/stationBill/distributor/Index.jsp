@@ -40,6 +40,7 @@
                             <span class="input-group-btn">
                                 <soul:button target="query" text="${views.common['search']}" opType="function" cssClass="btn btn-filter"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span></soul:button>
                             </span>
+
                         </div>
                     </div>
                 </div>

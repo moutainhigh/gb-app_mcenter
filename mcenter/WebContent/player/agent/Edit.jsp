@@ -125,6 +125,7 @@
                                         <div class="col-sm-3">
                                             <div  class="input-group date rebate">
                                                 <%--userAgentRebate--%>
+                                                    <input type="hidden" value="${command.userAgentRebate.rebateId}" name="oldRebateId" id="oldRebateId">
                                                     <form:hidden path="userAgentRebate.id"></form:hidden>
                                                     <form:hidden path="userAgentRebate.userId"></form:hidden>
                                                     <gb:select name="userAgentRebate.rebateId" prompt="${views.role['agent.chooseAgentRebate']}"
@@ -494,7 +495,7 @@
                 <%--按钮--%>
                 <div class="operate-btn">
                         <%--<a href="javascript:void(0)" class="btn btn-filter btn-lg">${views.player_auto['确认']}</a>--%>
-                    <soul:button target="${root}/userAgent/updateAgent.html" text="${views.common['OK']}" cssClass="btn btn-filter btn-lg" precall="validateForm" opType="ajax" post="getCurrentFormData" callback="goToLastPage" refresh="true">${views.common['OK']}</soul:button>
+                    <soul:button target="${root}/userAgent/updateAgent.html" text="${views.common['OK']}" cssClass="btn btn-filter btn-lg" precall="myValidateForm" opType="ajax" post="getCurrentFormData" callback="goToLastPage" refresh="true">${views.common['OK']}</soul:button>
                     <soul:button target="goToLastPage"  text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter btn-lg" opType="function">${views.common['cancel']}</soul:button>
 
                 </div>
