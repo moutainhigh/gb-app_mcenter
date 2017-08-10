@@ -6,7 +6,7 @@
 <!--//endregion your codes 1-->
 
 	<!--//region your codes 3-->
-<form:form action="${root}/operation/rebate/clearing.html?id=${objectVo.result.id}">
+<form:form action="${root}/rebateBill/clearing.html?id=${objectVo.result.id}">
 <div class="row">
 	<div class="position-wrap clearfix">
 		<h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
@@ -80,14 +80,14 @@
 			</div>
 			<div class="clearfix filter-wraper border-b-1 operate-btn">
 				<div class="function-menu" id="asd" style="border-left: none">
-					<soul:button callback="allQuery" target="${root}/operation/rebate/toConfirmSettlement.html?ids={ids}&search.id=${objectVo.result.id}"
+					<soul:button callback="allQuery" target="${root}/rebateBill/toConfirmSettlement.html?ids={ids}&search.id=${objectVo.result.id}"
 								 precall="getIds" text="${views.operation['Rebate.confirmSettlement']}"
 								 title="${views.operation['Rebate.view.confirmCommissionSettlement']}"
 								 opType="dialog" tag="button"
 								 cssClass="btn btn-filter btn-lg m-r ui-button-disable disabled">
 						<span class="">${views.operation['Rebate.confirmSettlement']}</span>
 					</soul:button>
-					<soul:button callback="allQuery" target="${root}/operation/rebate/toRefuseSettlement.html?ids={ids}&search.id=${objectVo.result.id}"
+					<soul:button callback="allQuery" target="${root}/rebateBill/toRefuseSettlement.html?ids={ids}&search.id=${objectVo.result.id}"
 								 precall="hasReason" text="${views.operation['Rebate.refuseSettlement']}"
 								 title="${views.operation['Rebate.view.rejectReason']}"
 								 opType="dialog"

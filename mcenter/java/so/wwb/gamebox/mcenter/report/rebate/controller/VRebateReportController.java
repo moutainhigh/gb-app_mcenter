@@ -132,7 +132,7 @@ private static final Log LOG = LogFactory.getLog(VRebateReportController.class);
         List<RebateBill> periods = new ArrayList<>();
         if (temp != null && !temp.isEmpty()) {
             for (RebateBill bill : temp) {
-                bill.setPeriodName(String.format("%s%s%s", bill.getPeriod(), i18nViews("common", "qi"), bill.getPeriodName()));
+                //bill.setPeriodName(String.format("%s%s%s", bill.getPeriod(), i18nViews("common", "qi"), bill.getPeriodName()));
                 periods.add(bill);
             }
         }

@@ -39,15 +39,15 @@
                 <form:input path="result.rebateActual" cssClass="form-control" placeholder="${views.operation['Rebate.pop.enterAmount']}"/>
             </div>
         </div>
-        <div class="form-group clearfix line-hi34 m-b-xxs">
+        <%--<div class="form-group clearfix line-hi34 m-b-xxs">
             <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.operation['Rebate.pop.remark']}：</label>
             <div class="col-xs-8 p-x">
                 <form:textarea path="result.remark" placeholder="${views.operation['Rebate.pop.message1']}" cssClass="form-control"/>
             </div>
-        </div>
+        </div>--%>
     </div>
     <div class="modal-footer">
-        <soul:button target="${root}/operation/rebateAgent/persist.html" text="${views.common['OK']}" opType="ajax" cssClass="btn btn-outline btn-filter" post="getCurrentFormData" callback="saveCallbak" precall="validateForm"/>
+        <soul:button target="${root}/rebateAgent/persist.html" text="${views.common['OK']}" opType="ajax" cssClass="btn btn-outline btn-filter" post="getCurrentFormData" callback="saveCallbak" precall="validateForm"/>
         <soul:button target="closePage" text="${views.common['cancel']}" opType="function" cssClass="btn btn-outline btn-filter"/>
     </div>
     <!--//endregion your codes 3-->

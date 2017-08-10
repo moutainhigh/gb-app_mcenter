@@ -1,4 +1,5 @@
 <%@ page import="so.wwb.gamebox.model.master.operation.po.RebateAgent" %>
+<%--@elvariable id="command" type="so.wwb.gamebox.model.master.operation.vo.RebateAgentListVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <c:set value="<%=RebateAgent.class%>" var="poType"></c:set>
@@ -149,7 +150,7 @@
                 </td>
                 <td class="co-blue" style="padding-left: 25px">
                     <soul:button callback="allQuery"
-                                 target="${root}/operation/rebate/toModifySettlement.html?search.id=${p.id}"
+                                 target="${root}/rebateBill/toModifySettlement.html?search.id=${p.id}"
                                  text="${views.operation['Rebate.view.modifyCommission']}"
                                  title="${views.operation['Rebate.view.modifyActuallyCommission']}"
                                  opType="dialog" tag="a">

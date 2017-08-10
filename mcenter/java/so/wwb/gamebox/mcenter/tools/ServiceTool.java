@@ -1765,6 +1765,14 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.setting.IRebateGradsSetService rebateGradsSetService() {
         return getService(so.wwb.gamebox.iservice.master.setting.IRebateGradsSetService.class);
     }
+    /**
+     * 返回代理API返佣远程服务实例
+     *
+     * @return 代理API返佣远程服务实例
+     */
+    public static so.wwb.gamebox.iservice.master.operation.IRebateAgentApiNosettledService rebateAgentApiNosettledService() {
+        return getService(so.wwb.gamebox.iservice.master.operation.IRebateAgentApiNosettledService.class);
+    }
 
 //endregion your codes 1
 

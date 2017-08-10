@@ -87,11 +87,11 @@ public class SettlementRebateAgentController extends BaseCrudController<IRebateA
 
         //实付佣金
         Double rebateActual = objectVo.getResult().getRebateActual();
-        String remark = objectVo.getResult().getRemark();
+        //String remark = objectVo.getResult().getRemark();
         objectVo.getSearch().setId(objectVo.getResult().getId());
         objectVo = getService().get(objectVo);
         objectVo.getResult().setRebateActual(rebateActual);
-        objectVo.getResult().setRemark(remark);
+        //objectVo.getResult().setRemark(remark);
         return super.doUpdate(objectVo);
     }
 

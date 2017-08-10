@@ -13,7 +13,7 @@
     <!--//endregion your codes 2-->
 </head>
 <body>
-<form:form id="editForm" action="${root}/operation/rebateAgent/confirmSettlement.html" method="post">
+<form:form id="editForm" action="${root}/rebateAgent/confirmSettlement.html" method="post">
     <gb:token/>
     <input type="hidden" value="${objectVo.result.id}" name="id"/>
     <input type="hidden" value="${ids}" name="ids"/>
@@ -43,7 +43,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <soul:button callback="saveCallbak" target="${root}/operation/rebateAgent/confirmSettlement.html" text="${views.common['OK']}" opType="ajax" cssClass="btn btn-outline btn-filter" post="getCurrentFormData"/>
+        <soul:button callback="saveCallbak" target="${root}/rebateAgent/confirmSettlement.html" text="${views.common['OK']}" opType="ajax" cssClass="btn btn-outline btn-filter" post="getCurrentFormData"/>
         <soul:button target="closePage" text="${views.common['cancel']}" opType="function" cssClass="btn btn-outline btn-filter"/>
     </div>
 </form:form>
