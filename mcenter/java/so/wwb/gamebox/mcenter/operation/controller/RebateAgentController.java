@@ -37,6 +37,7 @@ import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ModuleType;
 import so.wwb.gamebox.model.SiteI18nEnum;
 import so.wwb.gamebox.model.common.Audit;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.NoticeParamEnum;
 import so.wwb.gamebox.model.master.enums.RemarkEnum;
@@ -104,7 +105,7 @@ public class RebateAgentController extends BaseCrudController<IRebateAgentServic
 
         }
         model.addAttribute("periodMap",periodMap);
-        List<Map<String, Integer>> ranks = queryAgentRank(listVo);
+        List<Map<String, String>> ranks = queryAgentRank(listVo);
         model.addAttribute("agentRanks",ranks);
         listVo.getQuery().addOrder(RebateAgent.PROP_SETTLEMENT_STATE,Direction.DESC);
         listVo.getQuery().addOrder(RebateAgent.PROP_REBATE_TOTAL,Direction.DESC);
@@ -128,18 +129,19 @@ public class RebateAgentController extends BaseCrudController<IRebateAgentServic
     /**
      * 查询代理层级数
      */
-    private List<Map<String,Integer>> queryAgentRank(RebateAgentListVo listVo){
+    private List<Map<String,String>> queryAgentRank(RebateAgentListVo listVo){
         if(listVo.getSearch().getRebateBillId()==null){
-
+            return null;
         }
 
         List<Integer> integerList = getService().queryAgentRanks(listVo);
-        List<Map<String,Integer>> ranksMap = new ArrayList<>();
+        List<Map<String,String>> ranksMap = new ArrayList<>();
         if(integerList!=null&&integerList.size()>0){
             for (Integer id :integerList){
-                Map<String,Integer> tempMap = new LinkedHashMap<>();
-                tempMap.put("key",id);
-                tempMap.put("value",id);
+                Map<String,String> tempMap = new LinkedHashMap<>();
+                tempMap.put("key",String.valueOf(id));
+                String agentrank = LocaleTool.tranView(Module.MASTER_OPERATION, MessageI18nConst.OPERATION_REBATE_AGENTRANK, String.valueOf(id));
+                tempMap.put("value",agentrank);
                 ranksMap.add(tempMap);
             }
         }

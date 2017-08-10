@@ -29,9 +29,13 @@
 
                             <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm content-width-limit-400">
                                 <div class="input-group date">
-                                        <gb:select name="search.agentRank" prompt="代理层级" value="${command.search.agentRank}" list="${agentRanks}" listKey="key" listValue="value" />
+                                    <span>
+                                        <gb:select name="search.agentRank" prompt="所有代理" value="${command.search.agentRank}" list="${agentRanks}" listKey="key" listValue="value" />
+                                    </span>
                                         <%--${views.fund_auto['代理账号']}--%>
-                                    <input type="text" class="form-control content-width-limit-8" name="search.agentName">
+                                    <span class=" input-group-addon bdn  right-btn-down">
+                                        <input type="text" class="form-control content-width-limit-8" name="search.agentName">
+                                    </span>
                                 </div>
                             </div>
 
@@ -39,7 +43,6 @@
                                 <i class="fa fa-search"></i>
                                 <span class="hd">&nbsp;${views.common['search']}</span>
                             </soul:button>
-                            <a href="/rebateBill/list.html" nav-target="mainFrame" class="btn btn-filter btn-outline">返佣账单</a>
                         </div>
                     </div>
                 </div>
