@@ -99,7 +99,7 @@ public class PayAccountCompanyForm implements IForm {
 
     @Depends(property = {"result_type"}, operator = {Operator.EQ}, value = {PayAccountType.COMMPANY_ACCOUNT_CODE})
     @Length(min = 2, max = 30)
-    @Pattern(regexp = FormValidRegExps.CNANDEN_CHAR, message = "common.ACCOUNT_NAME_CHECk")
+    @Pattern(regexp = FormValidRegExps.REALNAME, message = "common.ACCOUNT_NAME_CHECk")
     public String getResult_fullName() {
         return result_fullName;
     }

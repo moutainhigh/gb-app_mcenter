@@ -19,8 +19,8 @@
             <input type="hidden" value="${firstCode}" id="firstCode">
             <div class="form-group clearfix">
                 <label class="pull-left line-hi34">${views.content['carousel.type']}</label>
-                <div class="col-xs-3">
-                    <gb:select name="search.useStatus" prompt="" value="${firstCode}" callback="typesChange" list="${vCttCarouselListVo.types}"></gb:select>
+                <div class="col-xs-3" style="width: auto;">
+                    <gb:select name="search.useStatus" prompt="" value="${firstCode}" callback="typesChange" list="${vCttCarouselListVo.types}" cssStyle="width: auto;"></gb:select>
                 </div>
             </div>
             <c:forEach items="${vCttCarouselListVo.intervalTimes}" var="its" varStatus="status">
