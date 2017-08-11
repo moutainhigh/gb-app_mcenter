@@ -1,0 +1,55 @@
+<%--@elvariable id="command" type="so.wwb.gamebox.model.master.operation.vo.RebatePlayerFeeListVo"--%>
+<%--@elvariable id="agentRebateVo" type="so.wwb.gamebox.model.master.operation.vo.RebateAgentVo"--%>
+<%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ include file="/include/include.inc.jsp" %>
+<c:set value="${agentRebateVo.result}" var="a"></c:set>
+<!--//region your codes 1-->
+<div class="table-responsive">
+    <table class="table table-striped table-hover dataTable" id="editable" aria-describedby="editable_info">
+        <thead>
+            <tr>
+                <td colspan="5" class="al-center">${views.fund_auto['费用总计细单']}</td>
+            </tr>
+            <tr role="row" class="bg-gray">
+                <th>${views.fund_auto['玩家账号']}</th>
+                <th>${views.fund_auto['行政费用']}</th>
+                <th>${views.fund_auto['返水费用']}</th>
+                <th>${views.fund_auto['存款优惠']}</th>
+                <th>${views.fund_auto['其他费用']}</th>
+                <th>${views.fund_auto['小计金额']}</th>
+            </tr>
+
+            <tr class="co-red">
+                <td>${views.fund_auto['本期小计']}</td>
+                <td>${soulFn:formatCurrency(a.depositFee+a.withdrawFee)}</td>
+                <td>${soulFn:formatCurrency(a.rakebackFee)}</td>
+                <td>${soulFn:formatCurrency(a.favorableFee)}</td>
+                <td>${soulFn:formatCurrency(a.otherFee)}</td>
+                <c:set value="${a.depositFee+a.withdrawFee + a.rakebackFee + a.favorableFee + a.otherFee}" var="b"></c:set>
+                <td>${soulFn:formatCurrency(b+a.feeHistory)}</td>
+            </tr>
+            <tr>
+                <td>上期未结</td>
+                <td colspan="5">${soulFn:formatCurrency(a.feeHistory)}</td>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td colspan="6"></td>
+        </tr>
+        <c:forEach items="${command.result}" var="p" varStatus="status">
+            <tr class="tab-detail">
+                <td>${p.playerName}</td>
+                <td>${soulFn:formatCurrency(p.depositAmount * (a.depositRadio/100) + p.withdrawAmount * (a.withdrawRadio/100))}</td>
+                <td>${soulFn:formatCurrency(p.rakebackAmount*(a.rakebackRadio/100))}</td>
+                <td>${soulFn:formatCurrency(p.favorableAmount*(a.favorableRadio/100))}</td>
+                <td>${soulFn:formatCurrency(p.otherAmount*(a.otherRadio/100))}</td>
+                <td>${soulFn:formatCurrency((p.depositAmount * (a.depositRadio/100) + p.withdrawAmount * (a.withdrawRadio/100)) + p.rakebackAmount *(a.rakebackRadio/100) + p.favorableAmount*(a.favorableRadio/100) + p.otherAmount*(a.otherRadio/100))}</td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
+
+<soul:pagination/>
+<!--//endregion your codes 1-->

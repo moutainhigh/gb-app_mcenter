@@ -1774,6 +1774,13 @@ public class ServiceTool {
         return getService(so.wwb.gamebox.iservice.master.operation.IRebateAgentApiNosettledService.class);
     }
 
+    public static so.wwb.gamebox.iservice.master.operation.IRebateAgentApiService rebateAgentApiService() {
+        return getService(so.wwb.gamebox.iservice.master.operation.IRebateAgentApiService.class);
+    }
+
+    public static so.wwb.gamebox.iservice.master.operation.IRebatePlayerFeeService rebatePlayerFeeService() {
+        return getService(so.wwb.gamebox.iservice.master.operation.IRebatePlayerFeeService.class);
+    }
 //endregion your codes 1
 
 }

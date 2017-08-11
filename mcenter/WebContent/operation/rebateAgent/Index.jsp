@@ -47,8 +47,11 @@
                     </div>
                 </div>
                 <!--表格内容-->
-                <div id="editable_wrapper" class="search-list-container dataTables_wrapper" role="grid">
-                    <%@ include file="IndexPartial.jsp" %>
+                <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
+
+                    <div class="search-list-container">
+                        <%@ include file="IndexPartial.jsp" %>
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,5 +59,5 @@
 </div>
 
 <!--//region your codes 3-->
-<soul:import type="list"/>
+<soul:import res="site/operation/rebate/Index"/>
 <!--//endregion your codes 3-->

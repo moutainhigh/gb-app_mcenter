@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.operation.controller;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.exolab.castor.mapping.xml.MapTo;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.MapTool;
@@ -10,6 +11,7 @@ import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.sort.Direction;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.log.audit.enums.ParamType;
@@ -44,12 +46,10 @@ import so.wwb.gamebox.model.master.enums.RemarkEnum;
 import so.wwb.gamebox.model.master.fund.rebate.vo.AgentRebateVo;
 import so.wwb.gamebox.model.master.operation.po.RebateAgent;
 import so.wwb.gamebox.model.master.operation.po.RebateBill;
-import so.wwb.gamebox.model.master.operation.vo.RebateAgentListVo;
-import so.wwb.gamebox.model.master.operation.vo.RebateAgentVo;
-import so.wwb.gamebox.model.master.operation.vo.RebateBillListVo;
-import so.wwb.gamebox.model.master.operation.vo.RebateBillVo;
+import so.wwb.gamebox.model.master.operation.vo.*;
 import so.wwb.gamebox.model.master.player.po.Remark;
 import so.wwb.gamebox.model.master.player.vo.RemarkVo;
+import so.wwb.gamebox.model.master.player.vo.UserAgentVo;
 import so.wwb.gamebox.model.report.enums.SettlementStateEnum;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
@@ -105,14 +105,22 @@ public class RebateAgentController extends BaseCrudController<IRebateAgentServic
 
         }
         model.addAttribute("periodMap",periodMap);
-        List<Map<String, String>> ranks = queryAgentRank(listVo);
-        model.addAttribute("agentRanks",ranks);
-        listVo.getQuery().addOrder("order_num",Direction.ASC);
+        /*List<Map<String, String>> ranks = queryAgentRank(listVo);
+        model.addAttribute("agentRanks",ranks);*/
+        listVo.getQuery().addOrder(RebateAgent.PROP_ORDER_NUM,Direction.ASC);
         listVo.getQuery().addOrder(RebateAgent.PROP_REBATE_TOTAL,Direction.DESC);
         listVo.getQuery().addOrder(RebateAgent.PROP_AGENT_NAME,Direction.ASC);
 
         listVo = getService().queryRebateAgent(listVo);
         return listVo;
+    }
+    @RequestMapping(value = "/queryCondtion")
+    @ResponseBody
+    public Map queryCondtion(){
+        Map resMap = new HashMap();
+        List<Map<String, String>> ranks = queryAgentRank(new RebateAgentListVo());
+        resMap.put("ranks",ranks);
+        return resMap;
     }
 
     /**
@@ -132,10 +140,6 @@ public class RebateAgentController extends BaseCrudController<IRebateAgentServic
      * 查询代理层级数
      */
     private List<Map<String,String>> queryAgentRank(RebateAgentListVo listVo){
-        if(listVo.getSearch().getRebateBillId()==null){
-            return null;
-        }
-
         List<Integer> integerList = getService().queryAgentRanks(listVo);
         List<Map<String,String>> ranksMap = new ArrayList<>();
         if(integerList!=null&&integerList.size()>0){
@@ -310,6 +314,61 @@ public class RebateAgentController extends BaseCrudController<IRebateAgentServic
         }
 
         return resMap;
+    }
+    @RequestMapping("/showAgentRebate")
+    public String showAgentRebate(RebateAgentApiListVo agentApiListVo,Model model){
+        if(agentApiListVo.getSearch().getAgentId()!=null&&agentApiListVo.getSearch().getRebateBillId()!=null){
+            agentApiListVo.setPaging(null);
+            agentApiListVo = ServiceTool.rebateAgentApiService().search(agentApiListVo);
+        }
+        if(agentApiListVo.getRebateAgentId()!=null){
+            RebateAgentVo rebateAgentVo = new RebateAgentVo();
+            rebateAgentVo.getSearch().setId(agentApiListVo.getRebateAgentId());
+            rebateAgentVo = getService().get(rebateAgentVo);
+            model.addAttribute("rebateAgent",rebateAgentVo.getResult());
+        }
+        model.addAttribute("command",agentApiListVo);
+        return getViewBasePath() + "PayoutDetail";
+    }
+
+    @RequestMapping("/showAgentChildRebate")
+    public String showAgentChildRebate(RebateAgentListVo agentListVo,Model model){
+        if(agentListVo.getSearch().getAgentId()!=null){
+            UserAgentVo userAgentVo = new UserAgentVo();
+            userAgentVo.getSearch().setId(agentListVo.getSearch().getAgentId());
+            List<Integer> integerList = ServiceTool.userAgentService().queryAgentChild(userAgentVo);
+            if(!CollectionTool.isEmpty(integerList)&&agentListVo.getSearch().getRebateBillId()!=null){
+                agentListVo.getSearch().setAgentIds(integerList);
+                agentListVo = getService().search(agentListVo);
+                model.addAttribute("command",agentListVo);
+            }
+            if(agentListVo.getSearch().getId()!=null){
+                RebateAgentVo rebateAgentVo = new RebateAgentVo();
+                rebateAgentVo.getSearch().setId(agentListVo.getSearch().getId());
+                rebateAgentVo = getService().get(rebateAgentVo);
+                model.addAttribute("rebateAgent",rebateAgentVo.getResult());
+            }
+        }
+        return getViewBasePath() + "ChildRebateDetail";
+    }
+    @RequestMapping("/queryRebateAgentPlayer")
+    public String queryRebateAgentPlayer(RebatePlayerFeeListVo playerFeeListVo,HttpServletRequest request,Model model){
+        RebateAgentVo rebateAgentVo = new RebateAgentVo();
+        if(playerFeeListVo.getSearch().getAgentId()!=null&&playerFeeListVo.getSearch().getRebateBillId()!=null){
+            playerFeeListVo = ServiceTool.rebatePlayerFeeService().search(playerFeeListVo);
+            if(playerFeeListVo.getRebateAgentId()!=null){
+                rebateAgentVo.getSearch().setId(playerFeeListVo.getRebateAgentId());
+                rebateAgentVo = getService().get(rebateAgentVo);
+                model.addAttribute("agentRebateVo",rebateAgentVo);
+            }
+        }
+        model.addAttribute("command",playerFeeListVo);
+        if(ServletTool.isAjaxSoulRequest(request)){
+            return getViewBasePath() + "player/IndexPartial";
+        }else{
+            return getViewBasePath() + "player/Index";
+        }
+
     }
 
     //endregion your codes 3
