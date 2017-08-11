@@ -49,7 +49,7 @@
             </div>
             <div class="form-group clearfix">
                 <label class="col-xs-3 al-right">${views.role['page.frozen.operator']}：</label>
-                <div class="col-xs-9"><%=SessionManager.getUser().getUsername() %>&nbsp;&nbsp; <%= DateTool.formatDate(new Date(), DateTool.FMT_HYPHEN_DAY_CLN_SECOND) %> </div>
+                <div class="col-xs-9"><%=SessionManager.getUser().getUsername() %>&nbsp;&nbsp; <%= DateTool.formatDate(new Date(), DateTool.yyyy_MM_dd_HH_mm_ss) %> </div>
             </div>
 
 

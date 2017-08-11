@@ -1,6 +1,5 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.ListTool;
 import org.soul.commons.collections.MapTool;
@@ -272,7 +271,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         SysParam param = getSysParam(SiteParamEnum.SETTING_REBATESETTING_SETTLEMENTPERIODEFFECTIVETIME);
         Date effeDate = DateTool.addMilliseconds(DateTool.ceiling(new Date(), Calendar.MONTH),
                 -CommonContext.get().getTimeZone().getRawOffset());
-        param.setParamValue(DateTool.formatDate(effeDate, DateTool.FMT_HYPHEN_DAY_CLN_SECOND));
+        param.setParamValue(DateTool.formatDate(effeDate, DateTool.yyyy_MM_dd_HH_mm_ss));
         param.setActive(true);
         return param;
     }

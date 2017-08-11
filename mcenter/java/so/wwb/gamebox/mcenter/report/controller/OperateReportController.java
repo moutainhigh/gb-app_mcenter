@@ -314,8 +314,8 @@ public class OperateReportController extends BaseOperateController {
             listVo.getSearch().setApiTypeIds(apiTypeIds);
         }
 
-        listVo.getSearch().setStartDate(DateTool.formatDate(DateTool.addDays(new Date(), -7), DateTool.FMT_HYPHEN_DAY));
-        listVo.getSearch().setEndDate(DateTool.formatDate(DateTool.addDays(new Date(), -1), DateTool.FMT_HYPHEN_DAY));
+        listVo.getSearch().setStartDate(DateTool.formatDate(DateTool.addDays(new Date(), -7), DateTool.yyyy_MM_dd));
+        listVo.getSearch().setEndDate(DateTool.formatDate(DateTool.addDays(new Date(), -1), DateTool.yyyy_MM_dd));
 
         initDate(listVo, model);
 
