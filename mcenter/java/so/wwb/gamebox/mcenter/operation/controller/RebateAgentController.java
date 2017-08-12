@@ -54,6 +54,7 @@ import so.wwb.gamebox.model.report.enums.SettlementStateEnum;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
+import so.wwb.gamebox.web.fund.controller.BaseRebateAgentController;
 import sun.util.logging.resources.logging;
 
 import javax.servlet.http.HttpServletRequest;
@@ -70,89 +71,18 @@ import java.util.*;
 @Controller
 //region your codes 1
 @RequestMapping("/rebateAgent")
-public class RebateAgentController extends BaseCrudController<IRebateAgentService, RebateAgentListVo, RebateAgentVo, RebateAgentSearchForm, RebateAgentForm, RebateAgent, Integer> {
+public class RebateAgentController extends BaseRebateAgentController{
 
     private static final Log LOG = LogFactory.getLog(RebateAgentController.class);
     //endregion your codes 1
 
     @Override
     protected String getViewBasePath() {
-        //region your codes 2
         return "/operation/rebateAgent/";
-        //endregion your codes 2
     }
+
 
     //region your codes 3
-    private static final String REBATE_SETTLEMENT_REJECT_MSG = "rebate.settlement.reject.msg";
-    private static final String REBATE_SETTLEMENT_SUCCESS_MSG = "rebate.settlement.success.msg";
-
-
-    @Override
-    protected RebateAgentListVo doList(RebateAgentListVo listVo, RebateAgentSearchForm form, BindingResult result, Model model) {
-        Map<Integer,String> periodMap = queryRebatePeriods();
-        if(MapTool.isEmpty(periodMap)){
-            return listVo;
-        }
-        if(listVo.getSearch().getRebateBillId()==null){
-            Integer billId = null;
-            for (Map.Entry<Integer, String> entry : periodMap.entrySet()) {
-                billId = entry.getKey();
-                if (billId != null) {
-                    break;
-                }
-            }
-            listVo.getSearch().setRebateBillId(billId);
-
-        }
-        model.addAttribute("periodMap",periodMap);
-        /*List<Map<String, String>> ranks = queryAgentRank(listVo);
-        model.addAttribute("agentRanks",ranks);*/
-        listVo.getQuery().addOrder(RebateAgent.PROP_ORDER_NUM,Direction.ASC);
-        listVo.getQuery().addOrder(RebateAgent.PROP_REBATE_TOTAL,Direction.DESC);
-        listVo.getQuery().addOrder(RebateAgent.PROP_AGENT_NAME,Direction.ASC);
-
-        listVo = getService().queryRebateAgent(listVo);
-        return listVo;
-    }
-    @RequestMapping(value = "/queryCondtion")
-    @ResponseBody
-    public Map queryCondtion(){
-        Map resMap = new HashMap();
-        List<Map<String, String>> ranks = queryAgentRank(new RebateAgentListVo());
-        resMap.put("ranks",ranks);
-        return resMap;
-    }
-
-    /**
-     * 查询账单期数
-     * @return
-     */
-    private Map<Integer,String> queryRebatePeriods(){
-        RebateBillListVo billListVo = new RebateBillListVo();
-        billListVo.setPaging(null);
-        billListVo.getQuery().addOrder(RebateBill.PROP_PERIOD, Direction.DESC);
-        billListVo = ServiceTool.rebateBillService().search(billListVo);
-        Map<Integer,String> periodMap = CollectionTool.extractToMap(billListVo.getResult(), RebateBill.PROP_ID, RebateBill.PROP_PERIOD);
-        return periodMap;
-    }
-
-    /**
-     * 查询代理层级数
-     */
-    private List<Map<String,String>> queryAgentRank(RebateAgentListVo listVo){
-        List<Integer> integerList = getService().queryAgentRanks(listVo);
-        List<Map<String,String>> ranksMap = new ArrayList<>();
-        if(integerList!=null&&integerList.size()>0){
-            for (Integer id :integerList){
-                Map<String,String> tempMap = new LinkedHashMap<>();
-                tempMap.put("key",String.valueOf(id));
-                String agentrank = LocaleTool.tranView(Module.MASTER_OPERATION, MessageI18nConst.OPERATION_REBATE_AGENTRANK, String.valueOf(id));
-                tempMap.put("value",agentrank);
-                ranksMap.add(tempMap);
-            }
-        }
-        return ranksMap;
-    }
 
     /***
      * 调转到结算窗口
@@ -315,62 +245,6 @@ public class RebateAgentController extends BaseCrudController<IRebateAgentServic
 
         return resMap;
     }
-    @RequestMapping("/showAgentRebate")
-    public String showAgentRebate(RebateAgentApiListVo agentApiListVo,Model model){
-        if(agentApiListVo.getSearch().getAgentId()!=null&&agentApiListVo.getSearch().getRebateBillId()!=null){
-            agentApiListVo.setPaging(null);
-            agentApiListVo = ServiceTool.rebateAgentApiService().search(agentApiListVo);
-        }
-        if(agentApiListVo.getRebateAgentId()!=null){
-            RebateAgentVo rebateAgentVo = new RebateAgentVo();
-            rebateAgentVo.getSearch().setId(agentApiListVo.getRebateAgentId());
-            rebateAgentVo = getService().get(rebateAgentVo);
-            model.addAttribute("rebateAgent",rebateAgentVo.getResult());
-        }
-        model.addAttribute("command",agentApiListVo);
-        return getViewBasePath() + "PayoutDetail";
-    }
-
-    @RequestMapping("/showAgentChildRebate")
-    public String showAgentChildRebate(RebateAgentListVo agentListVo,Model model){
-        if(agentListVo.getSearch().getAgentId()!=null){
-            UserAgentVo userAgentVo = new UserAgentVo();
-            userAgentVo.getSearch().setId(agentListVo.getSearch().getAgentId());
-            List<Integer> integerList = ServiceTool.userAgentService().queryAgentChild(userAgentVo);
-            if(!CollectionTool.isEmpty(integerList)&&agentListVo.getSearch().getRebateBillId()!=null){
-                agentListVo.getSearch().setAgentIds(integerList);
-                agentListVo = getService().search(agentListVo);
-                model.addAttribute("command",agentListVo);
-            }
-            if(agentListVo.getSearch().getId()!=null){
-                RebateAgentVo rebateAgentVo = new RebateAgentVo();
-                rebateAgentVo.getSearch().setId(agentListVo.getSearch().getId());
-                rebateAgentVo = getService().get(rebateAgentVo);
-                model.addAttribute("rebateAgent",rebateAgentVo.getResult());
-            }
-        }
-        return getViewBasePath() + "ChildRebateDetail";
-    }
-    @RequestMapping("/queryRebateAgentPlayer")
-    public String queryRebateAgentPlayer(RebatePlayerFeeListVo playerFeeListVo,HttpServletRequest request,Model model){
-        RebateAgentVo rebateAgentVo = new RebateAgentVo();
-        if(playerFeeListVo.getSearch().getAgentId()!=null&&playerFeeListVo.getSearch().getRebateBillId()!=null){
-            playerFeeListVo = ServiceTool.rebatePlayerFeeService().search(playerFeeListVo);
-            if(playerFeeListVo.getRebateAgentId()!=null){
-                rebateAgentVo.getSearch().setId(playerFeeListVo.getRebateAgentId());
-                rebateAgentVo = getService().get(rebateAgentVo);
-                model.addAttribute("agentRebateVo",rebateAgentVo);
-            }
-        }
-        model.addAttribute("command",playerFeeListVo);
-        if(ServletTool.isAjaxSoulRequest(request)){
-            return getViewBasePath() + "player/IndexPartial";
-        }else{
-            return getViewBasePath() + "player/Index";
-        }
-
-    }
-
     //endregion your codes 3
 
 }
