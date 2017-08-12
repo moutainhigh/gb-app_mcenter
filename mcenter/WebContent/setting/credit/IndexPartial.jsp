@@ -24,13 +24,13 @@
         <c:forEach items="${command.result}" var="p" varStatus="status">
             <tr class="tab-detail">
                 <td>${p.transactionNo}</td>
-                <td>${p.checkName}</td>
+                <td>${p.payUserName}</td>
                 <td>${soulFn:formatCurrency(p.payAmount)}</td>
                 <td>${dicts.credit.pay_type[p.payType]}</td>
                 <td>${dicts.credit.credit_status[p.status]}</td>
-                <td>${p.bankName}</td>
+                <td>${dicts.common.bankname[p.bankName]}</td>
                 <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
-                <td>${p.ip}</td>
+                <td>${soulFn:formatIp(p.ip)}</td>
             </tr>
         </c:forEach>
         </tbody>
