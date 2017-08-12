@@ -7,37 +7,38 @@
         <thead>
         <tr class="bg-gray">
             <th rowspan="2">${views.fund_auto['序号']}</th>
-            <th rowspan="2">${views.operation['operation.rebate.agentPath']}</th>
-            <th rowspan="2">${views.fund_auto['代理账号']}</th>
+            <th rowspan="2">${views.wc_fund['operation.rebate.agentPath']}</th>
+            <th rowspan="2">${views.wc_fund['代理账号']}</th>
+            <th rowspan="2">${views.wc_fund['代理层级']}</th>
             <th rowspan="2">${views.setting['rebate.edit.validPlayerNum']}</th>
             <th class="multiple-row" colspan="2">
-                <div class="title">${views.operation['effective_transaction']}</div>
-                <div class="two-col">${views.operation['operation.rebate.self']}</div>
-                <div class="two-col">${views.operation['operation.rebate.childagent']}</div>
+                <div class="title">${views.wc_fund['effective_transaction']}</div>
+                <div class="two-col">${views.wc_fund['operation.rebate.self']}</div>
+                <div class="two-col">${views.wc_fund['operation.rebate.childagent']}</div>
             </th>
             <th class="multiple-row" colspan="2">
-                <div class="title">${views.fund_auto['损益']}</div>
-                <div class="two-col">${views.operation['operation.rebate.self']}</div>
-                <div class="two-col">${views.operation['operation.rebate.childagent']}</div>
+                <div class="title">${views.wc_fund['损益']}</div>
+                <div class="two-col">${views.wc_fund['operation.rebate.self']}</div>
+                <div class="two-col">${views.wc_fund['operation.rebate.childagent']}</div>
             </th>
             <th class="multiple-row" colspan="2">
-                <div class="title">${views.operation['operation.rebate.ratio']}</div>
-                <div class="two-col">${views.fund_auto['累计']}</div>
-                <div class="two-col">${views.fund_auto['当期']}</div>
+                <div class="title">${views.wc_fund['operation.rebate.ratio']}</div>
+                <div class="two-col">${views.wc_fund['累计']}</div>
+                <div class="two-col">${views.wc_fund['当期']}</div>
             </th>
             <th class="multiple-row" colspan="2">
-                <div class="title">${views.operation['operation.reaate.childrebate']}</div>
-                <div class="two-col">${views.fund_auto['累计']}</div>
-                <div class="two-col">${views.fund_auto['当期']}</div>
+                <div class="title">${views.wc_fund['operation.reaate.childrebate']}</div>
+                <div class="two-col">${views.wc_fund['累计']}</div>
+                <div class="two-col">${views.wc_fund['当期']}</div>
             </th>
             <th class="multiple-row" colspan="2" style="width: 150px">
-                <div class="title">${views.fund_auto['费用']}</div>
-                <div class="two-col">${views.fund_auto['累计']}</div>
-                <div class="two-col">${views.fund_auto['当期']}</div>
+                <div class="title">${views.wc_fund['费用']}</div>
+                <div class="two-col">${views.wc_fund['累计']}</div>
+                <div class="two-col">${views.wc_fund['当期']}</div>
             </th>
-            <th rowspan="2">${views.fund_auto['可获返佣']}</th>
-            <th rowspan="2">${views.fund_auto['已获返佣']}</th>
-            <th rowspan="2">${views.fund_auto['状态']}</th>
+            <th rowspan="2">${views.wc_fund['可获返佣']}</th>
+            <th rowspan="2">${views.wc_fund['已获返佣']}</th>
+            <th rowspan="2">${views.wc_fund['状态']}</th>
             <th rowspan="2">${views.common['operate']}</th>
         </tr>
         <tbody>
@@ -50,6 +51,7 @@
                     <td>
                         <a href="/userAgent/agent/detail.html?search.id=${p.agentId}" nav-target="mainFrame">${p.agentName}</a>
                     </td>
+                    <td>${p.agentRank}</td>
                     <td>${p.effectivePlayer}</td>
                     <td colspan="2" class="multiple-row-td">
                         <div>${soulFn:formatCurrency(p.effectiveSelf)}</div>
@@ -58,7 +60,7 @@
                     <td colspan="2" class="multiple-row-td">
                         <div>
                             <soul:button target="${root}/rebateAgent/showAgentRebate.html?search.agentId=${p.agentId}&rebateAgentId=${p.id}&search.rebateBillId=${p.rebateBillId}"
-                                         title="自身损益" text="${soulFn:formatCurrency(p.profitSelf)}" opType="dialog">
+                                         title="${views.wc_fund['自身损益']}" text="${soulFn:formatCurrency(p.profitSelf)}" opType="dialog">
                                 ${soulFn:formatCurrency(p.profitSelf)}
                             </soul:button></div>
                         <div>${soulFn:formatCurrency(p.profitLoss-p.profitSelf)}</div>
@@ -67,7 +69,7 @@
                         <div>${soulFn:formatCurrency(p.rebateSelfHistory)}</div>
                         <div>
                             <soul:button target="${root}/rebateAgent/showAgentRebate.html?search.agentId=${p.agentId}&rebateAgentId=${p.id}&search.rebateBillId=${p.rebateBillId}"
-                                         title="佣金占成" text="${soulFn:formatCurrency(p.rebateSelf)}" opType="dialog">
+                                         title="${views.wc_fund['operation.rebate.ratio']}" text="${soulFn:formatCurrency(p.rebateSelf)}" opType="dialog">
                                 ${soulFn:formatCurrency(p.rebateSelf)}
                             </soul:button>
 
@@ -77,7 +79,7 @@
                         <div>${soulFn:formatCurrency(p.rebateSunHistory)}</div>
                         <div>
                             <soul:button target="${root}/rebateAgent/showAgentChildRebate.html?search.agentId=${p.agentId}&search.id=${p.id}&search.rebateBillId=${p.rebateBillId}"
-                                         title="下级抽佣" text="${soulFn:formatCurrency(p.rebateSun)}" opType="dialog">
+                                         title="${views.wc_fund['operation.rebate.childrebate']}" text="${soulFn:formatCurrency(p.rebateSun)}" opType="dialog">
                                 ${soulFn:formatCurrency(p.rebateSun)}
                             </soul:button>
                         </div>

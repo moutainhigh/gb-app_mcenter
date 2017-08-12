@@ -22,9 +22,9 @@
                     <thead>
                         <tr>
                             <th>API</th>
-                            <th>自身损益</th>
-                            <th>返佣比例</th>
-                            <th>占成</th>
+                            <th>${views.wc_fund['自身损益']}自身损益</th>
+                            <th>${views.wc_fund['返佣比例']}返佣比例</th>
+                            <th>${views.wc_fund['占成']}占成</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,17 +41,17 @@
                             </tr>
                         </c:forEach>
                         <tr class="co-red">
-                            <td>本期小计</td>
+                            <td>${views.wc_fund['本期小计']}</td>
                             <td>${soulFn:formatCurrency(sum1)}</td>
                             <td></td>
                             <td>${soulFn:formatCurrency(sum2)}</td>
                         </tr>
                         <tr>
-                            <td>上期累计</td>
+                            <td>${views.wc_fund['上期累计']}</td>
                             <td colspan="3">${soulFn:formatCurrency(rebateAgent.rebateSelfHistory)}</td>
                         </tr>
                         <tr>
-                            <td>佣金占成</td>
+                            <td>${views.wc_fund['总费用']}</td>
                             <td colspan="3">${soulFn:formatCurrency(sum2+rebateAgent.rebateSelfHistory)}</td>
                         </tr>
                     </tbody>

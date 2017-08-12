@@ -8,19 +8,19 @@
     <table class="table table-striped table-hover dataTable" id="editable" aria-describedby="editable_info">
         <thead>
             <tr>
-                <td colspan="5" class="al-center">${views.fund_auto['费用总计细单']}</td>
+                <td colspan="5" class="al-center">${views.wc_fund['费用总计细单']}</td>
             </tr>
             <tr role="row" class="bg-gray">
-                <th>${views.fund_auto['玩家账号']}</th>
-                <th>${views.fund_auto['行政费用']}</th>
-                <th>${views.fund_auto['返水费用']}</th>
-                <th>${views.fund_auto['存款优惠']}</th>
-                <th>${views.fund_auto['其他费用']}</th>
-                <th>${views.fund_auto['小计金额']}</th>
+                <th>${views.wc_fund['玩家账号']}</th>
+                <th>${views.wc_fund['行政费用']}</th>
+                <th>${views.wc_fund['返水费用']}</th>
+                <th>${views.wc_fund['存款优惠']}</th>
+                <th>${views.wc_fund['其他费用']}</th>
+                <th>${views.wc_fund['小计金额']}</th>
             </tr>
 
             <tr class="co-red">
-                <td>${views.fund_auto['本期小计']}</td>
+                <td>${views.wc_fund['本期小计']}</td>
                 <td>${soulFn:formatCurrency(a.depositFee+a.withdrawFee)}</td>
                 <td>${soulFn:formatCurrency(a.rakebackFee)}</td>
                 <td>${soulFn:formatCurrency(a.favorableFee)}</td>
@@ -29,7 +29,7 @@
                 <td>${soulFn:formatCurrency(b+a.feeHistory)}</td>
             </tr>
             <tr>
-                <td>上期未结</td>
+                <td>${views.wc_fund['上期未结']}</td>
                 <td colspan="5">${soulFn:formatCurrency(a.feeHistory)}</td>
             </tr>
         </thead>

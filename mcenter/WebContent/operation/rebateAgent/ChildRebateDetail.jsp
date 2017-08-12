@@ -21,9 +21,9 @@
                 <table class="table table-striped table-hover dataTable m-b-none">
                     <thead>
                         <tr>
-                            <th>下级代理</th>
-                            <th>自身损益</th>
-                            <th>抽佣</th>
+                            <th>${views.wc_fund['下级代理']}</th>
+                            <th>${views.wc_fund['自身损益']}</th>
+                            <th>${views.wc_fund['抽佣']}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,16 +43,16 @@
                             </tr>
                         </c:forEach>
                         <tr class="co-red">
-                            <td>本期小计</td>
+                            <td>${views.wc_fund['本期小计']}</td>
                             <td>${soulFn:formatCurrency(sum1)}</td>
                             <td>${soulFn:formatCurrency(sum2)}</td>
                         </tr>
                         <tr>
-                            <td>上期累计</td>
+                            <td>${views.wc_fund['上期累计']}</td>
                             <td colspan="2">${soulFn:formatCurrency(rebateAgent.rebateSunHistory)}</td>
                         </tr>
                         <tr>
-                            <td>本期可获总佣金</td>
+                            <td>${views.wc_fund['总费用']}</td>
                             <td colspan="2">${soulFn:formatCurrency(sum2+rebateAgent.rebateSunHistory)}</td>
                         </tr>
                     </tbody>
@@ -63,7 +63,7 @@
     <div class="modal-footer">
         <soul:button target="closePage" text="${views.common['cancel']}" opType="function" cssClass="btn btn-outline btn-filter"/>
 
-        <a href="javascript:void(0)" class="btn btn-outline btn-filter hide" id="return-back" >返回</a>
+        <a href="javascript:void(0)" class="btn btn-outline btn-filter hide" id="return-back" >${views.common['return']}</a>
     </div>
 </form:form>
 </body>
