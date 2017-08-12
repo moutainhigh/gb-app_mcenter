@@ -20,11 +20,8 @@
         </tr>
         </thead>
 
-
-
         <tbody>
         <c:forEach items="${command.result}" var="p" varStatus="status">
-
             <tr class="tab-detail">
                 <td>${p.transactionNo}</td>
                 <td>${p.checkName}</td>
@@ -32,7 +29,7 @@
                 <td>${dicts.credit.pay_type[p.payType]}</td>
                 <td>${dicts.credit.credit_status[p.status]}</td>
                 <td>${p.bankName}</td>
-                <td>${p.createTime}</td>
+                <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
                 <td>${p.ip}</td>
             </tr>
         </c:forEach>
