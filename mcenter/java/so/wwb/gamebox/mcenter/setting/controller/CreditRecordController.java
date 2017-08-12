@@ -7,6 +7,7 @@ import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.model.common.BaseListVo;
 import org.soul.web.controller.BaseCrudController;
+import org.soul.web.controller.NoMappingCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ import java.util.List;
 @Controller
 //region your codes 1
 @RequestMapping("/creditRecord")
-public class CreditRecordController extends BaseCrudController<ICreditRecordService, CreditRecordListVo, CreditRecordVo, CreditRecordSearchForm, CreditRecordForm, CreditRecord, Integer> {
+public class CreditRecordController extends NoMappingCrudController<ICreditRecordService, CreditRecordListVo, CreditRecordVo, CreditRecordSearchForm, CreditRecordForm, CreditRecord, Integer> {
 //endregion your codes 1
 
     @Override
@@ -49,6 +50,11 @@ public class CreditRecordController extends BaseCrudController<ICreditRecordServ
     }
 
     //region your codes 3
+    @RequestMapping({"/list"})
+    public String searchCreditRecord(CreditRecordListVo listVo, @FormModel("search") @Valid CreditRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
+        return list(listVo, form, result, model, request, response);
+    }
+
     @Override
     public String list(CreditRecordListVo listVo, @FormModel("search") @Valid CreditRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
         List<Pair> Status = initStatus();
