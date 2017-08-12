@@ -51,7 +51,7 @@
                             <td colspan="3">${soulFn:formatCurrency(rebateAgent.rebateSelfHistory)}</td>
                         </tr>
                         <tr>
-                            <td>本期可获总佣金</td>
+                            <td>佣金占成</td>
                             <td colspan="3">${soulFn:formatCurrency(sum2+rebateAgent.rebateSelfHistory)}</td>
                         </tr>
                     </tbody>
