@@ -495,7 +495,7 @@
                 <%--按钮--%>
                 <div class="operate-btn">
                         <%--<a href="javascript:void(0)" class="btn btn-filter btn-lg">${views.player_auto['确认']}</a>--%>
-                    <soul:button target="${root}/userAgent/updateAgent.html" text="${views.common['OK']}" cssClass="btn btn-filter btn-lg" precall="myValidateForm" opType="ajax" post="getCurrentFormData" callback="goToLastPage" refresh="true">${views.common['OK']}</soul:button>
+                    <soul:button target="${root}/userAgent/updateAgent.html" text="${views.common['OK']}" cssClass="btn btn-filter btn-lg" precall="validateForm" opType="ajax" post="getCurrentFormData" callback="goToLastPage" refresh="true">${views.common['OK']}</soul:button>
                     <soul:button target="goToLastPage"  text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter btn-lg" opType="function">${views.common['cancel']}</soul:button>
 
                 </div>
