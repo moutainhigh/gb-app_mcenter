@@ -46,7 +46,6 @@
                                 <i class="fa fa-search"></i>
                                 <span class="hd">&nbsp;${views.common['search']}</span>
                             </soul:button>
-                            <a href="/rebateAgent/list.html" nav-target="mainFrame" class="btn btn-filter btn-outline">返佣账单</a>
                         </div>
                     </div>
                 </div>
