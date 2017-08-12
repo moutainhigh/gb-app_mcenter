@@ -19,8 +19,9 @@
             <th>${views.setting_auto['充值金额']}</th>
             <th>${views.setting_auto['类型']}</th>
             <th>
-                <gb:select name="search.fundType" value="${command.search.fundType}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
-                           list="${command.dictFundType}" listKey="key" listValue="value" callback="query"/>
+                ${views.setting_auto['类型']}
+                <%--<gb:select name="search.fundType" value="${command.search.fundType}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
+                           list="${command.dictFundType}" listKey="key" listValue="value" callback="query"/>--%>
             </th>
             <th>${views.setting_auto['存款渠道']}</th>
             <th>${views.setting_auto['支付时间']}</th>
@@ -31,7 +32,7 @@
 
 
         <tbody>
-        <c:forEach items="${command.result}" var="p" varStatus="status">
+        <%--<c:forEach items="${command.result}" var="p" varStatus="status">
 
             <tr class="tab-detail">
                 <td>${p.transactionNo}</td>
@@ -43,7 +44,7 @@
                 <td>${p.createTime}</td>
                 <td>${p.ip}</td>
             </tr>
-        </c:forEach>
+        </c:forEach>--%>
         </tbody>
     </table>
 </div>

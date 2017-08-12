@@ -22,7 +22,7 @@
                     <div class="m-b-xs clearfix">
                         <div class="col-sm-12 clearfix" style="padding-left: 0;">
 
-                            <div class="form-group clearfix pull-left col-md-6 col-sm-12 m-b-sm padding-r-none-sm">
+                            <%--<div class="form-group clearfix pull-left col-md-6 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group">
                                     <span class="input-group-addon bg-gray">${views.setting_auto['支付时间']}</span>
                                     <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:44%" useRange="true"
@@ -31,7 +31,7 @@
                                                   endDate=""
                                                   startName="" endName=""/>
                                 </div>
-                            </div>
+                            </div>--%>
 
                             <soul:button precall="validateForm" target="query" text="" cssClass="btn btn-filter mediate-search-btn"
                                          opType="function">
