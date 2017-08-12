@@ -6,7 +6,7 @@
 <!--//endregion your codes 1-->
 
     <%--<form:hidden path="result.id" id="mstId"/>--%>
-    <input type="hidden" value="${command.result.id}" id="mstId" name="result.id">
+    <%--<input type="hidden" value="${command.result.id}" id="mstId" name="result.id">--%>
     <div id="validateRule" style="display: none">${command.validateRule}</div>
 
     <div class="clearfix">
@@ -479,6 +479,29 @@
                     <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
                                  dataType="json"
                                  target="${root}/siteCustomerService/mobile.html"
+                                 precall="validMobileCustomerService"
+                                 post="getCurrentFormData" callback="saveCallbak"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix">
+        <div class="col-lg-6 site-switch">
+            <h3>${views.setting_auto['APP下载域名设置']}</h3>
+            <input type="hidden" name="mobile.id" value="${mobileCustomerService.id}">
+            <div class="content clearfix" style="padding-top: 10px">
+                <div class="clearfix m-b">
+                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                        ${views.setting_auto['APP下载域名']}
+                    </div>
+                    <div class="col-xs-5">
+                        <gb:select name="result.paramValue" value="${domain}" list="${appDomain}" listKey="domain" listValue="domain"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
+                                 dataType="json"
+                                 target="${root}/siteCustomerService/appDomain.html"
                                  precall="validMobileCustomerService"
                                  post="getCurrentFormData" callback="saveCallbak"/>
                 </div>
