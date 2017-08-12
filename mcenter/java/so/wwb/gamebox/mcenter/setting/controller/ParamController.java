@@ -52,7 +52,9 @@ import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.po.SiteOperateArea;
 import so.wwb.gamebox.model.company.site.vo.*;
+import so.wwb.gamebox.model.company.sys.po.SysDomain;
 import so.wwb.gamebox.model.company.sys.po.SysSite;
+import so.wwb.gamebox.model.company.sys.vo.SysDomainListVo;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.agent.po.VSubAccount;
@@ -403,7 +405,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
      * @return
      */
     @RequestMapping({"/basicSettingIndex"})
-    public String basicSettingEdit(SysSiteVo sysSiteVo, CttLogoVo cttLogoVo, SiteLanguageListVo languageListVo, SiteOperateAreaListVo siteOperateAreaListVo, Model model) {
+    public String basicSettingEdit(SysSiteVo sysSiteVo, CttLogoVo cttLogoVo, SiteLanguageListVo languageListVo, SiteOperateAreaListVo siteOperateAreaListVo, SysDomainListVo sysDomainListVo, Model model) {
         Integer siteId = SessionManagerBase.getSiteId();
         sysSiteVo.getSearch().setId(siteId);
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
@@ -443,6 +445,11 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("mobileCustomerService", SiteCustomerServiceHelper.getMobileCustomerService());
         //取款方式
         withdrawTypeParam(model);
+        //APP下载域名
+        sysDomainListVo.getSearch().setSiteId(SessionManager.getSiteId());
+        sysDomainListVo = ServiceTool.sysDomainService().updateAppDomain(sysDomainListVo);
+        List<SysDomain> result = sysDomainListVo.getResult();
+        model.addAttribute("appDomain",result);
         return "/setting/param/siteparameters/BasicSetting";
     }
 
