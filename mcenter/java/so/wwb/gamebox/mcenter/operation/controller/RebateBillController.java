@@ -1,18 +1,13 @@
 package so.wwb.gamebox.mcenter.operation.controller;
 
 import org.soul.commons.collections.CollectionTool;
-import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.DateTool;
-import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
-import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.model.msg.notice.vo.NoticeLocaleTmpl;
 import org.soul.model.msg.notice.vo.NoticeVo;
-import org.soul.model.sys.vo.SysDictVo;
 import org.soul.web.controller.BaseCrudController;
-import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,30 +15,21 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.iservice.master.operation.IRebateBillService;
-import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.operation.form.ConfirmSettlementForm;
 import so.wwb.gamebox.mcenter.operation.form.RebateAgentForm;
 import so.wwb.gamebox.mcenter.report.rebate.form.RebateBillForm;
 import so.wwb.gamebox.mcenter.report.rebate.form.RebateBillSearchForm;
-import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
-import so.wwb.gamebox.model.company.enums.SiteStatusEnum;
-import so.wwb.gamebox.model.company.sys.po.VSysSiteUser;
-import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.operation.po.*;
 import so.wwb.gamebox.model.master.operation.vo.*;
 import so.wwb.gamebox.model.master.player.po.UserAgent;
 import so.wwb.gamebox.model.master.player.vo.UserAgentListVo;
-import so.wwb.gamebox.model.master.report.po.HighChart;
 import so.wwb.gamebox.model.report.enums.SettlementStateEnum;
-import so.wwb.gamebox.model.report.rebate.vo.SiteRebateVo;
-import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.*;
 
@@ -367,8 +353,8 @@ public class RebateBillController extends BaseCrudController<IRebateBillService,
         paramMap.put("month",String.valueOf(month));
         Integer period = Integer.valueOf(objectVo.getResult().getPeriod());
         paramMap.put("period",String.format("%02d",period));
-        paramMap.put("startDate", DateTool.formatDate(objectVo.getResult().getStartTime(), DateTool.FMT_HYPHEN_DAY));
-        paramMap.put("endDate",DateTool.formatDate(objectVo.getResult().getEndTime(),DateTool.FMT_HYPHEN_DAY));
+        paramMap.put("startDate", DateTool.formatDate(objectVo.getResult().getStartTime(), DateTool.yyyy_MM_dd));
+        paramMap.put("endDate",DateTool.formatDate(objectVo.getResult().getEndTime(),DateTool.yyyy_MM_dd));
         return paramMap;
     }
 }

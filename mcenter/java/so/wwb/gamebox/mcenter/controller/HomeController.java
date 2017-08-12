@@ -24,7 +24,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.iservice.company.sys.ISysSiteService;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
@@ -262,8 +261,8 @@ public class HomeController {
         List<Date> dates = new ArrayList<>();
         for (int i = 7; i > 0; i--) {
             Date date = DateTool.addDays(today, -i);
-            String dateFormat = DateTool.formatDate(date, CommonContext.get().getLocale(), CommonContext.get().getTimeZone(), DateTool.FMT_HYPHEN_DAY);
-            date = DateTool.parseDate(dateFormat,DateTool.FMT_HYPHEN_DAY);
+            String dateFormat = DateTool.formatDate(date, CommonContext.get().getLocale(), CommonContext.get().getTimeZone(), DateTool.yyyy_MM_dd);
+            date = DateTool.parseDate(dateFormat,DateTool.yyyy_MM_dd);
             dates.add(date);
         }
         return dates;
@@ -290,7 +289,7 @@ public class HomeController {
         /*for (Date d : recently7Days) {
             String s = DateTool.formatDate(d, DATE_FMT_MM_DD);
             dates.add(s);
-            //dates.add(DateTool.parseDate(fmtDate, DateTool.FMT_HYPHEN_DAY));
+            //dates.add(DateTool.parseDate(fmtDate, DateTool.yyyy_MM_dd));
         }*/
         return dates;
     }

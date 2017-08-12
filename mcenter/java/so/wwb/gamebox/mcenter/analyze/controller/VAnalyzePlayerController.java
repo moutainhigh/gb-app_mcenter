@@ -232,13 +232,13 @@ public class VAnalyzePlayerController extends BaseCrudController<IVAnalyzePlayer
         }
         ParamTool.refresh(SiteParamEnum.ANALYZE_PLAYER_STATIC_TIME_END);
         SysParam staticTime = ParamTool.getSysParam(SiteParamEnum.ANALYZE_PLAYER_STATIC_TIME_END);
-        Date date = DateTool.parseDate(staticTime.getParamValue(), DateTool.FMT_HYPHEN_DAY_CLN_SECOND);
+        Date date = DateTool.parseDate(staticTime.getParamValue(), DateTool.yyyy_MM_dd_HH_mm_ss);
         Date date1 = SessionManager.getDate().getToday();
         //如果是昨天的时间
         if(date.getTime()<date1.getTime()){
             staticTime.setParamValue("00:00:00");
         }else{
-            staticTime.setParamValue(DateTool.formatDate(date,DateTool.FMT_CLN_SECOND));
+            staticTime.setParamValue(DateTool.formatDate(date,DateTool.HH_mm_ss));
         }
         vo.setDepositCountParam(depositCount);
         vo.setDepositParam(deposit);
@@ -248,11 +248,11 @@ public class VAnalyzePlayerController extends BaseCrudController<IVAnalyzePlayer
 
         Date today = SessionManager.getDate().getToday();
         Date todayEnd = DateTool.addDays(SessionManager.getDate().getToday(),1);
-        String s = DateTool.formatDate(today, DateTool.FMT_HYPHEN_DAY);
-        vo.getSearch().setDay(DateTool.parseDate(s,DateTool.FMT_HYPHEN_DAY));
+        String s = DateTool.formatDate(today, DateTool.yyyy_MM_dd);
+        vo.getSearch().setDay(DateTool.parseDate(s,DateTool.yyyy_MM_dd));
         vo.getSearch().setDaySecondStart(today);
         vo.getSearch().setDaySecondEnd(todayEnd);
-        LOG.debug("调用分析函数的三个参数为 day:{0},DaySecondStart:{1},DaySecondEnd{2}",s,DateTool.formatDate(today,DateTool.FMT_HYPHEN_DAY_CLN_SECOND),DateTool.formatDate(todayEnd,DateTool.FMT_HYPHEN_DAY_CLN_SECOND));
+        LOG.debug("调用分析函数的三个参数为 day:{0},DaySecondStart:{1},DaySecondEnd{2}",s,DateTool.formatDate(today,DateTool.yyyy_MM_dd_HH_mm_ss),DateTool.formatDate(todayEnd,DateTool.yyyy_MM_dd_HH_mm_ss));
     }
 
     /**

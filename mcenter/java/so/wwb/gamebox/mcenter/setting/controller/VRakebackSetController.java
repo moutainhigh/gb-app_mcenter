@@ -165,7 +165,7 @@ public class VRakebackSetController extends BaseCrudController<IVRakebackSetServ
         SysParam curParam = ParamTool.getSysParam(SiteParamEnum.SETTING_RAKEBACKSETTING_SETTLEMENTPERIODTIMES);
         SysParam newParam = ParamTool.getSysParam(SiteParamEnum.SETTING_RAKEBACKSETTING_SETTLEMENTPERIODTIMESNEW);
         //生效日期大于当前时间，说明返水设置已经生效
-        if (effectTimeParam != null && StringTool.isNotBlank(effectTimeParam.getParamValue()) && DateTool.parseDate(effectTimeParam.getParamValue(), DateTool.FMT_HYPHEN_DAY_CLN_SECOND).getTime() <= SessionManager.getDate().getNow().getTime()) {
+        if (effectTimeParam != null && StringTool.isNotBlank(effectTimeParam.getParamValue()) && DateTool.parseDate(effectTimeParam.getParamValue(), DateTool.yyyy_MM_dd_HH_mm_ss).getTime() <= SessionManager.getDate().getNow().getTime()) {
             curParam = newParam;
         }
         model.addAttribute("curParam", curParam);
@@ -205,7 +205,7 @@ public class VRakebackSetController extends BaseCrudController<IVRakebackSetServ
         params.add(newParam);
         SysParam effParam = ParamTool.getSysParam(SiteParamEnum.SETTING_RAKEBACKSETTING_SETTLEMENTPERIODEFFECTIVETIME);
         SysParam nParam = ParamTool.getSysParam(SiteParamEnum.SETTING_RAKEBACKSETTING_SETTLEMENTPERIODTIMESNEW);
-        if (effParam != null && nParam != null && StringTool.isNotBlank(nParam.getParamValue()) && StringTool.isNotBlank(effParam.getParamValue()) && DateTool.parseDate(effParam.getParamValue(), DateTool.FMT_HYPHEN_DAY_CLN_SECOND).getTime() <= SessionManager.getDate().getNow().getTime()) {
+        if (effParam != null && nParam != null && StringTool.isNotBlank(nParam.getParamValue()) && StringTool.isNotBlank(effParam.getParamValue()) && DateTool.parseDate(effParam.getParamValue(), DateTool.yyyy_MM_dd_HH_mm_ss).getTime() <= SessionManager.getDate().getNow().getTime()) {
             SysParam curParam = ParamTool.getSysParam(SiteParamEnum.SETTING_RAKEBACKSETTING_SETTLEMENTPERIODTIMES);
             curParam.setParamValue(nParam.getParamValue());
             params.add(curParam);
@@ -213,7 +213,7 @@ public class VRakebackSetController extends BaseCrudController<IVRakebackSetServ
         if (effParam != null) {
             Date effeDate = DateTool.addMilliseconds(DateTool.ceiling(new Date(), Calendar.MONTH),
                     -CommonContext.get().getTimeZone().getRawOffset());
-            effParam.setParamValue(DateTool.formatDate(effeDate, DateTool.FMT_HYPHEN_DAY_CLN_SECOND));
+            effParam.setParamValue(DateTool.formatDate(effeDate, DateTool.yyyy_MM_dd_HH_mm_ss));
             effParam.setActive(true);
             params.add(effParam);
         }

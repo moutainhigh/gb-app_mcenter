@@ -354,7 +354,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             rakebackBillVo.getSearch().setPeriod(map.get("period").toString());
             rakebackBillVo = ServiceTool.rakebackBillService().getOneByEndtimeAndPeriod(rakebackBillVo);
             if (rakebackBillVo != null && rakebackBillVo.getResult() != null) {
-                vo.setBackwaterCircle(DateTool.formatDate(rakebackBillVo.getResult().getStartTime(), DateTool.FMT_HYPHEN_DAY) + " ~ " + DateTool.formatDate(rakebackBillVo.getResult().getEndTime(), DateTool.FMT_HYPHEN_DAY));
+                vo.setBackwaterCircle(DateTool.formatDate(rakebackBillVo.getResult().getStartTime(), DateTool.yyyy_MM_dd) + " ~ " + DateTool.formatDate(rakebackBillVo.getResult().getEndTime(), DateTool.yyyy_MM_dd));
                 RakebackPlayerVo rakebackPlayerVo = new RakebackPlayerVo();
                 rakebackPlayerVo.getSearch().setPlayerId(vo.getResult().getPlayerId());
                 rakebackPlayerVo.getSearch().setRakebackBillId(rakebackBillVo.getResult().getId());
