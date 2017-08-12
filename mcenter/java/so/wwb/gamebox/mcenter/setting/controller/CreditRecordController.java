@@ -4,10 +4,13 @@ package so.wwb.gamebox.mcenter.setting.controller;
 
 import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.iservice.company.credit.ICreditRecordService;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordForm;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordSearchForm;
+import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.company.credit.po.CreditRecord;
 import so.wwb.gamebox.model.company.credit.vo.CreditRecordListVo;
 import so.wwb.gamebox.model.company.credit.vo.CreditRecordVo;
@@ -33,7 +36,11 @@ public class CreditRecordController extends BaseCrudController<ICreditRecordServ
     }
 
     //region your codes 3
-
+    @Override
+    protected CreditRecordListVo doList(CreditRecordListVo listVo, CreditRecordSearchForm form, BindingResult result, Model model) {
+        listVo = ServiceTool.creditRecordService().search(listVo);
+        return listVo;
+    }
     //endregion your codes 3
 
 }

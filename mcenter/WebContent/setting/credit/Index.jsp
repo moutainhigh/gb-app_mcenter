@@ -6,8 +6,6 @@
 <!--//endregion your codes 1-->
 <form:form action="${root}/creditRecord/list.html" method="post">
     <div id="validateRule" style="display: none">${validateRule}</div>
-    <input type="hidden" name="search.transactionType" value="${command.search.transactionType}">
-    <input type="hidden" name="search.type" value="${command.search.type}">
     <div class="row">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
@@ -22,18 +20,18 @@
                     <div class="m-b-xs clearfix">
                         <div class="col-sm-12 clearfix" style="padding-left: 0;">
 
-                            <%--<div class="form-group clearfix pull-left col-md-6 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="form-group clearfix pull-left col-md-6 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group">
                                     <span class="input-group-addon bg-gray">${views.setting_auto['支付时间']}</span>
                                     <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:44%" useRange="true"
                                                   opens="right" position="down"
-                                                  startDate=""
-                                                  endDate=""
-                                                  startName="" endName=""/>
+                                                  startDate="${command.search.startTime}"
+                                                  endDate="${command.search.endTime}"
+                                                  startName="search.startTime" endName="search.endTime"/>
                                 </div>
-                            </div>--%>
+                            </div>
 
-                            <soul:button precall="validateForm" target="query" text="" cssClass="btn btn-filter mediate-search-btn"
+                            <soul:button precall="" target="query" text="" cssClass="btn btn-filter"
                                          opType="function">
                                 <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                             </soul:button>

@@ -1,16 +1,8 @@
 <%--@elvariable id="command" type="so.wwb.gamebox.model.company.credit.vo.CreditRecordListVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
-<%@ page import="so.wwb.gamebox.model.company.credit.po.CreditRecord" %>
-<c:set var="poType" value="<%= CreditRecord.class %>" />
 <!--//region your codes 1-->
 <div class="table-responsive table-min-h">
-    <input type="hidden" value="${conditionJson}" id="conditionJson">
-    <div class="search-params-div hide"></div>
-    <div class="p-sm total_content">
-        <b class="m-l">${views.report['fund.list.total']}</b><span class="total_count">${command.paging.totalCount}</span>${views.report['fund.list.totalUnit']}
-        <b class="m-l">${views.report['fund.list.money']}：</b><span class="total_money">0</span>
-    </div>
     <table class="table table-striped table-hover dataTable m-b-none" aria-describedby="editable_info">
         <thead>
         <tr role="row" class="bg-gray tab-detail">

@@ -1773,6 +1773,14 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.operation.IRebateAgentApiNosettledService rebateAgentApiNosettledService() {
         return getService(so.wwb.gamebox.iservice.master.operation.IRebateAgentApiNosettledService.class);
     }
+    /**
+     * 返回买分记录远程服务实例
+     *
+     * @return 买分记录远程服务实例
+     */
+    public static so.wwb.gamebox.iservice.company.credit.ICreditRecordService creditRecordService() {
+        return getService(so.wwb.gamebox.iservice.company.credit.ICreditRecordService.class);
+    }
 
 //endregion your codes 1
 
