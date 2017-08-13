@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.iservice.company.credit.ICreditRecordService;
+import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordForm;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordSearchForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
@@ -57,6 +58,7 @@ public class CreditRecordController extends NoMappingCrudController<ICreditRecor
 
     @Override
     public String list(CreditRecordListVo listVo, @FormModel("search") @Valid CreditRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
+        listVo.getSearch().setSiteId(SessionManager.getSiteId());
         List<Pair> Status = initStatus();
         model.addAttribute("status", Status);
         return super.list(listVo, form, result, model, request, response);
