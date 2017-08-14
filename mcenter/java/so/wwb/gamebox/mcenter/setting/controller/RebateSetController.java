@@ -30,9 +30,11 @@ import so.wwb.gamebox.mcenter.setting.form.RebateSetFeeForm;
 import so.wwb.gamebox.mcenter.setting.form.RebateSetForm;
 import so.wwb.gamebox.mcenter.setting.form.RebateSetSearchForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.SubSysCodeEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.enums.GameStatusEnum;
 import so.wwb.gamebox.model.company.setting.po.Api;
 import so.wwb.gamebox.model.company.site.po.SiteApi;
@@ -46,6 +48,7 @@ import so.wwb.gamebox.model.master.setting.vo.RebateSetListVo;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetVo;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
+import so.wwb.gamebox.web.common.token.TokenHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -409,7 +412,19 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @Override
     @Token(valid = true)
     public Map persist(RebateSetVo objectVo, @FormModel("result") @Valid RebateSetForm form, BindingResult result) {
-        return super.persist(objectVo, form, result);
+        Map persist = new HashMap(3,1f);
+        try{
+            persist = super.persist(objectVo, form, result);
+
+        }catch (Exception ex){
+            persist.put("state",false);
+            String msg = LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED);
+            persist.put("msg",msg);
+            persist.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+            LOG.error(ex,"保存返佣方案出错");
+        }
+
+        return  persist;
     }
 
     /**
