@@ -335,10 +335,10 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
         ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
         if(sysParamVo.isSuccess()){
-            map.put("msg","成功");
+            map.put("msg",LocaleTool.tranMessage("setting_auto","成功"));
             map.put("state",true);
         }else {
-            map.put("msg","失败");
+            map.put("msg",LocaleTool.tranMessage("setting_auto","失败"));
             map.put("state",false);
         }
         return map;
