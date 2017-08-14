@@ -33,7 +33,7 @@
                 </td>
                 <td>
                         <%--//所属自己才能编辑--%>
-                    <c:if test="${siteMasterId eq p.ownerId }">
+                    <c:if test="${siteMasterId eq p.ownerId || empty p.ownerId }">
                         <a href="/rebateSet/edit.html?id=${p.id}" nav-target="mainFrame">${views.common['edit']}</a>
                         <span class="dividing-line m-r-xs m-l-xs">|</span>
                     </c:if>
