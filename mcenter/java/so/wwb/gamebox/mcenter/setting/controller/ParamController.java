@@ -5,6 +5,7 @@ import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.init.context.Const;
 import org.soul.commons.lang.ArrayTool;
 import org.soul.commons.lang.DateTool;
@@ -703,6 +704,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     @ResponseBody
     public Map saveTrafficStatistics(SysSiteVo vo, @FormModel("result") @Valid TrafficStatisticsForm form, BindingResult result) {
         if (!result.hasErrors()) {
+            vo.getResult().setId(CommonContext.get().getSiteId());
             vo.setProperties(SysSite.PROP_TRAFFIC_STATISTICS);
             ServiceTool.sysSiteService().updateOnly(vo);
             Cache.refreshSysSite();
