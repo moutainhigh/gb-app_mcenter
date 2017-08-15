@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.operation.controller;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.exolab.castor.mapping.xml.MapTo;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.MapTool;
@@ -10,6 +11,7 @@ import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.sort.Direction;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.log.audit.enums.ParamType;
@@ -44,16 +46,15 @@ import so.wwb.gamebox.model.master.enums.RemarkEnum;
 import so.wwb.gamebox.model.master.fund.rebate.vo.AgentRebateVo;
 import so.wwb.gamebox.model.master.operation.po.RebateAgent;
 import so.wwb.gamebox.model.master.operation.po.RebateBill;
-import so.wwb.gamebox.model.master.operation.vo.RebateAgentListVo;
-import so.wwb.gamebox.model.master.operation.vo.RebateAgentVo;
-import so.wwb.gamebox.model.master.operation.vo.RebateBillListVo;
-import so.wwb.gamebox.model.master.operation.vo.RebateBillVo;
+import so.wwb.gamebox.model.master.operation.vo.*;
 import so.wwb.gamebox.model.master.player.po.Remark;
 import so.wwb.gamebox.model.master.player.vo.RemarkVo;
+import so.wwb.gamebox.model.master.player.vo.UserAgentVo;
 import so.wwb.gamebox.model.report.enums.SettlementStateEnum;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
+import so.wwb.gamebox.web.fund.controller.BaseRebateAgentController;
 import sun.util.logging.resources.logging;
 
 import javax.servlet.http.HttpServletRequest;
@@ -70,85 +71,18 @@ import java.util.*;
 @Controller
 //region your codes 1
 @RequestMapping("/rebateAgent")
-public class RebateAgentController extends BaseCrudController<IRebateAgentService, RebateAgentListVo, RebateAgentVo, RebateAgentSearchForm, RebateAgentForm, RebateAgent, Integer> {
+public class RebateAgentController extends BaseRebateAgentController{
 
     private static final Log LOG = LogFactory.getLog(RebateAgentController.class);
     //endregion your codes 1
 
     @Override
     protected String getViewBasePath() {
-        //region your codes 2
         return "/operation/rebateAgent/";
-        //endregion your codes 2
     }
+
 
     //region your codes 3
-    private static final String REBATE_SETTLEMENT_REJECT_MSG = "rebate.settlement.reject.msg";
-    private static final String REBATE_SETTLEMENT_SUCCESS_MSG = "rebate.settlement.success.msg";
-
-
-    @Override
-    protected RebateAgentListVo doList(RebateAgentListVo listVo, RebateAgentSearchForm form, BindingResult result, Model model) {
-        Map<Integer,String> periodMap = queryRebatePeriods();
-        if(MapTool.isEmpty(periodMap)){
-            return listVo;
-        }
-        if(listVo.getSearch().getRebateBillId()==null){
-            Integer billId = null;
-            for (Map.Entry<Integer, String> entry : periodMap.entrySet()) {
-                billId = entry.getKey();
-                if (billId != null) {
-                    break;
-                }
-            }
-            listVo.getSearch().setRebateBillId(billId);
-
-        }
-        model.addAttribute("periodMap",periodMap);
-        List<Map<String, String>> ranks = queryAgentRank(listVo);
-        model.addAttribute("agentRanks",ranks);
-        listVo.getQuery().addOrder("order_num",Direction.ASC);
-        listVo.getQuery().addOrder(RebateAgent.PROP_REBATE_TOTAL,Direction.DESC);
-        listVo.getQuery().addOrder(RebateAgent.PROP_AGENT_NAME,Direction.ASC);
-
-        listVo = getService().queryRebateAgent(listVo);
-        return listVo;
-    }
-
-    /**
-     * 查询账单期数
-     * @return
-     */
-    private Map<Integer,String> queryRebatePeriods(){
-        RebateBillListVo billListVo = new RebateBillListVo();
-        billListVo.setPaging(null);
-        billListVo.getQuery().addOrder(RebateBill.PROP_PERIOD, Direction.DESC);
-        billListVo = ServiceTool.rebateBillService().search(billListVo);
-        Map<Integer,String> periodMap = CollectionTool.extractToMap(billListVo.getResult(), RebateBill.PROP_ID, RebateBill.PROP_PERIOD);
-        return periodMap;
-    }
-
-    /**
-     * 查询代理层级数
-     */
-    private List<Map<String,String>> queryAgentRank(RebateAgentListVo listVo){
-        if(listVo.getSearch().getRebateBillId()==null){
-            return null;
-        }
-
-        List<Integer> integerList = getService().queryAgentRanks(listVo);
-        List<Map<String,String>> ranksMap = new ArrayList<>();
-        if(integerList!=null&&integerList.size()>0){
-            for (Integer id :integerList){
-                Map<String,String> tempMap = new LinkedHashMap<>();
-                tempMap.put("key",String.valueOf(id));
-                String agentrank = LocaleTool.tranView(Module.MASTER_OPERATION, MessageI18nConst.OPERATION_REBATE_AGENTRANK, String.valueOf(id));
-                tempMap.put("value",agentrank);
-                ranksMap.add(tempMap);
-            }
-        }
-        return ranksMap;
-    }
 
     /***
      * 调转到结算窗口
@@ -311,7 +245,6 @@ public class RebateAgentController extends BaseCrudController<IRebateAgentServic
 
         return resMap;
     }
-
     //endregion your codes 3
 
 }

@@ -100,7 +100,8 @@ public class ActivityMoneyConditionForm implements IForm {
 
     @Depends(property = "activityRule.hasCondition",operator = Operator.EQ,value = {"true"},jsValueExp ="$(\"[name=\\'activityRule.hasCondition\\']:checked\").val()=='true'")
     @Pattern(regexp = FormValidRegExps.DECIMAL,message = "operation_auto.请输入正数")
-    @Digits(integer = 8,fraction = 2)
+    @Digits(integer = 13,fraction = 2)
+    @Max(value = 9999999999999L)
     public String[] getMoneyConditions$$_singleDepositAmount() {
         return moneyConditions$$_singleDepositAmount;
     }
@@ -110,7 +111,8 @@ public class ActivityMoneyConditionForm implements IForm {
     }
     @Depends(property = "activityRule.hasCondition",operator = Operator.EQ,value = {"true"},jsValueExp ="$(\"[name=\\'activityRule.hasCondition\\']:checked\").val()=='true'")
     @Pattern(regexp = FormValidRegExps.DECIMAL,message = "operation_auto.请输入正数")
-    @Digits(integer = 8,fraction = 2)
+    @Digits(integer = 13,fraction = 2)
+    @Max(value = 9999999999999L)
     public String[] getMoneyConditions$$_effectiveAmount() {
         return moneyConditions$$_effectiveAmount;
     }
@@ -120,6 +122,7 @@ public class ActivityMoneyConditionForm implements IForm {
     }
     @Depends(property = "activityRule.hasCondition",operator = Operator.EQ,value = {"true"},jsValueExp ="$(\"[name=\\'activityRule.hasCondition\\']:checked\").val()=='true'")
     @Pattern(regexp = FormValidRegExps.ZERO_POSITIVE_INTEGER,message = "operation_auto.请输入正整数")
+    @Max(value = 99999999)
     public String[] getMoneyConditions$$_betCount() {
         return moneyConditions$$_betCount;
     }
@@ -130,7 +133,8 @@ public class ActivityMoneyConditionForm implements IForm {
 
     @NotBlank
     @Pattern(regexp = FormValidRegExps.POSITIVE,message = "operation_auto.请输入正数")
-    @Digits(integer = 8,fraction = 2)
+    @Digits(integer = 13,fraction = 2)
+    @Max(value = 9999999999999L)
     public String[] getMoneyAwardsRules$$_amount() {
         return moneyAwardsRules$$_amount;
     }
@@ -141,6 +145,7 @@ public class ActivityMoneyConditionForm implements IForm {
     @NotBlank
     @Pattern(regexp = FormValidRegExps.POSITIVE,message = "operation_auto.请输入正数")
     @Digits(integer = 8,fraction = 2)
+    @Max(value = 99999999)
     public String[] getMoneyAwardsRules$$_audit() {
         return moneyAwardsRules$$_audit;
     }
@@ -150,6 +155,7 @@ public class ActivityMoneyConditionForm implements IForm {
     }
     @NotBlank
     @Pattern(regexp = FormValidRegExps.ZERO_POSITIVE_INTEGER,message = "operation_auto.请输入正整数")
+    @Max(value = 99999999)
     public String[] getMoneyAwardsRules$$_quantity() {
         return moneyAwardsRules$$_quantity;
     }
@@ -170,6 +176,7 @@ public class ActivityMoneyConditionForm implements IForm {
     }
     @NotBlank
     @Pattern(regexp = FormValidRegExps.ZERO_POSITIVE_INTEGER,message = "operation_auto.请输入正整数")
+    @Max(value = 99999999)
     public String[] getMoneyAwardsRules$$_remainCount() {
         return moneyAwardsRules$$_remainCount;
     }

@@ -32,12 +32,8 @@
 
                 </td>
                 <td>
-                        <%--//所属自己才能编辑--%>
-                    <c:if test="${siteMasterId eq p.ownerId || empty p.ownerId }">
-                        <a href="/rebateSet/edit.html?id=${p.id}" nav-target="mainFrame">${views.common['edit']}</a>
-                        <span class="dividing-line m-r-xs m-l-xs">|</span>
-                    </c:if>
-
+                    <a href="/rebateSet/edit.html?id=${p.id}" nav-target="mainFrame">${views.common['edit']}</a>
+                    <span class="dividing-line m-r-xs m-l-xs">|</span>
                     <c:if test="${p.userAgentNum==0&&p.id!=0}">
                         <soul:button target="${root}/rebateSet/${p.id}/deleterebate.html" text="${views.common['delete']}" opType="ajax" dataType="json" confirm="${views.common['confirm.deletescheme']}" callback="query" />
                         <span class="dividing-line m-r-xs m-l-xs">|</span>
