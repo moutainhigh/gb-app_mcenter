@@ -422,7 +422,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
             String msg = LocaleTool.tranMessage("common", "save.failed");
             persist.put("msg",msg);
             persist.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
-            LOG.error(ex,"保存返佣方案出错");
+            LOG.error(ex,"保存返佣方案出错:{0}",ex.getMessage());
         }
 
         return  persist;
