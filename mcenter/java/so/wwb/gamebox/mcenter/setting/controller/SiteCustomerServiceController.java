@@ -1,8 +1,11 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.validation.form.support.RegExpConstants;
+import org.soul.model.sys.po.SysParam;
+import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,8 @@ import so.wwb.gamebox.mcenter.setting.form.SiteCustomerServiceSearchForm;
 import so.wwb.gamebox.mcenter.setting.form.SiteMobileCustomerServiceForm;
 import so.wwb.gamebox.mcenter.setting.form.SitePCCustomerServiceForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.company.site.po.SiteCustomerService;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceVo;
@@ -248,6 +253,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
         boolean b = Pattern.compile(RegExpConstants.URL).matcher(newUrl.toString()).find();
         if(b){
+            objectVo.setResult(new SiteCustomerService());
             objectVo.getResult().setParameter(newUrl.toString());
             objectVo.getResult().setId(objectVo.getPc().getId());
             objectVo.getResult().setName(objectVo.getPc().getName());
@@ -292,6 +298,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
         boolean b = Pattern.compile(RegExpConstants.URL).matcher(newUrl.toString()).find();
         if (b){
+            objectVo.setResult(new SiteCustomerService());
             objectVo.getResult().setParameter(newUrl.toString());
             objectVo.getResult().setId(objectVo.getMobile().getId());
             objectVo.getResult().setName(objectVo.getMobile().getName());
@@ -313,6 +320,24 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         return map;
     }
 
+    @RequestMapping("/appDomain")
+    @ResponseBody
+    public Map updateAppDomainService(SysParamVo sysParamVo,Model model){
+        Map map=new HashedMap();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
+        sysParamVo.getResult().setId(sysParam.getId());
+        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+        sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+        ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
+        if(sysParamVo.isSuccess()){
+            map.put("msg",LocaleTool.tranMessage("setting_auto","成功"));
+            map.put("state",true);
+        }else {
+            map.put("msg",LocaleTool.tranMessage("setting_auto","失败"));
+            map.put("state",false);
+        }
+        return map;
+    }
     //endregion your codes 3
 
 }

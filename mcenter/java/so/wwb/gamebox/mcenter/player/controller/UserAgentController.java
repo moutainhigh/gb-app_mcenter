@@ -944,7 +944,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
     private void doInitByParentId(UserAgentVo objectVo) {
         Integer parentId = objectVo.getAgentUserId();
         objectVo.getResult().setParentId(parentId);
-        UserAgent userAgent = fetchParentAgent(parentId);
+        /*UserAgent userAgent = fetchParentAgent(parentId);
         Integer[] parentArray = userAgent.getParentArray();
         Integer[] newArray = new Integer[0];
         if(parentArray!=null){
@@ -959,7 +959,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         objectVo.getResult().setParentArray(newArray);
         if(userAgent!=null&&userAgent.getAgentRank()!=null){
             objectVo.getResult().setAgentRank(userAgent.getAgentRank()+1);
-        }
+        }*/
     }
     /**
      * 设置用户的拥有者
