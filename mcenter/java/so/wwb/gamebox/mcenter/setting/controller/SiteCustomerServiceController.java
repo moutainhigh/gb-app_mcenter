@@ -1,11 +1,9 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
-import com.sun.org.apache.xalan.internal.xsltc.DOM;
 import org.apache.commons.collections.map.HashedMap;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.validation.form.support.RegExpConstants;
-import org.soul.iservice.support.IBaseService;
 import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.controller.BaseCrudController;
@@ -16,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.iservice.company.site.ISiteCustomerServiceService;
-import so.wwb.gamebox.iservice.company.sys.ISysDomainService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.SiteCustomerServiceForm;
 import so.wwb.gamebox.mcenter.setting.form.SiteCustomerServiceSearchForm;
@@ -28,16 +25,12 @@ import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.company.site.po.SiteCustomerService;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceVo;
-import so.wwb.gamebox.model.company.sys.po.SysDomain;
 import so.wwb.gamebox.model.company.sys.po.SysSite;
-import so.wwb.gamebox.model.company.sys.vo.SysDomainListVo;
-import so.wwb.gamebox.model.company.sys.vo.SysDomainVo;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.master.content.po.VFloatPic;
 import so.wwb.gamebox.model.master.content.vo.VFloatPicListVo;
 import so.wwb.gamebox.model.master.enums.FloatPicLinkTypeEnum;
 import so.wwb.gamebox.web.cache.Cache;
-import so.wwb.gamebox.web.filter.DomainCacheResolver;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -260,6 +253,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
         boolean b = Pattern.compile(RegExpConstants.URL).matcher(newUrl.toString()).find();
         if(b){
+            objectVo.setResult(new SiteCustomerService());
             objectVo.getResult().setParameter(newUrl.toString());
             objectVo.getResult().setId(objectVo.getPc().getId());
             objectVo.getResult().setName(objectVo.getPc().getName());
@@ -304,6 +298,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
         boolean b = Pattern.compile(RegExpConstants.URL).matcher(newUrl.toString()).find();
         if (b){
+            objectVo.setResult(new SiteCustomerService());
             objectVo.getResult().setParameter(newUrl.toString());
             objectVo.getResult().setId(objectVo.getMobile().getId());
             objectVo.getResult().setName(objectVo.getMobile().getName());
