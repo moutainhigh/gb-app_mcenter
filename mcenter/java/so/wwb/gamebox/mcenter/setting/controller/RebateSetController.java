@@ -344,7 +344,10 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
 
     @Override
     protected RebateSetVo doEdit(RebateSetVo objectVo, Model model) {
-        return setGame(getService().queryRebateById(objectVo));
+        objectVo = getService().queryRebateById(objectVo);
+        boolean canBeDelete = getService().isRebateGradsCanBeDelete(objectVo);
+        objectVo.setShowDeleteBtn(canBeDelete);
+        return setGame(objectVo);
     }
 
     @Override

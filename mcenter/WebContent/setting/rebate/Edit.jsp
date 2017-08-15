@@ -29,6 +29,7 @@
                         <form:input path="result.name" cssClass="form-control" readonly="${command.result.id eq 0?true:false}"></form:input>
                         <form:hidden path="result.id"></form:hidden>
                     </div>
+
                 </div>
                 <div class="form-group clearfix">
                     <label class="ft-bold col-sm-3 al-right line-hi34" for="result.validValue">${views.setting['rebate.edit.validValue']}</label>
@@ -52,6 +53,7 @@
                             <c:when test="${empty command.rebateGrads}">
                                 <table class="table table-striped table-bordered table-hover dataTable m-b-none">
                                     <tr role="row" class="bg-color">
+                                        <td rowspan="2">&nbsp;</td>
                                         <td rowspan="2">
                                             <h3>${views.setting['rebate.edit.totalProfit']}
                                                 <i data-content="${views.setting['rebate.edit.showTitle']}" class="m-l-sm help-popover"
@@ -62,6 +64,7 @@
                                             </h3>
                                         </td>
                                         <td rowspan="2"><h3>${views.setting['rebate.edit.validPlayerNum']}</h3></td>
+                                        <td rowspan="2"><h3>${views.setting['rebate.edit.max']}</h3></td>
                                         <td colspan="${command.apiIds.size()}">
                                             <h3>${views.setting['rebate.edit.ratio']}
                                                 <i data-content="${views.setting['rebate.edit.rakeback']}" class="m-l-sm help-popover"
@@ -71,8 +74,8 @@
                                                 </i>
                                             </h3>
                                         </td>
-                                        <td rowspan="2"><h3>${views.setting['rebate.edit.max']}</h3></td>
-                                        <td rowspan="2">&nbsp;</td>
+
+
                                     </tr>
                                     <tr class="bg-color">
                                         <c:forEach items="${command.apiIds}" var="api">
@@ -80,8 +83,14 @@
                                         </c:forEach>
                                     </tr>
                                     <tr class="bg-color apiGrad">
+                                        <td>
+                                            <div class="ratio_area"></div>
+                                            <button type="button" class="btn btn-danger disabled">${views.common['delete']}</button>
+                                            <soul:button target="batchUpdateRatio" text="批量调整比例" opType="function" cssClass="btn" tag="button"></soul:button>
+                                        </td>
                                         <td><input type="text" name="rebateGrads[0].totalProfit" data-name="rebateGrads[{n}].totalProfit" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.profit']}"></td>
                                         <td><input type="text" name="rebateGrads[0].validPlayerNum" data-name="rebateGrads[{n}].validPlayerNum" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.validPlayer']}"></td>
+                                        <td><input type="text" class="form-control content-width-limit-8" name="rebateGrads[0].maxRebate" data-name="rebateGrads[{n}].maxRebate" placeholder="${views.setting['rebate.edit.max']}${views.setting['rebate.edit.canBlank']}"></td>
                                         <c:set var="game_status_index" value="0"/>
                                         <c:forEach items="${command.apiIds}" var="api">
                                             <td>
@@ -112,14 +121,15 @@
 
                                             </td>
                                         </c:forEach>
-                                        <td><input type="text" class="form-control content-width-limit-8" name="rebateGrads[0].maxRebate" data-name="rebateGrads[{n}].maxRebate" placeholder="${views.setting['rebate.edit.max']}${views.setting['rebate.edit.canBlank']}"></td>
-                                        <td><button type="button" class="btn btn-w-m btn-danger disabled">${views.common['delete']}</button></td>
+
+
                                     </tr>
                                 </table>
                             </c:when>
                             <c:otherwise>
                                 <table class="table table-striped table-bordered table-hover dataTable m-b-none">
                                     <tr role="row" class="bg-color">
+                                        <td rowspan="2">&nbsp;</td>
                                         <td rowspan="2">
                                             <h3>${views.setting['rebate.edit.totalProfit']}
                                                 <i data-content="${views.setting['rebate.edit.showTitle']}" class="m-l-sm help-popover"
@@ -130,6 +140,7 @@
                                             </h3>
                                         </td>
                                         <td rowspan="2"><h3>${views.setting['rebate.edit.validPlayerNum']}</h3></td>
+                                        <td rowspan="2"><h3>${views.setting['rebate.edit.max']}</h3></td>
                                         <td colspan="${command.apiIds.size()}">
                                             <h3>${views.setting['rebate.edit.ratio']}
                                                 <i data-content="${views.setting['rebate.edit.rakeback']}" class="m-l-sm help-popover"
@@ -139,8 +150,8 @@
                                                 </i>
                                             </h3>
                                         </td>
-                                        <td rowspan="2"><h3>${views.setting['rebate.edit.max']}</h3></td>
-                                        <td rowspan="2">&nbsp;</td>
+
+
                                     </tr>
                                     <tr class="bg-color">
                                         <c:forEach items="${command.apiIds}" var="api">
@@ -150,9 +161,24 @@
                                     <c:forEach items="${command.rebateGrads}" var="rebateGrad" varStatus="status">
                                         <tr class="bg-color apiGrad">
                                             <td>
+                                                <div class="ratio_area"></div>
+                                                <c:choose>
+                                                    <c:when test="${command.showDeleteBtn}">
+                                                        <soul:button target="deletePlan" text="" opType="function" cssClass="btn btn-danger${status.first ? ' disabled ui-button-disable':''}" tag="button">
+                                                            ${views.common['delete']}
+                                                        </soul:button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <button type="button" class="btn btn-danger disabled">${views.common['delete']}</button>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <soul:button target="batchUpdateRatio" text="批量调整比例" opType="function" cssClass="btn" tag="button"></soul:button>
+                                            </td>
+                                            <td>
                                                 <input type="hidden" name="rebateGrads[${status.index}].id" value="${rebateGrad.id}">
                                                 <input type="text"value="${rebateGrad.totalProfit}" name="rebateGrads[${status.index}].totalProfit" data-name="rebateGrads[{n}].totalProfit" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.profit']}"></td>
                                             <td><input type="text"value="${rebateGrad.validPlayerNum}" name="rebateGrads[${status.index}].validPlayerNum" data-name="rebateGrads[{n}].validPlayerNum" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.validPlayer']}"></td>
+                                            <td><input type="text" value="${rebateGrad.maxRebate}" class="form-control content-width-limit-8" name="rebateGrads[${status.index}].maxRebate" data-name="rebateGrads[{n}].maxRebate" placeholder="${views.setting_auto['可为空']}"></td>
                                             <c:set var="game_status_index" value="0"/>
                                             <c:forEach items="${command.apiIds}" var="api">
                                                 <td>
@@ -205,12 +231,8 @@
 
                                                 </td>
                                             </c:forEach>
-                                            <td><input type="text" value="${rebateGrad.maxRebate}" class="form-control content-width-limit-8" name="rebateGrads[${status.index}].maxRebate" data-name="rebateGrads[{n}].maxRebate" placeholder="${views.setting_auto['可为空']}"></td>
-                                            <td>
-                                                <soul:button target="deletePlan" text="" opType="function" cssClass="btn btn-w-m btn-danger${status.first ? ' disabled ui-button-disable':''}" tag="button">
-                                                    ${views.common['delete']}
-                                                </soul:button>
-                                            </td>
+
+
                                         </tr>
                                     </c:forEach>
                                 </table>
@@ -232,11 +254,13 @@
 </form:form>
 <table class="table table-striped table-bordered table-hover dataTable m-b-none hide" id="foolishlyTable">
     <tr role="row" class="bg-color">
+        <td rowspan="2">&nbsp;</td>
         <td rowspan="2"><h3>${views.setting['rebate.edit.totalProfit']} <i class="fa fa-question-circle m-l-sm"></i></h3></td>
         <td rowspan="2"><h3>${views.setting['rebate.edit.validPlayerNum']} <i class="fa fa-question-circle m-l-sm"></i></h3></td>
-        <td colspan="${command.apiIds.size()}"><h3>${views.setting['rebate.edit.ratio']} <i class="fa fa-question-circle m-l-sm"></i></h3></td>
         <td rowspan="2"><h3>${views.setting['rebate.edit.max']}</h3></td>
-        <td rowspan="2">&nbsp;</td>
+        <td colspan="${command.apiIds.size()}"><h3>${views.setting['rebate.edit.ratio']} <i class="fa fa-question-circle m-l-sm"></i></h3></td>
+
+
     </tr>
     <tr class="bg-color">
         <c:forEach items="${command.apiIds}" var="api">
@@ -244,8 +268,16 @@
         </c:forEach>
     </tr>
     <tr class="bg-color apiGrad">
+        <td>
+            <div class="ratio_area"></div>
+            <soul:button target="deletePlan" text="" opType="function" cssClass="btn btn-danger" tag="button">
+                ${views.common['delete']}
+            </soul:button>
+            <soul:button target="batchUpdateRatio" text="批量调整比例" opType="function" cssClass="btn" tag="button"></soul:button>
+        </td>
         <td><input type="text" name="rebateGrads[0].totalProfit" data-name="rebateGrads[{n}].totalProfit" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.profit']}"></td>
         <td><input type="text" name="rebateGrads[0].validPlayerNum" data-name="rebateGrads[{n}].validPlayerNum" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.validPlayer']}"></td>
+        <td><input type="text" class="form-control content-width-limit-8" name="rebateGrads[0].maxRebate" data-name="rebateGrads[{n}].maxRebate" placeholder="${views.setting_auto['可为空']}"></td>
         <c:set var="game_status_index" value="0"/>
         <c:forEach items="${command.apiIds}" var="api">
             <td>
@@ -279,12 +311,8 @@
                 </c:forEach>
             </td>
         </c:forEach>
-        <td><input type="text" class="form-control content-width-limit-8" name="rebateGrads[0].maxRebate" data-name="rebateGrads[{n}].maxRebate" placeholder="${views.setting_auto['可为空']}"></td>
-        <td>
-            <soul:button target="deletePlan" text="" opType="function" cssClass="btn btn-w-m btn-danger" tag="button">
-                ${views.common['delete']}
-            </soul:button>
-        </td>
+
+
     </tr>
 </table>
 <soul:import res="site/setting/rebate/Edit"/>
