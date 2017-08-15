@@ -45,8 +45,7 @@
                         <div class="form-group clearfix pull-left content-width-limit-250 m-t-sm m-b-none">
                             <div class="input-group">
                                 <span class="input-group-addon abroder-no"><b>${views.report['log.query.type']}</b></span>
-                                <gb:select name="search.moduleType" value="${command.search.moduleType}" cssClass="chosen-select-no-single" listKey="code"
-                                               listValue="trans" list="${moduleTypes}" prompt="${views.common['pleaseSelect']}"/>
+                                <gb:select name="search.moduleType" value="${command.search.moduleType}" cssClass="chosen-select-no-single" list="${moduleTypes}" prompt="${views.common['pleaseSelect']}"/>
                             </div>
                         </div>
                         <div class="form-group clearfix pull-left content-width-limit-30 m-t-sm m-b-none">
