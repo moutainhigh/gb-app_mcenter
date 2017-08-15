@@ -27,7 +27,7 @@
                 <div class="two-col">${views.wc_fund['当期']}</div>
             </th>
             <th class="multiple-row" colspan="2">
-                <div class="title">${views.wc_fund['operation.reaate.childrebate']}</div>
+                <div class="title">${views.wc_fund['operation.rebate.childrebate']}</div>
                 <div class="two-col">${views.wc_fund['累计']}</div>
                 <div class="two-col">${views.wc_fund['当期']}</div>
             </th>
