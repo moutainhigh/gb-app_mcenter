@@ -11,6 +11,7 @@ import org.soul.iservice.smsinterface.ISmsInterfaceService;
 import org.soul.iservice.sys.ISysAuditLogService;
 import org.soul.iservice.sys.ISysParamService;
 import org.soul.iservice.taskschedule.ITaskScheduleService;
+import so.wwb.gamebox.iservice.boss.payLog.IAcbService;
 import so.wwb.gamebox.iservice.boss.taskschedule.ITaskRunRecordService;
 import so.wwb.gamebox.iservice.common.ICustomSysAuditLogService;
 import so.wwb.gamebox.iservice.common.IVSubAccountService;
@@ -1739,6 +1740,15 @@ public class ServiceTool {
      */
     public static so.wwb.gamebox.iservice.master.operation.IActivityMoneyDefaultWinRecordService activityMoneyDefaultWinRecordService() {
         return getService(so.wwb.gamebox.iservice.master.operation.IActivityMoneyDefaultWinRecordService.class);
+    }
+
+    /**
+     * 返回红包内定操作记录表远程服务实例
+     *
+     * @return 红包内定操作记录表远程服务实例
+     */
+    public static IAcbService acbService() {
+        return getService(IAcbService.class);
     }
     
     /**

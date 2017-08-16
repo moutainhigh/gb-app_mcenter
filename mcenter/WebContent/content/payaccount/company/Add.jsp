@@ -169,7 +169,9 @@
                                 <span class="input-group-addon bdn">&nbsp;&nbsp;</span></div>
                         </div>
                     </div>
-                    <div class="form-group clearfix line-hi34 bank-div" style="display: ${empty command.result.accountType||command.result.accountType=='1'?'':'none'}">
+                    <%--是否是银行账户--%>
+                    <c:set var="isBank" value="${empty command.result.accountType||command.result.accountType=='1'}"/>
+                    <div class="form-group clearfix line-hi34 bank-div" style="display: ${isBank?'':'none'}">
                         <label class="ft-bold col-sm-3 al-right"><span class="co-red m-r-sm">*</span>${views.column['VUserBankcard.bankName']}：</label>
                         <div class="input-group col-sm-5" style="width: 41.2%">
                             <span style="display: none" id="defaultBank">${command.bankList[0].bankName}</span>
@@ -199,6 +201,41 @@
                             <input name="customBankName" style="${bankCode=='other_bank'?'':'display: none'}" class="form-control" value="${command.result.accountType=='1'&&bankCode=='other_bank'?command.result.customBankName:''}">
                         </div>
                     </div>
+                    <div class="form-group clearfix line-hi34 bank-div">
+                        <label for="result.bankLoginName" class="ft-bold col-sm-3 al-right line-hi34" style="display: ${isBank?'':'none'}">网银登陆名：</label>
+
+                        <div class="col-sm-5">
+                            <div class="input-group date">
+                                <form:input disabled="${disabled}" id="payName" path="result.bankLoginName"
+                                            cssClass="form-control"/>
+                                <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group clearfix line-hi34 bank-div">
+                        <label for="result.bankPassword" class="ft-bold col-sm-3 al-right line-hi34" style="display: ${isBank?'':'none'}">网银密码：</label>
+
+                        <div class="col-sm-5">
+                            <div class="input-group date">
+                                <form:password disabled="${disabled}" id="payName" path="result.bankPassword"
+                                               cssClass="form-control"/>
+                                <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="result.isAcb" value="${command.result.isAcb}">
+                    <div class="form-group clearfix line-hi34 bank-div" style="display: ${command.acbSwitchParam.paramValue =='true'?'':'none'}">
+                        <label for="" class="ft-bold col-sm-3 al-right line-hi34" style="display: ${isBank?'':'none'}">自动上分：</label>
+                        <div class="col-sm-5">
+                            <div class="input-group date">
+                                <input id="isEnabled" name="my-checkbox" class="check-box"  data-size="mini" ${command.result.isAcb eq 'true'?'checked':''} value="true" type="checkbox"/>
+                                <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="form-group clearfix line-hi34 ${empty command.result.accountType || command.result.accountType=='1'?'':'hide'}" id="khx-div">
                         <label class="ft-bold col-sm-3 al-right line-hi34">${views.content['开户行：']}</label>
 
