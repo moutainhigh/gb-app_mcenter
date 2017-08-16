@@ -869,7 +869,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
     @RequestMapping("/getSomeByTop")
     @ResponseBody
     public String getSomeByTop(UserAgentVo userAgentVo){
-        return JsonTool.toJson(getService().getForAgent(userAgentVo));
+        return JsonTool.toJson(getService().queryAgentRebate(userAgentVo));
     }
 
     @Override
@@ -1088,8 +1088,13 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
     @RequestMapping("/getProgram")
     @ResponseBody
     public List getProgram(VProgramListVo vo){
-        vo = ServiceTool.vProgramService().search(vo);
-        return vo.getResult();
+        if(vo.getSearch().getUserId()==null){
+            return new ArrayList();
+        }
+        UserAgentVo userAgentVo = new UserAgentVo();
+        userAgentVo.getSearch().setUserId(vo.getSearch().getUserId());
+        List<VProgram> vPrograms = getService().getvProgramsByAgentId(userAgentVo);
+        return vPrograms;
     }
 
     /**
