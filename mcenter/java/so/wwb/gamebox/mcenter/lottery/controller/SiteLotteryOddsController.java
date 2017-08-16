@@ -69,8 +69,17 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
      */
     @RequestMapping("/{code}/{betting}/Index")
     public String getCodeBettingIndex(@PathVariable String code, @PathVariable String betting, @RequestParam("page") String page, SiteLotteryOddVo oddVo, Model model) {
-        Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code, betting, oddVo);
-        model.addAttribute("command", siteLotteryOddMap);
+        String[] betcodes = {};
+        if (StringTool.isNotBlank(betting)) {
+            betcodes = betting.split(",");
+        }
+        if (betcodes.length > 1) {
+            List<SiteLotteryOdd> siteLotteryOdds = searchLotteryOdd(code, betcodes, oddVo);
+            model.addAttribute("command", siteLotteryOdds);
+        } else {
+            Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code, betting, oddVo);
+            model.addAttribute("command", siteLotteryOddMap);
+        }
         model.addAttribute("betCode", betting);
         model.addAttribute("code", code);
         code = handleCode(code);
@@ -105,8 +114,18 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
      */
     @RequestMapping("/{code}/{category}/{betCode}/Index")
     public String getSscPlayIndex(@PathVariable String code, @PathVariable String category, @PathVariable String betCode, @RequestParam("page") String page, SiteLotteryOddVo oddVo, Model model) {
-        Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code, betCode, oddVo);
-        model.addAttribute("command", siteLotteryOddMap);
+        String[] betcodes = {};
+        if (StringTool.isNotBlank(betCode)) {
+            betcodes = betCode.split(",");
+        }
+        if (betcodes.length > 1) {
+            List<SiteLotteryOdd> siteLotteryOdds = searchLotteryOdd(code, betcodes, oddVo);
+            model.addAttribute("command", siteLotteryOdds);
+        } else {
+            Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code, betCode, oddVo);
+            model.addAttribute("command", siteLotteryOddMap);
+        }
+
         model.addAttribute("betCode", betCode);
         model.addAttribute("code", code);
         code = handleCode(code);
@@ -118,6 +137,10 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
             code = "ssc";
         } else if (code.contains("k3")) {
             code = "k3";
+        } else if (code.contains("cqxync") || code.contains("gdkl10")) {
+            code = "sfc";
+        } else if (code.contains("fc3d") || code.contains("tcpl3")) {
+            code = "qt";
         }
         return code;
     }
@@ -130,6 +153,16 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         listVo.setPaging(null);
         listVo = ServiceTool.siteLotteryOddService().search(listVo);
         return CollectionTool.toEntityMap(listVo.getResult(), SiteLotteryOdd.PROP_BET_NUM);
+    }
+    private List<SiteLotteryOdd> searchLotteryOdd(@PathVariable String code, @PathVariable String[] betcodes, SiteLotteryOddVo oddVo) {
+        SiteLotteryOddListVo listVo = new SiteLotteryOddListVo();
+        listVo.getSearch().setCode(code);
+        listVo.getSearch().setBetCodes(betcodes);
+        listVo.getSearch().setSiteId(oddVo.getSearch().getSiteId());
+        listVo.setPaging(null);
+        listVo = ServiceTool.siteLotteryOddService().search(listVo);
+        List<SiteLotteryOdd> result = listVo.getResult();
+        return result;
     }
 
     @RequestMapping(value = "/saveSiteLotteryOdds", method = RequestMethod.POST)
