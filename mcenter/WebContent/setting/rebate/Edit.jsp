@@ -273,7 +273,7 @@
             <soul:button target="deletePlan" text="" opType="function" cssClass="btn btn-danger" tag="button">
                 ${views.common['delete']}
             </soul:button>
-            <soul:button target="batchUpdateRatio" text="批量调整比例" opType="function" cssClass="btn batch_ratio" tag="button"></soul:button>
+            <soul:button target="batchUpdateRatio" text="${views.setting['rebate.edit.batchRatio']}" opType="function" cssClass="btn batch_ratio" tag="button"></soul:button>
         </td>
         <td><input type="text" name="rebateGrads[0].totalProfit" data-name="rebateGrads[{n}].totalProfit" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.profit']}"></td>
         <td><input type="text" name="rebateGrads[0].validPlayerNum" data-name="rebateGrads[{n}].validPlayerNum" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.validPlayer']}"></td>
