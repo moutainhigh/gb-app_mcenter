@@ -56,7 +56,7 @@
                                 <input type="hidden" id="fundTypeMemory" value='[<c:forEach items="${command.search.transactionWays}" var="tw" varStatus="loop">{"name":"search.transactionWays","value":"${tw}"}<c:if test="${!loop.last}">,</c:if><c:if test="${loop.last && (!empty command.search.manualSaves || !empty command.search.manualWithdraws)}">,</c:if> </c:forEach><c:forEach items="${command.search.manualSaves}" var="tw" varStatus="loop">{"name":"search.manualSaves","value":"${tw}"}<c:if test="${!loop.last}">,</c:if><c:if test="${loop.last && !empty command.search.manualWithdraws}">,</c:if></c:forEach><c:forEach items="${command.search.manualWithdraws}" var="tw" varStatus="loop">{"name":"search.manualWithdraws","value":"${tw}"}<c:if test="${!loop.last}">,</c:if></c:forEach>]'/>
                                 <div class="type-search">
                                     <div class="m-b-sm">
-                                        <button type="button" class="btn btn-filter btn-xs" data-type="all">${views.report_auto['全选']}</button>
+                                        <button type="button" class="btn btn-filter btn-xs" data-type="all">${views.common_report['全选']}</button>
                                         <button type="button" class="btn btn-outline btn-filter btn-xs" data-type="clear" style="margin-right: 10px;">${views.report_auto['清空']}</button>
                                         <button type="button" class="btn btn-outline btn-filter btn-xs" data-type="deposit">${views.report_auto['所有存款']}</button>
                                         <button type="button" class="btn btn-outline btn-filter btn-xs" data-type="withdraw">${views.report_auto['所有取款']}</button>
