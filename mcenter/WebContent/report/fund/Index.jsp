@@ -98,7 +98,7 @@
                                     <input type="hidden" name="outer" value="${outer}" />
                                     <span class="input-group-addon abroder-no" style="width:95px"><b>${views.report['fund.list.typeTitle']}</b></span>
                                     <label class="m-l-sm">
-                                        <input type="checkbox" class="i-checks" name="allSelect" value="true"/>${views.report_auto['全选']}
+                                        <input type="checkbox" class="i-checks" name="allSelect" value="true"/>${views.common_report['全选']}
                                     </label>
                                     <label class="m-l-sm">
                                         <input type="checkbox" class="i-checks" name="allDeposit" value="true" ${outer > 10 ? 'checked' : ''}/>${views.report_auto['所有存款']}
