@@ -36,7 +36,7 @@
 						<%--</dd>--%>
 						<dd class="pull-left p-xs text-oflow-m60">
 							<b>${views.operation_auto['使用站点']}:</b>
-							<span class="m-l-xs">${command.result.siteChooseNum}个</span>
+							<span class="m-l-xs">${command.result.siteChooseNum}</span>
 						</dd>
 					</div>
 
