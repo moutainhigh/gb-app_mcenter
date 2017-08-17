@@ -101,7 +101,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         systemVo.setStartTime(startTime == null ? user.getCreateTime() : startTime);
         systemVo.setEndTime(endTime);
         systemVo.getSearch().setAnnouncementType(AnnouncementTypeEnum.SYSTEM.getCode());
-        Long systemUnReadCount = ServiceTool.systemAnnouncementService().searchSystemAnnouncementUnreadCount(systemVo);
+        Long systemUnReadCount = ServiceTool.systemAnnouncementService().unreadCount(systemVo);
         model.addAttribute("systemUnReadCount", systemUnReadCount);
         //游戏公告-新增数量
         SystemAnnouncementVo gameVo = new SystemAnnouncementVo();
@@ -109,7 +109,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         gameVo.setStartTime(startTime == null ? user.getCreateTime() : startTime);
         gameVo.setEndTime(endTime);
         gameVo.getSearch().setAnnouncementType(AnnouncementTypeEnum.GAME.getCode());
-        Long gameUnReadCount = ServiceTool.systemAnnouncementService().searchSystemAnnouncementUnreadCount(gameVo);
+        Long gameUnReadCount = ServiceTool.systemAnnouncementService().unreadCount(gameVo);
         model.addAttribute("gameUnReadCount", gameUnReadCount);
         //玩家咨询-未读数量
         aListVo.getSearch().setAdvisoryTime(DateTool.addDays(new Date(), -30));

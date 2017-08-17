@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import jdk.nashorn.internal.ir.RuntimeNode;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
@@ -406,7 +407,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
      * @return
      */
     @RequestMapping({"/basicSettingIndex"})
-    public String basicSettingEdit(SysSiteVo sysSiteVo, CttLogoVo cttLogoVo, SiteLanguageListVo languageListVo, SiteOperateAreaListVo siteOperateAreaListVo, SysDomainListVo sysDomainListVo, Model model) {
+    public String basicSettingEdit(SysSiteVo sysSiteVo, CttLogoVo cttLogoVo, SiteLanguageListVo languageListVo, SiteOperateAreaListVo siteOperateAreaListVo, SysDomainListVo sysDomainListVo, Model model,HttpServletRequest request) {
         Integer siteId = SessionManagerBase.getSiteId();
         sysSiteVo.getSearch().setId(siteId);
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
@@ -450,6 +451,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         sysDomainListVo.getSearch().setSiteId(SessionManager.getSiteId());
         sysDomainListVo = ServiceTool.sysDomainService().updateAppDomain(sysDomainListVo);
         List<SysDomain> result = sysDomainListVo.getResult();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
+        model.addAttribute("select_domain",sysParam);
         model.addAttribute("appDomain",result);
         return "/setting/param/siteparameters/BasicSetting";
     }
