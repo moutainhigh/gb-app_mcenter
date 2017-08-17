@@ -5,37 +5,37 @@
 <div class="row">
     <div class="position-wrap clearfix">
         <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont"></i> </a></h2>
-        <span>系统设置</span><span>/</span><span>额度充值</span>
+        <span>${views.setting_auto['系统设置']}</span><span>/</span><span>${views.setting_auto['额度充值']}</span>
         <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
     </div>
     <div class="col-lg-12">
         <div class="wrapper white-bg shadow">
             <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
                 <div class="sys_tab_wrap p-xs">
-                    <b class="fs16">离后台维护还剩：</b><span class="fs20 ft-bold co-red">0小时21分</span>
+                    <b class="fs16">${views.setting_auto['离后台维护还剩']}：</b><span class="fs20 ft-bold co-red">0小时21分</span>
                 </div>
                 <div class="filter-wraper limit-rec clearfix p-xs">
                     <div class="m-b-none col-xs-6 col-sm-3">
                         <div class="limit-price-wrap al-center clearfix">
-                            <div class="bold-fs16 p-sm co-gray6" title="当前额度上限">当前额度上限</div>
+                            <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['当前额度上限']}">${views.setting_auto['当前额度上限']}</div>
                             <div class="fs30 p-b-sm al-center">1,936,499</div>
                         </div>
                     </div>
                     <div class="m-b-none col-xs-6 col-sm-3">
                         <div class="limit-price-wrap al-center clearfix">
-                            <div class="bold-fs16 p-sm co-gray6" title="已使用额度">已使用额度<span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="用于接入第三方流量统计平台"><i class="fa fa-question-circle"></i></span></div>
+                            <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用额度']}">${views.setting_auto['已使用额度']}<span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="${views.setting_auto['用于接入第三方流量统计平台']}"><i class="fa fa-question-circle"></i></span></div>
                             <div class="fs30 p-b-sm al-center co-blue">1,936,499</div>
                         </div>
                     </div>
                     <div class="m-b-none col-xs-6 col-sm-3">
                         <div class="limit-price-wrap al-center clearfix">
-                            <div class="bold-fs16 p-sm co-gray6" title="已使用">已使用</div>
+                            <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用']}">${views.setting_auto['已使用']}</div>
                             <div class="fs30 p-b-sm al-center co-red">100%</div>
                         </div>
                     </div>
                     <div class="m-b-none col-xs-6 col-sm-3">
                         <div class="limit-price-wrap al-center clearfix">
-                            <div class="bold-fs16 p-sm co-gray6" title="兑换比例">兑换比例</div>
+                            <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['兑换比例']}">${views.setting_auto['兑换比例']}</div>
                             <div class="fs30 p-b-sm al-center">1:10</div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                             <tbody>
 
                             <tr>
-                                <th scope="row" class="text-right" style="width: 150px;">存款渠道：</th>
+                                <th scope="row" class="text-right" style="width: 150px;">${views.setting_auto['存款渠道']}：</th>
                                 <td>
                                     <div class="table-desc-right-t m-t-n-sm" style="width: 100%;min-width: 340px; max-width: 510px;">
                                         <c:set var="banknames" value="${dicts.common.bankname}"/>
@@ -65,12 +65,12 @@
                                             </c:if>
                                         </c:forEach>
                                     </div>
-                                    <div class="m-t-xs"><a href="javascript:void(0)"> 展开更多</a></div>
+                                    <div class="m-t-xs"><a href="javascript:void(0)"> ${views.setting_auto['展开更多']}</a></div>
                                 </td>
                             </tr>
 
                             <tr>
-                                <th scope="row" class="text-right" style="width: 150px;">充值金额：</th>
+                                <th scope="row" class="text-right" style="width: 150px;">${views.setting_auto['充值金额']}：</th>
                                 <td>
                                     <div class="table-desc-right-t">
                                         <input type="text" class="form-control">
@@ -80,8 +80,8 @@
                                             <soul:button target="" text="5万" opType=""/>
                                             <soul:button target="" text="10万" opType=""/>
                                         </div>
-                                        <div class="m-t-md fs16">您将获得 <span class="co-green">50万</span> 额度</div>
-                                        <div class="m-t-md"><a href="javascript:void(0)" class="btn btn-filter btn-lg btn-block">确认</a></div>
+                                        <div class="m-t-md fs16">${views.setting_auto['您将获得']} <span class="co-green">50万</span> ${views.setting_auto['额度']}</div>
+                                        <div class="m-t-md"><a href="javascript:void(0)" class="btn btn-filter btn-lg btn-block">${views.setting_auto['确认']}</a></div>
                                     </div>
                                 </td>
                             </tr>

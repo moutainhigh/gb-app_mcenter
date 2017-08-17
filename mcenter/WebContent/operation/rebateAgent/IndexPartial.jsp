@@ -7,38 +7,38 @@
         <thead>
         <tr class="bg-gray">
             <th rowspan="2">${views.fund_auto['序号']}</th>
-            <th rowspan="2">代理路径</th>
+            <th rowspan="2">${views.operation_auto['代理路径']}</th>
             <th rowspan="2">${views.fund_auto['代理账号']}</th>
-            <th rowspan="2">有效投注人数</th>
+            <th rowspan="2">${views.operation_auto['有效投注人数']}</th>
             <th class="multiple-row" colspan="2">
-                <div class="title">有效投注额</div>
-                <div class="two-col">自身</div>
-                <div class="two-col">下级</div>
+                <div class="title">${views.operation_auto['有效投注额']}</div>
+                <div class="two-col">${views.operation_auto['自身']}</div>
+                <div class="two-col">${views.operation_auto['下级']}</div>
             </th>
             <th class="multiple-row" colspan="2">
-                <div class="title">损益</div>
-                <div class="two-col">自身</div>
-                <div class="two-col">下级</div>
+                <div class="title">${views.operation_auto['损益']}</div>
+                <div class="two-col">${views.operation_auto['自身']}</div>
+                <div class="two-col">${views.operation_auto['下级']}</div>
             </th>
             <th class="multiple-row" colspan="2">
-                <div class="title">佣金占成</div>
-                <div class="two-col">累计</div>
-                <div class="two-col">当期</div>
+                <div class="title">${views.operation_auto['佣金占成']}</div>
+                <div class="two-col">${views.operation_auto['累计']}</div>
+                <div class="two-col">${views.operation_auto['当期']}</div>
             </th>
             <th class="multiple-row" colspan="2">
-                <div class="title">下级抽佣</div>
-                <div class="two-col">累计</div>
-                <div class="two-col">当期</div>
+                <div class="title">${views.operation_auto['下级抽佣']}</div>
+                <div class="two-col">${views.operation_auto['累计']}</div>
+                <div class="two-col">${views.operation_auto['当期']}</div>
             </th>
             <th class="multiple-row" colspan="2">
-                <div class="title">费用</div>
-                <div class="two-col">累计</div>
-                <div class="two-col">当期</div>
+                <div class="title">${views.operation_auto['费用']}</div>
+                <div class="two-col">${views.operation_auto['累计']}</div>
+                <div class="two-col">${views.operation_auto['当期']}</div>
             </th>
-            <th rowspan="2">可获返佣</th>
-            <th rowspan="2">已获返佣</th>
-            <th rowspan="2">状态</th>
-            <th rowspan="2">操作</th>
+            <th rowspan="2">${views.operation_auto['可获返佣']}</th>
+            <th rowspan="2">${views.operation_auto['已获返佣']}</th>
+            <th rowspan="2">${views.operation_auto['状态']}</th>
+            <th rowspan="2">${views.operation_auto['操作']}</th>
         </tr>
         <tbody>
             <c:forEach items="${command.result}" var="p" varStatus="status">

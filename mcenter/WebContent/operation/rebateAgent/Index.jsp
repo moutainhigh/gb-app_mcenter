@@ -30,7 +30,7 @@
                             <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm content-width-limit-400">
                                 <div class="input-group date">
                                     <span>
-                                        <gb:select name="search.agentRank" prompt="所有代理" value="${command.search.agentRank}" list="${agentRanks}" listKey="key" listValue="value" />
+                                        <gb:select name="search.agentRank" prompt="${views.operation_auto['所有代理']}" value="${command.search.agentRank}" list="${agentRanks}" listKey="key" listValue="value" />
                                     </span>
                                         <%--${views.fund_auto['代理账号']}--%>
                                     <span class=" input-group-addon bdn  right-btn-down">
