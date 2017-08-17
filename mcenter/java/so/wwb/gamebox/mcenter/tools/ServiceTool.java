@@ -17,8 +17,8 @@ import so.wwb.gamebox.iservice.common.ICustomSysAuditLogService;
 import so.wwb.gamebox.iservice.common.IVSubAccountService;
 import so.wwb.gamebox.iservice.company.IBankExtendService;
 import so.wwb.gamebox.iservice.company.IBankService;
+import so.wwb.gamebox.iservice.company.credit.ICreditAccountService;
 import so.wwb.gamebox.iservice.company.filter.ISysMasterListOperatorService;
-import so.wwb.gamebox.iservice.company.lottery.ISiteLotteryOddService;
 import so.wwb.gamebox.iservice.company.setting.ICurrencyExchangeRateService;
 import so.wwb.gamebox.iservice.company.site.*;
 import so.wwb.gamebox.iservice.company.sys.ISysDomainService;
@@ -1651,7 +1651,7 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.fund.rebate.IAgentRebateGradsService agentRebateGradsService() {
         return getService(so.wwb.gamebox.iservice.master.fund.rebate.IAgentRebateGradsService.class);
     }
-    
+
     /**
      * 返回代理返佣_玩家明细远程服务实例
      *
@@ -1660,7 +1660,7 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.fund.rebate.IAgentRebatePlayerService agentRebatePlayerService() {
         return getService(so.wwb.gamebox.iservice.master.fund.rebate.IAgentRebatePlayerService.class);
     }
-    
+
     /**
      * 返回站点结算账单远程服务实例
      *
@@ -1669,7 +1669,7 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.fund.ISiteStationBillService siteStationBillService() {
         return getService(so.wwb.gamebox.iservice.master.fund.ISiteStationBillService.class);
     }
-    
+
     /**
      * 返回优惠活动奖项设置远程服务实例
      *
@@ -1678,7 +1678,7 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.operation.IActivityMoneyAwardsRulesService activityMoneyAwardsRulesService() {
         return getService(so.wwb.gamebox.iservice.master.operation.IActivityMoneyAwardsRulesService.class);
     }
-    
+
     /**
      * 返回优惠时间段远程服务实例
      *
@@ -1687,7 +1687,7 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.operation.IActivityMoneyConditionService activityMoneyConditionService() {
         return getService(so.wwb.gamebox.iservice.master.operation.IActivityMoneyConditionService.class);
     }
-    
+
     /**
      * 返回优惠时间段远程服务实例
      *
@@ -1750,7 +1750,7 @@ public class ServiceTool {
     public static IAcbService acbService() {
         return getService(IAcbService.class);
     }
-    
+
     /**
      * 返回红包抽奖记录表远程服务实例
      *
@@ -1767,6 +1767,7 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.company.lottery.ISiteLotteryOddService siteLotteryOddService() {
         return getService(so.wwb.gamebox.iservice.company.lottery.ISiteLotteryOddService.class);
     }
+
     /**
      * 返回返佣梯度方案远程服务实例
      *
@@ -1775,6 +1776,7 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.setting.IRebateGradsSetService rebateGradsSetService() {
         return getService(so.wwb.gamebox.iservice.master.setting.IRebateGradsSetService.class);
     }
+
     /**
      * 返回代理API返佣远程服务实例
      *
@@ -1783,6 +1785,7 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.operation.IRebateAgentApiNosettledService rebateAgentApiNosettledService() {
         return getService(so.wwb.gamebox.iservice.master.operation.IRebateAgentApiNosettledService.class);
     }
+
     /**
      * 返回买分记录远程服务实例
      *
@@ -1790,6 +1793,10 @@ public class ServiceTool {
      */
     public static so.wwb.gamebox.iservice.company.credit.ICreditRecordService creditRecordService() {
         return getService(so.wwb.gamebox.iservice.company.credit.ICreditRecordService.class);
+    }
+
+    public static ICreditAccountService creditAccountService() {
+        return getService(ICreditAccountService.class);
     }
 
     public static so.wwb.gamebox.iservice.master.operation.IRebateAgentApiService rebateAgentApiService() {

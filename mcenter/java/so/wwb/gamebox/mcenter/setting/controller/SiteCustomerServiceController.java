@@ -20,6 +20,7 @@ import so.wwb.gamebox.mcenter.setting.form.SiteCustomerServiceSearchForm;
 import so.wwb.gamebox.mcenter.setting.form.SiteMobileCustomerServiceForm;
 import so.wwb.gamebox.mcenter.setting.form.SitePCCustomerServiceForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.company.site.po.SiteCustomerService;
@@ -323,11 +324,22 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     @RequestMapping("/appDomain")
     @ResponseBody
     public Map updateAppDomainService(SysParamVo sysParamVo,Model model){
+
         Map map=new HashedMap();
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
-        sysParamVo.getResult().setId(sysParam.getId());
-        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-        sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+
+        if(sysParam!=null){
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+        }else{
+            sysParamVo.getResult().setModule(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getModule().getCode());
+            sysParamVo.getResult().setParamType(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getType());
+            sysParamVo.getResult().setParamCode(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getCode());
+            sysParamVo.getResult().setActive(true);
+            sysParamVo = ServiceTool.getSysParamService().insert(sysParamVo);
+        }
+
         ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
         if(sysParamVo.isSuccess()){
             map.put("msg",LocaleTool.tranMessage("setting_auto","成功"));

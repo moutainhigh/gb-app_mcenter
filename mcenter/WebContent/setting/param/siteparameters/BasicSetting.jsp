@@ -388,7 +388,7 @@
                         ${views.setting_auto['APP下载域名']}
                     </div>
                     <div class="col-xs-5">
-                        <gb:select name="result.paramValue" value="${domain}" list="${appDomain}" listKey="domain" listValue="domain"/>
+                        <gb:select name="result.paramValue" value="${select_domain.paramValue}" list="${appDomain}" listKey="domain" listValue="domain"/>
                     </div>
                 </div>
                 <div class="modal-footer">
