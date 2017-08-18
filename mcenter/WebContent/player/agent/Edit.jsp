@@ -49,7 +49,6 @@
                                                     </c:when>
                                                     <c:otherwise>
                                                         ${command.topAgentName}
-                                                        <input type="hidden" value="${command.result.parentId}" id="_defaultAgent">
                                                     </c:otherwise>
                                                 </c:choose>
 
