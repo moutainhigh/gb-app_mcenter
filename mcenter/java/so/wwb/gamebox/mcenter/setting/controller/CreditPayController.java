@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
+import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.math.NumberTool;
 import org.soul.model.sys.po.SysParam;
@@ -22,7 +23,7 @@ import java.util.Date;
  * Created by cherry on 17-8-12.
  */
 @Controller
-@RequestMapping("/creditPay")
+@RequestMapping("/credit/pay")
 public class CreditPayController {
     private static final String CREDIT_PAY_URI = "/setting/credit/Pay";
     //默认剩余时间是24小时 以小时为单位
@@ -39,11 +40,10 @@ public class CreditPayController {
         if (profitTime != null) { //如果时间为空就说明还没有提醒无需显示倒计时
             //默认剩余时间
             SysParam leftTimeParam = ParamTool.getSysParam(BossParamEnum.SETTING_CREDIT_PROFIT_LEFT_TIME);
-            int left_time = leftTimeParam != null && StringTool.isNotBlank(leftTimeParam.getParamValue()) && NumberTool.isNumber(leftTimeParam.getParamValue()) ? NumberTool.toInt(leftTimeParam.getParamValue()) : DEFAULT_LEFT_TIME;
-            Date now = SessionManager.getDate().getNow();
-
-            model.addAttribute("leftTimeParam", leftTimeParam);
-
+            int leftTime = leftTimeParam != null && StringTool.isNotBlank(leftTimeParam.getParamValue()) && NumberTool.isNumber(leftTimeParam.getParamValue()) ? NumberTool.toInt(leftTimeParam.getParamValue()) : DEFAULT_LEFT_TIME;
+            Date lastTime = DateTool.addHours(profitTime,leftTime);
+            //倒计时
+            model.addAttribute("leftTime", DateTool.minutesBetween(lastTime, profitTime));
         }
         SysParam scaleParam = ParamTool.getSysParam(BossParamEnum.SETTING_CREDIT_SCALE);
         model.addAttribute("scaleParam", scaleParam);

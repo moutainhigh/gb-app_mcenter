@@ -22,9 +22,9 @@
                     <thead>
                         <tr>
                             <th>API</th>
-                            <th>${views.wc_fund['自身损益']}自身损益</th>
-                            <th>${views.wc_fund['返佣比例']}返佣比例</th>
-                            <th>${views.wc_fund['占成']}占成</th>
+                            <th>${views.wc_fund['自身损益']}</th>
+                            <th>${views.wc_fund['返佣比例']}</th>
+                            <th>${views.wc_fund['占成']}</th>
                         </tr>
                     </thead>
                     <tbody>

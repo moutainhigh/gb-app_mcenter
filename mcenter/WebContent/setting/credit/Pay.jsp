@@ -11,14 +11,23 @@
     <div class="col-lg-12">
         <div class="wrapper white-bg shadow">
             <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
-                <div class="sys_tab_wrap p-xs">
-                    <b class="fs16">离后台维护还剩：</b><span class="fs20 ft-bold co-red">0小时21分</span>
-                </div>
+                <c:choose>
+                    <c:when test="${!empty leftTime && leftTime>0}">
+                        <div class="sys_tab_wrap p-xs">
+                            <b class="fs16">离后台维护还剩：</b><span class="fs20 ft-bold co-red" data-time="${leftTime}">0小时0分</span>
+                        </div>
+                    </c:when>
+                    <c:when test="${!empty leftTime && leftTime<=0}">
+                        <div class="sys_tab_wrap p-xs">
+                            <b class="fs16">离后台维护还剩：</b><span class="fs20 ft-bold co-red">0小时0分</span>
+                        </div>
+                    </c:when>
+                </c:choose>
                 <div class="filter-wraper limit-rec clearfix p-xs">
                     <div class="m-b-none col-xs-6 col-sm-3">
                         <div class="limit-price-wrap al-center clearfix">
                             <div class="bold-fs16 p-sm co-gray6" title="当前额度上限">当前额度上限</div>
-                            <div class="fs30 p-b-sm al-center">1,936,499</div>
+                            <div class="fs30 p-b-sm al-center">${soulFn:formatCurrency(profit)}</div>
                         </div>
                     </div>
                     <div class="m-b-none col-xs-6 col-sm-3">
@@ -36,7 +45,7 @@
                     <div class="m-b-none col-xs-6 col-sm-3">
                         <div class="limit-price-wrap al-center clearfix">
                             <div class="bold-fs16 p-sm co-gray6" title="兑换比例">兑换比例</div>
-                            <div class="fs30 p-b-sm al-center">1:10</div>
+                            <div class="fs30 p-b-sm al-center">1:${empty scaleParam.paramValue?'10':scaleParam.paramValue}</div>
                         </div>
                     </div>
                 </div>
@@ -76,9 +85,9 @@
                                         <input type="text" class="form-control">
                                         <div class="co-grayc2 m-t-sm">请输入（${singleMin}~${singleMax}）之间的整数</div>
                                         <div class="m-t-sm">
-                                            <soul:button target="" text="1万" opType=""/>
-                                            <soul:button target="" text="5万" opType=""/>
-                                            <soul:button target="" text="10万" opType=""/>
+                                            <soul:button target="quickAmount" text="1万" opType="function"/>
+                                            <soul:button target="quickAmount" text="5万" opType="function"/>
+                                            <soul:button target="quickAmount" text="10万" opType="function"/>
                                         </div>
                                         <div class="m-t-md fs16">您将获得 <span class="co-green">50万</span> 额度</div>
                                         <div class="m-t-md"><a href="javascript:void(0)" class="btn btn-filter btn-lg btn-block">确认</a></div>
@@ -95,10 +104,9 @@
                             <li>本页面充值仅用于提高额度上限，不支持缴纳月结账单；</li>
                         </ul>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
 </div>
+<soul:import res="site/"/>
