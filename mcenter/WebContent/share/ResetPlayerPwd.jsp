@@ -32,7 +32,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-filter">${views.share_auto['确定']}</button>
-        <button type="button" class="btn btn-outline btn-filter">${views.share_auto['取消']}</button>
+        <button type="button" class="btn btn-outline btn-filter">${views.common_report['取消']}</button>
     </div>
 </form>
 </body>

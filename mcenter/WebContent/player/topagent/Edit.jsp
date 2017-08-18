@@ -248,7 +248,7 @@
                                 <soul:button target="${root}/userAgent/persistTopAgent.html" text="" cssClass="btn btn-filter btn-lg" precall="validateForm" opType="ajax" post="getCurrentFormData" callback="goToLastPage" refresh="true">${views.common['completed']}</soul:button>
                             </c:otherwise>
                         </c:choose>
-                        <%--<a href="javascript:void(0)" class="btn btn-outline btn-filter btn-lg">${views.player_auto['取消']}</a>--%>
+                        <%--<a href="javascript:void(0)" class="btn btn-outline btn-filter btn-lg">${views.common_report['取消']}</a>--%>
                         <soul:button target="goToLastPage" text="" cssClass="btn btn-outline btn-filter btn-lg" opType="function" >${views.common['cancel']}</soul:button>
                     </div>
                 </div>
