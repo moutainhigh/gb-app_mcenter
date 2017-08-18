@@ -108,10 +108,10 @@
                     <div class="input-group time-select-a">
                         <span class="input-group-addon bg-gray">${views.column['VPlayerGameOrder.singleAmount']}</span>
                         <span class="input-group-addon time-select-ico">${views.report_auto['起']}</span>
-                        <input class="form-control jp_distance" type="text" name="search.beginSingleAmount" value="${command.search.beginSingleAmount}">
+                        <input class="form-control search jp_distance" type="text" name="search.beginSingleAmount" value="${command.search.beginSingleAmount}">
                         <span class="input-group-addon time-select-t">~</span>
                         <span class="input-group-addon time-select-ico">${views.report_auto['止']}</span>
-                        <input class="form-control jp_distance" type="text" name="search.endSingleAmount" value="${command.search.endSingleAmount}">
+                        <input class="form-control search jp_distance" type="text" name="search.endSingleAmount" value="${command.search.endSingleAmount}">
                     </div>
                 </div>
                 <%--有效投注额--%>
@@ -119,10 +119,10 @@
                     <div class="input-group time-select-a">
                         <span class="input-group-addon bg-gray">${views.column['VPlayerGameOrder.effectiveTradeAmount']}</span>
                         <span class="input-group-addon time-select-ico">${views.report_auto['起']}</span>
-                        <input class="form-control jp_distance" type="text" name="search.beginEffectiveTradeAmount" value="${command.search.beginEffectiveTradeAmount}">
+                        <input class="form-control search jp_distance" type="text" name="search.beginEffectiveTradeAmount" value="${command.search.beginEffectiveTradeAmount}">
                         <span class="input-group-addon time-select-t">~</span>
                         <span class="input-group-addon time-select-ico">${views.report_auto['止']}</span>
-                        <input class="form-control jp_distance" type="text" name="search.endEffectiveTradeAmount" value="${command.search.endEffectiveTradeAmount}">
+                        <input class="form-control search jp_distance" type="text" name="search.endEffectiveTradeAmount" value="${command.search.endEffectiveTradeAmount}">
                     </div>
                 </div>
                 <%--派彩金额--%>
@@ -130,10 +130,10 @@
                     <div class="input-group time-select-a">
                         <span class="input-group-addon bg-gray">${views.column['VPlayerGameOrder.profitAmount']}</span>
                         <span class="input-group-addon time-select-ico">${views.report_auto['起']}</span>
-                        <input class="form-control jp_distance" type="text" name="search.beginProfitAmount" value="${command.search.beginProfitAmount}"/>
+                        <input class="form-control search jp_distance" type="text" name="search.beginProfitAmount" value="${command.search.beginProfitAmount}"/>
                         <span class="input-group-addon time-select-t">~</span>
                         <span class="input-group-addon time-select-ico">${views.report_auto['止']}</span>
-                        <input class="form-control jp_distance" type="text" name="search.endProfitAmount" value="${command.search.endProfitAmount}"/>
+                        <input class="form-control search jp_distance" type="text" name="search.endProfitAmount" value="${command.search.endProfitAmount}"/>
                     </div>
                 </div>
                 <%--派彩结果--%>

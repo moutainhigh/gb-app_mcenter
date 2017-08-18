@@ -83,7 +83,9 @@
                         <div class="form-group clearfix">
                             <label class="col-sm-3 ft-bold al-right line-hi34">${views.content['material.uploadPicture']}:</label>
                             <div class="col-sm-5">
-                                <input class="file" type="file" id="picFile${index.index}" lang="${p.language}" multiple="" accept="image/jpg,image/jpeg,image/gif,image/PNG,image/JPG,image/JPEG,image/GIF,image/PNG" target="cttMaterialPicList[${index.index}].pic">
+                                <input class="file" type="file" id="picFile${index.index}" lang="${p.language}"
+                                       multiple="" accept="image/jpg,image/jpeg,image/gif,image/PNG,image/JPG,image/JPEG,image/GIF,image/PNG"
+                                       target="cttMaterialPicList[${index.index}].pic">
                             </div>
                             <div class="col-sm-5">${views.content['material.uploadPictureTips']}</div>
                         </div>
