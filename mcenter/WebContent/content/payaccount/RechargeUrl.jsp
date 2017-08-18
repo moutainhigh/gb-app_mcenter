@@ -51,7 +51,7 @@
     </div>
     <div class="modal-footer">
         <soul:button target="${root}/payAccount/saveRechargeUrl.html" post="getCurrentFormData" text="" opType="ajax" dataType="json" cssClass="btn btn-filter" callback="saveCallbak" tag="button">${views.common['confirm']}</soul:button>
-        <soul:button cssClass="btn btn-outline btn-filter" target="closePage" text="${views.content_auto['取消']}" opType="function"/>
+        <soul:button cssClass="btn btn-outline btn-filter" target="closePage" text="${views.common_report['取消']}" opType="function"/>
     </div>
 </form:form>
 </body>

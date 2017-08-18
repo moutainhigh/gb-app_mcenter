@@ -55,8 +55,8 @@
     </c:if>
 
     <soul:button target="${root}" cssClass="btn btn-filter ${langLen > 1 ? 'hide':''} preview" opType="ajax" text="${views.content_auto['预览并发布']}"></soul:button>
-      <%--<button type="button" class="btn btn-outline btn-filter">${views.content_auto['取消']}</button>--%>
-    <soul:button target="closePage" opType="function" cssClass="btn btn-outline btn-filter" text="${views.content_auto['取消']}"></soul:button>
+      <%--<button type="button" class="btn btn-outline btn-filter">${views.common_report['取消']}</button>--%>
+    <soul:button target="closePage" opType="function" cssClass="btn btn-outline btn-filter" text="${views.common_report['取消']}"></soul:button>
   </div>
   <%--隐藏域--%>
   <input type="hidden" value="${maxLang}" id="maxLang">

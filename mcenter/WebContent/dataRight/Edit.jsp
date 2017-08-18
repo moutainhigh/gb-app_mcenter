@@ -30,7 +30,7 @@
 
                 <soul:button target="checkAll" text="${views.common_report['全选']}"
                              opType="function" tag="button" cssClass="btn btn-filter btn-xs"/>
-                <soul:button target="clearAll" text="${views.dataRight_auto['取消']}" opType="function"
+                <soul:button target="clearAll" text="${views.common_report['取消']}" opType="function"
                              tag="button" cssClass="btn btn-outline btn-filter btn-xs"/>
                 <div class="col-sm-5 col-sm-offset-3">
                     <c:set var="c" value="${sysUserDataRightMap['companyDeposit']}"></c:set>
@@ -49,7 +49,7 @@
                 <label class="ft-bold col-sm-3 al-right">${views.content['线上支付记录：']}</label>
                 <soul:button target="checkAll" text="${views.common_report['全选']}"
                              opType="function" tag="button" cssClass="btn btn-filter btn-xs"/>
-                <soul:button target="clearAll" text="${views.dataRight_auto['取消']}" opType="function"
+                <soul:button target="clearAll" text="${views.common_report['取消']}" opType="function"
                              tag="button" cssClass="btn btn-outline btn-filter btn-xs"/>
                 <div class="col-sm-5 col-sm-offset-3">
                     <c:set var="c" value="${sysUserDataRightMap['onlineDeposit']}"></c:set>
@@ -68,7 +68,7 @@
                 <label class="ft-bold col-sm-3 al-right">${views.content['玩家取款审核：']}</label>
                 <soul:button target="checkAll" text="${views.common_report['全选']}"
                              opType="function" tag="button" cssClass="btn btn-filter btn-xs"/>
-                <soul:button target="clearAll" text="${views.dataRight_auto['取消']}" opType="function"
+                <soul:button target="clearAll" text="${views.common_report['取消']}" opType="function"
                              tag="button" cssClass="btn btn-outline btn-filter btn-xs"/>
                 <div class="col-sm-5 col-sm-offset-3">
                     <c:set var="c" value="${sysUserDataRightMap['playerWithdraw']}"></c:set>
