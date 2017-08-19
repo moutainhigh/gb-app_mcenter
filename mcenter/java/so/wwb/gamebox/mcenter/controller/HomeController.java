@@ -7,6 +7,7 @@ import org.soul.commons.dubbo.DubboTool;
 import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.locale.DateQuickPicker;
 import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
@@ -17,7 +18,6 @@ import org.soul.iservice.security.privilege.ISysResourceService;
 import org.soul.model.common.BaseVo;
 import org.soul.model.security.privilege.po.VSysUserResource;
 import org.soul.model.security.privilege.vo.SysResourceVo;
-import org.soul.commons.locale.DateQuickPicker;
 import org.soul.web.session.RedisSessionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -426,11 +426,11 @@ public class HomeController {
     /**
      * 游戏报表数据（API_TYPE）
      */
-    private LinkedHashMap<String, Map<String, Object>> getGameTableData() {
+    private LinkedHashMap<String, LinkedHashMap<String, Object>> getGameTableData() {
         GameSurveyVo vo = initGameSurveyVo();
 
         List<Chart> charts = ServiceTool.gameSurveyService().query7DaysData(vo);
-        LinkedHashMap<String, Map<String, Object>> map = new LinkedHashMap<>(7,1f);
+        LinkedHashMap<String, LinkedHashMap<String, Object>> map = new LinkedHashMap<>(7,1f);
         Map<String, ApiType> typeMap = Cache.getApiType();
 
         List<Date> dates = getRecently7Days();
@@ -443,11 +443,11 @@ public class HomeController {
         for (Chart chart : charts) {
             String key = getKey(chart);
 
-            Map<String, Object> subMap;
+            LinkedHashMap<String, Object> subMap;
             if (map.containsKey(key) && map.get(key) != null) {
                 subMap = map.get(key);
             } else {
-                subMap = new HashMap<>(4,1f);
+                subMap = new LinkedHashMap<>(4,1f);
                 // 填充空的子map
                 for (String id : typeMap.keySet()) {
                     Chart c = new Chart();
@@ -466,7 +466,7 @@ public class HomeController {
         // 填充空的key
         for (String key : map.keySet()) {
             if (map.get(key) == null) {
-                Map<String, Object> subMap = new HashMap<>(4,1f);
+                LinkedHashMap<String, Object> subMap = new LinkedHashMap<>(4,1f);
                 for (String id : typeMap.keySet()) {
                     Chart c = new Chart();
                     c.setApiTypeId(Integer.valueOf(id));
