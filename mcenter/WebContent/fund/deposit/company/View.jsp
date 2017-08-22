@@ -188,16 +188,16 @@
 									</c:if>
 								</td>
 							</tr>
-							<c:if test="${!empty transactionData['result']}">
+							<c:if test="${!empty poloniexResult.total}">
 								<tr>
 									<th scope="row" class="text-right">${views.fund_auto['兑换美元']}：</th>
-									<td class="money">${transactionData['result'].total}</td>
+									<td class="money"><fmt:formatNumber value="${poloniexResult.total}" pattern="#.########"/></td>
 								</tr>
 							</c:if>
-							<c:if test="${!empty transactionData['rate']}">
+							<c:if test="${!empty rate.askRate}">
 								<tr>
 									<th scope="row" class="text-right">USD转换${r.defaultCurrency}汇率：</th>
-									<td class="money">${transactionData['rate'].askRate}</td>
+									<td class="money">${rate.askRate}</td>
 								</tr>
 							</c:if>
 						</c:if>
