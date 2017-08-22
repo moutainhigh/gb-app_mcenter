@@ -1808,6 +1808,14 @@ public class ServiceTool {
     public static IDigiccyTransactionService digiccyTransactionService() {
         return getService(IDigiccyTransactionService.class);
     }
+    /**
+     * 返回红包内定操作记录表远程服务实例
+     *
+     * @return 红包内定操作记录表远程服务实例
+     */
+    public static IAcbService acbService() {
+        return getService(IAcbService.class);
+    }
 //endregion your codes 1
 
 }
