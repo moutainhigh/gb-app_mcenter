@@ -1,10 +1,12 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import jdk.nashorn.internal.ir.RuntimeNode;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.init.context.Const;
 import org.soul.commons.lang.ArrayTool;
 import org.soul.commons.lang.DateTool;
@@ -405,7 +407,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
      * @return
      */
     @RequestMapping({"/basicSettingIndex"})
-    public String basicSettingEdit(SysSiteVo sysSiteVo, CttLogoVo cttLogoVo, SiteLanguageListVo languageListVo, SiteOperateAreaListVo siteOperateAreaListVo, SysDomainListVo sysDomainListVo, Model model) {
+    public String basicSettingEdit(SysSiteVo sysSiteVo, CttLogoVo cttLogoVo, SiteLanguageListVo languageListVo, SiteOperateAreaListVo siteOperateAreaListVo, SysDomainListVo sysDomainListVo, Model model,HttpServletRequest request) {
         Integer siteId = SessionManagerBase.getSiteId();
         sysSiteVo.getSearch().setId(siteId);
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
@@ -449,6 +451,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         sysDomainListVo.getSearch().setSiteId(SessionManager.getSiteId());
         sysDomainListVo = ServiceTool.sysDomainService().updateAppDomain(sysDomainListVo);
         List<SysDomain> result = sysDomainListVo.getResult();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
+        model.addAttribute("select_domain",sysParam);
         model.addAttribute("appDomain",result);
         return "/setting/param/siteparameters/BasicSetting";
     }
@@ -703,6 +707,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     @ResponseBody
     public Map saveTrafficStatistics(SysSiteVo vo, @FormModel("result") @Valid TrafficStatisticsForm form, BindingResult result) {
         if (!result.hasErrors()) {
+            vo.getResult().setId(CommonContext.get().getSiteId());
             vo.setProperties(SysSite.PROP_TRAFFIC_STATISTICS);
             ServiceTool.sysSiteService().updateOnly(vo);
             Cache.refreshSysSite();

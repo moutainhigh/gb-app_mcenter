@@ -118,7 +118,7 @@
                     </td>
                     <%--<td>${empty p.disableAmount?0:soulFn:formatInteger(p.disableAmount).concat(soulFn:formatDecimals(p.disableAmount))}${views.common['yuan']}</td>--%>
                     <td>${empty p.depositCount?0:p.depositDefaultCount}${views.common['ci']}</td>
-                    <td>${empty p.depositTotal?0:soulFn:formatInteger(p.depositDefaultTotal).concat(soulFn:formatDecimals(p.depositDefaultTotal))}${views.common['yuan']}</td>
+                    <td>${empty p.depositTotal?0:soulFn:formatInteger(p.depositDefaultTotal).concat(soulFn:formatDecimals(p.depositDefaultTotal))}&nbsp;${siteCurrency}</td>
                     <td><span class="label ${color}" id="status${stat.index}">${dicts.content.pay_account_status[p.statusLabel]}</span></td>
                     <td>
                         <c:choose>
