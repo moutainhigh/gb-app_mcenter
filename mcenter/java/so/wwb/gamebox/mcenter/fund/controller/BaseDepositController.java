@@ -295,20 +295,8 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
         vo.getResult().setCurrencySign(getCurrencySign(vo.getResult().getDefaultCurrency()));
         String rechargeStatus = vo.getResult().getRechargeStatus();
         model.addAttribute("validateRule", JsRuleCreator.create(DepositRemarkForm.class));
-        if (vo.getResult() == null || RechargeStatusEnum.EXCHANGE.getCode().equals(rechargeStatus) || RechargeStatusEnum.FAIL.getCode().equals(rechargeStatus) || RechargeStatusEnum.ONLINE_FAIL.getCode().equals(rechargeStatus) || vo.getResult().getFavorableTotalAmount() == null || vo.getResult().getFavorableTotalAmount() <= 0) {
+        if(vo.getResult() == null) {
             return vo;
-        }
-        ActivityPlayerApplyVo applyVo = new ActivityPlayerApplyVo();
-        applyVo.getSearch().setPlayerRechargeId(vo.getResult().getId());
-        applyVo = ServiceTool.activityPlayerApplyService().search(applyVo);
-        if (applyVo.getResult() == null) {
-            return vo;
-        }
-        vo.setActivityId(applyVo.getResult().getActivityMessageId());
-        vo.setActivityStatus(applyVo.getResult().getCheckState());
-        if (vo.getActivityId() != null) {
-            searchActivity(vo);
-            searchFavorableTransactionId(vo, applyVo.getResult());
         }
         if (RechargeTypeEnum.BITCOIN_FAST.getCode().equals(vo.getResult().getRechargeType()) && !RechargeStatusEnum.EXCHANGE.getCode().equals(vo.getResult().getRechargeStatus())) {
             DigiccyTransactionVo digiccyTransactionVo = new DigiccyTransactionVo();
@@ -325,6 +313,22 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
                 }
             }
 
+        }
+        if (RechargeStatusEnum.EXCHANGE.getCode().equals(rechargeStatus) || RechargeStatusEnum.FAIL.getCode().equals(rechargeStatus) || RechargeStatusEnum.ONLINE_FAIL.getCode().equals(rechargeStatus) || vo.getResult().getFavorableTotalAmount() == null || vo.getResult().getFavorableTotalAmount() <= 0) {
+            return vo;
+        }
+
+        ActivityPlayerApplyVo applyVo = new ActivityPlayerApplyVo();
+        applyVo.getSearch().setPlayerRechargeId(vo.getResult().getId());
+        applyVo = ServiceTool.activityPlayerApplyService().search(applyVo);
+        if (applyVo.getResult() == null) {
+            return vo;
+        }
+        vo.setActivityId(applyVo.getResult().getActivityMessageId());
+        vo.setActivityStatus(applyVo.getResult().getCheckState());
+        if (vo.getActivityId() != null) {
+            searchActivity(vo);
+            searchFavorableTransactionId(vo, applyVo.getResult());
         }
         return vo;
     }
