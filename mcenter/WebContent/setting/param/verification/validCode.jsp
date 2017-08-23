@@ -31,5 +31,5 @@
 </div>
 <div class="modal-footer">
     <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax" dataType="json"
-                 target="${root}/param/saveYzm.html" precall="validateForm"  post="getCurrentFormData" callback="saveCallbak" />
+                 target="${root}/param/saveYzm.html" precall="validateForm"  post="getValidCodeFormData" callback="saveCallbak" />
 </div>

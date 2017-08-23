@@ -103,7 +103,7 @@
             </ul>
         </div>
     </div>
-    <div class="col-lg-6 site-switch">
+    <div class="col-lg-6 site-switch" id="siteInfoDiv">
         <h3>${views.setting_auto['站点信息']}</h3>
         <input type="hidden" name="siteInfo.id" value="${siteInfo.id}">
         <div class="content clearfix" style="padding-top: 10px">
@@ -178,7 +178,7 @@
                     <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
                                  dataType="json"
                                  target="${root}/siteI18n/batchSaveSeo.html"
-                                 precall="" post="getCurrentFormData"
+                                 precall="" post="getSiteInfoFormData"
                                  callback="isRefresh"/>
                 </div>
             </div>
@@ -283,7 +283,7 @@
 
     </div>
     <div class="clearfix">
-        <div class="col-lg-6 site-switch">
+        <div class="col-lg-6 site-switch" id="validCodeDiv">
             <h3>${views.setting_auto['验证码']}</h3>
             <div class="content line-hi34 clearfix">
                 <%@ include file="../verification/validCode.jsp" %>
@@ -316,120 +316,13 @@
                 <div class="modal-footer">
                     <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
                                  dataType="json" target="${root}/param/saveTrafficStatistics.html"
-                                 precall="staticValidateForm" post="getCurrentFormData" callback="saveCallbak"/>
+                                 precall="staticValidateForm" post="getStaticValidateForm" callback="saveCallbak"/>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="clearfix">
-        <div class="col-lg-6 site-switch">
-            <h3>${views.setting_auto['邮件接口设置']}</h3>
-            <input type="hidden" name="search.id" value="${emailInterface.id}">
-            <input type="hidden" name="result.name" value="${emailInterface.name}">
-            <input type="hidden" name="rankIds" value="${emailInterface.userGroupId}">
-            <input name="result.original" type="hidden" value="${emailInterface.emailAccount}"/>
-            <div class="content clearfix" style="padding-top: 10px">
-                <div class="clearfix m-b">
-                    <div class="ft-bold pull-left" style="width: 100px;text-align: right;">
-                        ${views.setting['发送邮件服务器地址(FMTP)']}
-                    </div>
-                    <div class="col-xs-5"><input type="text" name="result.serverAddress"
-                                                 value="${emailInterface.serverAddress}"
-                                                 class="form-control"></div>
-                </div>
-                <div class="clearfix m-b">
-                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
-                        ${views.setting_auto['服务器端口']}：
-                    </div>
-                    <div class="col-xs-5"><input type="text" name="result.serverPort"
-                                                 value="${emailInterface.serverPort}" class="form-control"
-                                                 maxlength="5"></div>
-                </div>
-                <div class="clearfix  m-b">
-                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
-                        ${views.setting_auto['邮件发送账号']}：
-                    </div>
-                    <div class="col-xs-5"><input type="text" name="result.emailAccount"
-                                                 value="${emailInterface.emailAccount}"
-                                                 class="form-control"></div>
-                </div>
-                <div class="clearfix m-b">
-                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">${views.setting_auto['账号密码']}：
-                    </div>
-                    <div class="col-xs-5"><input type="password" name="result.accountPassword"
-                                                 value="${emailInterface.accountPassword}"
-                                                 class="form-control"></div>
-                </div>
-                <div class="modal-footer">
-                    <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
-                                 dataType="json"
-                                 target="${root}/vNoticeEmailInterface/updateBuiltIn.html"
-                                 precall="validEmailInterface" post="getCurrentFormData"
-                                 callback="saveCallbak"/>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-lg-6 site-switch">
-            <h3>${views.setting_auto['短信接口设置']}</h3>
-            <input type="hidden" name="sms.id" value="${smsInterfaceVo.result.id}">
-            <ul class="content clearfix" style="padding-top: 10px">
-                <div class="clearfix m-b">
-                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">${views.setting_auto['接口名称']}
-                    </div>
-                    <div>
-                        <div class="col-xs-9 input-group">
-                            <gb:select name="sms.fullName" list="${smsInterfaceVo.queryList}"
-                                       value="${smsInterfaceVo.result.fullName}" listValue="fullName"
-                                       cssClass="btn-group chosen-select-no-single" listKey="id"></gb:select>
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix m-b">
-                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
-                        ${views.setting_auto['接口用户名']}：
-                    </div>
-                    <div class="col-xs-5"><input type="text" name="sms.username"
-                                                 value="${smsInterfaceVo.result.username}"
-                                                 class="form-control"></div>
-                </div>
-                <div class="clearfix m-b">
-                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">${views.setting_auto['接口密码']}：
-                    </div>
-                    <div class="col-xs-5"><input type="password" name="sms.password"
-                                                 value="${smsInterfaceVo.result.password}"
-                                                 class="form-control"></div>
-                </div>
-                <div class="clearfix m-b">
-                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">${views.setting_auto['接口秘钥']}：
-                    </div>
-                    <div class="col-xs-5"><input type="text" name="sms.dataKey"
-                                                 value="${smsInterfaceVo.result.dataKey}"
-                                                 class="form-control"></div>
-                </div>
-                <div class="clearfix m-b">
-                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">${views.setting_auto['扩展参数']}：
-                    </div>
-                    <div class="col-xs-5">
-                        <textarea name="sms.extJson"
-                                  class="form-control">${smsInterfaceVo.result.extJson}</textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
-                                 dataType="json"
-                                 target="${root}/smsInterface/saveSmsInterface.html"
-                                 precall="validSmsInterface"
-                                 post="getCurrentFormData" callback="saveCallbak"/>
-                </div>
-
-            </ul>
-        </div>
-    </div>
-
-    <div class="clearfix">
-        <div class="col-lg-6 site-switch">
+        <div id="pcCustomService" class="col-lg-6 site-switch">
             <h3>${views.setting['PC端客服参数']}</h3>
             <input type="hidden" name="pc.id" value="${pcCustomerService.id}">
             <div class="content clearfix" style="padding-top: 10px">
@@ -451,12 +344,12 @@
                     <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
                                  dataType="json"
                                  target="${root}/siteCustomerService/pc.html"
-                                 precall="validPCCustomerService" post="getCurrentFormData"
+                                 precall="validPCCustomerService" post="getPCFormData"
                                  callback="saveCallbak"/>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 site-switch">
+        <div id="mobileCustomService" class="col-lg-6 site-switch">
             <h3>${views.setting_auto['手机端客服参数']}</h3>
             <input type="hidden" name="mobile.id" value="${mobileCustomerService.id}">
             <div class="content clearfix" style="padding-top: 10px">
@@ -480,13 +373,13 @@
                                  dataType="json"
                                  target="${root}/siteCustomerService/mobile.html"
                                  precall="validMobileCustomerService"
-                                 post="getCurrentFormData" callback="saveCallbak"/>
+                                 post="getMobileFormData" callback="saveCallbak"/>
                 </div>
             </div>
         </div>
     </div>
     <div class="clearfix">
-        <div class="col-lg-6 site-switch">
+        <div id="appDownloadDomain" class="col-lg-6 site-switch">
             <h3>${views.setting_auto['APP下载域名设置']}</h3>
             <input type="hidden" name="mobile.id" value="${mobileCustomerService.id}">
             <div class="content clearfix" style="padding-top: 10px">
@@ -495,7 +388,7 @@
                         ${views.setting_auto['APP下载域名']}
                     </div>
                     <div class="col-xs-5">
-                        <gb:select name="result.paramValue" value="${domain}" list="${appDomain}" listKey="domain" listValue="domain"/>
+                        <gb:select name="result.paramValue" value="${select_domain.paramValue}" list="${appDomain}" listKey="domain" listValue="domain"/>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -503,7 +396,7 @@
                                  dataType="json"
                                  target="${root}/siteCustomerService/appDomain.html"
                                  precall="validMobileCustomerService"
-                                 post="getCurrentFormData" callback="saveCallbak"/>
+                                 post="getAppDomainFormData" callback="saveCallbak"/>
                 </div>
             </div>
         </div>

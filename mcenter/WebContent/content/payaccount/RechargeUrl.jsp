@@ -19,7 +19,7 @@
                     ${views.content['添加后，将在玩家中心存款页面显示“充值中心”入口;']}<br>${views.content['玩家点击入口后，将跳转至快速充值页面进行存款;']}</div>
         </div>
         <div class="form-group clearfix m-b-xxs">
-            <label class="col-xs-3 al-right line-hi34">${views.content['快速充值页面链接:']}</label>
+            <label class="col-xs-3 al-right line-hi34">${views.content['快速充值页面链接']}</label>
             <div class="col-xs-8 p-x">
                 <input name="paramValue" class="form-control m-b" value="${command.paramValue}" type="text" placeholder="${views.content_auto['请输入有效的url地址']}"/>
             </div>
