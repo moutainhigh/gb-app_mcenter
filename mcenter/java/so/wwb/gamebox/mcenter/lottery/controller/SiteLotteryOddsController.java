@@ -140,7 +140,7 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         } else if (code.contains("cqxync") || code.contains("gdkl10")) {
             code = "sfc";
         } else if (code.contains("fc3d") || code.contains("tcpl3")) {
-            code = "qt";
+            code = "pl3";
         }
         return code;
     }
