@@ -196,7 +196,7 @@
 							</c:if>
 							<c:if test="${!empty rate.askRate}">
 								<tr>
-									<th scope="row" class="text-right">USD转换${r.defaultCurrency}汇率：</th>
+									<th scope="row" class="text-right">${fn:replace(views.fund_auto['USD兑汇率'], '{0}', r.defaultCurrency)}</th>
 									<td class="money">${rate.askRate}</td>
 								</tr>
 							</c:if>
