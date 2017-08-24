@@ -25,7 +25,9 @@
                             <tr>
                         </c:if>
                         <c:set var="num" value="${i.toString()}"/>
-
+                        <c:if test="${num.length()==1}">
+                            <c:set var="num" value="0${i}" />
+                        </c:if>
                         <c:set var="odd" value="${command[num]}"/>
                         <th><span>${i}</span></th>
                         <td>

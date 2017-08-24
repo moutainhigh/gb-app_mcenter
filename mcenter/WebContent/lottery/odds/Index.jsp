@@ -31,6 +31,10 @@
                         <a  href="javascript:void(0)" code="bjkl8" class="label ssc-label">${dicts.lottery.lottery['bjkl8']}</a>
                         <a  href="javascript:void(0)" code="fc3d" class="label ssc-label">${dicts.lottery.lottery['fc3d']}</a>
                         <a  href="javascript:void(0)" code="tcpl3" class="label ssc-label">${dicts.lottery.lottery['tcpl3']}</a>
+                        <a  href="javascript:void(0)" code="efssc" class="label ssc-label">${dicts.lottery.lottery['efssc']}</a>
+                        <a  href="javascript:void(0)" code="sfssc" class="label ssc-label">${dicts.lottery.lottery['sfssc']}</a>
+                        <a  href="javascript:void(0)" code="wfssc" class="label ssc-label">${dicts.lottery.lottery['wfssc']}</a>
+                        <a  href="javascript:void(0)" code="ffssc" class="label ssc-label">${dicts.lottery.lottery['ffssc']}</a>
                     </div>
                 </div>
                 <div id="lot_two_menu" >

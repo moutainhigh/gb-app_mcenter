@@ -6,6 +6,7 @@ import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.query.sort.Direction;
 import org.soul.web.controller.NoMappingCrudController;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.mcenter.lottery.form.SiteLotteryOddsForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.company.lottery.po.LotteryOdd;
 import so.wwb.gamebox.model.company.lottery.po.SiteLotteryOdd;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryOddListVo;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryOddVo;
@@ -74,7 +76,7 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
             betcodes = betting.split(",");
         }
         if (betcodes.length > 1) {
-            List<SiteLotteryOdd> siteLotteryOdds = searchLotteryOdd(code, betcodes, oddVo);
+            Map<String, List<SiteLotteryOdd>> siteLotteryOdds = searchLotteryOdd(code, betcodes, oddVo);
             model.addAttribute("command", siteLotteryOdds);
         } else {
             Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code, betting, oddVo);
@@ -119,7 +121,7 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
             betcodes = betCode.split(",");
         }
         if (betcodes.length > 1) {
-            List<SiteLotteryOdd> siteLotteryOdds = searchLotteryOdd(code, betcodes, oddVo);
+            Map<String, List<SiteLotteryOdd>> siteLotteryOdds = searchLotteryOdd(code, betcodes, oddVo);
             model.addAttribute("command", siteLotteryOdds);
         } else {
             Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code, betCode, oddVo);
@@ -154,15 +156,18 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         listVo = ServiceTool.siteLotteryOddService().search(listVo);
         return CollectionTool.toEntityMap(listVo.getResult(), SiteLotteryOdd.PROP_BET_NUM);
     }
-    private List<SiteLotteryOdd> searchLotteryOdd(@PathVariable String code, @PathVariable String[] betcodes, SiteLotteryOddVo oddVo) {
+    private Map<String, List<SiteLotteryOdd>> searchLotteryOdd(@PathVariable String code, @PathVariable String[] betcodes, SiteLotteryOddVo oddVo) {
         SiteLotteryOddListVo listVo = new SiteLotteryOddListVo();
         listVo.getSearch().setCode(code);
         listVo.getSearch().setBetCodes(betcodes);
-        listVo.getSearch().setSiteId(oddVo.getSearch().getSiteId());
+        listVo.getSearch().setSiteId(SessionManager.getSiteId());
+        listVo.getQuery().addOrder(LotteryOdd.PROP_BET_CODE, Direction.ASC);
+        listVo.getQuery().addOrder(LotteryOdd.PROP_BET_NUM,Direction.DESC);
         listVo.setPaging(null);
         listVo = ServiceTool.siteLotteryOddService().search(listVo);
         List<SiteLotteryOdd> result = listVo.getResult();
-        return result;
+        Map<String, List<SiteLotteryOdd>> stringListMap = CollectionTool.groupByProperty(result, LotteryOdd.PROP_BET_CODE, String.class);
+        return stringListMap;
     }
 
     @RequestMapping(value = "/saveSiteLotteryOdds", method = RequestMethod.POST)

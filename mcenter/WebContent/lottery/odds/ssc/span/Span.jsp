@@ -4,9 +4,14 @@
     <div class="panel-body">
         <div class="tab-content">
             <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover dataTable m-b-none text-center" aria-describedby="editable_info">
+                <table class="table table-striped table-bordered table-hover dataTable m-b-none text-center"
+                       aria-describedby="editable_info">
                     <thead>
                     <tr class="bg-gray">
+                        <th>号码</th>
+                        <th>当前赔率</th>
+                        <th>号码</th>
+                        <th>当前赔率</th>
                         <th>号码</th>
                         <th>当前赔率</th>
                         <th>号码</th>
@@ -16,11 +21,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach begin="5" end="10" var="i">
-                        <c:if test="${i%3==2}">
+                    <c:forEach begin="0" end="9" var="i">
+                        <c:if test="${i%5==0}">
                             <tr>
                         </c:if>
-                        <th><span>${i}个号码</span></th>
+                        <th><span>${i}</span></th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <c:set var="odd" value="${command[i.toString()]}"/>
@@ -32,7 +37,7 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${i}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
                             </div>
                         </td>
-                        <c:if test="${i%3==1}">
+                        <c:if test="${i%5==4}">
                             </tr>
                         </c:if>
                     </c:forEach>
