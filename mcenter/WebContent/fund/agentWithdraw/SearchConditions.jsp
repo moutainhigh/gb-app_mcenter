@@ -101,10 +101,10 @@
                 <div class="input-group time-select-a">
                     <span class="input-group-addon bg-gray">${views.fund['取款金额']}</span>
                     <span class="input-group-addon time-select-ico">${views.fund['起']}</span>
-                    <input class="form-control jp_distance" type="text" name="search.beginAmount" value="${command.search.beginAmount}"/>
+                    <input class="form-control search jp_distance" type="text" name="search.beginAmount" value="${command.search.beginAmount}"/>
                     <span class="input-group-addon time-select-t">~</span>
                     <span class="input-group-addon time-select-ico">${views.fund['止']}</span>
-                    <input class="form-control jp_distance" type="text" name="search.endAmount" value="${command.search.endAmount}"/>
+                    <input class="form-control search jp_distance" type="text" name="search.endAmount" value="${command.search.endAmount}"/>
                 </div>
             </div>
 

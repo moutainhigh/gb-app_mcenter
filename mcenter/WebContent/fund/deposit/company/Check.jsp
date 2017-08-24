@@ -183,10 +183,16 @@
                                     </c:if>
                                 </td>
                             </tr>
-                            <c:if test="${!empty transactionData['result']}">
+                            <c:if test="${!empty poloniexResult.total}">
                                 <tr>
                                     <th scope="row" class="text-right">${views.fund_auto['兑换美元']}：</th>
-                                    <td class="money">${transactionData['result'].total}</td>
+                                    <td class="money"><fmt:formatNumber value="${poloniexResult.total}" pattern="#.########"/></td>
+                                </tr>
+                            </c:if>
+                            <c:if test="${!empty rate.askRate}">
+                                <tr>
+                                    <th scope="row" class="text-right">USD转换${r.defaultCurrency}汇率：</th>
+                                    <td class="money">${rate.askRate}</td>
                                 </tr>
                             </c:if>
                         </c:if>
@@ -288,7 +294,7 @@
                                             <span class="fa fa-save"></span>${views.fund['保存']}
                                         </soul:button>
                                         <soul:button target="cancelEdit" text="" opType="function" cssClass="btn btn-link co-blue">
-                                            <span class="fa fa-undo"></span>${views.fund['取消']}
+                                            <span class="fa fa-undo"></span>${views.common_report['取消']}
                                         </soul:button>
                                         <input name="checkRemark" value="${r.checkRemark}" type="hidden"/>
                                     </div>

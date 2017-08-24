@@ -1237,6 +1237,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         SysUser sysUser = objectVo.getSysUser();
         objectVo.getResult().setSitesId(SessionManager.getSiteId());
         objectVo.getResult().setBuiltIn(false);
+        objectVo.getResult().setAgentRank(0);
         objectVo.getResult().setCreateChannel(UserAgentEnum.BACKGROUND_ADD.getCode());
         sysUser.setStatus(SysUserStatus.NORMAL.getCode());
 //        添加完没刷新列表

@@ -81,7 +81,7 @@
     <div class="modal-footer">
         <soul:button precall="_validateForm" tag="button" opType="function" type="noemail" target="saveNoticeTmpl" cssClass="btn btn-filter" text="${views.common['commit']}">${views.common['commit']}</soul:button>
         <soul:button precall="_validateForm" tag="button" opType="function" target="saveNoticeTmpl" cssClass="btn btn-filter" text="${views.setting['NoticeTmp.addNotice.commitAndSetEmail']}">${views.setting['NoticeTmp.addNotice.commitAndSetEmail']}</soul:button>
-        <%--<soul:button target="closePage" tag="button" opType="function" text="${views.setting_auto['取消']}" cssClass="btn btn-outline btn-filter">${views.common['cancel']}</soul:button>--%>
+        <%--<soul:button target="closePage" tag="button" opType="function" text="${views.common_report['取消']}" cssClass="btn btn-outline btn-filter">${views.common['cancel']}</soul:button>--%>
     </div>
     <input type="hidden" value="${maxLang}" id="maxLang">
     <input type="hidden" value="${langLen}" id="langLen">

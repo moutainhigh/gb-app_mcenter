@@ -112,7 +112,7 @@
                                      target="${root}/param/saveServiceTrems.html" post="getCurrentFormData" precall="myValidateForm"
                                      callback="saveCallbak"/>
                         <soul:button cssClass="btn btn-outline btn-filter btn-lg m-r" opType="function" target="close" text="${views.common['cancel']}"/>
-                        <%--<soul:button target="goToLastPage" refresh="true" cssClass="btn btn-outline btn-filter btn-lg m-r" text="${views.setting_auto['取消']}" opType="function">
+                        <%--<soul:button target="goToLastPage" refresh="true" cssClass="btn btn-outline btn-filter btn-lg m-r" text="${views.common_report['取消']}" opType="function">
                         </soul:button>--%>
             </div>
         </div>

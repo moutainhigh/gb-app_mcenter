@@ -18,7 +18,7 @@
     </div>
     <div class="modal-footer">
         <soul:button target="setEmailInterface" text="${views.player_auto['去设置']}" cssClass="btn btn-filter" opType="function"/>
-        <soul:button target="closePage" text="${views.player_auto['取消']}" cssClass="btn btn-filter" opType="function"/>
+        <soul:button target="closePage" text="${views.common_report['取消']}" cssClass="btn btn-filter" opType="function"/>
     </div>
 </form:form>
 </body>

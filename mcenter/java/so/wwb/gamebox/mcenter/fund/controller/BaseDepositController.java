@@ -5,6 +5,7 @@ import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.MapTool;
 import org.soul.commons.currency.CurrencyTool;
+import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
@@ -35,8 +36,10 @@ import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.bitcoin.vo.PoloniexOrderResult;
 import so.wwb.gamebox.model.company.setting.po.SysCurrency;
 import so.wwb.gamebox.model.company.site.po.SiteCurrency;
+import so.wwb.gamebox.model.currency.po.CurrencyRate;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.listop.FilterRow;
 import so.wwb.gamebox.model.listop.FilterSelectConstant;
@@ -45,14 +48,14 @@ import so.wwb.gamebox.model.master.dataRight.po.SysUserDataRight;
 import so.wwb.gamebox.model.master.dataRight.vo.SysUserDataRightVo;
 import so.wwb.gamebox.model.master.enums.ActivityApplyCheckStatusEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeStatusEnum;
+import so.wwb.gamebox.model.master.fund.enums.RechargeTypeEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeParentEnum;
+import so.wwb.gamebox.model.master.fund.po.DigiccyRechargeResponseText;
+import so.wwb.gamebox.model.master.fund.po.DigiccyTransaction;
 import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
 import so.wwb.gamebox.model.master.fund.po.VPlayerDeposit;
 import so.wwb.gamebox.model.master.fund.so.VPlayerDepositSo;
-import so.wwb.gamebox.model.master.fund.vo.PlayerFavorableVo;
-import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
-import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositListVo;
-import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositVo;
+import so.wwb.gamebox.model.master.fund.vo.*;
 import so.wwb.gamebox.model.master.operation.po.ActivityPlayerApply;
 import so.wwb.gamebox.model.master.operation.po.VActivityMessage;
 import so.wwb.gamebox.model.master.operation.vo.ActivityPlayerApplyVo;
@@ -292,9 +295,29 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
         vo.getResult().setCurrencySign(getCurrencySign(vo.getResult().getDefaultCurrency()));
         String rechargeStatus = vo.getResult().getRechargeStatus();
         model.addAttribute("validateRule", JsRuleCreator.create(DepositRemarkForm.class));
-        if (vo.getResult() == null || RechargeStatusEnum.EXCHANGE.getCode().equals(rechargeStatus) || RechargeStatusEnum.FAIL.getCode().equals(rechargeStatus) || RechargeStatusEnum.ONLINE_FAIL.getCode().equals(rechargeStatus) || vo.getResult().getFavorableTotalAmount() == null || vo.getResult().getFavorableTotalAmount() <= 0) {
+        if(vo.getResult() == null) {
             return vo;
         }
+        if (RechargeTypeEnum.BITCOIN_FAST.getCode().equals(vo.getResult().getRechargeType()) && !RechargeStatusEnum.EXCHANGE.getCode().equals(vo.getResult().getRechargeStatus())) {
+            DigiccyTransactionVo digiccyTransactionVo = new DigiccyTransactionVo();
+            digiccyTransactionVo.getSearch().setTransactionNo(vo.getResult().getTransactionNo());
+            digiccyTransactionVo = ServiceTool.digiccyTransactionService().search(digiccyTransactionVo);
+            DigiccyTransaction digiccyTransaction = digiccyTransactionVo.getResult();
+            if (digiccyTransaction != null) {
+                DigiccyRechargeResponseText responseText = JsonTool.fromJson(digiccyTransaction.getResponseText(), DigiccyRechargeResponseText.class);
+                if (StringTool.isNotBlank(responseText.getRate())) {
+                    model.addAttribute("rate", JsonTool.fromJson(responseText.getRate(), CurrencyRate.class));
+                }
+                if (StringTool.isNotBlank(responseText.getResultJson())) {
+                    model.addAttribute("poloniexResult", JsonTool.fromJson(responseText.getResultJson(), PoloniexOrderResult.class));
+                }
+            }
+
+        }
+        if (RechargeStatusEnum.EXCHANGE.getCode().equals(rechargeStatus) || RechargeStatusEnum.FAIL.getCode().equals(rechargeStatus) || RechargeStatusEnum.ONLINE_FAIL.getCode().equals(rechargeStatus) || vo.getResult().getFavorableTotalAmount() == null || vo.getResult().getFavorableTotalAmount() <= 0) {
+            return vo;
+        }
+
         ActivityPlayerApplyVo applyVo = new ActivityPlayerApplyVo();
         applyVo.getSearch().setPlayerRechargeId(vo.getResult().getId());
         applyVo = ServiceTool.activityPlayerApplyService().search(applyVo);
