@@ -8,16 +8,16 @@
                     <thead>
                     <tr class="bg-gray">
                         <th><input type="checkbox" class="i-checks"></th>
-                        <th>${views.lottery_auto['重庆时时彩']}</th>
-                        <th>${views.lottery_auto['单项（号）限额']}</th>
-                        <th>${views.lottery_auto['单注限额']}</th>
-                        <th>${views.lottery_auto['单类别单项（号）限额']}</th>
+                        <th>三分时时彩</th>
+                        <th>单项（号）限额</th>
+                        <th>单注限额</th>
+                        <th>单类别单项（号）限额</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['一字组合']}</td>
+                        <td>一字组合</td>
                         <input type="hidden" value="${command['one_combination'].id}" name="quotaList[0].id">
                         <input type="hidden" value="${command['one_combination'].siteId}" name="quotaList[0].siteId">
                         <input type="hidden" value="${command['one_combination'].code}" name="quotaList[0].code">
@@ -41,7 +41,7 @@
                     </tr>
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['一字定位']}</td>
+                        <td>一字定位</td>
                         <input type="hidden" value="${command['one_digital'].id}" name="quotaList[1].id">
                         <input type="hidden" value="${command['one_digital'].siteId}" name="quotaList[1].siteId">
                         <input type="hidden" value="${command['one_digital'].code}" name="quotaList[1].code">
@@ -66,7 +66,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['一字大小']}</td>
+                        <td>一字大小</td>
                         <input type="hidden" value="${command['one_big_small'].id}" name="quotaList[6].id">
                         <input type="hidden" value="${command['one_big_small'].siteId}" name="quotaList[6].siteId">
                         <input type="hidden" value="${command['one_big_small'].code}" name="quotaList[6].code">
@@ -92,7 +92,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['一字单双']}</td>
+                        <td>一字单双</td>
                         <input type="hidden" value="${command['one_single_double'].id}" name="quotaList[7].id">
                         <input type="hidden" value="${command['one_single_double'].siteId}" name="quotaList[7].siteId">
                         <input type="hidden" value="${command['one_single_double'].code}" name="quotaList[7].code">
@@ -117,7 +117,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['一字质合']}</td>
+                        <td>一字质合</td>
                         <input type="hidden" value="${command['one_prime_combined'].id}" name="quotaList[8].id">
                         <input type="hidden" value="${command['one_prime_combined'].siteId}" name="quotaList[8].siteId">
                         <input type="hidden" value="${command['one_prime_combined'].code}" name="quotaList[8].code">
@@ -142,7 +142,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['二字组合']}</td>
+                        <td>二字组合</td>
                         <input type="hidden" value="${command['two_combination'].id}" name="quotaList[2].id">
                         <input type="hidden" value="${command['two_combination'].siteId}" name="quotaList[2].siteId">
                         <input type="hidden" value="${command['two_combination'].code}" name="quotaList[2].code">
@@ -167,7 +167,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['二字定位']}</td>
+                        <td>二字定位</td>
                         <input type="hidden" value="${command['two_digital'].id}" name="quotaList[3].id">
                         <input type="hidden" value="${command['two_digital'].siteId}" name="quotaList[3].siteId">
                         <input type="hidden" value="${command['two_digital'].code}" name="quotaList[3].code">
@@ -218,7 +218,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['三字组合']}</td>
+                        <td>三字组合</td>
                         <input type="hidden" value="${command['three_combination'].id}" name="quotaList[4].id">
                         <input type="hidden" value="${command['three_combination'].siteId}" name="quotaList[4].siteId">
                         <input type="hidden" value="${command['three_combination'].code}" name="quotaList[4].code">
@@ -242,7 +242,7 @@
                     </tr>
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['三字定位']}</td>
+                        <td>三字定位</td>
                         <input type="hidden" value="${command['three_digital'].id}" name="quotaList[5].id">
                         <input type="hidden" value="${command['three_digital'].siteId}" name="quotaList[5].siteId">
                         <input type="hidden" value="${command['three_digital'].code}" name="quotaList[5].code">
@@ -267,7 +267,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['五字和数大小']}</td>
+                        <td>五字和数大小</td>
                         <input type="hidden" value="${command['five_sum_big_small'].id}" name="quotaList[9].id">
                         <input type="hidden" value="${command['five_sum_big_small'].siteId}" name="quotaList[9].siteId">
                         <input type="hidden" value="${command['five_sum_big_small'].code}" name="quotaList[9].code">
@@ -292,7 +292,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['五字和数单双']}</td>
+                        <td>五字和数单双</td>
                         <input type="hidden" value="${command['five_sum_single_double'].id}" name="quotaList[10].id">
                         <input type="hidden" value="${command['five_sum_single_double'].siteId}" name="quotaList[10].siteId">
                         <input type="hidden" value="${command['five_sum_single_double'].code}" name="quotaList[10].code">
@@ -318,7 +318,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['龙虎和']}</td>
+                        <td>龙虎和</td>
                         <input type="hidden" value="${command['dragon_tiger_tie'].id}" name="quotaList[11].id">
                         <input type="hidden" value="${command['dragon_tiger_tie'].siteId}" name="quotaList[11].siteId">
                         <input type="hidden" value="${command['dragon_tiger_tie'].code}" name="quotaList[11].code">
@@ -344,7 +344,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['组选三']}</td>
+                        <td>组选三</td>
                         <input type="hidden" value="${command['group_three'].id}" name="quotaList[13].id">
                         <input type="hidden" value="${command['group_three'].siteId}" name="quotaList[13].siteId">
                         <input type="hidden" value="${command['group_three'].code}" name="quotaList[13].code">
@@ -369,7 +369,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['组选六']}</td>
+                        <td>组选六</td>
                         <input type="hidden" value="${command['group_six'].id}" name="quotaList[14].id">
                         <input type="hidden" value="${command['group_six'].siteId}" name="quotaList[14].siteId">
                         <input type="hidden" value="${command['group_six'].code}" name="quotaList[14].code">
@@ -394,7 +394,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['跨度']}</td>
+                        <td>跨度</td>
                         <input type="hidden" value="${command['span'].id}" name="quotaList[15].id">
                         <input type="hidden" value="${command['span'].siteId}" name="quotaList[15].siteId">
                         <input type="hidden" value="${command['span'].code}" name="quotaList[15].code">
@@ -416,6 +416,8 @@
                             </div>
                         </td>
                     </tr>
+
+
                     </tbody>
                 </table>
             </div>

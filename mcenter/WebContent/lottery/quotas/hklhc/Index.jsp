@@ -16,7 +16,7 @@
                     <tbody>
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['特码']}</td>
+                        <td>特码</td>
                         <input type="hidden" value="${command['special_digital'].id}" name="quotaList[0].id">
                         <input type="hidden" value="${command['special_digital'].siteId}" name="quotaList[0].siteId">
                         <input type="hidden" value="${command['special_digital'].code}" name="quotaList[0].code">
@@ -36,7 +36,7 @@
                     </tr>
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['特码大小']}</td>
+                        <td>特码大小</td>
                         <input type="hidden" value="${command['special_big_small'].id}" name="quotaList[1].id">
                         <input type="hidden" value="${command['special_big_small'].siteId}" name="quotaList[1].siteId">
                         <input type="hidden" value="${command['special_big_small'].code}" name="quotaList[1].code">
@@ -57,7 +57,7 @@
                     </tr>
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['特码单双']}</td>
+                        <td>特码单双</td>
                         <input type="hidden" value="${command['special_single_double'].id}" name="quotaList[2].id">
                         <input type="hidden" value="${command['special_single_double'].siteId}" name="quotaList[2].siteId">
                         <input type="hidden" value="${command['special_single_double'].code}" name="quotaList[2].code">
@@ -77,7 +77,7 @@
                     </tr>
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['特码合数单双']}</td>
+                        <td>特码合数单双</td>
                         <input type="hidden" value="${command['special_sum_single_double'].id}" name="quotaList[3].id">
                         <input type="hidden" value="${command['special_sum_single_double'].siteId}" name="quotaList[3].siteId">
                         <input type="hidden" value="${command['special_sum_single_double'].code}" name="quotaList[3].code">
@@ -98,7 +98,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['正码']}</td>
+                        <td>正码</td>
                         <input type="hidden" value="${command['positive_digital'].id}" name="quotaList[4].id">
                         <input type="hidden" value="${command['positive_digital'].siteId}" name="quotaList[4].siteId">
                         <input type="hidden" value="${command['positive_digital'].code}" name="quotaList[4].code">
@@ -118,10 +118,9 @@
                         <input type="hidden" class="form-control input-sm" value="5000" name="quotaList[4].playQuota">
                     </tr>
 
-
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['正码特']}</td>
+                        <td>正码特</td>
                         <input type="hidden" value="${command['positive_special_digital'].id}" name="quotaList[17].id">
                         <input type="hidden" value="${command['positive_special_digital'].siteId}" name="quotaList[17].siteId">
                         <input type="hidden" value="${command['positive_special_digital'].code}" name="quotaList[17].code">
@@ -144,52 +143,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['特码单双']}</td>
-                        <input type="hidden" value="${command['special_single_double'].id}" name="quotaList[5].id">
-                        <input type="hidden" value="${command['special_single_double'].siteId}" name="quotaList[5].siteId">
-                        <input type="hidden" value="${command['special_single_double'].code}" name="quotaList[5].code">
-                        <input type="hidden" value="${command['special_single_double'].playCode}" name="quotaList[5].playCode">
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['special_single_double'].numQuota}" name="quotaList[5].numQuota">
-
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['special_single_double'].betQuota}" name="quotaList[5].betQuota">
-                            </div>
-                        </td>
-
-                        <input type="hidden" class="form-control input-sm" value="5000" name="quotaList[5].playQuota">
-                    </tr>
-
-
-                    <tr>
-                        <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['特码大小']}</td>
-                        <input type="hidden" value="${command['special_big_small'].id}" name="quotaList[6].id">
-                        <input type="hidden" value="${command['special_big_small'].siteId}" name="quotaList[6].siteId">
-                        <input type="hidden" value="${command['special_big_small'].code}" name="quotaList[6].code">
-                        <input type="hidden" value="${command['special_big_small'].playCode}" name="quotaList[6].playCode">
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['special_big_small'].numQuota}" name="quotaList[6].numQuota">
-
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['special_big_small'].betQuota}" name="quotaList[6].betQuota">
-                            </div>
-                        </td>
-
-                        <input type="hidden" class="form-control input-sm" value="5000" name="quotaList[6].playQuota">
-                    </tr>
-
-                    <tr>
-                        <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['特码合数单双']}</td>
+                        <td>特码合数单双</td>
                         <input type="hidden" value="${command['special_sum_single_double'].id}" name="quotaList[7].id">
                         <input type="hidden" value="${command['special_sum_single_double'].siteId}" name="quotaList[7].siteId">
                         <input type="hidden" value="${command['special_sum_single_double'].code}" name="quotaList[7].code">
@@ -211,7 +165,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['特码尾数大小']}</td>
+                        <td>特码尾数大小</td>
                         <input type="hidden" value="${command['special_mantissa_big_small'].id}" name="quotaList[8].id">
                         <input type="hidden" value="${command['special_mantissa_big_small'].siteId}" name="quotaList[8].siteId">
                         <input type="hidden" value="${command['special_mantissa_big_small'].code}" name="quotaList[8].code">
@@ -234,7 +188,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['特码半特']}</td>
+                        <td>特码半特</td>
                         <input type="hidden" value="${command['special_half'].id}" name="quotaList[9].id">
                         <input type="hidden" value="${command['special_half'].siteId}" name="quotaList[9].siteId">
                         <input type="hidden" value="${command['special_half'].code}" name="quotaList[9].code">
@@ -257,7 +211,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['特码色波']}</td>
+                        <td>特码色波</td>
                         <input type="hidden" value="${command['special_colour'].id}" name="quotaList[10].id">
                         <input type="hidden" value="${command['special_colour'].siteId}" name="quotaList[10].siteId">
                         <input type="hidden" value="${command['special_colour'].code}" name="quotaList[10].code">
@@ -279,7 +233,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['总和大小']}</td>
+                        <td>总和大小</td>
                         <input type="hidden" value="${command['seven_sum_big_small'].id}" name="quotaList[11].id">
                         <input type="hidden" value="${command['seven_sum_big_small'].siteId}" name="quotaList[11].siteId">
                         <input type="hidden" value="${command['seven_sum_big_small'].code}" name="quotaList[11].code">
@@ -301,7 +255,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['总和单双']}</td>
+                        <td>总和单双</td>
                         <input type="hidden" value="${command['seven_sum_single_double'].id}" name="quotaList[12].id">
                         <input type="hidden" value="${command['seven_sum_single_double'].siteId}" name="quotaList[12].siteId">
                         <input type="hidden" value="${command['seven_sum_single_double'].code}" name="quotaList[12].code">
@@ -324,7 +278,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['正码1-6单双']}</td>
+                        <td>正码1-6单双</td>
                         <input type="hidden" value="${command['positive_single_double'].id}" name="quotaList[13].id">
                         <input type="hidden" value="${command['positive_single_double'].siteId}" name="quotaList[13].siteId">
                         <input type="hidden" value="${command['positive_single_double'].code}" name="quotaList[13].code">
@@ -346,7 +300,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['正码1-6大小']}</td>
+                        <td>正码1-6大小</td>
                         <input type="hidden" value="${command['positive_big_small'].id}" name="quotaList[14].id">
                         <input type="hidden" value="${command['positive_big_small'].siteId}" name="quotaList[14].siteId">
                         <input type="hidden" value="${command['positive_big_small'].code}" name="quotaList[14].code">
@@ -368,7 +322,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['正码1-6合数单双']}</td>
+                        <td>正码1-6合数单双</td>
                         <input type="hidden" value="${command['positive_sum_single_double'].id}" name="quotaList[15].id">
                         <input type="hidden" value="${command['positive_sum_single_double'].siteId}" name="quotaList[15].siteId">
                         <input type="hidden" value="${command['positive_sum_single_double'].code}" name="quotaList[15].code">
@@ -391,7 +345,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['正码1-6色波']}</td>
+                        <td>正码1-6色波</td>
                         <input type="hidden" value="${command['positive_colour'].id}" name="quotaList[16].id">
                         <input type="hidden" value="${command['positive_colour'].siteId}" name="quotaList[16].siteId">
                         <input type="hidden" value="${command['positive_colour'].code}" name="quotaList[16].code">
@@ -413,7 +367,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['正码1-6合数大小']}</td>
+                        <td>正码1-6合数大小</td>
                         <input type="hidden" value="${command['positive_sum_big_small'].id}" name="quotaList[18].id">
                         <input type="hidden" value="${command['positive_sum_big_small'].siteId}" name="quotaList[18].siteId">
                         <input type="hidden" value="${command['positive_sum_big_small'].code}" name="quotaList[18].code">
@@ -435,7 +389,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['正码1-6尾数大小']}</td>
+                        <td>正码1-6尾数大小</td>
                         <input type="hidden" value="${command['positive_mantissa_big_small'].id}" name="quotaList[19].id">
                         <input type="hidden" value="${command['positive_mantissa_big_small'].siteId}" name="quotaList[19].siteId">
                         <input type="hidden" value="${command['positive_mantissa_big_small'].code}" name="quotaList[19].code">
@@ -454,6 +408,118 @@
 
                         <input type="hidden" class="form-control input-sm" value="5000" name="quotaList[19].playQuota">
                     </tr>
+
+
+                    <tr>
+                        <th><input type="checkbox" class="i-checks"></th>
+                        <td>特码合数大小</td>
+                        <input type="hidden" value="${command['special_sum_big_small'].id}" name="quotaList[20].id">
+                        <input type="hidden" value="${command['special_sum_big_small'].siteId}" name="quotaList[20].siteId">
+                        <input type="hidden" value="${command['special_sum_big_small'].code}" name="quotaList[20].code">
+                        <input type="hidden" value="${command['special_sum_big_small'].playCode}" name="quotaList[20].playCode">
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['special_sum_big_small'].numQuota}" name="quotaList[20].numQuota">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['special_sum_big_small'].betQuota}" name="quotaList[20].betQuota">
+                            </div>
+                        </td>
+
+                        <input type="hidden" class="form-control input-sm" value="5000" name="quotaList[20].playQuota">
+                    </tr>
+
+                    <tr>
+                        <th><input type="checkbox" class="i-checks"></th>
+                        <td>半波大小</td>
+                        <input type="hidden" value="${command['lhc_half_colour_big_small'].id}" name="quotaList[21].id">
+                        <input type="hidden" value="${command['lhc_half_colour_big_small'].siteId}" name="quotaList[21].siteId">
+                        <input type="hidden" value="${command['lhc_half_colour_big_small'].code}" name="quotaList[21].code">
+                        <input type="hidden" value="${command['lhc_half_colour_big_small'].playCode}" name="quotaList[21].playCode">
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['lhc_half_colour_big_small'].numQuota}" name="quotaList[21].numQuota">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['lhc_half_colour_big_small'].betQuota}" name="quotaList[21].betQuota">
+                            </div>
+                        </td>
+
+                        <input type="hidden" class="form-control input-sm" value="5000" name="quotaList[21].playQuota">
+                    </tr>
+
+                    <tr>
+                        <th><input type="checkbox" class="i-checks"></th>
+                        <td>半波单双</td>
+                        <input type="hidden" value="${command['lhc_half_colour_single_double'].id}" name="quotaList[22].id">
+                        <input type="hidden" value="${command['lhc_half_colour_single_double'].siteId}" name="quotaList[22].siteId">
+                        <input type="hidden" value="${command['lhc_half_colour_single_double'].code}" name="quotaList[22].code">
+                        <input type="hidden" value="${command['lhc_half_colour_single_double'].playCode}" name="quotaList[22].playCode">
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['lhc_half_colour_single_double'].numQuota}" name="quotaList[22].numQuota">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['lhc_half_colour_single_double'].betQuota}" name="quotaList[22].betQuota">
+                            </div>
+                        </td>
+
+                        <input type="hidden" class="form-control input-sm" value="5000" name="quotaList[22].playQuota">
+                    </tr>
+
+                    <tr>
+                        <th><input type="checkbox" class="i-checks"></th>
+                        <td>特肖</td>
+                        <input type="hidden" value="${command['special_zodiac'].id}" name="quotaList[23].id">
+                        <input type="hidden" value="${command['special_zodiac'].siteId}" name="quotaList[23].siteId">
+                        <input type="hidden" value="${command['special_zodiac'].code}" name="quotaList[23].code">
+                        <input type="hidden" value="${command['special_zodiac'].playCode}" name="quotaList[23].playCode">
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['special_zodiac'].numQuota}" name="quotaList[23].numQuota">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['special_zodiac'].betQuota}" name="quotaList[23].betQuota">
+                            </div>
+                        </td>
+
+                        <input type="hidden" class="form-control input-sm" value="5000" name="quotaList[23].playQuota">
+                    </tr>
+
+                    <tr>
+                        <th><input type="checkbox" class="i-checks"></th>
+                        <td>一肖</td>
+                        <input type="hidden" value="${command['lhc_one_zodiac'].id}" name="quotaList[24].id">
+                        <input type="hidden" value="${command['lhc_one_zodiac'].siteId}" name="quotaList[24].siteId">
+                        <input type="hidden" value="${command['lhc_one_zodiac'].code}" name="quotaList[24].code">
+                        <input type="hidden" value="${command['lhc_one_zodiac'].playCode}" name="quotaList[24].playCode">
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['lhc_one_zodiac'].numQuota}" name="quotaList[24].numQuota">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['lhc_one_zodiac'].betQuota}" name="quotaList[24].betQuota">
+                            </div>
+                        </td>
+
+                        <input type="hidden" class="form-control input-sm" value="5000" name="quotaList[24].playQuota">
+                    </tr>
+
                     </tbody>
                     </tbody>
                 </table>
