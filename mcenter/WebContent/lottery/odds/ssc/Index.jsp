@@ -4,7 +4,7 @@
     <a name="playcode" href="javascript:void(0)" type="one">${views.lottery_auto['一字']}</a>
     <a name="playcode" href="javascript:void(0)" type="two">${views.lottery_auto['二字']}</a>
     <a name="playcode" href="javascript:void(0)" type="three">${views.lottery_auto['三字']}</a>
-    <a name="playcode" href="javascript:void(0)" type="lhh">${views.lottery_auto['总合/龙虎和']}</a>
+    <a name="playcode" href="javascript:void(0)" type="lhh">总和</a>
     <a name="playcode"　href="javascript:void(0)" type="group">组选</a>
     <a name="playcode"　href="javascript:void(0)" type="span">跨度</a>
     <a name="playcode"　href="javascript:void(0)" type="dragonTiger">龙虎</a>

@@ -8,55 +8,205 @@
                        aria-describedby="editable_info">
                     <thead>
                     <tr class="bg-gray">
-                        <th>号码</th>
-                        <th>当前赔率</th>
-                        <th>号码</th>
-                        <th>当前赔率</th>
-                        <th>号码</th>
-                        <th>当前赔率</th>
+                        <th>定位</th>
+                        <th>龙</th>
+                        <th>虎</th>
+                        <th>和</th>
 
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <th><span>龙</span></th>
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="hidden" value="${command['龙'].id}" name="lotteryOdds[0].id">
-                                <input type="hidden" value="${command['龙'].code}" name="lotteryOdds[0].code">
-                                <input type="hidden" value="${command['龙'].betCode}" name="lotteryOdds[0].betCode">
-                                <input type="hidden" value="${command['龙'].siteId}" name="lotteryOdds[0].siteId">
-                                <input type="hidden" value="${command['龙'].betNum}" name="lotteryOdds[0].betNum">
-                                <input type="text" class="form-control input-sm" name="lotteryOdds[0].odd" placeholder="<=${command['龙'].oddLimit}" data-limit="${command['龙'].oddLimit}" data-value="${command['龙'].odd}"
-                                       value="${command['龙'].odd}">
-                            </div>
-                        </td>
+                        <th><span>万千</span></th>
+                        <c:forEach items="${command.ten_thousand_thousand}" var="p" >
+                            <c:if test="${p.betNum eq '龙'||p.betNum eq '虎'||p.betNum eq '和'}">
 
-                        <th><span>虎</span></th>
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="hidden" value="${command['虎'].id}" name="lotteryOdds[4].id">
-                                <input type="hidden" value="${command['虎'].code}" name="lotteryOdds[4].code">
-                                <input type="hidden" value="${command['虎'].betCode}" name="lotteryOdds[4].betCode">
-                                <input type="hidden" value="${command['虎'].siteId}" name="lotteryOdds[4].siteId">
-                                <input type="hidden" value="${command['虎'].betNum}" name="lotteryOdds[4].betNum">
-                                <input type="text" class="form-control input-sm" name="lotteryOdds[4].odd" placeholder="<=${command['虎'].oddLimit}" data-limit="${command['虎'].oddLimit}" data-value="${command['虎'].odd}"
-                                       value="${command['虎'].odd}">
-                            </div>
-                        </td>
-                        <th><span>和局</span></th>
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="hidden" value="${command['和'].id}" name="lotteryOdds[8].id">
-                                <input type="hidden" value="${command['和'].code}" name="lotteryOdds[8].code">
-                                <input type="hidden" value="${command['和'].betCode}" name="lotteryOdds[8].betCode">
-                                <input type="hidden" value="${command['和'].siteId}" name="lotteryOdds[8].siteId">
-                                <input type="hidden" value="${command['和'].betNum}" name="lotteryOdds[8].betNum">
-                                <input type="text" class="form-control input-sm" name="lotteryOdds[8].odd" placeholder="<=${command['和'].oddLimit}" data-limit="${command['和'].oddLimit}" data-value="${command['和'].odd}"
-                                       value="${command['和'].odd}">
-                            </div>
-                        </td>
+                                <td>
+                                    <div class="input-group content-width-limit-10">
+                                        <c:set var="odd" value="${p}"/>
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    </div>
+                                </td>
+                            </c:if>
+                        </c:forEach>
                     </tr>
+                    <tr>
+                        <th><span>万百</span></th>
+                        <c:forEach items="${command.ten_thousand_hundred}" var="p" >
+                            <c:if test="${p.betNum eq '龙'||p.betNum eq '虎'||p.betNum eq '和'}">
+
+                                <td>
+                                    <div class="input-group content-width-limit-10">
+                                        <c:set var="odd" value="${p}"/>
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    </div>
+                                </td>
+                            </c:if>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <th><span>万十</span></th>
+                        <c:forEach items="${command.ten_thousand_ten}" var="p" >
+                            <c:if test="${p.betNum eq '龙'||p.betNum eq '虎'||p.betNum eq '和'}">
+
+                                <td>
+                                    <div class="input-group content-width-limit-10">
+                                        <c:set var="odd" value="${p}"/>
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    </div>
+                                </td>
+                            </c:if>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <th><span>万个</span></th>
+                        <c:forEach items="${command.ten_thousand_one}" var="p" >
+                            <c:if test="${p.betNum eq '龙'||p.betNum eq '虎'||p.betNum eq '和'}">
+
+                                <td>
+                                    <div class="input-group content-width-limit-10">
+                                        <c:set var="odd" value="${p}"/>
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    </div>
+                                </td>
+                            </c:if>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <th><span>千百</span></th>
+                        <c:forEach items="${command.thousand_hundred}" var="p" >
+                            <c:if test="${p.betNum eq '龙'||p.betNum eq '虎'||p.betNum eq '和'}">
+
+                                <td>
+                                    <div class="input-group content-width-limit-10">
+                                        <c:set var="odd" value="${p}"/>
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    </div>
+                                </td>
+                            </c:if>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <th><span>千十</span></th>
+                        <c:forEach items="${command.thousand_ten}" var="p" >
+                            <c:if test="${p.betNum eq '龙'||p.betNum eq '虎'||p.betNum eq '和'}">
+
+                                <td>
+                                    <div class="input-group content-width-limit-10">
+                                        <c:set var="odd" value="${p}"/>
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    </div>
+                                </td>
+                            </c:if>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <th><span>千个</span></th>
+                        <c:forEach items="${command.thousand_one}" var="p" >
+                            <c:if test="${p.betNum eq '龙'||p.betNum eq '虎'||p.betNum eq '和'}">
+
+                                <td>
+                                    <div class="input-group content-width-limit-10">
+                                        <c:set var="odd" value="${p}"/>
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    </div>
+                                </td>
+                            </c:if>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <th><span>百十</span></th>
+                        <c:forEach items="${command.hundred_ten}" var="p" >
+                            <c:if test="${p.betNum eq '龙'||p.betNum eq '虎'||p.betNum eq '和'}">
+
+                                <td>
+                                    <div class="input-group content-width-limit-10">
+                                        <c:set var="odd" value="${p}"/>
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    </div>
+                                </td>
+                            </c:if>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <th><span>百个</span></th>
+                        <c:forEach items="${command.hundred_one}" var="p" >
+                            <c:if test="${p.betNum eq '龙'||p.betNum eq '虎'||p.betNum eq '和'}">
+
+                                <td>
+                                    <div class="input-group content-width-limit-10">
+                                        <c:set var="odd" value="${p}"/>
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    </div>
+                                </td>
+                            </c:if>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <th><span>十个</span></th>
+                        <c:forEach items="${command.ten_one}" var="p" >
+                            <c:if test="${p.betNum eq '龙'||p.betNum eq '虎'||p.betNum eq '和'}">
+
+                                <td>
+                                    <div class="input-group content-width-limit-10">
+                                        <c:set var="odd" value="${p}"/>
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    </div>
+                                </td>
+                            </c:if>
+                        </c:forEach>
+                    </tr>
+
 
 
 
