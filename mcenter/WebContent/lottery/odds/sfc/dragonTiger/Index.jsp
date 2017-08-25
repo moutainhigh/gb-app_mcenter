@@ -10,10 +10,8 @@
 
                     <tr class="bg-gray">
                         <th>龙虎类型</th>
-                        <th>号码</th>
-                        <th>当前赔率</th>
-                        <th>号码</th>
-                        <th>当前赔率</th>
+                        <th>龙</th>
+                        <th>虎</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -21,7 +19,6 @@
                         <tr>
                             <th><span>龙${fn:substring(i.key,17,18)}虎${fn:substring(i.key,18,19)}</span></th>
                             <c:forEach items="${i.value}" var="p" >
-                                <th><span>${p.betNum}</span></th>
                                 <td>
                                     <div class="input-group content-width-limit-10">
                                         <c:set var="odd" value="${p}"/>
