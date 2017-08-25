@@ -272,6 +272,17 @@ public class CompanyDepositController extends BaseDepositController {
         if (currencyExchangeRate == null) {
             rate = DubboTool.getService(ICurrencyExchangeService.class).usdToCurrency(depositCurrency);
             saveRate(rate, depositCurrency);
+        } else if (currencyExchangeRate.getUpdateTime().getTime() < SessionManager.getDate().getToday().getTime()) {
+            rate = DubboTool.getService(ICurrencyExchangeService.class).usdToCurrency(depositCurrency);
+            if(rate == null) {
+                LOG.info("更新汇率失败,用数据库原有汇率{0}",vo.getResult().getTransactionNo());
+                rate = new CurrencyRate();
+                rate.setRateTime(currencyExchangeRate.getUpdateTime());
+                rate.setAskRate(new BigDecimal(String.valueOf(currencyExchangeRate.getRate())));
+                rate.setQueryTime(SessionManager.getDate().getNow());
+            } else {
+                updateRate(currencyExchangeRate, rate);
+            }
         } else {
             rate.setRateTime(currencyExchangeRate.getUpdateTime());
             rate.setAskRate(new BigDecimal(String.valueOf(currencyExchangeRate.getRate())));
@@ -298,6 +309,23 @@ public class CompanyDepositController extends BaseDepositController {
             CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
             rateVo.setResult(currencyExchangeRate);
             ServiceTool.getCurrencyExchangeRateService().insert(rateVo);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
+    }
+
+    private void updateRate(CurrencyExchangeRate currencyExchangeRate, CurrencyRate rate) {
+        if (rate == null || rate.getAskRate() == null) {
+            return;
+        }
+        try {
+            currencyExchangeRate.setUpdateTime(SessionManager.getDate().getNow());
+            currencyExchangeRate.setRate(rate.getAskRate().doubleValue());
+            currencyExchangeRate.setUpdateUser(SessionManager.getUserId());
+            CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
+            rateVo.setResult(currencyExchangeRate);
+            rateVo.setProperties(CurrencyExchangeRate.PROP_UPDATE_TIME, CurrencyExchangeRate.PROP_RATE, CurrencyExchangeRate.PROP_UPDATE_USER);
+            ServiceTool.getCurrencyExchangeRateService().updateOnly(rateVo);
         } catch (Exception e) {
             LOG.error(e);
         }

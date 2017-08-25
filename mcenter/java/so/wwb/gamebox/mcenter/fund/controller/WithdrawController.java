@@ -1852,13 +1852,25 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         String currency = playerWithdrawVo.getResult().getWithdrawMonetary();
         CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
         rateVo.getQuery().addOrder(CurrencyExchangeRate.PROP_UPDATE_TIME, Direction.DESC);
-        rateVo.getQuery().setCriterions(new Criterion[]{new Criterion(CurrencyExchangeRate.PROP_ITO_CURRENCY, Operator.EQ, CurrencyEnum.USD.getCode()), new Criterion(CurrencyExchangeRate.PROP_IFROM_CURRENCY, Operator.EQ, currency)});
+        rateVo.getQuery().setCriterions(new Criterion[]{new Criterion(CurrencyExchangeRate.PROP_ITO_CURRENCY, Operator.EQ, CurrencyEnum.USD.getCode()),
+                new Criterion(CurrencyExchangeRate.PROP_IFROM_CURRENCY, Operator.EQ, currency)});
         rateVo = ServiceTool.getCurrencyExchangeRateService().search(rateVo);
         CurrencyExchangeRate currencyExchangeRate = rateVo.getResult();
         CurrencyRate rate = new CurrencyRate();
         if (currencyExchangeRate == null) {
             rate = DubboTool.getService(ICurrencyExchangeService.class).currencyToUsd(currency);
             saveRate(rate, currency);
+        } else if (currencyExchangeRate.getUpdateTime().getTime() < SessionManager.getDate().getToday().getTime()) {
+            rate = DubboTool.getService(ICurrencyExchangeService.class).currencyToUsd(currency);
+            if(rate == null) {
+                LOG.info("更新汇率失败,用数据库原有汇率,{0}",playerWithdrawVo.getResult().getTransactionNo());
+                rate = new CurrencyRate();
+                rate.setRateTime(currencyExchangeRate.getUpdateTime());
+                rate.setAskRate(new BigDecimal(String.valueOf(currencyExchangeRate.getRate())));
+                rate.setQueryTime(SessionManager.getDate().getNow());
+            } else {
+                updateRate(currencyExchangeRate, rate);
+            }
         } else {
             rate.setRateTime(currencyExchangeRate.getUpdateTime());
             rate.setAskRate(new BigDecimal(String.valueOf(currencyExchangeRate.getRate())));
@@ -1885,6 +1897,24 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
             rateVo.setResult(currencyExchangeRate);
             ServiceTool.getCurrencyExchangeRateService().insert(rateVo);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
+
+    }
+
+    private void updateRate(CurrencyExchangeRate currencyExchangeRate, CurrencyRate rate) {
+        if (rate == null || rate.getAskRate() == null) {
+            return;
+        }
+        try {
+            currencyExchangeRate.setUpdateTime(SessionManager.getDate().getNow());
+            currencyExchangeRate.setRate(rate.getAskRate().doubleValue());
+            currencyExchangeRate.setUpdateUser(SessionManager.getUserId());
+            CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
+            rateVo.setResult(currencyExchangeRate);
+            rateVo.setProperties(CurrencyExchangeRate.PROP_UPDATE_TIME, CurrencyExchangeRate.PROP_RATE, CurrencyExchangeRate.PROP_UPDATE_USER);
+            ServiceTool.getCurrencyExchangeRateService().updateOnly(rateVo);
         } catch (Exception e) {
             LOG.error(e);
         }
