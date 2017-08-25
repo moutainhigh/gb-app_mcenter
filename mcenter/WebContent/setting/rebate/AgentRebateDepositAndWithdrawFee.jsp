@@ -15,6 +15,7 @@
     <input type="hidden" name="sysParam[5].id" value="${preferentialParam.id}">
     <input type="hidden" name="sysParam[6].id" value="${rakbackParam.id}">
     <input type="hidden" name="sysParam[7].id" value="${topOtherParam.id}">
+    <input type="hidden" name="sysParam[8].id" value="${rebateParam.id}">
     <input type="hidden" name="sysParamLimit[0].id" value="${withdrawLimitMin.id}">
     <input type="hidden" name="sysParamLimit[1].id" value="${withdrawLimitMax.id}">
     <div id="validateRule" style="display: none">${validateRule}</div>
@@ -45,28 +46,33 @@
                 <thead>
                     <tr>
                         <td width="15%"></td>
-                        <td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">${views.setting['apportion.page.item.agent.percent']}</span></td>
                         <td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">${views.setting['apportion.page.item.topagent.percent']}</span></td>
+                        <td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">${views.setting['apportion.page.item.agent.percent']}</span></td>
                         <td></td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td><span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['返水费用']}</b></span></td>
-                        <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" name="sysParam[2].paramValue" value="${empty rakebackParam.paramValue ? rakebackParam.defaultValue : rakebackParam.paramValue}"><span class="input-group-addon">%</span></div></td>
-                        <td class="top_agent"><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" readonly name="sysParam[6].paramValue" value="${empty rakbackParam.paramValue ? rakbackParam.defaultValue : rakbackParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" name="sysParam[6].paramValue" value="${empty rakbackParam.paramValue ? rakbackParam.defaultValue : rakbackParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td class="_agent"><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" readonly name="sysParam[2].paramValue" value="${empty rakebackParam.paramValue ? rakebackParam.defaultValue : rakebackParam.paramValue}"><span class="input-group-addon">%</span></div></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td><span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['优惠费用']}</b></span></td>
-                        <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" name="sysParam[3].paramValue" value="${empty favorableParam.paramValue ? favorableParam.defaultValue : favorableParam.paramValue}"><span class="input-group-addon">%</span></div></td>
-                        <td class="top_agent"><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" readonly name="sysParam[5].paramValue" value="${empty preferentialParam.paramValue ? preferentialParam.defaultValue : preferentialParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" name="sysParam[5].paramValue" value="${empty preferentialParam.paramValue ? preferentialParam.defaultValue : preferentialParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td class="_agent"><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" readonly name="sysParam[3].paramValue" value="${empty favorableParam.paramValue ? favorableParam.defaultValue : favorableParam.paramValue}"><span class="input-group-addon">%</span></div></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td><span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['其它费用']}</b></span></td>
-                        <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" name="sysParam[4].paramValue" value="${empty otherParam.paramValue ? otherParam.defaultValue : otherParam.paramValue}"><span class="input-group-addon">%</span></div></td>
-                        <td class="top_agent"><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" readonly name="sysParam[7].paramValue" value="${empty topOtherParam.paramValue ? topOtherParam.defaultValue : topOtherParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" name="sysParam[7].paramValue" value="${empty topOtherParam.paramValue ? topOtherParam.defaultValue : topOtherParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td class="_agent"><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" readonly name="sysParam[4].paramValue" value="${empty otherParam.paramValue ? otherParam.defaultValue : otherParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['返佣费用']}</b></span></td>
+                        <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" name="sysParam[8].paramValue" value="${empty rebateParam.paramValue ? rebateParam.defaultValue : rebateParam.paramValue}"><span class="input-group-addon">%</span></div></td>
                         <td></td>
                     </tr>
                 </tbody>
