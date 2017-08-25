@@ -8,6 +8,7 @@ import org.soul.commons.collections.MapTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.dubbo.DubboTool;
 import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
@@ -19,7 +20,10 @@ import org.soul.commons.log.LogFactory;
 import org.soul.commons.math.NumberTool;
 import org.soul.commons.net.IpTool;
 import org.soul.commons.net.ServletTool;
+import org.soul.commons.query.Criterion;
 import org.soul.commons.query.Paging;
+import org.soul.commons.query.enums.Operator;
+import org.soul.commons.query.sort.Direction;
 import org.soul.commons.security.CryptoTool;
 import org.soul.commons.security.key.CryptoKey;
 import org.soul.commons.support._Module;
@@ -46,6 +50,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.iservice.currency.ICurrencyExchangeService;
 import so.wwb.gamebox.iservice.master.fund.IVPlayerWithdrawService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.PlayerWithdrawRemindForm;
@@ -63,8 +68,11 @@ import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.NoticeParamEnum;
 import so.wwb.gamebox.model.company.po.Bank;
+import so.wwb.gamebox.model.company.setting.po.CurrencyExchangeRate;
+import so.wwb.gamebox.model.company.setting.vo.CurrencyExchangeRateVo;
 import so.wwb.gamebox.model.company.site.po.SiteCustomerService;
 import so.wwb.gamebox.model.company.vo.BankListVo;
+import so.wwb.gamebox.model.currency.po.CurrencyRate;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.listop.FilterRow;
 import so.wwb.gamebox.model.listop.FilterSelectConstant;
@@ -73,6 +81,7 @@ import so.wwb.gamebox.model.master.content.vo.PayAccountListVo;
 import so.wwb.gamebox.model.master.dataRight.DataRightModuleType;
 import so.wwb.gamebox.model.master.dataRight.po.SysUserDataRight;
 import so.wwb.gamebox.model.master.dataRight.vo.SysUserDataRightVo;
+import so.wwb.gamebox.model.master.enums.CurrencyEnum;
 import so.wwb.gamebox.model.master.enums.RankFeeType;
 import so.wwb.gamebox.model.master.enums.RemarkEnum;
 import so.wwb.gamebox.model.master.fund.enums.*;
@@ -287,11 +296,12 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     /**
      * 子账号查询的层级权限
+     *
      * @param model
      * @param sysUserDataRights
      */
     private void buildPlayerRankData(Model model, List<SysUserDataRight> sysUserDataRights) {
-        List<Integer> rankIds = CollectionTool.extractToList(sysUserDataRights,SysUserDataRight.PROP_ENTITY_ID);
+        List<Integer> rankIds = CollectionTool.extractToList(sysUserDataRights, SysUserDataRight.PROP_ENTITY_ID);
         PlayerRankVo rankVo = new PlayerRankVo();
         rankVo.getSearch().setIds(rankIds);
         model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(rankVo));
@@ -299,6 +309,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     /**
      * 子账号的数据权限
+     *
      * @return
      */
     private List<SysUserDataRight> querySysUserDataRights() {
@@ -376,7 +387,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      * 声音开关
      */
     Map<String, Object> toneSwitch(SiteParamEnum paramEnum) {
-        Map<String, Object> map = new HashMap<>(1,1f);
+        Map<String, Object> map = new HashMap<>(1, 1f);
         SysParam param = ParamTool.getSysParam(paramEnum);
         if (param != null) {
             if (param.getActive()) {
@@ -627,7 +638,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     private Map<String, Object> getAuditPassList(List<PlayerTransaction> playerTransactions) {
 
-        Map<String, Object> map = new HashMap<>(6,1f);
+        Map<String, Object> map = new HashMap<>(6, 1f);
         if (playerTransactions == null || playerTransactions.size() == 0) {
             return map;
         }
@@ -1272,7 +1283,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @RequestMapping("/auditWithdraw")
     @ResponseBody
     public Map auditWithdraw(PlayerWithdrawVo vo, Remark remark, Model model) {
-        HashMap map = new HashMap(2,1f);
+        HashMap map = new HashMap(2, 1f);
         try {
             //添加备注
             remark = buildRemarkData(vo, remark);
@@ -1698,7 +1709,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (failReasons != null && failReasons.size() > 0) {
             bool = true;
         }
-        Map<String, Object> map = new HashMap<>(2,1f);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         map.put("state", bool);
         map.put("feeList", vPlayerTransactionVo.getFeeList());
         return map;
@@ -1720,7 +1731,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (failReasons != null && failReasons.size() > 0) {
             bool = true;
         }
-        Map<String, Object> map = new HashMap<>(2,1f);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         map.put("state", bool);
         map.put("feeList", vPlayerTransactionVo.getFeeList());
         return map;
@@ -1737,7 +1748,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     public Map<String, Object> hasNext(VPlayerWithdrawVo vo) {
         vo.getSearch().setLockPersonId(SessionManager.getAuditUserId());
         vo = getService().searchNext(vo);
-        Map<String, Object> map = new HashMap<>(2,1f);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         if (vo.getResult() == null) {
             map.put("status", false);
             return map;
@@ -1778,11 +1789,40 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     public Map exchange(PlayerWithdrawVo playerWithdrawVo) {
         LOG.info("兑换比特币:用户-{1}取款id-{2}", SessionManager.getUserName(), playerWithdrawVo.getSearch().getId());
         try {
+            Integer payAccountId = playerWithdrawVo.getPayAccountId();
+            Map<String, Object> map = new HashMap<>();
+            if (payAccountId == null) {
+                map.put("status", false);
+                map.put("notAccount", true);
+                LOG.info("取款{0}兑换交易选择收款帐号为空", playerWithdrawVo.getSearch().getId());
+                return map;
+            }
+            playerWithdrawVo = ServiceTool.playerWithdrawService().get(playerWithdrawVo);
+            PlayerWithdraw playerWithdraw = playerWithdrawVo.getResult();
+            if (playerWithdraw == null) {
+                map.put("status", false);
+                LOG.info("取款{0}兑换交易无该笔交易订单", playerWithdrawVo.getSearch().getId());
+                return map;
+            }
+            playerWithdrawVo.setResult(playerWithdraw);
+            if (!WithdrawStatusEnum.SUCCESS.getCode().equals(playerWithdraw.getWithdrawStatus()) && !CheckStatusEnum.SUCCESS.getCode().equals(playerWithdraw.getCheckStatus())) {
+                map.put("status", false);
+                map.put("hasExchange", true);
+                LOG.info("取款{0}兑换交易状态无权兑换{1}-{2}", playerWithdraw.getTransactionNo(), playerWithdraw.getWithdrawStatus(), playerWithdraw.getCheckStatus());
+                return map;
+            }
+            //查询汇率
+            if (!queryRate(playerWithdrawVo)) {
+                map.put("status", false);
+                map.put("rate", true);
+                LOG.info("取款{0}查询汇率出错", playerWithdraw.getTransactionNo());
+                return map;
+            }
             playerWithdrawVo.setOperator(SessionManager.getUserName());
             playerWithdrawVo.setUserId(SessionManager.getUserId());
             return ServiceTool.playerWithdrawService().exchangeBtc(playerWithdrawVo);
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>(1,1f);
+            Map<String, Object> map = new HashMap<>(1, 1f);
             map.put("state", false);
             return map;
         }
@@ -1806,6 +1846,49 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             LOG.error(e, "自动打款失败");
         }
         return getVoMessage(playerWithdrawVo);
+    }
+
+    private boolean queryRate(PlayerWithdrawVo playerWithdrawVo) {
+        String currency = playerWithdrawVo.getResult().getWithdrawMonetary();
+        CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
+        rateVo.getQuery().addOrder(CurrencyExchangeRate.PROP_UPDATE_TIME, Direction.DESC);
+        rateVo.getQuery().setCriterions(new Criterion[]{new Criterion(CurrencyExchangeRate.PROP_ITO_CURRENCY, Operator.EQ, CurrencyEnum.USD.getCode()), new Criterion(CurrencyExchangeRate.PROP_IFROM_CURRENCY, Operator.EQ, currency)});
+        rateVo = ServiceTool.getCurrencyExchangeRateService().search(rateVo);
+        CurrencyExchangeRate currencyExchangeRate = rateVo.getResult();
+        CurrencyRate rate = new CurrencyRate();
+        if (currencyExchangeRate == null) {
+            rate = DubboTool.getService(ICurrencyExchangeService.class).currencyToUsd(currency);
+            saveRate(rate, currency);
+        } else {
+            rate.setRateTime(currencyExchangeRate.getUpdateTime());
+            rate.setAskRate(new BigDecimal(String.valueOf(currencyExchangeRate.getRate())));
+            rate.setQueryTime(SessionManager.getDate().getNow());
+        }
+        playerWithdrawVo.setRate(rate);
+        if (rate == null || rate.getAskRate() == null) {
+            return false;
+        }
+        return true;
+    }
+
+    private void saveRate(CurrencyRate rate, String currency) {
+        if (rate == null || rate.getAskRate() == null) {
+            return;
+        }
+        try {
+            CurrencyExchangeRate currencyExchangeRate = new CurrencyExchangeRate();
+            currencyExchangeRate.setItoCurrency(CurrencyEnum.USD.getCode());
+            currencyExchangeRate.setIfromCurrency(currency);
+            currencyExchangeRate.setUpdateTime(SessionManager.getDate().getNow());
+            currencyExchangeRate.setRate(rate.getAskRate().doubleValue());
+            currencyExchangeRate.setUpdateUser(SessionManager.getUserId());
+            CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
+            rateVo.setResult(currencyExchangeRate);
+            ServiceTool.getCurrencyExchangeRateService().insert(rateVo);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
+
     }
 
 }
