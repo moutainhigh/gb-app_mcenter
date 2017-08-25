@@ -42,7 +42,7 @@
                         <c:choose>
                             <c:when test="${command.result.status}">
                                 <%--停用--%>
-                                <span>(${dicts.content.carousel_state['stop']})</span>
+                                <span>(${dicts.content.carousel_state['using']})</span>
                             </c:when>
                             <c:when test="${command.now < command.result.startTime}">
                                 <%--未使用--%>
@@ -53,7 +53,7 @@
                                 <span class="co-grayc2">（${dicts.content.carousel_state['expired']}）</span>
                             </c:when>
                             <c:otherwise>
-                                <span class="co-green">（${dicts.content.carousel_state['using']}）</span>
+                                <span class="co-green">（${dicts.content.carousel_state['stop']}）</span>
                             </c:otherwise>
                         </c:choose>
                     </c:if>
