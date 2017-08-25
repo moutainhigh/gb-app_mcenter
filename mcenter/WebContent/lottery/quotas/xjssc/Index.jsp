@@ -394,7 +394,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['跨度</td>
+                        <td>${views.lottery_auto['跨度']}</td>
                         <input type="hidden" value="${command['span'].id}" name="quotaList[15].id">
                         <input type="hidden" value="${command['span'].siteId}" name="quotaList[15].siteId">
                         <input type="hidden" value="${command['span'].code}" name="quotaList[15].code">
