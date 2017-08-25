@@ -46,7 +46,7 @@
                     </c:forEach>
 
                         <tr>
-                            <th>冠亚大</th>
+                            <th>和大</th>
                             <td>
                                 <div class="input-group content-width-limit-10">
                                     <input type="hidden" value="${command['和大'].id}" name="lotteryOdds[20].id">
@@ -57,7 +57,7 @@
                                     <input type="text" class="form-control input-sm" placeholder="<=${command['和大'].oddLimit}" name="lotteryOdds[20].odd"  data-limit="${command['和大'].oddLimit}" data-value="${command['和大'].odd}" value="${command['和大'].odd}">
                                 </div>
                             </td>
-                            <th>冠亚小</th>
+                            <th>和小</th>
                             <td>
                                 <div class="input-group content-width-limit-10">
                                     <div class="input-group content-width-limit-10">
@@ -70,7 +70,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <th>冠亚单</th>
+                            <th>和单</th>
                             <td>
                                 <div class="input-group content-width-limit-10">
                                     <input type="hidden" value="${command['和单'].id}" name="lotteryOdds[22].id">
@@ -81,7 +81,7 @@
                                     <input type="text" class="form-control input-sm" placeholder="<=${command['和单'].oddLimit}" name="lotteryOdds[22].odd" data-limit="${command['和单'].oddLimit}" data-value="${command['和单'].odd}" value="${command['和单'].odd}">
                                 </div>
                             </td>
-                            <th>冠亚双</th>
+                            <th>和双</th>
                             <td>
                                 <div class="input-group content-width-limit-10">
                                     <div class="input-group content-width-limit-10">
@@ -94,7 +94,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <th>冠亚大单</th>
+                            <th>大单</th>
                             <td>
                                 <div class="input-group content-width-limit-10">
                                     <input type="hidden" value="${command['大单'].id}" name="lotteryOdds[24].id">
@@ -108,7 +108,7 @@
 
                         </tr>
                         <tr>
-                            <th>冠亚大双</th>
+                            <th>大双</th>
                             <td>
                                 <div class="input-group content-width-limit-10">
                                     <input type="hidden" value="${command['大双'].id}" name="lotteryOdds[25].id">
@@ -119,7 +119,7 @@
                                     <input type="text" class="form-control input-sm" placeholder="<=${command['大双'].oddLimit}" name="lotteryOdds[25].odd"  data-limit="${command['大双'].oddLimit}" data-value="${command['大双'].odd}" value="${command['大双'].odd}">
                                 </div>
                             </td>
-                            <th>冠亚小单</th>
+                            <th>小单</th>
                             <td>
                                 <div class="input-group content-width-limit-10">
                                     <input type="hidden" value="${command['小单'].id}" name="lotteryOdds[26].id">
@@ -130,7 +130,7 @@
                                     <input type="text" class="form-control input-sm" placeholder="<=${command['小单'].oddLimit}" name="lotteryOdds[26].odd"  data-limit="${command['小单'].oddLimit}" data-value="${command['小单'].odd}" value="${command['小单'].odd}">
                                 </div>
                             </td>
-                            <th>冠亚小双</th>
+                            <th>小双</th>
                             <td>
                                 <div class="input-group content-width-limit-10">
                                     <input type="hidden" value="${command['小双'].id}" name="lotteryOdds[27].id">
