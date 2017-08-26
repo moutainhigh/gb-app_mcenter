@@ -46,7 +46,6 @@ import so.wwb.gamebox.model.master.player.vo.PlayerTransactionVo;
 import so.wwb.gamebox.web.cache.Cache;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -245,11 +244,13 @@ public class CompanyDepositController extends BaseDepositController {
             }
             return map;
         }
-        if (!queryRate(vo)) {
+        CurrencyRate rate = queryRate(vo);
+        if (rate == null || rate.getAskRate() == null) {
             map.put("state", false);
             map.put("rate", true);
             return map;
         }
+        vo.setRate(rate);
         try {
             vo.setOperator(SessionManager.getUserName());
             vo.setUserId(SessionManager.getUserId());
@@ -261,7 +262,7 @@ public class CompanyDepositController extends BaseDepositController {
         return map;
     }
 
-    private boolean queryRate(VPlayerDepositVo vo) {
+    private CurrencyRate queryRate(VPlayerDepositVo vo) {
         String depositCurrency = vo.getResult().getDefaultCurrency();
         CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
         rateVo.getQuery().addOrder(CurrencyExchangeRate.PROP_UPDATE_TIME, Direction.DESC);
@@ -271,64 +272,43 @@ public class CompanyDepositController extends BaseDepositController {
         CurrencyRate rate = new CurrencyRate();
         if (currencyExchangeRate == null) {
             rate = DubboTool.getService(ICurrencyExchangeService.class).usdToCurrency(depositCurrency);
-            saveRate(rate, depositCurrency);
+            saveRate(currencyExchangeRate, rate, depositCurrency);
         } else if (currencyExchangeRate.getUpdateTime().getTime() < SessionManager.getDate().getToday().getTime()) {
             rate = DubboTool.getService(ICurrencyExchangeService.class).usdToCurrency(depositCurrency);
-            if(rate == null) {
-                LOG.info("更新汇率失败,用数据库原有汇率{0}",vo.getResult().getTransactionNo());
+            if (rate == null) {
+                LOG.info("更新汇率失败,用数据库原有汇率{0}", vo.getResult().getTransactionNo());
                 rate = new CurrencyRate();
                 rate.setRateTime(currencyExchangeRate.getUpdateTime());
                 rate.setAskRate(new BigDecimal(String.valueOf(currencyExchangeRate.getRate())));
                 rate.setQueryTime(SessionManager.getDate().getNow());
             } else {
-                updateRate(currencyExchangeRate, rate);
+                saveRate(currencyExchangeRate, rate, depositCurrency);
             }
         } else {
             rate.setRateTime(currencyExchangeRate.getUpdateTime());
             rate.setAskRate(new BigDecimal(String.valueOf(currencyExchangeRate.getRate())));
             rate.setQueryTime(SessionManager.getDate().getNow());
         }
-        vo.setRate(rate);
-        if (rate == null || rate.getAskRate() == null) {
-            return false;
-        }
-        return true;
+        return rate;
     }
 
-    private void saveRate(CurrencyRate rate, String depositCurrency) {
+    private void saveRate(CurrencyExchangeRate currencyExchangeRate, CurrencyRate rate, String depositCurrency) {
         if (rate == null || rate.getAskRate() == null) {
             return;
         }
+        if (currencyExchangeRate == null) {
+            currencyExchangeRate = new CurrencyExchangeRate();
+        }
         try {
-            CurrencyExchangeRate currencyExchangeRate = new CurrencyExchangeRate();
             currencyExchangeRate.setIfromCurrency(CurrencyEnum.USD.getCode());
             currencyExchangeRate.setItoCurrency(depositCurrency);
-            currencyExchangeRate.setUpdateTime(SessionManager.getDate().getNow());
-            currencyExchangeRate.setRate(rate.getAskRate().doubleValue());
             currencyExchangeRate.setUpdateUser(SessionManager.getUserId());
             CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
             rateVo.setResult(currencyExchangeRate);
-            ServiceTool.getCurrencyExchangeRateService().insert(rateVo);
+            rateVo.setRate(rate);
+            ServiceTool.getCurrencyExchangeRateService().saveOrUpdateRate(rateVo);
         } catch (Exception e) {
             LOG.error(e);
         }
-    }
-
-    private void updateRate(CurrencyExchangeRate currencyExchangeRate, CurrencyRate rate) {
-        if (rate == null || rate.getAskRate() == null) {
-            return;
-        }
-        try {
-            currencyExchangeRate.setUpdateTime(SessionManager.getDate().getNow());
-            currencyExchangeRate.setRate(rate.getAskRate().doubleValue());
-            currencyExchangeRate.setUpdateUser(SessionManager.getUserId());
-            CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
-            rateVo.setResult(currencyExchangeRate);
-            rateVo.setProperties(CurrencyExchangeRate.PROP_UPDATE_TIME, CurrencyExchangeRate.PROP_RATE, CurrencyExchangeRate.PROP_UPDATE_USER);
-            ServiceTool.getCurrencyExchangeRateService().updateOnly(rateVo);
-        } catch (Exception e) {
-            LOG.error(e);
-        }
-
     }
 }
