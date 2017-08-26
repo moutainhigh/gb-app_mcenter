@@ -11,6 +11,7 @@ import org.soul.iservice.smsinterface.ISmsInterfaceService;
 import org.soul.iservice.sys.ISysAuditLogService;
 import org.soul.iservice.sys.ISysParamService;
 import org.soul.iservice.taskschedule.ITaskScheduleService;
+import so.wwb.gamebox.iservice.bitcoin.IPoloniexService;
 import so.wwb.gamebox.iservice.boss.taskschedule.ITaskRunRecordService;
 import so.wwb.gamebox.iservice.common.ICustomSysAuditLogService;
 import so.wwb.gamebox.iservice.common.IVSubAccountService;
@@ -1789,6 +1790,14 @@ public class ServiceTool {
 
     public static ICreditAccountService creditAccountService() {
         return getService(ICreditAccountService.class);
+    }
+
+    public static IPoloniexService poloniexService() {
+        return getService(IPoloniexService.class);
+    }
+
+    public static IDigiccyTransactionService digiccyTransactionService() {
+        return getService(IDigiccyTransactionService.class);
     }
 //endregion your codes 1
 
