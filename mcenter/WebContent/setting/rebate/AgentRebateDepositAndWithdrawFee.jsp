@@ -40,7 +40,7 @@
                 <input type="number" class="form-control" name="sysParamLimit[1].paramValue" value="${empty withdrawLimitMax.paramValue ? withdrawLimitMax.defaultValue : withdrawLimitMax.paramValue}">
             </div>
         </div>
-        <div class="m-b abroder-no p-x" style="margin-top: 20px;"><b>${views.operation_auto['设置返佣分摊比例']}</b></div>
+        <div class="m-b abroder-no p-x" style="margin-top: 20px;"><b>${views.operation_auto['设置费用分摊比例']}</b></div>
         <div class="m-t-xs">
             <table class="" width="100%">
                 <thead>
@@ -70,14 +70,29 @@
                         <td class="_agent"><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" readonly name="sysParam[4].paramValue" value="${empty otherParam.paramValue ? otherParam.defaultValue : otherParam.paramValue}"><span class="input-group-addon">%</span></div></td>
                         <td></td>
                     </tr>
-                    <tr>
-                        <td><span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['返佣费用']}</b></span></td>
-                        <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" name="sysParam[8].paramValue" value="${empty rebateParam.paramValue ? rebateParam.defaultValue : rebateParam.paramValue}"><span class="input-group-addon">%</span></div></td>
-                        <td></td>
-                    </tr>
                 </tbody>
             </table>
-
+        </div>
+        <div class="m-b abroder-no p-x" style="margin-top: 20px;"><b>${views.operation_auto['设置返佣分摊比例']}</b></div>
+        <div class="m-t-xs">
+            <table class="" width="100%">
+                <thead>
+                <tr>
+                    <td width="15%"></td>
+                    <td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">${views.setting['apportion.page.item.topagent.percent']}</span></td>
+                    <td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">${views.setting['apportion.page.item.master.percent']}</span></td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['返佣费用']}</b></span></td>
+                    <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" name="sysParam[8].paramValue" value="${empty rebateParam.paramValue ? rebateParam.defaultValue : rebateParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                    <td class="_agent"><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" readonly  value="${100-rebateParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="modal-footer">
