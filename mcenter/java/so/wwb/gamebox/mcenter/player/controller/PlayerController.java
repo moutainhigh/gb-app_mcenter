@@ -1,7 +1,6 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
 
-import org.exolab.castor.mapping.xml.MapTo;
 import org.soul.commons.bean.IEntity;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionQueryTool;
@@ -31,7 +30,6 @@ import org.soul.commons.security.CryptoTool;
 import org.soul.commons.security.key.CryptoKey;
 import org.soul.commons.spring.utils.CommonBeanFactory;
 import org.soul.commons.support._Module;
-import org.soul.model.gameapi.param.User;
 import org.soul.model.listop.po.SysListOperator;
 import org.soul.model.listop.vo.SysListOperatorListVo;
 import org.soul.model.log.audit.enums.OpMode;
@@ -84,7 +82,6 @@ import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
-import so.wwb.gamebox.model.company.enums.BankEnum;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.company.site.po.SiteCurrency;
@@ -446,7 +443,22 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 listVo = ServiceTool.vUserPlayerService().queryOutLinkBetPlayer(listVo);
             }
         } else {
-            listVo = ServiceTool.vUserPlayerService().searchByCustom(listVo);
+            if (listVo.isAnalyzeNewAgent()){
+                Integer searchType=listVo.getSearchType();
+                if (searchType!=null){
+                    if (searchType==1){
+                        listVo = ServiceTool.vUserPlayerService().queryTotalDepositPlayer(listVo);
+                    }
+                    else if (searchType==2){
+                        listVo = ServiceTool.vUserPlayerService().queryEffectivePlayer(listVo);
+                    }else {
+                        listVo =ServiceTool.vUserPlayerService().queryDepositPlayer(listVo);
+                    }
+                }
+
+            }else {
+                listVo = ServiceTool.vUserPlayerService().searchByCustom(listVo);
+            }
         }
         listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
         return listVo;

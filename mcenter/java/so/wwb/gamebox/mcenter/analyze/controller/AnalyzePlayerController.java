@@ -23,6 +23,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.company.enums.SysSiteStatusEnum;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.master.analyze.po.AnalyzePlayer;
@@ -81,6 +82,12 @@ public class AnalyzePlayerController extends BaseCrudController<IAnalyzePlayerSe
 //
 //        }
 
+        if (listVo.getSearch().getStartStaticTime()==null){
+            listVo.getSearch().setStartStaticTime(Const.Platform_Begin_Date);
+        }
+        if (listVo.getSearch().getEndStaticTime()==null){
+            listVo.getSearch().setEndStaticTime(new Date());
+        }
         Date startTime = DateTool.addDays(listVo.getSearch().getStartStaticTime(), 1);
         listVo.getSearch().setStartStaticTime(startTime);
         Date endTime = DateTool.addDays(listVo.getSearch().getEndStaticTime(), 1);

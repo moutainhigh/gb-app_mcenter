@@ -27,7 +27,10 @@
         <input name="search.ip" value="${operateIp}" type="hidden"/>
         <input name="search.recommendUserId" value="${command.search.recommendUserId}" type="hidden"/>
         <input name="search.timeZoneInterval" value="${command.search.timeZoneInterval}" type="hidden">
-
+        <input name="analyzeNewAgent" value="${command.analyzeNewAgent}" type="hidden">
+        <input name="searchType" value="${command.searchType}" type="hidden">
+        <input name="startTime" value="${soulFn:formatDateTz(command.startTime,DateFormat.DAY_SECOND,timeZone)}" type="hidden">
+        <input name="endTime" value="${soulFn:formatDateTz(command.endTime,DateFormat.DAY_SECOND ,timeZone )}" type="hidden">
 
         <%--<input name="search.registerIp" value="${command.search.registerIp}" type="hidden"/>--%>
         <%--<input name="search.lastLoginIp" value="${command.search.lastLoginIp}" type="hidden"/>--%>
