@@ -1,1 +1,1 @@
-operation.rebate.errorStatus=不是未处理的状态不能挂账operation.rebate.hasNextBill=下期账单已经生成,不能挂账operation.rebate.norecord=找不到代理返佣记录
+﻿operation.rebate.errorStatus=未処理の状態では損失にすることはできませんoperation.rebate.hasNextBill=次の期間の決算書は生成済みです、損失にすることはできませんoperation.rebate.norecord=代理のリベート記録が見つかりません
