@@ -8,6 +8,11 @@
     <div id="validateRule" style="display: none">${validateRule}</div>
     <input type="hidden" id="outer" name="search.outer" value="${empty command.search.outer?-1:command.search.outer}" />
     <input type="hidden" id="originMemory" />
+    <input name="analyzeNewAgent" value="${command.analyzeNewAgent}" type="hidden">
+    <input name="searchType" value="${command.searchType}" type="hidden">
+    <input name="search.agentid" value="${command.search.agentid}" type="hidden">
+    <input name="beginTime" value="${soulFn:formatDateTz(command.analyzeStartTime,DateFormat.DAY_SECOND,timeZone)}" type="hidden">
+    <input name="endTime" value="${soulFn:formatDateTz(command.analyzeEndTime,DateFormat.DAY_SECOND,timeZone)}" type="hidden">
     <div class="row">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
@@ -112,7 +117,7 @@
                                                         <span class="m-l-xs">${views.report_auto['支付宝电子支付']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="alipay_fast">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="bitcoin_fast">
                                                         <span class="m-l-xs">${views.report_auto['比特币支付']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
