@@ -13,6 +13,7 @@
     <input name="search.agentid" value="${command.search.agentid}" type="hidden">
     <input name="beginTime" value="${soulFn:formatDateTz(command.analyzeStartTime,DateFormat.DAY_SECOND,timeZone)}" type="hidden">
     <input name="endTime" value="${soulFn:formatDateTz(command.analyzeEndTime,DateFormat.DAY_SECOND,timeZone)}" type="hidden">
+    <input name="promoteLink" value="${command.promoteLink}" type="hidden">
     <div class="row">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
