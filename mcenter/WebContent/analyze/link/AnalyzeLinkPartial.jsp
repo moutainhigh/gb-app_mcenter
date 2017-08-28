@@ -93,18 +93,18 @@
             <tr>
                 <td>${(command.paging.pageNumber - 1) * command.paging.pageSize + status.count}</td>
                 <td>${p.promoteLink}</td>
-                <td>${p.agentName}</td>
-                <td>${p.agentNewPlayerCount}</td>
+                <td><a href="/userAgent/agent/detail.html?search.id=${p.agentId}" nav-target="mainFrame" class="co-blue">${p.agentName}</a></td>
+                <td><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&search.createTimeBegin=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY_SECOND,timeZone)}&search.createTimeEnd=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY_SECOND ,timeZone )}&search.registerSite=${p.promoteLink}" nav-target='mainFrame'>${p.agentNewPlayerCount}</a></td>
                 <%--<td>${p.agentNewEffectivePlayerCount}</td>--%>
-                <td data-value="&search.promoteLink=${p.promoteLink}&search.agentId=${p.agentId}"><span></span>
-                    <soul:button target="effectivePlayerCount" text="${views.analyze['分析']}" opType="function"/>
+                <td data-value="&search.promoteLink=${p.promoteLink}&search.agentId=${p.agentId}"><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&startTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY_SECOND,timeZone)}&endTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY_SECOND ,timeZone )}&rechargeCount=${command.depositParam.paramValue}&rechargeTotal=${command.depositCountParam.paramValue}&totalEffectiveVolume=${command.effectiveParam.paramValue}&analyzeNewAgent=true&searchType=2&promoteLink=${p.promoteLink}" nav-target='mainFrame'></a>
+                    <soul:button target="effectivePlayerCount" text="${views.analyze['分析']}" opType="function" cssClass="analyzeButton"/>
                 </td>
-                <td>${p.agentNewDepositPlayerCount}</td>
-                <td>${soulFn:formatCurrency(p.agentNewPlayerDepositCount)}</td>
-                <td>${soulFn:formatCurrency(p.agentNewPlayerWithdrawCount)}</td>
+                <td><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&startTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY_SECOND,timeZone)}&endTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY_SECOND ,timeZone )}&analyzeNewAgent=true&searchType=3&promoteLink=${p.promoteLink}" nav-target='mainFrame'>${p.agentNewDepositPlayerCount}</a></td>
+                <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY_SECOND,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY_SECOND ,timeZone )}&analyzeNewAgent=true&searchType=1&promoteLink=${p.promoteLink}" nav-target='mainFrame'>${soulFn:formatCurrency(p.agentNewPlayerDepositCount)}</a></td>
+                <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY_SECOND,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY_SECOND ,timeZone )}&analyzeNewAgent=true&searchType=2&promoteLink=${p.promoteLink}" nav-target='mainFrame'>${soulFn:formatCurrency(p.agentNewPlayerWithdrawCount)}</a></td>
                 <td>${p.allDepositPlayerCount}</td>
-                <td>${soulFn:formatCurrency(p.allDepositCount)}</td>
-                <td>${soulFn:formatCurrency(p.allWithdrawCount)}</td>
+                <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY_SECOND,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY_SECOND ,timeZone )}&analyzeNewAgent=true&searchType=3&promoteLink=${p.promoteLink}" nav-target='mainFrame'>${soulFn:formatCurrency(p.allDepositCount)}</a></td>
+                <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY_SECOND,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY_SECOND ,timeZone )}&analyzeNewAgent=true&searchType=4&promoteLink=${p.promoteLink}" nav-target='mainFrame'>${soulFn:formatCurrency(p.allWithdrawCount)}</a></td>
                 <td>${soulFn:formatCurrency(p.payoutAmount)}</td>
             </tr>
         </c:forEach>
@@ -114,3 +114,4 @@
 
 <soul:pagination/>
 <!--//endregion your codes 1-->
+
