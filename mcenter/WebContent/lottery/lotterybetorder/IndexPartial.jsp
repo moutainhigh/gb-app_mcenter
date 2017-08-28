@@ -46,8 +46,8 @@
                     <td>${dicts.lottery.lottery[p.code]}</td>
                     <td>${p.id}</td>
                     <td>${p.expect}</td>
-                    <td>${dicts.lottery.lottery_betting[p.betCode]}</td>
-                    <td>${dicts.lottery.lottery_betting[p.betCode]}-${p.betNum}</td>
+                    <td>${dicts.lottery.lottery_betting[p.betCode]}-${dicts.lottery.lottery_betting[p.betCode]}</td>
+                    <td>${p.betNum}</td>
                     <td>${p.betAmount}</td>
                     <c:set var="allBetAmount" value="${allBetAmount+p.betAmount}"></c:set>
                     <td>${p.odd}</td>
