@@ -11,6 +11,7 @@
             <th>${views.column['rebate.name']}</th>
             <th>${views.column['rebate.createTime']}</th>
             <th>${views.column['rebate.agentCount']}</th>
+                <th>创建人</th>
             <th>${views.common['operate']}</th>
         </tr>
         </thead>
@@ -31,6 +32,9 @@
                     </c:choose>
 
                 </td>
+                    <td>
+                        ${p.ownerId == null || p.ownerId == siteMasterId ?views.setting['myAccount.type.2']:views.setting['myAccount.type.dl'].concat("-").concat(p.ownerName)}
+                    </td>
                 <td>
                     <c:if test="${p.ownerId == null || p.ownerId == siteMasterId}">
                         <a href="/rebateSet/edit.html?id=${p.id}" nav-target="mainFrame">${views.common['edit']}</a>
