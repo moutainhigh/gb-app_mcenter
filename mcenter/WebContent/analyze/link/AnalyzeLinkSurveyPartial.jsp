@@ -33,12 +33,12 @@
                 <tr>
                     <td>${(command.paging.pageNumber - 1) * command.paging.pageSize + status.count}</td>
                     <td>${p.promoteLink}</td>
-                    <td>${p.agentName}</td>
+                    <td><a href="/userAgent/agent/detail.html?search.id=${p.agentId}" nav-target="mainFrame" class="co-blue">${p.agentName}</a></td>
                     <td>${p.agentNewPlayerCount}</td>
                     <%--<td>${p.agentNewEffectivePlayerCount}</td>--%>
-                    <td>${p.agentNewDepositPlayerCount}</td>
-                    <td>${soulFn:formatCurrency(p.allDepositCount)}</td>
-                    <td>${soulFn:formatCurrency(p.allWithdrawCount)}</td>
+                    <td><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&analyzeNewAgent=true&searchType=1&promoteLink=${p.promoteLink}" nav-target='mainFrame'>${p.agentNewDepositPlayerCount}</a></td>
+                    <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.agentid=${p.agentId}&search.transactionType=deposit&analyzeNewAgent=true&searchType=5&promoteLink=${p.promoteLink}" nav-target="mainFrame" class="co-blue">${soulFn:formatCurrency(p.allDepositCount)}</a></td>
+                    <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.agentid=${p.agentId}&search.transactionType=withdraw&analyzeNewAgent=true&searchType=6&promoteLink=${p.promoteLink}" nav-target="mainFrame" class="co-blue">${soulFn:formatCurrency(p.allWithdrawCount)}</a></td>
                     <td>${soulFn:formatCurrency(p.payoutAmount)}</td>
                     <td>${soulFn:formatCurrency(p.difference)}</td>
                     <%--<td>${soulFn:formatCurrency(p.accountBalance)}</td>--%>

@@ -38,8 +38,8 @@
 							<tr role="row" class="bg-color">
 								<td rowspan="2"><h3>${views.setting['rebate.edit.totalProfit']}</h3></td>
 								<td rowspan="2"><h3>${views.setting['rebate.edit.validPlayerNum']}</h3></td>
-								<td colspan="${command.apiIds.size()}"><h3>${views.setting['rebate.edit.ratio']}</h3></td>
 								<td rowspan="2"><h3>${views.setting['rebate.edit.max']}</h3></td>
+								<td colspan="${command.apiIds.size()}"><h3>${views.setting['rebate.edit.ratio']}</h3></td>
 							</tr>
 							<tr class="bg-color">
 								<c:forEach items="${command.apiIds}" var="api">
@@ -50,6 +50,7 @@
 							<tr class="bg-color">
 								<td height="36">${rebateGrad.totalProfit}</td>
 								<td>${rebateGrad.validPlayerNum}</td>
+								<td>${soulFn:formatNumber(rebateGrad.maxRebate)}</td>
 								<c:forEach items="${command.apiIds}" var="api">
 									<td>
 										<c:forEach items="${command.someGames}" var="game" varStatus="game_status">
@@ -65,7 +66,6 @@
 										</c:forEach>
 									</td>
 								</c:forEach>
-								<td>${soulFn:formatNumber(rebateGrad.maxRebate)}</td>
 							</tr>
 							</c:forEach>
 						</table>

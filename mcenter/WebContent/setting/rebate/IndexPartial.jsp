@@ -11,6 +11,7 @@
             <th>${views.column['rebate.name']}</th>
             <th>${views.column['rebate.createTime']}</th>
             <th>${views.column['rebate.agentCount']}</th>
+            <th>${views.column['VUserMaster.stringRoleName']}</th>
             <th>${views.common['operate']}</th>
         </tr>
         </thead>
@@ -31,10 +32,16 @@
                     </c:choose>
 
                 </td>
+                    <td>
+                        ${p.ownerId == null || p.ownerId == siteMasterId ?views.setting['myAccount.type.2']:views.setting['myAccount.type.dl'].concat("-").concat(p.ownerName)}
+                    </td>
                 <td>
-                    <a href="/rebateSet/edit.html?id=${p.id}" nav-target="mainFrame">${views.common['edit']}</a>
-                    <span class="dividing-line m-r-xs m-l-xs">|</span>
-                    <c:if test="${p.userAgentNum==0&&p.id!=0}">
+                    <c:if test="${p.ownerId == null || p.ownerId == siteMasterId}">
+                        <a href="/rebateSet/edit.html?id=${p.id}" nav-target="mainFrame">${views.common['edit']}</a>
+                        <span class="dividing-line m-r-xs m-l-xs">|</span>
+                    </c:if>
+
+                    <c:if test="${(p.userAgentNum==0&&p.id!=0)&&(p.ownerId == null || p.ownerId == siteMasterId)}">
                         <soul:button target="${root}/rebateSet/${p.id}/deleterebate.html" text="${views.common['delete']}" opType="ajax" dataType="json" confirm="${views.common['confirm.deletescheme']}" callback="query" />
                         <span class="dividing-line m-r-xs m-l-xs">|</span>
                     </c:if>

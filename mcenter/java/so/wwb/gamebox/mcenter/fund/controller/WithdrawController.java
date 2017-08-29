@@ -1527,6 +1527,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             String time = LocaleDateTool.formatDate(playerWithdraw.getCreateTime(), LocaleDateTool.getFormat("DAY_SECOND"), sysUser.getDefaultTimezone());
             String money = CurrencyTool.formatCurrency(playerWithdraw.getWithdrawAmount());
             String actualMoney = CurrencyTool.formatCurrency(playerWithdraw.getWithdrawActualAmount());
+            String text = LocaleTool.tranMessage(_Module.COMMON, "contactCustomerService");
+            String customer = "<a href=\"" + getCustomerService() + "\" target=\"_blank\">" + text + "</a>";
             noticeVo.addParams(
                     new Pair<String, String>(NoticeParamEnum.TIME.getCode(), time),
                     new Pair<String, String>(NoticeParamEnum.PLASE_MONEY.getCode(), money),
@@ -1537,7 +1539,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                     new Pair(NoticeParamEnum.ORDER_AMOUNT.getCode(), money),
                     new Pair(NoticeParamEnum.ORDER_LAUNCH_TIME.getCode(), time),
                     new Pair(NoticeParamEnum.ORDER_NUM.getCode(), playerWithdraw.getTransactionNo()),
-                    new Pair(NoticeParamEnum.CUSTOMER.getCode(), getCustomerService()),
+                    new Pair(NoticeParamEnum.CUSTOMER.getCode(), customer),
                     new Pair<String, String>(NoticeParamEnum.TAIL_NUMBER.getCode(), bankcard.substring(bankcard.length() - 4, bankcard.length())));
             ServiceTool.noticeService().publish(noticeVo);
         } catch (Exception ex) {

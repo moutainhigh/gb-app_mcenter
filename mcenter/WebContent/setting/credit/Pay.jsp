@@ -1,11 +1,11 @@
 <%--@elvariable id="accountMap" type="java.util.Map<java.lang.String,so.wwb.gamebox.model.company.credit.po.CreditAccount>"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
-
+<form name="creditPayForm">
 <div class="row">
     <div class="position-wrap clearfix">
         <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont"></i> </a></h2>
-        <span>${views.setting_auto['系统设置']}</span><span>/</span><span>${views.setting_auto['额度充值']}</span>
+        <span>系统设置</span><span>/</span><span>额度充值</span>
         <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
     </div>
     <div class="col-lg-12">
@@ -32,7 +32,7 @@
                     </div>
                     <div class="m-b-none col-xs-6 col-sm-3">
                         <div class="limit-price-wrap al-center clearfix">
-                            <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用额度']}">${views.setting_auto['已使用额度']}<span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="${views.setting_auto['用于接入第三方流量统计平台']}"><i class="fa fa-question-circle"></i></span></div>
+                            <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用额度']}">${views.setting_auto['已使用额度']}<span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="用于接入第三方流量统计平台"><i class="fa fa-question-circle"></i></span></div>
                             <div class="fs30 p-b-sm al-center co-blue">1,936,499</div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                                         <c:set var="banknames" value="${dicts.common.bankname}"/>
                                         <c:forEach items="${accountMap}" var="i" varStatus="vs">
                                             <label class="bank ${vs.index==0?'select':''}">
-                                                <span class="radio"><input name="bankCode" type="radio"></span>
+                                                <span class="radio"><input name="result.bankName" type="radio"></span>
                                                 <span class="radio-bank" title="${banknames[i.key]}"><i class="pay-bank ${i.key}"></i></span>
                                                 <span class="bank-logo-name">${banknames[i.key]}</span>
                                                 <input name="min" type="hidden" value="${empty i.value.singleDepositMin?1:i.value.singleDepositMin}"/>
@@ -85,12 +85,14 @@
                                         <input type="text" class="form-control">
                                         <div class="co-grayc2 m-t-sm">请输入（${singleMin}~${singleMax}）之间的整数</div>
                                         <div class="m-t-sm">
-                                            <soul:button target="quickAmount" text="1万" opType="function"/>
-                                            <soul:button target="quickAmount" text="5万" opType="function"/>
-                                            <soul:button target="quickAmount" text="10万" opType="function"/>
+                                            <soul:button target="quickAmount" data="10000" text="1万" opType="function"/>
+                                            <soul:button target="quickAmount" data="50000" text="5万" opType="function"/>
+                                            <soul:button target="quickAmount" data="100000" text="10万" opType="function"/>
                                         </div>
-                                        <div class="m-t-md fs16">${views.setting_auto['您将获得']} <span class="co-green">50万</span> ${views.setting_auto['额度']}</div>
-                                        <div class="m-t-md"><a href="javascript:void(0)" class="btn btn-filter btn-lg btn-block">${views.setting_auto['确认']}</a></div>
+                                       <%-- <div class="m-t-md fs16">您将获得 <span class="co-green">50万</span> 额度</div>--%>
+                                        <div class="m-t-md">
+                                            <soul:button target="submit" precall="validateForm" text="${views.setting_auto['确认']}" cssClass="btn btn-filter btn-lg btn-block" opType="function"/>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -109,4 +111,5 @@
         </div>
     </div>
 </div>
+</form>
 <soul:import res="site/"/>

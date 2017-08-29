@@ -448,6 +448,11 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         SysParam withdrawLimitMin = ParamTool.getSysParam(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MIN);
         SysParam withdrawLimitMax = ParamTool.getSysParam(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MAX);
 
+        model.addAttribute("depositFee", depositFee);
+        model.addAttribute("withdrawFee", withdrawFee);
+        model.addAttribute("withdrawLimitMin", withdrawLimitMin);
+        model.addAttribute("withdrawLimitMax", withdrawLimitMax);
+
         SysParam rakebackParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_RAKEBACK_PERCENT);
         SysParam favorableParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_PREFERENTIAL_PERCENT);
         SysParam adminParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_ADMINISTRATOR_PERCENT);
@@ -457,24 +462,17 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         model.addAttribute("adminParam", adminParam);
         model.addAttribute("otherParam", otherParam);
 
-        model.addAttribute("depositFee", depositFee);
-        model.addAttribute("withdrawFee", withdrawFee);
-        model.addAttribute("withdrawLimitMin", withdrawLimitMin);
-        model.addAttribute("withdrawLimitMax", withdrawLimitMax);
-
-        //优惠活动分摊比例
-        SysParam preferentialParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
-        //行政费用
-        SysParam topAdminParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_ADMINISTRATOR_PERCENT);
-        //返水优惠分摊比例
         SysParam rakbackParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
-        //佣金分摊比例
+        SysParam preferentialParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+        SysParam topAdminParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_ADMINISTRATOR_PERCENT);
         SysParam topOtherParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_OTHER_PERCENT);
+        model.addAttribute("rakbackParam",rakbackParam);
         model.addAttribute("preferentialParam",preferentialParam);
         model.addAttribute("topAdminParam",topAdminParam);
-        model.addAttribute("rakbackParam",rakbackParam);
         model.addAttribute("topOtherParam",topOtherParam);
 
+        SysParam rebateParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_REBATE_PERCENT);
+        model.addAttribute("rebateParam", rebateParam);
         return this.getViewBasePath() + "AgentRebateDepositAndWithdrawFee";
     }
 
@@ -527,6 +525,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
             ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_ADMINISTRATOR_PERCENT);
             ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
             ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_OTHER_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_REBATE_PERCENT);
         } else {
             map.put("state", false);
             map.put("msg", LocaleTool.tranMessage("common","save.failed"));
