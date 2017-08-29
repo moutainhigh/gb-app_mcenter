@@ -11,7 +11,7 @@
             <th>${views.column['rebate.name']}</th>
             <th>${views.column['rebate.createTime']}</th>
             <th>${views.column['rebate.agentCount']}</th>
-                <th>创建人</th>
+            <th>${views.column['VUserPlayer.createUser']}</th>
             <th>${views.common['operate']}</th>
         </tr>
         </thead>
