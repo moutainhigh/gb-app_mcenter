@@ -2,6 +2,7 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <form name="creditPayForm">
+<gb:token/>
 <div class="row">
     <div class="position-wrap clearfix">
         <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont"></i> </a></h2>
