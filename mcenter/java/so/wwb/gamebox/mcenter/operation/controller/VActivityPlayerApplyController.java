@@ -4,6 +4,7 @@ import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.MapTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
@@ -247,7 +248,7 @@ public class VActivityPlayerApplyController extends BaseCrudController<IVActivit
             sysUserVo.getSearch().setId(activityPlayerApplyVo.getResult().getUserId());
             sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
             String times = LocaleDateTool.formatDate(activityPlayerApplyVo.getResult().getApplyTime(),
-                    "yyyy-MM-dd HH:mm:ss", sysUserVo.getResult().getDefaultTimezone());
+                    CommonContext.getDateFormat().getDAY_SECOND(), sysUserVo.getResult().getDefaultTimezone());
             activityPlayerApplyVo.setTime(times);
             activityPlayerApplyVo.setActivityName(activityMessageI18nVo.getResult().getActivityName());
 

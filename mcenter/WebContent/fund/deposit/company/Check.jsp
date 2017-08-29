@@ -183,10 +183,16 @@
                                     </c:if>
                                 </td>
                             </tr>
-                            <c:if test="${!empty transactionData['result']}">
+                            <c:if test="${!empty poloniexResult.total}">
                                 <tr>
                                     <th scope="row" class="text-right">${views.fund_auto['兑换美元']}：</th>
-                                    <td class="money">${transactionData['result'].total}</td>
+                                    <td class="money"><fmt:formatNumber value="${poloniexResult.total}" pattern="#.########"/></td>
+                                </tr>
+                            </c:if>
+                            <c:if test="${!empty rate.askRate}">
+                                <tr>
+                                    <th scope="row" class="text-right">${fn:replace(views.fund_auto['USD兑汇率'], '{0}', r.defaultCurrency)}</th>
+                                    <td class="money">${rate.askRate}</td>
                                 </tr>
                             </c:if>
                         </c:if>
