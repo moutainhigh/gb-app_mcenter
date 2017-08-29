@@ -1,1 +1,1 @@
-carousel.display.off.using=当前广告正在使用中,关闭后将不在前端相关页面展示!carousel.display.off.wait=当前广告尚未使用,关闭后将不在前端相关页面展示!carousel.display.on.showfront=若广告在展示区间内,开启后将在前端相关页面展示!
+carousel.display.off.using=現在表示されている広告は、閉じた後は関連するページのフロントエンドに表示されなくなります！carousel.display.off.wait=現在広告は表示されていませんが、閉じた後は関連するページのフロントエンドに表示されなくなります！carousel.display.on.showfront=広告が表示される範囲内の場合、起動後はフロントエンドに表示されるようになります！

@@ -6,7 +6,7 @@
     <table class="table table-striped table-hover dataTable table-multiple-header-row table-bordered m-b-none" id="editable" aria-describedby="editable_info">
         <thead>
         <tr class="bg-gray">
-            <th rowspan="2">${views.wc_fund['序号']}</th>
+            <th rowspan="2">${views.fund_auto['序号']}</th>
             <th rowspan="2">${views.wc_fund['operation.rebate.agentPath']}</th>
             <th rowspan="2">${views.wc_fund['代理账号']}</th>
             <th rowspan="2">${views.wc_fund['代理层级']}</th>
