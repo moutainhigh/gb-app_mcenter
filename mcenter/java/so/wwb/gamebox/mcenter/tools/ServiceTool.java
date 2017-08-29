@@ -1531,7 +1531,6 @@ public class ServiceTool {
     public static ICustomSysAuditLogService customSysAuditLogService() {
         return getService(ICustomSysAuditLogService.class);
     }
-
     /**
      * 返回site_api_type_relation_i18n远程服务实例
      *
@@ -1541,7 +1540,7 @@ public class ServiceTool {
         return getService(so.wwb.gamebox.iservice.company.site.ISiteApiTypeRelationI18nService.class);
     }
 
-    public static ISiteSysParamService siteSysParamService() {
+    public static ISiteSysParamService siteSysParamService(){
         return getService(ISiteSysParamService.class);
     }
 
@@ -1561,7 +1560,7 @@ public class ServiceTool {
     public static ISmsInterfaceService smsInterfaceService() {
         return getService(ISmsInterfaceService.class);
     }
-
+    
     /**
      * 返回远程服务实例
      *
@@ -1600,7 +1599,6 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.report.IVPlayerFundsRecordService vPlayerFundsRecordService() {
         return getService(so.wwb.gamebox.iservice.master.report.IVPlayerFundsRecordService.class);
     }
-
     /**
      * 返回数据权限远程服务实例
      *
@@ -1609,7 +1607,7 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.dataRight.ISysUserDataRightService sysUserDataRightService() {
         return getService(so.wwb.gamebox.iservice.master.dataRight.ISysUserDataRightService.class);
     }
-
+    
     /**
      * 返回玩家分析远程服务实例
      *
@@ -1618,7 +1616,7 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.analyze.IAnalyzePlayerService analyzePlayerService() {
         return getService(so.wwb.gamebox.iservice.master.analyze.IAnalyzePlayerService.class);
     }
-
+    
     /**
      * 返回远程服务实例
      *
@@ -1627,7 +1625,7 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.analyze.IVAnalyzePlayerService vAnalyzePlayerService() {
         return getService(so.wwb.gamebox.iservice.master.analyze.IVAnalyzePlayerService.class);
     }
-
+    
     /**
      * 返回代理分析远程服务实例
      *
@@ -1636,7 +1634,7 @@ public class ServiceTool {
     public static so.wwb.gamebox.iservice.master.analyze.IAnalyzeAgentService analyzeAgentService() {
         return getService(so.wwb.gamebox.iservice.master.analyze.IAnalyzeAgentService.class);
     }
-
+    
     /**
      * 返回代理返佣账单远程服务实例
      *
@@ -1746,6 +1744,15 @@ public class ServiceTool {
     }
 
     /**
+     * 返回红包内定操作记录表远程服务实例
+     *
+     * @return 红包内定操作记录表远程服务实例
+     */
+    public static IAcbService acbService() {
+        return getService(IAcbService.class);
+    }
+
+    /**
      * 返回红包抽奖记录表远程服务实例
      *
      * @return 红包抽奖记录表远程服务实例
@@ -1807,14 +1814,6 @@ public class ServiceTool {
 
     public static IDigiccyTransactionService digiccyTransactionService() {
         return getService(IDigiccyTransactionService.class);
-    }
-    /**
-     * 返回红包内定操作记录表远程服务实例
-     *
-     * @return 红包内定操作记录表远程服务实例
-     */
-    public static IAcbService acbService() {
-        return getService(IAcbService.class);
     }
 //endregion your codes 1
 

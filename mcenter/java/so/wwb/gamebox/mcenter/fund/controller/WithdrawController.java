@@ -1814,12 +1814,14 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 return map;
             }
             //查询汇率
-            if (!queryRate(playerWithdrawVo)) {
+            CurrencyRate rate = queryRate(playerWithdrawVo);
+            if (rate == null || rate.getAskRate() == null) {
                 map.put("status", false);
                 map.put("rate", true);
                 LOG.info("取款{0}查询汇率出错", playerWithdraw.getTransactionNo());
                 return map;
             }
+            playerWithdrawVo.setRate(rate);
             playerWithdrawVo.setOperator(SessionManager.getUserName());
             playerWithdrawVo.setUserId(SessionManager.getUserId());
             return ServiceTool.playerWithdrawService().exchangeBtc(playerWithdrawVo);
@@ -1850,7 +1852,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         return getVoMessage(playerWithdrawVo);
     }
 
-    private boolean queryRate(PlayerWithdrawVo playerWithdrawVo) {
+    private CurrencyRate queryRate(PlayerWithdrawVo playerWithdrawVo) {
         String currency = playerWithdrawVo.getResult().getWithdrawMonetary();
         CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
         rateVo.getQuery().addOrder(CurrencyExchangeRate.PROP_UPDATE_TIME, Direction.DESC);
@@ -1861,66 +1863,40 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         CurrencyRate rate = new CurrencyRate();
         if (currencyExchangeRate == null) {
             rate = DubboTool.getService(ICurrencyExchangeService.class).currencyToUsd(currency);
-            saveRate(rate, currency);
+            saveOrUpdateRate(currencyExchangeRate, rate, currency);
         } else if (currencyExchangeRate.getUpdateTime().getTime() < SessionManager.getDate().getToday().getTime()) {
             rate = DubboTool.getService(ICurrencyExchangeService.class).currencyToUsd(currency);
-            if(rate == null) {
-                LOG.info("更新汇率失败,用数据库原有汇率,{0}",playerWithdrawVo.getResult().getTransactionNo());
+            if (rate == null) {
+                LOG.info("更新汇率失败,用数据库原有汇率,{0}", playerWithdrawVo.getResult().getTransactionNo());
                 rate = new CurrencyRate();
                 rate.setRateTime(currencyExchangeRate.getUpdateTime());
                 rate.setAskRate(new BigDecimal(String.valueOf(currencyExchangeRate.getRate())));
                 rate.setQueryTime(SessionManager.getDate().getNow());
             } else {
-                updateRate(currencyExchangeRate, rate);
+                saveOrUpdateRate(currencyExchangeRate, rate, currency);
             }
         } else {
             rate.setRateTime(currencyExchangeRate.getUpdateTime());
             rate.setAskRate(new BigDecimal(String.valueOf(currencyExchangeRate.getRate())));
             rate.setQueryTime(SessionManager.getDate().getNow());
         }
-        playerWithdrawVo.setRate(rate);
-        if (rate == null || rate.getAskRate() == null) {
-            return false;
-        }
-        return true;
+        return rate;
     }
 
-    private void saveRate(CurrencyRate rate, String currency) {
+    private void saveOrUpdateRate(CurrencyExchangeRate currencyExchangeRate, CurrencyRate rate, String currency) {
         if (rate == null || rate.getAskRate() == null) {
             return;
         }
-        try {
-            CurrencyExchangeRate currencyExchangeRate = new CurrencyExchangeRate();
-            currencyExchangeRate.setItoCurrency(CurrencyEnum.USD.getCode());
-            currencyExchangeRate.setIfromCurrency(currency);
-            currencyExchangeRate.setUpdateTime(SessionManager.getDate().getNow());
-            currencyExchangeRate.setRate(rate.getAskRate().doubleValue());
-            currencyExchangeRate.setUpdateUser(SessionManager.getUserId());
-            CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
-            rateVo.setResult(currencyExchangeRate);
-            ServiceTool.getCurrencyExchangeRateService().insert(rateVo);
-        } catch (Exception e) {
-            LOG.error(e);
+        if (currencyExchangeRate == null) {
+            currencyExchangeRate = new CurrencyExchangeRate();
         }
-
-    }
-
-    private void updateRate(CurrencyExchangeRate currencyExchangeRate, CurrencyRate rate) {
-        if (rate == null || rate.getAskRate() == null) {
-            return;
-        }
-        try {
-            currencyExchangeRate.setUpdateTime(SessionManager.getDate().getNow());
-            currencyExchangeRate.setRate(rate.getAskRate().doubleValue());
-            currencyExchangeRate.setUpdateUser(SessionManager.getUserId());
-            CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
-            rateVo.setResult(currencyExchangeRate);
-            rateVo.setProperties(CurrencyExchangeRate.PROP_UPDATE_TIME, CurrencyExchangeRate.PROP_RATE, CurrencyExchangeRate.PROP_UPDATE_USER);
-            ServiceTool.getCurrencyExchangeRateService().updateOnly(rateVo);
-        } catch (Exception e) {
-            LOG.error(e);
-        }
-
+        currencyExchangeRate.setItoCurrency(CurrencyEnum.USD.getCode());
+        currencyExchangeRate.setIfromCurrency(currency);
+        currencyExchangeRate.setUpdateUser(SessionManager.getUserId());
+        CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
+        rateVo.setRate(rate);
+        rateVo.setResult(currencyExchangeRate);
+        ServiceTool.getCurrencyExchangeRateService().saveOrUpdateRate(rateVo);
     }
 
 }

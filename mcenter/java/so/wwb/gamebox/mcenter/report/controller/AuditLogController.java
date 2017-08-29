@@ -66,7 +66,7 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
         model.addAttribute("opType", DictTool.get(DictEnum.Log_OpType));//操作类型
         model.addAttribute("moduleTypes", DictTool.get(DictEnum.Log_Type));
         model.addAttribute("now", SessionManager.getDate().getNow());
-        model.addAttribute("keys", DictTool.get(DictEnum.Search_Keyword));
+        model.addAttribute("keys", keys);
         model.addAttribute("hasReturn", request.getParameter("hasReturn"));
         String searchKey = request.getParameter("keys");
         if(StringTool.isNotBlank(searchKey)){

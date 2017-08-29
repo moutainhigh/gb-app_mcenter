@@ -47,6 +47,11 @@ public class UserInfoListener extends PassportListenerAdapter {
             user.setId(Const.MASTER_BUILT_IN_ID);
             SessionManager.setUser(user);
             SessionManager.setUserId(Const.MASTER_BUILT_IN_ID);
+        }else{
+            if(mastervo.getResult()!=null){
+                SessionManager.setMasterUserId(mastervo.getResult().getId());
+            }
+
         }
 
         //是否提醒消息session标识
