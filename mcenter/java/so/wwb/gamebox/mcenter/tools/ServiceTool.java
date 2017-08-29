@@ -1800,21 +1800,20 @@ public class ServiceTool {
         return getService(ICreditAccountService.class);
     }
 
-<<<<<<< Temporary merge branch 1
     public static so.wwb.gamebox.iservice.master.operation.IRebateAgentApiService rebateAgentApiService() {
         return getService(so.wwb.gamebox.iservice.master.operation.IRebateAgentApiService.class);
     }
 
     public static so.wwb.gamebox.iservice.master.operation.IRebatePlayerFeeService rebatePlayerFeeService() {
         return getService(so.wwb.gamebox.iservice.master.operation.IRebatePlayerFeeService.class);
-=======
+    }
+
     public static IPoloniexService poloniexService() {
         return getService(IPoloniexService.class);
     }
 
     public static IDigiccyTransactionService digiccyTransactionService() {
         return getService(IDigiccyTransactionService.class);
->>>>>>> Temporary merge branch 2
     }
 //endregion your codes 1
 
