@@ -6,11 +6,11 @@
     <table class="table table-striped table-hover dataTable table-multiple-header-row table-bordered m-b-none" id="editable" aria-describedby="editable_info">
         <thead>
         <tr class="bg-gray">
-            <th rowspan="2">${views.fund_auto['序号']}</th>
+            <th rowspan="2">${views.wc_fund['序号']}</th>
             <th rowspan="2">${views.wc_fund['operation.rebate.agentPath']}</th>
             <th rowspan="2">${views.wc_fund['代理账号']}</th>
             <th rowspan="2">${views.wc_fund['代理层级']}</th>
-            <th rowspan="2">${views.setting['rebate.edit.validPlayerNum']}</th>
+            <th rowspan="2">${views.wc_fund['rebate.edit.validPlayerNum']}</th>
             <th class="multiple-row" colspan="2">
                 <div class="title">${views.wc_fund['effective_transaction']}</div>
                 <div class="two-col">${views.wc_fund['operation.rebate.self']}</div>
@@ -117,13 +117,13 @@
                             <c:when test="${p.settlementState eq 'pending_lssuing'}">
                                 <soul:button target="${root}/rebateAgent/toSettled.html?search.id=${p.id}" permission="operate:rebatesettle"
                                              text="${views.fund_auto['结算']}" opType="dialog" callback="query">
-                                    ${views.fund_auto['结算']}
+                                    ${views.wc_fund['结算']}
                                 </soul:button>
                                 <soul:button target="${root}/rebateAgent/clear.html?id=${p.id}" permission="operate:rebateclear"
-                                             text="${views.fund_auto['清除']}" opType="ajax" callback="query"  confirm="${views.fund_auto['清除后数据将不会被累计到下一期']}">
-                                    ${views.fund_auto['清除']}
+                                             text="${views.fund_auto['清除']}" opType="ajax" callback="query"  confirm="${views.wc_fund['清除后数据将不会被累计到下一期']}">
+                                    ${views.wc_fund['清除']}
                                 </soul:button>
-                                <soul:button target="${root}/rebateAgent/signBill.html?id=${p.id}" text="${views.fund_auto['挂账']}" permission="operate:rebatesignbill"
+                                <soul:button target="${root}/rebateAgent/signBill.html?id=${p.id}" text="${views.wc_fund['挂账']}" permission="operate:rebatesignbill"
                                              confirm="${views.fund['rebate.signbill.tips']}" opType="ajax" callback="query"></soul:button>
                             </c:when>
                             <c:otherwise>
