@@ -113,4 +113,4 @@
     </div>
 </div>
 </form>
-<soul:import res="site/"/>
+<soul:import res="site/credit/Pay"/>
