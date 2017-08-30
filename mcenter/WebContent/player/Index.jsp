@@ -483,8 +483,8 @@
                             <soul:button target="reset" opType="function" text="${views.player_auto['重置']}"
                                          cssClass="btn btn-filter reset-condition-button"/>
 
-                            <a href="/player/list.html?search.version=old" nav-target="mainFrame"
-                               style="right: 21%;position: absolute;z-index: 888; padding-top: 10px;">${views.player_auto['切换到旧版本']}</a>
+                            <%--<a href="/player/list.html?search.version=old" nav-target="mainFrame"--%>
+                               <%--style="right: 21%;position: absolute;z-index: 888; padding-top: 10px;">${views.player_auto['切换到旧版本']}</a>--%>
 
                             <div class="input-group-btn pull-left" style="padding-right: 200px">
                                 <%@include file="/sysSearchTemplate/SearchTemplate.jsp" %>
