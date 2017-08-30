@@ -13,6 +13,8 @@ import org.soul.commons.log.LogFactory;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.support._Module;
+import org.soul.model.security.privilege.po.SysUser;
+import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.controller.BaseCrudController;
@@ -42,6 +44,7 @@ import so.wwb.gamebox.model.company.site.vo.VGameTypeListVo;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
 import so.wwb.gamebox.model.master.player.po.UserAgentRebate;
 import so.wwb.gamebox.model.master.player.vo.UserAgentRebateListVo;
+import so.wwb.gamebox.model.master.player.vo.VUserAgentManageVo;
 import so.wwb.gamebox.model.master.setting.po.RebateSet;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetListVo;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetVo;
@@ -84,9 +87,24 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @Override
     protected RebateSetListVo doList(RebateSetListVo listVo, RebateSetSearchForm form, BindingResult result, Model model) {
         listVo.getSearch().setSearchFrom(SubSysCodeEnum.MCENTER.getCode());
-        listVo.getSearch().setOwnerId(SessionManager.getMasterInfo().getId());
         listVo = searchFromTopAgent(listVo);
+        searchByOwnerName(listVo);
         return this.getService().searchCalRebateSet(listVo);
+    }
+
+    private RebateSetListVo searchByOwnerName(RebateSetListVo listVo){
+        if(StringTool.isBlank(listVo.getSearch().getOwnerName())){
+            return listVo;
+        }
+        VUserAgentManageVo agentManageVo = new VUserAgentManageVo();
+        agentManageVo.getSearch().setUsername(listVo.getSearch().getOwnerName());
+        agentManageVo = ServiceTool.vUserAgentManageService().search(agentManageVo);
+        if(agentManageVo.getResult()==null){
+            listVo.getSearch().setOwnerId(-1);
+        }else{
+            listVo.getSearch().setOwnerId(agentManageVo.getResult().getId());
+        }
+        return listVo;
     }
 
     private RebateSetListVo searchFromTopAgent(RebateSetListVo listVo) {
