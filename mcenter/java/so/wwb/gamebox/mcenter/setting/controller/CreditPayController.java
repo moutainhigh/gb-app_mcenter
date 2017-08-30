@@ -10,6 +10,7 @@ import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.math.NumberTool;
 import org.soul.commons.net.ServletTool;
+import org.soul.commons.spring.utils.SpringTool;
 import org.soul.iservice.security.privilege.ISysUserRoleService;
 import org.soul.model.comet.vo.MessageVo;
 import org.soul.model.pay.enums.CommonFieldsConst;
@@ -130,7 +131,7 @@ public class CreditPayController {
      * @param response
      * @param request
      */
-    @RequestMapping("/pay")
+    @RequestMapping("/callOnline")
     public void callOnline(CreditRecordVo creditRecordVo, HttpServletResponse response, HttpServletRequest request) {
         if (StringTool.isBlank(creditRecordVo.getSearch().getTransactionNo())) {
             return;
@@ -184,7 +185,7 @@ public class CreditPayController {
             onlinePayVo.setApiType(PayApiTypeConst.PAY_SSL_ENABLE);
             sslEnabled = ServiceTool.onlinePayService().getSslEnabled(onlinePayVo);
         } catch (Exception e) {
-            // LOG.error(e);
+             LOG.error(e);
         }
         if (sslEnabled) {
             return sslDomain;
@@ -203,16 +204,16 @@ public class CreditPayController {
         }
         //推送消息给前端
         MessageVo message = new MessageVo();
-        message.setSubscribeType(CometSubscribeType.MCENTER_RECHARGE_REMINDER.getCode());
+        message.setSubscribeType(CometSubscribeType.BOSS_CREDIT_PAY_REMINDER.getCode());
         Map<String, Object> map = new HashMap<>(3, 1f);
         map.put("date", creditRecord.getCreateTime() == null ? new Date() : creditRecord.getCreateTime());
         map.put("amount", CurrencyTool.formatCurrency(creditRecord.getPayAmount()));
         map.put("transactionNo", creditRecord.getTransactionNo());
+        map.put("siteId",SessionManager.getSiteId());
+        map.put("siteName",SessionManager.getSiteName(SpringTool.getRequest()));
         message.setMsgBody(JsonTool.toJson(map));
         message.setSendToUser(true);
-        message.setCcenterId(SessionManager.getSiteParentId());
-        message.setSiteId(SessionManager.getSiteId());
-        message.setMasterId(SessionManager.getSiteUserId());
+        message.setSiteId(Const.BOSS_DATASOURCE_ID);
         message.setUserIdList(findUserIdByUrl());
         ServiceTool.messageService().sendToBossMsg(message);
     }
