@@ -19,11 +19,14 @@ import org.soul.model.pay.vo.OnlinePayVo;
 import org.soul.model.security.privilege.vo.SysUserRoleVo;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.session.SessionManagerBase;
+import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.mcenter.setting.form.CreditRecordForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.BossParamEnum;
 import so.wwb.gamebox.model.ParamTool;
@@ -89,6 +92,7 @@ public class CreditPayController {
         CreditAccountVo creditAccountVo = new CreditAccountVo();
         creditAccountVo.setCurrency(CurrencyEnum.CNY.getCode());
         model.addAttribute("accountMap", ServiceTool.creditAccountService().getBankAccount(creditAccountVo));
+        model.addAttribute("validateRule", JsRuleCreator.create(CreditRecordForm.class));
         return CREDIT_PAY_URI;
     }
 
@@ -152,7 +156,7 @@ public class CreditPayController {
             }
 
             if (domain != null && CreditRecordStatusEnum.DEAL.getCode().equals(creditRecord.getStatus())) {
-                String uri = "/creditPay/abcefg.html?search.transactionNo=" + creditRecord.getTransactionNo() + "&origin=" + TerminalEnum.PC.getCode();
+                String uri = "/creditPay/toPay.html?search.transactionNo=" + creditRecord.getTransactionNo() + "&origin=" + TerminalEnum.PC.getCode();
                 domain = getDomain(domain, creditAccount);
                 String url = domain + uri;
                 //添加支付网址
@@ -185,7 +189,7 @@ public class CreditPayController {
             onlinePayVo.setApiType(PayApiTypeConst.PAY_SSL_ENABLE);
             sslEnabled = ServiceTool.onlinePayService().getSslEnabled(onlinePayVo);
         } catch (Exception e) {
-             LOG.error(e);
+            LOG.error(e);
         }
         if (sslEnabled) {
             return sslDomain;
@@ -209,8 +213,8 @@ public class CreditPayController {
         map.put("date", creditRecord.getCreateTime() == null ? new Date() : creditRecord.getCreateTime());
         map.put("amount", CurrencyTool.formatCurrency(creditRecord.getPayAmount()));
         map.put("transactionNo", creditRecord.getTransactionNo());
-        map.put("siteId",SessionManager.getSiteId());
-        map.put("siteName",SessionManager.getSiteName(SpringTool.getRequest()));
+        map.put("siteId", SessionManager.getSiteId());
+        map.put("siteName", SessionManager.getSiteName(SpringTool.getRequest()));
         message.setMsgBody(JsonTool.toJson(map));
         message.setSendToUser(true);
         message.setSiteId(Const.BOSS_DATASOURCE_ID);
@@ -238,5 +242,35 @@ public class CreditPayController {
         creditAccountVo.getSearch().setId(id);
         creditAccountVo = ServiceTool.creditAccountService().get(creditAccountVo);
         return creditAccountVo.getResult();
+    }
+
+    /**
+     * 验证支付金额
+     *
+     * @param resultPayAmount
+     * @param bankName
+     * @return
+     */
+    @RequestMapping("/checkPayAmount")
+    @ResponseBody
+    public boolean checkPayAmount(@RequestParam("result.payAmount") String resultPayAmount, @RequestParam("result.bankName") String bankName) {
+        if (StringTool.isBlank(resultPayAmount) || !NumberTool.isNumber(resultPayAmount)) {
+            return false;
+        }
+        CreditAccountVo creditAccountVo = new CreditAccountVo();
+        creditAccountVo.setCurrency(CurrencyEnum.CNY.getCode());
+        creditAccountVo.setBankCode(bankName);
+        CreditAccount creditAccount = ServiceTool.creditAccountService().getCreditPayAccount(creditAccountVo);
+        if (creditAccount == null) {
+            return false;
+        }
+        Double payAmount = NumberTool.toDouble(resultPayAmount);
+        if (creditAccount.getSingleDepositMin() != null && creditAccount.getSingleDepositMin() >= payAmount) {
+            return false;
+        }
+        if (creditAccount.getSingleDepositMax() != null && creditAccount.getSingleDepositMax() <= payAmount) {
+            return false;
+        }
+        return true;
     }
 }
