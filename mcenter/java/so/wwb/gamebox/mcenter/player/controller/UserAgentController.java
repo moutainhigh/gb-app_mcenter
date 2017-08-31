@@ -874,7 +874,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
 
     @Override
     protected UserAgentVo doSave(UserAgentVo objectVo) {
-        doInitByParentId(objectVo);
+        objectVo = doInitByParentId(objectVo);
         objectVo.getResult().setSitesId(SessionManager.getSiteId());
         objectVo.getResult().setBuiltIn(false);
         objectVo.getResult().setCreateChannel(UserAgentEnum.BACKGROUND_ADD.getCode());
@@ -928,38 +928,15 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         }
     }
 
-    private UserAgent fetchParentAgent(Integer parentId){
-        if(parentId==null){
-            return null;
-        }
-        UserAgentVo userAgentVo = new UserAgentVo();
-        userAgentVo.getSearch().setId(parentId);
-        userAgentVo = getService().get(userAgentVo);
-        return userAgentVo.getResult();
-    }
     /**
      * 设置代理的上级代理信息
      * @param objectVo
      */
-    private void doInitByParentId(UserAgentVo objectVo) {
+    private UserAgentVo doInitByParentId(UserAgentVo objectVo) {
         Integer parentId = objectVo.getAgentUserId();
         objectVo.getResult().setParentId(parentId);
-        UserAgent userAgent = fetchParentAgent(parentId);
-        Integer[] parentArray = userAgent.getParentArray();
-        Integer[] newArray;
-        if(parentArray!=null){
-            newArray = new Integer[parentArray.length+1];
-            for(int i =0;i<parentArray.length;i++){
-                newArray[i]= parentArray[i];
-            }
-        }else {
-            newArray = new Integer[1];
-        }
-        newArray[newArray.length-1]=parentId;
-        objectVo.getResult().setParentArray(newArray);
-        if(userAgent!=null&&userAgent.getAgentRank()!=null){
-            objectVo.getResult().setAgentRank(userAgent.getAgentRank()+1);
-        }
+        objectVo = getService().doInitByParent(objectVo);
+        return objectVo;
     }
     /**
      * 设置用户的拥有者
