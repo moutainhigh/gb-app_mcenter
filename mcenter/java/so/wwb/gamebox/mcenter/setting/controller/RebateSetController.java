@@ -5,6 +5,7 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.ListTool;
 import org.soul.commons.collections.MapTool;
 import org.soul.commons.init.context.CommonContext;
+import org.soul.commons.init.context.Const;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
@@ -33,9 +34,11 @@ import so.wwb.gamebox.mcenter.setting.form.RebateSetFeeForm;
 import so.wwb.gamebox.mcenter.setting.form.RebateSetForm;
 import so.wwb.gamebox.mcenter.setting.form.RebateSetSearchForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.SubSysCodeEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.enums.GameStatusEnum;
 import so.wwb.gamebox.model.company.setting.po.Api;
 import so.wwb.gamebox.model.company.site.po.SiteApi;
@@ -94,6 +97,10 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
 
     private RebateSetListVo searchByOwnerName(RebateSetListVo listVo){
         if(StringTool.isBlank(listVo.getSearch().getOwnerName())){
+            return listVo;
+        }
+        if(String.valueOf(Const.MASTER_BUILT_IN_ID).equals(listVo.getSearch().getOwnerName())){
+            listVo.getSearch().setOwnerId(Const.MASTER_BUILT_IN_ID);
             return listVo;
         }
         VUserAgentManageVo agentManageVo = new VUserAgentManageVo();
@@ -373,7 +380,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         objectVo.getResult().setCreateUserId(SessionManager.getUserId());
         objectVo.getResult().setCreateTime(new Date());
         objectVo.getResult().setStatus(UserAgentEnum.PROGRAM_STATUS_USING.getCode());
-        objectVo.getResult().setOwnerId(SessionManager.getMasterInfo().getId());
+        objectVo.getResult().setOwnerId(Const.MASTER_BUILT_IN_ID);
         objectVo = getService().saveNewRebateSet(objectVo);
         return objectVo;
     }
@@ -440,7 +447,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
 
         }catch (Exception ex){
             persist.put("state",false);
-            String msg = LocaleTool.tranMessage("common", "save.failed");
+            String msg = LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED);
             persist.put("msg",msg);
             persist.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
             LOG.error(ex,"保存返佣方案出错:{0}",ex.getMessage());
@@ -509,7 +516,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         Map<String, Object> map = new HashMap<>(2,1f);
         if (result.hasErrors()) {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common","save.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
@@ -528,7 +535,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         int res = ServiceTool.getSysParamService().batchUpdateOnly(paramVo);
         if (res > 0) {
             map.put("state", true);
-            map.put("msg", LocaleTool.tranMessage("common","save.success"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             ParamTool.refresh(SiteParamEnum.SETTLEMENT_DEPOSIT_FEE);
             ParamTool.refresh(SiteParamEnum.SETTLEMENT_WITHDRAW_FEE);
             ParamTool.refresh(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MIN);
@@ -546,7 +553,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
             ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_REBATE_PERCENT);
         } else {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common","save.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
         return map;
     }

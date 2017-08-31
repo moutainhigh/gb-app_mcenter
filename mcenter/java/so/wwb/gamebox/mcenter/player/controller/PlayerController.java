@@ -1420,9 +1420,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             pVo.setProperties(PlayerAdvisory.PROP_REPLY_COUNT, PlayerAdvisory.PROP_LATEST_TIME);
             ServiceTool.playerAdvisoryService().updateOnly(pVo);
             if (vo.isSuccess() == true) {
-                vo.setOkMsg(LocaleTool.tranMessage("common", "send.success"));
+                vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "send.success"));
             } else {
-                vo.setErrMsg(LocaleTool.tranMessage("common", "send.fail"));
+                vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "send.fail"));
             }
         }
 
@@ -1446,9 +1446,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             boolean success = ServiceTool.playerAdvisoryService().delete(vo);
             vo.setSuccess(success);
             if (success == true) {
-                vo.setOkMsg(LocaleTool.tranMessage("common", "delete.success"));
+                vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
             } else {
-                vo.setErrMsg(LocaleTool.tranMessage("common", "delete.failed"));
+                vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
             }
         }
         return this.getVoMessage(vo);
@@ -1637,9 +1637,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             //TODO lorne
         }
         if (vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage("common", "operation.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
         } else if (!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
-            vo.setErrMsg(LocaleTool.tranMessage("common", "operation.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.failed"));
         }
         return this.getVoMessage(vo);
     }
@@ -1658,7 +1658,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         vo = ServiceTool.sysUserService().get(vo);
         if (vo.getResult().getStatus() == null || !SysUserStatus.DISABLED.getCode().equals(vo.getResult().getStatus())) {
             vo.setSuccess(false);
-            vo.setErrMsg(LocaleTool.tranMessage("common", "player.disable_operate"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "player.disable_operate"));
         } else {
             vo.getResult().setStatus(SysUserStatus.NORMAL.getCode());
             vo = this.getService().updateStatus(vo);
@@ -1666,9 +1666,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //保存日志
         //TODO lorne
         if (vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage("common", "operation.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
         } else if (!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
-            vo.setErrMsg(LocaleTool.tranMessage("common", "operation.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.failed"));
         }
         return this.getVoMessage(vo);
     }
@@ -1749,9 +1749,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //保存日志
         //TODO lorne
         if (vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage("common", "operation.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
         } else if (!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
-            vo.setErrMsg(LocaleTool.tranMessage("common", "operation.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.failed"));
         }
         return this.getVoMessage(vo);
     }

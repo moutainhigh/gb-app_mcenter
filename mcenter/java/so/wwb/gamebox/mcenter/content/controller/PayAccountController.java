@@ -50,6 +50,7 @@ import so.wwb.gamebox.model.bitcoin.enums.BitCoinChannelEnum;
 import so.wwb.gamebox.model.bitcoin.po.BitCoinChannel;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.CryptoKey;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.enums.BankCodeEnum;
 import so.wwb.gamebox.model.company.enums.BankEnum;
 import so.wwb.gamebox.model.company.enums.BankPayTypeEnum;
@@ -1047,7 +1048,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         Map<String, Object> map = new HashMap<>(3,1f);
         if (result.hasErrors()) {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
@@ -1056,10 +1057,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         if (payAccountVo.isSuccess()) {
             map.put("payAccountValue", payAccountVo.getResult().getDepositDefaultCount());
             map.put("state", true);
-            map.put("msg", LocaleTool.tranMessage("common", "save.success"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
         } else {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
         return map;
     }
@@ -1079,7 +1080,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         Map<String, Object> map = new HashMap<>(3,1f);
         if (result.hasErrors()) {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
@@ -1088,10 +1089,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         if (payAccountVo.isSuccess()) {
             map.put("payAccountValue", CurrencyTool.formatCurrency(payAccountVo.getResult().getDepositDefaultTotal()));
             map.put("state", true);
-            map.put("msg", LocaleTool.tranMessage("common", "save.success"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
         } else {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
         return map;
     }
@@ -1109,7 +1110,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         PayAccount payAccount = payAccountVo.getResult();
         if (payAccount == null || payAccount.getId() == null) {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
@@ -1134,10 +1135,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
                         : payAccountVo.getResult().getDepositDefaultTotal());
             }
             map.put("state", true);
-            map.put("msg", LocaleTool.tranMessage("common", "save.success"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
         } else {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
 
         return map;

@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.setting.controller;
 import org.apache.commons.collections.map.HashedMap;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.commons.support._Module;
 import org.soul.commons.validation.form.support.RegExpConstants;
 import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
@@ -23,6 +24,7 @@ import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteCustomerService;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceVo;
@@ -242,7 +244,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         Map<String,Object> map = new HashMap<>(2,1f);
         if (result.hasErrors()) {
             map.put("state",false);
-            map.put("msg",LocaleTool.tranMessage("common","save.failed"));
+            map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
@@ -262,12 +264,12 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
 
             if (objectVo.isSuccess()) {
                 map.put("state",true);
-                map.put("msg",LocaleTool.tranMessage("common","save.success"));
+                map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 Cache.refreshCustomerService();
                 Cache.refreshCurrentSitePageCache();
             } else {
                 map.put("state",false);
-                map.put("msg",LocaleTool.tranMessage("common","save.failed"));
+                map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             }
         }else {
             map.put("state",false);
@@ -287,7 +289,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         Map<String,Object> map = new HashMap<>(2,1f);
         if (result.hasErrors()) {
             map.put("state",false);
-            map.put("msg",LocaleTool.tranMessage("common","save.failed"));
+            map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
@@ -307,12 +309,12 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
 
             if (objectVo.isSuccess()) {
                 map.put("state",true);
-                map.put("msg",LocaleTool.tranMessage("common","save.success"));
+                map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 Cache.refreshCustomerService();
                 Cache.refreshCurrentSitePageCache();
             } else {
                 map.put("state",false);
-                map.put("msg",LocaleTool.tranMessage("common","save.failed"));
+                map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             }
         }else {
             map.put("state",false);

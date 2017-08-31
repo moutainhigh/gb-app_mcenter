@@ -18,6 +18,7 @@ import so.wwb.gamebox.model.BossParamEnum;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.sys.po.SysSite;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.master.setting.po.UserShortcutMenu;
@@ -89,10 +90,10 @@ public class PreferenceController {
         HashMap map = new HashMap(2,1f);
         boolean result = ServiceTool.preferenceService().savePreference(preferenceVo);
         if (result) {
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             refreshSysParam();
         } else {
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
         map.put("state", Boolean.valueOf(result));
         return map;
@@ -168,12 +169,12 @@ public class PreferenceController {
         HashMap map = new HashMap(2,1f);
         try {
             ServiceTool.preferenceService().uploadTone(sysParamVo);
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             map.put("state", Boolean.valueOf(true));
             ParamTool.refresh( SiteParamEnum.WARMING_TONE_DEPOSIT);
         } catch (Exception e) {
             LOG.error(e);
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));//LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             map.put("state", Boolean.valueOf(false));
         }
         return map;

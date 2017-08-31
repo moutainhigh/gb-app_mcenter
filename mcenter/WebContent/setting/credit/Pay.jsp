@@ -53,9 +53,9 @@
                 <hr class="m-t-xxs m-b-sm">
                 <div class="clearfix">
                     <div class="panel-body col-xs-12 col-sm-10 col-md-8 col-lg-6 p-sm">
+                        <div style="display:none" id="validateRule">${validateRule}</div>
                         <table class="no-border table-desc-list" style="width: 100%;">
                             <tbody>
-
                             <tr>
                                 <th scope="row" class="text-right" style="width: 150px;">${views.setting_auto['存款渠道']}：</th>
                                 <td>
@@ -63,7 +63,7 @@
                                         <c:set var="banknames" value="${dicts.common.bankname}"/>
                                         <c:forEach items="${accountMap}" var="i" varStatus="vs">
                                             <label class="bank ${vs.index==0?'select':''}">
-                                                <span class="radio"><input name="result.bankName" type="radio"></span>
+                                                <span class="radio"><input name="result.bankName" type="radio" value="${i.key}" ${vs.index==0?'checked':''}/></span>
                                                 <span class="radio-bank" title="${banknames[i.key]}"><i class="pay-bank ${i.key}"></i></span>
                                                 <span class="bank-logo-name">${banknames[i.key]}</span>
                                                 <input name="min" type="hidden" value="${empty i.value.singleDepositMin?1:i.value.singleDepositMin}"/>
@@ -75,20 +75,19 @@
                                             </c:if>
                                         </c:forEach>
                                     </div>
-                                    <div class="m-t-xs"><a href="javascript:void(0)"> ${views.setting_auto['展开更多']}</a></div>
+                                  <%--  <div class="m-t-xs"><a href="javascript:void(0)"> ${views.setting_auto['展开更多']}</a></div>--%>
                                 </td>
                             </tr>
 
                             <tr>
-                                <th scope="row" class="text-right" style="width: 150px;">${views.setting_auto['充值金额']}：</th>
+                                <th scope="row" class="text-right" style="width: 150px;" for="result.payAmount">${views.setting_auto['充值金额']}：</th>
                                 <td>
                                     <div class="table-desc-right-t">
-                                        <input type="text" class="form-control">
-                                        <div class="co-grayc2 m-t-sm">请输入（${singleMin}~${singleMax}）之间的整数</div>
+                                        <input type="text" name="result.payAmount" id="result.payAmount" class="form-control"/>
+                                        <div class="co-grayc2 m-t-sm">请输入（<span>${singleMin}</span>~<span>${singleMax}</span>）之间的整数</div>
                                         <div class="m-t-sm">
-                                            <soul:button target="quickAmount" data="10000" text="1万" opType="function"/>
-                                            <soul:button target="quickAmount" data="50000" text="5万" opType="function"/>
-                                            <soul:button target="quickAmount" data="100000" text="10万" opType="function"/>
+                                            <soul:button target="quickAmount" data="50000" cssClass="btn btn-info dropdown-toggle m-r-sm" text="5万" opType="function"/>
+                                            <soul:button target="quickAmount" data="100000" cssClass="btn btn-info-hide dropdown-toggle m-r-sm" text="10万" opType="function"/>
                                         </div>
                                        <%-- <div class="m-t-md fs16">您将获得 <span class="co-green">50万</span> 额度</div>--%>
                                         <div class="m-t-md">
@@ -113,4 +112,4 @@
     </div>
 </div>
 </form>
-<soul:import res="site/credit/Pay"/>
+<soul:import res="site/setting/credit/Pay"/>
