@@ -67,6 +67,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import so.wwb.gamebox.iservice.master.player.IUserPlayerService;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.iservice.master.report.IPlayerRecommendAwardService;
@@ -1142,18 +1144,27 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     }
 
     @RequestMapping("/view/bankCardSave")
+    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.BANKCARD_EDIT, opType = OpType.CREATE)
     @ResponseBody
     @Token(valid = true)
     public Map bankCardSave(UserBankcardVo objVo, @FormModel @Valid UserBankcardForm form, BindingResult result) {
         Map map = new HashMap();
         map.put("state", true);
+        HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        LogVo logVo=new LogVo();
+        List<String> params = new ArrayList<>();
+        BaseLog baseLog = logVo.addBussLog();
+        UserBankcardVo vo=new UserBankcardVo();
+        VUserPlayerVo vUserPlayerVo=new VUserPlayerVo();
+        addLog(objVo, request, logVo, params, baseLog, vo, vUserPlayerVo);
+        UserBankcard userBankcard;
         if (result.hasErrors()) {
             map.put("state", false);
             map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
             return map;
         }
         try {
-            UserBankcard userBankcard = objVo.getResult();
+            userBankcard = objVo.getResult();
             userBankcard.setType(UserBankcardTypeEnum.BANK.getCode());
             objVo = ServiceTool.userBankcardService().saveAndUpdateUserBankcard(objVo);
 
@@ -1167,6 +1178,52 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             LOG.error(ex, "保存银行卡出错");
         }
         return map;
+    }
+
+    /**日志
+     *
+     * @param vUserPlayerVo
+     */
+    private void addLog(UserBankcardVo objVo, HttpServletRequest request, LogVo logVo, List<String> params, BaseLog baseLog, UserBankcardVo vo, VUserPlayerVo vUserPlayerVo) {
+        UserBankcard userBankcard=null;
+        if (objVo.getResult().getId()!=null) {
+            vo.getSearch().setId(objVo.getResult().getId());
+            vo = ServiceTool.userBankcardService().get(vo);
+            userBankcard = vo.getResult();
+            baseLog.setDescription("setting.bankCard.edit");
+            baseLog.setOpType(OpType.UPDATE);
+        }else {
+            baseLog.setDescription("setting.bankCard.add");
+        }
+        if (userBankcard!=null){
+            vUserPlayerVo.getSearch().setId(userBankcard.getUserId());
+            vUserPlayerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
+            params.add(vUserPlayerVo.getResult().getUsername());
+            params.add(userBankcard.getBankcardNumber());
+            params.add(LocaleTool.tranDict(DictEnum.BANKNAME,userBankcard.getBankName()));
+            if (userBankcard.getBankDeposit()!=null && !userBankcard.getBankDeposit().equals("")){
+                params.add(userBankcard.getBankDeposit());
+            }else {
+                params.add(LocaleTool.tranView("player_auto","未设置"));
+            }
+        }
+        vUserPlayerVo.getSearch().setId(objVo.getResult().getUserId());
+        vUserPlayerVo=ServiceTool.vUserPlayerService().get(vUserPlayerVo);
+        params.add(vUserPlayerVo.getResult().getUsername());
+        params.add(objVo.getResult().getBankcardNumber());
+        params.add(LocaleTool.tranDict(DictEnum.BANKNAME,objVo.getResult().getBankName()));
+        if (objVo.getResult().getBankDeposit()!=null && !objVo.getResult().getBankDeposit().equals("")){
+            params.add(objVo.getResult().getBankDeposit());
+        }else {
+            params.add(LocaleTool.tranView("player_auto","未设置"));
+        }
+        AddLogVo addLogVo = new AddLogVo();
+        addLogVo.setResult(new SysAuditLog());
+        addLogVo.setList(params);
+        for (String param : params){
+            baseLog.addParam(param);
+        }
+        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
     }
 
   /*  @RequestMapping("/view/checkBankcardNumber")
