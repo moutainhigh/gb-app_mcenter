@@ -5,6 +5,7 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.ListTool;
 import org.soul.commons.collections.MapTool;
 import org.soul.commons.init.context.CommonContext;
+import org.soul.commons.init.context.Const;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
@@ -375,7 +376,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         objectVo.getResult().setCreateUserId(SessionManager.getUserId());
         objectVo.getResult().setCreateTime(new Date());
         objectVo.getResult().setStatus(UserAgentEnum.PROGRAM_STATUS_USING.getCode());
-        objectVo.getResult().setOwnerId(SessionManager.getMasterInfo().getId());
+        objectVo.getResult().setOwnerId(Const.MASTER_BUILT_IN_ID);
         objectVo = getService().saveNewRebateSet(objectVo);
         return objectVo;
     }
