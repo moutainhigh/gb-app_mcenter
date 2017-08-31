@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.content.controller;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.commons.support._Module;
 import org.soul.model.sys.po.SysDict;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.js.JsRuleCreator;
@@ -168,10 +169,10 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         boolean success;
         if (uuidCode.size() != 0) {
             success = getService().deleteByCodes(announcementVo) > 0;
-            msg = LocaleTool.tranMessage("common", "delete.success");
+            msg = LocaleTool.tranMessage(_Module.COMMON, "delete.success");
         } else {
             success = false;
-            msg = LocaleTool.tranMessage("common", "delete.failed");
+            msg = LocaleTool.tranMessage(_Module.COMMON, "delete.failed");
         }
         HashMap map = new HashMap(2,1f);
         map.put("msg", msg);
