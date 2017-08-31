@@ -37,6 +37,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.common.Const;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceListVo;
@@ -302,7 +303,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
     public Map resetHide(VPayAccountListVo vPayAccountListVo, @FormModel("result") @Valid VPayAccountHideSettingForm form, BindingResult result, SysParamVo sysParamVo) {
         if (result.hasErrors()) {
             Map map = new HashMap(2,1f);
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             map.put("state", false);
             return map;
         }

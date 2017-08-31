@@ -33,14 +33,17 @@
                             <i class="fa fa-sign-out"></i><span class="hd">${views.setting['rebate.deposit.withdraw.fee']}</span>
                         </soul:button>
                         <div class="search-wrapper btn-group pull-right m-r-n-xs">
-                            <div class="input-group">
+                            <div class="input-group pull-left  m-r-sm">
                                 <input type="text" class="form-control" name="search.name" placeholder="${views.setting['rebate.list.scheduleName']}">
-                                    <span class="input-group-btn">
+                            </div>
+                            <div class="input-group pull-left  m-r-sm">
+                                <input type="text" class="form-control" name="search.ownerName" placeholder="${views.wc_fund['代理账号']}">
+                            </div>
+                            <span class="input-group-btn">
                                         <soul:button cssClass="btn btn-filter" tag="button" opType="function" text="${views.common['search']}" target="query">
                                             <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                                         </soul:button>
                                     </span>
-                            </div>
                         </div>
                     </div>
                     <div class="search-list-container">

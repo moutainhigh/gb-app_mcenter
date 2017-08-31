@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.iservice.master.dataRight.ISysUserDataRightService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.master.dataRight.DataRightModuleType;
 import so.wwb.gamebox.model.master.dataRight.SysResourceEnum;
 import so.wwb.gamebox.model.master.dataRight.po.SysUserDataRight;
@@ -114,9 +115,9 @@ public class SysUserDataRightController extends BaseCrudController<ISysUserDataR
         sysUserDataRightVo.setCreateUserId(SessionManager.getUserId());
         boolean isSuccess = ServiceTool.sysUserDataRightService().saveAndUpdateDataRight(sysUserDataRightVo);
         if (isSuccess) {
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
         } else {
-            map.put("msg",LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+            map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
         map.put("state", isSuccess);
         return map;
@@ -126,7 +127,7 @@ public class SysUserDataRightController extends BaseCrudController<ISysUserDataR
         if (CollectionTool.isEmpty(sysUserDataRightVo.getCompanyDepositRank())
                 && CollectionTool.isEmpty(sysUserDataRightVo.getOnlineDepositRank())
                 && CollectionTool.isEmpty(sysUserDataRightVo.getPlayerWithdrawRank())) {
-            map.put("msg", LocaleTool.tranMessage("common","请选择数据权限"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON,"请选择数据权限"));
             map.put("state", false);
             map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
             return true;

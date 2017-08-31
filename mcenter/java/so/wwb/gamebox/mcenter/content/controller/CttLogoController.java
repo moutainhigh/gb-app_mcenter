@@ -4,6 +4,7 @@ import org.soul.commons.collections.MapTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.support._Module;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
@@ -331,9 +332,9 @@ public class CttLogoController extends BaseCrudController<ICttLogoService, CttLo
     @ResponseBody
     public Map batchDeleteLogo(CttLogoVo cttLogoVo){
         cttLogoVo = this.getService().batchDeleteLogo(cttLogoVo);
-        String msg = LocaleTool.tranMessage("common", "delete.success");
+        String msg = LocaleTool.tranMessage(_Module.COMMON, "delete.success");
         if(!cttLogoVo.isSuccess()){
-            msg = LocaleTool.tranMessage("common", "delete.failed");
+            msg = LocaleTool.tranMessage(_Module.COMMON, "delete.failed");
         }
         Cache.refreshSiteLogo();
         Cache.refreshCurrentSitePageCache();

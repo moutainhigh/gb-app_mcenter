@@ -13,6 +13,8 @@ import org.soul.commons.log.LogFactory;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.support._Module;
+import org.soul.model.security.privilege.po.SysUser;
+import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.controller.BaseCrudController;
@@ -31,9 +33,11 @@ import so.wwb.gamebox.mcenter.setting.form.RebateSetFeeForm;
 import so.wwb.gamebox.mcenter.setting.form.RebateSetForm;
 import so.wwb.gamebox.mcenter.setting.form.RebateSetSearchForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.SubSysCodeEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.enums.GameStatusEnum;
 import so.wwb.gamebox.model.company.setting.po.Api;
 import so.wwb.gamebox.model.company.site.po.SiteApi;
@@ -42,6 +46,7 @@ import so.wwb.gamebox.model.company.site.vo.VGameTypeListVo;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
 import so.wwb.gamebox.model.master.player.po.UserAgentRebate;
 import so.wwb.gamebox.model.master.player.vo.UserAgentRebateListVo;
+import so.wwb.gamebox.model.master.player.vo.VUserAgentManageVo;
 import so.wwb.gamebox.model.master.setting.po.RebateSet;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetListVo;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetVo;
@@ -84,9 +89,24 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @Override
     protected RebateSetListVo doList(RebateSetListVo listVo, RebateSetSearchForm form, BindingResult result, Model model) {
         listVo.getSearch().setSearchFrom(SubSysCodeEnum.MCENTER.getCode());
-        listVo.getSearch().setOwnerId(SessionManager.getMasterInfo().getId());
         listVo = searchFromTopAgent(listVo);
+        searchByOwnerName(listVo);
         return this.getService().searchCalRebateSet(listVo);
+    }
+
+    private RebateSetListVo searchByOwnerName(RebateSetListVo listVo){
+        if(StringTool.isBlank(listVo.getSearch().getOwnerName())){
+            return listVo;
+        }
+        VUserAgentManageVo agentManageVo = new VUserAgentManageVo();
+        agentManageVo.getSearch().setUsername(listVo.getSearch().getOwnerName());
+        agentManageVo = ServiceTool.vUserAgentManageService().search(agentManageVo);
+        if(agentManageVo.getResult()==null){
+            listVo.getSearch().setOwnerId(-1);
+        }else{
+            listVo.getSearch().setOwnerId(agentManageVo.getResult().getId());
+        }
+        return listVo;
     }
 
     private RebateSetListVo searchFromTopAgent(RebateSetListVo listVo) {
@@ -422,7 +442,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
 
         }catch (Exception ex){
             persist.put("state",false);
-            String msg = LocaleTool.tranMessage("common", "save.failed");
+            String msg = LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED);
             persist.put("msg",msg);
             persist.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
             LOG.error(ex,"保存返佣方案出错:{0}",ex.getMessage());
@@ -491,7 +511,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         Map<String, Object> map = new HashMap<>(2,1f);
         if (result.hasErrors()) {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common","save.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
@@ -510,7 +530,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         int res = ServiceTool.getSysParamService().batchUpdateOnly(paramVo);
         if (res > 0) {
             map.put("state", true);
-            map.put("msg", LocaleTool.tranMessage("common","save.success"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             ParamTool.refresh(SiteParamEnum.SETTLEMENT_DEPOSIT_FEE);
             ParamTool.refresh(SiteParamEnum.SETTLEMENT_WITHDRAW_FEE);
             ParamTool.refresh(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MIN);
@@ -528,7 +548,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
             ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_REBATE_PERCENT);
         } else {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common","save.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
         return map;
     }
