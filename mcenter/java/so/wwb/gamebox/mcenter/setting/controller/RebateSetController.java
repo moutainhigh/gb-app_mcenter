@@ -99,6 +99,10 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         if(StringTool.isBlank(listVo.getSearch().getOwnerName())){
             return listVo;
         }
+        if(String.valueOf(Const.MASTER_BUILT_IN_ID).equals(listVo.getSearch().getOwnerName())){
+            listVo.getSearch().setOwnerId(Const.MASTER_BUILT_IN_ID);
+            return listVo;
+        }
         VUserAgentManageVo agentManageVo = new VUserAgentManageVo();
         agentManageVo.getSearch().setUsername(listVo.getSearch().getOwnerName());
         agentManageVo = ServiceTool.vUserAgentManageService().search(agentManageVo);
