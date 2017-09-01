@@ -34,13 +34,13 @@
                     <div class="m-b-none col-xs-6 col-sm-3">
                         <div class="limit-price-wrap al-center clearfix">
                             <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用额度']}">${views.setting_auto['已使用额度']}<span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="${views.setting_auto['用于接入第三方流量统计平台']}"><i class="fa fa-question-circle"></i></span></div>
-                            <div class="fs30 p-b-sm al-center co-blue">1,936,499</div>
+                            <div class="fs30 p-b-sm al-center co-blue">${soulFn:formatCurrency(useProfit)}</div>
                         </div>
                     </div>
                     <div class="m-b-none col-xs-6 col-sm-3">
                         <div class="limit-price-wrap al-center clearfix">
                             <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用']}">${views.setting_auto['已使用']}</div>
-                            <div class="fs30 p-b-sm al-center co-red">100%</div>
+                            <div class="fs30 p-b-sm al-center co-red">${soulFn:formatInteger(userProfit/profit)}%</div>
                         </div>
                     </div>
                     <div class="m-b-none col-xs-6 col-sm-3">
@@ -89,7 +89,7 @@
                                             <soul:button target="quickAmount" data="50000" cssClass="btn btn-info dropdown-toggle m-r-sm" text="5万" opType="function"/>
                                             <soul:button target="quickAmount" data="100000" cssClass="btn btn-info-hide dropdown-toggle m-r-sm" text="10万" opType="function"/>
                                         </div>
-                                       <%-- <div class="m-t-md fs16">${views.setting_auto['您将获得']} <span class="co-green">50万</span> ${views.setting_auto['额度']}</div>--%>
+                                       <%-- <div class="m-t-md fs16">您将获得 <span class="co-green">50万</span> 额度</div>--%>
                                         <div class="m-t-md">
                                             <soul:button target="submit" precall="validateForm" text="${views.setting_auto['确认']}" cssClass="btn btn-filter btn-lg btn-block" opType="function"/>
                                         </div>
