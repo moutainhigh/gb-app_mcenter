@@ -66,6 +66,82 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
+                        <td>${views.lottery_auto['一字大小']}</td>
+                        <input type="hidden" value="${command['one_big_small'].id}" name="quotaList[6].id">
+                        <input type="hidden" value="${command['one_big_small'].siteId}" name="quotaList[6].siteId">
+                        <input type="hidden" value="${command['one_big_small'].code}" name="quotaList[6].code">
+                        <input type="hidden" value="${command['one_big_small'].playCode}" name="quotaList[6].playCode">
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['one_big_small'].numQuota}" name="quotaList[6].numQuota">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['one_big_small'].betQuota}" name="quotaList[6].betQuota">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['one_big_small'].playQuota}" name="quotaList[6].playQuota">
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th><input type="checkbox" class="i-checks"></th>
+                        <td>${views.lottery_auto['一字单双']}</td>
+                        <input type="hidden" value="${command['one_single_double'].id}" name="quotaList[7].id">
+                        <input type="hidden" value="${command['one_single_double'].siteId}" name="quotaList[7].siteId">
+                        <input type="hidden" value="${command['one_single_double'].code}" name="quotaList[7].code">
+                        <input type="hidden" value="${command['one_single_double'].playCode}" name="quotaList[7].playCode">
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['one_single_double'].numQuota}" name="quotaList[7].numQuota">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['one_single_double'].betQuota}" name="quotaList[7].betQuota">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['one_single_double'].playQuota}" name="quotaList[7].playQuota">
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><input type="checkbox" class="i-checks"></th>
+                        <td>${views.lottery_auto['一字质合']}</td>
+                        <input type="hidden" value="${command['one_prime_combined'].id}" name="quotaList[8].id">
+                        <input type="hidden" value="${command['one_prime_combined'].siteId}" name="quotaList[8].siteId">
+                        <input type="hidden" value="${command['one_prime_combined'].code}" name="quotaList[8].code">
+                        <input type="hidden" value="${command['one_prime_combined'].playCode}" name="quotaList[8].playCode">
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['one_prime_combined'].numQuota}" name="quotaList[8].numQuota">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['one_prime_combined'].betQuota}" name="quotaList[8].betQuota">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['one_prime_combined'].playQuota}" name="quotaList[8].playQuota">
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><input type="checkbox" class="i-checks"></th>
                         <td>${views.lottery_auto['二字组合']}</td>
                         <input type="hidden" value="${command['two_combination'].id}" name="quotaList[2].id">
                         <input type="hidden" value="${command['two_combination'].siteId}" name="quotaList[2].siteId">
@@ -113,6 +189,33 @@
                             </div>
                         </td>
                     </tr>
+
+
+                    <%--<tr>--%>
+                    <%--<th><input type="checkbox" class="i-checks"></th>--%>
+                    <%--<td>二字和数单双</td>--%>
+                    <%--<input type="hidden" value="${command['two_sum_single_double'].id}" name="quotaList[12].id">--%>
+                    <%--<input type="hidden" value="${command['two_sum_single_double'].siteId}" name="quotaList[12].siteId">--%>
+                    <%--<input type="hidden" value="${command['two_sum_single_double'].code}" name="quotaList[12].code">--%>
+                    <%--<input type="hidden" value="${command['two_sum_single_double'].playCode}" name="quotaList[12].playCode">--%>
+                    <%--<td>--%>
+                    <%--<div class="input-group content-width-limit-10">--%>
+                    <%--<input type="text" class="form-control input-sm" value="${command['two_sum_single_double'].numQuota}" name="quotaList[12].numQuota">--%>
+
+                    <%--</div>--%>
+                    <%--</td>--%>
+                    <%--<td>--%>
+                    <%--<div class="input-group content-width-limit-10">--%>
+                    <%--<input type="text" class="form-control input-sm" value="${command['two_sum_single_double'].betQuota}" name="quotaList[12].betQuota">--%>
+                    <%--</div>--%>
+                    <%--</td>--%>
+                    <%--<td>--%>
+                    <%--<div class="input-group content-width-limit-10">--%>
+                    <%--<input type="text" class="form-control input-sm" value="${command['two_sum_single_double'].playQuota}" name="quotaList[12].playQuota">--%>
+                    <%--</div>--%>
+                    <%--</td>--%>
+                    <%--</tr>--%>
+
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
                         <td>${views.lottery_auto['三字组合']}</td>
@@ -164,83 +267,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['大小']}</td>
-                        <input type="hidden" value="${command['one_big_small'].id}" name="quotaList[6].id">
-                        <input type="hidden" value="${command['one_big_small'].siteId}" name="quotaList[6].siteId">
-                        <input type="hidden" value="${command['one_big_small'].code}" name="quotaList[6].code">
-                        <input type="hidden" value="${command['one_big_small'].playCode}" name="quotaList[6].playCode">
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['one_big_small'].numQuota}" name="quotaList[6].numQuota">
-
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['one_big_small'].betQuota}" name="quotaList[6].betQuota">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['one_big_small'].playQuota}" name="quotaList[6].playQuota">
-                            </div>
-                        </td>
-                    </tr>
-
-
-                    <tr>
-                        <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['单双']}</td>
-                        <input type="hidden" value="${command['one_single_double'].id}" name="quotaList[7].id">
-                        <input type="hidden" value="${command['one_single_double'].siteId}" name="quotaList[7].siteId">
-                        <input type="hidden" value="${command['one_single_double'].code}" name="quotaList[7].code">
-                        <input type="hidden" value="${command['one_single_double'].playCode}" name="quotaList[7].playCode">
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['one_single_double'].numQuota}" name="quotaList[7].numQuota">
-
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['one_single_double'].betQuota}" name="quotaList[7].betQuota">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['one_single_double'].playQuota}" name="quotaList[7].playQuota">
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['质合']}</td>
-                        <input type="hidden" value="${command['one_prime_combined'].id}" name="quotaList[8].id">
-                        <input type="hidden" value="${command['one_prime_combined'].siteId}" name="quotaList[8].siteId">
-                        <input type="hidden" value="${command['one_prime_combined'].code}" name="quotaList[8].code">
-                        <input type="hidden" value="${command['one_prime_combined'].playCode}" name="quotaList[8].playCode">
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['one_prime_combined'].numQuota}" name="quotaList[8].numQuota">
-
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['one_prime_combined'].betQuota}" name="quotaList[8].betQuota">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['one_prime_combined'].playQuota}" name="quotaList[8].playQuota">
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['总大小']}</td>
+                        <td>${views.lottery_auto['五字和数大小']}</td>
                         <input type="hidden" value="${command['five_sum_big_small'].id}" name="quotaList[9].id">
                         <input type="hidden" value="${command['five_sum_big_small'].siteId}" name="quotaList[9].siteId">
                         <input type="hidden" value="${command['five_sum_big_small'].code}" name="quotaList[9].code">
@@ -265,7 +292,7 @@
 
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <td>${views.lottery_auto['总单双']}</td>
+                        <td>${views.lottery_auto['五字和数单双']}</td>
                         <input type="hidden" value="${command['five_sum_single_double'].id}" name="quotaList[10].id">
                         <input type="hidden" value="${command['five_sum_single_double'].siteId}" name="quotaList[10].siteId">
                         <input type="hidden" value="${command['five_sum_single_double'].code}" name="quotaList[10].code">
@@ -310,6 +337,82 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm" value="${command['dragon_tiger_tie'].playQuota}" name="quotaList[11].playQuota">
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th><input type="checkbox" class="i-checks"></th>
+                        <td>${views.lottery_auto['组选三']}</td>
+                        <input type="hidden" value="${command['group_three'].id}" name="quotaList[13].id">
+                        <input type="hidden" value="${command['group_three'].siteId}" name="quotaList[13].siteId">
+                        <input type="hidden" value="${command['group_three'].code}" name="quotaList[13].code">
+                        <input type="hidden" value="${command['group_three'].playCode}" name="quotaList[13].playCode">
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['group_three'].numQuota}" name="quotaList[13].numQuota">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['group_three'].betQuota}" name="quotaList[13].betQuota">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['group_three'].playQuota}" name="quotaList[13].playQuota">
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><input type="checkbox" class="i-checks"></th>
+                        <td>${views.lottery_auto['组选六']}</td>
+                        <input type="hidden" value="${command['group_six'].id}" name="quotaList[14].id">
+                        <input type="hidden" value="${command['group_six'].siteId}" name="quotaList[14].siteId">
+                        <input type="hidden" value="${command['group_six'].code}" name="quotaList[14].code">
+                        <input type="hidden" value="${command['group_six'].playCode}" name="quotaList[14].playCode">
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['group_six'].numQuota}" name="quotaList[14].numQuota">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['group_six'].betQuota}" name="quotaList[14].betQuota">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['group_six'].playQuota}" name="quotaList[14].playQuota">
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><input type="checkbox" class="i-checks"></th>
+                        <td>${views.lottery_auto['跨度']}</td>
+                        <input type="hidden" value="${command['span'].id}" name="quotaList[15].id">
+                        <input type="hidden" value="${command['span'].siteId}" name="quotaList[15].siteId">
+                        <input type="hidden" value="${command['span'].code}" name="quotaList[15].code">
+                        <input type="hidden" value="${command['span'].playCode}" name="quotaList[15].playCode">
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['span'].numQuota}" name="quotaList[15].numQuota">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['span'].betQuota}" name="quotaList[15].betQuota">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['span'].playQuota}" name="quotaList[15].playQuota">
                             </div>
                         </td>
                     </tr>

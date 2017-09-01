@@ -249,145 +249,145 @@
                             </div>
                         </td>
                     </tr>
-                    <%--<tr>--%>
-                        <%--<th>${views.lottery_auto['鼠']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['鼠'].id}" name="lotteryOdds[64].id">--%>
-                                <%--<input type="hidden" value="${command['鼠'].code}" name="lotteryOdds[64].code">--%>
-                                <%--<input type="hidden" value="${command['鼠'].betCode}" name="lotteryOdds[64].betCode">--%>
-                                <%--<input type="hidden" value="${command['鼠'].siteId}" name="lotteryOdds[64].siteId">--%>
-                                <%--<input type="hidden" value="${command['鼠'].betNum}" name="lotteryOdds[64].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[64].odd" value="${command['鼠'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
-                        <%--<th>${views.lottery_auto['牛']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['牛'].id}" name="lotteryOdds[65].id">--%>
-                                <%--<input type="hidden" value="${command['牛'].code}" name="lotteryOdds[65].code">--%>
-                                <%--<input type="hidden" value="${command['牛'].betCode}" name="lotteryOdds[65].betCode">--%>
-                                <%--<input type="hidden" value="${command['牛'].siteId}" name="lotteryOdds[65].siteId">--%>
-                                <%--<input type="hidden" value="${command['牛'].betNum}" name="lotteryOdds[65].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[65].odd" value="${command['牛'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
-                        <%--<th>${views.lottery_auto['虎']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['虎'].id}" name="lotteryOdds[66].id">--%>
-                                <%--<input type="hidden" value="${command['虎'].code}" name="lotteryOdds[66].code">--%>
-                                <%--<input type="hidden" value="${command['虎'].betCode}" name="lotteryOdds[66].betCode">--%>
-                                <%--<input type="hidden" value="${command['虎'].siteId}" name="lotteryOdds[66].siteId">--%>
-                                <%--<input type="hidden" value="${command['虎'].betNum}" name="lotteryOdds[66].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[66].odd" value="${command['虎'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
-                        <%--<th>${views.lottery_auto['兔']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['兔'].id}" name="lotteryOdds[67].id">--%>
-                                <%--<input type="hidden" value="${command['兔'].code}" name="lotteryOdds[67].code">--%>
-                                <%--<input type="hidden" value="${command['兔'].betCode}" name="lotteryOdds[67].betCode">--%>
-                                <%--<input type="hidden" value="${command['兔'].siteId}" name="lotteryOdds[67].siteId">--%>
-                                <%--<input type="hidden" value="${command['兔'].betNum}" name="lotteryOdds[67].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[67].odd" value="${command['兔'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
-                        <%--<th>${views.lottery_auto['龙']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['龙'].id}" name="lotteryOdds[68].id">--%>
-                                <%--<input type="hidden" value="${command['龙'].code}" name="lotteryOdds[68].code">--%>
-                                <%--<input type="hidden" value="${command['龙'].betCode}" name="lotteryOdds[68].betCode">--%>
-                                <%--<input type="hidden" value="${command['龙'].siteId}" name="lotteryOdds[68].siteId">--%>
-                                <%--<input type="hidden" value="${command['龙'].betNum}" name="lotteryOdds[68].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[68].odd" value="${command['龙'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
-                    <%--</tr>--%>
-                    <%--<tr>--%>
-                        <%--<th>${views.lottery_auto['蛇']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['蛇'].id}" name="lotteryOdds[69].id">--%>
-                                <%--<input type="hidden" value="${command['蛇'].code}" name="lotteryOdds[69].code">--%>
-                                <%--<input type="hidden" value="${command['蛇'].betCode}" name="lotteryOdds[69].betCode">--%>
-                                <%--<input type="hidden" value="${command['蛇'].siteId}" name="lotteryOdds[69].siteId">--%>
-                                <%--<input type="hidden" value="${command['蛇'].betNum}" name="lotteryOdds[69].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[69].odd" value="${command['蛇'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
-                        <%--<th>${views.lottery_auto['马']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['马'].id}" name="lotteryOdds[70].id">--%>
-                                <%--<input type="hidden" value="${command['马'].code}" name="lotteryOdds[70].code">--%>
-                                <%--<input type="hidden" value="${command['马'].betCode}" name="lotteryOdds[70].betCode">--%>
-                                <%--<input type="hidden" value="${command['马'].siteId}" name="lotteryOdds[70].siteId">--%>
-                                <%--<input type="hidden" value="${command['马'].betNum}" name="lotteryOdds[70].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[70].odd" value="${command['马'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
-                        <%--<th>${views.lottery_auto['羊']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['羊'].id}" name="lotteryOdds[71].id">--%>
-                                <%--<input type="hidden" value="${command['羊'].code}" name="lotteryOdds[71].code">--%>
-                                <%--<input type="hidden" value="${command['羊'].betCode}" name="lotteryOdds[71].betCode">--%>
-                                <%--<input type="hidden" value="${command['羊'].siteId}" name="lotteryOdds[71].siteId">--%>
-                                <%--<input type="hidden" value="${command['羊'].betNum}" name="lotteryOdds[71].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[71].odd" value="${command['羊'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
-                        <%--<th>${views.lottery_auto['猴']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['猴'].id}" name="lotteryOdds[72].id">--%>
-                                <%--<input type="hidden" value="${command['猴'].code}" name="lotteryOdds[72].code">--%>
-                                <%--<input type="hidden" value="${command['猴'].betCode}" name="lotteryOdds[72].betCode">--%>
-                                <%--<input type="hidden" value="${command['猴'].siteId}" name="lotteryOdds[72].siteId">--%>
-                                <%--<input type="hidden" value="${command['猴'].betNum}" name="lotteryOdds[72].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[72].odd" value="${command['猴'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
-                        <%--<th>${views.lottery_auto['鸡']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['鸡'].id}" name="lotteryOdds[73].id">--%>
-                                <%--<input type="hidden" value="${command['鸡'].code}" name="lotteryOdds[73].code">--%>
-                                <%--<input type="hidden" value="${command['鸡'].betCode}" name="lotteryOdds[73].betCode">--%>
-                                <%--<input type="hidden" value="${command['鸡'].siteId}" name="lotteryOdds[73].siteId">--%>
-                                <%--<input type="hidden" value="${command['鸡'].betNum}" name="lotteryOdds[73].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[73].odd" value="${command['鸡'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
-                    <%--</tr>--%>
-                    <%--<tr>--%>
-                        <%--<th>${views.lottery_auto['狗']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['狗'].id}" name="lotteryOdds[74].id">--%>
-                                <%--<input type="hidden" value="${command['狗'].code}" name="lotteryOdds[74].code">--%>
-                                <%--<input type="hidden" value="${command['狗'].betCode}" name="lotteryOdds[74].betCode">--%>
-                                <%--<input type="hidden" value="${command['狗'].siteId}" name="lotteryOdds[74].siteId">--%>
-                                <%--<input type="hidden" value="${command['狗'].betNum}" name="lotteryOdds[74].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[74].odd" value="${command['狗'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
-                        <%--<th>${views.lottery_auto['猪']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['猪'].id}" name="lotteryOdds[75].id">--%>
-                                <%--<input type="hidden" value="${command['猪'].code}" name="lotteryOdds[75].code">--%>
-                                <%--<input type="hidden" value="${command['猪'].betCode}" name="lotteryOdds[75].betCode">--%>
-                                <%--<input type="hidden" value="${command['猪'].siteId}" name="lotteryOdds[75].siteId">--%>
-                                <%--<input type="hidden" value="${command['猪'].betNum}" name="lotteryOdds[75].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[75].odd" value="${command['猪'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
-                        <%--<th colspan="6"></th>--%>
-                    <%--</tr>--%>
+                    <tr>
+                        <th>${views.lottery_auto['鼠']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="hidden" value="${command['鼠'].id}" name="lotteryOdds[64].id">
+                                <input type="hidden" value="${command['鼠'].code}" name="lotteryOdds[64].code">
+                                <input type="hidden" value="${command['鼠'].betCode}" name="lotteryOdds[64].betCode">
+                                <input type="hidden" value="${command['鼠'].siteId}" name="lotteryOdds[64].siteId">
+                                <input type="hidden" value="${command['鼠'].betNum}" name="lotteryOdds[64].betNum">
+                                <input type="text" class="form-control input-sm" name="lotteryOdds[64].odd" value="${command['鼠'].odd}">
+                            </div>
+                        </td>
+                        <th>${views.lottery_auto['牛']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="hidden" value="${command['牛'].id}" name="lotteryOdds[65].id">
+                                <input type="hidden" value="${command['牛'].code}" name="lotteryOdds[65].code">
+                                <input type="hidden" value="${command['牛'].betCode}" name="lotteryOdds[65].betCode">
+                                <input type="hidden" value="${command['牛'].siteId}" name="lotteryOdds[65].siteId">
+                                <input type="hidden" value="${command['牛'].betNum}" name="lotteryOdds[65].betNum">
+                                <input type="text" class="form-control input-sm" name="lotteryOdds[65].odd" value="${command['牛'].odd}">
+                            </div>
+                        </td>
+                        <th>${views.lottery_auto['虎']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="hidden" value="${command['虎'].id}" name="lotteryOdds[66].id">
+                                <input type="hidden" value="${command['虎'].code}" name="lotteryOdds[66].code">
+                                <input type="hidden" value="${command['虎'].betCode}" name="lotteryOdds[66].betCode">
+                                <input type="hidden" value="${command['虎'].siteId}" name="lotteryOdds[66].siteId">
+                                <input type="hidden" value="${command['虎'].betNum}" name="lotteryOdds[66].betNum">
+                                <input type="text" class="form-control input-sm" name="lotteryOdds[66].odd" value="${command['虎'].odd}">
+                            </div>
+                        </td>
+                        <th>${views.lottery_auto['兔']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="hidden" value="${command['兔'].id}" name="lotteryOdds[67].id">
+                                <input type="hidden" value="${command['兔'].code}" name="lotteryOdds[67].code">
+                                <input type="hidden" value="${command['兔'].betCode}" name="lotteryOdds[67].betCode">
+                                <input type="hidden" value="${command['兔'].siteId}" name="lotteryOdds[67].siteId">
+                                <input type="hidden" value="${command['兔'].betNum}" name="lotteryOdds[67].betNum">
+                                <input type="text" class="form-control input-sm" name="lotteryOdds[67].odd" value="${command['兔'].odd}">
+                            </div>
+                        </td>
+                        <th>${views.lottery_auto['龙']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="hidden" value="${command['龙'].id}" name="lotteryOdds[68].id">
+                                <input type="hidden" value="${command['龙'].code}" name="lotteryOdds[68].code">
+                                <input type="hidden" value="${command['龙'].betCode}" name="lotteryOdds[68].betCode">
+                                <input type="hidden" value="${command['龙'].siteId}" name="lotteryOdds[68].siteId">
+                                <input type="hidden" value="${command['龙'].betNum}" name="lotteryOdds[68].betNum">
+                                <input type="text" class="form-control input-sm" name="lotteryOdds[68].odd" value="${command['龙'].odd}">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>${views.lottery_auto['蛇']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="hidden" value="${command['蛇'].id}" name="lotteryOdds[69].id">
+                                <input type="hidden" value="${command['蛇'].code}" name="lotteryOdds[69].code">
+                                <input type="hidden" value="${command['蛇'].betCode}" name="lotteryOdds[69].betCode">
+                                <input type="hidden" value="${command['蛇'].siteId}" name="lotteryOdds[69].siteId">
+                                <input type="hidden" value="${command['蛇'].betNum}" name="lotteryOdds[69].betNum">
+                                <input type="text" class="form-control input-sm" name="lotteryOdds[69].odd" value="${command['蛇'].odd}">
+                            </div>
+                        </td>
+                        <th>${views.lottery_auto['马']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="hidden" value="${command['马'].id}" name="lotteryOdds[70].id">
+                                <input type="hidden" value="${command['马'].code}" name="lotteryOdds[70].code">
+                                <input type="hidden" value="${command['马'].betCode}" name="lotteryOdds[70].betCode">
+                                <input type="hidden" value="${command['马'].siteId}" name="lotteryOdds[70].siteId">
+                                <input type="hidden" value="${command['马'].betNum}" name="lotteryOdds[70].betNum">
+                                <input type="text" class="form-control input-sm" name="lotteryOdds[70].odd" value="${command['马'].odd}">
+                            </div>
+                        </td>
+                        <th>${views.lottery_auto['羊']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="hidden" value="${command['羊'].id}" name="lotteryOdds[71].id">
+                                <input type="hidden" value="${command['羊'].code}" name="lotteryOdds[71].code">
+                                <input type="hidden" value="${command['羊'].betCode}" name="lotteryOdds[71].betCode">
+                                <input type="hidden" value="${command['羊'].siteId}" name="lotteryOdds[71].siteId">
+                                <input type="hidden" value="${command['羊'].betNum}" name="lotteryOdds[71].betNum">
+                                <input type="text" class="form-control input-sm" name="lotteryOdds[71].odd" value="${command['羊'].odd}">
+                            </div>
+                        </td>
+                        <th>${views.lottery_auto['猴']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="hidden" value="${command['猴'].id}" name="lotteryOdds[72].id">
+                                <input type="hidden" value="${command['猴'].code}" name="lotteryOdds[72].code">
+                                <input type="hidden" value="${command['猴'].betCode}" name="lotteryOdds[72].betCode">
+                                <input type="hidden" value="${command['猴'].siteId}" name="lotteryOdds[72].siteId">
+                                <input type="hidden" value="${command['猴'].betNum}" name="lotteryOdds[72].betNum">
+                                <input type="text" class="form-control input-sm" name="lotteryOdds[72].odd" value="${command['猴'].odd}">
+                            </div>
+                        </td>
+                        <th>${views.lottery_auto['鸡']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="hidden" value="${command['鸡'].id}" name="lotteryOdds[73].id">
+                                <input type="hidden" value="${command['鸡'].code}" name="lotteryOdds[73].code">
+                                <input type="hidden" value="${command['鸡'].betCode}" name="lotteryOdds[73].betCode">
+                                <input type="hidden" value="${command['鸡'].siteId}" name="lotteryOdds[73].siteId">
+                                <input type="hidden" value="${command['鸡'].betNum}" name="lotteryOdds[73].betNum">
+                                <input type="text" class="form-control input-sm" name="lotteryOdds[73].odd" value="${command['鸡'].odd}">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>${views.lottery_auto['狗']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="hidden" value="${command['狗'].id}" name="lotteryOdds[74].id">
+                                <input type="hidden" value="${command['狗'].code}" name="lotteryOdds[74].code">
+                                <input type="hidden" value="${command['狗'].betCode}" name="lotteryOdds[74].betCode">
+                                <input type="hidden" value="${command['狗'].siteId}" name="lotteryOdds[74].siteId">
+                                <input type="hidden" value="${command['狗'].betNum}" name="lotteryOdds[74].betNum">
+                                <input type="text" class="form-control input-sm" name="lotteryOdds[74].odd" value="${command['狗'].odd}">
+                            </div>
+                        </td>
+                        <th>${views.lottery_auto['猪']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="hidden" value="${command['猪'].id}" name="lotteryOdds[75].id">
+                                <input type="hidden" value="${command['猪'].code}" name="lotteryOdds[75].code">
+                                <input type="hidden" value="${command['猪'].betCode}" name="lotteryOdds[75].betCode">
+                                <input type="hidden" value="${command['猪'].siteId}" name="lotteryOdds[75].siteId">
+                                <input type="hidden" value="${command['猪'].betNum}" name="lotteryOdds[75].betNum">
+                                <input type="text" class="form-control input-sm" name="lotteryOdds[75].odd" value="${command['猪'].odd}">
+                            </div>
+                        </td>
+                        <th colspan="6"></th>
+                    </tr>
                     </tbody>
                 </table>
             </div>

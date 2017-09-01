@@ -6,6 +6,7 @@ import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.query.sort.Direction;
 import org.soul.web.controller.NoMappingCrudController;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.mcenter.lottery.form.SiteLotteryOddsForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.company.lottery.po.LotteryOdd;
 import so.wwb.gamebox.model.company.lottery.po.SiteLotteryOdd;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryOddListVo;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryOddVo;
@@ -69,8 +71,17 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
      */
     @RequestMapping("/{code}/{betting}/Index")
     public String getCodeBettingIndex(@PathVariable String code, @PathVariable String betting, @RequestParam("page") String page, SiteLotteryOddVo oddVo, Model model) {
-        Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code, betting, oddVo);
-        model.addAttribute("command", siteLotteryOddMap);
+        String[] betcodes = {};
+        if (StringTool.isNotBlank(betting)) {
+            betcodes = betting.split(",");
+        }
+        if (betcodes.length > 1) {
+            Map<String, List<SiteLotteryOdd>> siteLotteryOdds = searchLotteryOdd(code, betcodes, oddVo);
+            model.addAttribute("command", siteLotteryOdds);
+        } else {
+            Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code, betting, oddVo);
+            model.addAttribute("command", siteLotteryOddMap);
+        }
         model.addAttribute("betCode", betting);
         model.addAttribute("code", code);
         code = handleCode(code);
@@ -105,8 +116,18 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
      */
     @RequestMapping("/{code}/{category}/{betCode}/Index")
     public String getSscPlayIndex(@PathVariable String code, @PathVariable String category, @PathVariable String betCode, @RequestParam("page") String page, SiteLotteryOddVo oddVo, Model model) {
-        Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code, betCode, oddVo);
-        model.addAttribute("command", siteLotteryOddMap);
+        String[] betcodes = {};
+        if (StringTool.isNotBlank(betCode)) {
+            betcodes = betCode.split(",");
+        }
+        if (betcodes.length > 1) {
+            Map<String, List<SiteLotteryOdd>> siteLotteryOdds = searchLotteryOdd(code, betcodes, oddVo);
+            model.addAttribute("command", siteLotteryOdds);
+        } else {
+            Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code, betCode, oddVo);
+            model.addAttribute("command", siteLotteryOddMap);
+        }
+
         model.addAttribute("betCode", betCode);
         model.addAttribute("code", code);
         code = handleCode(code);
@@ -118,6 +139,10 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
             code = "ssc";
         } else if (code.contains("k3")) {
             code = "k3";
+        } else if (code.contains("cqxync") || code.contains("gdkl10")) {
+            code = "sfc";
+        } else if (code.contains("fc3d") || code.contains("tcpl3")) {
+            code = "pl3";
         }
         return code;
     }
@@ -130,6 +155,19 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         listVo.setPaging(null);
         listVo = ServiceTool.siteLotteryOddService().search(listVo);
         return CollectionTool.toEntityMap(listVo.getResult(), SiteLotteryOdd.PROP_BET_NUM);
+    }
+    private Map<String, List<SiteLotteryOdd>> searchLotteryOdd(@PathVariable String code, @PathVariable String[] betcodes, SiteLotteryOddVo oddVo) {
+        SiteLotteryOddListVo listVo = new SiteLotteryOddListVo();
+        listVo.getSearch().setCode(code);
+        listVo.getSearch().setBetCodes(betcodes);
+        listVo.getSearch().setSiteId(SessionManager.getSiteId());
+        listVo.getQuery().addOrder(LotteryOdd.PROP_BET_CODE, Direction.ASC);
+        listVo.getQuery().addOrder(LotteryOdd.PROP_BET_NUM,Direction.DESC);
+        listVo.setPaging(null);
+        listVo = ServiceTool.siteLotteryOddService().search(listVo);
+        List<SiteLotteryOdd> result = listVo.getResult();
+        Map<String, List<SiteLotteryOdd>> stringListMap = CollectionTool.groupByProperty(result, LotteryOdd.PROP_BET_CODE, String.class);
+        return stringListMap;
     }
 
     @RequestMapping(value = "/saveSiteLotteryOdds", method = RequestMethod.POST)
