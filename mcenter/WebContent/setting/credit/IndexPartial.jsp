@@ -27,6 +27,18 @@
                 <td>${p.payUserName}</td>
                 <td>${soulFn:formatCurrency(p.payAmount)}</td>
                 <td>${dicts.credit.pay_type[p.payType]}</td>
+                <c:set value="" var="statu"></c:set>
+                <c:choose>
+                    <c:when test="${p.status==1}">
+                        <c:set value="pending" var="statu"></c:set>
+                    </c:when>
+                    <c:when test="${p.status==2}">
+                        <c:set value="success" var="statu"></c:set>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set value="failure" var="statu"></c:set>
+                    </c:otherwise>
+                </c:choose>
                 <td>${dicts.credit.credit_status[p.status]}</td>
                 <td>${dicts.common.bankname[p.bankName]}</td>
                 <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
