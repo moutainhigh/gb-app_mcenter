@@ -43,7 +43,7 @@
         </tr>
         <tbody>
             <c:forEach items="${command.result}" var="p" varStatus="status">
-                <tr>
+                <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                     <td style="text-align: left">
                         ${p.parentNameArray}
