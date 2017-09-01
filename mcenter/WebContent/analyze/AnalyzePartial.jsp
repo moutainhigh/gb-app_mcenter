@@ -88,7 +88,7 @@
         </thead>
         <tbody>
         <c:forEach items="${command.result}" var="p" varStatus="status">
-                <tr>
+                <tr class="tab-detail">
                     <td>${(command.paging.pageNumber - 1) * command.paging.pageSize + status.count}</td>
                     <td><a href="/userAgent/agent/detail.html?search.id=${p.agentId}" nav-target="mainFrame" class="co-blue">${p.agentName}</a></td>
                     <td><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&search.createTimeBegin=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY_SECOND,timeZone)}&search.createTimeEnd=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY_SECOND ,timeZone )}" nav-target='mainFrame'>${p.agentNewPlayerCount}</a></td>

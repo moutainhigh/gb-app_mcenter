@@ -39,7 +39,7 @@
         </thead>
         <tbody>
         <c:forEach items="${command.result}" var="p" varStatus="status">
-                <tr>
+                <tr class="tab-detail">
                     <td>${(command.paging.pageNumber - 1) * command.paging.pageSize + status.count}</td>
                     <td><a href="/userAgent/agent/detail.html?search.id=${p.agentId }" nav-target="mainFrame" class="co-blue">${p.agentName}</a></td>
                     <td>${p.agentNewPlayerCount}</td>

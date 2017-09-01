@@ -45,7 +45,7 @@
             </td>
         </c:if>
         <c:forEach items="${command.result}" var="p" varStatus="status">
-            <tr>
+            <tr class="tab-detail">
                 <td>
                     <input type="checkbox" class="i-checks" value="${p.id}" data-use-status="${p.useStatus}">
                 </td>
