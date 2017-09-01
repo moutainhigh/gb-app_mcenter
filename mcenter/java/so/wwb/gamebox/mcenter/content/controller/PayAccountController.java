@@ -528,8 +528,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             }
             //上分KEY参数
             SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SITE_PAY_KEY);
-            payAccountVo.setPayKeyParam(sysParam);
-            ServiceTool.acbService().addBank(payAccountVo);
+            if(sysParam!=null) {
+                payAccountVo.setPayKeyParam(sysParam);
+                ServiceTool.acbService().addBank(payAccountVo);
+            }
             return this.getVoMessage(payAccountVo);
         } else {
             payAccountVo.setSuccess(false);
