@@ -25,7 +25,7 @@
         </thead>
         <tbody>
         <c:forEach items="${command.result}" varStatus="status" var="r">
-            <tr>
+            <tr class="tab-detail">
                 <td><a href="/setting/vRakebackSet/view.html?id=${r.id}" nav-target="mainFrame">${r.name}</a></td>
                 <td>${soulFn:formatDateTz(r.createTime,DateFormat.DAY_SECOND ,timeZone)}</td>
                     <c:choose>

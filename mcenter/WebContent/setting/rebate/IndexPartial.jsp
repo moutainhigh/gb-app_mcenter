@@ -17,7 +17,7 @@
         </thead>
         <tbody>
         <c:forEach items="${command.result}" var="p" varStatus="status">
-            <tr>
+            <tr class="tab-detail">
                 <%--<td><label><input type="checkbox" class="i-checks" value="${p.id}"></label></td>--%>
                 <td><a href="/rebateSet/view.html?id=${p.id}" nav-target="mainFrame" class="co-blue">${p.name}</a></td>
                 <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
