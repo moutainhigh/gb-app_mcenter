@@ -201,8 +201,8 @@
                             <input name="customBankName" style="${bankCode=='other_bank'?'':'display: none'}" class="form-control" value="${command.result.accountType=='1'&&bankCode=='other_bank'?command.result.customBankName:''}">
                         </div>
                     </div>
-                    <div class="form-group clearfix line-hi34 bank-div">
-                        <label for="result.bankLoginName" class="ft-bold col-sm-3 al-right line-hi34" style="display: ${isBank?'':'none'}">${views.content_auto['网银登陆名']}：</label>
+                    <div class="form-group clearfix line-hi34 bank-div" style="display: ${isBank?'':'none'}">
+                        <label for="result.bankLoginName" class="ft-bold col-sm-3 al-right line-hi34">${views.content_auto['网银登陆名']}：</label>
 
                         <div class="col-sm-5">
                             <div class="input-group date">
@@ -212,8 +212,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group clearfix line-hi34 bank-div">
-                        <label for="result.bankPassword" class="ft-bold col-sm-3 al-right line-hi34" style="display: ${isBank?'':'none'}">${views.content_auto['网银密码']}：</label>
+                    <div class="form-group clearfix line-hi34 bank-div" style="display: ${isBank?'':'none'}">
+                        <label for="result.bankPassword" class="ft-bold col-sm-3 al-right line-hi34">${views.content_auto['网银密码']}：</label>
 
                         <div class="col-sm-5">
                             <div class="input-group date">
@@ -225,8 +225,8 @@
                     </div>
 
                     <input type="hidden" name="result.isAcb" value="${command.result.isAcb}">
-                    <div class="form-group clearfix line-hi34 bank-div" style="display: ${command.acbSwitchParam.paramValue =='true'?'':'none'}">
-                        <label for="" class="ft-bold col-sm-3 al-right line-hi34" style="display: ${isBank?'':'none'}">${views.content_auto['自动上分']}：</label>
+                    <div class="form-group clearfix line-hi34 bank-div" style="display: ${isBank&&command.acbSwitchParam.paramValue =='true'?'':'none'}">
+                        <label for="" class="ft-bold col-sm-3 al-right line-hi34">${views.content_auto['自动上分']}：</label>
                         <div class="col-sm-5">
                             <div class="input-group date">
                                 <input id="isEnabled" name="my-checkbox" class="check-box"  data-size="mini" ${command.result.isAcb eq 'true'?'checked':''} value="true" type="checkbox"/>
