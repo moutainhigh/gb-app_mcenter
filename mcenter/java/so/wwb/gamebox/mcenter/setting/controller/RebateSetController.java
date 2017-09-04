@@ -519,9 +519,26 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
-
+        SysParam [] sysParams = rebateSetVo.getSysParam();
+        double sysParam2 = Double.parseDouble(sysParams[2].getParamValue());
+        double sysParam3 = Double.parseDouble(sysParams[3].getParamValue());
+        double sysParam4 = Double.parseDouble(sysParams[4].getParamValue());
+        double sysParam5 = Double.parseDouble(sysParams[5].getParamValue());
+        double sysParam6 = Double.parseDouble(sysParams[6].getParamValue());
+        double sysParam7 = Double.parseDouble(sysParams[7].getParamValue());
+        double rakeback = sysParam2 + sysParam6;
+        double promot = sysParam3 + sysParam5;
+        double other = sysParam4 + sysParam7;
+        boolean flag = true;
+        if (rakeback>100 || promot>100 || other>100){
+            flag = false;
+        }
+        if(!flag){
+            map.put("state", false);
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
+            return map;
+        }
         List<SysParam> sysParamList = new ArrayList<>();
-        SysParam[] sysParams = rebateSetVo.getSysParam();
         SysParam[] sysParamLimit = rebateSetVo.getSysParamLimit();
         for (SysParam sysParam : sysParams) {
             sysParamList.add(sysParam);
