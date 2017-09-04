@@ -17,7 +17,7 @@
         </thead>
         <tbody>
         <c:forEach items="${command.result}" var="p" varStatus="status">
-            <tr>
+            <tr class="tab-detail">
                 <%--<td><label><input type="checkbox" class="i-checks" value="${p.id}"></label></td>--%>
                 <td><a href="/rebateSet/view.html?id=${p.id}" nav-target="mainFrame" class="co-blue">${p.name}</a></td>
                 <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
@@ -33,15 +33,15 @@
 
                 </td>
                     <td>
-                        ${p.ownerId == null || p.ownerId == siteMasterId ?views.setting['myAccount.type.2']:views.setting['myAccount.type.dl'].concat("-").concat(p.ownerName)}
+                        ${p.ownerId == null || p.ownerId == 0 ?views.setting['myAccount.type.2']:views.setting['myAccount.type.dl'].concat("-").concat(p.ownerName)}
                     </td>
                 <td>
-                    <c:if test="${p.ownerId == null || p.ownerId == siteMasterId}">
+                    <c:if test="${p.ownerId == null || p.ownerId == 0}">
                         <a href="/rebateSet/edit.html?id=${p.id}" nav-target="mainFrame">${views.common['edit']}</a>
                         <span class="dividing-line m-r-xs m-l-xs">|</span>
                     </c:if>
 
-                    <c:if test="${(p.userAgentNum==0&&p.id!=0)&&(p.ownerId == null || p.ownerId == siteMasterId)}">
+                    <c:if test="${(p.userAgentNum==0&&p.id!=0)&&(p.ownerId == null || p.ownerId == 0)}">
                         <soul:button target="${root}/rebateSet/${p.id}/deleterebate.html" text="${views.common['delete']}" opType="ajax" dataType="json" confirm="${views.common['confirm.deletescheme']}" callback="query" />
                         <span class="dividing-line m-r-xs m-l-xs">|</span>
                     </c:if>

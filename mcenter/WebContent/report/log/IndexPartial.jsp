@@ -49,7 +49,7 @@
                     <c:set var="url" value="/player/playerView.html?search.id=${cmd.operatorId}" />
                 </c:when>
             </c:choose>
-        <tr>
+        <tr class="tab-detail">
             <td>${vs.count + ((command.paging.pageNumber - 1) * command.paging.pageSize)}</td>
             <td>
                 <c:choose>
