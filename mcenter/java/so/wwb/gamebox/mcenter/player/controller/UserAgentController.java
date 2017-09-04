@@ -1152,6 +1152,11 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         model.addAttribute("command", userAgentVo);
         return EDIT_TOP_AGENT;
     }
+    @RequestMapping("/editSubAgent")
+    @Token(generate = true)
+    public String editSubAgent(UserAgentVo userAgentVo,Model model){
+        return editAgent(userAgentVo,model);
+    }
 
     @RequestMapping("/editAgent")
     @Token(generate = true)
