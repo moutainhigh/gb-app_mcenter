@@ -66,9 +66,9 @@ public class CreditRecordController extends NoMappingCrudController<ICreditRecor
 
     private List<Pair> initStatus() {
         List<Pair> Status = new ArrayList<>();
-        Status.add(new Pair("1", LocaleTool.tranDict(DictEnum.CREDIT_STATUS,"1")));
-        Status.add(new Pair("2", LocaleTool.tranDict(DictEnum.CREDIT_STATUS,"2")));
-        Status.add(new Pair("3", LocaleTool.tranDict(DictEnum.CREDIT_STATUS,"3")));
+        Status.add(new Pair("1", LocaleTool.tranDict(DictEnum.CREDIT_STATUS,"pending")));
+        Status.add(new Pair("2", LocaleTool.tranDict(DictEnum.CREDIT_STATUS,"success")));
+        Status.add(new Pair("3", LocaleTool.tranDict(DictEnum.CREDIT_STATUS,"failure")));
         return Status;
     }
     //endregion your codes 3

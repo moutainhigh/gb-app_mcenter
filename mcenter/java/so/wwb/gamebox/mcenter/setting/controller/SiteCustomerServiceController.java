@@ -323,6 +323,12 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         return map;
     }
 
+    /**
+     * APP下载域名设置
+     * @param sysParamVo
+     * @param model
+     * @return
+     */
     @RequestMapping("/appDomain")
     @ResponseBody
     public Map updateAppDomainService(SysParamVo sysParamVo,Model model){
@@ -335,6 +341,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
             sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
         }else{
+            sysParamVo.getResult().setRemark("APP下载域名设置");
             sysParamVo.getResult().setModule(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getModule().getCode());
             sysParamVo.getResult().setParamType(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getType());
             sysParamVo.getResult().setParamCode(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getCode());
@@ -343,6 +350,42 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
 
         ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
+        if(sysParamVo.isSuccess()){
+            map.put("msg",LocaleTool.tranMessage("setting_auto","成功"));
+            map.put("state",true);
+        }else {
+            map.put("msg",LocaleTool.tranMessage("setting_auto","失败"));
+            map.put("state",false);
+        }
+        return map;
+    }
+    /**
+     * APP下载域名设置
+     * @param sysParamVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/accessDomain")
+    @ResponseBody
+    public Map settingAccessDomain(SysParamVo sysParamVo,Model model){
+
+        Map map=new HashedMap();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
+
+        if(sysParam!=null){
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+        }else{
+            sysParamVo.getResult().setRemark("访问域名设置");
+            sysParamVo.getResult().setModule(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN.getModule().getCode());
+            sysParamVo.getResult().setParamType(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN.getType());
+            sysParamVo.getResult().setParamCode(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN.getCode());
+            sysParamVo.getResult().setActive(true);
+            sysParamVo = ServiceTool.getSysParamService().insert(sysParamVo);
+        }
+
+        ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
         if(sysParamVo.isSuccess()){
             map.put("msg",LocaleTool.tranMessage("setting_auto","成功"));
             map.put("state",true);

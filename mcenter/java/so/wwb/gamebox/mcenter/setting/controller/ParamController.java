@@ -453,6 +453,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         sysDomainListVo = ServiceTool.sysDomainService().updateAppDomain(sysDomainListVo);
         List<SysDomain> result = sysDomainListVo.getResult();
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
+        SysParam param = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
+        model.addAttribute("access_domain",param);
         model.addAttribute("select_domain",sysParam);
         model.addAttribute("appDomain",result);
         return "/setting/param/siteparameters/BasicSetting";

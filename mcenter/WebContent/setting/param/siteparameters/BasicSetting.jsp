@@ -381,7 +381,6 @@
     <div class="clearfix">
         <div id="appDownloadDomain" class="col-lg-6 site-switch">
             <h3>${views.setting_auto['APP下载域名设置']}</h3>
-            <input type="hidden" name="mobile.id" value="${mobileCustomerService.id}">
             <div class="content clearfix" style="padding-top: 10px">
                 <div class="clearfix m-b">
                     <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
@@ -397,6 +396,25 @@
                                  target="${root}/siteCustomerService/appDomain.html"
                                  precall="validMobileCustomerService"
                                  post="getAppDomainFormData" callback="saveCallbak"/>
+                </div>
+            </div>
+        </div>
+        <div id="accessDomain" class="col-lg-6 site-switch">
+            <h3>${views.setting_auto['访问域名设置']}</h3>
+            <div class="content clearfix" style="padding-top: 10px">
+                <div class="clearfix m-b">
+                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                        ${views.setting_auto['访问域名']}
+                    </div>
+                    <div class="col-xs-5">
+                        <gb:select name="result.paramValue" value="${access_domain.paramValue}" list="${appDomain}" listKey="domain" listValue="domain"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
+                                 dataType="json"
+                                 target="${root}/siteCustomerService/accessDomain.html"
+                                 post="getAccessDomainFormData" callback="saveCallbak"/>
                 </div>
             </div>
         </div>
