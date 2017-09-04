@@ -1,6 +1,9 @@
 package so.wwb.gamebox.mcenter.lottery.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.soul.commons.collections.CollectionTool;
+import org.soul.commons.data.json.JsonTool;
+import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.web.controller.NoMappingCrudController;
@@ -22,6 +25,8 @@ import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryQuotaVo;
 import so.wwb.gamebox.web.cache.Cache;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -69,17 +74,83 @@ public class SiteLotteryQuotaController extends NoMappingCrudController {
 
     @RequestMapping(value = "/updateQuotas", method = RequestMethod.POST)
     @ResponseBody
-    public Map updateQuotas(SiteLotteryQuotaVo quotaVo, @FormModel @Valid SiteLotteryQuotaSearchForm form, BindingResult result) {
-        if (result.hasErrors()) {
+    public Map updateQuotas(SiteLotteryQuotaVo quotaVo) {
+        if (StringTool.isBlank(quotaVo.getLotteryQuotaJson())) {
+            return getVoMessage(quotaVo);
+        }
+        List<SiteLotteryQuota> lotteryQuotas = null;
+        try {
+            lotteryQuotas = JsonTool.fromJson(quotaVo.getLotteryQuotaJson(), new TypeReference<ArrayList<SiteLotteryQuota>>() {
+            });
+        } catch (Exception e) {
+            LOG.error("提交赔率格式有问题，转换出错！{0}", quotaVo.getLotteryQuotaJson());
             quotaVo.setSuccess(false);
             return getVoMessage(quotaVo);
         }
-
-        quotaVo.setProperties(SiteLotteryQuota.PROP_BET_QUOTA, SiteLotteryQuota.PROP_PLAY_QUOTA, SiteLotteryQuota.PROP_NUM_QUOTA);
-        quotaVo.setEntities(quotaVo.getQuotaList());
-        ServiceTool.siteLotteryQuotaService().batchUpdateOnly(quotaVo);
-        Cache.refreshSiteLotteryQuotas(SessionManager.getSiteId());
+        if (CollectionTool.isEmpty(lotteryQuotas)) {
+            return getVoMessage(quotaVo);
+        }
+        List<SiteLotteryQuota> updateQuotas = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
+        for (SiteLotteryQuota lotteryQuota : lotteryQuotas) {
+            if (lotteryQuota.getId() != null) {
+                updateQuotas.add(lotteryQuota);
+                ids.add(lotteryQuota.getId());
+            }
+        }
+        if (!checkOdd(ids, updateQuotas)) {
+            LOG.info("保存彩票限额值有误!");
+            quotaVo.setSuccess(false);
+            return getVoMessage(quotaVo);
+        }
+        quotaVo.setProperties(SiteLotteryQuota.PROP_BET_QUOTA,SiteLotteryQuota.PROP_NUM_QUOTA,SiteLotteryQuota.PROP_PLAY_QUOTA);
+        if (CollectionTool.isNotEmpty(updateQuotas)) {
+            quotaVo.setEntities(updateQuotas);
+            int count = ServiceTool.siteLotteryQuotaService().batchUpdateOnly(quotaVo);
+            LOG.info("保存站点彩票限额成功,更新条数{0},更新赔率值{1}", count, JsonTool.toJson(updateQuotas));
+            Cache.refreshSiteLotteryOdds(SessionManager.getSiteId());
+        }
         return getVoMessage(quotaVo);
+    }
+    private Map<Integer, SiteLotteryQuota> getSiteLotteryQuotaMap(List<Integer> ids) {
+        SiteLotteryQuotaListVo listVo = new SiteLotteryQuotaListVo();
+        listVo.getSearch().setIds(ids);
+        listVo.getSearch().setSiteId(SessionManager.getSiteId());
+        listVo.setPaging(null);
+        listVo = ServiceTool.siteLotteryQuotaService().search(listVo);
+        if (CollectionTool.isEmpty(listVo.getResult())) {
+            return null;
+        }
+        return CollectionTool.toEntityMap(listVo.getResult(), SiteLotteryQuota.PROP_ID, Integer.class);
+    }
+
+    private boolean checkOdd(List<Integer> ids, List<SiteLotteryQuota> updateQuotas) {
+        Map<Integer, SiteLotteryQuota> siteLotteryQuotaMap = getSiteLotteryQuotaMap(ids);
+        if (siteLotteryQuotaMap == null) {
+            return false;
+        }
+        SiteLotteryQuota lotteryQuota;
+        for (SiteLotteryQuota quota : updateQuotas) {
+            lotteryQuota = siteLotteryQuotaMap.get(quota.getId());
+            if (lotteryQuota.getBetQuota() == null) {
+                LOG.info("查询查询不到对应的站点单注限额,id{0},betQuota{1}", quota.getId(), quota.getBetQuota());
+                return false;
+            }
+            if (lotteryQuota.getNumQuota() == null) {
+                LOG.info("查询查询不到对应的站点单项限额,id{0},numQuota{1}", quota.getId(), quota.getNumQuota());
+                return false;
+            }
+            if (lotteryQuota.getPlayQuota() == null) {
+                LOG.info("查询查询不到对应的站点单类别单项限额,id{0},odd{1}", quota.getId(), quota.getPlayQuota());
+                return false;
+            }
+            if (quota.getBetQuota() < 0 || quota.getNumQuota() < 0 ||quota.getPlayQuota() < 0) {
+                LOG.info("设置限额不能小于0");
+                return false;
+            }
+
+        }
+        return true;
     }
     //endregion your codes 3
 
