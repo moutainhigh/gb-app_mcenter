@@ -361,6 +361,8 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
             model.addAttribute("rebateId",userAgentRebateList.get(0).getRebateId());
         }
         setAgentDomains(vo, model);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_WITHDRAW_TYPE_IS_BITCOIN);
+        model.addAttribute("bitcoin",sysParam.getParamValue());
         return getViewBasePath() + AGENT_DETAIL_URI;
     }
 
@@ -608,6 +610,8 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         listVo.getQuery().getPageOrderMap().put(UserBankcard.PROP_IS_DEFAULT, Direction.DESC.name());
         listVo.getQuery().getPageOrderMap().put(UserBankcard.PROP_CREATE_TIME, Direction.DESC.name());
         listVo = ServiceTool.userBankcardService().search(listVo);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_WITHDRAW_TYPE_IS_BITCOIN);
+        model.addAttribute("bitcoin",sysParam.getParamValue());
         model.addAttribute("command", listVo);
         return getViewBasePath() + AGENT_DETAIL_BANK_CARD_URI;
     }
