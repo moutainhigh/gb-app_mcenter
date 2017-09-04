@@ -41,9 +41,8 @@
                 <div id="editable_wrapper" ></div>
 
                 <div class="operate-btn">
-                    <soul:button cssClass="btn btn-filter btn-lg" text="${views.lottery_auto['确认修改']}" opType="ajax" dataType="json"
-                                 target="${root}/lottery/quotas/updateQuotas.html" precall="validateForm"
-                                 post="getCurrentFormData"/>
+                    <soul:button cssClass="btn btn-filter btn-lg" text="${views.lottery_auto['确认修改']}" opType="function"
+                                 target="saveSiteLotteryQuotas" />
                 </div>
             </div>
         </div>
