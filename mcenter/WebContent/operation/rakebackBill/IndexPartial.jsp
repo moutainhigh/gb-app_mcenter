@@ -32,7 +32,7 @@
         </thead>
         <tbody>
             <c:forEach items="${command.result}" var="i">
-                <tr>
+                <tr class="tab-detail">
                     <td>
                         ${i.settlementName}
                     </td>

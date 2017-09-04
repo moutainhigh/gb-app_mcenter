@@ -47,6 +47,7 @@ import so.wwb.gamebox.web.ServiceToolBase;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
+import so.wwb.gamebox.web.credit.CreditHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -93,6 +94,7 @@ public class CreditPayController {
         creditAccountVo.setCurrency(CurrencyEnum.CNY.getCode());
         model.addAttribute("accountMap", ServiceTool.creditAccountService().getBankAccount(creditAccountVo));
         model.addAttribute("validateRule", JsRuleCreator.create(CreditRecordForm.class));
+        model.addAttribute("useProfit", CreditHelper.getProfit(SessionManager.getSiteId(),SessionManager.getTimeZone()));
         return CREDIT_PAY_URI;
     }
 
@@ -265,10 +267,10 @@ public class CreditPayController {
             return false;
         }
         Double payAmount = NumberTool.toDouble(resultPayAmount);
-        if (creditAccount.getSingleDepositMin() != null && creditAccount.getSingleDepositMin() >= payAmount) {
+        if (creditAccount.getSingleDepositMin() != null && creditAccount.getSingleDepositMin() > payAmount) {
             return false;
         }
-        if (creditAccount.getSingleDepositMax() != null && creditAccount.getSingleDepositMax() <= payAmount) {
+        if (creditAccount.getSingleDepositMax() != null && creditAccount.getSingleDepositMax() < payAmount) {
             return false;
         }
         return true;

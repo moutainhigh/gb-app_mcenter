@@ -26,7 +26,7 @@
         </thead>
         <tbody>
         <c:forEach items="${command.result}" var="p" varStatus="status">
-            <tr>
+            <tr class="tab-detail">
                 <td>${p.rankCode}</td>
                 <td>
                     <a href="/vPlayerRankStatistics/view.html?id=${p.id}" nav-target="mainFrame">${p.rankName}</a>

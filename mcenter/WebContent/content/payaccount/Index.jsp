@@ -49,8 +49,8 @@
                                 <i class="fa fa-edit"></i><span class="hd">${views.content['公告']}</span>
                             </soul:button>
                             <c:if test="${command.search.type eq '1'}">
-                                <soul:button target="${root}/payAccount/rechargeUrl.html" text="" opType="dialog" title="充值中心" cssClass="btn btn-primary-hide pull-left m-r-sm"><i class="iconfont icon-xianshangzhifujilu"></i><span class="hd">充值中心</span></soul:button>
-                                <soul:button target="${root}/payAccount/acbSetting.html" title="上分设置" tag="button" opType="dialog" text="上分设置" cssClass="btn btn-primary-hide"><i class="iconfont icon-fanshuishezhi"></i><span class="hd">上分设置</span></soul:button>
+                                <soul:button target="${root}/payAccount/rechargeUrl.html" text="" opType="dialog" title="${views.content_auto['充值中心']}" cssClass="btn btn-primary-hide pull-left m-r-sm"><i class="iconfont icon-xianshangzhifujilu"></i><span class="hd">${views.content_auto['充值中心']}</span></soul:button>
+                                <soul:button target="${root}/payAccount/acbSetting.html" title="${views.content_auto['上分设置']}" tag="button" opType="dialog" text="${views.content_auto['上分设置']}" cssClass="btn btn-primary-hide"><i class="iconfont icon-fanshuishezhi"></i><span class="hd">${views.content_auto['上分设置']}</span></soul:button>
                             </c:if>
                             <div class="search-wrapper btn-group pull-right m-r-n-xs">
                                 <div class="input-group">
