@@ -341,6 +341,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
             sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
         }else{
+            sysParamVo.getResult().setRemark("APP下载域名设置");
             sysParamVo.getResult().setModule(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getModule().getCode());
             sysParamVo.getResult().setParamType(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getType());
             sysParamVo.getResult().setParamCode(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getCode());
@@ -376,6 +377,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
             sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
         }else{
+            sysParamVo.getResult().setRemark("访问域名设置");
             sysParamVo.getResult().setModule(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN.getModule().getCode());
             sysParamVo.getResult().setParamType(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN.getType());
             sysParamVo.getResult().setParamCode(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN.getCode());
