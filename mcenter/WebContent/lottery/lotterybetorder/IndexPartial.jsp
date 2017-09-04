@@ -50,7 +50,22 @@
                     <td>${p.betNum}</td>
                     <td>${p.betAmount}</td>
                     <c:set var="allBetAmount" value="${allBetAmount+p.betAmount}"></c:set>
-                    <td>${p.odd}</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${p.playCode eq 'keno_selection_five'}">
+                                中5@${p.odd} 中4@${p.odd2} 中3@${p.odd3}
+                            </c:when>
+                            <c:when test="${p.playCode eq 'keno_selection_four'}">
+                                中4@${p.odd} 中3@${p.odd2} 中2@${p.odd3}
+                            </c:when>
+                            <c:when test="${p.playCode eq 'keno_selection_three'}">
+                                中3@${p.odd} 中2@${p.odd2}
+                            </c:when>
+                            <c:otherwise>
+                                ${p.odd}
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                     <td>${p.payout}</td>
                     <c:set var="allPayout" value="${allPayout+p.payout}"></c:set>
                     <td>${soulFn:formatDateTz(p.betTime, DateFormat.DAY_SECOND,timeZone)}</td>
