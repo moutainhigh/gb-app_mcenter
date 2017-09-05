@@ -9,14 +9,19 @@
                     <thead>
 
                     <tr class="bg-gray">
-                        <th>龙虎类型</th>
+                        <th>号码</th>
+                        <th>龙</th>
+                        <th>虎</th>
+                        <th>号码</th>
                         <th>龙</th>
                         <th>虎</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${command}" var="i" varStatus="status">
-                        <tr>
+                        <c:if test="${status.index%2==0}">
+                            <tr>
+                        </c:if>
                             <th><span>龙${fn:substring(i.key,17,18)}虎${fn:substring(i.key,18,19)}</span></th>
                             <c:forEach items="${i.value}" var="p" >
                                 <td>
@@ -31,7 +36,9 @@
                                     </div>
                                 </td>
                             </c:forEach>
-                        </tr>
+                        <c:if test="${status.index%2==1}">
+                            </tr>
+                        </c:if>
                     </c:forEach>
                     </tbody>
                 </table>
