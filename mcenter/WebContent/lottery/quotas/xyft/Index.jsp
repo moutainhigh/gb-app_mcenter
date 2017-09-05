@@ -377,6 +377,30 @@
                             </div>
                         </td>
                     </tr>
+                    <tr>
+
+                        <td>冠亚军和半特</td>
+                        <input type="hidden" value="${command['champion_up_half'].id}" name="quotaList[15].id">
+                        <input type="hidden" value="${command['champion_up_half'].siteId}" name="quotaList[15].siteId">
+                        <input type="hidden" value="${command['champion_up_half'].code}" name="quotaList[15].code">
+                        <input type="hidden" value="${command['champion_up_half'].playCode}" name="quotaList[15].playCode">
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_half'].numQuota}" data-value="${command['champion_up_half'].numQuota}" name="quotaList[15].numQuota">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_half'].betQuota}"  data-value="${command['champion_up_half'].betQuota}" name="quotaList[15].betQuota">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_half'].playQuota}" data-value="${command['champion_up_half'].playQuota}" name="quotaList[15].playQuota">
+                            </div>
+                        </td>
+                    </tr>
 
                     </tbody>
                 </table>

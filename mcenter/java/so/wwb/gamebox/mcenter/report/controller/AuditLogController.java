@@ -53,20 +53,13 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
     protected String getViewBasePath() {
         return "/report/log/";
     }
-    private static List<Pair> keys;
-    static {
-        keys = new ArrayList<>();
-        keys.add(new Pair("search.operator", "角色账号"));
-        keys.add(new Pair("search.ip", "IP 地址"));
-
-    }
 
     @RequestMapping("/logList")
     protected String logList(SysAuditLogListVo listVo, Model model, HttpServletRequest request) {
         model.addAttribute("opType", DictTool.get(DictEnum.Log_OpType));//操作类型
         model.addAttribute("moduleTypes", DictTool.get(DictEnum.Log_Type));
         model.addAttribute("now", SessionManager.getDate().getNow());
-        model.addAttribute("keys", keys);
+        model.addAttribute("keys", DictTool.get(DictEnum.Search_Keyword));
         model.addAttribute("hasReturn", request.getParameter("hasReturn"));
         String searchKey = request.getParameter("keys");
         if(StringTool.isNotBlank(searchKey)){
