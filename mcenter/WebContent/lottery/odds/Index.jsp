@@ -35,6 +35,7 @@
                         <a  href="javascript:void(0)" code="sfssc" class="label ssc-label">${dicts.lottery.lottery['sfssc']}</a>
                         <a  href="javascript:void(0)" code="wfssc" class="label ssc-label">${dicts.lottery.lottery['wfssc']}</a>
                         <a  href="javascript:void(0)" code="ffssc" class="label ssc-label">${dicts.lottery.lottery['ffssc']}</a>
+                        <a  href="javascript:void(0)" code="jspk10" class="label ssc-label">${dicts.lottery.lottery['jspk10']}</a>
                     </div>
                 </div>
                 <div id="lot_two_menu" >

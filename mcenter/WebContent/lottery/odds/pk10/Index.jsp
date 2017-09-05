@@ -23,7 +23,7 @@
             var page = $(this).attr("page");
             $("#lot_three_menu").hide();
             var siteId=$("#search_id").val();
-            $("#editable_wrapper").load(root+'/lottery/odds/xyft/'+betCode+'/Index.html?page='+page+"&siteId="+siteId);
+            $("#editable_wrapper").load(root+'/lottery/odds/${code}/'+betCode+'/Index.html?page='+page+"&siteId="+siteId);
         });
 
         if(!$(".lot_two_menu a").hasClass('active')){

@@ -22,6 +22,7 @@ import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.company.lottery.po.SiteLotteryQuota;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryQuotaListVo;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryQuotaVo;
+import so.wwb.gamebox.model.enums.lottery.LotteryEnum;
 import so.wwb.gamebox.web.cache.Cache;
 
 import javax.validation.Valid;
@@ -140,11 +141,11 @@ public class SiteLotteryQuotaController extends NoMappingCrudController {
                 LOG.info("查询查询不到对应的站点单项限额,id{0},numQuota{1}", quota.getId(), quota.getNumQuota());
                 return false;
             }
-            if (lotteryQuota.getPlayQuota() == null) {
+            if (lotteryQuota.getPlayQuota() == null&&!lotteryQuota.getCode().equals(LotteryEnum.HKLHC.getCode())) {
                 LOG.info("查询查询不到对应的站点单类别单项限额,id{0},odd{1}", quota.getId(), quota.getPlayQuota());
                 return false;
             }
-            if (quota.getBetQuota() < 0 || quota.getNumQuota() < 0 ||quota.getPlayQuota() < 0) {
+            if (quota.getBetQuota() < 0 || quota.getNumQuota() < 0 ||quota.getPlayQuota() < 0&&!lotteryQuota.getCode().equals(LotteryEnum.HKLHC.getCode())) {
                 LOG.info("设置限额不能小于0");
                 return false;
             }

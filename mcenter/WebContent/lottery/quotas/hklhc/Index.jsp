@@ -143,20 +143,20 @@
 
                     <tr>
                        
-                        <td>特码合数单双</td>
-                        <input type="hidden" value="${command['special_sum_single_double'].id}" name="quotaList[7].id">
-                        <input type="hidden" value="${command['special_sum_single_double'].siteId}" name="quotaList[7].siteId">
-                        <input type="hidden" value="${command['special_sum_single_double'].code}" name="quotaList[7].code">
-                        <input type="hidden" value="${command['special_sum_single_double'].playCode}" name="quotaList[7].playCode">
+                        <td>特码尾数</td>
+                        <input type="hidden" value="${command['special_mantissa'].id}" name="quotaList[7].id">
+                        <input type="hidden" value="${command['special_mantissa'].siteId}" name="quotaList[7].siteId">
+                        <input type="hidden" value="${command['special_mantissa'].code}" name="quotaList[7].code">
+                        <input type="hidden" value="${command['special_mantissa'].playCode}" name="quotaList[7].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['special_sum_single_double'].numQuota}" data-value="${command['special_sum_single_double'].numQuota}" name="quotaList[7].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['special_mantissa'].numQuota}" data-value="${command['special_mantissa'].numQuota}" name="quotaList[7].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['special_sum_single_double'].betQuota}" data-value="${command['special_sum_single_double'].betQuota}" name="quotaList[7].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['special_mantissa'].betQuota}" data-value="${command['special_mantissa'].betQuota}" name="quotaList[7].betQuota">
                             </div>
                         </td>
 

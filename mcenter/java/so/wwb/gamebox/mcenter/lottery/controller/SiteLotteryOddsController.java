@@ -19,6 +19,7 @@ import so.wwb.gamebox.model.company.lottery.po.LotteryOdd;
 import so.wwb.gamebox.model.company.lottery.po.SiteLotteryOdd;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryOddListVo;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryOddVo;
+import so.wwb.gamebox.model.enums.lottery.LotteryTypeEnum;
 import so.wwb.gamebox.web.cache.Cache;
 
 import java.util.ArrayList;
@@ -136,13 +137,15 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
 
     private String handleCode(@PathVariable String code) {
         if (code.contains("ssc")) {
-            code = "ssc";
+            code = LotteryTypeEnum.SSC.getCode();
         } else if (code.contains("k3")) {
-            code = "k3";
+            code = LotteryTypeEnum.K3.getCode();
         } else if (code.contains("cqxync") || code.contains("gdkl10")) {
-            code = "sfc";
+            code = LotteryTypeEnum.SFC.getCode();
         } else if (code.contains("fc3d") || code.contains("tcpl3")) {
-            code = "pl3";
+            code = LotteryTypeEnum.PL3.getCode();
+        }else if(code.contains("xyft")||code.contains("jspk10")){
+            code=LotteryTypeEnum.PK10.getCode();
         }
         return code;
     }
