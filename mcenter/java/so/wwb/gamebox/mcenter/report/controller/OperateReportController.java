@@ -59,7 +59,9 @@ public class OperateReportController extends BaseOperateController {
     @RequestMapping("/operateIndex")
     public String operateReport(OperatePlayerListVo listVo, Model model, @FormModel("search") @Valid OperateReportSearchForm form, BindingResult result) {
         if (result.hasErrors()) return null;
-
+        if(StringTool.isBlank(listVo.getRoleName())){
+            listVo.setRoleName("search.topagentName");
+        }
         model.addAttribute("validateRule", JsRuleCreator.create(OperateReportSearchForm.class, "search"));
 
         // 取SubSysCode
@@ -254,6 +256,7 @@ public class OperateReportController extends BaseOperateController {
     private void operateSite(OperatePlayerListVo listVo, Model model) {
         listVo.getSearch().setMasterId(SessionManager.getMasterUserId());
         SiteOperateListVo command = ServiceTool.siteOperateService().queryOperateReport(listVo);
+        command.setRoleName(listVo.getRoleName());
         model.addAttribute("conditionJson", ExportCriteriaTool.criteriaToJson(command.getExportJsonCondition()));
         model.addAttribute("command", command);
     }
@@ -263,6 +266,7 @@ public class OperateReportController extends BaseOperateController {
      */
     private void operateTopAgent(OperatePlayerListVo listVo, Model model) {
         OperateTopagentListVo command = ServiceTool.operateTopagentService().queryOperateReport(listVo);
+        command.setRoleName(listVo.getRoleName());
         model.addAttribute("conditionJson", ExportCriteriaTool.criteriaToJson(command.getExportJsonCondition()));
         model.addAttribute("command", command);
     }
@@ -272,6 +276,7 @@ public class OperateReportController extends BaseOperateController {
      */
     private void operateAgent(OperatePlayerListVo listVo, Model model) {
         OperateAgentListVo command = ServiceTool.operateAgentService().queryOperateReport(listVo);
+        command.setRoleName(listVo.getRoleName());
         model.addAttribute("conditionJson", ExportCriteriaTool.criteriaToJson(command.getExportJsonCondition()));
         model.addAttribute("command", command);
     }

@@ -28,7 +28,7 @@
                 <div class="input-group">
                     <span class="input-group-addon abroder-no"><b>${views.report['operate.search.account']}</b></span>
                     <span class="bg-gray input-group-addon bdn" style="width: 70px;">
-                    <gb:select name="role" list="${command.roles}" listKey="key" listValue="value" value="search.agentName" callback="changeRole" prompt="" cssClass="chosen-select-no-single"/>
+                    <gb:select name="roleName" list="${command.roles}" listKey="key" listValue="value" value="${command.roleName}" callback="changeRole" prompt="" cssClass="chosen-select-no-single"/>
                     </span>
                     <input type="text" class="form-control list-search-input-text role" name="search.agentName" placeholder="${views.report['operate.search.account.hint']}">
                 </div>
