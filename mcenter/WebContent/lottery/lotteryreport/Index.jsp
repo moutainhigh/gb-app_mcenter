@@ -79,6 +79,12 @@
                     </div>
                     <soul:button target="query" text="" opType="function" cssClass="btn btn-filter pull-left search_btn btnleft"><i class="fa fa-search"></i>&nbsp;搜索</soul:button>
                 </div>
+                <div class="clearfix m-b bg-gray p-t-xs p-l-sm p-r-sm">
+                    <span class="co-orange fs36 line-hi25 pull-left m-r-sm">
+                        <i class="fa fa-exclamation-circle m-t-n-sm"></i>
+                    </span>
+                    <div class="line-hi25 pull-left m-b-sm">此报表只统计已开奖结算的订单，未开奖订单不做统计。</div>
+                </div>
     <div class="search-list-container">
                 <%@ include file="IndexPartial.jsp" %>
     </div>
