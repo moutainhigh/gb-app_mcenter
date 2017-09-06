@@ -40,12 +40,12 @@
                             </tr>
                         </c:if>
                     </c:forEach>
-                    <c:if test="${command['尾0'].id !=null}">
+                    <c:if test="${command['0尾'].id !=null}">
                     <c:forEach begin="0" end="9" var="i">
                         <c:if test="${i%5==0}">
                             <tr>
                         </c:if>
-                        <c:set var="num" value="尾${i.toString()}"/>
+                        <c:set var="num" value="${i.toString()}尾"/>
                         <th><span>${num}</span></th>
                         <td>
                             <div class="input-group content-width-limit-10">
