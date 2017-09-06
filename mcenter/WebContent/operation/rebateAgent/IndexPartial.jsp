@@ -46,7 +46,7 @@
                 <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                     <td style="text-align: left">
-                        ${p.parentNameArray}
+                        <a href="/rebateAgent/list.html?search.agentId=${p.agentId}" nav-target="mainFrame">${p.parentNameArray}</a>
                     </td>
                     <td>
                         <a href="/userAgent/agent/detail.html?search.id=${p.agentId}" nav-target="mainFrame">${p.agentName}</a>
