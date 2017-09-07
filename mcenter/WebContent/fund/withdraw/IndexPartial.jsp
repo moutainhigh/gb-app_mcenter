@@ -116,7 +116,7 @@
                             <c:if test="${p.withdrawStatus=='1'}">
                                 <c:choose>
                                     <c:when test="${p.isLock=='1'}">
-                                        <span data-content="${views.fund_auto['锁定人']}${p.lockPersonName}" data-placement="top" data-trigger="focus"
+                                        <span data-content="${views.fund_auto['锁定人']}${p.lockPersonName}" data-placement="left" data-trigger="focus"
                                               data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
                                             <c:if test="${command.thisUserId==p.lockPersonId}">
                                                 <soul:button target="cancelLockOrder" text="${views.fund_auto['取消锁定']}" opType="function" objId="${p.id}">
