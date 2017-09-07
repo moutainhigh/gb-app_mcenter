@@ -19,6 +19,7 @@ import so.wwb.gamebox.mcenter.content.form.CttAnnouncementSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
 import so.wwb.gamebox.model.master.content.enums.CttAnnouncementTypeEnum;
@@ -169,10 +170,10 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         boolean success;
         if (uuidCode.size() != 0) {
             success = getService().deleteByCodes(announcementVo) > 0;
-            msg = LocaleTool.tranMessage(_Module.COMMON, "delete.success");
+            msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS);
         } else {
             success = false;
-            msg = LocaleTool.tranMessage(_Module.COMMON, "delete.failed");
+            msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED);
         }
         HashMap map = new HashMap(2,1f);
         map.put("msg", msg);

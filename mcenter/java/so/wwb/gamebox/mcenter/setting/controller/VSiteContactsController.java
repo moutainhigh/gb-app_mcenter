@@ -19,6 +19,7 @@ import so.wwb.gamebox.mcenter.setting.form.VSiteContactsForm;
 import so.wwb.gamebox.mcenter.setting.form.VSiteContactsSearchForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.VSiteContacts;
 import so.wwb.gamebox.model.company.site.vo.*;
 import so.wwb.gamebox.web.common.token.Token;
@@ -130,7 +131,7 @@ public class VSiteContactsController extends BaseCrudController<IVSiteContactsSe
         vo.setIds(Arrays.asList(ids));
         vo = this.getService().batchDelete(vo);
         if(vo.isSuccess()){
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         }
         return this.getVoMessage(vo);
     }

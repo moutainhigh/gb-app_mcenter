@@ -293,9 +293,9 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
         boolean isSuccess = ServiceTool.noticeTmplService().deleteAllNotDefault(vo);
         vo.setSuccess(isSuccess);
         if(isSuccess) {
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else if(!isSuccess) {
-            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
 
         return this.getVoMessage(vo);

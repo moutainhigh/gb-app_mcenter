@@ -28,6 +28,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.RankStatusEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.master.content.enums.PayAccountStatusEnum;
 import so.wwb.gamebox.model.master.content.po.PayAccount;
 import so.wwb.gamebox.model.master.content.vo.PayAccountListVo;
@@ -148,14 +149,14 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
             boolean isSuccess = ServiceTool.playerRankService().deletePlayerRank(playerRankVo);
             playerRankVo.setSuccess(isSuccess);
             if (isSuccess) {
-                playerRankVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+                playerRankVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
             } else if (!isSuccess) {
                 playerRankVo.setErrMsg(LocaleTool.tranMessage(Module.PLAYER, "playerRank.exist.player"));
             }
         } catch (Exception e) {
             LOG.error(e);
             playerRankVo.setSuccess(false);
-            playerRankVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            playerRankVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
         return this.getVoMessage(playerRankVo);
     }

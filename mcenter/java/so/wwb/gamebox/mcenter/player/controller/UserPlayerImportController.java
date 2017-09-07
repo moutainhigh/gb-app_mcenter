@@ -19,6 +19,7 @@ import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.player.form.UserPlayerImportForm;
 import so.wwb.gamebox.mcenter.player.form.UserPlayerImportSearchForm;
 import so.wwb.gamebox.mcenter.setting.support.UserPlayerImportSupport;
+import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.master.player.po.UserPlayerImport;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerImportListVo;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerImportVo;
@@ -76,11 +77,11 @@ public class UserPlayerImportController extends BaseCrudController<IUserPlayerIm
             MultipartFile file = mulRequest.getFile("fileName");
             if(file == null){
 
-                throw new RuntimeException(LocaleTool.tranMessage("setting","sysParam.playerImport.emptyFile"));
+                throw new RuntimeException(LocaleTool.tranMessage(Module.COMPANY_SETTING,"sysParam.playerImport.emptyFile"));
             }
             stream = file.getInputStream();
             if(StringTool.isBlank(file.getOriginalFilename())){
-                throw new RuntimeException(LocaleTool.tranMessage("setting","sysParam.playerImport.emptyFileName"));
+                throw new RuntimeException(LocaleTool.tranMessage(Module.COMPANY_SETTING,"sysParam.playerImport.emptyFileName"));
             }
             UserPlayerImportSupport importSupport = new UserPlayerImportSupport();
             importSupport.setFileName(file.getOriginalFilename());
@@ -90,7 +91,7 @@ public class UserPlayerImportController extends BaseCrudController<IUserPlayerIm
                 msg = importSupport.importExcel(stream);
             }else{
                 result.put("state",false);
-                result.put("msg",LocaleTool.tranMessage("setting","sysParam.playerImport.errorFileSuffix"));
+                result.put("msg",LocaleTool.tranMessage(Module.COMPANY_SETTING,"sysParam.playerImport.errorFileSuffix"));
             }
             if(importSupport.getErrorMap()!=null&&!importSupport.getErrorMap().isEmpty()){
                 result.put("state",false);
@@ -98,7 +99,7 @@ public class UserPlayerImportController extends BaseCrudController<IUserPlayerIm
             }else if(importSupport.getErrorList()!=null&&importSupport.getErrorList().size()>0){
                 model.addAttribute("errorList",importSupport.getErrorList());
                 result.put("state",false);
-                result.put("msg",LocaleTool.tranMessage("setting","sysParam.playerImport.errorPlayerData"));
+                result.put("msg",LocaleTool.tranMessage(Module.COMPANY_SETTING,"sysParam.playerImport.errorPlayerData"));
             }else{
                 if(StringTool.isNotBlank(msg)){
                     result.put("state",false);
@@ -108,7 +109,7 @@ public class UserPlayerImportController extends BaseCrudController<IUserPlayerIm
 
         }catch (Exception ex){
             result.put("state",false);
-            result.put("msg",LocaleTool.tranMessage("setting","sysParam.playerImport.importFileError")+","+ex.getMessage());
+            result.put("msg",LocaleTool.tranMessage(Module.COMPANY_SETTING,"sysParam.playerImport.importFileError")+","+ex.getMessage());
             LOG.error(ex,"导入文件出错");
         }finally {
             try{

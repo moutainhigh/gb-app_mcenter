@@ -140,10 +140,10 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         setVo.setId(id);
         try {
             ServiceTool.rebateSetService().deleteRebateSet(setVo);
-            setVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            setVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } catch (Exception e) {
             setVo.setSuccess(false);
-            setVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            setVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
             LOG.error(e);
         }
         return this.getVoMessage(setVo);
@@ -329,27 +329,27 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     private Map checkData(SysParam[] sysParams, String rebatePeriodParamValue) {
         Map<String, Object> map = new HashMap<>(2,1f);
         if (StringTool.isBlank(rebatePeriodParamValue)) {
-            map.put("msg", LocaleTool.tranMessage("setting", "rakebackSetting.SettleAccountsCycleSetting.notBlank"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "rakebackSetting.SettleAccountsCycleSetting.notBlank"));
             map.put("state", false);
             return map;
         } else if (!rebatePeriodParamValue.equals("0") && !rebatePeriodParamValue.equals("1")
                 && !rebatePeriodParamValue.equals("2") && !rebatePeriodParamValue.equals("3") && !rebatePeriodParamValue.equals("4")) {
-            map.put("msg", LocaleTool.tranMessage("setting", "rakebackSetting.SettleAccountsCycleSetting.worngSubmit"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "rakebackSetting.SettleAccountsCycleSetting.worngSubmit"));
             map.put("state", false);
             return map;
         }
         if (StringTool.isBlank(sysParams[1].getParamValue())) {
-            map.put("msg", LocaleTool.tranMessage("setting", "rebate.setting.minNotNull"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "rebate.setting.minNotNull"));
             map.put("state", false);
             return map;
         }
         if (StringTool.isBlank(sysParams[2].getParamValue())) {
-            map.put("msg", LocaleTool.tranMessage("setting", "rebate.setting.maxNotNull"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "rebate.setting.maxNotNull"));
             map.put("state", false);
             return map;
         }
         if (Long.valueOf(sysParams[2].getParamValue()).compareTo(Long.valueOf(sysParams[1].getParamValue())) <= 0) {
-            map.put("msg", LocaleTool.tranMessage("setting", "rebate.setting.minPassMax"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "rebate.setting.minPassMax"));
             map.put("state", false);
             return map;
         }

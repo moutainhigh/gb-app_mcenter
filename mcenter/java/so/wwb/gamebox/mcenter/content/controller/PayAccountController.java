@@ -240,7 +240,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         Map<String, Object> map = MapTool.newHashMap();
         if (result.hasErrors()) {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("setting", "myAccount.updatePassword.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.failed"));
             return map;
         }
         SysParam pv11 = vo.getPv()[11];
@@ -270,9 +270,9 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         vo.setIds(Arrays.asList(ids));
         vo = this.getService().deleteAccount(vo);
         if (vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else if (!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
-            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
         return this.getVoMessage(vo);
     }
