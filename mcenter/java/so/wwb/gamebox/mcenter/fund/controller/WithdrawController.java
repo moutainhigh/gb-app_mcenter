@@ -63,6 +63,7 @@ import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.common.Const;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
@@ -1295,7 +1296,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             playerTransactionVo.setRemark(remark);
             playerTransactionVo = ServiceTool.getPlayerTransactionService().updatePlayerTransaction(playerTransactionVo);
             if (playerTransactionVo.isSuccess()) {
-                vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
+                vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
             } else {
                 vo.setSuccess(false);
                 vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.fail"));

@@ -1091,7 +1091,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         vo = this.getService().check(vo);
         //TODO 审核通过后系统需向代理发送“注册成功邮件”，
         if(vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
         } else if(!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
             vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.fail"));
         }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.mcenter.fund.form.DepositRemarkForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.NoticeParamEnum;
@@ -157,7 +158,7 @@ public class CheckDepositController extends BaseDepositController {
                 NoticeVo noticeVo = NoticeVo.manualNotify(vo.getGroupCode(), null, recharge.getPlayerId());
                 publishMessage(noticeVo, recharge);
             }
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
         } else {
             vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.fail"));
         }

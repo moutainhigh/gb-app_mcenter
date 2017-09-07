@@ -28,6 +28,7 @@ import so.wwb.gamebox.mcenter.content.form.*;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.enums.DomainCheckStatusEnum;
 import so.wwb.gamebox.model.company.enums.DomainPageUrlEnum;
 import so.wwb.gamebox.model.company.enums.DomainPlatformEnum;
@@ -259,9 +260,9 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     public Map delDomain(SysDomainVo sysDomainVo) {
         sysDomainVo._setDataSourceId(SessionManager.getSiteParentId());
         if (this.getService().delDomain(sysDomainVo)) {
-            sysDomainVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            sysDomainVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else {
-            sysDomainVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            sysDomainVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
         return getVoMessage(sysDomainVo);
     }
@@ -291,7 +292,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         domainSaveMsg(sysDomainVo);
         Map<String, Object> map = new HashMap<>(2,1f);
         if (sysDomainVo.isSuccess() && sysDomainVo.getResult().getResolveStatus().equals("5")) {
-            sysDomainVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
+            sysDomainVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
 
         } else if (!sysDomainVo.isSuccess() && StringTool.isBlank(sysDomainVo.getErrMsg())) {
             sysDomainVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.fail"));
@@ -788,7 +789,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
                     sysDomainVo.setOkMsg(LocaleTool.tranMessage("content", "sysdomain.success"));
                 }
             } else {
-                sysDomainVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
+                sysDomainVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
             }
         } else if (!sysDomainVo.isSuccess() && StringTool.isBlank(sysDomainVo.getErrMsg())) {
             sysDomainVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.fail"));

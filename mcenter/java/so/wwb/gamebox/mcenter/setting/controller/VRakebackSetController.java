@@ -23,6 +23,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.VRakebackSetForm;
 import so.wwb.gamebox.mcenter.setting.form.VRakebackSetSearchForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.company.enums.GameStatusEnum;
@@ -224,11 +225,11 @@ public class VRakebackSetController extends BaseCrudController<IVRakebackSetServ
     private Map checkData(String paramValue) {
         Map<String, Object> map = new HashMap<>(2,1f);
         if (StringTool.isBlank(paramValue)) {
-            map.put("msg", LocaleTool.tranMessage("setting", "rakebackSetting.SettleAccountsCycleSetting.notBlank"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "rakebackSetting.SettleAccountsCycleSetting.notBlank"));
             map.put("state", false);
             return map;
         } else if (!paramValue.equals("0") && !paramValue.equals("1") && !paramValue.equals("2") && !paramValue.equals("3") && !paramValue.equals("4")) {
-            map.put("msg", LocaleTool.tranMessage("setting", "rakebackSetting.SettleAccountsCycleSetting.worngSubmit"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "rakebackSetting.SettleAccountsCycleSetting.worngSubmit"));
             map.put("state", false);
             return map;
         }

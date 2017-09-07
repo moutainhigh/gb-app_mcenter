@@ -33,6 +33,7 @@ import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ModuleType;
 import so.wwb.gamebox.model.common.Audit;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteConfineArea;
 import so.wwb.gamebox.model.company.site.vo.SiteConfineAreaListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteConfineAreaVo;
@@ -204,9 +205,9 @@ public class SiteConfineAreaController extends BaseCrudController<ISiteConfineAr
         vo.setPropertyValues(Arrays.asList(ids));
         this.getService().batchDelete(vo);
         if(vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else if(!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
-            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
         CacheBase.refreshSiteConfineArea();
         return this.getVoMessage(vo);
