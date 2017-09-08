@@ -28,7 +28,7 @@
                         <select class="btn-group chosen-select-no-single" name="search.apiId" data-placeholder="${views.common['pleaseSelect']}">
                             <option value="">${views.operation['SystemAnnouncement.gamemAnnouncement.allGames']}</option>
                             <c:forEach items="${apiMap}" var="s">
-                                <option value="${s.value.apiId}">${s.value.name}</option>
+                                <option value="${s.value.apiId}">${gbFn:getSiteApiName(s.value.apiId)}</option>
                             </c:forEach>
                         </select>
                     </div>

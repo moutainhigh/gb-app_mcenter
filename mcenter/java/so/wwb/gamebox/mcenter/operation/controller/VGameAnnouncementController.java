@@ -4,6 +4,7 @@ import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.commons.math.NumberTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.support._Module;
 import org.soul.model.msg.notice.vo.NoticeReceiveVo;
@@ -21,12 +22,15 @@ import so.wwb.gamebox.mcenter.operation.form.SystemAnnouncementSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.operator.po.SystemAnnouncement;
 import so.wwb.gamebox.model.company.operator.po.VSystemAnnouncement;
 import so.wwb.gamebox.model.company.operator.vo.SystemAnnouncementListVo;
 import so.wwb.gamebox.model.company.operator.vo.SystemAnnouncementVo;
 import so.wwb.gamebox.model.company.operator.vo.VSystemAnnouncementListVo;
+import so.wwb.gamebox.model.company.site.po.SiteApi;
+import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
 import so.wwb.gamebox.model.master.enums.AnnouncementTypeEnum;
 import so.wwb.gamebox.model.master.player.enums.PlayerAdvisoryEnum;
 import so.wwb.gamebox.model.master.player.po.PlayerAdvisory;
@@ -283,13 +287,22 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         listVo.getSearch().setLocal(SessionManager.getLocale().toString());
         listVo.getSearch().setAnnouncementType(AnnouncementTypeEnum.GAME.getCode());
         listVo.getSearch().setPublishTime(SessionManager.getUser().getCreateTime());
+        Map apiMap = new HashMap();
+        //纯彩票只保留龙头彩票游戏公告
+        if(ParamTool.isLotterySite()) {
+            String apiId = ApiProviderEnum.PL.getCode();
+            listVo.getSearch().setApiId(NumberTool.toInt(apiId));
+            SiteApi siteApi = new SiteApi();
+            siteApi.setApiId(NumberTool.toInt(apiId));
+            apiMap.put(apiId,siteApi);
+        } else {
+            apiMap = Cache.getSiteApiI18n();
+        }
         listVo = ServiceTool.vSystemAnnouncementService().searchMasterSystemNotice(listVo);
         for (VSystemAnnouncement vSystemAnnouncement : listVo.getResult()) {
             vSystemAnnouncement.setContent(StringTool.replaceHtml(vSystemAnnouncement.getContent()));
         }
         model.addAttribute("command", listVo);
-
-        Map apiMap = Cache.getSiteApiI18n();
         model.addAttribute("apiMap", apiMap);
         model.addAttribute("maxDate", new Date());
         //未读数量
