@@ -20,7 +20,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach begin="0" end="18" var="i">
+                    <c:forEach begin="0" end="27" var="i">
+                        <c:if test="${!empty  command[i.toString()]}">
                         <c:if test="${i%5==0}">
                             <tr>
                         </c:if>
@@ -38,6 +39,7 @@
                         </td>
                         <c:if test="${i%5==4}">
                             </tr>
+                        </c:if>
                         </c:if>
                     </c:forEach>
                     <c:if test="${command['0尾'].id !=null}">
