@@ -242,7 +242,13 @@
                     </c:choose>
                 </c:forEach>
                 <td>
-                    <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} value="${p.addSubAgent}" agentId="${p.id}">
+                    <shiro:hasPermission name="role:agent_canaddsubagent">
+                        <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} value="${p.addSubAgent}" agentId="${p.id}">
+                    </shiro:hasPermission>
+                    <shiro:lacksPermission name="role:agent_canaddsubagent">
+                        <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} disabled>
+                    </shiro:lacksPermission>
+
                 </td>
                 <td><span class="label ${color}">${dicts.player.user_status[p.playerStatus]}</span></td>
                 <td>
