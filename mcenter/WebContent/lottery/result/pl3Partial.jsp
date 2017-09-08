@@ -17,8 +17,6 @@
                 <th>开盘时间</th>
                 <th>封盘时间</th>
                 <th>开奖时间</th>
-                <th>采集时间</th>
-                <th>采集来源</th>
                 <th>第一球</th>
                 <th>第二球</th>
                 <th>第三球</th>
@@ -40,8 +38,6 @@
                     <td>${soulFn:formatDateTz(p.openingTime, DateFormat.DAY_SECOND,timeZone)}</td>
                     <td>${soulFn:formatDateTz(p.closeTime, DateFormat.DAY_SECOND,timeZone)}</td>
                     <td>${soulFn:formatDateTz(p.openTime, DateFormat.DAY_SECOND,timeZone)}</td>
-                    <td>${soulFn:formatDateTz(p.gatherTime, DateFormat.DAY_SECOND,timeZone)}</td>
-                    <td>${empty p.origin?'--':p.origin=='0'?'手动':'自动'}</td>
                     <c:if test="${not empty p.openCode}">
                         <c:forEach var="rs" items="${fn:split(p.openCode, ',')}" varStatus="vs">
                             <td><span ${p.code=='xklhc'?'num="'.concat(rs).concat('"'):''} class="cpq-num cpq-cqssc">${rs}</span></td>
