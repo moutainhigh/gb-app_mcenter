@@ -14,6 +14,7 @@ import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.player.po.*;
 import so.wwb.gamebox.model.master.player.vo.*;
@@ -120,7 +121,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
             }
         }catch (Exception ex){
             LOG.error(ex);
-            errorMap.put("errmsg", LocaleTool.tranMessage("setting", "sysParam.playerImport.importFileDataError"));
+            errorMap.put("errmsg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.importFileDataError"));
         }
     }
 
@@ -241,34 +242,34 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
         }*/
 
         if(StringTool.isBlank(transfer.getPlayerAccount())){
-            msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.emptyPlayerAccount");//"未填写玩家账号";
+            msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.emptyPlayerAccount");//"未填写玩家账号";
             setErrorMessage(row,msg,transfer.getPlayerAccount());
         }
 
         if(transfer.getAccountBalance()==null){
-            msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.emptyAccountBalance");//"未填写账号余额";
+            msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.emptyAccountBalance");//"未填写账号余额";
             setErrorMessage(row,msg,transfer.getPlayerAccount());
         }
         if(transfer.getAccountBalance()!=null&&transfer.getAccountBalance()!=0&& StringTool.isBlank(transfer.getRealName())){
-            msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.balanceAndEmptyRealName");
+            msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.balanceAndEmptyRealName");
             setErrorMessage(row,msg,transfer.getPlayerAccount());
         }
         if((StringTool.isBlank(transfer.getAgent())&&StringTool.isNotBlank(transfer.getTopagent()))||
                 StringTool.isBlank(transfer.getTopagent())&&StringTool.isNotBlank(transfer.getAgent())){
-            msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.agentNotCompleteness");
+            msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.agentNotCompleteness");
             setErrorMessage(row,msg,transfer.getPlayerAccount());
         }
 
         if(StringTool.isNotBlank(transfer.getTopagent())){
             if(!topagentMap.containsKey(transfer.getTopagent())){
-                msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.topAgentNotExist");
+                msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.topAgentNotExist");
                 setErrorMessage(row,msg,transfer.getPlayerAccount());
             }
 
         }
         if (StringTool.isNotBlank(transfer.getAgent())){
             if(!agentMap.containsKey(transfer.getAgent())){
-                msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.agentNotExist");//"该代理不存在";
+                msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.agentNotExist");//"该代理不存在";
                 setErrorMessage(row,msg,transfer.getPlayerAccount());
             }
 
@@ -280,24 +281,24 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
 
             if(topagent!=null&&agent!=null){
                 if(!agent.getParentId().equals(topagent.getId())){
-                    msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.topAgentAndAgentNoMatch");//"所属总代和代理不匹配";
+                    msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.topAgentAndAgentNoMatch");//"所属总代和代理不匹配";
                     setErrorMessage(row,msg,transfer.getPlayerAccount());
                 }
             }
         }
         if(StringTool.isBlank(transfer.getTopagent())&&StringTool.isBlank(transfer.getAgent())){
             if(defaultTopagent==null){
-                msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.systemNotDefaultTopAgent");//"系统中没有默认总代";
+                msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.systemNotDefaultTopAgent");//"系统中没有默认总代";
                 setErrorMessage(row,msg,transfer.getPlayerAccount());
             }
             if(defaultAgent == null){
-                msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.systemNotDefaultAgent");//"系统中没有默认代理";
+                msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.systemNotDefaultAgent");//"系统中没有默认代理";
                 setErrorMessage(row,msg,transfer.getPlayerAccount());
             }
 
             if(defaultTopagent!=null&&defaultAgent!=null){
                 if(defaultAgent.getParentId()!=defaultTopagent.getId()){
-                    msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.defaultTopAgentAndAgentNoMatch");//"默认总代和默认代理不匹配";
+                    msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.defaultTopAgentAndAgentNoMatch");//"默认总代和默认代理不匹配";
                     setErrorMessage(row,msg,transfer.getPlayerAccount());
                 }
             }
@@ -310,7 +311,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
 
 
         if(StringTool.isNotBlank(transfer.getPlayerAccount())&&playerMap.containsKey(transfer.getPlayerAccount())){
-            msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.playerAccountIsExist");//"该账号已存在";
+            msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.playerAccountIsExist");//"该账号已存在";
             setErrorMessage(row,msg,transfer.getPlayerAccount());
         }
 
@@ -373,7 +374,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
         }
         if(errColumn.length()>0){
             //errColumn = errColumn.substring(0,errColumn.length()-1);
-            errorMap.put("errmsg", LocaleTool.tranMessage("setting", "sysParam.playerImport.loseColumnError"));
+            errorMap.put("errmsg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.loseColumnError"));
             return false;
         }
         return true;
@@ -393,7 +394,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
 
         }catch (Exception ex) {
             LOG.error(ex);
-            errorMap.put("errmsg", LocaleTool.tranMessage("setting", "sysParam.playerImport.parseFileError"));
+            errorMap.put("errmsg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.parseFileError"));
         }
     }
 
@@ -412,10 +413,10 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
             if(rowObjectList!=null&&rowObjectList.size()>0){
                 save();
             }else{
-                msg = LocaleTool.tranMessage("setting","sysParam.playerImport.importEmptyFile");
+                msg = LocaleTool.tranMessage(Module.COMPANY_SETTING,"sysParam.playerImport.importEmptyFile");
             }
         }else{
-            msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.errorPlayerData");
+            msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.errorPlayerData");
         }
 
         return msg;
@@ -435,14 +436,14 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
                 if(rowObjectList!=null&&rowObjectList.size()>0){
                     save();
                 }else{
-                    msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.importEmptyFile");
+                    msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.importEmptyFile");
                 }
             }else{
-                msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.errorPlayerData");
+                msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.errorPlayerData");
             }
         }catch (Exception ex) {
             LOG.error(ex);
-            errorMap.put("errmsg", LocaleTool.tranMessage("setting", "sysParam.playerImport.parseFileError"));
+            errorMap.put("errmsg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.parseFileError"));
         }
         return msg;
     }
@@ -480,9 +481,9 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
         }
         if(errColumn.length()>0){
             //errColumn = errColumn.substring(0,errColumn.length()-1);
-            //String msg =  MessageFormat.format(LocaleTool.tranMessage("setting", "sysParam.playerImport.loseColumnError"), errColumn);
+            //String msg =  MessageFormat.format(LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.loseColumnError"), errColumn);
             //errorMap.put("errmsg",msg);
-            errorMap.put("errmsg", LocaleTool.tranMessage("setting", "sysParam.playerImport.loseColumnError"));
+            errorMap.put("errmsg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.loseColumnError"));
             return false;
         }
         return true;
@@ -521,7 +522,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
                     String fieldName = fieldList.get(col);
                     if(UserPlayerTransfer.PROP_PLAYER_ACCOUNT.equals(fieldName)){
                         if(accountList.contains(val)){
-                            String msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.accountExist",val);
+                            String msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.accountExist",val);
                             setErrorMessage(rowCount, msg, account);
                         }else{
                             accountList.add(val);
@@ -536,7 +537,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
                 }
                 if(errorColumn.length()>0){
                     errorColumn = errorColumn.substring(0,errorColumn.length()-1);
-                    String msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.errorDataFormat",errorColumn);
+                    String msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.errorDataFormat",errorColumn);
 
                     setErrorMessage(rowCount, msg, account);
                 }
@@ -545,7 +546,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
 
         }catch (Exception ex) {
             LOG.error(ex);
-            errorMap.put("errmsg", LocaleTool.tranMessage("setting", "sysParam.playerImport.parseFileError"));
+            errorMap.put("errmsg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.parseFileError"));
         }
 
     }
@@ -664,7 +665,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
                 String fieldName = fieldList.get(column);
                 if(UserPlayerTransfer.PROP_PLAYER_ACCOUNT.equals(fieldName)){
                     if(accountList.contains(val)){
-                        String msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.accountExist",val);
+                        String msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.accountExist",val);
                         setErrorMessage(row, msg, account);
                     }else{
                         accountList.add(val);
@@ -677,7 +678,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
                 }
                 if(errorColumn.length()>0){
                     errorColumn = errorColumn.substring(0,errorColumn.length()-1);
-                    String msg = LocaleTool.tranMessage("setting", "sysParam.playerImport.errorDataFormat",errorColumn);
+                    String msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.errorDataFormat",errorColumn);
 
                     setErrorMessage(row,msg,account);
                 }

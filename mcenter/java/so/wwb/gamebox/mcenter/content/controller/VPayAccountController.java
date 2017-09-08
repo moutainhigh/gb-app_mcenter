@@ -360,9 +360,9 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         }
         payRankListVo = getService().delPayRank(payRankListVo);
         if (payRankListVo.isSuccess()) {
-            payRankListVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            payRankListVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else if (!payRankListVo.isSuccess()) {
-            payRankListVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            payRankListVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
 
         return this.getVoMessage(payRankListVo);

@@ -1091,7 +1091,7 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         vo = this.getService().check(vo);
         //TODO 审核通过后系统需向代理发送“注册成功邮件”，
         if(vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
         } else if(!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
             vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.fail"));
         }
@@ -1343,6 +1343,26 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         }catch (Exception ex){
             LogFactory.getLog(this.getClass()).error(ex,"发布消息不成功");
         }
+    }
+
+    @RequestMapping(value = "/changeAddSubAgent")
+    @ResponseBody
+    public Map changeAddSubAgent(UserAgentVo userAgentVo){
+        Map res = new HashMap();
+        res.put("state",false);
+        if(userAgentVo.getResult()==null||userAgentVo.getResult().getId()==null||userAgentVo.getResult().getAddSubAgent()==null){
+            return res;
+        }
+        try{
+            userAgentVo.setProperties(UserAgent.PROP_ADD_SUB_AGENT);
+            userAgentVo = ServiceTool.userAgentService().updateOnly(userAgentVo);
+            res = getVoMessage(userAgentVo);
+        }catch (Exception ex){
+            LOG.error(ex,"开启关闭无限级代理出错");
+            res.put("state",false);
+        }
+
+        return res;
     }
 
     //endregion your codes 3

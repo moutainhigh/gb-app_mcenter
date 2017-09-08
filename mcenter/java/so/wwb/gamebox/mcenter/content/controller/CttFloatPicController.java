@@ -20,6 +20,7 @@ import so.wwb.gamebox.mcenter.content.form.CttFloatPicSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteCustomerService;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceListVo;
@@ -244,10 +245,10 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
             vo.setIds(Arrays.asList(ids));
             boolean success = getService().batchDeleteFloatPic(vo);
             if (success) {
-                map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+                map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
                 refreshFloatPicCache();
             } else {
-                map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+                map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
             }
             map.put("state", success);
         }

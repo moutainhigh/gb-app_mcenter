@@ -21,6 +21,7 @@
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
+            <th>无限级代理</th>
             <th class="inline">
                 <gb:select name="search.status" value="${command.search.status}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}" list="${status}" callback="query"/>
             </th>
@@ -240,6 +241,15 @@
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
+                <td>
+                    <shiro:hasPermission name="role:agent_canaddsubagent">
+                        <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} value="${p.addSubAgent}" agentId="${p.id}">
+                    </shiro:hasPermission>
+                    <shiro:lacksPermission name="role:agent_canaddsubagent">
+                        <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} disabled>
+                    </shiro:lacksPermission>
+
+                </td>
                 <td><span class="label ${color}">${dicts.player.user_status[p.playerStatus]}</span></td>
                 <td>
                     <c:if test="${!(p.playerStatus eq '4')}">

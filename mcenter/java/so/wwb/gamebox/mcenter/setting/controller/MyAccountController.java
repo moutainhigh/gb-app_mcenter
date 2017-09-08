@@ -25,6 +25,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.*;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.common.notice.enums.ContactWayStatus;
 import so.wwb.gamebox.model.common.notice.enums.ContactWayType;
 import so.wwb.gamebox.model.master.content.vo.UpdateUserInfoVo;
@@ -121,9 +122,9 @@ public class MyAccountController {
         }
         map.put("state", success);
         if (success) {
-            map.put("msg", LocaleTool.tranMessage("setting", "myAccount.updatePassword.success"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.success"));
         } else {
-            map.put("msg", LocaleTool.tranMessage("setting", "myAccount.updatePassword.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.failed"));
         }
         return map;
     }
@@ -180,7 +181,7 @@ public class MyAccountController {
         Map map = MapTool.newHashMap();
         if (result.hasErrors()) {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("setting", "myAccount.updatePassword.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.failed"));
             return map;
         }
         Integer userId = SessionManager.getUserId();
@@ -209,9 +210,9 @@ public class MyAccountController {
             SysUser sessionUser = SessionManager.getUser();
             sessionUser.setPassword(newPwd);
             SessionManager.setUser(sessionUser);
-            map.put("msg", LocaleTool.tranMessage("setting", "myAccount.updatePassword.success"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.success"));
         } else {
-            map.put("msg", LocaleTool.tranMessage("setting", "myAccount.updatePassword.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.failed"));
         }
         return map;
     }
@@ -293,10 +294,10 @@ public class MyAccountController {
             sessionUser.setSecpwdErrorTimes(sysUser.getSecpwdErrorTimes());
             sessionUser.setSecpwdFreezeEndTime(sysUser.getSecpwdFreezeEndTime());
             SessionManager.setUser(sessionUser);
-            map.put("msg", LocaleTool.tranMessage("setting", "myAccount.updatePassword.success"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.success"));
             SessionManager.clearPrivilegeStatus();
         } else {
-            map.put("msg", LocaleTool.tranMessage("setting", "myAccount.updatePassword.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.failed"));
         }
         return map;
     }
@@ -597,9 +598,9 @@ public class MyAccountController {
         }
         map.put("state", success);
         if (success) {
-            map.put("msg", LocaleTool.tranMessage("setting", "myAccount.updatePassword.success"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.success"));
         } else {
-            map.put("msg", LocaleTool.tranMessage("setting", "myAccount.updatePassword.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.failed"));
         }
         return map;
     }

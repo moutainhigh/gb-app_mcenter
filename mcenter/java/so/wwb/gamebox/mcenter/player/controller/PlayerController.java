@@ -82,6 +82,7 @@ import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.Const;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
@@ -685,6 +686,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //playerListVo.getSearch().setRemarkType(RemarkEnum.PLAYER_REMARK.getType());
         RemarkListVo remarkListVo = queryUserRemark(playerListVo);
         model.addAttribute("remarkListVo", remarkListVo);
+        model.addAttribute("isLotterySite",ParamTool.isLotterySite());
         return "/player/view.include/PlayerDetail";
     }
 
@@ -1034,9 +1036,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         Boolean flag = ServiceTool.userPlayerService().setSpecialFocus(userPlayerVo);
 
         if (flag) {
-            userPlayerVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
+            userPlayerVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
         } else {
-            userPlayerVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.failed"));
+            userPlayerVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_FAILED));
         }
         return this.getVoMessage(userPlayerVo);
     }
@@ -1503,9 +1505,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             boolean success = ServiceTool.playerAdvisoryService().delete(vo);
             vo.setSuccess(success);
             if (success == true) {
-                vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+                vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
             } else {
-                vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+                vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
             }
         }
         return this.getVoMessage(vo);
@@ -1694,9 +1696,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             //TODO lorne
         }
         if (vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
         } else if (!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
-            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_FAILED));
         }
         return this.getVoMessage(vo);
     }
@@ -1723,9 +1725,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //保存日志
         //TODO lorne
         if (vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
         } else if (!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
-            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_FAILED));
         }
         return this.getVoMessage(vo);
     }
@@ -1806,9 +1808,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //保存日志
         //TODO lorne
         if (vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
         } else if (!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
-            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_FAILED));
         }
         return this.getVoMessage(vo);
     }
