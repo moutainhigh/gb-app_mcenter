@@ -1345,6 +1345,26 @@ public class UserAgentController extends BaseCrudController<IUserAgentService, U
         }
     }
 
+    @RequestMapping(value = "/changeAddSubAgent")
+    @ResponseBody
+    public Map changeAddSubAgent(UserAgentVo userAgentVo){
+        Map res = new HashMap();
+        res.put("state",false);
+        if(userAgentVo.getResult()==null||userAgentVo.getResult().getId()==null||userAgentVo.getResult().getAddSubAgent()==null){
+            return res;
+        }
+        try{
+            userAgentVo.setProperties(UserAgent.PROP_ADD_SUB_AGENT);
+            userAgentVo = ServiceTool.userAgentService().updateOnly(userAgentVo);
+            res = getVoMessage(userAgentVo);
+        }catch (Exception ex){
+            LOG.error(ex,"开启关闭无限级代理出错");
+            res.put("state",false);
+        }
+
+        return res;
+    }
+
     //endregion your codes 3
 
 }
