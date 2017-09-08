@@ -685,6 +685,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //playerListVo.getSearch().setRemarkType(RemarkEnum.PLAYER_REMARK.getType());
         RemarkListVo remarkListVo = queryUserRemark(playerListVo);
         model.addAttribute("remarkListVo", remarkListVo);
+        model.addAttribute("isLotterySite",ParamTool.isLotterySite());
         return "/player/view.include/PlayerDetail";
     }
 
