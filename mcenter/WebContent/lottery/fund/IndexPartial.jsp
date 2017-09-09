@@ -11,16 +11,16 @@
             <c:set var="poType" value="<%= LotteryTransaction.class %>"></c:set>
             <thead>
             <tr role="row" class="bg-gray">
-                <th style="width: 80px;">${views.lottery_auto['序号']}</th>
-                <th style="width: 80px;">${views.fund['玩家账号']}</th>
-                <th style="width: 120px">
+                <th style="width: 10%;">${views.lottery_auto['序号']}</th>
+                <th style="width: 15%;">${views.fund['玩家账号']}</th>
+                <th style="width: 15%;">${views.lottery_auto['金额']}</th>
+                <th style="width: 15%;">${views.lottery_auto['余额']}</th>
+                <th style="width: 15%;">${views.lottery_auto['时间']}</th>
+                <th style="width: 15%;">${views.lottery_auto['备注']}</th>
+                <th style="width: 15%;">
                     <gb:select name="search.transactionType" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
                                list="${transactionTypes}" value="${command.search.transactionType}" callback="query"/>
                 </th>
-                <th>${views.lottery_auto['金额']}</th>
-                <th>${views.lottery_auto['余额']}</th>
-                <th>${views.lottery_auto['备注']}</th>
-                <th>${views.lottery_auto['时间']}</th>
             </tr>
             </thead>
             <tbody>
@@ -35,7 +35,6 @@
                 <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                     <td>${p.username}</td>
-                    <td>${dicts.lottery.transaction_type[p.transactionType]}</td>
                     <c:choose>
                         <c:when test="${p.transactionType==1}">
                             <td>-${p.money}</td>
@@ -45,8 +44,9 @@
                         </c:otherwise>
                     </c:choose>
                     <td>${p.balance}</td>
-                    <td>${p.memo}</td>
                     <td>${soulFn:formatDateTz(p.transactionTime,DateFormat.DAY_SECOND, timeZone)}</td>
+                    <td>${p.memo}</td>
+                    <td>${dicts.lottery.transaction_type[p.transactionType]}</td>
                 </tr>
             </c:forEach>
             </tbody>
