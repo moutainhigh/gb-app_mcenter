@@ -451,13 +451,20 @@ public class HomeController {
             String day = DateTool.formatDate(date, SessionManager.getLocale(), SessionManager.getTimeZone(), LocaleDateTool.getFormat("MONTH_DAY"));
             map.put(day, null);
         }
-
+        boolean isLotterySite = ParamTool.isLotterySite();
         for (Chart chart : charts) {
             String key = getKey(chart);
 
             LinkedHashMap<String, Object> subMap;
             if (map.containsKey(key) && map.get(key) != null) {
                 subMap = map.get(key);
+            } else if (isLotterySite) {
+                subMap = new LinkedHashMap<>(1, 1f);
+                Chart c = new Chart();
+                c.setApiTypeId(ApiTypeEnum.LOTTERY.getCode());
+                c.setDate(key);
+                subMap.put(String.valueOf(ApiTypeEnum.LOTTERY.getCode()), c);
+                map.put(key, subMap);
             } else {
                 subMap = new LinkedHashMap<>(4, 1f);
                 // 填充空的子map
@@ -474,20 +481,35 @@ public class HomeController {
                 map.put(key, subMap);
             }
         }
-
-        // 填充空的key
-        for (String key : map.keySet()) {
-            if (map.get(key) == null) {
-                LinkedHashMap<String, Object> subMap = new LinkedHashMap<>(4, 1f);
-                for (String id : typeMap.keySet()) {
+        if(isLotterySite) {
+            // 填充空的key
+            for (String key : map.keySet()) {
+                if (map.get(key) == null) {
+                    LinkedHashMap<String, Object> subMap = new LinkedHashMap<>(1, 1f);
                     Chart c = new Chart();
-                    c.setApiTypeId(Integer.valueOf(id));
+                    c.setApiTypeId(ApiTypeEnum.LOTTERY.getCode());
                     c.setDate(key);
-                    subMap.put(id, c);
+                    subMap.put(String.valueOf(ApiTypeEnum.LOTTERY.getCode()), c);
+                    map.put(key, subMap);
                 }
-                map.put(key, subMap);
+            }
+        } else {
+            // 填充空的key
+            for (String key : map.keySet()) {
+                if (map.get(key) == null) {
+                    LinkedHashMap<String, Object> subMap = new LinkedHashMap<>(4, 1f);
+                    for (String id : typeMap.keySet()) {
+                        Chart c = new Chart();
+                        c.setApiTypeId(Integer.valueOf(id));
+                        c.setDate(key);
+                        subMap.put(id, c);
+                    }
+                    map.put(key, subMap);
+                }
             }
         }
+
+
 
         return map;
     }
@@ -540,6 +562,9 @@ public class HomeController {
         vo.getSearch().setStartTime(DateTool.addDays(today, -7));
         vo.getSearch().setEndTime(today);
         vo.getSearch().setSiteId(SessionManager.getSiteId());
+        if (ParamTool.isLotterySite()) {
+            vo.getSearch().setApiId(NumberTool.toInt(ApiProviderEnum.PL.getCode()));
+        }
         return vo;
     }
 
