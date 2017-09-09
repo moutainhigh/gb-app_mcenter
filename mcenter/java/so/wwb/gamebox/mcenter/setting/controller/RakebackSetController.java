@@ -24,6 +24,7 @@ import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ModuleType;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.company.enums.GameStatusEnum;
+import so.wwb.gamebox.model.company.platform.vo.VContractSchemeVo;
 import so.wwb.gamebox.model.company.setting.po.Api;
 import so.wwb.gamebox.model.company.site.po.SiteApi;
 import so.wwb.gamebox.model.company.site.po.VGameType;
@@ -137,7 +138,19 @@ public class RakebackSetController extends BaseCrudController<IRakebackSetServic
         vGameTypeListVo.getQuery().setCriterions(new Criterion[]{new Criterion(VGameType.PROP_SITE_ID, Operator.EQ, SessionManager.getSiteId())});
         vGameTypeListVo.setProperties(VGameType.PROP_GAME_TYPE, VGameType.PROP_API_ID);
         List<Map<String, Object>> someGames = ServiceTool.vGameTypeService().searchProperties(vGameTypeListVo);
-        if (CollectionTool.isNotEmpty(someGames)) {
+        VContractSchemeVo schemeVo = new VContractSchemeVo();
+        List<Api> apis = ServiceTool.vContractSchemeService().queryApiWithSiteI18nList(schemeVo);
+        if(CollectionTool.isNotEmpty(apis)){
+            Map<String, SiteApi> siteApiMap = Cache.getSiteApi();
+            String disable = GameStatusEnum.DISABLE.getCode();
+            for(Api api :apis){
+                SiteApi siteApi = siteApiMap.get(api.getId().toString());
+                if (api == null || siteApi == null || disable.equals(api.getSystemStatus()) || disable.equals(siteApi.getSystemStatus())) {
+                    apis.remove(api);
+                }
+            }
+        }
+        /*if (CollectionTool.isNotEmpty(someGames)) {
             Map<String, Api> apiMap = Cache.getApi();
             Map<String, SiteApi> siteApiMap = Cache.getSiteApi();
             String disable = GameStatusEnum.DISABLE.getCode();
@@ -150,8 +163,9 @@ public class RakebackSetController extends BaseCrudController<IRakebackSetServic
                     it.remove(); //移除该对象
                 }
             }
-        }
+        }*/
         objectVo.setSomeGames(someGames);
+        objectVo.setApisList(apis);
         return objectVo;
     }
     //endregion your codes 3
