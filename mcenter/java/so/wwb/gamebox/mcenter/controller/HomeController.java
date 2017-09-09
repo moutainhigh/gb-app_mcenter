@@ -12,6 +12,7 @@ import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.math.NumberTool;
 import org.soul.commons.support._Module;
 import org.soul.commons.tree.TreeNode;
 import org.soul.iservice.security.privilege.ISysResourceService;
@@ -27,11 +28,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.WeekTool;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.setting.po.ApiType;
 import so.wwb.gamebox.model.company.setting.po.ApiTypeI18n;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
+import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
 import so.wwb.gamebox.model.master.player.vo.PlayerTransactionVo;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerVo;
 import so.wwb.gamebox.model.master.player.vo.VPlayerOnlineListVo;
@@ -366,6 +369,9 @@ public class HomeController {
         GameSurveyVo vo = new GameSurveyVo();
         vo.getSearch().setStaticTime(date);
         vo.getSearch().setSiteId(SessionManager.getSiteId());
+        if(ParamTool.isLotterySite()) {
+            vo.getSearch().setApiId(NumberTool.toInt(ApiProviderEnum.PL.getCode()));
+        }
         return gameSurveyService().queryGameData(vo);
     }
 
