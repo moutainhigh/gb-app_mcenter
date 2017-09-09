@@ -137,26 +137,30 @@
                             ${soulFn:formatInteger(command.result.totalAssets)}${soulFn:formatDecimals(command.result.totalAssets)}
                             </span>
                         </div>
-                        <span class="" style="padding-left: 10px">${views.player_auto['钱包余额']}</span>
-                        <div class="content">
+                        <c:if test="${!isLotterySite}">
+                            <span class="" style="padding-left: 10px">${views.player_auto['钱包余额']}</span>
+                            <div class="content">
                             <span class=" fs20 co-orange">
-                            ${dicts.common.currency_symbol[command.result.defaultCurrency]}
+                                    ${dicts.common.currency_symbol[command.result.defaultCurrency]}
                             </span>
                             <span class=" fs20 co-orange" id="wallet-balance">
-                                ${soulFn:formatInteger(command.result.walletBalance)}${soulFn:formatDecimals(command.result.walletBalance)}
+                                    ${soulFn:formatInteger(command.result.walletBalance)}${soulFn:formatDecimals(command.result.walletBalance)}
                             </span>
-                            <shiro:hasPermission name="fund:artificial">
+                        </c:if>
+                        <shiro:hasPermission name="fund:artificial">
                             <a href="/fund/manual/index.html?hasReturn=true&fromPlayerDetail=true&playerId=${command.result.id}&username=${command.result.username}" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['人工存入']}</a>
                             <a href="/fund/manual/index.html?hasReturn=true&fromPlayerDetail=true&playerId=${command.result.id}&type=withdraw&username=${command.result.username}" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['人工取出']}</a>
-                            </shiro:hasPermission>
+                        </shiro:hasPermission>
+                        <c:if test="${!isLotterySite}">
                             <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.usernames=${command.result.username}&search.userTypes=username" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['查看资金记录']}</a>
                             <a href="/report/fundsTrans/apiTrans.html?search.username=${command.result.username}&searchKey=search.username&search.type=playerDetail" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['查看转账记录']}</a>
                             <soul:button target="showApiData" text="${views.player_auto['查看游戏账户']}" opType="function" fromShowBtn="true" cssClass="btn btn-link co-blue show-api-data-btn"></soul:button>
                             <soul:button target="hideApiData" text="${views.player_auto['返回']}" opType="function" fromShowBtn="true" cssClass="btn btn-link co-blue hide hide-data-btn"></soul:button>
-                        </div>
-                        <div id="api_data" class="dataTables_wrapper hide" role="grid">
+                            </div>
+                            <div id="api_data" class="dataTables_wrapper hide" role="grid">
 
-                        </div>
+                            </div>
+                        </c:if>
                     </li>
                     <li class="detail-list-cow">
                         <span class="title">${views.player_auto['当前状态']}</span>

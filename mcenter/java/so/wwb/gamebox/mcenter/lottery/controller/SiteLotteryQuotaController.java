@@ -84,7 +84,7 @@ public class SiteLotteryQuotaController extends NoMappingCrudController {
             lotteryQuotas = JsonTool.fromJson(quotaVo.getLotteryQuotaJson(), new TypeReference<ArrayList<SiteLotteryQuota>>() {
             });
         } catch (Exception e) {
-            LOG.error("提交赔率格式有问题，转换出错！{0}", quotaVo.getLotteryQuotaJson());
+            LOG.error("提交限额格式有问题，转换出错！{0}", quotaVo.getLotteryQuotaJson());
             quotaVo.setSuccess(false);
             return getVoMessage(quotaVo);
         }
@@ -109,7 +109,7 @@ public class SiteLotteryQuotaController extends NoMappingCrudController {
             quotaVo.setEntities(updateQuotas);
             int count = ServiceTool.siteLotteryQuotaService().batchUpdateOnly(quotaVo);
             LOG.info("保存站点彩票限额成功,更新条数{0},更新赔率值{1}", count, JsonTool.toJson(updateQuotas));
-            Cache.refreshSiteLotteryOdds(SessionManager.getSiteId());
+            Cache.refreshSiteLotteryQuotas(SessionManager.getSiteId());
         }
         return getVoMessage(quotaVo);
     }
