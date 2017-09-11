@@ -65,8 +65,8 @@
                         </c:if>
                     </c:forEach>
                     </c:if>
-                    <c:if test="${command['大'].id !=null}">
-                        <tr>
+                    <tr>
+                        <c:if test="${command['大'].id !=null}">
                             <th>大</th>
                             <td>
                                 <div class="input-group content-width-limit-10">
@@ -78,6 +78,8 @@
                                     <input type="text" class="form-control input-sm" placeholder="<=${command['大'].oddLimit}" data-limit="${command['大'].oddLimit}" data-value="${command['大'].odd}" name="lotteryOdds[29].odd" value="${command['大'].odd}">
                                 </div>
                             </td>
+                        </c:if>
+                        <c:if test="${command['小'].id !=null}">
                             <th>小</th>
                             <td>
                                 <div class="input-group content-width-limit-10">
@@ -91,6 +93,8 @@
                                     </div>
                                 </div>
                             </td>
+                        </c:if>
+                        <c:if test="${command['单'].id !=null}">
                             <th>单</th>
                             <td>
                                 <div class="input-group content-width-limit-10">
@@ -102,6 +106,8 @@
                                     <input type="text" class="form-control input-sm" placeholder="<=${command['单'].oddLimit}" data-limit="${command['单'].oddLimit}" data-value="${command['单'].odd}" name="lotteryOdds[31].odd" value="${command['单'].odd}">
                                 </div>
                             </td>
+                        </c:if>
+                        <c:if test="${command['双'].id !=null}">
                             <th>双</th>
                             <td>
                                 <div class="input-group content-width-limit-10">
@@ -115,36 +121,62 @@
                                     </div>
                                 </div>
                             </td>
-                            <th>尾质</th>
-                            <td>
+                        </c:if>
+                    </tr>
+                    <tr>
+                        <th>尾质</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
                                 <div class="input-group content-width-limit-10">
-                                    <div class="input-group content-width-limit-10">
-                                        <input type="hidden" value="${command['尾质'].id}" name="lotteryOdds[33].id">
-                                        <input type="hidden" value="${command['尾质'].code}" name="lotteryOdds[33].code">
-                                        <input type="hidden" value="${command['尾质'].betCode}" name="lotteryOdds[33].betCode">
-                                        <input type="hidden" value="${command['尾质'].siteId}" name="lotteryOdds[33].siteId">
-                                        <input type="hidden" value="${command['尾质'].betNum}" name="lotteryOdds[33].betNum">
-                                        <input type="text" class="form-control input-sm" placeholder="<=${command['尾质'].oddLimit}" data-limit="${command['尾质'].oddLimit}" data-value="${command['尾质'].odd}" name="lotteryOdds[33].odd" value="${command['尾质'].odd}">
-                                    </div>
+                                    <input type="hidden" value="${command['尾质'].id}" name="lotteryOdds[33].id">
+                                    <input type="hidden" value="${command['尾质'].code}" name="lotteryOdds[33].code">
+                                    <input type="hidden" value="${command['尾质'].betCode}" name="lotteryOdds[33].betCode">
+                                    <input type="hidden" value="${command['尾质'].siteId}" name="lotteryOdds[33].siteId">
+                                    <input type="hidden" value="${command['尾质'].betNum}" name="lotteryOdds[33].betNum">
+                                    <input type="text" class="form-control input-sm" placeholder="<=${command['尾质'].oddLimit}" data-limit="${command['尾质'].oddLimit}" data-value="${command['尾质'].odd}" name="lotteryOdds[33].odd" value="${command['尾质'].odd}">
                                 </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>尾合</th>
-                            <td>
+                            </div>
+                        </td>
+                        <th>尾合</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
                                 <div class="input-group content-width-limit-10">
-                                    <div class="input-group content-width-limit-10">
-                                        <input type="hidden" value="${command['尾合'].id}" name="lotteryOdds[34].id">
-                                        <input type="hidden" value="${command['尾合'].code}" name="lotteryOdds[34].code">
-                                        <input type="hidden" value="${command['尾合'].betCode}" name="lotteryOdds[34].betCode">
-                                        <input type="hidden" value="${command['尾合'].siteId}" name="lotteryOdds[34].siteId">
-                                        <input type="hidden" value="${command['尾合'].betNum}" name="lotteryOdds[34].betNum">
-                                        <input type="text" class="form-control input-sm" placeholder="<=${command['尾合'].oddLimit}" data-limit="${command['尾合'].oddLimit}" data-value="${command['尾合'].odd}" name="lotteryOdds[34].odd" value="${command['尾合'].odd}">
-                                    </div>
+                                    <input type="hidden" value="${command['尾合'].id}" name="lotteryOdds[34].id">
+                                    <input type="hidden" value="${command['尾合'].code}" name="lotteryOdds[34].code">
+                                    <input type="hidden" value="${command['尾合'].betCode}" name="lotteryOdds[34].betCode">
+                                    <input type="hidden" value="${command['尾合'].siteId}" name="lotteryOdds[34].siteId">
+                                    <input type="hidden" value="${command['尾合'].betNum}" name="lotteryOdds[34].betNum">
+                                    <input type="text" class="form-control input-sm" placeholder="<=${command['尾合'].oddLimit}" data-limit="${command['尾合'].oddLimit}" data-value="${command['尾合'].odd}" name="lotteryOdds[34].odd" value="${command['尾合'].odd}">
                                 </div>
-                            </td>
-                        </tr>
-                    </c:if>
+                            </div>
+                        </td>
+                        <th>尾大</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <div class="input-group content-width-limit-10">
+                                    <input type="hidden" value="${command['尾大'].id}" name="lotteryOdds[35].id">
+                                    <input type="hidden" value="${command['尾大'].code}" name="lotteryOdds[35].code">
+                                    <input type="hidden" value="${command['尾大'].betCode}" name="lotteryOdds[35].betCode">
+                                    <input type="hidden" value="${command['尾大'].siteId}" name="lotteryOdds[35].siteId">
+                                    <input type="hidden" value="${command['尾大'].betNum}" name="lotteryOdds[35].betNum">
+                                    <input type="text" class="form-control input-sm" placeholder="<=${command['尾大'].oddLimit}" data-limit="${command['尾大'].oddLimit}" data-value="${command['尾大'].odd}" name="lotteryOdds[35].odd" value="${command['尾大'].odd}">
+                                </div>
+                            </div>
+                        </td>
+                        <th>尾小</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <div class="input-group content-width-limit-10">
+                                    <input type="hidden" value="${command['尾小'].id}" name="lotteryOdds[36].id">
+                                    <input type="hidden" value="${command['尾小'].code}" name="lotteryOdds[36].code">
+                                    <input type="hidden" value="${command['尾小'].betCode}" name="lotteryOdds[36].betCode">
+                                    <input type="hidden" value="${command['尾小'].siteId}" name="lotteryOdds[36].siteId">
+                                    <input type="hidden" value="${command['尾小'].betNum}" name="lotteryOdds[36].betNum">
+                                    <input type="text" class="form-control input-sm" placeholder="<=${command['尾小'].oddLimit}" data-limit="${command['尾小'].oddLimit}" data-value="${command['尾小'].odd}" name="lotteryOdds[36].odd" value="${command['尾小'].odd}">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
