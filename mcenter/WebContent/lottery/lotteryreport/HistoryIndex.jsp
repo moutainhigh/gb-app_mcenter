@@ -36,6 +36,7 @@
                             aria-expanded="false">
                         <span prompt="prompt" id="searchYearSpan">请选择</span>
                          <input id="searchYear" type="text" name="search.payout_year" style="display: none">
+                        <input  name="searchtype" value="1" style="display: none">
                         <span class="caret-a pull-right"></span>
                     </button>
                      <%--<gb:select name="search.rakebackMonth" list="${years}" value="${command.search.payout_year}"  prompt="-- 年 --" cssClass="btn-group chosen-select-no-single" />--%>
@@ -83,7 +84,7 @@
                             <span class=" input-group-addon bdn right-btn-down">
                             <div class="btn-group table-desc-right-t-dropdown" initprompt="10条" callback="query">
                     <button type="button" class="btn btn btn-default right-radius type-search-btn">
-                        <span prompt="prompt">请选择</span>
+                        <span prompt="prompt" class="tranTypeNum">请选择</span>
                         <span class="caret-a pull-right"></span>
                     </button>
 
@@ -102,7 +103,7 @@
                                              opType="function" tag="button"/>
                             </div>
                             <div class="m-t">
-                                <table class="table table-bordered m-b-xxs">
+                                <table class="table table-bordered m-b-xxs" id="checkTable">
 
                                     <tbody>
                                     <tr>

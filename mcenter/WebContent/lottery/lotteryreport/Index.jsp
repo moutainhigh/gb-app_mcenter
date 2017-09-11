@@ -38,7 +38,7 @@
                             <span class=" input-group-addon bdn right-btn-down">
                             <div class="btn-group table-desc-right-t-dropdown" initprompt="10条" callback="query">
                     <button type="button" class="btn btn btn-default right-radius type-search-btn">
-                        <span prompt="prompt">请选择</span>
+                        <span prompt="prompt" class="tranTypeNum">请选择</span>
                         <span class="caret-a pull-right"></span>
                     </button>
 
@@ -54,7 +54,7 @@
                             </div>
 
                             <div class="m-t">
-                                <table class="table table-bordered m-b-xxs">
+                                <table class="table table-bordered m-b-xxs" id="checkTable">
 
                                     <tbody><tr>
                                         <td class="bg-gray al-left" style="width: 80px;"><label><span class="m-l-xs"><b>高频彩</b></span></label></td>
