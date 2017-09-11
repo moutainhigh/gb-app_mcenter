@@ -483,6 +483,9 @@
                             <soul:button target="reset" opType="function" text="${views.player_auto['重置']}"
                                          cssClass="btn btn-filter reset-condition-button"/>
 
+                            <soul:button target="${root}/player/addNewPlayer.html" opType="dialog" text="${views.player_auto['新增玩家']}"
+                                         cssClass="btn btn-filter"/>
+
                             <%--<a href="/player/list.html?search.version=old" nav-target="mainFrame"--%>
                                <%--style="right: 21%;position: absolute;z-index: 888; padding-top: 10px;">${views.player_auto['切换到旧版本']}</a>--%>
 

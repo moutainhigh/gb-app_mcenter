@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
 
+import org.apache.ibatis.annotations.Insert;
 import org.soul.commons.bean.IEntity;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionQueryTool;
@@ -22,6 +23,7 @@ import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.IpTool;
 import org.soul.commons.net.ServletTool;
+import org.soul.commons.query.Criteria;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Order;
@@ -95,15 +97,13 @@ import so.wwb.gamebox.model.listop.FilterRow;
 import so.wwb.gamebox.model.listop.FilterSelectConstant;
 import so.wwb.gamebox.model.listop.FreezeType;
 import so.wwb.gamebox.model.listop.TabTypeEnum;
-import so.wwb.gamebox.model.master.enums.CommonStatusEnum;
-import so.wwb.gamebox.model.master.enums.PlayerStatusEnum;
-import so.wwb.gamebox.model.master.enums.RemarkEnum;
-import so.wwb.gamebox.model.master.enums.UserTaskEnum;
+import so.wwb.gamebox.model.master.enums.*;
 import so.wwb.gamebox.model.master.fund.po.PlayerWithdraw;
 import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawListVo;
 import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawVo;
 import so.wwb.gamebox.model.master.operation.po.PlayerAdvisoryRead;
 import so.wwb.gamebox.model.master.operation.vo.PlayerAdvisoryReadVo;
+import so.wwb.gamebox.model.master.operation.vo.RebateAgentListVo;
 import so.wwb.gamebox.model.master.player.enums.PlayerAdvisoryEnum;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
 import so.wwb.gamebox.model.master.player.enums.UserBankcardTypeEnum;
@@ -130,6 +130,7 @@ import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.xml.ws.RequestWrapper;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -1999,6 +2000,65 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     }
 
     /**
+     * 新增玩家
+     * Created by kobe on 17-9-10.
+     */
+    @RequestMapping("/addNewPlayer")
+    public String addNewPlayer(VUserPlayerVo objectVo, Model model){
+        /*List<Map<String, String>> ranks = ServiceTool.queryAgentRank(new RebateAgentListVo());
+        resMap.put("ranks",ranks);*/
+        ArrayList agentRanks = new ArrayList();
+        agentRanks.add(new Pair<>("1","一级代理"));
+        agentRanks.add(new Pair<>("2","二级代理"));
+        agentRanks.add(new Pair<>("3","三级代理"));
+        List playerRanks = ServiceTool.playerRankService().queryUsableRankList(new PlayerRankVo());
+        VUserPlayer vUserPlayer = new VUserPlayer();
+        vUserPlayer.setDefaultCurrency(SessionManager.getUser().getDefaultCurrency());
+        vUserPlayer.setDefaultLocale(SessionManager.getUser().getDefaultLocale());
+        vUserPlayer.setDefaultTimezone(SessionManager.getUser().getDefaultTimezone());
+        objectVo.setResult(vUserPlayer);
+        model.addAttribute("validateRule", JsRuleCreator.create(AddNewPlayerForm.class));
+        model.addAttribute("playerRanks", playerRanks);
+        model.addAttribute("agentRanks", agentRanks);
+        model.addAttribute("command", objectVo);
+        return "player/Edit";
+    }
+
+    /**
+     * 保存新增玩家
+     * Created by kobe on 17-9-10.
+     */
+    @RequestMapping("/saveNewPlayer")
+    @ResponseBody
+    public Map saveNewPlayer(VUserPlayerVo objectVo, HttpServletRequest request){
+        Map resultMap = new HashMap(2,1f);
+        SysUser sysUser = new SysUser();
+        sysUser.setOwnerId(objectVo.getResult().getAgentId());
+        sysUser.setUsername(objectVo.getResult().getUsername());
+        sysUser.setPassword(objectVo.getResult().getPassword());
+        sysUser.setDefaultLocale(objectVo.getResult().getDefaultLocale());
+        sysUser.setDefaultTimezone(objectVo.getResult().getDefaultTimezone());
+        sysUser.setDefaultCurrency(objectVo.getResult().getDefaultCurrency());
+        sysUser.setRegisterIpDictCode(SessionManager.getIpDictCode());
+        sysUser.setRegisterIp(IpTool.ipv4StringToLong(ServletTool.getIpAddr(request)));
+        UserPlayer userPlayer = new UserPlayer();
+        userPlayer.setCreateChannel(CreateChannelEnum.BACKSTAGE_MANAGEMENT.getCode());
+        userPlayer.setRankId(objectVo.getResult().getRankId());
+        UserRegisterVo userRegisterVo = new UserRegisterVo();
+        userRegisterVo.setSysUser(sysUser);
+        userRegisterVo.setUserPlayer(userPlayer);
+        ServiceTool.userPlayerService().register(userRegisterVo);
+        if (userRegisterVo.isSuccess()) {
+            resultMap.put("status", true);
+        } else {
+            resultMap.put("status", false);
+            resultMap.put("msg", userRegisterVo.getErrMsg());
+
+        }
+        return resultMap;
+    }
+
+    /**
      * 加载玩家编辑页面
      * Created by jerry on 15-6-4.
      */
@@ -2624,6 +2684,16 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             result.put("state", false);
         }
         return result;
+    }
+
+    @RequestMapping("/getRank/{agentRank}")
+    @ResponseBody
+    public String getRank(@PathVariable("agentRank") Integer agentRank){
+        VUserAgentManageListVo listVo = new VUserAgentManageListVo();
+        listVo.getSearch().setAgentRank(agentRank);
+        listVo = ServiceTool.vUserAgentManageService().search(listVo);
+        List result = listVo.getResult();
+        return JsonTool.toJson(result);
     }
 
 
