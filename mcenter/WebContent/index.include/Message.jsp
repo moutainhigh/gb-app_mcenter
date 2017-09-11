@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
-<dt>${views.index.include_auto['系统消息']}</dt>
+<dt>${views.index_auto['系统消息']}</dt>
 <%--没有最新消息--%>
 <c:if test="${unReadCount<=0}">
     <dd class="infos-none"><i class="fa fa-exclamation-circle"></i>${views.home['no new message']}</dd>
@@ -50,7 +50,7 @@
 </c:if>
 <dd class="more">
     <shiro:hasPermission name="index:announcementMessage">
-        <a nav-target="mainFrame" href="/operation/announcementMessage/messageList.html">${views.home['view more news']}>></a>
+        <a nav-target="mainFrame" href="/operation/announcementMessage/messageList.html">${views.home['view.more.news']}>></a>
     </shiro:hasPermission>
 </dd>
 

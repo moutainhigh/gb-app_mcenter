@@ -145,6 +145,14 @@
                                             </div>
                                         </div>
                                     </c:if>
+                                    <div class="form-group clearfix m-b-xxs">
+                                        <label class="col-sm-3 al-right line-hi34 ft-bold" for="sysUser.${f.name}">
+                                            <c:if test="${f.isRequired ne '2'}">
+                                                <span class="co-red m-r-sm">*</span>
+                                            </c:if>新增玩家功能
+                                        </label>
+                                            <input type="checkbox" name="my-checkbox" data-size="mini">
+                                    </div>
                                     <c:if test="${not empty command.sysUser.id}">
                                         <input class="hide" name="sysUser.defaultTimezone" value="${command.sysUser.defaultTimezone}">
                                     </c:if>
