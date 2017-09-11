@@ -25,7 +25,7 @@
             <span class="co-yellow m-r-sm"><i class="fa fa-exclamation-circle"></i></span>${views.analyze_auto['查询的开始时间']}
             <span tabindex="0" role="button" data-container="body" data-toggle="popover" data-trigger="focus"
                   data-placement="top" data-content="${views.analyze_auto['示例']}"
-                  class="btn btn-link co-blue">${views.analyze_auto['示例1']}</span>
+                  class="btn btn-link co-blue"><span class="co-blue">${views.analyze_auto['示例1']}</span></span>
         </div>
         <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm ">
             <div class="input-group date">
