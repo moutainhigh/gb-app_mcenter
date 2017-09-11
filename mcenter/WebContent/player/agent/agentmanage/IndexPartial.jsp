@@ -21,7 +21,7 @@
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
-            <th>无限级代理</th>
+            <th>${views.column['VUserAgentManage.addSubAgent']}</th>
             <th class="inline">
                 <gb:select name="search.status" value="${command.search.status}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}" list="${status}" callback="query"/>
             </th>

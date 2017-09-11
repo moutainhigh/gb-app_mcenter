@@ -445,22 +445,12 @@
                 </div>
 
 
-                <%--<div class="form-group clearfix m-b-sm">
-                    <label class="col-sm-3 al-right line-hi34 ft-bold"><span
-                            class="co-red m-r-sm">*</span>${views.role['Player.addplayer.fsyhfa']} :</label>
-
+                <div class="form-group clearfix m-b-sm">
+                    <label class="col-sm-3 al-right line-hi34 ft-bold">${views.role['Player.addplayer.fsyhfa']} :</label>
                     <div class="col-sm-3">
-                        <div class="input-group date">
-                            <gb:select name="result.rakebackId" list="${command.rakebackSetList}"
-                                       prompt="${views.role['player.addplayer.wfsfa']}"
-                                       value="${command.result.rakebackId}" listValue="name"
-                                       cssClass="btn-group chosen-select-no-single input-sm" listKey="id"></gb:select>
-
-                            <span class="input-group-addon bdn"><button type="button" id="applyTop"
-                                                                        class="btn btn-filter m-l-sm">${views.role['Player.list.rakabeck.useTop']}</button></span>
-                        </div>
+                        <div class="pull-left m-t-n-xs m-l-sm" style="padding: 10px 0px;height: 34px" id="rakebackName-div">${command.result.rakebackName}</div>
                     </div>
-                </div>--%>
+                </div>
 <%--
 
                 <div class="form-group clearfix m-b-sm">

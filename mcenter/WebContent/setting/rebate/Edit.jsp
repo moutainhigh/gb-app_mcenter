@@ -98,7 +98,7 @@
                                                     <c:if test="${game['apiId'] eq api}">
 
                                                         <div class="4 _game input-group date content-width-limit-200${game_status.last ? '':' m-b-xs'}">
-                                                            <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${gbFn:getGameTypeName(game['gameType'])}</b></span>
+                                                            <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
                                                                 <%--<input type="text" class="form-control">--%>
                                                                 <%--TODO--%>
                                                             <input type="hidden" value="${game.apiTypeId}" name="rebateGrads[0].rebateGradsApis[${game_status_index}].apiTypeId" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiTypeId">
@@ -189,7 +189,7 @@
                                                                 <c:if test="${game['apiId'] eq rga.apiId && game['gameType'] eq rga.gameType}">
                                                                     <c:set var="_someGame" value="1" />
                                                                     <div class="1 _game input-group date content-width-limit-200${game_status.last ? '':' m-b-xs'}">
-                                                                        <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${gbFn:getGameTypeName(game['gameType'])}</b></span>
+                                                                        <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
                                                                         <input type="hidden" value="${api}" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiId" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].apiId">
                                                                         <input type="hidden" value="${game['gameType']}" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].gameType" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].gameType">
                                                                         <input type="hidden" value="${game['apiTypeId']}" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].apiTypeId" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiTypeId">
@@ -208,7 +208,7 @@
                                                             </c:forEach>
                                                             <c:if test="${_someGame eq 0}">
                                                                 <div class="2 _game input-group date content-width-limit-200${game_status.last ? '':' m-b-xs'}">
-                                                                    <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${gbFn:getGameTypeName(game['gameType'])}</b></span>
+                                                                    <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
                                                                     <input type="hidden" value="${api}" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiId" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].apiId">
                                                                     <input type="hidden" value="${game['gameType']}" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].gameType" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].gameType">
                                                                     <input type="text" class="form-control _ratio" value="${rga.ratio}" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].ratio"  data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].ratio">
@@ -286,8 +286,8 @@
 
                         <div class="3 _game input-group date content-width-limit-200${game_status.last ? '':' m-b-xs'}">
                             <span class="input-group-addon abroder-no" style="padding-left: 0;">
-                                <b title="${gbFn:getGameTypeName(game['gameType'])}">
-                                    ${gbFn:getGameTypeName(game['gameType'])}
+                                <b title="${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%>">
+                                        ${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%>
                                 </b>
                             </span>
                                 <%--<input type="text" class="form-control">--%>
