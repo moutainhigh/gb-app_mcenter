@@ -2400,6 +2400,58 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         return map;
     }
 
+    @RequestMapping("/updateAgentRank")
+    @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.PLAYER_AGENTRANK_SUCCESS, opType = OpType.UPDATE)
+    public Map updateAgentRank(HttpServletRequest request, UserPlayerVo userPlayerVo, Integer oldagentId){
+        Map map = new HashMap(2, 1f);
+        if (userPlayerVo.getResult() == null || userPlayerVo.getResult().getId() == null || userPlayerVo.getResult().getUserAgentId() == null) {
+            map.put("state", false);
+            return map;
+        }
+        try {
+            UserPlayer userPlayer = userPlayerVo.getResult();
+            Integer agentId = userPlayer.getUserAgentId();
+            UserAgentVo oldLine = new UserAgentVo();
+            oldLine.getSearch().setId(oldagentId);
+            UserAgentVo newLine = new UserAgentVo();
+            newLine.getSearch().setId(agentId);
+            Map oldLineMap = ServiceTool.userAgentService().queryAgentLine(oldLine);
+            Map newLineMap = ServiceTool.userAgentService().queryAgentLine(newLine);
+
+            SysUser sysUser = new SysUser();
+            sysUser.setId(userPlayer.getId());
+            sysUser.setOwnerId(agentId);
+            UserRegisterVo userRegisterVo = new UserRegisterVo();
+            userRegisterVo.setUserPlayer(userPlayer);
+            userRegisterVo.setSysUser(sysUser);
+            userRegisterVo = ServiceTool.userPlayerService().getAgent(userRegisterVo);
+            userPlayerVo.setProperties(UserPlayer.PROP_USER_AGENT_ID, UserPlayer.PROP_AGENT_NAME, UserPlayer.PROP_GENERAL_AGENT_ID, UserPlayer.PROP_GENERAL_AGENT_NAME);
+            userPlayerVo.setResult(userRegisterVo.getUserPlayer());
+            ServiceTool.userPlayerService().updateOnly(userPlayerVo);
+            SysUserVo sysUserVo = new SysUserVo();
+            sysUserVo.setResult(sysUser);
+            sysUserVo.setProperties(SysUser.PROP_OWNER_ID);
+            ServiceTool.sysUserService().updateOnly(sysUserVo);
+
+            List<String> list = new ArrayList<>();
+            list.add(sysUserVo.getResult().getUsername());
+            list.add(oldLineMap.get("parent_name_array").toString());
+            list.add(newLineMap.get("parent_name_array").toString());
+            AddLogVo addLogVo = new AddLogVo();
+            addLogVo.setResult(new SysAuditLog());
+            addLogVo.setList(list);
+            //操作日志
+            AuditLogController.addLog(request, "player.agentRank.success", addLogVo);
+            map.put("state", userPlayerVo.isSuccess());
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            map.put("state", false);
+        }
+
+        return map;
+    }
+
     @RequestMapping("/updatePlayerRank")
     @Audit(module = Module.PLAYER, moduleType = ModuleType.PLAYER_PLAYERRANK_SUCCESS, opType = OpType.UPDATE)
     @ResponseBody
