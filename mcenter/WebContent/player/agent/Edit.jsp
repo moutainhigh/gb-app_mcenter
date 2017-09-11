@@ -145,6 +145,15 @@
                                             </div>
                                         </div>
                                     </c:if>
+                                    <div class="form-group clearfix m-b-sm">
+                                        <label class="col-sm-3 al-right line-hi34 ft-bold">
+                                            <span class="co-red m-r-sm">*</span>${views.column['VUserAgentManage.addNewPlayer']} :
+                                        </label>
+                                        <div class="col-sm-5">
+                                        <input type="checkbox" name="my-checkbox" data-size="mini" ${command.result.addNewPlayer?'checked':''}>
+                                        <input type="hidden" name="result.addNewPlayer" value="${not empty command.result.addNewPlayer && command.result.addNewPlayer?'true':'false'}">
+                                        </div>
+                                    </div>
                                     <c:if test="${not empty command.sysUser.id}">
                                         <input class="hide" name="sysUser.defaultTimezone" value="${command.sysUser.defaultTimezone}">
                                     </c:if>
