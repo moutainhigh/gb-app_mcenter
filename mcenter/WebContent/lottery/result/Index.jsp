@@ -34,10 +34,6 @@
     <div class="wrapper white-bg shadow">
       <div class="sys_tab_wrap clearfix" id="searchDiv">
         <div class="m-sm">
-            <%--<c:forEach var="lot" items="${lotterys}">--%>
-                <%--<soul:button text="${dicts.lottery.lottery[lot.key]}" opType="function" type="${lot.value.type}"--%>
-                         <%--target="queryByLottery" code="${lot.key}" cssClass="label ssc-label ${command.search.code==lot.key?'ssc-active':''}" tag="a"></soul:button>--%>
-            <%--</c:forEach>--%>
                 <soul:button text="${dicts.lottery.lottery['cqssc']}" type="ssc" code="cqssc" cssClass="label ssc-label ssc-active" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
                 <soul:button  text="${dicts.lottery.lottery['tjssc']}" type="ssc"  code="tjssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
                 <soul:button  text="${dicts.lottery.lottery['xjssc']}" type="ssc" code="xjssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>

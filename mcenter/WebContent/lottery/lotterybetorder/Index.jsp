@@ -63,15 +63,6 @@
       </div>
       <div class="clearfix m-t-md m-b-sm">
         <div class="clearfix col-lg-10" style="padding-left: 0;">
-            <%--<div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
-                <div class="input-group">
-                    <span class="input-group-addon bg-gray">${views.lottery_auto['注单状态']}</span>
-                <span class=" input-group-addon bdn  right-btn-down">
-                    <gb:select name="search.status" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
-                               list="${orderStatus}" value="${command.search.status}" callback="query"/>
-                </span>
-                </div>
-            </div>--%>
           <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
             <div class="input-group date">
               <span class="input-group-addon bg-gray">${views.lottery_auto['投注帐号']}</span>
