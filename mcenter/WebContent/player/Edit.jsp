@@ -18,7 +18,7 @@
         <div class="col-xs-8 p-x">
             <span class="bg-gray input-group-addon bdn">
                 <gb:select name="search.agentRanks" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single"
-                       list="${agentRanks}"  listKey="key" listValue="value" relSelect="result.agentId"/>
+                            relSelect="result.agentId"/>
             </span>
             <span class="bg-gray input-group-addon bdn">
                 <gb:select name="result.agentId" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single"

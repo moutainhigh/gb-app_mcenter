@@ -2005,12 +2005,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/addNewPlayer")
     public String addNewPlayer(VUserPlayerVo objectVo, Model model){
-        /*List<Map<String, String>> ranks = ServiceTool.queryAgentRank(new RebateAgentListVo());
-        resMap.put("ranks",ranks);*/
-        ArrayList agentRanks = new ArrayList();
-        agentRanks.add(new Pair<>("1","一级代理"));
-        agentRanks.add(new Pair<>("2","二级代理"));
-        agentRanks.add(new Pair<>("3","三级代理"));
         List playerRanks = ServiceTool.playerRankService().queryUsableRankList(new PlayerRankVo());
         VUserPlayer vUserPlayer = new VUserPlayer();
         vUserPlayer.setDefaultCurrency(SessionManager.getUser().getDefaultCurrency());
@@ -2019,7 +2013,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         objectVo.setResult(vUserPlayer);
         model.addAttribute("validateRule", JsRuleCreator.create(AddNewPlayerForm.class));
         model.addAttribute("playerRanks", playerRanks);
-        model.addAttribute("agentRanks", agentRanks);
         model.addAttribute("command", objectVo);
         return "player/Edit";
     }
