@@ -24,12 +24,40 @@
       <form:hidden path="search.code" id="lotteryType"></form:hidden>
   <div class="col-lg-12">
     <div class="wrapper white-bg shadow">
-      <div class="sys_tab_wrap clearfix">
+          <ul class="clearfix sys_tab_wrap" id="lotteryDiv">
+              <li class="active" data-code="ssclottery" code="cqssc"><a href="javascript:void(0)">时时彩<span class="badge badge-blue m-l-sm">7种</span></a></li>
+              <li data-code="k3lottery" code="jsk3"><a href="javascript:void(0)">快3<span class="badge badge-blue m-l-sm">4种</span></a></li>
+              <li data-code="pk10lottery" code="bjpk10"><a href="javascript:void(0)">PK10<span class="badge badge-blue m-l-sm">3种</span></a></li>
+              <li data-code="sfclottery" code="cqxync"><a href="javascript:void(0)">十分彩<span class="badge badge-blue m-l-sm">2种</span></a></li>
+              <li data-code="otherlottery" code="hklhc"><a href="javascript:void(0)" >其它<span class="badge badge-blue m-l-sm">5种</span></a></li>
+          </ul>
+      <div class="sys_tab_wrap clearfix" id="searchDiv">
         <div class="m-sm">
-            <c:forEach var="lot" items="${lotterys}">
-                <soul:button text="${dicts.lottery.lottery[lot.code]}" opType="function"
-                         target="queryByLottery" type="${lot.code}" cssClass="label ssc-label ${command.search.code==lot.code?'ssc-active':''}" tag="a"></soul:button>
-            </c:forEach>
+                <soul:button text="${dicts.lottery.lottery['cqssc']}" type="cqssc" cssClass="label ssc-label ssc-active" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['tjssc']}"  type="tjssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['xjssc']}" type="xjssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['efssc']}" type="efssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['sfssc']}" type="sfssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['wfssc']}" type="wfssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['ffssc']}" type="ffssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+
+                <soul:button text="${dicts.lottery.lottery['jsk3']}" type="jsk3" cssClass="label ssc-label hide"   data-code="k3lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['hbk3']}" type="hbk3" cssClass="label ssc-label hide" data-code="k3lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['ahk3']}" type="ahk3" cssClass="label ssc-label hide" data-code="k3lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['gxk3']}" type="gxk3" cssClass="label ssc-label hide" data-code="k3lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+
+                <soul:button text="${dicts.lottery.lottery['bjpk10']}" type="bjpk10" cssClass="label ssc-label hide" data-code="pk10lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['xyft']}" type="xyft" cssClass="label ssc-label hide" data-code="pk10lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['jspk10']}" type="jspk10" cssClass="label ssc-label hide" data-code="pk10lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+
+                <soul:button text="${dicts.lottery.lottery['cqxync']}"  type="cqxync" cssClass="label ssc-label hide" data-code="sfclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['gdkl10']}" type="gdkl10" cssClass="label ssc-label hide" data-code="sfclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+
+                <soul:button text="${dicts.lottery.lottery['hklhc']}" type="hklhc" cssClass="label ssc-label hide" data-code="otherlottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['xy28']}" type="xy28" cssClass="label ssc-label hide" data-code="otherlottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['bjkl8']}" type="bjkl8" cssClass="label ssc-label hide" data-code="otherlottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['fc3d']}" type="fc3d" cssClass="label ssc-label hide" data-code="otherlottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['tcpl3']}" type="tcpl3" cssClass="label ssc-label hide" data-code="otherlottery" target="queryByLottery" opType="function" tag="a"></soul:button>
 
         </div>
       </div>
