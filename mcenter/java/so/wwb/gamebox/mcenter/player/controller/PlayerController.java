@@ -2034,6 +2034,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         sysUser.setDefaultCurrency(objectVo.getResult().getDefaultCurrency());
         sysUser.setRegisterIpDictCode(SessionManager.getIpDictCode());
         sysUser.setRegisterIp(IpTool.ipv4StringToLong(ServletTool.getIpAddr(request)));
+        sysUser.setCreateUser(SessionManager.getUserId());
         UserPlayer userPlayer = new UserPlayer();
         userPlayer.setCreateChannel(CreateChannelEnum.BACKSTAGE_MANAGEMENT.getCode());
         userPlayer.setRankId(objectVo.getResult().getRankId());
@@ -2400,6 +2401,59 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         return map;
     }
 
+    @RequestMapping("/updateAgentLine")
+    @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.PLAYER_UPDATEAGENTLINE_SUCCESS, opType = OpType.UPDATE)
+    public Map updateAgentLine(HttpServletRequest request, UserPlayerVo userPlayerVo, Integer oldagentId, String username){
+        Map map = new HashMap(2, 1f);
+        if (userPlayerVo.getResult() == null || userPlayerVo.getResult().getId() == null || userPlayerVo.getResult().getUserAgentId() == null) {
+            map.put("state", false);
+            return map;
+        }
+        try {
+            UserPlayer userPlayer = userPlayerVo.getResult();
+            Integer agentId = userPlayer.getUserAgentId();
+
+            UserAgentVo oldAgentLine = new UserAgentVo();
+            oldAgentLine.getSearch().setId(oldagentId);
+            Map oldLineMap = ServiceTool.userAgentService().queryAgentLine(oldAgentLine);
+            UserAgentVo newAgentLine = new UserAgentVo();
+            newAgentLine.getSearch().setId(agentId);
+            Map newLineMap = ServiceTool.userAgentService().queryAgentLine(newAgentLine);
+
+            SysUser sysUser = new SysUser();
+            sysUser.setId(userPlayer.getId());
+            sysUser.setOwnerId(agentId);
+            UserRegisterVo userRegisterVo = new UserRegisterVo();
+            userRegisterVo.setUserPlayer(userPlayer);
+            userRegisterVo.setSysUser(sysUser);
+            userRegisterVo = ServiceTool.userPlayerService().getAgent(userRegisterVo);
+            userPlayerVo.setProperties(UserPlayer.PROP_USER_AGENT_ID, UserPlayer.PROP_AGENT_NAME, UserPlayer.PROP_GENERAL_AGENT_ID, UserPlayer.PROP_GENERAL_AGENT_NAME);
+            userPlayerVo.setResult(userRegisterVo.getUserPlayer());
+            ServiceTool.userPlayerService().updateOnly(userPlayerVo);
+            SysUserVo sysUserVo = new SysUserVo();
+            sysUserVo.setResult(sysUser);
+            sysUserVo.setProperties(SysUser.PROP_OWNER_ID);
+            ServiceTool.sysUserService().updateOnly(sysUserVo);
+
+            List<String> list = new ArrayList<>();
+            list.add(username);
+            list.add(oldLineMap.get("parent_name_array").toString());
+            list.add(newLineMap.get("parent_name_array").toString());
+            AddLogVo addLogVo = new AddLogVo();
+            addLogVo.setResult(new SysAuditLog());
+            addLogVo.setList(list);
+            //操作日志
+            AuditLogController.addLog(request, "player.updateAgentLine.success", addLogVo);
+            map.put("state", userPlayerVo.isSuccess());
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            map.put("state", false);
+        }
+
+        return map;
+    }
+
     @RequestMapping("/updatePlayerRank")
     @Audit(module = Module.PLAYER, moduleType = ModuleType.PLAYER_PLAYERRANK_SUCCESS, opType = OpType.UPDATE)
     @ResponseBody
@@ -2548,8 +2602,26 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             String balance = CurrencyTool.formatInteger(walletBalance) + CurrencyTool.formatDecimals(walletBalance);
             map.put("totalAsset", totalAsset);
             map.put("balance", balance);
+
+            Integer userAgentRank = getUserAgentRank(result.getAgentId());
+            map.put("agentId",result.getAgentId());
+            map.put("agentRank",userAgentRank);
+            map.put("agentName",result.getAgentName());
         }
         return map;
+    }
+
+    private Integer getUserAgentRank(Integer agentId){
+        if(agentId == null){
+            return null;
+        }
+        UserAgentVo userAgentVo = new UserAgentVo();
+        userAgentVo.getSearch().setId(agentId);
+        userAgentVo = ServiceTool.userAgentService().get(userAgentVo);
+        if(userAgentVo.getResult()!=null){
+            return userAgentVo.getResult().getAgentRank();
+        }
+        return null;
     }
 
     /**
@@ -2687,6 +2759,15 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         listVo = ServiceTool.vUserAgentManageService().search(listVo);
         List result = listVo.getResult();
         return JsonTool.toJson(result);
+    }
+
+    @RequestMapping("/queryAgentLine")
+    @ResponseBody
+    public Map queryAgentLine(Integer agentId){
+        UserAgentVo userAgentVo = new UserAgentVo();
+        userAgentVo.getSearch().setId(agentId);
+        Map map = ServiceTool.userAgentService().queryAgentLine(userAgentVo);
+        return map;
     }
 
 
