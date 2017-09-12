@@ -2418,7 +2418,11 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             sysUser.setId(userPlayer.getId());
             sysUser.setOwnerId(agentId);
             //更新user_player和sys_user的数据
-            this.UpdateAgentDate(sysUser, userPlayer);
+            UserRegisterVo userRegisterVo = new UserRegisterVo();
+            userRegisterVo.setUserPlayer(userPlayer);
+            userRegisterVo.setSysUser(sysUser);
+
+            ServiceTool.userPlayerService().UpdateAgentDate(userRegisterVo);
 
             //组装操作日志的数据
             String oldAgentLines = this.getAgentLine(oldagentId);
@@ -2428,7 +2432,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             list.add(SessionManager.getUser().getUsername());
             list.add(oldAgentLines);
             AddLogVo addLogVo = new AddLogVo();
-            addLogVo.setResult(new SysAuditLog());
+            SysAuditLog sysAuditLog = new SysAuditLog();
+            sysAuditLog.setEntityId(Long.valueOf(userPlayer.getId()));
+            addLogVo.setResult(sysAuditLog);
             addLogVo.setList(list);
             //操作日志
             AuditLogController.addLog(request, "player.updateAgentLine.success", addLogVo);
@@ -2441,37 +2447,22 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         return map;
     }
 
-    public String getAgentLine(Integer agentId){
+    private String getAgentLine(Integer agentId){
         UserAgentVo userAgentVo = new UserAgentVo();
         userAgentVo.getSearch().setId(agentId);
         Map map = ServiceTool.userAgentService().queryAgentLine(userAgentVo);
         String agentName = this.getAgentNameByAgentId(agentId);
         StringBuilder agentLine = new StringBuilder(map.get("parent_name_array").toString());
-        agentLine.append(">"+agentName);
+        agentLine.append(" > "+agentName);
         return agentLine.toString();
     }
 
-    public String getAgentNameByAgentId(Integer agentId){
+    private String getAgentNameByAgentId(Integer agentId){
         VUserAgentVo vo = new VUserAgentVo();
         vo.getSearch().setId(agentId);
         vo = ServiceTool.vUserAgentService().search(vo);
         String agentName = vo.getResult().getUsername();
         return agentName;
-    }
-
-    public void UpdateAgentDate(SysUser sysUser, UserPlayer userPlayer){
-        UserRegisterVo userRegisterVo = new UserRegisterVo();
-        userRegisterVo.setUserPlayer(userPlayer);
-        userRegisterVo.setSysUser(sysUser);
-        userRegisterVo = ServiceTool.userPlayerService().getAgent(userRegisterVo);
-        UserPlayerVo vo = new UserPlayerVo();
-        vo.setProperties(UserPlayer.PROP_USER_AGENT_ID, UserPlayer.PROP_AGENT_NAME, UserPlayer.PROP_GENERAL_AGENT_ID, UserPlayer.PROP_GENERAL_AGENT_NAME);
-        vo.setResult(userRegisterVo.getUserPlayer());
-        ServiceTool.userPlayerService().updateOnly(vo);
-        SysUserVo sysUserVo = new SysUserVo();
-        sysUserVo.setResult(sysUser);
-        sysUserVo.setProperties(SysUser.PROP_OWNER_ID);
-        ServiceTool.sysUserService().updateOnly(sysUserVo);
     }
 
     @RequestMapping("/updatePlayerRank")
