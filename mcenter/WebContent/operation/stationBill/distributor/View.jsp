@@ -52,7 +52,7 @@
 											<c:if test="${status.index == 0}">
 												<td rowspan="${a.value.size()}" class="api-name-b-r"><b>${gbFn:getSiteApiName(a.key.toString())}</b></td>
 											</c:if>
-											<td>${gameTypeMap[s.gameType].value}</td>
+											<td>${dicts.game.game_type[s.gameType]}</td>
 											<td>
 												${soulFn:formatCurrency(s.occupyProportion)}%
 											</td>
