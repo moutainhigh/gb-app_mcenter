@@ -63,6 +63,7 @@ import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -2413,33 +2414,21 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         try {
             UserPlayer userPlayer = userPlayerVo.getResult();
             Integer agentId = userPlayer.getUserAgentId();
-
-            UserAgentVo oldAgentLine = new UserAgentVo();
-            oldAgentLine.getSearch().setId(oldagentId);
-            Map oldLineMap = ServiceTool.userAgentService().queryAgentLine(oldAgentLine);
-            UserAgentVo newAgentLine = new UserAgentVo();
-            newAgentLine.getSearch().setId(agentId);
-            Map newLineMap = ServiceTool.userAgentService().queryAgentLine(newAgentLine);
-
             SysUser sysUser = new SysUser();
             sysUser.setId(userPlayer.getId());
             sysUser.setOwnerId(agentId);
-            UserRegisterVo userRegisterVo = new UserRegisterVo();
-            userRegisterVo.setUserPlayer(userPlayer);
-            userRegisterVo.setSysUser(sysUser);
-            userRegisterVo = ServiceTool.userPlayerService().getAgent(userRegisterVo);
-            userPlayerVo.setProperties(UserPlayer.PROP_USER_AGENT_ID, UserPlayer.PROP_AGENT_NAME, UserPlayer.PROP_GENERAL_AGENT_ID, UserPlayer.PROP_GENERAL_AGENT_NAME);
-            userPlayerVo.setResult(userRegisterVo.getUserPlayer());
-            ServiceTool.userPlayerService().updateOnly(userPlayerVo);
-            SysUserVo sysUserVo = new SysUserVo();
-            sysUserVo.setResult(sysUser);
-            sysUserVo.setProperties(SysUser.PROP_OWNER_ID);
-            ServiceTool.sysUserService().updateOnly(sysUserVo);
+            //更新user_player和sys_user的数据
+            this.UpdateAgentDate(sysUser, userPlayer);
 
+            //组装操作日志的数据
+            String oldAgentLines = this.getAgentLine(oldagentId);
+            String newAgentLines = this.getAgentLine(agentId);
+            String now = DateTool.formatDate(new Date(), DateTool.yyyy_MM_dd_HH_mm_ss);
             List<String> list = new ArrayList<>();
             list.add(username);
-            list.add(oldLineMap.get("parent_name_array").toString());
-            list.add(newLineMap.get("parent_name_array").toString());
+            list.add(now);
+            list.add(oldAgentLines);
+            list.add(newAgentLines);
             AddLogVo addLogVo = new AddLogVo();
             addLogVo.setResult(new SysAuditLog());
             addLogVo.setList(list);
@@ -2452,6 +2441,39 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
 
         return map;
+    }
+
+    public String getAgentLine(Integer agentId){
+        UserAgentVo userAgentVo = new UserAgentVo();
+        userAgentVo.getSearch().setId(agentId);
+        Map map = ServiceTool.userAgentService().queryAgentLine(userAgentVo);
+        String agentName = this.getAgentNameByAgentId(agentId);
+        StringBuilder agentLine = new StringBuilder(map.get("parent_name_array").toString());
+        agentLine.append(">"+agentName);
+        return agentLine.toString();
+    }
+
+    public String getAgentNameByAgentId(Integer agentId){
+        VUserAgentVo vo = new VUserAgentVo();
+        vo.getSearch().setId(agentId);
+        vo = ServiceTool.vUserAgentService().search(vo);
+        String agentName = vo.getResult().getUsername();
+        return agentName;
+    }
+
+    public void UpdateAgentDate(SysUser sysUser, UserPlayer userPlayer){
+        UserRegisterVo userRegisterVo = new UserRegisterVo();
+        userRegisterVo.setUserPlayer(userPlayer);
+        userRegisterVo.setSysUser(sysUser);
+        userRegisterVo = ServiceTool.userPlayerService().getAgent(userRegisterVo);
+        UserPlayerVo vo = new UserPlayerVo();
+        vo.setProperties(UserPlayer.PROP_USER_AGENT_ID, UserPlayer.PROP_AGENT_NAME, UserPlayer.PROP_GENERAL_AGENT_ID, UserPlayer.PROP_GENERAL_AGENT_NAME);
+        vo.setResult(userRegisterVo.getUserPlayer());
+        ServiceTool.userPlayerService().updateOnly(vo);
+        SysUserVo sysUserVo = new SysUserVo();
+        sysUserVo.setResult(sysUser);
+        sysUserVo.setProperties(SysUser.PROP_OWNER_ID);
+        ServiceTool.sysUserService().updateOnly(sysUserVo);
     }
 
     @RequestMapping("/updatePlayerRank")
