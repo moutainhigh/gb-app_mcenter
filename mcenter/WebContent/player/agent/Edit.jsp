@@ -152,6 +152,7 @@
                                         <div class="col-sm-5">
                                         <input type="checkbox" name="my-checkbox" data-size="mini" ${command.result.addNewPlayer?'checked':''}>
                                         <input type="hidden" name="result.addNewPlayer" value="${not empty command.result.addNewPlayer && command.result.addNewPlayer?'true':'false'}">
+                                            <span>${views.player_auto['开启后']}</span>
                                         </div>
                                     </div>
                                     <c:if test="${not empty command.sysUser.id}">
