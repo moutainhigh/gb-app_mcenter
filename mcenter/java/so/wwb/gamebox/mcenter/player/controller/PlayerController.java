@@ -2070,6 +2070,15 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     public String getVUserPlayer(VUserPlayerVo objectVo, Model model, SiteLanguageListVo siteLanguageListVo) {
         objectVo = super.doEdit(objectVo, model);
 
+        SysAuditLogListVo sysAuditLogListVo = new SysAuditLogListVo();
+        sysAuditLogListVo.getSearch().setEntityUserId(objectVo.getSearch().getId());
+        sysAuditLogListVo.getSearch().setModuleType(ModuleType.PLAYER_UPDATEAGENTLINE_SUCCESS.getCode());
+        sysAuditLogListVo = ServiceTool.auditLogService().queryLogs(sysAuditLogListVo);
+        List logList = sysAuditLogListVo.getResult();
+        if(logList!=null && logList.size()>0){
+            model.addAttribute("sysAuditLog", logList.get(0));
+        }
+
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_FIELD_SETTING);
         SysParam param = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_FIELD_SETTING);
         List<FieldSort> fieldSortAll = (List<FieldSort>) JsonTool.fromJson(param.getParamValue(), JsonTool.createCollectionType(ArrayList.class, FieldSort.class));

@@ -60,7 +60,7 @@
                 <div class="form-group clearfix m-b-sm">
                     <label class="col-sm-3  al-right line-hi34 ft-bold">${views.role['player.edit.sstx']} : </label>
 
-                    <div class="col-sm-5 line-hi34">
+                    <div class="col-sm-5 line-hi34" id="agent-rank-detail">
                         <a href="javascript:void(0)">
                             <c:if test="${command.result.generalAgentName=='defaulttopagent'}">
                                 ${messages.player['player.defaulttopagent']}
@@ -77,9 +77,32 @@
                                 ${command.result.agentName}
                             </c:if>
                             <%--${command.result.agentName}--%>
+                            <input type="hidden" name="current-agentRank" id="current-agentRank" value="${command.result.agentId}">
+                            <input type="hidden" id="userId" value="${command.result.id}">
+                            <soul:button target="editAgentLine" text="${'修改代理'}" opType="function" cssClass="btn btn-link co-blue" permission="role:update_agent"></soul:button>
+                            <shiro:hasPermission name="role:update_agent">
+                                <div style="font-size: 12px;color: #9c9c9c; display: inline-block;">${messages.content['prompt.update.agent']}</div>
+                            </shiro:hasPermission>
+                            <c:if test="${not empty sysAuditLog}">
+                                <div style="font-size: 14px;color: #9c9c9c;">${soulFn:formatLogDesc(sysAuditLog)}</div>
+                            </c:if>
                         </a>
                     </div>
+
+                    <div class="col-sm-5 line-hi34 hide" id="agent-rank-edit">
+                        <gb:select name="search.agentRanks" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single"
+                                   relSelect="result.agentId" value="" />
+                        <gb:select name="result.agentId" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single" callback="changeAgentLine"
+                                   relSelectPath="${root}/player/getRank/#search.agentRanks#.html"  listKey="id" listValue="username" value=""/>
+                        <soul:button target="updateAgentLine" text="${views.common['save']}" opType="function" cssClass="btn btn-link co-blue btn-save-agent hide" confirm="${messages.content['confirm.update.agent']}" callback="query"></soul:button>
+                        <soul:button target="cancelEditAgentLine" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
+                    </div>
                 </div>
+
+
+
+
+
                 <c:forEach items="${command.fieldSorts}" varStatus="" var="f">
                     <%--${views.column[f.name]}&nbsp;${f.name}<br>--%>
                     <c:choose>
