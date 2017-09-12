@@ -51,7 +51,19 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <c:if test="${sameDay}"><td>${soulFn:formatNumber(command.topagent.playerNum)}</td></c:if>
+                                <c:if test="${sameDay}">
+                                    <td>
+                                        <c:if test="${command.topagent.playerNum>0}">
+                                            <soul:button target="topagentShowPlayer" text="${soulFn:formatNumber(command.topagent.playerNum)}" opType="function">
+                                                ${soulFn:formatNumber(command.topagent.playerNum)}
+                                            </soul:button>
+
+                                        </c:if>
+                                        <c:if test="${empty command.topagent.playerNum || command.topagent.playerNum<=0}">
+                                            ${soulFn:formatNumber(command.topagent.playerNum)}
+                                        </c:if>
+                                    </td>
+                                </c:if>
                                 <td>${soulFn:formatNumber(command.topagent.transactionOrder)}</td>
                                 <td>${soulFn:formatCurrency(command.topagent.transactionVolume)}</td>
                                 <td>${soulFn:formatCurrency(command.topagent.effectiveTransaction)}</td>

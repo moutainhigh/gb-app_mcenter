@@ -39,7 +39,7 @@
                 <input type="hidden" name="search.topagentId" value="${command.userTop.id}" />
                 <input type="hidden" name="search.agentId" value="${command.userAgent.id}" />
                 <input type="hidden" name="subSysCode" value="<%=SubSysCodeEnum.MCENTER.getCode() %>" />
-                <soul:button target="query" opType="function" text="${views.common['query']}" cssClass="btn btn-filter pull-right" />
+                <soul:button target="query" opType="function" text="${views.common['query']}" cssClass="btn btn-filter pull-right btn-search-css" />
             </div>
         </div>
     </div>
