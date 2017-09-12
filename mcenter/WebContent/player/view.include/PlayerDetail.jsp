@@ -218,15 +218,15 @@
                             <i>→</i>
                             ${command.result.username}
                             <input type="hidden" name="current-agentRank" id="current-agentRank" value="${command.result.agentId}">
-                            <soul:button target="editAgentRank" text="修改代理" opType="function" cssClass="btn btn-link co-blue"></soul:button>
+                            <soul:button target="editAgentLine" text="修改代理" opType="function" cssClass="btn btn-link co-blue"></soul:button>
                         </div>
                         <div class="content hide" id="agent-rank-edit">
                                     <gb:select name="search.agentRanks" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single"
                                                relSelect="result.agentId" value="" />
-                                    <gb:select name="result.agentId" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single" callback="changeAgentRank"
+                                    <gb:select name="result.agentId" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single" callback="changeAgentLine"
                                                relSelectPath="${root}/player/getRank/#search.agentRanks#.html"  listKey="id" listValue="username" value=""/>
-                            <soul:button target="updateAgentRank" text="${views.common['save']}" opType="function" cssClass="btn btn-link co-blue btn-save-agentRank hide"></soul:button>
-                            <soul:button target="cancelEditAgentRank" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
+                            <soul:button target="updateAgentLine" text="${views.common['save']}" opType="function" cssClass="btn btn-link co-blue btn-save-agentRank hide"></soul:button>
+                            <soul:button target="cancelEditAgentLine" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
                         </div>
                     </li>
 

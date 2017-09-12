@@ -2401,10 +2401,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         return map;
     }
 
-    @RequestMapping("/updateAgentRank")
+    @RequestMapping("/updateAgentLine")
     @ResponseBody
     @Audit(module = Module.PLAYER, moduleType = ModuleType.PLAYER_UPDATEAGENTLINE_SUCCESS, opType = OpType.UPDATE)
-    public Map updateAgentRank(HttpServletRequest request, UserPlayerVo userPlayerVo, Integer oldagentId, String username){
+    public Map updateAgentLine(HttpServletRequest request, UserPlayerVo userPlayerVo, Integer oldagentId, String username){
         Map map = new HashMap(2, 1f);
         if (userPlayerVo.getResult() == null || userPlayerVo.getResult().getId() == null || userPlayerVo.getResult().getUserAgentId() == null) {
             map.put("state", false);
@@ -2413,12 +2413,14 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         try {
             UserPlayer userPlayer = userPlayerVo.getResult();
             Integer agentId = userPlayer.getUserAgentId();
-            UserAgentVo oldLine = new UserAgentVo();
-            oldLine.getSearch().setId(oldagentId);
-            UserAgentVo newLine = new UserAgentVo();
-            newLine.getSearch().setId(agentId);
-            Map oldLineMap = ServiceTool.userAgentService().queryAgentLine(oldLine);
-            Map newLineMap = ServiceTool.userAgentService().queryAgentLine(newLine);
+
+            UserAgentVo oldAgentLine = new UserAgentVo();
+            oldAgentLine.getSearch().setId(oldagentId);
+            Map oldLineMap = ServiceTool.userAgentService().queryAgentLine(oldAgentLine);
+            UserAgentVo newAgentLine = new UserAgentVo();
+            newAgentLine.getSearch().setId(agentId);
+            Map newLineMap = ServiceTool.userAgentService().queryAgentLine(newAgentLine);
+
             SysUser sysUser = new SysUser();
             sysUser.setId(userPlayer.getId());
             sysUser.setOwnerId(agentId);
@@ -2433,6 +2435,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             sysUserVo.setResult(sysUser);
             sysUserVo.setProperties(SysUser.PROP_OWNER_ID);
             ServiceTool.sysUserService().updateOnly(sysUserVo);
+
             List<String> list = new ArrayList<>();
             list.add(username);
             list.add(oldLineMap.get("parent_name_array").toString());
