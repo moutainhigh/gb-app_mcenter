@@ -2422,13 +2422,11 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
             //组装操作日志的数据
             String oldAgentLines = this.getAgentLine(oldagentId);
-            String newAgentLines = this.getAgentLine(agentId);
             String now = DateTool.formatDate(new Date(), DateTool.yyyy_MM_dd_HH_mm_ss);
             List<String> list = new ArrayList<>();
-            list.add(username);
             list.add(now);
+            list.add(SessionManager.getUser().getUsername());
             list.add(oldAgentLines);
-            list.add(newAgentLines);
             AddLogVo addLogVo = new AddLogVo();
             addLogVo.setResult(new SysAuditLog());
             addLogVo.setList(list);
