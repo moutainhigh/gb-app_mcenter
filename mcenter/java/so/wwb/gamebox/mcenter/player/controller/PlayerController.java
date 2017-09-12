@@ -660,6 +660,14 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //vUserPlayerVo = fetchTotalProfitLoss(vUserPlayerVo);
 //        vUserPlayerVo = fetchTotalTradeAmount(vUserPlayerVo);
 //        vUserPlayerVo = fetchTotalEffectTradeAmount(vUserPlayerVo);
+        SysAuditLogListVo sysAuditLogListVo = new SysAuditLogListVo();
+        sysAuditLogListVo.getSearch().setEntityUserId(vUserPlayerVo.getSearch().getId());
+        sysAuditLogListVo.getSearch().setModuleType(ModuleType.PLAYER_UPDATEAGENTLINE_SUCCESS.getCode());
+        sysAuditLogListVo = ServiceTool.auditLogService().queryLogs(sysAuditLogListVo);
+        List logList = sysAuditLogListVo.getResult();
+        if(logList!=null && logList.size()>0){
+            model.addAttribute("sysAuditLog", logList.get(0));
+        }
 
         //银行卡列表
         model.addAttribute("userbankcards", BankHelper.queryUserBanksByUserId(vUserPlayerVo.getSearch().getId(), UserBankcardTypeEnum.TYPE_BANK, 5));
@@ -2421,9 +2429,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             UserRegisterVo userRegisterVo = new UserRegisterVo();
             userRegisterVo.setUserPlayer(userPlayer);
             userRegisterVo.setSysUser(sysUser);
-
             ServiceTool.userPlayerService().UpdateAgentDate(userRegisterVo);
-
             //组装操作日志的数据
             String oldAgentLines = this.getAgentLine(oldagentId);
             String now = DateTool.formatDate(new Date(), DateTool.yyyy_MM_dd_HH_mm_ss);
@@ -2433,7 +2439,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             list.add(oldAgentLines);
             AddLogVo addLogVo = new AddLogVo();
             SysAuditLog sysAuditLog = new SysAuditLog();
-            sysAuditLog.setEntityId(Long.valueOf(userPlayer.getId()));
+            sysAuditLog.setEntityUserId(userPlayer.getId());
             addLogVo.setResult(sysAuditLog);
             addLogVo.setList(list);
             //操作日志
