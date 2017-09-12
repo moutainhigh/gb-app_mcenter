@@ -221,16 +221,10 @@
                             <soul:button target="editAgentRank" text="修改代理" opType="function" cssClass="btn btn-link co-blue"></soul:button>
                         </div>
                         <div class="content hide" id="agent-rank-edit">
-                            <div class="col-xs-2">
-                                <span class="bg-gray input-group-addon bdn">
                                     <gb:select name="search.agentRanks" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single"
                                                relSelect="result.agentId" value="" />
-                                </span>
-                                <span class="bg-gray input-group-addon bdn">
                                     <gb:select name="result.agentId" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single" callback="changeAgentRank"
                                                relSelectPath="${root}/player/getRank/#search.agentRanks#.html"  listKey="id" listValue="username" value=""/>
-                                </span>
-                            </div>
                             <soul:button target="updateAgentRank" text="${views.common['save']}" opType="function" cssClass="btn btn-link co-blue btn-save-agentRank hide"></soul:button>
                             <soul:button target="cancelEditAgentRank" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
                         </div>

@@ -2601,8 +2601,26 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             String balance = CurrencyTool.formatInteger(walletBalance) + CurrencyTool.formatDecimals(walletBalance);
             map.put("totalAsset", totalAsset);
             map.put("balance", balance);
+
+            Integer userAgentRank = getUserAgentRank(result.getAgentId());
+            map.put("agentId",result.getAgentId());
+            map.put("agentRank",userAgentRank);
+            map.put("agentName",result.getAgentName());
         }
         return map;
+    }
+
+    private Integer getUserAgentRank(Integer agentId){
+        if(agentId == null){
+            return null;
+        }
+        UserAgentVo userAgentVo = new UserAgentVo();
+        userAgentVo.getSearch().setId(agentId);
+        userAgentVo = ServiceTool.userAgentService().get(userAgentVo);
+        if(userAgentVo.getResult()!=null){
+            return userAgentVo.getResult().getAgentRank();
+        }
+        return null;
     }
 
     /**
