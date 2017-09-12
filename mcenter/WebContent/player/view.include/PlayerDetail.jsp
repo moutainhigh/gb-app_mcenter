@@ -196,9 +196,6 @@
                             <soul:button target="cancelEditPlayerStatus" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
                     </li>
 
-
-
-
                     <li class="detail-list-cow">
                         <span class="title">${views.player_auto['所属代理']}</span>
                         <div class="content" id="agent-rank-detail">
@@ -218,19 +215,20 @@
                             <i>→</i>
                             ${command.result.username}
                             <input type="hidden" name="current-agentRank" id="current-agentRank" value="${command.result.agentId}">
-                            <soul:button target="editAgentLine" text="修改代理" opType="function" cssClass="btn btn-link co-blue"></soul:button>
+                            <soul:button target="editAgentLine" text="${'修改代理'}" opType="function" cssClass="btn btn-link co-blue" permission="role:update_agent"></soul:button>
+                            <shiro:hasPermission name="role:update_agent">
+                                <div style="font-size: 12px;color: #9c9c9c; display: inline-block;">${messages.content['prompt.update.agent']}</div>
+                            </shiro:hasPermission>
                         </div>
                         <div class="content hide" id="agent-rank-edit">
-                                    <gb:select name="search.agentRanks" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single"
-                                               relSelect="result.agentId" value="" />
-                                    <gb:select name="result.agentId" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single" callback="changeAgentLine"
-                                               relSelectPath="${root}/player/getRank/#search.agentRanks#.html"  listKey="id" listValue="username" value=""/>
-                            <soul:button target="updateAgentLine" text="${views.common['save']}" opType="function" cssClass="btn btn-link co-blue btn-save-agentRank hide"></soul:button>
+                            <gb:select name="search.agentRanks" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single"
+                                       relSelect="result.agentId" value="" />
+                            <gb:select name="result.agentId" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single" callback="changeAgentLine"
+                                       relSelectPath="${root}/player/getRank/#search.agentRanks#.html"  listKey="id" listValue="username" value=""/>
+                            <soul:button target="updateAgentLine" text="${views.common['save']}" opType="function" cssClass="btn btn-link co-blue btn-save-agent hide" precall="confirmMessage"></soul:button>
                             <soul:button target="cancelEditAgentLine" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
                         </div>
                     </li>
-
-
 
                     <li class="detail-list-cow">
                         <span class="title">${views.player_auto['玩家层级']}</span>
