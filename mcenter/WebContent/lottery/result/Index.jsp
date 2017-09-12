@@ -32,8 +32,8 @@
           <li data-code="otherlottery" code="hklhc" type="lhc"><a href="javascript:void(0)" >其它<span class="badge badge-blue m-l-sm">5种</span></a></li>
       </ul>
     <div class="wrapper white-bg shadow">
-      <div class="sys_tab_wrap clearfix" id="searchDiv">
-        <div class="m-sm">
+      <div class="sys_tab_wrap clearfix" >
+        <div class="m-sm" id="searchDiv">
                 <soul:button text="${dicts.lottery.lottery['cqssc']}" type="ssc" code="cqssc" cssClass="label ssc-label ssc-active" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
                 <soul:button  text="${dicts.lottery.lottery['tjssc']}" type="ssc"  code="tjssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
                 <soul:button  text="${dicts.lottery.lottery['xjssc']}" type="ssc" code="xjssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>

@@ -271,17 +271,22 @@
                     </table>
                 </div>
             </div>
-
+            <c:set var="isLotterySite" value="<%=ParamTool.isLotterySite()%>"/>
             <div class="tab-content m-t-lg">
                 <div class="table-responsive">
                     <table class="table table-striped table-hover dataTable m-b-none" aria-describedby="editable_info">
                         <thead>
                         <tr>
                             <td class="ft-bold"></td>
-                            <td class="ft-bold t-a-r">${views.home_auto['真人视讯']}<br>${views.home_auto['有效投注额']}</td>
-                            <td class="ft-bold t-a-r">${views.home_auto['电子游艺']}<br>${views.home_auto['有效投注额']}</td>
-                            <td class="ft-bold t-a-r">${views.home_auto['体育竞技']}<br>${views.home_auto['有效投注额']}</td>
-                            <td class="ft-bold t-a-r">${views.home_auto['彩票游戏']}<br>${views.home_auto['有效投注额']}</td>
+                            <c:if test="${!isLotterySite}">
+                                <td class="ft-bold t-a-r">${views.home_auto['真人视讯']}<br>${views.home_auto['有效投注额']}</td>
+                                <td class="ft-bold t-a-r">${views.home_auto['电子游艺']}<br>${views.home_auto['有效投注额']}</td>
+                                <td class="ft-bold t-a-r">${views.home_auto['体育竞技']}<br>${views.home_auto['有效投注额']}</td>
+                                <td class="ft-bold t-a-r">${views.home_auto['彩票游戏']}<br>${views.home_auto['有效投注额']}</td>
+                            </c:if>
+                           <c:if test="${isLotterySite}">
+                               <td class="ft-bold t-a-r">${views.home_auto['彩票游戏']}<br>${views.home_auto['有效投注额']}</td>
+                           </c:if>
                         </tr>
                         </thead>
                         <tbody>

@@ -2034,6 +2034,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         sysUser.setDefaultCurrency(objectVo.getResult().getDefaultCurrency());
         sysUser.setRegisterIpDictCode(SessionManager.getIpDictCode());
         sysUser.setRegisterIp(IpTool.ipv4StringToLong(ServletTool.getIpAddr(request)));
+        sysUser.setCreateUser(SessionManager.getUserId());
         UserPlayer userPlayer = new UserPlayer();
         userPlayer.setCreateChannel(CreateChannelEnum.BACKSTAGE_MANAGEMENT.getCode());
         userPlayer.setRankId(objectVo.getResult().getRankId());
@@ -2739,6 +2740,15 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         listVo = ServiceTool.vUserAgentManageService().search(listVo);
         List result = listVo.getResult();
         return JsonTool.toJson(result);
+    }
+
+    @RequestMapping("/queryAgentLine")
+    @ResponseBody
+    public Map queryAgentLine(Integer agentId){
+        UserAgentVo userAgentVo = new UserAgentVo();
+        userAgentVo.getSearch().setId(agentId);
+        Map map = ServiceTool.userAgentService().queryAgentLine(userAgentVo);
+        return map;
     }
 
 
