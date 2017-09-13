@@ -1,8 +1,17 @@
 package so.wwb.gamebox.mcenter.player.form;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.soul.commons.query.enums.Operator;
+import org.soul.commons.validation.form.constraints.Depends;
+import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.web.support.IForm;
+import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
+import so.wwb.gamebox.mcenter.player.controller.PlayerController;
+import so.wwb.gamebox.web.validate.controller.ValidateController;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 
 /**
@@ -22,7 +31,9 @@ public class AddNewPlayerForm implements IForm {
 
     private Integer result_rankId;
 
-    @NotNull
+    @NotBlank(message = "common_auto.username.notBlank")
+    @Pattern(regexp = FormValidRegExps.ACCOUNT,message = "common_auto.username.format")
+    @Remote(message = "common_auto.username.exist",checkMethod = "checkUserNameExist",checkClass = PlayerController.class)
     public String getResult_username() {
         return result_username;
     }
@@ -31,7 +42,9 @@ public class AddNewPlayerForm implements IForm {
         this.result_username = result_username;
     }
 
-    @NotNull
+    @NotBlank(message = "common_auto.password.notBlank")
+    @Remote(message = "common_auto.passport.tooEasy",checkClass = PlayerController.class,checkMethod = "passwordNotWeak",additionalProperties = "result.username")
+    @Pattern(message = "common_auto.password.format",regexp = FormValidRegExps.LOGIN_PWD)
     public String getResult_password() {
         return result_password;
     }
