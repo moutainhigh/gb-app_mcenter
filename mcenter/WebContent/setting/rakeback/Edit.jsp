@@ -46,10 +46,10 @@
                             <c:when test="${empty command.rakebackGrads}">
                                 <table class="table table-striped table-bordered table-hover dataTable m-b-none" >
                                     <tr role="row" class="bg-color">
-                                        <td rowspan="2"><h3>${views.setting['rakeback.edit.validValue']}</h3></td>
-                                        <td colspan="${command.apiIds.size()}"><h3>${views.setting['rakeback.edit.grads']}</h3></td>
-                                        <td rowspan="2"><h3>${views.setting['rakeback.edit.maxRakeback']}</h3></td>
                                         <td rowspan="2">&nbsp;</td>
+                                        <td rowspan="2"><h3>${views.setting['rakeback.edit.validValue']}</h3></td>
+                                        <td rowspan="2"><h3>${views.setting['rakeback.edit.maxRakeback']}</h3></td>
+                                        <td colspan="${command.apiIds.size()}"><h3>${views.setting['rakeback.edit.grads']}</h3></td>
                                     </tr>
                                     <tr class="bg-color">
                                         <c:forEach items="${command.apiIds}" var="api">
@@ -57,7 +57,15 @@
                                         </c:forEach>
                                     </tr>
                                     <tr class="bg-color apiGrad">
+                                        <td>
+                                            <div class="ratio_area"></div>
+                                            <soul:button target="" text="" opType="function" cssClass="btn btn-w-m btn-danger disabled" tag="button">
+                                                ${views.common['delete']}
+                                            </soul:button>
+                                            <soul:button target="batchUpdateRatio" text="${views.setting_auto['批量调整比例']}" opType="function" cssClass="btn batch_ratio" tag="button"></soul:button>
+                                        </td>
                                         <td><input type="text" class="form-control content-width-limit-8" placeholder="" name="rakebackGrads[0].validValue" data-name="rakebackGrads[{n}].validValue"></td>
+                                        <td><input type="text" class="form-control content-width-limit-8" placeholder="${views.setting['rakeback.edit.laveBlank']}" name="rakebackGrads[0].maxRakeback" data-name="rakebackGrads[{n}].maxRakeback"></td>
                                         <c:set var="game_status_index" value="0"/>
                                         <c:forEach items="${command.apiIds}" var="api">
                                             <td>
@@ -85,22 +93,16 @@
                                             </td>
                                         </c:forEach>
 
-                                        <td><input type="text" class="form-control content-width-limit-8" placeholder="${views.setting['rakeback.edit.laveBlank']}" name="rakebackGrads[0].maxRakeback" data-name="rakebackGrads[{n}].maxRakeback"></td>
-                                        <td>
-                                            <soul:button target="" text="" opType="function" cssClass="btn btn-w-m btn-danger disabled" tag="button">
-                                                ${views.common['delete']}
-                                            </soul:button>
-                                        </td>
                                     </tr>
                                 </table>
                             </c:when>
                             <c:otherwise>
                                 <table class="table table-striped table-bordered table-hover dataTable m-b-none" ${rake.id} ${rake.maxRakeback}>
                                     <tr role="row" class="bg-color">
-                                        <td rowspan="2"><h3>${views.setting['rakeback.edit.validValue']}</h3></td>
-                                        <td colspan="${command.apiIds.size()}"><h3>${views.setting['rakeback.edit.grads']}</h3></td>
-                                        <td rowspan="2"><h3>${views.setting['rakeback.edit.maxRakeback']}</h3></td>
                                         <td rowspan="2">&nbsp;${command.rakebackGrads.size()}</td>
+                                        <td rowspan="2"><h3>${views.setting['rakeback.edit.validValue']}</h3></td>
+                                        <td rowspan="2"><h3>${views.setting['rakeback.edit.maxRakeback']}</h3></td>
+                                        <td colspan="${command.apiIds.size()}"><h3>${views.setting['rakeback.edit.grads']}</h3></td>
                                     </tr>
                                     <tr class="bg-color">
                                         <c:forEach items="${command.apiIds}" var="api">
@@ -110,7 +112,15 @@
                                     <c:forEach items="${command.rakebackGrads}" var="rake" varStatus="status">
                                         <tr class="bg-color apiGrad">
                                             <input value="${rake.rakebackId}" name="rakebackGrads[${status.index}].rakebackId" data-name="rakebackGrads[{n}].rakebackId" type="hidden">
+                                            <td>
+                                                <div class="ratio_area"></div>
+                                                <soul:button target="${status.first ? '':'deletePlan'}" text="" opType="function" cssClass="btn btn-w-m btn-danger${status.first ? 'disabled':''}" tag="button">
+                                                    ${views.common['delete']}
+                                                </soul:button>
+                                                <soul:button target="batchUpdateRatio" text="${views.setting_auto['批量调整比例']}" opType="function" cssClass="btn batch_ratio" tag="button"></soul:button>
+                                            </td>
                                             <td><input type="text" class="form-control content-width-limit-8" value="${rake.validValue}" name="rakebackGrads[${status.index}].validValue" data-name="rakebackGrads[{n}].validValue"></td>
+                                            <td><input type="text" class="form-control content-width-limit-8" placeholder="${views.setting['rakeback.edit.laveBlank']}" value="${rake.maxRakeback}" name="rakebackGrads[${status.index}].maxRakeback" data-name="rakebackGrads[{n}].maxRakeback"></td>
                                             <c:set var="game_status_index" value="0"/>
                                             <c:forEach items="${command.apiIds}" var="api">
                                                 <td>
@@ -160,12 +170,6 @@
                                                 </td>
                                             </c:forEach>
 
-                                            <td><input type="text" class="form-control content-width-limit-8" placeholder="${views.setting['rakeback.edit.laveBlank']}" value="${rake.maxRakeback}" name="rakebackGrads[${status.index}].maxRakeback" data-name="rakebackGrads[{n}].maxRakeback"></td>
-                                            <td>
-                                                <soul:button target="${status.first ? '':'deletePlan'}" text="" opType="function" cssClass="btn btn-w-m btn-danger${status.first ? 'disabled':''}" tag="button">
-                                                    ${views.common['delete']}
-                                                </soul:button>
-                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </table>
