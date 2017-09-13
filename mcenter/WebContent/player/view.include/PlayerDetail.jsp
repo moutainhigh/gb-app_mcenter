@@ -220,7 +220,9 @@
                                 <div style="font-size: 12px;color: #9c9c9c; display: inline-block;">${messages.content['prompt.update.agent']}</div>
                             </shiro:hasPermission>
                             <c:if test="${not empty sysAuditLog}">
-                                <div style="font-size: 14px;color: #9c9c9c; display: inline-block;">${soulFn:formatLogDesc(sysAuditLog)}</div>
+                                <div style="font-size: 14px;color: #9c9c9c; display: inline-block;">
+                                    ${soulFn:formatDateTz(sysAuditLog.operateTime, DateFormat.DAY_SECOND,timeZone)}-${soulFn:formatTimeMemo(sysAuditLog.operateTime, locale)} ${soulFn:formatLogDesc(sysAuditLog)}
+                                </div>
                             </c:if>
                         </div>
                         <div class="content hide" id="agent-rank-edit">

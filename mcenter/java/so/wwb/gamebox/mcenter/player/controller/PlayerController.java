@@ -2441,14 +2441,15 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             ServiceTool.userPlayerService().UpdateAgentDate(userRegisterVo);
             //组装操作日志的数据
             String oldAgentLines = this.getAgentLine(oldagentId);
-            String now = DateTool.formatDate(new Date(), DateTool.yyyy_MM_dd_HH_mm_ss);
+            /*String now = DateTool.formatDate(new Date(), DateTool.yyyy_MM_dd_HH_mm_ss);*/
             List<String> list = new ArrayList<>();
-            list.add(now);
             list.add(SessionManager.getUser().getUsername());
+            list.add(SessionManager.getUserType().getTrans());
             list.add(oldAgentLines);
             AddLogVo addLogVo = new AddLogVo();
             SysAuditLog sysAuditLog = new SysAuditLog();
             sysAuditLog.setEntityUserId(userPlayer.getId());
+            sysAuditLog.setEntityId(Long.valueOf(userPlayer.getId()));
             addLogVo.setResult(sysAuditLog);
             addLogVo.setList(list);
             //操作日志
