@@ -60,47 +60,43 @@
 									<th colspan="5"><div class="al-left">${views.operation['Bill.station.view.title1']}</div></th>
 								</tr>
 								<tr>
-									<th>${views.column['StationProfitLoss.profitAndLoss']}<span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-html="ture" data-trigger="focus" data-placement="top" data-content="${views.operation['Bill.station.view.message']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span></th>
-									<th>${views.column['StationProfitLoss.gameType']}</th>
+									<th width="20%">${views.column['StationProfitLoss.profitAndLoss']}<span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-html="ture" data-trigger="focus" data-placement="top" data-content="${views.operation['Bill.station.view.message']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span></th>
+									<th width="20%">${views.column['StationProfitLoss.gameType']}</th>
 										<%--<th>${views.column['StationProfitLoss.occupyProportion']}</th>--%>
-									<th>${views.column['StationProfitLoss.profitLoss']}</th>
+									<th width="20%">${views.column['StationProfitLoss.profitLoss']}</th>
 									<th>${views.column['StationProfitLoss.amountPayable']}</th>
 								</tr>
 								</thead>
 								<tbody>
 								<c:set var="total" value="${0}"></c:set>
-									<%--互抵金额--%>
-								<c:set var="hdTotal" value="${0}"></c:set>
-								<c:forEach var="cmd" items="${objMap}">
-									<c:set var="apiLen" value="${fn:length(cmd.value)}"></c:set>
-									<c:if test="${apiLen == 0 }">
-										<tr><td>${cmd.key}</td><td></td><td></td><td></td></tr>
-									</c:if>
-									<c:if test="${apiLen > 0 }">
-										<c:forEach var="apiType" items="${cmd.value}"  varStatus="status">
-											<tr>
-
-												<c:if test="${status.index==0}">
-													<td rowspan="${apiLen}">${cmd.key}</td>
+								<c:forEach var="a" items="${listtomap}">
+									<c:forEach var="s" items="${a.value}"  varStatus="status">
+										<c:choose>
+											<c:when test="${s.apiId == '10'|| s.gameType == 'LiveDealer'}">
+												<c:set value="${total+s.amountPayable}" var="total"></c:set>
+											</c:when>
+											<c:otherwise>
+												<c:if test="${s.amountPayable gt 0}">
+													<c:set value="${total+s.amountPayable}" var="total"></c:set>
 												</c:if>
-												<td>
-													<input type="checkbox" class="i-checks" disabled="" ${contractApiMap[apiType.apiId.toString()].isAssume?"checked":""}>
-													<b>${gbFn:getApiName(apiType.apiId)}</b>
+											</c:otherwise>
+										</c:choose>
+										<tr>
+											<c:if test="${status.index == 0}">
+												<td rowspan="${a.value.size()}" class="api-name-b-r">
+													<input type="checkbox" class="i-checks" disabled="" ${contractApiMap[a.key].isAssume?"checked":""}><b>${gbFn:getApiName(a.key.toString())}</b>
 												</td>
-												<c:set value="${payoutAmount+apiType.profitLoss}" var="payoutAmount"></c:set>
-												<td>${apiType.profitLoss}</td>
-												<td>${apiType.amountPayable}</td>
-
-												<c:if test="${apiType.apiId!=10 && apiType.apiTypeId != '1'}">
-													<c:set value="${total+apiType.amountPayable}" var="total"></c:set>
-												</c:if>
-												<c:if test="${apiType.apiId==10 || apiType.apiTypeId == '1'}">
-													<c:set value="${hdTotal+apiType.amountPayable}" var="hdTotal"></c:set>
-												</c:if>
-											</tr>
-										</c:forEach>
-									</c:if>
-
+											</c:if>
+											<td>${dicts.game.game_type[s.gameType]}</td>
+											<td>
+													${soulFn:formatCurrency(s.profitLoss)}
+											</td>
+											<td class="${s.cssClass}">
+												<c:if test="${s.amountPayable gt 0}">+</c:if>
+													${soulFn:formatCurrency(s.amountPayable)}
+											</td>
+										</tr>
+									</c:forEach>
 								</c:forEach>
 								</tbody>
 								<tr class="bg-gray" hd="${hdTotal}">
