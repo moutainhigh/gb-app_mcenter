@@ -32,6 +32,7 @@ import org.soul.commons.security.CryptoTool;
 import org.soul.commons.security.key.CryptoKey;
 import org.soul.commons.spring.utils.CommonBeanFactory;
 import org.soul.commons.support._Module;
+import org.soul.commons.validation.form.PasswordRule;
 import org.soul.model.listop.po.SysListOperator;
 import org.soul.model.listop.vo.SysListOperatorListVo;
 import org.soul.model.log.audit.enums.OpMode;
@@ -66,10 +67,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import so.wwb.gamebox.iservice.master.player.IUserPlayerService;
@@ -2032,7 +2030,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/saveNewPlayer")
     @ResponseBody
-    public Map saveNewPlayer(VUserPlayerVo objectVo, HttpServletRequest request){
+    public Map saveNewPlayer(VUserPlayerVo objectVo, HttpServletRequest request, @FormModel("result") @Valid AddNewPlayerForm form, BindingResult result){
         Map resultMap = new HashMap(2,1f);
         SysUser sysUser = new SysUser();
         sysUser.setOwnerId(objectVo.getResult().getAgentId());
@@ -2441,7 +2439,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             ServiceTool.userPlayerService().UpdateAgentDate(userRegisterVo);
             //组装操作日志的数据
             String oldAgentLines = this.getAgentLine(oldagentId);
-            /*String now = DateTool.formatDate(new Date(), DateTool.yyyy_MM_dd_HH_mm_ss);*/
             List<String> list = new ArrayList<>();
             list.add(SessionManager.getUser().getUsername());
             list.add(SessionManager.getUserType().getTrans());
@@ -2797,6 +2794,32 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         return map;
     }
 
+
+    @RequestMapping(value = "/checkUserNameExist")
+    @ResponseBody
+    public String checkUserNameExist(@RequestParam("result.username") String userName) {
+        SysUserVo sysUserVo = new SysUserVo();
+        sysUserVo.getSearch().setSubsysCode(SubSysCodeEnum.PCENTER.getCode());
+        sysUserVo.getSearch().setUsername(userName);
+        sysUserVo.getSearch().setSiteId(SessionManager.getSiteId());
+        String existAgent = ServiceTool.userAgentService().isExistAgent(sysUserVo);
+        return existAgent;
+    }
+
+    @RequestMapping("/passwordNotWeak")
+    @ResponseBody
+    public String passwordNotWeak(@RequestParam("result.password")String password,@RequestParam("result.username") String username){
+        if(StringTool.isBlank(password))
+            return "false";
+        if(password.equals(username)){
+            return "false";
+        }
+        if(PasswordRule.isWeak(password)){
+            return "false";
+        }
+
+        return "true";
+    }
 
     //endregion
 }
