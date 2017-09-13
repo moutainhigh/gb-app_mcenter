@@ -2012,15 +2012,15 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/addNewPlayer")
     public String addNewPlayer(VUserPlayerVo objectVo, Model model){
-        List playerRanks = ServiceTool.playerRankService().queryUsableRankList(new PlayerRankVo());
         VUserPlayer vUserPlayer = new VUserPlayer();
         vUserPlayer.setDefaultCurrency(SessionManager.getUser().getDefaultCurrency());
         vUserPlayer.setDefaultLocale(SessionManager.getUser().getDefaultLocale());
         vUserPlayer.setDefaultTimezone(SessionManager.getUser().getDefaultTimezone());
         objectVo.setResult(vUserPlayer);
-        model.addAttribute("validateRule", JsRuleCreator.create(AddNewPlayerForm.class));
-        model.addAttribute("playerRanks", playerRanks);
         model.addAttribute("command", objectVo);
+        List playerRanks = ServiceTool.playerRankService().queryUsableRankList(new PlayerRankVo());
+        model.addAttribute("playerRanks", playerRanks);
+        model.addAttribute("validateRule", JsRuleCreator.create(AddNewPlayerForm.class));
         return "player/Edit";
     }
 
