@@ -2780,8 +2780,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     public String getRank(@PathVariable("agentRank") Integer agentRank){
         VUserAgentManageListVo listVo = new VUserAgentManageListVo();
         listVo.getSearch().setAgentRank(agentRank);
-        listVo = ServiceTool.vUserAgentManageService().search(listVo);
-        List result = listVo.getResult();
+        List<VUserAgentManage> result = ServiceTool.vUserAgentManageService().queryAgentByAgentRank(listVo);
         return JsonTool.toJson(result);
     }
 
