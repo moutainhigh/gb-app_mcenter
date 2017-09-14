@@ -23,7 +23,7 @@
             <th>${views.content['用该域名生成总代及代理推广链接']}</th>
             <th>${views.content['domain.bd']}</th>
             <th>${views.content['domain.status']}</th>
-            <th>${views.content['isEnable']}</th>
+            <%--<th>${views.content['isEnable']}</th>--%>
             <th>${views.common['operate']}</th>
         </tr>
         <tr class="bd-none hide">
@@ -85,7 +85,7 @@
                 </c:choose>
 
 
-                <td>
+                <%--<td>
                         <c:choose>
                             <c:when test="${s.resolveStatus eq '5'&&!s.isDefault}">
                                 <input  type="checkbox" name="my-checkbox" value="${s.id}" data-size="mini"  ${s.isEnable?'checked':''} >
@@ -94,7 +94,7 @@
                                 ---
                             </c:otherwise>
                         </c:choose>
-                </td>
+                </td>--%>
                 <td>
                         <%--待绑定，绑定中，待解绑，解绑中和失败的域名不支持编辑和开关，隐藏编辑按钮和开关--%>
                         <c:if test="${s.resolveStatus=='5'}">

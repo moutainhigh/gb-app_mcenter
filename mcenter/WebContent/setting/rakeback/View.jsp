@@ -64,8 +64,8 @@
 						<table class="table table-striped table-bordered table-hover dataTable m-b-none">
 							<tr role="row" class="bg-color">
 								<td rowspan="2"><h3>${views.setting['rakeback.edit.validValue']}</h3></td>
-								<td colspan="${command.apiIds.size()}"><h3>${views.setting['rakeback.edit.grads']}</h3></td>
 								<td rowspan="2"><h3>${views.setting['rakeback.edit.maxRakeback']}</h3></td>
+								<td colspan="${command.apiIds.size()}"><h3>${views.setting['rakeback.edit.grads']}</h3></td>
 
 							</tr>
 							<tr class="bg-color">
@@ -76,6 +76,7 @@
 							<c:forEach items="${command.rakebackGrads}" varStatus="status" var="rake">
 								<tr class="bg-color">
 									<td height="36">${rake.validValue}</td>
+									<td>${rake.maxRakeback}</td>
 									<c:forEach items="${command.apiIds}" var="api">
 										<td>
 											<c:forEach items="${command.someGames}" var="game">
@@ -91,7 +92,6 @@
 											</c:forEach>
 										</td>
 									</c:forEach>
-									<td>${rake.maxRakeback}</td>
 								</tr>
 							</c:forEach>
 						</table>
