@@ -60,7 +60,7 @@
                 <div class="form-group clearfix m-b-sm">
                     <label class="col-sm-3  al-right line-hi34 ft-bold">${views.role['player.edit.sstx']} : </label>
 
-                    <div class="col-sm-5 line-hi34" id="agent-rank-detail">
+                    <div class="col-sm-7 line-hi34" id="agent-rank-detail">
                         <a href="javascript:void(0)">
                             <c:if test="${command.result.generalAgentName=='defaulttopagent'}">
                                 ${messages.player['player.defaulttopagent']}
