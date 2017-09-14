@@ -86,6 +86,12 @@
                               role="button" class="ico-lock co-red3" tabindex="0"
                               data-original-title="" title=""><i class="fa fa-warning"></i></span>
                     </c:if>
+                    <c:if test="${item.createChannel == '2'}">
+                                <span data-content="${views.player_auto['后台新增玩家']}"
+                                      data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                                      role="button" class="ico-lock" tabindex="0"
+                                      data-original-title="" title=""><i class="fa icon-houtaixinzengwanjia iconfont"></i></span>
+                    </c:if>
                 </td>
                 <td>${item.realName}</td>
                 <td>

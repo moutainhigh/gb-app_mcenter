@@ -28,6 +28,7 @@
                     <div class="clearfix m-t-sm">
                         <form:hidden path="result.id"></form:hidden>
                         <form:hidden path="sysUser.id"></form:hidden>
+                        <input type="hidden" name="result.addNewPlayer" value="false">
                         <input type="hidden" value="false" id="validate_ratio" name="validateRatio">
                         <div id="validateRule" style="display:none">${command.validateRule}</div>
                         <input type="hidden" value="topAgent" name="editType">
