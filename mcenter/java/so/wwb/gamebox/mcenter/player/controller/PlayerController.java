@@ -2465,7 +2465,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         userAgentVo.getSearch().setId(agentId);
         Map map = ServiceTool.userAgentService().queryAgentLine(userAgentVo);
         String agentName = this.getAgentNameByAgentId(agentId);
-        StringBuilder agentLine = new StringBuilder(map.get("parent_name_array").toString());
+        StringBuilder agentLine = new StringBuilder(MapTool.getString(map,"parent_name_array")==null?"":MapTool.getString(map,"parent_name_array"));
         agentLine.append(" > "+agentName);
         return agentLine.toString();
     }
