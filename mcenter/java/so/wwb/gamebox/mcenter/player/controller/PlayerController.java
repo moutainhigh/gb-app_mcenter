@@ -2012,15 +2012,15 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/addNewPlayer")
     public String addNewPlayer(VUserPlayerVo objectVo, Model model){
-        List playerRanks = ServiceTool.playerRankService().queryUsableRankList(new PlayerRankVo());
         VUserPlayer vUserPlayer = new VUserPlayer();
         vUserPlayer.setDefaultCurrency(SessionManager.getUser().getDefaultCurrency());
         vUserPlayer.setDefaultLocale(SessionManager.getUser().getDefaultLocale());
         vUserPlayer.setDefaultTimezone(SessionManager.getUser().getDefaultTimezone());
         objectVo.setResult(vUserPlayer);
-        model.addAttribute("validateRule", JsRuleCreator.create(AddNewPlayerForm.class));
-        model.addAttribute("playerRanks", playerRanks);
         model.addAttribute("command", objectVo);
+        List playerRanks = ServiceTool.playerRankService().queryUsableRankList(new PlayerRankVo());
+        model.addAttribute("playerRanks", playerRanks);
+        model.addAttribute("validateRule", JsRuleCreator.create(AddNewPlayerForm.class));
         return "player/Edit";
     }
 
@@ -2465,7 +2465,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         userAgentVo.getSearch().setId(agentId);
         Map map = ServiceTool.userAgentService().queryAgentLine(userAgentVo);
         String agentName = this.getAgentNameByAgentId(agentId);
-        StringBuilder agentLine = new StringBuilder(map.get("parent_name_array").toString());
+        StringBuilder agentLine = new StringBuilder(MapTool.getString(map,"parent_name_array")==null?"":MapTool.getString(map,"parent_name_array"));
         agentLine.append(" > "+agentName);
         return agentLine.toString();
     }
@@ -2780,8 +2780,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     public String getRank(@PathVariable("agentRank") Integer agentRank){
         VUserAgentManageListVo listVo = new VUserAgentManageListVo();
         listVo.getSearch().setAgentRank(agentRank);
-        listVo = ServiceTool.vUserAgentManageService().search(listVo);
-        List result = listVo.getResult();
+        List<VUserAgentManage> result = ServiceTool.vUserAgentManageService().queryAgentByAgentRank(listVo);
         return JsonTool.toJson(result);
     }
 
