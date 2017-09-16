@@ -259,8 +259,10 @@
                 <td>
                     <c:if test="${!(p.playerStatus eq '4') && !(p.playerStatus eq '2')}">
                         <shiro:hasPermission name="role:agent_addsubagent">
+                            <c:if test="${not empty p.addSubAgent && p.addSubAgent}">
                             <a href="/userAgent/editSubAgent.html?search.parentId=${p.id}&editType=subAgent" nav-target="mainFrame">${views.player_auto['添加代理']}</a>
                             <span class="dividing-line m-r-xs m-l-xs">|</span>
+                            </c:if>
                         </shiro:hasPermission>
                     </c:if>
                     <c:if test="${p.playerStatus eq '4'}">
