@@ -56,7 +56,7 @@
                                 </c:if>
                                 <td>
                                     <div class="form-group clearfix m-b-xxs col-xs-3 p-x line-hi34">
-                                        <b>${command.gameTypeMap[someGame['gameType']].value}</b>
+                                        <b>${dicts.game.game_type[someGame['gameType']]}</b>
                                     </div>
                                     <div class="form-group clearfix m-b-xxs col-xs-3 p-x line-hi34">
                                         <label class="al-right">
@@ -88,7 +88,7 @@
                             </c:if>
                             <td>
                                 <div class="form-group clearfix m-b-xxs col-xs-3 p-x line-hi34">
-                                    <b>${command.gameTypeMap[someGame['gameType']].value}</b>
+                                    <b>${dicts.game.game_type[someGame['gameType']]}</b>
                                 </div>
                                 <div class="form-group clearfix m-b-xxs col-xs-3 p-x line-hi34">
                                     <label class="al-right">

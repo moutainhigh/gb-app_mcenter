@@ -1,6 +1,7 @@
-<%--@elvariable id="command" type="so.wwb.gamebox.model.company.credit.vo.CreditRecordListVo"--%>
+<%@ page import="so.wwb.gamebox.model.company.credit.po.CreditRecord" %><%--@elvariable id="command" type="so.wwb.gamebox.model.company.credit.vo.CreditRecordListVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
+<c:set var="poType" value="<%= CreditRecord.class %>" />
 <!--//region your codes 1-->
 <div class="table-responsive table-min-h">
     <table class="table table-striped table-hover dataTable m-b-none" aria-describedby="editable_info">
@@ -15,7 +16,7 @@
                            list="${status}" listKey="key" listValue="value" callback="query"/>
             </th>
             <th>${views.setting_auto['存款渠道']}</th>
-            <th>${views.setting_auto['支付时间']}</th>
+            <soul:orderColumn poType="${poType}" property="createTime" column="${views.setting_auto['支付时间']}"/>
             <th>${views.setting_auto['IP']}</th>
         </tr>
         </thead>
@@ -27,19 +28,15 @@
                 <td>${p.payUserName}</td>
                 <td>${soulFn:formatCurrency(p.payAmount)}</td>
                 <td>${dicts.credit.pay_type[p.payType]}</td>
-                <c:set value="" var="statu"></c:set>
-                <c:choose>
-                    <c:when test="${p.status==1}">
-                        <c:set value="pending" var="statu"></c:set>
-                    </c:when>
-                    <c:when test="${p.status==2}">
-                        <c:set value="success" var="statu"></c:set>
-                    </c:when>
-                    <c:otherwise>
-                        <c:set value="failure" var="statu"></c:set>
-                    </c:otherwise>
-                </c:choose>
-                <td>${dicts.credit.credit_status[p.status]}</td>
+                <td>
+                    <c:set value="" var="status_class"></c:set>
+                    <c:choose>
+                        <c:when test='${p.status eq 1}'> 	<%--状态：处理中 --%> <c:set var="status_class" value="label label-info"></c:set></c:when>
+                        <c:when test='${p.status eq 2}'> 	<%--状态：成功 --%> <c:set var="status_class" value="label label-success"></c:set></c:when>
+                        <c:when test='${p.status eq 3}'> 	<%--状态：失败 --%> <c:set var="status_class" value="label"></c:set></c:when>
+                    </c:choose>
+                    <span class="${status_class}">${dicts.credit.credit_status[p.status]}</span>
+                </td>
                 <td>${dicts.common.bankname[p.bankName]}</td>
                 <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
                 <td>${soulFn:formatIp(p.ip)}</td>

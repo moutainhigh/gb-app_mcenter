@@ -91,26 +91,6 @@
 
                     </li>
 
-                    <li class="detail-list-cow">
-                        <span class="title">${views.player_auto['所属代理']}</span>
-                        <div class="content">
-                            <c:if test="${not empty command.result.generalAgentName}">
-                                <a href="/vUserTopAgentManage/list.html?search.id=${command.result.generalAgentId}" nav-target="mainFrame">
-                                    ${command.result.generalAgentName}
-                                </a>
-                            </c:if>
-                            <c:if test="${empty command.result.generalAgentName}"><span class="co-gray">${views.player_auto['无总代']}</span></c:if>
-                            <i>→</i>
-                            <c:if test="${not empty command.result.agentName}">
-                                <a href="/vUserAgentManage/list.html?search.id=${command.result.agentId}" nav-target="mainFrame">
-                                    ${command.result.agentName}
-                                </a>
-                            </c:if>
-                            <c:if test="${empty command.result.agentName}"><span class="co-gray">${views.player_auto['无代理']}</span></c:if>
-                            <i>→</i>
-                             ${command.result.username}
-                        </div>
-                    </li>
                     <c:if test="${not empty playerWithdraw}">
                     <li style="background-color: #fcf8e3;">
                         <div class="content" style="padding: 10px 40px;font-size: 16px;text-align: center">
@@ -217,6 +197,45 @@
                     </li>
 
                     <li class="detail-list-cow">
+                        <span class="title">${views.player_auto['所属代理']}</span>
+                        <div class="content" id="agent-rank-detail">
+                            <c:if test="${not empty command.result.generalAgentName}">
+                                <a href="/vUserTopAgentManage/list.html?search.id=${command.result.generalAgentId}" nav-target="mainFrame">
+                                        ${command.result.generalAgentName}
+                                </a>
+                            </c:if>
+                            <c:if test="${empty command.result.generalAgentName}"><span class="co-gray">${views.player_auto['无总代']}</span></c:if>
+                            <i>→</i>
+                            <c:if test="${not empty command.result.agentName}">
+                                <a href="/vUserAgentManage/list.html?search.id=${command.result.agentId}" nav-target="mainFrame">
+                                        ${command.result.agentName}
+                                </a>
+                            </c:if>
+                            <c:if test="${empty command.result.agentName}"><span class="co-gray">${views.player_auto['无代理']}</span></c:if>
+                            <i>→</i>
+                            ${command.result.username}
+                            <input type="hidden" name="current-agentRank" id="current-agentRank" value="${command.result.agentId}">
+                            <soul:button target="editAgentLine" text="${'修改代理'}" opType="function" cssClass="btn btn-link co-blue" permission="role:update_agent"></soul:button>
+                            <shiro:hasPermission name="role:update_agent">
+                                <div style="font-size: 12px;color: #9c9c9c; display: inline-block;">${messages.content['prompt.update.agent']}</div>
+                            </shiro:hasPermission>
+                            <c:if test="${not empty sysAuditLog}">
+                                <div style="font-size: 14px;color: #9c9c9c; display: inline-block;">
+                                    ${soulFn:formatDateTz(sysAuditLog.operateTime, DateFormat.DAY_SECOND,timeZone)}-${soulFn:formatTimeMemo(sysAuditLog.operateTime, locale)} ${soulFn:formatLogDesc(sysAuditLog)}
+                                </div>
+                            </c:if>
+                        </div>
+                        <div class="content hide" id="agent-rank-edit">
+                            <gb:select name="search.agentRanks" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single"
+                                       relSelect="result.agentId" value="" />
+                            <gb:select name="result.agentId" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single" callback="changeAgentLine"
+                                       relSelectPath="${root}/player/getRank/#search.agentRanks#.html"  listKey="id" listValue="username" value=""/>
+                            <soul:button target="updateAgentLine" text="${views.common['save']}" opType="function" cssClass="btn btn-link co-blue btn-save-agent hide" confirm="${messages.content['confirm.update.agent']}"></soul:button>
+                            <soul:button target="cancelEditAgentLine" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
+                        </div>
+                    </li>
+
+                    <li class="detail-list-cow">
                         <span class="title">${views.player_auto['玩家层级']}</span>
                         <div class="content" id="player-rank-detail">
                             <a href="/vPlayerRankStatistics/view.html?id=${command.result.rankId}" nav-target="mainFrame">
@@ -235,6 +254,16 @@
                             <soul:button target="cancelEditPlayerRank" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
                         </div>
                     </li>
+
+
+
+
+
+
+
+
+
+
 
                     <li class="detail-list-cow detail-list-info">
                         <div class="content">

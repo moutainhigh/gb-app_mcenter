@@ -28,6 +28,7 @@
                     <div class="clearfix m-t-sm">
                         <form:hidden path="result.id"></form:hidden>
                         <form:hidden path="sysUser.id"></form:hidden>
+                        <input type="hidden" name="result.addNewPlayer" value="false">
                         <input type="hidden" value="false" id="validate_ratio" name="validateRatio">
                         <div id="validateRule" style="display:none">${command.validateRule}</div>
                         <input type="hidden" value="topAgent" name="editType">
@@ -237,7 +238,7 @@
                         <%--<button class="btn btn-filter btn-lg" data-toggle="modal"  data-dismiss="modal" data-target="#audit">下一步，设置占成</button>--%>
                         <c:choose>
                             <c:when test="${empty command.result.id}">
-                                <soul:button target="openSetRatio" cssClass="btn btn-filter btn-lg" text="" opType="function" precall="validateForm">
+                                <soul:button target="openSetRatio" cssClass="btn btn-filter btn-lg" text="" opType="function">
                                     ${views.role['topAgent.edit.nextStep']}
                                 </soul:button>
                                 <%--//测试用--%>
@@ -287,7 +288,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <%--为预览准备--%>
-                                    <soul:button target="savePreview" text="" cssClass="btn btn-filter btn-lg" opType="function" refresh="true">${views.common['previewAndSave']}</soul:button>
+                                    <soul:button target="savePreview" text="" cssClass="btn btn-filter btn-lg" opType="function" refresh="true" precall="validateForm">${views.common['previewAndSave']}</soul:button>
                                     <%--<soul:button target="${root}/userAgent/persistTopAgent.html" text="" cssClass="btn btn-filter btn-lg" precall="myValidateForm" opType="ajax" post="getCurrentFormData" callback="goToLastPage" refresh="true">${views.common['OK']}</soul:button>--%>
                                         <%--<button type="button" class="btn btn-filter">${views.player_auto['确定']}</button>--%>
                                     <soul:button target="cancelSetting"  text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter btn-lg" opType="function">${views.common['cancel']}</soul:button>

@@ -179,15 +179,6 @@
                 </td>
                 <td align="center">
                     <c:choose>
-                        <c:when test="${r.origin eq 'MOBILE'}">
-                            <span class="fa fa-mobile mobile" data-content="${views.fund_auto['手机存款']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
-                            </span>
-                        </c:when>
-                        <c:otherwise>
-                            <span style="width:8px; display: inline-block"></span>
-                        </c:otherwise>
-                    </c:choose>
-                    <c:choose>
                         <c:when test="${deal eq rs}">
                             <soul:button permission="fund:companydeposit_check" deposit_id="${r.id}" target="confirmCheckPass" text="${views.fund_auto['通过']}" opType="function"
                                          cssClass="btn btn-sm btn-success-hide m-x-xs" tag="button">
@@ -213,6 +204,15 @@
                             <a href="${url}" nav-target="mainFrame">
                                 <span class="label ${r.statusCss} p-x-md">${dicts.fund.recharge_status[r.rechargeStatus]}</span>
                             </a>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${r.origin eq 'MOBILE'}">
+                            <span class="fa fa-mobile mobile" data-content="${views.fund_auto['手机存款']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
+                            </span>
+                        </c:when>
+                        <c:otherwise>
+                            <span style="width:8px; display: inline-block"></span>
                         </c:otherwise>
                     </c:choose>
                 </td>

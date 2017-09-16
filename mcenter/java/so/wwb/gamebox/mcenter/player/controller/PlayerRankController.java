@@ -42,6 +42,7 @@ import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.player.vo.VPayRankVo;
 import so.wwb.gamebox.model.master.setting.po.RakebackSet;
 import so.wwb.gamebox.model.master.setting.vo.RakebackSetListVo;
+import so.wwb.gamebox.model.master.setting.vo.RakebackSetVo;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
 
@@ -290,6 +291,12 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
     @ResponseBody
     public String copyParameter(Integer id, PlayerRankVo objectVo) {
         objectVo = this.getService().get(objectVo);
+        if(objectVo.getResult().getRakebackId()!=null){
+            RakebackSetVo rakebackSetVo = new RakebackSetVo();
+            rakebackSetVo.getSearch().setId(objectVo.getResult().getRakebackId());
+            rakebackSetVo = ServiceTool.rakebackSetService().get(rakebackSetVo);
+            objectVo.setRakebackSet(rakebackSetVo.getResult());
+        }
         String json = JsonTool.toJson(objectVo);
         return json;
     }
