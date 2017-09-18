@@ -87,8 +87,9 @@
                 <soul:button target="closePage" cssClass="btn btn-outline btn-filter _edit" returnValue="true" text="" opType="function">${views.common['cancel']}</soul:button>
 
                 <soul:button target="toPreview" edit="edit" opType="function" text="" cssClass="btn btn-outline btn-filter _preview hide">${views.common['optionAccount.backEdit']}</soul:button>
-                <soul:button target="toConfirm"  text="" opType="function"  cssClass="btn btn-filter _preview hide">${views.common['commit']}</soul:button>
-                <%--<soul:button target="${root}/share/account/setAccountDisabled.html" returnValue="true" callback="saveCallbak" text="" opType="ajax" post="getCurrentFormData" cssClass="btn btn-filter _preview hide">${views.share_auto['提交']}</soul:button>--%>
+                <%--<soul:button target="toConfirm"   text="" opType="function"  cssClass="btn btn-filter _preview hide">${views.common['commit']}</soul:button>--%>
+                <soul:button target="${root}/share/account/setAccountDisabled.html" callback="saveCallbak" text="" precall="toConfirm"
+                             opType="ajax" post="getCurrentFormData" cssClass="btn btn-filter _preview hide">${views.share_auto['提交']}</soul:button>
             </div>
         </form:form>
     </body>

@@ -63,7 +63,7 @@
                 <c:otherwise>
                   <soul:button permission="role:player_disabledaccount"
                           target="${root}/share/account/disabledAccount.html?result.id=${command.result.id}&type=agent"
-                          callback="toTmpl"
+                          callback="returnPage"
                           text="${messages['playerTag']['accountDisabled']}"
                           opType="dialog"
                           cssClass="btn btn-outline btn-filter btn-sm${option_btn_disabled ?' disabled':''} ">

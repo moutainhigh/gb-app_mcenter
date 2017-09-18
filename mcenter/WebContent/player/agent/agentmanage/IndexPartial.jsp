@@ -243,12 +243,19 @@
                 </c:forEach>
                 <td>
                     <shiro:hasPermission name="role:agent_canaddsubagent">
-                        <c:if test="${!(p.playerStatus eq '2')}">
-                        <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} value="${p.addSubAgent}" agentId="${p.id}">
-                        </c:if>
-                        <c:if test="${(p.playerStatus eq '2')}">
-                            <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} disabled>
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${p.agentNum==0}">
+                                <c:if test="${!(p.playerStatus eq '2')}">
+                                    <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} value="${p.addSubAgent}" agentId="${p.id}">
+                                </c:if>
+                                <c:if test="${(p.playerStatus eq '2')}">
+                                    <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} disabled>
+                                </c:if>
+                            </c:when>
+                            <c:otherwise>
+                                <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} disabled>
+                            </c:otherwise>
+                        </c:choose>
                     </shiro:hasPermission>
                     <shiro:lacksPermission name="role:agent_canaddsubagent">
                         <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} disabled>
@@ -259,8 +266,10 @@
                 <td>
                     <c:if test="${!(p.playerStatus eq '4') && !(p.playerStatus eq '2')}">
                         <shiro:hasPermission name="role:agent_addsubagent">
+                            <c:if test="${not empty p.addSubAgent && p.addSubAgent}">
                             <a href="/userAgent/editSubAgent.html?search.parentId=${p.id}&editType=subAgent" nav-target="mainFrame">${views.player_auto['添加代理']}</a>
                             <span class="dividing-line m-r-xs m-l-xs">|</span>
+                            </c:if>
                         </shiro:hasPermission>
                     </c:if>
                     <c:if test="${p.playerStatus eq '4'}">
