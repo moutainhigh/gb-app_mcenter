@@ -21,6 +21,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.SendMessageTool;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.common.ContentCheckEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.serve.po.SiteContentAudit;
 import so.wwb.gamebox.model.company.serve.vo.SiteContentAuditVo;
 import so.wwb.gamebox.model.master.content.po.CttLogo;
@@ -332,9 +333,9 @@ public class CttLogoController extends BaseCrudController<ICttLogoService, CttLo
     @ResponseBody
     public Map batchDeleteLogo(CttLogoVo cttLogoVo){
         cttLogoVo = this.getService().batchDeleteLogo(cttLogoVo);
-        String msg = LocaleTool.tranMessage(_Module.COMMON, "delete.success");
+        String msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS);
         if(!cttLogoVo.isSuccess()){
-            msg = LocaleTool.tranMessage(_Module.COMMON, "delete.failed");
+            msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED);
         }
         Cache.refreshSiteLogo();
         Cache.refreshCurrentSitePageCache();

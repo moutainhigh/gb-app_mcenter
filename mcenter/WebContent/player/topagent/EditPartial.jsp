@@ -61,7 +61,7 @@
                 <td>
                     <div class="form-group clearfix m-b-xxs col-xs-3 p-x line-hi34">
                         <b>
-                            ${command.gameTypeMap[someGame['gameType']].value}
+                            ${dicts.game.game_type[someGame['gameType']]}
                         </b>
                     </div>
                     <div class="form-group clearfix m-b-xxs col-xs-3 p-x line-hi34">

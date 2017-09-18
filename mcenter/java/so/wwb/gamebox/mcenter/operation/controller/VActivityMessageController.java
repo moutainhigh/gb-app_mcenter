@@ -149,9 +149,9 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         if (activityMessageVo.isSuccess()) {
             Cache.refreshActivityMessages();
             Cache.refreshCurrentSitePageCache();
-            map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else {
-            map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
         map.put("state", activityMessageVo.isSuccess());
         return map;
@@ -224,9 +224,9 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
             if (state) {
                 CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
                 Cache.refreshCurrentSitePageCache();
-                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
             } else {
-                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
             }
             return map;
         }
@@ -272,9 +272,9 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         if (state) {
             CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
             Cache.refreshCurrentSitePageCache();
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else {
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
         return map;
     }

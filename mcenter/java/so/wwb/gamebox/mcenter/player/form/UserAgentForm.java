@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.player.form;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.constraints.Depends;
@@ -76,6 +77,8 @@ public class UserAgentForm implements IForm {
     /*占成验证*/
     private BigDecimal userAgentApis$$_ratio;
     private BigDecimal $batchSetInput;
+
+    private String result_addNewPlayer;
     /*占成验证结束*/
 
     @Depends(property = "result.id", operator = Operator.IS_NULL,value ="password")
@@ -359,6 +362,14 @@ public class UserAgentForm implements IForm {
     public void set$weixin_contactValue(String $weixin_contactValue) {
         this.$weixin_contactValue = $weixin_contactValue;
     }
-//endregion your codes 2
+    @NotBlank
+    public String getResult_addNewPlayer() {
+        return result_addNewPlayer;
+    }
+
+    public void setResult_addNewPlayer(String result_addNewPlayer) {
+        this.result_addNewPlayer = result_addNewPlayer;
+    }
+    //endregion your codes 2
 
 }

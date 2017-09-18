@@ -40,7 +40,7 @@
                     <div class="m-b-none col-xs-6 col-sm-3">
                         <div class="limit-price-wrap al-center clearfix">
                             <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用']}">${views.setting_auto['已使用']}</div>
-                            <div class="fs30 p-b-sm al-center co-red">${soulFn:formatInteger(userProfit/profit)}%</div>
+                            <div class="fs30 p-b-sm al-center co-red">${soulFn:formatInteger(useProfit*100/profit)}%</div>
                         </div>
                     </div>
                     <div class="m-b-none col-xs-6 col-sm-3">

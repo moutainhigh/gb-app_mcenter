@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
-<dt>${views.index.include_auto['任务提醒']}</dt>
+<dt>${views.index_auto['任务提醒']}</dt>
 <%--没有最新消息--%>
 <%--<c:if test="${userTaskReminderList.size()<=0}">
     <dd class="infos-none"><i class="fa fa-exclamation-circle"></i>${views.home['no new task']}</dd>
@@ -25,10 +25,10 @@
         </c:forEach>
     </c:when>
     <c:otherwise>
-        <dd class="infos-none"><i class="fa fa-exclamation-circle"></i>${views.home['no new task']}</dd>
+        <dd class="infos-none"><i class="fa fa-exclamation-circle"></i>${views.home['no.new.task']}</dd>
     </c:otherwise>
 </c:choose>
 <c:if test="${i<=0}">
-    <dd class="infos-none"><i class="fa fa-exclamation-circle"></i>${views.home['no new task']}</dd>
+    <dd class="infos-none"><i class="fa fa-exclamation-circle"></i>${views.home['no.new.task']}</dd>
 </c:if>
 <%--<dd class="more"><a href="javascript:void(0)">${views.home['view more news']}>></a></dd>--%>

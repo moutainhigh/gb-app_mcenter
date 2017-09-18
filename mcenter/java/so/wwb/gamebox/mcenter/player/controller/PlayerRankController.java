@@ -28,6 +28,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.RankStatusEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.master.content.enums.PayAccountStatusEnum;
 import so.wwb.gamebox.model.master.content.po.PayAccount;
 import so.wwb.gamebox.model.master.content.vo.PayAccountListVo;
@@ -41,6 +42,7 @@ import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.player.vo.VPayRankVo;
 import so.wwb.gamebox.model.master.setting.po.RakebackSet;
 import so.wwb.gamebox.model.master.setting.vo.RakebackSetListVo;
+import so.wwb.gamebox.model.master.setting.vo.RakebackSetVo;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
 
@@ -148,14 +150,14 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
             boolean isSuccess = ServiceTool.playerRankService().deletePlayerRank(playerRankVo);
             playerRankVo.setSuccess(isSuccess);
             if (isSuccess) {
-                playerRankVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+                playerRankVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
             } else if (!isSuccess) {
                 playerRankVo.setErrMsg(LocaleTool.tranMessage(Module.PLAYER, "playerRank.exist.player"));
             }
         } catch (Exception e) {
             LOG.error(e);
             playerRankVo.setSuccess(false);
-            playerRankVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            playerRankVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
         return this.getVoMessage(playerRankVo);
     }
@@ -289,6 +291,12 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
     @ResponseBody
     public String copyParameter(Integer id, PlayerRankVo objectVo) {
         objectVo = this.getService().get(objectVo);
+        if(objectVo.getResult().getRakebackId()!=null){
+            RakebackSetVo rakebackSetVo = new RakebackSetVo();
+            rakebackSetVo.getSearch().setId(objectVo.getResult().getRakebackId());
+            rakebackSetVo = ServiceTool.rakebackSetService().get(rakebackSetVo);
+            objectVo.setRakebackSet(rakebackSetVo.getResult());
+        }
         String json = JsonTool.toJson(objectVo);
         return json;
     }

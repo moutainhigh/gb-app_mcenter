@@ -183,7 +183,7 @@
                                 <input type="hidden" value="${command['豹子'].betCode}" name="lotteryOdds[64].betCode">
                                 <input type="hidden" value="${command['豹子'].siteId}" name="lotteryOdds[64].siteId">
                                 <input type="hidden" value="${command['豹子'].betNum}" name="lotteryOdds[64].betNum">
-                                <input type="text" class="form-control input-sm" placeholder="<=${command['豹子'].oddLimit}" data-limit="${command['大单'].oddLimit}" data-value="${command['大单'].odd}" name="lotteryOdds[64].odd" value="${command['大单'].odd}">
+                                <input type="text" class="form-control input-sm" placeholder="<=${command['豹子'].oddLimit}" data-limit="${command['豹子'].oddLimit}" data-value="${command['豹子'].odd}" name="lotteryOdds[64].odd" value="${command['豹子'].odd}">
                             </div>
                         </td>
                     </tr>

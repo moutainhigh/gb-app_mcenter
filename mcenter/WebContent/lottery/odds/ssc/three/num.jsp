@@ -87,6 +87,22 @@
                         </c:forEach>
                     </tr>
                     <tr>
+                        <th><span>万百个</span></th>
+                        <c:forEach items="${command.ten_thousand_hundred_one}" var="p" >
+                            <c:if test="${p.betNum eq '中3'}">
+                                <td>
+                                    <div class="input-group content-width-limit-10">
+                                        <c:set var="odd" value="${p}"/>
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    </div>
+                                </td>
+                            </c:if>
+                        </c:forEach>
                         <th><span>万拾个</span></th>
                         <c:forEach items="${command.ten_thousand_ten_one}" var="p" >
                             <c:if test="${p.betNum eq '中3'}">
@@ -104,6 +120,8 @@
                                 </td>
                             </c:if>
                         </c:forEach>
+                    </tr>
+                    <tr>
                         <th><span>仟佰拾</span></th>
                         <c:forEach items="${command.thousand_hundred_ten}" var="p" >
                             <c:if test="${p.betNum eq '中3'}">
@@ -120,8 +138,6 @@
                                 </td>
                             </c:if>
                         </c:forEach>
-                    </tr>
-                    <tr>
                         <th><span>仟佰个</span></th>
                         <c:forEach items="${command.thousand_hundred_one}" var="p" >
                             <c:if test="${p.betNum eq '中3'}">
@@ -139,6 +155,9 @@
                                 </td>
                             </c:if>
                         </c:forEach>
+
+                    </tr>
+                    <tr>
                         <th><span>仟拾个</span></th>
                         <c:forEach items="${command.thousand_ten_one}" var="p" >
                             <c:if test="${p.betNum eq '中3'}">
@@ -155,8 +174,6 @@
                                 </td>
                             </c:if>
                         </c:forEach>
-                    </tr>
-                    <tr>
                         <th><span>佰拾个</span></th>
                         <c:forEach items="${command.hundred_ten_one}" var="p" >
                             <c:if test="${p.betNum eq '中3'}">
