@@ -31,6 +31,12 @@
                     <form:input class="form-control" path="result.remarkTitle" value="${result.remarkTitle}" maxlength="100"/>
                 </div>
             </div>--%>
+                <div class="form-group over clearfix">
+                    <label class="col-xs-3 al-right line-hi34">备注标题：</label>
+                    <div class="input-group m-b col-xs-9">
+                        <input class="form-control" name="result.remarkTitle" value="${result.remarkTitle}">
+                    </div>
+                </div>
             <div class="form-group over clearfix">
                 <label class="col-xs-3 al-right line-hi34">${views.role['player.view.remark.remarkContent']}：</label>
                 <div class="input-group m-b col-xs-9">
