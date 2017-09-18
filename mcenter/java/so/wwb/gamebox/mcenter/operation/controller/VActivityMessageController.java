@@ -34,6 +34,7 @@ import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.SiteI18nEnum;
 import so.wwb.gamebox.model.common.ContentCheckEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.serve.po.SiteContentAudit;
 import so.wwb.gamebox.model.company.serve.vo.SiteContentAuditVo;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
@@ -416,10 +417,10 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
                 updateSiteContentAudit();
                 Cache.refreshActivityMessages();// 发布和编辑刷新缓存
                 Cache.refreshCurrentSitePageCache();
-                map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
+                map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             } else {
                 map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
-                map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+                map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             }
             map.put("state", success);
             //推送任务给运营商

@@ -18,7 +18,7 @@
         </thead>
         <tbody>
         <c:forEach items="${command.result}" var="p" varStatus="status">
-            <tr>
+            <tr class="tab-detail">
                 <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                 <td><a href="/vUserTopAgentManage/list.html?search.id=${p.topagentId}&search.extendLink=true" nav-target="mainFrame">${p.topagentName}</a></td>
                 <td>${p.billNum}</td>

@@ -10,7 +10,7 @@
             <th rowspan="2">${views.wc_fund['operation.rebate.agentPath']}</th>
             <th rowspan="2">${views.wc_fund['代理账号']}</th>
             <th rowspan="2">${views.wc_fund['代理层级']}</th>
-            <th rowspan="2">${views.setting['rebate.edit.validPlayerNum']}</th>
+            <th rowspan="2">${views.wc_fund['rebate.edit.validPlayerNum']}</th>
             <th class="multiple-row" colspan="2">
                 <div class="title">${views.wc_fund['effective_transaction']}</div>
                 <div class="two-col">${views.wc_fund['operation.rebate.self']}</div>
@@ -43,10 +43,10 @@
         </tr>
         <tbody>
             <c:forEach items="${command.result}" var="p" varStatus="status">
-                <tr>
+                <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                     <td style="text-align: left">
-                        ${p.parentNameArray}
+                        <a href="/rebateAgent/list.html?search.agentId=${p.agentId}" nav-target="mainFrame">${p.parentNameArray}</a>
                     </td>
                     <td>
                         <a href="/userAgent/agent/detail.html?search.id=${p.agentId}" nav-target="mainFrame">${p.agentName}</a>
@@ -54,20 +54,20 @@
                     <td>${p.agentRank}</td>
                     <td>${p.effectivePlayer}</td>
                     <td colspan="2" class="multiple-row-td">
-                        <div>${soulFn:formatCurrency(p.effectiveSelf)}</div>
-                        <div>${soulFn:formatCurrency(p.effectiveTransaction-p.effectiveSelf)}</div>
+                        <div class="${p.effectiveSelf<0?'co-red':''}">${soulFn:formatCurrency(p.effectiveSelf)}</div>
+                        <div class="${p.effectiveTransaction-p.effectiveSelf<0?'co-red':''}">${soulFn:formatCurrency(p.effectiveTransaction-p.effectiveSelf)}</div>
                     </td>
                     <td colspan="2" class="multiple-row-td">
-                        <div>
+                        <div class="${p.profitSelf<0?'co-red':''}">
                             <soul:button target="${root}/rebateAgent/showAgentRebate.html?search.agentId=${p.agentId}&rebateAgentId=${p.id}&search.rebateBillId=${p.rebateBillId}"
                                          title="${views.wc_fund['自身损益']}" text="${soulFn:formatCurrency(p.profitSelf)}" opType="dialog">
                                 ${soulFn:formatCurrency(p.profitSelf)}
                             </soul:button></div>
-                        <div>${soulFn:formatCurrency(p.profitLoss-p.profitSelf)}</div>
+                        <div class="${p.profitLoss-p.profitSelf<0?'co-red':''}">${soulFn:formatCurrency(p.profitLoss-p.profitSelf)}</div>
                     </td>
                     <td colspan="2" class="multiple-row-td">
-                        <div>${soulFn:formatCurrency(p.rebateSelfHistory)}</div>
-                        <div>
+                        <div class="${p.rebateSelfHistory<0?'co-red':''}">${soulFn:formatCurrency(p.rebateSelfHistory)}</div>
+                        <div class="${p.rebateSelf<0?'co-red':''}">
                             <soul:button target="${root}/rebateAgent/showAgentRebate.html?search.agentId=${p.agentId}&rebateAgentId=${p.id}&search.rebateBillId=${p.rebateBillId}"
                                          title="${views.wc_fund['operation.rebate.ratio']}" text="${soulFn:formatCurrency(p.rebateSelf)}" opType="dialog">
                                 ${soulFn:formatCurrency(p.rebateSelf)}
@@ -76,8 +76,8 @@
                         </div>
                     </td>
                     <td colspan="2" class="multiple-row-td">
-                        <div>${soulFn:formatCurrency(p.rebateSunHistory)}</div>
-                        <div>
+                        <div class="${p.rebateSunHistory<0?'co-red':''}">${soulFn:formatCurrency(p.rebateSunHistory)}</div>
+                        <div class="${p.rebateSun<0?'co-red':''}">
                             <soul:button target="${root}/rebateAgent/showAgentChildRebate.html?search.agentId=${p.agentId}&search.id=${p.id}&search.rebateBillId=${p.rebateBillId}"
                                          title="${views.wc_fund['operation.rebate.childrebate']}" text="${soulFn:formatCurrency(p.rebateSun)}" opType="dialog">
                                 ${soulFn:formatCurrency(p.rebateSun)}
@@ -85,13 +85,13 @@
                         </div>
                     </td>
                     <td colspan="2" class="multiple-row-td">
-                        <div>${soulFn:formatCurrency(p.feeHistory)}</div>
-                        <div>
+                        <div class="${p.feeHistory<0?'co-red':''}">${soulFn:formatCurrency(p.feeHistory)}</div>
+                        <div class="${p.feeAmount<0?'co-red':''}">
                             <a href="/rebateAgent/queryRebateAgentPlayer.html?search.rebateBillId=${p.rebateBillId}&rebateAgentId=${p.id}&search.agentId=${p.agentId}" nav-target="mainFrame">${soulFn:formatCurrency(p.feeAmount)}</a>
                         </div>
                     </td>
-                    <td>${soulFn:formatCurrency(p.rebateTotal)}</td>
-                    <td>${soulFn:formatCurrency(p.rebateActual)}</td>
+                    <td><div class="${p.rebateTotal<0?'co-red':''}">${soulFn:formatCurrency(p.rebateTotal)}</div></td>
+                    <td><div class="${p.rebateActual<0?'co-red':''}">${soulFn:formatCurrency(p.rebateActual)}</div></td>
                     <td>
                         <span
                             <c:choose>
@@ -117,13 +117,13 @@
                             <c:when test="${p.settlementState eq 'pending_lssuing'}">
                                 <soul:button target="${root}/rebateAgent/toSettled.html?search.id=${p.id}" permission="operate:rebatesettle"
                                              text="${views.fund_auto['结算']}" opType="dialog" callback="query">
-                                    ${views.fund_auto['结算']}
+                                    ${views.wc_fund['结算']}
                                 </soul:button>
                                 <soul:button target="${root}/rebateAgent/clear.html?id=${p.id}" permission="operate:rebateclear"
-                                             text="${views.fund_auto['清除']}" opType="ajax" callback="query"  confirm="${views.fund_auto['清除后数据将不会被累计到下一期']}">
-                                    ${views.fund_auto['清除']}
+                                             text="${views.fund_auto['清除']}" opType="ajax" callback="query"  confirm="${views.wc_fund['清除后数据将不会被累计到下一期']}">
+                                    ${views.wc_fund['清除']}
                                 </soul:button>
-                                <soul:button target="${root}/rebateAgent/signBill.html?id=${p.id}" text="${views.fund_auto['挂账']}" permission="operate:rebatesignbill"
+                                <soul:button target="${root}/rebateAgent/signBill.html?id=${p.id}" text="${views.wc_fund['挂账']}" permission="operate:rebatesignbill"
                                              confirm="${views.fund['rebate.signbill.tips']}" opType="ajax" callback="query"></soul:button>
                             </c:when>
                             <c:otherwise>

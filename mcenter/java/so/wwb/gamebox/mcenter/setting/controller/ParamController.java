@@ -47,6 +47,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.*;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.company.site.po.SiteConfineArea;
@@ -452,6 +453,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         sysDomainListVo = ServiceTool.sysDomainService().updateAppDomain(sysDomainListVo);
         List<SysDomain> result = sysDomainListVo.getResult();
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
+        SysParam param = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
+        model.addAttribute("access_domain",param);
         model.addAttribute("select_domain",sysParam);
         model.addAttribute("appDomain",result);
         return "/setting/param/siteparameters/BasicSetting";
@@ -825,7 +828,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     private Map saveServiceTrems(SiteConfineAreaVo siteConfineAreaVo, @FormModel("result") @Valid ServiceTermsForm form, BindingResult result, SiteI18nListVo siteI18nListVo) {
         if (result.hasErrors()) {
             Map map = new HashMap(2,1f);
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             map.put("state", false);
             return map;
         }
@@ -883,7 +886,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     public Map saveApportion(PayAccountVo vo, @FormModel() @Valid ApportionForm form, BindingResult result) {
         if (result.hasErrors()) {
             Map map = new HashMap(2,1f);
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             map.put("state", false);
             return map;
         }

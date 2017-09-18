@@ -34,7 +34,7 @@
         </thead>
         <tbody>
         <c:forEach items="${command.result}" var="p" varStatus="status">
-            <tr>
+            <tr class="tab-detail">
                 <th><input type="checkbox" value="${p.id}" ></th>
                 <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                 <td>${p.title}</td>

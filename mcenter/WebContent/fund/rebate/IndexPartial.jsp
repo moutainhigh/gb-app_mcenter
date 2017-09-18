@@ -89,7 +89,7 @@
                     </td>
                     <td>${dicts.fund.rebate_status[p.rebateStatus]}</td>
                     <td>
-                        <c:choose>
+                        <%--<c:choose>
                             <c:when test="${p.rebateStatus eq '0'}">
                                 <soul:button target="${root}/fund/rebate/toSettled.html?search.id=${p.id}" permission="operate:rebatesettle"
                                              text="${views.fund_auto['结算']}" opType="dialog" callback="query">
@@ -113,7 +113,7 @@
                             <c:otherwise>
 
                             </c:otherwise>
-                        </c:choose>
+                        </c:choose>--%>
                     </td>
                 </tr>
             </c:forEach>

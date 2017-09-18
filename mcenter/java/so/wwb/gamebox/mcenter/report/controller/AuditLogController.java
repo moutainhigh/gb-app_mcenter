@@ -53,13 +53,6 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
     protected String getViewBasePath() {
         return "/report/log/";
     }
-    private static List<Pair> keys;
-    static {
-        keys = new ArrayList<>();
-        keys.add(new Pair("search.operator", "角色账号"));
-        keys.add(new Pair("search.ip", "IP 地址"));
-
-    }
 
     @RequestMapping("/logList")
     protected String logList(SysAuditLogListVo listVo, Model model, HttpServletRequest request) {

@@ -2,12 +2,14 @@ package so.wwb.gamebox.mcenter.fund.controller;
 
 
 import org.soul.commons.data.json.JsonTool;
+import org.soul.commons.dubbo.DubboTool;
 import org.soul.commons.lang.ArrayTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
+import org.soul.commons.query.sort.Direction;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.session.SessionManagerBase;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.iservice.currency.ICurrencyExchangeService;
+import so.wwb.gamebox.iservice.master.fund.IPlayerRechargeService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -25,8 +29,12 @@ import so.wwb.gamebox.model.CacheBase;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
+import so.wwb.gamebox.model.company.setting.po.CurrencyExchangeRate;
 import so.wwb.gamebox.model.company.setting.po.SysCurrency;
+import so.wwb.gamebox.model.company.setting.vo.CurrencyExchangeRateVo;
+import so.wwb.gamebox.model.currency.po.CurrencyRate;
 import so.wwb.gamebox.model.master.dataRight.DataRightModuleType;
+import so.wwb.gamebox.model.master.enums.CurrencyEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeStatusEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeParentEnum;
@@ -37,6 +45,7 @@ import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerTransactionVo;
 import so.wwb.gamebox.web.cache.Cache;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -110,7 +119,7 @@ public class CompanyDepositController extends BaseDepositController {
     @ResponseBody
     public Map<String, Object> toneSwitch(@RequestParam("paramVal") String paramVal) {
         SessionManager.setCompanyVoiceNotice(paramVal);
-        Map<String, Object> map = new HashMap<>(1,1f);
+        Map<String, Object> map = new HashMap<>(1, 1f);
         map.put("state", true);
         return map;//toneSwitch(SiteParamEnum.WARMING_TONE_DEPOSIT);
     }
@@ -121,12 +130,6 @@ public class CompanyDepositController extends BaseDepositController {
     @Override
     protected VPlayerDepositVo doView(VPlayerDepositVo vo, Model model) {
         vo = queryView(vo, model);
-        if (RechargeTypeEnum.BITCOIN_FAST.getCode().equals(vo.getResult().getRechargeType()) && !RechargeStatusEnum.EXCHANGE.getCode().equals(vo.getResult().getRechargeStatus())) {
-            PlayerTransactionVo playerTransactionVo = new PlayerTransactionVo();
-            playerTransactionVo.getSearch().setId(vo.getResult().getPlayerTransactionId());
-            playerTransactionVo = ServiceTool.getPlayerTransactionService().get(playerTransactionVo);
-            model.addAttribute("transactionData", JsonTool.fromJson(playerTransactionVo.getResult().getTransactionData(), Map.class));
-        }
         return vo;
     }
 
@@ -155,7 +158,7 @@ public class CompanyDepositController extends BaseDepositController {
         vo.getSearch().setRechargeStatus(RechargeStatusEnum.DEAL.getCode());
         vo.getSearch().setRechargeTypeParent(RechargeTypeParentEnum.COMPANY_DEPOSIT.getCode());
         VPlayerDeposit vPlayerDeposit = getService().nextCheckRecharge(vo);
-        Map<String, Object> map = new HashMap(2,1f);
+        Map<String, Object> map = new HashMap(2, 1f);
         if (vPlayerDeposit != null) {
             map.put("state", true);
             map.put("id", vPlayerDeposit.getId());
@@ -221,8 +224,93 @@ public class CompanyDepositController extends BaseDepositController {
     @ResponseBody
     public Map<String, Object> exchange(VPlayerDepositVo vo) {
         LOG.info("执行存款兑换,id:{0},user:{1}", vo.getSearch().getId(), SessionManager.getUserName());
-        Map<String, Object> map = ServiceTool.playerRechargeService().exchangeBtc(vo);
+        Map<String, Object> map = new HashMap<>();
+        vo = getService().get(vo);
+        VPlayerDeposit playerDeposit = vo.getResult();
+        if (playerDeposit == null) {
+            map.put("state", false);
+            return map;
+        }
+        if (!RechargeStatusEnum.EXCHANGE.getCode().equals(playerDeposit.getRechargeStatus())) {
+            map.put("state", false);
+            map.put("hasExchange", true);
+            return map;
+        }
+        IPlayerRechargeService playerRechargeService = ServiceTool.playerRechargeService();
+        //验证订单状态
+        if (!playerRechargeService.checkDepositStatus(vo)) {//查询不到订单状态
+            map.put("state", false);
+            map.put("depositStatus", true);
+            if (StringTool.isNotBlank(vo.getCheckDepositJson())) {
+                map.putAll(JsonTool.fromJson(vo.getCheckDepositJson(), Map.class));
+            }
+            return map;
+        }
+        CurrencyRate rate = queryRate(vo);
+        if (rate == null || rate.getAskRate() == null) {
+            map.put("state", false);
+            map.put("rate", true);
+            return map;
+        }
+        vo.setRate(rate);
+        try {
+            vo.setOperator(SessionManager.getUserName());
+            vo.setUserId(SessionManager.getUserId());
+            map = playerRechargeService.exchangeBtc(vo);
+        } catch (Exception e) {
+            map.put("state", false);
+            LOG.error(e);
+        }
         return map;
     }
 
+    private CurrencyRate queryRate(VPlayerDepositVo vo) {
+        String depositCurrency = vo.getResult().getDefaultCurrency();
+        CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
+        rateVo.getQuery().addOrder(CurrencyExchangeRate.PROP_UPDATE_TIME, Direction.DESC);
+        rateVo.getQuery().setCriterions(new Criterion[]{new Criterion(CurrencyExchangeRate.PROP_IFROM_CURRENCY, Operator.EQ, CurrencyEnum.USD.getCode()), new Criterion(CurrencyExchangeRate.PROP_ITO_CURRENCY, Operator.EQ, depositCurrency)});
+        rateVo = ServiceTool.getCurrencyExchangeRateService().search(rateVo);
+        CurrencyExchangeRate currencyExchangeRate = rateVo.getResult();
+        CurrencyRate rate = new CurrencyRate();
+        if (currencyExchangeRate == null) {
+            rate = DubboTool.getService(ICurrencyExchangeService.class).usdToCurrency(depositCurrency);
+            saveRate(currencyExchangeRate, rate, depositCurrency);
+        } else if (currencyExchangeRate.getUpdateTime().getTime() < SessionManager.getDate().getToday().getTime()) {
+            rate = DubboTool.getService(ICurrencyExchangeService.class).usdToCurrency(depositCurrency);
+            if (rate == null) {
+                LOG.info("更新汇率失败,用数据库原有汇率{0}", vo.getResult().getTransactionNo());
+                rate = new CurrencyRate();
+                rate.setRateTime(currencyExchangeRate.getUpdateTime());
+                rate.setAskRate(new BigDecimal(String.valueOf(currencyExchangeRate.getRate())));
+                rate.setQueryTime(SessionManager.getDate().getNow());
+            } else {
+                saveRate(currencyExchangeRate, rate, depositCurrency);
+            }
+        } else {
+            rate.setRateTime(currencyExchangeRate.getUpdateTime());
+            rate.setAskRate(new BigDecimal(String.valueOf(currencyExchangeRate.getRate())));
+            rate.setQueryTime(SessionManager.getDate().getNow());
+        }
+        return rate;
+    }
+
+    private void saveRate(CurrencyExchangeRate currencyExchangeRate, CurrencyRate rate, String depositCurrency) {
+        if (rate == null || rate.getAskRate() == null) {
+            return;
+        }
+        if (currencyExchangeRate == null) {
+            currencyExchangeRate = new CurrencyExchangeRate();
+        }
+        try {
+            currencyExchangeRate.setIfromCurrency(CurrencyEnum.USD.getCode());
+            currencyExchangeRate.setItoCurrency(depositCurrency);
+            currencyExchangeRate.setUpdateUser(SessionManager.getUserId());
+            CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
+            rateVo.setResult(currencyExchangeRate);
+            rateVo.setRate(rate);
+            ServiceTool.getCurrencyExchangeRateService().saveOrUpdateRate(rateVo);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
+    }
 }

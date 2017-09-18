@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="lot_two_menu">
     <%@ include file="/include/include.inc.jsp" %>
+    <a href="javascript:void(0)" betCode="champion_up_sum" page="championUpSum">冠/亚和</a>&nbsp;&nbsp;-&nbsp;&nbsp;
     <a href="javascript:void(0)" betCode="champion" page="normal">${views.lottery_auto['冠军']}</a>&nbsp;&nbsp;-&nbsp;&nbsp;
     <a href="javascript:void(0)" betCode="runner_up" page="normal">${views.lottery_auto['亚军']}</a>&nbsp;&nbsp;-&nbsp;&nbsp;
     <a href="javascript:void(0)" betCode="third_runner" page="normal">${views.lottery_auto['季军']}</a>&nbsp;&nbsp;-&nbsp;&nbsp;

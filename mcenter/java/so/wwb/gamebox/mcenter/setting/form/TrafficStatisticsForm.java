@@ -16,7 +16,7 @@ public class TrafficStatisticsForm implements IForm {
 
     //region your codes 2
     private String result_trafficStatistics;
-    @Length(max = 1000)
+    @Length(message = "operation.trafficStatistics.maxLength", max = 5000)
     public String getResult_trafficStatistics() {
         return result_trafficStatistics;
     }

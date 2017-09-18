@@ -24,6 +24,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.CacheBase;
 import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.master.agent.po.CttMaterialPic;
 import so.wwb.gamebox.model.master.agent.po.CttMaterialText;
@@ -76,9 +77,9 @@ public class CttMaterialTextController extends BaseCrudController<ICttMaterialTe
         vo = getService().showHideMaterial(vo);
         Map<Object, Object> result = new HashMap<>();
         if (vo.isSuccess())
-            result.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success", new Object[0]));
+            result.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS, new Object[0]));
         else
-            result.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed", new Object[0]));
+            result.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS, new Object[0]));
         result.put("state", Boolean.valueOf(vo.isSuccess()));
         return result;
     }
@@ -88,7 +89,7 @@ public class CttMaterialTextController extends BaseCrudController<ICttMaterialTe
     public Map deleteGroup(CttMaterialTextVo vo) {
         vo = getService().deleteGroup(vo);
         if(vo.isSuccess()) {
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success", new Object[0]));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS, new Object[0]));
         } else if(!vo.isSuccess()) {
             vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed", new Object[0]));
         }
@@ -123,11 +124,11 @@ public class CttMaterialTextController extends BaseCrudController<ICttMaterialTe
         vo = getService().saveCttText(vo);
         Map map = new HashMap(2,1f);
         if (vo.isSuccess()) {
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
         } else if (StringTool.isNotEmpty(vo.getErrMsg())) {
             map.put("msg", LocaleTool.tranMessage(Module.MASTER_CONTENT, vo.getErrMsg()));
         } else {
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
         map.put("state", Boolean.valueOf(vo.isSuccess()));
         return map;
@@ -226,11 +227,11 @@ public class CttMaterialTextController extends BaseCrudController<ICttMaterialTe
             vo = ServiceTool.cttMaterialPicService().editCttPic(vo);
             Map map = new HashMap(2,1f);
             if (vo.isSuccess()) {
-                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
+                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             } else if (StringTool.isNotEmpty(vo.getErrMsg())) {
                 map.put("msg", LocaleTool.tranMessage(Module.MASTER_CONTENT, vo.getErrMsg()));
             } else {
-                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             }
             map.put("state", Boolean.valueOf(vo.isSuccess()));
             return map;

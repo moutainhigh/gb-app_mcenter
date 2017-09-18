@@ -4,7 +4,7 @@
 
 <html lang="zh-CN">
 <head>
-    <title>充值中心</title>
+    <title>${views.content_auto['充值中心']}</title>
     <%@ include file="/include/include.head.jsp" %>
 </head>
 <body>
@@ -16,19 +16,19 @@
                     <i class="fa fa-exclamation-circle"></i>
                 </span>
             <div class="line-hi25 m-l-md  modal-alert-text">
-                添加后，将在玩家中心存款页面显示“充值中心”入口<br>玩家点击入口后，将跳转至快速充值页面进行存款</div>
+                    ${views.content_auto['添加后']}<br>${views.content_auto['玩家点击入口后']}</div>
         </div>
         <div class="form-group clearfix m-b-xxs">
-            <label class="col-xs-3 al-right line-hi34">上分系统KEY值:</label>
+            <label class="col-xs-3 al-right line-hi34">${views.content_auto['上分系统KEY值']}</label>
             <div class="col-xs-8 p-x">
                 <input type="hidden" name="result.id" value="${command.payKeyParam.id}"/>
-                <input name="result.paramValue" class="form-control m-b" value="${command.payKeyParam.paramValue}" type="text" placeholder="请输入KEY值"/>
+                <input name="result.paramValue" class="form-control m-b" value="${command.payKeyParam.paramValue}" type="text" placeholder="${views.content_auto['请输入KEY值']}"/>
             </div>
         </div>
     </div>
     <div class="modal-footer">
         <soul:button target="${root}/payAccount/saveAcbSetting.html" post="getCurrentFormData" text="" opType="ajax" dataType="json" cssClass="btn btn-filter" callback="saveCallbak" tag="button">${views.common['confirm']}</soul:button>
-        <soul:button cssClass="btn btn-outline btn-filter" target="closePage" text="取消" opType="function"/>
+        <soul:button cssClass="btn btn-outline btn-filter" target="closePage" text="${views.content_auto['取消']}" opType="function"/>
     </div>
 </form:form>
 </body>

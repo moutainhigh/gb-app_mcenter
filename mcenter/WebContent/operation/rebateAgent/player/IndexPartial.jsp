@@ -12,6 +12,8 @@
             </tr>
             <tr role="row" class="bg-gray">
                 <th>${views.wc_fund['玩家账号']}</th>
+                <th>${views.report_auto['存款金额']}</th>
+                <th>${views.fund['取款金额']}</th>
                 <th>${views.wc_fund['行政费用']}</th>
                 <th>${views.wc_fund['返水费用']}</th>
                 <th>${views.wc_fund['存款优惠']}</th>
@@ -21,6 +23,8 @@
 
             <tr class="co-red">
                 <td>${views.wc_fund['本期小计']}</td>
+                <td>${soulFn:formatCurrency(a.depositAmount)}</td>
+                <td>${soulFn:formatCurrency(a.withdrawAmount)}</td>
                 <td>${soulFn:formatCurrency(a.depositFee+a.withdrawFee)}</td>
                 <td>${soulFn:formatCurrency(a.rakebackFee)}</td>
                 <td>${soulFn:formatCurrency(a.favorableFee)}</td>
@@ -30,7 +34,7 @@
             </tr>
             <tr>
                 <td>${views.wc_fund['上期未结']}</td>
-                <td colspan="5">${soulFn:formatCurrency(a.feeHistory)}</td>
+                <td colspan="7">${soulFn:formatCurrency(a.feeHistory)}</td>
             </tr>
         </thead>
         <tbody>
@@ -40,6 +44,8 @@
         <c:forEach items="${command.result}" var="p" varStatus="status">
             <tr class="tab-detail">
                 <td>${p.playerName}</td>
+                <td>${soulFn:formatCurrency(p.depositAmount)}</td>
+                <td>${soulFn:formatCurrency(p.withdrawAmount)}</td>
                 <td>${soulFn:formatCurrency(p.depositAmount * (a.depositRadio/100) + p.withdrawAmount * (a.withdrawRadio/100))}</td>
                 <td>${soulFn:formatCurrency(p.rakebackAmount*(a.rakebackRadio/100))}</td>
                 <td>${soulFn:formatCurrency(p.favorableAmount*(a.favorableRadio/100))}</td>

@@ -21,7 +21,7 @@
             </thead>
             <tbody>
             <c:forEach items="${command.result}" var="p" varStatus="status">
-                <tr>
+                <tr class="tab-detail">
                     <td>
                         <div>
                             <a href="/player/playerView.html?search.id=${p.id}" nav-Target="mainFrame">${p.username }</a>

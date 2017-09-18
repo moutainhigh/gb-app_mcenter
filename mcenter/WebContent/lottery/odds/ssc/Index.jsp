@@ -4,9 +4,10 @@
     <a name="playcode" href="javascript:void(0)" type="one">${views.lottery_auto['一字']}</a>
     <a name="playcode" href="javascript:void(0)" type="two">${views.lottery_auto['二字']}</a>
     <a name="playcode" href="javascript:void(0)" type="three">${views.lottery_auto['三字']}</a>
-    <a name="playcode" href="javascript:void(0)" type="lhh">${views.lottery_auto['总合/龙虎和']}</a>
-   <%-- <a href="javascript:void(0)" type="group">${views.lottery_auto['组选']}</a>--%>
-    <%--<a href="javascript:void(0)" code="sum">${views.lottery_auto['和数']}</a>--%>
+    <a name="playcode" href="javascript:void(0)" type="lhh">总和</a>
+    <a name="playcode"　href="javascript:void(0)" type="group">组选</a>
+    <a name="playcode"　href="javascript:void(0)" type="span">跨度</a>
+    <a name="playcode"　href="javascript:void(0)" type="dragonTiger">龙虎</a>
     <%--<span class="hide" id="showbatchupdate">
         <input type="number" name="defalutValue" id="defaultValue">
         <soul:button cssClass="batch-update-value" target="batchUpdateValue" text="${views.lottery_auto['批量调整']}" opType="function" tag="button"></soul:button>

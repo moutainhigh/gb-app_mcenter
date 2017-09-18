@@ -163,7 +163,7 @@
             </div>
 
             <%--层级--%>
-            <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+            <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm senior hide">
                 <div class="input-group">
                     <span class="input-group-addon bg-gray">${views.player_auto['层级']}</span>
                     <span class="bdn right-btn-down">

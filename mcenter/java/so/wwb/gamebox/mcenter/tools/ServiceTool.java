@@ -12,6 +12,7 @@ import org.soul.iservice.sys.ISysAuditLogService;
 import org.soul.iservice.sys.ISysParamService;
 import org.soul.iservice.taskschedule.ITaskScheduleService;
 import so.wwb.gamebox.iservice.boss.payLog.IAcbService;
+import so.wwb.gamebox.iservice.bitcoin.IPoloniexService;
 import so.wwb.gamebox.iservice.boss.taskschedule.ITaskRunRecordService;
 import so.wwb.gamebox.iservice.common.ICustomSysAuditLogService;
 import so.wwb.gamebox.iservice.common.IVSubAccountService;
@@ -1805,6 +1806,14 @@ public class ServiceTool {
 
     public static so.wwb.gamebox.iservice.master.operation.IRebatePlayerFeeService rebatePlayerFeeService() {
         return getService(so.wwb.gamebox.iservice.master.operation.IRebatePlayerFeeService.class);
+    }
+
+    public static IPoloniexService poloniexService() {
+        return getService(IPoloniexService.class);
+    }
+
+    public static IDigiccyTransactionService digiccyTransactionService() {
+        return getService(IDigiccyTransactionService.class);
     }
 //endregion your codes 1
 

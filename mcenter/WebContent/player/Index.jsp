@@ -27,7 +27,10 @@
         <input name="search.ip" value="${operateIp}" type="hidden"/>
         <input name="search.recommendUserId" value="${command.search.recommendUserId}" type="hidden"/>
         <input name="search.timeZoneInterval" value="${command.search.timeZoneInterval}" type="hidden">
-
+        <input name="analyzeNewAgent" value="${command.analyzeNewAgent}" type="hidden">
+        <input name="searchType" value="${command.searchType}" type="hidden">
+        <input name="startTime" value="${soulFn:formatDateTz(command.startTime,DateFormat.DAY_SECOND,timeZone)}" type="hidden">
+        <input name="endTime" value="${soulFn:formatDateTz(command.endTime,DateFormat.DAY_SECOND ,timeZone )}" type="hidden">
 
         <%--<input name="search.registerIp" value="${command.search.registerIp}" type="hidden"/>--%>
         <%--<input name="search.lastLoginIp" value="${command.search.lastLoginIp}" type="hidden"/>--%>
@@ -480,8 +483,8 @@
                             <soul:button target="reset" opType="function" text="${views.player_auto['重置']}"
                                          cssClass="btn btn-filter reset-condition-button"/>
 
-                            <a href="/player/list.html?search.version=old" nav-target="mainFrame"
-                               style="right: 21%;position: absolute;z-index: 888; padding-top: 10px;">${views.player_auto['切换到旧版本']}</a>
+                            <%--<a href="/player/list.html?search.version=old" nav-target="mainFrame"--%>
+                               <%--style="right: 21%;position: absolute;z-index: 888; padding-top: 10px;">${views.player_auto['切换到旧版本']}</a>--%>
 
                             <div class="input-group-btn pull-left" style="padding-right: 200px">
                                 <%@include file="/sysSearchTemplate/SearchTemplate.jsp" %>

@@ -1,7 +1,6 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
 
-import org.exolab.castor.mapping.xml.MapTo;
 import org.soul.commons.bean.IEntity;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionQueryTool;
@@ -31,7 +30,6 @@ import org.soul.commons.security.CryptoTool;
 import org.soul.commons.security.key.CryptoKey;
 import org.soul.commons.spring.utils.CommonBeanFactory;
 import org.soul.commons.support._Module;
-import org.soul.model.gameapi.param.User;
 import org.soul.model.listop.po.SysListOperator;
 import org.soul.model.listop.vo.SysListOperatorListVo;
 import org.soul.model.log.audit.enums.OpMode;
@@ -69,6 +67,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import so.wwb.gamebox.iservice.master.player.IUserPlayerService;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.iservice.master.report.IPlayerRecommendAwardService;
@@ -84,7 +84,6 @@ import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
-import so.wwb.gamebox.model.company.enums.BankEnum;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.company.site.po.SiteCurrency;
@@ -446,7 +445,22 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 listVo = ServiceTool.vUserPlayerService().queryOutLinkBetPlayer(listVo);
             }
         } else {
-            listVo = ServiceTool.vUserPlayerService().searchByCustom(listVo);
+            if (listVo.isAnalyzeNewAgent()){
+                Integer searchType=listVo.getSearchType();
+                if (searchType!=null){
+                    if (searchType==1){
+                        listVo = ServiceTool.vUserPlayerService().queryTotalDepositPlayer(listVo);
+                    }
+                    else if (searchType==2){
+                        listVo = ServiceTool.vUserPlayerService().queryEffectivePlayer(listVo);
+                    }else {
+                        listVo =ServiceTool.vUserPlayerService().queryDepositPlayer(listVo);
+                    }
+                }
+
+            }else {
+                listVo = ServiceTool.vUserPlayerService().searchByCustom(listVo);
+            }
         }
         listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
         return listVo;
@@ -1130,18 +1144,27 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     }
 
     @RequestMapping("/view/bankCardSave")
+    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.BANKCARD_EDIT, opType = OpType.CREATE)
     @ResponseBody
     @Token(valid = true)
     public Map bankCardSave(UserBankcardVo objVo, @FormModel @Valid UserBankcardForm form, BindingResult result) {
         Map map = new HashMap();
         map.put("state", true);
+        HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        LogVo logVo=new LogVo();
+        List<String> params = new ArrayList<>();
+        BaseLog baseLog = logVo.addBussLog();
+        UserBankcardVo vo=new UserBankcardVo();
+        VUserPlayerVo vUserPlayerVo=new VUserPlayerVo();
+        addLog(objVo, request, logVo, params, baseLog, vo, vUserPlayerVo);
+        UserBankcard userBankcard;
         if (result.hasErrors()) {
             map.put("state", false);
             map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
             return map;
         }
         try {
-            UserBankcard userBankcard = objVo.getResult();
+            userBankcard = objVo.getResult();
             userBankcard.setType(UserBankcardTypeEnum.BANK.getCode());
             objVo = ServiceTool.userBankcardService().saveAndUpdateUserBankcard(objVo);
 
@@ -1155,6 +1178,52 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             LOG.error(ex, "保存银行卡出错");
         }
         return map;
+    }
+
+    /**日志
+     *
+     * @param vUserPlayerVo
+     */
+    private void addLog(UserBankcardVo objVo, HttpServletRequest request, LogVo logVo, List<String> params, BaseLog baseLog, UserBankcardVo vo, VUserPlayerVo vUserPlayerVo) {
+        UserBankcard userBankcard=null;
+        if (objVo.getResult().getId()!=null) {
+            vo.getSearch().setId(objVo.getResult().getId());
+            vo = ServiceTool.userBankcardService().get(vo);
+            userBankcard = vo.getResult();
+            baseLog.setDescription("setting.bankCard.edit");
+            baseLog.setOpType(OpType.UPDATE);
+        }else {
+            baseLog.setDescription("setting.bankCard.add");
+        }
+        if (userBankcard!=null){
+            vUserPlayerVo.getSearch().setId(userBankcard.getUserId());
+            vUserPlayerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
+            params.add(vUserPlayerVo.getResult().getUsername());
+            params.add(userBankcard.getBankcardNumber());
+            params.add(LocaleTool.tranDict(DictEnum.BANKNAME,userBankcard.getBankName()));
+            if (userBankcard.getBankDeposit()!=null && !userBankcard.getBankDeposit().equals("")){
+                params.add(userBankcard.getBankDeposit());
+            }else {
+                params.add(LocaleTool.tranView("player_auto","未设置"));
+            }
+        }
+        vUserPlayerVo.getSearch().setId(objVo.getResult().getUserId());
+        vUserPlayerVo=ServiceTool.vUserPlayerService().get(vUserPlayerVo);
+        params.add(vUserPlayerVo.getResult().getUsername());
+        params.add(objVo.getResult().getBankcardNumber());
+        params.add(LocaleTool.tranDict(DictEnum.BANKNAME,objVo.getResult().getBankName()));
+        if (objVo.getResult().getBankDeposit()!=null && !objVo.getResult().getBankDeposit().equals("")){
+            params.add(objVo.getResult().getBankDeposit());
+        }else {
+            params.add(LocaleTool.tranView("player_auto","未设置"));
+        }
+        AddLogVo addLogVo = new AddLogVo();
+        addLogVo.setResult(new SysAuditLog());
+        addLogVo.setList(params);
+        for (String param : params){
+            baseLog.addParam(param);
+        }
+        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
     }
 
   /*  @RequestMapping("/view/checkBankcardNumber")
@@ -1408,9 +1477,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             pVo.setProperties(PlayerAdvisory.PROP_REPLY_COUNT, PlayerAdvisory.PROP_LATEST_TIME);
             ServiceTool.playerAdvisoryService().updateOnly(pVo);
             if (vo.isSuccess() == true) {
-                vo.setOkMsg(LocaleTool.tranMessage("common", "send.success"));
+                vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "send.success"));
             } else {
-                vo.setErrMsg(LocaleTool.tranMessage("common", "send.fail"));
+                vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "send.fail"));
             }
         }
 
@@ -1434,9 +1503,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             boolean success = ServiceTool.playerAdvisoryService().delete(vo);
             vo.setSuccess(success);
             if (success == true) {
-                vo.setOkMsg(LocaleTool.tranMessage("common", "delete.success"));
+                vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
             } else {
-                vo.setErrMsg(LocaleTool.tranMessage("common", "delete.failed"));
+                vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
             }
         }
         return this.getVoMessage(vo);
@@ -1625,9 +1694,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             //TODO lorne
         }
         if (vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage("common", "operation.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
         } else if (!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
-            vo.setErrMsg(LocaleTool.tranMessage("common", "operation.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.failed"));
         }
         return this.getVoMessage(vo);
     }
@@ -1646,7 +1715,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         vo = ServiceTool.sysUserService().get(vo);
         if (vo.getResult().getStatus() == null || !SysUserStatus.DISABLED.getCode().equals(vo.getResult().getStatus())) {
             vo.setSuccess(false);
-            vo.setErrMsg(LocaleTool.tranMessage("common", "player.disable_operate"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "player.disable_operate"));
         } else {
             vo.getResult().setStatus(SysUserStatus.NORMAL.getCode());
             vo = this.getService().updateStatus(vo);
@@ -1654,9 +1723,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //保存日志
         //TODO lorne
         if (vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage("common", "operation.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
         } else if (!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
-            vo.setErrMsg(LocaleTool.tranMessage("common", "operation.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.failed"));
         }
         return this.getVoMessage(vo);
     }
@@ -1737,9 +1806,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //保存日志
         //TODO lorne
         if (vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage("common", "operation.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
         } else if (!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
-            vo.setErrMsg(LocaleTool.tranMessage("common", "operation.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.failed"));
         }
         return this.getVoMessage(vo);
     }

@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.setting.controller;
 
 
 import org.soul.commons.bean.Pair;
+import org.soul.commons.dict.DictTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.model.common.BaseListVo;
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -59,17 +61,9 @@ public class CreditRecordController extends NoMappingCrudController<ICreditRecor
     @Override
     public String list(CreditRecordListVo listVo, @FormModel("search") @Valid CreditRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
         listVo.getSearch().setSiteId(SessionManager.getSiteId());
-        List<Pair> Status = initStatus();
+        Map Status = DictTool.get(DictEnum.CREDIT_STATUS);
         model.addAttribute("status", Status);
         return super.list(listVo, form, result, model, request, response);
-    }
-
-    private List<Pair> initStatus() {
-        List<Pair> Status = new ArrayList<>();
-        Status.add(new Pair("1", LocaleTool.tranDict(DictEnum.CREDIT_STATUS,"1")));
-        Status.add(new Pair("2", LocaleTool.tranDict(DictEnum.CREDIT_STATUS,"2")));
-        Status.add(new Pair("3", LocaleTool.tranDict(DictEnum.CREDIT_STATUS,"3")));
-        return Status;
     }
     //endregion your codes 3
 
