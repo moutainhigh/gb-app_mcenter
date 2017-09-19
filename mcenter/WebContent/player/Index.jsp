@@ -488,7 +488,7 @@
                             <soul:button target="reset" opType="function" text="${views.player_auto['重置']}"
                                          cssClass="btn btn-filter reset-condition-button"/>
 
-                            <soul:button target="${root}/player/addNewPlayer.html" opType="dialog"
+                            <soul:button target="${root}/player/addNewPlayer.html" opType="dialog" permission="role:player_add"
                                          text="${views.player_auto['新增玩家']}" callback="query"
                                          cssClass="btn btn-filter"/>
 
