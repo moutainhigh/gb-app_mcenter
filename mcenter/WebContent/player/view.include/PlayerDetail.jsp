@@ -217,7 +217,7 @@
                             <input type="hidden" name="current-agentRank" id="current-agentRank" value="${command.result.agentId}">
                             <soul:button target="editAgentLine" text="${'修改代理'}" opType="function" cssClass="btn btn-link co-blue" permission="role:update_agent"></soul:button>
                             <shiro:hasPermission name="role:update_agent">
-                                <div style="font-size: 12px;color: #9c9c9c; display: inline-block;">${messages.content['prompt.update.agent']}</div>
+                                <div style="font-size: 12px;color: #9c9c9c; display: inline-block; padding-right: 30px;">${messages.content['prompt.update.agent']}</div>
                             </shiro:hasPermission>
                             <c:if test="${not empty sysAuditLog}">
                                 <div style="font-size: 14px;color: #9c9c9c; display: inline-block;">
