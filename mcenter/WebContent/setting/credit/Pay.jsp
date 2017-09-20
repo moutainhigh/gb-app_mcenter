@@ -15,7 +15,7 @@
                 <c:choose>
                     <c:when test="${!empty leftTime && leftTime>0}">
                         <div class="sys_tab_wrap p-xs">
-                            <b class="fs16">${views.setting_auto['离后台维护还剩']}：</b><span class="fs20 ft-bold co-red" data-time="${leftTime}">0小时0分</span>
+                            <b class="fs16">${views.setting_auto['离后台维护还剩']}：</b><span class="fs20 ft-bold co-red" id="leftTime" data-time="${leftTime}"><span id="hour">00</span>小时<span id="minute">00</span>分</span>
                         </div>
                     </c:when>
                     <c:when test="${!empty leftTime && leftTime<=0}">
@@ -101,9 +101,10 @@
                     </div>
                     <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 limit-tips">
                         <ul>
-                            <li>本系统默认可用额度${defaultProfit},当系统提示额度超时,请在本页面自助充值即可增加额度上限</li>
-                            <li>如果充值出现问题,请及时联系我们技术支持</li>
-                            <li>本页面充值仅用于提高额度上限，不支持缴纳月结账单；</li>
+                            <li>1、本系统默认可用额度${defaultProfit},当系统提示额度超时,请在本页面自助充值即可增加额度上限</li>
+                            <li>2、如果充值出现问题,请及时联系我们技术支持</li>
+                            <li>3、本页面充值仅用于提高额度上限，不支持缴纳月结账单；</li>
+                            <li>4、如果维护时间已过，站点玩家将不能进行转账游戏，请及时充值增加额度上限</li>
                         </ul>
                     </div>
                 </div>
