@@ -2433,24 +2433,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             sysUser.setId(userPlayer.getId());
             sysUser.setOwnerId(agentId);
             //更新user_player和sys_user的数据
-            UserRegisterVo userRegisterVo = new UserRegisterVo();
-            userRegisterVo.setUserPlayer(userPlayer);
-            userRegisterVo.setSysUser(sysUser);
-            ServiceTool.userPlayerService().UpdateAgentDate(userRegisterVo);
+            userPlayerVo.setSysUser(sysUser);
+            userPlayerVo = ServiceTool.userPlayerService().updateAgentData(userPlayerVo);
             //组装操作日志的数据
-            String oldAgentLines = this.getAgentLine(oldagentId);
-            List<String> list = new ArrayList<>();
-            list.add(SessionManager.getUser().getUsername());
-            list.add(SessionManager.getUserType().getTrans());
-            list.add(oldAgentLines);
-            AddLogVo addLogVo = new AddLogVo();
-            SysAuditLog sysAuditLog = new SysAuditLog();
-            sysAuditLog.setEntityUserId(userPlayer.getId());
-            sysAuditLog.setEntityId(Long.valueOf(userPlayer.getId()));
-            addLogVo.setResult(sysAuditLog);
-            addLogVo.setList(list);
-            //操作日志
-            AuditLogController.addLog(request, "player.updateAgentLine.success", addLogVo);
+            getLogData(request, oldagentId, userPlayer);
             map.put("state", userPlayerVo.isSuccess());
         }catch (Exception ex) {
             ex.printStackTrace();
@@ -2458,6 +2444,22 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
 
         return map;
+    }
+
+    private void getLogData(HttpServletRequest request, Integer oldagentId, UserPlayer userPlayer) {
+        String oldAgentLines = this.getAgentLine(oldagentId);
+        List<String> list = new ArrayList<>();
+        list.add(SessionManager.getUser().getUsername());
+        list.add(SessionManager.getUserType().getTrans());
+        list.add(oldAgentLines);
+        AddLogVo addLogVo = new AddLogVo();
+        SysAuditLog sysAuditLog = new SysAuditLog();
+        sysAuditLog.setEntityUserId(userPlayer.getId());
+        sysAuditLog.setEntityId(Long.valueOf(userPlayer.getId()));
+        addLogVo.setResult(sysAuditLog);
+        addLogVo.setList(list);
+        //操作日志
+        AuditLogController.addLog(request, "player.updateAgentLine.success", addLogVo);
     }
 
     private String getAgentLine(Integer agentId){
