@@ -99,8 +99,9 @@
                 <c:if test="${not empty conditionListVo.result}">
                     <c:forEach var="con" items="${conditionListVo.result}" varStatus="vs">
                         <tr>
-                            <td>${views.operation_auto['满']}<input type="number" onmousewheel="return false" class="input-text condition-input-txt" name="moneyConditions[${vs.index}].singleDepositAmount" value="${con.singleDepositAmount}" style="width: 80px;">${views.operation_auto['以上']}</td>
-                            <td>${views.operation_auto['达']}<input type="number" onmousewheel="return false" class="input-text condition-input-txt" name="moneyConditions[${vs.index}].effectiveAmount" value="${con.effectiveAmount}" style="width: 80px"></td>
+
+                            <td>${views.operation_auto['满']}<input type="number" onmousewheel="return false" class="input-text condition-input-txt" name="moneyConditions[${vs.index}].singleDepositAmount" value="<fmt:formatNumber value='${con.singleDepositAmount}' pattern='#.##' minFractionDigits='2'></fmt:formatNumber>" style="width: 80px;">${views.operation_auto['以上']}</td>
+                            <td>${views.operation_auto['达']}<input type="number" onmousewheel="return false" class="input-text condition-input-txt" name="moneyConditions[${vs.index}].effectiveAmount" value="<fmt:formatNumber value='${con.effectiveAmount}' pattern='#.##' minFractionDigits='2'></fmt:formatNumber>" style="width: 80px"></td>
                             <td><input type="number" onmousewheel="return false" class="input-text condition-input-txt" name="moneyConditions[${vs.index}].betCount" value="${con.betCount}" style="width: 80px">${views.operation_auto['次']}</td>
                             <td>
                                 <soul:button target="deleteTableRow" text="" opType="function" cssClass="btn pull-left">
@@ -165,7 +166,7 @@
                     <c:forEach var="rule" items="${rulesListVo.result}" varStatus="vs">
                         <tr>
 
-                            <td>${siteCurrencySign}<input type="number" onmousewheel="return false" class="input-text award_rule_amount" name="moneyAwardsRules[${vs.index}].amount" value="${rule.amount}" style="width: 80px"></td>
+                            <td>${siteCurrencySign}<input type="number" onmousewheel="return false" class="input-text award_rule_amount" name="moneyAwardsRules[${vs.index}].amount" value="<fmt:formatNumber value='${rule.amount}' pattern='#.##' minFractionDigits='2'></fmt:formatNumber>" style="width: 80px"></td>
                             <td><input type="number" onmousewheel="return false" class="input-text" name="moneyAwardsRules[${vs.index}].audit" value="${rule.audit}" style="width: 80px">${views.operation_auto['倍']}</td>
                             <td>
                                 <span name="moneyAwardsRules[${vs.index}].showQuantity">${rule.quantity}</span>

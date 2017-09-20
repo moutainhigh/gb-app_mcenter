@@ -217,7 +217,7 @@
                             <input type="hidden" name="current-agentRank" id="current-agentRank" value="${command.result.agentId}">
                             <soul:button target="editAgentLine" text="${'修改代理'}" opType="function" cssClass="btn btn-link co-blue" permission="role:update_agent"></soul:button>
                             <shiro:hasPermission name="role:update_agent">
-                                <div style="font-size: 12px;color: #9c9c9c; display: inline-block;">${messages.content['prompt.update.agent']}</div>
+                                <div style="font-size: 12px;color: #9c9c9c; display: inline-block; padding-right: 30px;">${messages.content['prompt.update.agent']}</div>
                             </shiro:hasPermission>
                             <c:if test="${not empty sysAuditLog}">
                                 <div style="font-size: 14px;color: #9c9c9c; display: inline-block;">
@@ -640,10 +640,10 @@
                                 <span class="co-blue" id="effectivetradeamount">${views.player_auto['计算中']}...</span>
                             </a>
                             ，
-                            <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+                            <%--<span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
                                   data-html="true" data-content="${views.player_auto['仅统计近40天（含今日）的派彩总和。']}">
                                 <i class="fa fa-question-circle" ></i>
-                            </span>${views.player_auto['近期损益']}
+                            </span>--%>${views.player_auto['近期损益']}
                             ${dicts.common.currency_symbol[command.result.defaultCurrency]}
                             <span class="co-blue" id="recentProfitAmout">${views.player_auto['计算中']}...</span>
                             <a href="/report/gameTransaction/init.html?isLink=true&search.username=${command.result.username}&searchKey=search.username" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['投注记录']}</a>
