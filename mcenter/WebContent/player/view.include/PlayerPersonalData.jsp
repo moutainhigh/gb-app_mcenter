@@ -68,7 +68,7 @@
                     <c:when test="${command.result.mailWayStatus==22}">
                         ${views.role['player.view.clearcontact']}
                     </c:when>
-                    <c:otherwise>a
+                    <c:otherwise>
                         <c:if test="${unencryption}">
                             ${command.result.mail}
                         </c:if>
