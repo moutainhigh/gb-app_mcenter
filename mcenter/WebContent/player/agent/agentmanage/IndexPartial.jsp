@@ -252,6 +252,14 @@
                                     <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} disabled>
                                 </c:if>
                             </c:when>
+                            <c:when test="${p.agentNum>0 && (p.addSubAgent == false or empty p.addSubAgent)}">
+                                <c:if test="${!(p.playerStatus eq '2')}">
+                                    <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} value="${p.addSubAgent}" agentId="${p.id}">
+                                </c:if>
+                                <c:if test="${(p.playerStatus eq '2')}">
+                                    <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} disabled>
+                                </c:if>
+                            </c:when>
                             <c:otherwise>
                                 <input type="checkbox" name="my-checkbox" data-size="mini" ${not empty p.addSubAgent && p.addSubAgent?'checked':''} disabled>
                             </c:otherwise>
