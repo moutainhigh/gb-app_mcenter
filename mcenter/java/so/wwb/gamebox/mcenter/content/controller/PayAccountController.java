@@ -510,7 +510,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
                 account.setChannelJson(JsonTool.toJson(payAccountVo.getBitCoinChannelVo()));
             }
             if (account.getId() == null) {
-                if (PayAccountAccountType.BANKACCOUNT.getCode().equals(account.getAccountType()) || BankCodeEnum.OTHER.getCode().equals(account.getBankCode())) {
+                if (PayAccountAccountType.BANKACCOUNT.getCode().equals(account.getAccountType())) {
                     account.setQrCodeUrl(null);
                 }
                 payAccountVo.getSearch().setType(PayAccountType.COMPANY_ACCOUNT.getCode());

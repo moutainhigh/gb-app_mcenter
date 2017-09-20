@@ -85,7 +85,7 @@ public class CreditPayController {
             int leftTime = leftTimeParam != null && StringTool.isNotBlank(leftTimeParam.getParamValue()) && NumberTool.isNumber(leftTimeParam.getParamValue()) ? NumberTool.toInt(leftTimeParam.getParamValue()) : DEFAULT_LEFT_TIME;
             Date lastTime = DateTool.addHours(profitTime, leftTime);
             //倒计时
-            model.addAttribute("leftTime", DateTool.minutesBetween(lastTime, new Date()));
+            model.addAttribute("leftTime", DateTool.minutesBetween(lastTime, SessionManager.getDate().getNow()));
         }
         SysParam scaleParam = ParamTool.getSysParam(BossParamEnum.SETTING_CREDIT_SCALE);
         model.addAttribute("scaleParam", scaleParam);
