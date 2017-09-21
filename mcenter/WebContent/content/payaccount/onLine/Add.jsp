@@ -98,6 +98,15 @@
                             </div>
                         </div>
                     </div>
+                    <%-- 随机额度 --%>
+                    <div class="form-group clearfix line-hi34">
+                        <label class="ft-bold col-sm-3 al-right">
+                            随机额度：</label>
+                        <div class="col-sm-5">
+                            <input type="checkbox" name="my-checkbox" data-size="mini" ${command.result.randomAmount?'checked':''}>
+                            <input type="hidden" name="result.randomAmount" value="${not empty command.result.randomAmount && command.result.randomAmount?'true':'false'}">
+                        </div>
+                    </div>
                     <%-- 账户名称 --%>
                     <div class="form-group clearfix hide payDomain">
                         <label class="ft-bold col-sm-3 al-right line-hi34">
