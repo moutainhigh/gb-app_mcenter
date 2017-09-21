@@ -70,13 +70,13 @@
                         <table class="table table-striped table-hover dataTable m-b-sm dragdd">
                             <tbody class="dd-list1">
                             <c:forEach items="${command.payAccountCashOrderList}" var="order" varStatus="status">
-                                <tr data-id="${empty order.sort?status.index:order.sort}" class="dd-item1">
+                                <tr data-id="${empty order.sort?status.index:order.sort}" class="dd-item1 tab-detail">
                                     <input type="hidden" name="payRankId" value="${order.id}" />
                                     <input type="hidden" name="payAccountId" value="${order.payAccountId}" />
                                     <td class="td-handle1" width="80"><i class="fa fa-arrows"></i></td>
                                     <td  width="50" >${order.sort}</td>
                                     <td  width="80" style="text-align: left" class="td-handle1">
-                                        <span class="pay-third ${order.bankCode}"></span>
+                                        <span>${dicts.common.bankname[order.bankCode]}</span>
                                     </td>
                                     <td  width="80" style="text-align: left">${order.accountName}</td>
                                     <td class="co-yellow"  width="250" style="text-align: left">${order.account}</td>
