@@ -17,7 +17,7 @@
                 <!--筛选条件-->
                 <div class="clearfix filter-wraper border-b-1">
                     <soul:button tag="button" callback="goNext" target="${root}/cttDocumentI18n/create.html"
-                                 cssClass="btn btn-info btn-addon" opType="dialog" title="${views.content['document.addParentProject']}" text="${views.content['document.addProject']}">
+                                 cssClass="btn btn-info btn-addon" opType="dialog" size="open-dialog-725-us" title="${views.content['document.addParentProject']}" text="${views.content['document.addProject']}">
                         <i class="fa fa-plus"></i><span class="hd">${views.content['document.addProject']}</span>
                     </soul:button>
 

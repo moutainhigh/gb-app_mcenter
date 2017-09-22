@@ -39,7 +39,7 @@ public class Sitei18nForm implements IForm {
     public String[] getSv$$_key() {
         return sv$$_key;
     }
-    @Depends(property = "result_paramCode",operator = Operator.EQ,value = "closure",message = "请选择")
+    @Depends(property = "result_paramCode",operator = Operator.EQ,value = "closure",message = "setting_auto.请选择")
     public String get$sysParam_paramValue() {
         return $sysParam_paramValue;
     }
@@ -51,7 +51,7 @@ public class Sitei18nForm implements IForm {
         return sv$$_value;
     }
 
-    @Depends(property = "$type",operator = Operator.EQ,value = "2",message = "时间不能为空！")
+    @Depends(property = "$type",operator = Operator.EQ,value = "2",message = "setting_auto.时间不能为空")
     public Date get$closeTime() {
         return $closeTime;
     }

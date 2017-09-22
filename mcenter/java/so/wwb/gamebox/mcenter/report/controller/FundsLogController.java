@@ -278,7 +278,7 @@ public class FundsLogController extends AbstractExportController<IVPlayerTransac
     @RequestMapping("/totalMoney")
     @ResponseBody
     public Map totalMoney(VPlayerTransactionListVo listVo){
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         Integer comp = listVo.getComp();
         if (comp != null && comp == 1) {
             int rawOffset = SessionManager.getTimeZone().getRawOffset();

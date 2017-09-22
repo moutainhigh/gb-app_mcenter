@@ -217,11 +217,20 @@
                             </soul:button>
                         </c:when>
                         <c:otherwise>
-                            <span class="${command.result.withdrawStatus=='4'?'co-green':'co-red'}">【${dicts.fund.withdraw_status[command.result.withdrawStatus]}】</span>
+                            <span class="${command.result.withdrawStatus=='4'?'co-green':'co-red'}">
+                                【${dicts.fund.withdraw_status[command.result.withdrawStatus]}】
+                                 <c:if test="${command.result.checkStatus == 'automatic_pay'}">&nbsp; [已成功打款]</c:if>
+                            </span>
                             <c:if test="${command.result.checkStatus=='success'&&command.result.remittanceWay eq '2'}">
-                                <soul:button permission="fund:playerwithdraw_check" callback="refreshBack" target="${root}/fund/withdraw/exchange.html?search.id=${command.result.id}"  text="兑币" opType="dialog"
+                                <soul:button permission="fund:playerwithdraw_exchange" callback="refreshBack" target="${root}/fund/withdraw/exchange.html?search.id=${command.result.id}"  text="${views.fund_auto['兑币']}" opType="dialog"
                                              cssClass="btn p-x-sm m-l-sm btn-success-hide" tag="button">
-                                    <i class="fa fa-check"></i>兑币
+                                    <i class="fa fa-check"></i>${views.fund_auto['兑币']}
+                                </soul:button>
+                            </c:if>
+                            <c:if test="${command.result.checkStatus=='exchange_bit'&&command.result.remittanceWay eq '2'}">
+                                <soul:button permission="fund:playerwithdraw_automaticPay" callback="refreshBack" confirm="${views.fund_auto['确认自动打款']}?" target="${root}/fund/withdraw/automaticPay.html?search.id=${command.result.id}" text="${views.fund_auto['自动打款']}" opType="ajax"
+                                             cssClass="btn p-x-sm m-l-sm btn-success-hide" tag="button">
+                                    <i class="fa fa-check"></i>${views.fund_auto['自动打款']}
                                 </soul:button>
                             </c:if>
                         </c:otherwise>
@@ -234,7 +243,7 @@
             </tr>
             <c:if test="${command.result.bitAmount>0}">
                 <tr>
-                    <th scope="row" class="text-right">比特币金额：</th>
+                    <th scope="row" class="text-right">${views.fund_auto['比特币金额']}：</th>
                     <td class="money">
                         Ƀ<fmt:formatNumber value="${command.result.bitAmount}" pattern="#.########"/>
                     </td>
@@ -242,7 +251,7 @@
             </c:if>
             <c:if test="${!empty transactionData['result']}">
                 <tr>
-                <th scope="row" class="text-right">兑换美元金额：</th>
+                <th scope="row" class="text-right">${views.fund_auto['兑换美元金额']}：</th>
                 <td><fmt:formatNumber value="${transactionData['result'].total}" pattern="#.########"/></td>
                 </tr>
             </c:if>

@@ -59,7 +59,7 @@
                             </c:choose>
                         </c:forEach>
                     </select>
-                    <span id="managerMsg" class="co-grayc2 m-l-xs line-hi34">
+                    <span id="managerMsg" class="co-grayc2 m-l-xs line-hi34" style="white-space: nowrap">
                     </span>
                     </div>
                 </div>

@@ -63,7 +63,7 @@
                 <c:otherwise>
                   <soul:button permission="role:player_disabledaccount"
                           target="${root}/share/account/disabledAccount.html?result.id=${command.result.id}&type=agent"
-                          callback="toTmpl"
+                          callback="returnPage"
                           text="${messages['playerTag']['accountDisabled']}"
                           opType="dialog"
                           cssClass="btn btn-outline btn-filter btn-sm${option_btn_disabled ?' disabled':''} ">
@@ -93,7 +93,14 @@
                     <a data-toggle="tab" href="#funds${map.id}" aria-expanded="false" id="funds" data-href="${root}/userAgent/agent/funds.html?search.agentId=${map.id}" data-link="${extendedLinks}">${views.column['userAgent.funds']}</a>
                   </li>
                   <li>
-                    <a data-toggle="tab" href="#bankCard${map.id}" aria-expanded="false" data-href="${root}/userAgent/agent/bankCard.html?search.userId=${map.id}">${views.role['agent.detail.bankcard']}</a>
+                  <c:choose>
+                    <c:when test="${bitcoin!=true}">
+                      <a data-toggle="tab" href="#bankCard${map.id}" aria-expanded="false" data-href="${root}/userAgent/agent/bankCard.html?search.userId=${map.id}">${views.role['agent.detail.bankcard']}</a>
+                    </c:when>
+                    <c:otherwise>
+                      <a data-toggle="tab" href="#bankCard${map.id}" aria-expanded="false" data-href="${root}/userAgent/agent/bankCard.html?search.userId=${map.id}">${views.player_auto['比特币']}</a>
+                    </c:otherwise>
+                  </c:choose>
                   </li>
                   <li>
                     <a data-toggle="tab" href="#remark${map.id}" aria-expanded="false" data-href="${root}/playerRemark/agentRemark.html?search.entityUserId=${map.id}&search.operatorId=${map.id}">${views.role['agent.detail.remark']}</a>

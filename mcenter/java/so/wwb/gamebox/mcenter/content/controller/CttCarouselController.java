@@ -231,6 +231,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         objectVo.getResult().setCreateTime(new Date());
             objectVo.getResult().setId(objectVo.getSearch().getId());
         }
+        objectVo.getResult().setStatus(true);
         objectVo = getService().saveCarousel(objectVo);
         return objectVo;
     }
@@ -254,6 +255,10 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         cttCarouselVo.setSiteLanguages(languageList);
         //广告管理类别
         Map<String, SysDict> types = DictTool.get(DictEnum.CONTENT_CAROUSEL_TYPE);
+        //纯彩票站点不展示玩家中心首页类型
+        if(ParamTool.isLotterySite()) {
+            types.remove(CarouselTypeEnum.CAROUSEL_TYPE_PLAYER_INDEX.getCode());
+        }
         cttCarouselVo.setTypes(types);
         return cttCarouselVo;
     }

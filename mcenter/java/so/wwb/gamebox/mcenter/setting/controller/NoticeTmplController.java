@@ -30,6 +30,7 @@ import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.CacheBase;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.master.setting.so.NoticeTmplSo;
@@ -220,9 +221,9 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
     public Map saveNoticeTmpl(NoticeTmplVo vo, HttpServletRequest request) {
         vo.getSearch().setCreateUser(SessionManager.getUserId());
         vo = ServiceTool.noticeTmplService().saveNoticeTmpl(vo);
-        Map map = new HashMap(2);
+        Map map = new HashMap(2,1f);
         if (vo.isSuccess()) {
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             map.put("groupCode",vo.getResult().getGroupCode());
             map.put("eventType",vo.getResult().getEventType());
         } else {
@@ -230,7 +231,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
             if (StringTool.isNotEmpty(vo.getErrMsg())) {
                 map.put("msg", LocaleTool.tranMessage(Module.MASTER_SETTING, vo.getErrMsg()));
             } else {
-                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             }
         }
         map.put("state", Boolean.valueOf(vo.isSuccess()));
@@ -248,7 +249,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
         vo.getSearch().setTmplType(tmplType);
 //        vo.getSearch().setPublishMethod(NoticePublishMethod.SITE_MSG.getCode());
         vo = ServiceTool.noticeTmplService().resetActive(vo);
-        Map map = new HashMap(2);
+        Map map = new HashMap(2,1f);
         if (vo.isSuccess()) {
             map.put("msg", LocaleTool.tranMessage(Module.COMMON, "reset.success"));
         } else {
@@ -272,9 +273,9 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
             vo = ServiceTool.noticeTmplService().saveActive(vo);
         }
         if(vo.isSuccess()) {
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "save.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
         } else if(!vo.isSuccess()) {
-            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
 
         return this.getVoMessage(vo);
@@ -292,9 +293,9 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
         boolean isSuccess = ServiceTool.noticeTmplService().deleteAllNotDefault(vo);
         vo.setSuccess(isSuccess);
         if(isSuccess) {
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else if(!isSuccess) {
-            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
 
         return this.getVoMessage(vo);

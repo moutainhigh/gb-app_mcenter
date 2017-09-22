@@ -132,11 +132,11 @@
                                     <div class="input-group time-select-a">
                                         <span class="input-group-addon bg-gray">${views.report_auto['金额']}</span>
                                         <span class="input-group-addon time-select-ico">${views.report_auto['起']}</span>
-                                        <input type="text" class="form-control" name="search.startMoney"
+                                        <input type="text" class="form-control jp_distance" name="search.startMoney"
                                                value="${command.search.startMoney}">
                                         <span class="input-group-addon time-select-t">~</span>
                                         <span class="input-group-addon time-select-ico">${views.report_auto['止']}</span>
-                                        <input type="text" class="form-control" name="search.endMoney"
+                                        <input type="text" class="form-control jp_distance" name="search.endMoney"
                                                value="${command.search.endMoney}">
                                     </div>
                                 </div>

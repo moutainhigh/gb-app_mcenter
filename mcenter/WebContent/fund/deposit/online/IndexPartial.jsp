@@ -99,6 +99,11 @@
                         ${siteCurrencySign}${soulFn:formatInteger(r.rechargeAmount)}<i>${soulFn:formatDecimals(r.rechargeAmount)}</i>
                 </td>
                 <td>
+                    <a href="/fund/deposit/online/view.html?search.id=${r.id}" nav-target="mainFrame" class="co-blue">
+                        <span class="label ${r.statusCss} p-x-md">
+                                ${dicts.fund.recharge_status[r.rechargeStatus]}
+                        </span>
+                    </a>
                     <c:choose>
                         <c:when test="${r.origin eq 'MOBILE'}">
                             <span class="fa fa-mobile mobile" data-content="${views.fund_auto['手机存款']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
@@ -108,11 +113,6 @@
                             <span style="width:8px; display: inline-block"></span>
                         </c:otherwise>
                     </c:choose>
-                    <a href="/fund/deposit/online/view.html?search.id=${r.id}" nav-target="mainFrame" class="co-blue">
-                        <span class="label ${r.statusCss} p-x-md">
-                                ${dicts.fund.recharge_status[r.rechargeStatus]}
-                        </span>
-                    </a>
                 </td>
                 <td>
                     <a href="/vPayAccount/detail.html?result.id=${r.payAccountId}&search.type=2" nav-target="mainFrame">${r.payName}</a>

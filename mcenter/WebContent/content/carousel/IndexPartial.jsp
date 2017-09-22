@@ -23,6 +23,7 @@
                 <gb:select name="search.useStatus" value="${command.search.useStatus}" callback="query"
                            prompt="${views.role['player.list.title.status']}" list="${command.useStatus}"></gb:select>
             </th>
+            <th>${views.content['domain.setting']}</th>
             <th>${views.column['VCttCarousel.publishTime']}</th>
             <%--<th>${views.content_auto['是否启用']}</th>--%>
             <th>${views.common['operate']}</th>
@@ -44,7 +45,7 @@
             </td>
         </c:if>
         <c:forEach items="${command.result}" var="p" varStatus="status">
-            <tr>
+            <tr class="tab-detail">
                 <td>
                     <input type="checkbox" class="i-checks" value="${p.id}" data-use-status="${p.useStatus}">
                 </td>
@@ -62,6 +63,7 @@
                              src="${soulFn:getThumbPath(domain,command.currentLang.get(p.id).cover,66,24)}"></td>
                     </soul:button>
                 <td>${p.useStatus ne 'using' ? '--':p.orderNum}</td>
+
                 <td>
                     ${soulFn:formatDateTz(p.startTime, DateFormat.DAY_SECOND, timeZone)} ${views.content_auto['至']} ${soulFn:formatDateTz(p.endTime, DateFormat.DAY_SECOND,timeZone)}
                 </td>
@@ -74,6 +76,20 @@
                         <c:when test="${now.compareTo(p.startTime)==-1}">${dicts.content.carousel_state["wait"]}</c:when>
                         <c:when test="${now.compareTo(p.endTime)==1}">${dicts.content.carousel_state["expired"]}</c:when>
                     </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${now.compareTo(p.endTime)==1}">
+                            <input type="checkbox" name="my-checkbox" data-size="mini" disabled value="${p.id}">
+                        </c:when>
+                        <c:when test="${now.compareTo(p.endTime)==-1 && now.compareTo(p.startTime)==1}">
+                            <input type="checkbox" name="my-checkbox" data-size="mini" ${empty p.status ||p.status?'checked':''} value="${p.id}" useStatus="using">
+                        </c:when>
+                        <c:when test="${now.compareTo(p.startTime)==-1}">
+                            <input type="checkbox" name="my-checkbox" data-size="mini" ${empty p.status ||p.status?'checked':''} value="${p.id}" useStatus="wait">
+                        </c:when>
+                    </c:choose>
+
                 </td>
                 <td>
                     ${soulFn:formatDateTz(p.publishTime, DateFormat.DAY_SECOND,timeZone)}

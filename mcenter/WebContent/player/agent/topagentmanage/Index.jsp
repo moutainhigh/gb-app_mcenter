@@ -1,5 +1,5 @@
 <%@ page import="java.util.Date" %>
-<%--@elvariable id="command" type="so.wwb.gamebox.model.master.player.vo.VUserAgentManageListVo"--%>
+<%--@elvariable id="command" type="so.wwb.gamebox.model.master.player.vo.VUserTopAgentManageListVo"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/include/include.inc.jsp" %>
 
@@ -8,7 +8,11 @@
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
             <span>${views.sysResource['角色']}</span><span>/</span><span>${views.sysResource['总代管理']}</span>
-            <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
+            <c:if test="${command.search.hasReturn=='true'}">
+                <soul:button target="goToLastPage" refresh="true" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
+                    <em class="fa fa-caret-left"></em>${views.common['return']}
+                </soul:button>
+            </c:if>
         </div>
         <div class="col-lg-12">
             <div class="wrapper white-bg shadow">
@@ -19,7 +23,7 @@
                         </a>
                     </shiro:hasPermission>
                     <a nav-target="mainFrame" href="/vUserTopAgentManage/list.html" class="btn btn-primary-hide" ><i class="fa fa-refresh"></i><span class="hd">${views.common['refresh']}</span></a>
-                    <soul:button tag="button" cssClass="btn btn-warning-hide" text="${views.common['filter']}" target="${root}/vUserTopAgentManage/filters.html" opType="dialog" callback="showFiltersCallBack">
+                    <soul:button tag="button" cssClass="btn btn-warning-hide" text="${views.common['filter']}" target="${root}/vUserTopAgentManage/filters.html" size="open-dialog-50" opType="dialog" callback="showFiltersCallBack">
                         <i class="fa fa-filter"></i>
                         <span class="hd">${views.common['filter']}</span>
                     </soul:button>

@@ -9,7 +9,7 @@
         <li>
           <a <c:if test="${obj.children.size()>0}">href="javascript:void(0);"</c:if>
                   <c:if test="${obj.children.size()==0}">nav-target='mainFrame' href="/${obj.object.resourceUrl}"</c:if>>
-            <em class="iconfont ${obj.object.resourceIcon}"></em><span class="nav-label">${obj.object.resourceRName}</span>
+            <em class="iconfont ${obj.object.resourceIcon}"></em><span class="nav-label">${obj.object.resourceName}</span>
             <%--<span class="fa arrow"></span>--%>
           </a>
          <%-- <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">

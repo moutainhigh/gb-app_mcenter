@@ -182,7 +182,7 @@
         <soul:button target="toPreview" cssClass="_edit btn btn-filter ${langLen > 1 ? 'hide':''} preview" opType="function" text="${views.common['previewAndSave']}"></soul:button>
         <soul:button target="send" cssClass="_edit btn btn-filter ${langLen > 1 ? 'hide':''} _preview hide" opType="function" text="${views.common['OK']}"></soul:button>
 
-        <%--<button type="button" class="btn btn-outline btn-filter">${views.player_auto['取消']}</button>--%>
+        <%--<button type="button" class="btn btn-outline btn-filter">${views.common_report['取消']}</button>--%>
         <soul:button target="closePage" opType="function" cssClass="btn btn-outline btn-filter" text="${views.common['cancel']}"></soul:button>
     </div>
     <%--隐藏域--%>

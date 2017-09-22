@@ -87,7 +87,7 @@
         {{for m}}
             <li id="menuItem{{:object.id}}" class="dropdown">
                 <a data-toggle="dropdown" {{if object.resourceUrl == '' || object.resourceUrl == null}} href='#' {{else}} href='javascript:void(0);' data='/{{: object.resourceUrl}}' nav-target='mainFrame' {{/if}} role="button" aria-haspopup="true" aria-expanded="false">
-                <div class="icon"><i class="icon iconfont">{{:object.resourceIcon}}</i></div><span>{{:object.resourceRName}}</span>
+                <div class="icon"><i class="{{:object.resourceIcon}} iconfont "></i></div><span>{{:object.resourceRName}}</span>
                 </a>
                 {{if children!=null && children.length>0}}
                 <ul class="dropdown-menu">
@@ -120,7 +120,60 @@
 
     <div class="pull-right top-account-menu">
         <ul class="tips">
-            <li class="informations" style="margin-right: 15px;">
+            <li class="informations top-online-people">
+                <a href="javascript:void(0)" class="locate" data-toggle="dropdown">
+                    <i class="icon-online iconfont"></i>
+                </a>
+                <dl class="infos_list nav-shadow">
+
+                    <dd class="infos-none t-left">
+                        <div>${views.common['当前时区']}：<%= SessionManager.getTimeZone().getID() %></div>
+                        <div>${views.common['当前时间']}：<div id="index-clock" class="clock-show"></div></div>
+                        <div>${views.common['当前在线人数']}： <i class="co-orange" id="onlinePlayerNum">0</i>${views.common['人']}</div>
+                        <div>${views.common['当前活跃人数']}： <i class="co-orange" id="activePlayerNum">0</i>${views.common['人']}</div>
+
+                    </dd>
+                </dl>
+            </li>
+            <li class="infos show-info">
+                <a href="javascript:void(0)" class="locate" data-toggle="dropdown">
+                    <span data-content="${sessionSysUser.username}" data-html="true" class="top-tip"
+                          data-placement="bottom" data-trigger="focus" data-container="body" role="button" tabindex="0">
+                        <i class="icon-logins iconfont"></i>
+                    </span>
+
+                </a>
+                <ul class="information nav-shadow">
+                    <%--<li>
+                        <a href="javascript:void(0)">
+                            <i class="fa fa-user"></i>
+                            ${sessionSysUser.username}
+                        </a>
+                    </li>--%>
+                    <shiro:hasPermission name="system:subaccount_role">
+                        <li><a href="/subAccount/role.html" nav-target="mainFrame"><i class="fa fa-user"></i>${views.common['我的权限']}</a></li>
+                    </shiro:hasPermission>
+
+                    <li>
+                        <a href="/report/log/logList.html" nav-target="mainFrame"><i class="fa fa-file-o"></i>${views.common['操作日志']}</a>
+                    </li>
+                    <li>
+                        <a href="javascript:updateLoginPwd('${views.setting['myAccount.updateAccountPassword']}');"><i class="fa fa-key"></i>${views.common['修改登录密码']}</a>
+                    </li>
+                    <li>
+                        <a href="javascript:updatePowerPwd('${views.setting['myAccount.updatePrivilegePassword']}');"><i class="fa fa-umbrella"></i>${views.common['修改安全密码']}</a>
+                    </li>
+                    <c:if test="${isMaster}">
+                        <li>
+                            <a href="/param/siteParam.html?index=li_top_2" nav-target="mainFrame"><i class="fa fa-heart"></i>${views.common['偏好设置']}</a>
+                        </li>
+                    </c:if>
+                    <li class="off">
+                        <a href="${root}${logoutUrl}" target="_top"><i class="fa fa-power-off"></i>${views.common['退出']}</a>
+                    </li>
+                </ul>
+            </li>
+            <%--<li class="informations" style="margin-right: 15px;">
                 <span data-content="${views.common['在线玩家本站点']}" data-html="true" class="top-tip"
                       data-placement="bottom" data-trigger="focus" data-container="body" role="button" tabindex="0">
                             <i class="fa fa-question-circle" style="color: white"></i>
@@ -130,12 +183,12 @@
                               data-placement="bottom" data-trigger="focus" data-container="body" role="button" tabindex="0">
                             <a href="/vPlayerOnline/list.html?search.hasReturn=true" nav-target="mainFrame"><span class="co-tomato" style="color: #ffffff" id="onlinePlayerNum">0</span></a>
                         </span>${views.common['位']}
-            </li>
+            </li>--%>
 
 
-            <li class="infos show-info">
+            <%--<li class="infos show-info">
                 <a data-toggle="dropdown" style="min-width: 100px">
-                    <%--<img alt="image" class="img-circle" src="${soulFn:getImagePathWithDefault(domain,sessionSysUser.avatarUrl,resRoot.concat('/images/profile_small.jpg'))}">--%>
+                    &lt;%&ndash;<img alt="image" class="img-circle" src="${soulFn:getImagePathWithDefault(domain,sessionSysUser.avatarUrl,resRoot.concat('/images/profile_small.jpg'))}">&ndash;%&gt;
                     ${sessionSysUser.username}
                     <i class="fa fa-angle-down"></i></a>
                 <ul class="information nav-shadow">
@@ -150,10 +203,10 @@
                     <shiro:hasPermission name="system:subaccount_role">
                         <li><a href="/subAccount/role.html" nav-target="mainFrame"><i class="fa fa-user"></i>${views.common['我的权限']}</a></li>
                     </shiro:hasPermission>
-                    <%--<li><a href="/myAccount/myAccount.html" nav-target="mainFrame"><i class="fa fa-user"></i> 个人资料</a></li>--%>
+                    &lt;%&ndash;<li><a href="/myAccount/myAccount.html" nav-target="mainFrame"><i class="fa fa-user"></i> 个人资料</a></li>&ndash;%&gt;
                     <li class="off"><a href="${root}${logoutUrl}" target="_top">${views.common['退出']}<i class="fa fa-power-off"></i></a></li>
                 </ul>
-            </li>
+            </li>--%>
 
             <shiro:hasPermission name="operate:announcement">
                 <li class="informations">
@@ -308,13 +361,13 @@
                     </div>
                 </div>
                 <div class="a-copy clearfix">
-                <span class="footer-clock pull-left">
-                    <span class="clock-show"><i class="icon iconfont"></i>${views.common['当前时区']}：</span>
-                    <span id="userTime"><%= SessionManager.getTimeZone().getID() %></span>
-                    <span id="index-clock" class="clock-show"></span>
-                </span>
+                    <%--<span class="footer-clock pull-left">
+                        <span class="clock-show"><i class="icon iconfont"></i>${views.common['当前时区']}：</span>
+                        <span id="userTime"><%= SessionManager.getTimeZone().getID() %></span>
+                        <span id="index-clock" class="clock-show"></span>
+                    </span>--%>
                     <div class="pull-right m-r-md">
-                    <span class="htm-5-logo m-r" type="button" data-toggle="tooltip" data-placement="top"
+                        <span class="htm-5-logo m-r" type="button" data-toggle="tooltip" data-placement="top"
                           title="${views.common['我们项目使用html5规范开发']}"></span>
                         <%--<span class="footer-boder pull-left"></span>--%>
                         <%--<span class="m-l-sm pull-left m-r">Copyright © 2015  <a href="http://hongtubet.com/" target="_blank">宏圖HongTu</a> 版权所有</span>--%>

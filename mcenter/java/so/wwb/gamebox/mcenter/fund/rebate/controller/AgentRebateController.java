@@ -1,7 +1,11 @@
 package so.wwb.gamebox.mcenter.fund.rebate.controller;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.locale.DateQuickPicker;
+import org.soul.commons.locale.LocaleTool;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
@@ -16,10 +20,15 @@ import so.wwb.gamebox.mcenter.fund.rebate.form.AgentRebateForm;
 import so.wwb.gamebox.mcenter.fund.rebate.form.AgentRebateSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.company.setting.po.SysExport;
+import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
+import so.wwb.gamebox.model.master.fund.rebate.RebateStatusEnum;
 import so.wwb.gamebox.model.master.fund.rebate.po.AgentRebate;
 import so.wwb.gamebox.model.master.fund.rebate.vo.AgentRebateListVo;
 import so.wwb.gamebox.model.master.fund.rebate.vo.AgentRebateVo;
+import so.wwb.gamebox.model.master.player.vo.VUserPlayerListVo;
 import so.wwb.gamebox.web.common.token.Token;
+import so.wwb.gamebox.web.report.controller.AbstractExportController;
 
 import javax.validation.Valid;
 import java.io.Serializable;
@@ -35,7 +44,7 @@ import java.util.*;
 @Controller
 //region your codes 1
 @RequestMapping("/fund/rebate")
-public class AgentRebateController extends BaseCrudController<IAgentRebateService, AgentRebateListVo, AgentRebateVo,
+public class AgentRebateController extends AbstractExportController<IAgentRebateService, AgentRebateListVo, AgentRebateVo,
         AgentRebateSearchForm, AgentRebateForm, AgentRebate, Integer> {
 //endregion your codes 1
 
@@ -89,7 +98,7 @@ public class AgentRebateController extends BaseCrudController<IAgentRebateServic
             //第一次没有返佣数据
             setDefaultNumberOfPeriod(listVo, c);
             yearMonths = new ArrayList<>();
-            Map<String, String> map = new HashMap<>(1);
+            Map<String, String> map = new HashMap<>(1,1f);
             map.put("yearmonth", listVo.getSearch().getYearmonth());
             yearMonths.add(map);
             listVo.setNumberOfPeriods(yearMonths);
@@ -181,6 +190,53 @@ public class AgentRebateController extends BaseCrudController<IAgentRebateServic
         } else {
             return getErrorMessage();
         }
+    }
+    @RequestMapping("/signBill")
+    @ResponseBody
+    public Map signBill(Integer id){
+        Map resMap = new HashedMap(2);
+        resMap.put("state",true);
+        if(id==null){
+            resMap.put("state",false);
+            return resMap;
+        }
+        AgentRebateVo rebateVo = new AgentRebateVo();
+        rebateVo.getSearch().setId(id);
+        rebateVo = getService().get(rebateVo);
+        if(rebateVo.getResult()==null){
+            resMap.put("state",false);
+            return resMap;
+        }
+        AgentRebate result = rebateVo.getResult();
+        if(!RebateStatusEnum.NOTREACHED.getCode().equals(result.getRebateStatus())
+                &&!RebateStatusEnum.NOTREACHED.getCode().equals(result.getRebateStatus())){
+            resMap.put("state",false);
+            return resMap;
+        }
+        result.setRebateStatus(RebateStatusEnum.SIGNBILL.getCode());
+        rebateVo.setProperties(AgentRebate.PROP_REBATE_STATUS);
+        rebateVo = getService().updateOnly(rebateVo);
+        resMap.putAll(getVoMessage(rebateVo));
+        return resMap;
+    }
+
+    @Override
+    protected SysExportVo buildExportData(SysExportVo vo) {
+        if (vo.getResult() == null) {
+            vo.setResult(new SysExport());
+        }
+        vo.getResult().setService(IAgentRebateService.class.getName());
+        vo.getResult().setParam(AgentRebateListVo.class.getName());
+        vo.getResult().setMethod("queryAgentRebateByCustomer");
+        vo.getResult().setUsername(SessionManager.getUserName());
+        vo.getResult().setExportUserId(SessionManager.getUserId());
+        vo.getResult().setExportUserSiteId(SessionManager.getSiteId());
+        if(vo.getResult().getSiteId()==null){
+            vo.getResult().setSiteId(SessionManager.getSiteId());
+        }
+        vo.getResult().setFileName(LocaleTool.tranView("export","agent_rebate")+"-"
+                + DateTool.formatDate(DateQuickPicker.getInstance().getNow(), SessionManager.getLocale(),SessionManager.getTimeZone(),"yyyyMMddHHmmss"));
+        return vo;
     }
 
     //endregion your codes 3

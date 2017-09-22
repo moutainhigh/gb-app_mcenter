@@ -61,7 +61,7 @@ public class SysDomainDefaultForm implements IForm {
     }
     @NotBlank(message="content.domain.addressNotBlank")
     @Pattern(regexp = "^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$", message = "content.domainType.linkAddressFormat")
-    @Compare(message = "不能跟主域名相同", logic = CompareLogic.NE, anotherProperty = "indexDomain")
+    @Compare(message = "content_auto.不能跟主域名相同", logic = CompareLogic.NE, anotherProperty = "indexDomain")
     @Remote(message = "content.sysdomain.domain.exist",checkClass = SysDomainController.class,checkMethod = "checkManagerDomain",additionalProperties = "result_id")
     public String get$managerDomain() {
         return $managerDomain;

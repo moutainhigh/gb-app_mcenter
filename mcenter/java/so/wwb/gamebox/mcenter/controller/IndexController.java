@@ -14,6 +14,7 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.math.NumberTool;
 import org.soul.commons.query.sort.Order;
 import org.soul.commons.tree.TreeNode;
 import org.soul.iservice.security.privilege.ISysResourceService;
@@ -53,6 +54,7 @@ import so.wwb.gamebox.model.company.sys.vo.SysDomainListVo;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.company.sys.vo.VSysSiteUserListVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
+import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
 import so.wwb.gamebox.model.master.dataRight.DataRightModuleType;
 import so.wwb.gamebox.model.master.dataRight.vo.SysUserDataRightVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositVo;
@@ -318,6 +320,9 @@ public class IndexController extends BaseIndexController {
         vSystemAnnouncementListVo.getSearch().setEndTime(SessionManager.getDate().getNow());
         vSystemAnnouncementListVo.getSearch().setLocal(SessionManager.getLocale().toString());
         vSystemAnnouncementListVo.getSearch().setPublishTime(SessionManager.getUser().getCreateTime());
+        if(ParamTool.isLotterySite()) {
+            vSystemAnnouncementListVo.getSearch().setApiId(NumberTool.toInt(ApiProviderEnum.PL.getCode()));
+        }
         vSystemAnnouncementListVo = ServiceTool.vSystemAnnouncementService().searchMasterSystemNotice(vSystemAnnouncementListVo);
         return vSystemAnnouncementListVo.getResult();
     }
@@ -338,24 +343,14 @@ public class IndexController extends BaseIndexController {
      *
      * @return
      */
-//    @Defense(action = DefenseAction.MAIL)
-    @Defense(action = DefenseAction.PLAYER_REGISTER)
     @RequestMapping(value = "/index/message")
     protected String message(HttpServletRequest request, Model model) {
         List<VSystemAnnouncement> unReadMsgCount = unReadMag();
+        for (VSystemAnnouncement vSystemAnnouncement : unReadMsgCount) {
+            vSystemAnnouncement.setContent(StringTool.replaceHtml(vSystemAnnouncement.getContent()));
+        }
         model.addAttribute("unReadCount", unReadMsgCount.size());
         model.addAttribute("msg", unReadMsgCount);
-        //TODO:Longer 防御
-        //ServiceTool.vPlayerWithdrawService().searchProperties()
-        IDefenseRs defense = (IDefenseRs) request.getAttribute(IDefenseRs.R_DEFENSE_RS);
-        if (defense != null && !defense.isAvalable()) {
-            DefenseRs defenseRs = defense.getDefenseRs();
-            System.out.println(defenseRs);
-        }
-
-        //todo:Longer test begin
-        request.setAttribute(IDefenseRs.R_ACTION_RS, true);
-        //todo:Longer test end
         return INDEX_MESSAGE_URI;
     }
 
@@ -416,7 +411,7 @@ public class IndexController extends BaseIndexController {
         SysSiteVo sysSiteVo = new SysSiteVo();
         sysSiteVo.getSearch().setId(SessionManager.getSiteId());
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
-        Map<String, String> map = new HashMap<>(2);
+        Map<String, String> map = new HashMap<>(2,1f);
         map.put("dateTimeFromat", CommonContext.getDateFormat().getDAY_SECOND());
         map.put("dateTime", SessionManager.getUserDate(CommonContext.getDateFormat().getDAY_SECOND()));
         map.put("dateTime", DateTool.formatDate(new Date(), SessionManagerBase.getLocale(), TimeZone.getTimeZone(sysSiteVo.getResult().getTimezone()), CommonContext.getDateFormat().getDAY_SECOND()));
@@ -681,7 +676,7 @@ public class IndexController extends BaseIndexController {
     @RequestMapping("/index/profitLimit")
     @ResponseBody
     public Map<String, Object> profitLimit() {
-        Map<String, Object> map = new HashMap<>(3);
+        Map<String, Object> map = new HashMap<>(3,1f);
         boolean isMaster = SessionManager.isCurrentSiteMaster();
         map.put("isMaster", isMaster);
         //站长账号显示盈利上限，非站长账号不显示

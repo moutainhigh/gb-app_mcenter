@@ -136,8 +136,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             return this.getVoMessage(vo);
         }
         vo.getResult().setParamValue(state);
-        vo.setProperties(SysParam.PROP_PARAM_VALUE);
-        ServiceTool.getSysParamService().updateOnly(vo);
+        ServiceTool.getSysParamService().update(vo);
         //查询是否已经发过站内信
         SiteI18nListVo siteI18nListVo = new SiteI18nListVo();
         siteI18nListVo._setDataSourceId(SessionManager.getSiteParentId());
@@ -708,7 +707,6 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     @ResponseBody
     public Map saveTrafficStatistics(SysSiteVo vo, @FormModel("result") @Valid TrafficStatisticsForm form, BindingResult result) {
         if (!result.hasErrors()) {
-            vo.getResult().setId(CommonContext.get().getSiteId());
             vo.setProperties(SysSite.PROP_TRAFFIC_STATISTICS);
             ServiceTool.sysSiteService().updateOnly(vo);
             Cache.refreshSysSite();
@@ -825,8 +823,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     @ResponseBody
     private Map saveServiceTrems(SiteConfineAreaVo siteConfineAreaVo, @FormModel("result") @Valid ServiceTermsForm form, BindingResult result, SiteI18nListVo siteI18nListVo) {
         if (result.hasErrors()) {
-            Map map = new HashMap(2,1f);
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
+            Map map = new HashMap(2);
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
             map.put("state", false);
             return map;
         }
@@ -883,8 +881,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     @ResponseBody
     public Map saveApportion(PayAccountVo vo, @FormModel() @Valid ApportionForm form, BindingResult result) {
         if (result.hasErrors()) {
-            Map map = new HashMap(2,1f);
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
+            Map map = new HashMap(2);
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
             map.put("state", false);
             return map;
         }

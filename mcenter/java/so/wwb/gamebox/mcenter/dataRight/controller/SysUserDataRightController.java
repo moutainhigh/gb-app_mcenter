@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.iservice.master.dataRight.ISysUserDataRightService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.master.dataRight.DataRightModuleType;
 import so.wwb.gamebox.model.master.dataRight.SysResourceEnum;
 import so.wwb.gamebox.model.master.dataRight.po.SysUserDataRight;
@@ -91,7 +92,7 @@ public class SysUserDataRightController extends BaseCrudController<ISysUserDataR
     }
 
     private Map<String,Map<Integer,SysUserDataRight>> getDataRightsByUserId(SysUserDataRightVo objectVo) {
-        Map<String,Map<Integer,SysUserDataRight>> sysUserDataRightMap = new HashMap<>(0);
+        Map<String,Map<Integer,SysUserDataRight>> sysUserDataRightMap = new HashMap<>(0,1f);
         if (objectVo.getSearch().getUserId() != null) {
             List<SysUserDataRight> list = ServiceTool.sysUserDataRightService().searchDataRightsByUserId(objectVo);
             Map<String,List<SysUserDataRight>> tempMap = CollectionTool.groupByProperty(list,SysUserDataRight.PROP_MODULE_TYPE,String.class);
@@ -109,14 +110,14 @@ public class SysUserDataRightController extends BaseCrudController<ISysUserDataR
     @ResponseBody
     @Token(valid = true)
     public Map saveAndUpdateDataRight(SysUserDataRightVo sysUserDataRightVo) {
-        Map<String,Object> map = new HashMap<>(3);
+        Map<String,Object> map = new HashMap<>(3,1f);
         //if (checkDataRights(sysUserDataRightVo, map)) return map;
         sysUserDataRightVo.setCreateUserId(SessionManager.getUserId());
         boolean isSuccess = ServiceTool.sysUserDataRightService().saveAndUpdateDataRight(sysUserDataRightVo);
         if (isSuccess) {
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
         } else {
-            map.put("msg",LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+            map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
         map.put("state", isSuccess);
         return map;
@@ -126,7 +127,7 @@ public class SysUserDataRightController extends BaseCrudController<ISysUserDataR
         if (CollectionTool.isEmpty(sysUserDataRightVo.getCompanyDepositRank())
                 && CollectionTool.isEmpty(sysUserDataRightVo.getOnlineDepositRank())
                 && CollectionTool.isEmpty(sysUserDataRightVo.getPlayerWithdrawRank())) {
-            map.put("msg", LocaleTool.tranMessage("common","请选择数据权限"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON,"请选择数据权限"));
             map.put("state", false);
             map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
             return true;

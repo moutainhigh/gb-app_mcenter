@@ -30,7 +30,7 @@ public class AgentRebateForm implements IForm {
         this.result_rebateAmount = result_rebateAmount;
     }
 
-    @Compare(message = "不能大于可获返佣金额", isNumber = "true", logic = CompareLogic.LE, anotherProperty = "result_rebateAmount")
+    @Compare(message = "fund_auto.不能大于可获返佣金额", isNumber = "true", logic = CompareLogic.LE, anotherProperty = "result_rebateAmount")
     @Comment("实际可获返佣金额")
     public Double getResult_rebateAmountActual() {
         return result_rebateAmountActual;

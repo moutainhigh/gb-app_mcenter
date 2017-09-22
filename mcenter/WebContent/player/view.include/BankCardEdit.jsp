@@ -22,8 +22,18 @@
         <form:input path="result.id" type="hidden" value="${bankcard.id}"/>
         <form:input path="result.bankcardMasterName" type="hidden"
                     value="${not empty bankcard.bankcardMasterName?bankcard.bankcardMasterName:sysUser.realName}"/>
-        <form:input path="result.bankName" type="hidden"
-                    value="${empty bankcard.bankName?bankListVo.result.get(0).bankName:bankcard.bankName}"/>
+        <c:choose>
+            <c:when test="${!empty bankcard.bankName}">
+                <input id="result.bankName" name="result.bankName" type="hidden" value="${bankcard.bankName}"/>
+            </c:when>
+            <c:when test="${fn:length(bankListVo.result)>0}">
+                <input id="result.bankName" name="result.bankName" type="hidden" value="${bankListVo.result.get(0).bankName}"/>
+            </c:when>
+            <c:otherwise>
+                <input id="result.bankName" name="result.bankName" type="hidden" value=""/>
+            </c:otherwise>
+        </c:choose>
+
         <form:input path="result.userId" type="hidden" value="${bankcard.userId}"/>
         <div class="modal-body">
             <div class="form-group over clearfix">

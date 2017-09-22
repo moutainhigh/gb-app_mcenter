@@ -7,6 +7,7 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.support._Module;
 import org.soul.model.msg.notice.po.VNoticeSendText;
 import org.soul.model.msg.notice.vo.NoticeLocaleTmpl;
 import org.soul.model.msg.notice.vo.NoticeVo;
@@ -23,6 +24,7 @@ import so.wwb.gamebox.mcenter.player.form.VSysUserPlayerFrozenSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.common.Const;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
 import so.wwb.gamebox.model.listop.AccountBalance;
 import so.wwb.gamebox.model.listop.FreezeTime;
@@ -165,7 +167,7 @@ public class SysUserFrozenController extends BaseCrudController<IVSysUserPlayerF
         if (foreverDate.equals(sysUserPlayerFrozen.getResult().getBalanceFreezeEndTime())
                 ||FreezeType.AUTO.getCode().equals(sysUserPlayerFrozen.getResult().getBalanceType())) {
             vo.setSuccess(false);
-            vo.setErrMsg(LocaleTool.tranMessage("common","operation.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_FAILED));
             return getVoMessage(vo);
         }
         vo.setBalanceType(FreezeType.MANUAL.getCode());
@@ -194,7 +196,7 @@ public class SysUserFrozenController extends BaseCrudController<IVSysUserPlayerF
         if (foreverDate.equals(sysUserPlayerFrozenVo.getResult().getFreezeEndTime())
                 ||FreezeType.AUTO.getCode().equals(sysUserPlayerFrozenVo.getResult().getFreezeType())) {
             vo.setSuccess(false);
-            vo.setErrMsg(LocaleTool.tranMessage("common","operation.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON,MessageI18nConst.OPERATION_FAILED));
             return getVoMessage(vo);
         }
         vo.setFreezeType(FreezeType.MANUAL.getCode());

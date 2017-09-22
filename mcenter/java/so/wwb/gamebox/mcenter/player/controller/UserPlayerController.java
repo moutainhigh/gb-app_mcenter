@@ -2,6 +2,7 @@ package so.wwb.gamebox.mcenter.player.controller;
 
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.commons.support._Module;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.log.audit.vo.BaseLog;
 import org.soul.model.log.audit.vo.LogVo;
@@ -25,6 +26,7 @@ import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ModuleType;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.common.Audit;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.master.player.po.PlayerRank;
 import so.wwb.gamebox.model.master.player.po.UserPlayer;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
@@ -67,11 +69,11 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
         boolean success = this.getService().clearContact(userPlayerVo);
         String msg;
         if (success) {
-            msg = LocaleTool.tranMessage("common", "operation.success");
+            msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS);
         } else {
-            msg = LocaleTool.tranMessage("common", "operation.failed");
+            msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_FAILED);
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", msg);
         map.put("state", success);
         return map;
@@ -222,19 +224,19 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
             vUserPlayerVo.setType(playerId);
             List<String> rankName = ServiceTool.vUserPlayerService().getRankNameById(vUserPlayerVo);
             String rank = rankName.get(0);
-            msg = LocaleTool.tranMessage("common", "unlockRank.success");
+            msg = LocaleTool.tranMessage(_Module.COMMON, "unlockRank.success");
             msg = msg +rank;
 
         }else {
 
             if (success) {
-                msg = LocaleTool.tranMessage("common", "unlockRank.success.plu");
+                msg = LocaleTool.tranMessage(_Module.COMMON, "unlockRank.success.plu");
             } else {
-                msg = LocaleTool.tranMessage("common", "operation.failed");
+                msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_FAILED);
             }
 
         }
-        HashMap<String,Object> map = new HashMap(2);
+        HashMap<String,Object> map = new HashMap(2,1f);
         map.put("msg", msg);
         map.put("state", success);
         return map;
@@ -272,7 +274,7 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
         Map maps = this.getService().setRank(userPlayerVo);
         String msg;
         if (maps.get("status").equals(true)) {
-            msg = LocaleTool.tranMessage("common", "operation.success");
+            msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS);
             //操作日志
             maps.remove("status");
             LogVo logVo = new LogVo();
@@ -280,9 +282,9 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
                 addLog(request, "player.playerRank.success",obj,logVo);
             }
         } else {
-            msg = LocaleTool.tranMessage("common", "operation.failed");
+            msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_FAILED);
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", msg);
         map.put("state", maps.get("status"));
         return map;

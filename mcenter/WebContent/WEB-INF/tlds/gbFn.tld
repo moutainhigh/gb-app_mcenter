@@ -168,4 +168,15 @@
         <function-class>org.soul.commons.net.IpTool</function-class>
         <function-signature>java.lang.String ipv4LongToString(long))</function-signature>
     </function>
+
+    <function>
+        <description>
+            /**
+            * 获取时区
+            */
+        </description>
+        <name>formatParentArrayToAgentName</name>
+        <function-class>so.wwb.gamebox.web.RebateAgentTool</function-class>
+        <function-signature>java.lang.String formatParentArrayToAgentName(java.lang.Integer[])</function-signature>
+    </function>
 </taglib>

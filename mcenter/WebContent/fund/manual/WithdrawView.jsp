@@ -118,7 +118,7 @@
                                             <span class="fa fa-save"></span> ${views.fund_auto['保存']}
                                         </soul:button>
                                         <soul:button target="cancelEdit" text="" opType="function" cssClass="btn btn-link co-blue">
-                                            <span class="fa fa-undo"></span> ${views.fund_auto['取消']}
+                                            <span class="fa fa-undo"></span> ${views.common_report['取消']}
                                         </soul:button>
                                         <input name="originRemark" value="${r.checkRemark}" type="hidden"/>
                                     </div>

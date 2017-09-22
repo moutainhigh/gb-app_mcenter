@@ -28,10 +28,10 @@
         </thead>
         <tbody>
         <c:forEach items="${command.result}" var="p" varStatus="status">
-            <tr>
+            <tr class="tab-detail">
                 <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                 <td><a href="/operation/activityType/viewActivityDetail.html?search.id=${p.id}" nav-target="mainFrame">${p.activityName}</a></td>
-                <td>${p.name}</td>
+                <td>${views.operation[p.code]}</td>
                 <td>
                    ${siteI18nMap[p.activityClassifyKey].value}
                 </td>

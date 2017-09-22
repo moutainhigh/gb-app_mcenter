@@ -4,6 +4,7 @@ import org.soul.commons.collections.MapTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.support._Module;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
@@ -20,6 +21,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.SendMessageTool;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.common.ContentCheckEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.serve.po.SiteContentAudit;
 import so.wwb.gamebox.model.company.serve.vo.SiteContentAuditVo;
 import so.wwb.gamebox.model.master.content.po.CttLogo;
@@ -331,13 +333,13 @@ public class CttLogoController extends BaseCrudController<ICttLogoService, CttLo
     @ResponseBody
     public Map batchDeleteLogo(CttLogoVo cttLogoVo){
         cttLogoVo = this.getService().batchDeleteLogo(cttLogoVo);
-        String msg = LocaleTool.tranMessage("common", "delete.success");
+        String msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS);
         if(!cttLogoVo.isSuccess()){
-            msg = LocaleTool.tranMessage("common", "delete.failed");
+            msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED);
         }
         Cache.refreshSiteLogo();
         Cache.refreshCurrentSitePageCache();
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", msg);
         map.put("state", cttLogoVo.isSuccess());
         return map;

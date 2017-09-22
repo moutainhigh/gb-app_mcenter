@@ -10,6 +10,9 @@
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
             <span>${views.fund_auto['资金管理']}</span>
             <span>/</span><span>${views.fund_auto['返佣结算']}</span>
+            <soul:button target="goToLastPage" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
+                <em class="fa fa-caret-left"></em>${views.common['return']}
+            </soul:button>
             <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         </div>
         <div class="col-lg-12">
@@ -34,12 +37,18 @@
                                     <input type="text" class="form-control content-width-limit-8" name="search.agentusername">
                                 </div>
                             </div>
-
+                            <%--<soul:button permission="role:player_export" tag="button"
+                                         cssClass="btn btn-export-btn btn-primary-hide"
+                                         text="${views.common['export']}" callback="gotoExportHistory"
+                                         precall="validExportCount" post="getCurrentFormData"
+                                         title="${views.role['player.dataExport']}"
+                                         target="${root}/fund/rebate/export.html" opType="ajax">
+                                <i class="fa fa-sign-out"></i><span class="hd">${views.common['export']}</span>
+                            </soul:button>--%>
                             <soul:button target="query" opType="function" tag="button" text="${views.common['search']}" cssClass="btn btn-filter">
                                 <i class="fa fa-search"></i>
                                 <span class="hd">&nbsp;${views.common['search']}</span>
                             </soul:button>
-                            <%--<a href="/operation/rebate/list.html" nav-target="mainFrame" class="btn btn-default">${views.fund_auto['旧版入口']}</a>--%>
                         </div>
                     </div>
                 </div>

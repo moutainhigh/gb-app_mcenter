@@ -116,7 +116,7 @@
                                                      text="${views.content_auto['保存']}" opType="function"
                                                      url="${root}/payAccount/saveDepositDefaultCount.html"/>
                                         <soul:button cssClass="m-l-sm" target="cancleDepositDefaultCount"
-                                                     text="${views.content_auto['取消']}"
+                                                     text="${views.common_report['取消']}"
                                                      opType="function"/>
                                     </span>
                                 </td>
@@ -143,7 +143,7 @@
                                                      target="saveDepositDefault" text="${views.content_auto['保存']}" opType="function"
                                                      url="${root}/payAccount/saveDepositDefaultTotal.html"/>
                                         <soul:button cssClass="m-l-sm" target="cancleDepositDefaultTotal"
-                                                     text="${views.content_auto['取消']}"
+                                                     text="${views.common_report['取消']}"
                                                      opType="function"/>
                                     </span>
                                 </td>

@@ -87,11 +87,11 @@ public class SettlementRebateAgentController extends BaseCrudController<IRebateA
 
         //实付佣金
         Double rebateActual = objectVo.getResult().getRebateActual();
-        String remark = objectVo.getResult().getRemark();
+        //String remark = objectVo.getResult().getRemark();
         objectVo.getSearch().setId(objectVo.getResult().getId());
         objectVo = getService().get(objectVo);
         objectVo.getResult().setRebateActual(rebateActual);
-        objectVo.getResult().setRemark(remark);
+        //objectVo.getResult().setRemark(remark);
         return super.doUpdate(objectVo);
     }
 
@@ -397,8 +397,8 @@ public class SettlementRebateAgentController extends BaseCrudController<IRebateA
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(SessionManager.getDate().getNow());
         String timezone = Cache.getUserTimezone(rebateAgentVo.getResult()!=null?rebateAgentVo.getResult().getAgentId():rebateAgentVo.getUserId());
-        String startTime = LocaleDateTool.formatDate(rebateAgentVo.getRebateBillVo().getStartTime(),DateTool.FMT_HYPHEN_DAY,timezone);
-        String endTime = LocaleDateTool.formatDate(rebateAgentVo.getRebateBillVo().getEndTime(),DateTool.FMT_HYPHEN_DAY,timezone);
+        String startTime = LocaleDateTool.formatDate(rebateAgentVo.getRebateBillVo().getStartTime(),DateTool.yyyy_MM_dd,timezone);
+        String endTime = LocaleDateTool.formatDate(rebateAgentVo.getRebateBillVo().getEndTime(),DateTool.yyyy_MM_dd,timezone);
         return new Pair[]
                 {
                         new Pair<String, String>(NoticeParamEnum.YEAR.getCode(), String.valueOf(c.get(Calendar.YEAR))),

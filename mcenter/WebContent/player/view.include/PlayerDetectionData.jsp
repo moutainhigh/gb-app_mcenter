@@ -25,7 +25,7 @@
         <input type="text" class="form-control" name="result.realName" value="${command.result.realName}">
     </div>
     <soul:button target="updateRealName" text="${views.player_auto['保存']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
-    <soul:button target="cancelEditRealName" text="${views.player_auto['取消']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
+    <soul:button target="cancelEditRealName" text="${views.common_report['取消']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
 </div>
 <div class="p-b-sm" id="player-personal-detail">
 <table class="table table-bordered table-desc-list width-response" style="background: #fff;">

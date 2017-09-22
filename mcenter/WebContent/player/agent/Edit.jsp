@@ -23,7 +23,7 @@
                                 <form:hidden path="result.id"></form:hidden>
                                 <form:hidden path="sysUser.id"></form:hidden>
                                 <input type="hidden" value="${command.result.registCode}" class="form-control m-b" name="result.registCode">
-                                <input type="hidden" value="agent" name="editType">
+                                <input type="hidden" value="${command.editType}" name="editType">
                                     <div id="validateRule" style="display: none">${command.validateRule}</div>
                                     <%--跳轉模板編輯--%>
                                     <a nav-target="mainFrame" style="display:none" name="editTmpl" href="/noticeTmpl/tmpIndex.html?lastPage=t"><span></span></a>
@@ -38,11 +38,13 @@
                                         <%--</div>--%>
 
                                         <div class="form-group clearfix  m-b-sm">
-                                            <label class="col-sm-3 al-right line-hi34 ft-bold"><span class="co-red m-r-sm">*</span>${views.role['agent.topAgent']} :</label>
+                                            <label class="col-sm-3 al-right line-hi34 ft-bold"><span class="co-red m-r-sm">*</span>${views.column['VUserAgentManage.parentUsername']} :</label>
                                             <div class="col-sm-5">
                                                 <c:choose>
                                                     <c:when test="${empty command.result.id}">
-                                                        <gb:select name="agentUserId" list="${command.topAgents}" prompt="${views.common['pleaseSelect']}" value="${empty command.agentUserId ? command._defaultAgent:command.agentUserId}" listValue="username" callback="changeAgent" cssClass="btn-group chosen-select-no-single input-sm" listKey="id"></gb:select>
+                                                        <gb:select name="agentUserId" list="${command.topAgents}" prompt=""
+                                                                   value="${empty command.agentUserId ? command._defaultAgent:command.agentUserId}"
+                                                                   listValue="username" callback="changeAgent" cssClass="btn-group chosen-select-no-single input-sm" listKey="id"></gb:select>
                                                         <input type="hidden" value="${command._defaultAgent}" id="_defaultAgent">
                                                     </c:when>
                                                     <c:otherwise>
@@ -123,6 +125,7 @@
                                         <div class="col-sm-3">
                                             <div  class="input-group date rebate">
                                                 <%--userAgentRebate--%>
+                                                    <input type="hidden" value="${command.userAgentRebate.rebateId}" name="oldRebateId" id="oldRebateId">
                                                     <form:hidden path="userAgentRebate.id"></form:hidden>
                                                     <form:hidden path="userAgentRebate.userId"></form:hidden>
                                                     <gb:select name="userAgentRebate.rebateId" prompt="${views.role['agent.chooseAgentRebate']}"
@@ -142,6 +145,16 @@
                                             </div>
                                         </div>
                                     </c:if>
+                                    <div class="form-group clearfix m-b-sm">
+                                        <label class="col-sm-3 al-right line-hi34 ft-bold">
+                                            <span class="co-red m-r-sm">*</span>${views.column['VUserAgentManage.addNewPlayer']} :
+                                        </label>
+                                        <div class="col-sm-5">
+                                        <input type="checkbox" name="my-checkbox" data-size="mini" ${command.result.addNewPlayer?'checked':''}>
+                                        <input type="hidden" name="result.addNewPlayer" value="${not empty command.result.addNewPlayer && command.result.addNewPlayer?'true':'false'}">
+                                            <span>${views.player_auto['开启后']}</span>
+                                        </div>
+                                    </div>
                                     <c:if test="${not empty command.sysUser.id}">
                                         <input class="hide" name="sysUser.defaultTimezone" value="${command.sysUser.defaultTimezone}">
                                     </c:if>
@@ -492,7 +505,7 @@
                 <%--按钮--%>
                 <div class="operate-btn">
                         <%--<a href="javascript:void(0)" class="btn btn-filter btn-lg">${views.player_auto['确认']}</a>--%>
-                    <soul:button target="${root}/userAgent/updateAgent.html" text="${views.common['OK']}" cssClass="btn btn-filter btn-lg" precall="validateForm" opType="ajax" post="getCurrentFormData" callback="goToLastPage" refresh="true">${views.common['OK']}</soul:button>
+                    <soul:button target="${root}/userAgent/updateAgent.html" text="${views.common['OK']}" cssClass="btn btn-filter btn-lg" precall="myValidateForm" opType="ajax" post="getCurrentFormData" callback="goToLastPage" refresh="true">${views.common['OK']}</soul:button>
                     <soul:button target="goToLastPage"  text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter btn-lg" opType="function">${views.common['cancel']}</soul:button>
 
                 </div>

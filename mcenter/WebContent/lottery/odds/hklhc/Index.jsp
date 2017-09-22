@@ -10,6 +10,8 @@
     <a href="javascript:void(0)" betCode="positive_sixth" page="positiveNum">${views.lottery_auto['正码六']}</a>&nbsp;&nbsp;-&nbsp;&nbsp;
     <a href="javascript:void(0)" betCode="positive" page="positiveB">${views.lottery_auto['正码']}</a>&nbsp;&nbsp;-&nbsp;&nbsp;
     <a href="javascript:void(0)" betCode="seven_sum" page="sevensum">${views.lottery_auto['总和']}</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+    <a href="javascript:void(0)" betCode="lhc_half_colour" page="halfcolour">半波</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+    <a href="javascript:void(0)" betCode="lhc_one_zodiac" page="onezodiac">一肖</a>&nbsp;&nbsp;-&nbsp;&nbsp;
 </div>
 <script>
     $(function () {

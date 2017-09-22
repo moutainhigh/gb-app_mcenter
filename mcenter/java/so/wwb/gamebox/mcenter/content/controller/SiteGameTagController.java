@@ -27,6 +27,7 @@ import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.CacheBase;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.SiteI18nEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteGameTag;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.vo.*;
@@ -211,7 +212,7 @@ public class SiteGameTagController extends BaseCrudController<ISiteGameTagServic
                 break;
             }
         }
-        Map<String, Object> map = new HashMap(4);
+        Map<String, Object> map = new HashMap(4,1f);
         map.put("isDefault", isDefault);
         if (isDefault) {
             map.put("msg", LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), "classification.defaultNotDelete"));
@@ -225,7 +226,7 @@ public class SiteGameTagController extends BaseCrudController<ISiteGameTagServic
     }
 
     private Map<String, Object> deleteSiteGameTag(String key) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         try{
             SiteI18nVo vo = new SiteI18nVo();
             vo.getSearch().setModule(Module.MASTER_SETTING.getCode());
@@ -233,10 +234,10 @@ public class SiteGameTagController extends BaseCrudController<ISiteGameTagServic
             vo.getSearch().setKey(key);
             ServiceTool.siteI18nService().deleSiteI18nByModuleAndKey(vo);
             map.put("state", true);
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         }catch (Exception ex){
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
 
         return map;

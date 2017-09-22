@@ -6,10 +6,10 @@ import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.locale.DateQuickPicker;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.model.security.privilege.vo.SysUserVo;
-import org.soul.commons.locale.DateQuickPicker;
 import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -25,10 +25,12 @@ import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.CacheBase;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.WeekTool;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.master.enums.CommonStatusEnum;
+import so.wwb.gamebox.model.master.fund.enums.FundTypeEnum;
 import so.wwb.gamebox.model.master.fund.enums.TransactionTypeEnum;
 import so.wwb.gamebox.model.master.fund.enums.TransactionWayEnum;
 import so.wwb.gamebox.model.master.fund.vo.PlayerFavorableVo;
@@ -37,17 +39,18 @@ import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawListVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMessageVo;
 import so.wwb.gamebox.model.master.operation.vo.RakebackBillVo;
 import so.wwb.gamebox.model.master.operation.vo.RakebackPlayerVo;
-import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.report.po.VPlayerFundsRecord;
 import so.wwb.gamebox.model.master.report.so.VPlayerFundsRecordSo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerFundsRecordListVo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerFundsRecordVo;
-import so.wwb.gamebox.model.WeekTool;
 import so.wwb.gamebox.web.report.controller.AbstractExportController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -86,23 +89,30 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
     public String fundsLog(VPlayerFundsRecordListVo listVo, VPlayerFundsRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
         initDate(listVo, model);
         trimSearch(listVo);
-        //所有可用的玩家层级
-        model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
-        //账号类型列表
-        model.addAttribute("userTypeSearchKeys", initUserTypeSearchKeys());
-        //搜索模板
-        model.addAttribute("searchTempCode", TemplateCodeEnum.TRANSACTION.getCode());
-        model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.TRANSACTION.getCode()));
+        //在搜素的时候资金记录查询条件相关的内容无需重新查询一次
+        if (!ServletTool.isAjaxSoulRequest(request)) {
+            //所有可用的玩家层级
+            //model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
+            //账号类型列表
+            model.addAttribute("userTypeSearchKeys", initUserTypeSearchKeys());
+            //搜索模板
+            model.addAttribute("searchTempCode", TemplateCodeEnum.TRANSACTION.getCode());
+            model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.TRANSACTION.getCode()));
+
+        }
         //表头的状态和资金类型列表
         model.addAttribute("dictCommonStatus", DictTool.get(DictEnum.COMMON_STATUS));
         Map<String, String> dictFundType = DictTool.get(DictEnum.COMMON_FUND_TYPE);
-        dictFundType.remove("transfer_into");
-        dictFundType.remove("transfer_out");
+        dictFundType.remove(FundTypeEnum.TRANSFER_INTO.getCode());
+        dictFundType.remove(FundTypeEnum.TRANSFER_OUT.getCode());
         model.addAttribute("dictFundType", dictFundType);
         model.addAttribute("validateRule", JsRuleCreator.create(VPlayerFundsRecordSearchForm.class));
         //默认搜索成功订单:列表页面
         if (listVo.getSearch().getStatus() == null) {
             listVo.getSearch().setStatus(CommonStatusEnum.SUCCESS.getCode());
+        }
+        if(listVo.isAnalyzeNewAgent()){
+            listVo.getSearch().setOrigin("all");
         }
         //判断进入统计页面或资金列表页面
         if (isSummary(listVo)) {
@@ -132,10 +142,36 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                 listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionOutLink(listVo);
             } else {
                 //查询列表
-                listVo = super.doList(listVo, form, result, model);
+                if(listVo.isAnalyzeNewAgent()){
+                    listVo.getSearch().setOrigin("");
+                    Integer searchType=listVo.getSearchType();
+                    if (searchType!=null){
+                        if (searchType==1){
+                            listVo.getSearch().setTransactionType("deposit");
+                            listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionOrder(listVo);
+                        }else if (searchType==2){
+                            listVo.getSearch().setTransactionType("withdrawals");
+                            listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionOrder(listVo);
+                        }else if (searchType==3){
+                            listVo.getSearch().setTransactionType("deposit");
+                            listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrder(listVo);
+                        }else if(searchType==4){
+                            listVo.getSearch().setTransactionType("withdrawals");
+                            listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrder(listVo);
+                        }else if (searchType==5){
+                            listVo.getSearch().setTransactionType("deposit");
+                            listVo = ServiceTool.vPlayerFundsRecordService().queryTotalTransactionOrder(listVo);
+                        }else {
+                            listVo.getSearch().setTransactionType("withdrawals");
+                            listVo = ServiceTool.vPlayerFundsRecordService().queryTotalTransactionOrder(listVo);
+                        }
+                    }
+                }else {
+                    listVo = super.doList(listVo, form, result, model);
+                }
             }
             String queryParamsJson = JsonTool.toJson(listVo.getSearch());
-            model.addAttribute("queryParamsJson",queryParamsJson);
+            model.addAttribute("queryParamsJson", queryParamsJson);
             model.addAttribute("command", listVo);
             //根据条件汇总总金额
             listVo.setPropertyName(VPlayerFundsRecord.PROP_TRANSACTION_MONEY);
@@ -191,7 +227,6 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
      */
     private void initDate(VPlayerFundsRecordListVo listVo, Model model) {
         Integer outer = listVo.getSearch().getOuter() == null ? 0 : listVo.getSearch().getOuter();
-        model.addAttribute("outer", outer);
         if (outer != 0) {
             if (listVo.getSearch().getStartTime() != null && listVo.getSearch().getEndTime() != null) {
                 return;
@@ -300,6 +335,8 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
     @RequestMapping("/initSum")
     @ResponseBody
     public String initSum(VPlayerFundsRecordListVo listVo, VPlayerFundsRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
+        listVo.setAnalyzeStartTime(listVo.getBeginTime());
+        listVo.setAnalyzeEndTime(listVo.getEndTime());
         initDate(listVo, model);
         trimSearch(listVo);
         Integer comp = listVo.getSearch().getComp();
@@ -309,7 +346,20 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             int hour = rawOffset / 1000 / 3600;
             listVo.getSearch().setTimeZoneInterval(hour);
             sumMoney = ServiceTool.vPlayerFundsRecordService().playerTransactionOutLinkSum(listVo);
-        }else{
+
+        }
+        if (listVo.isAnalyzeNewAgent()){
+            Integer searchType=listVo.getSearchType();
+            if (searchType!=null){
+                if (searchType==1||searchType==2){
+                    sumMoney = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionOrderSum(listVo);
+                } else if (searchType==3||searchType==4){
+                    sumMoney = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrderSum(listVo);
+                } else {
+                    sumMoney = ServiceTool.vPlayerFundsRecordService().queryTotalTransactionOrderSum(listVo);
+                }
+            }
+        }else {
             sumMoney = ServiceTool.vPlayerFundsRecordService().AmountSum(listVo);
         }
         return CurrencyTool.formatCurrency(sumMoney == null ? 0 : sumMoney);
@@ -332,11 +382,11 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
         Map<String, Object> map = JsonTool.fromJson(vo.getResult().getTransactionData(), Map.class);
         if (StringTool.equals(transactionType, TransactionTypeEnum.FAVORABLE.getCode())) {
             //优惠名称
-            if(map!=null){
-                if(map.get(SessionManager.getLocale().toString())!=null){
+            if (map != null) {
+                if (map.get(SessionManager.getLocale().toString()) != null) {
 
                     vo.getResult().setTransactionData(map.get(SessionManager.getLocale().toString()).toString());
-                }else if(map.get("activityName")!=null){
+                } else if (map.get("activityName") != null) {
                     vo.getResult().setTransactionData(map.get("activityName").toString());
                 }
             }
@@ -347,7 +397,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             rakebackBillVo.getSearch().setPeriod(map.get("period").toString());
             rakebackBillVo = ServiceTool.rakebackBillService().getOneByEndtimeAndPeriod(rakebackBillVo);
             if (rakebackBillVo != null && rakebackBillVo.getResult() != null) {
-                vo.setBackwaterCircle(DateTool.formatDate(rakebackBillVo.getResult().getStartTime(), DateTool.FMT_HYPHEN_DAY) + " ~ " + DateTool.formatDate(rakebackBillVo.getResult().getEndTime(), DateTool.FMT_HYPHEN_DAY));
+                vo.setBackwaterCircle(DateTool.formatDate(rakebackBillVo.getResult().getStartTime(), DateTool.yyyy_MM_dd) + " ~ " + DateTool.formatDate(rakebackBillVo.getResult().getEndTime(), DateTool.yyyy_MM_dd));
                 RakebackPlayerVo rakebackPlayerVo = new RakebackPlayerVo();
                 rakebackPlayerVo.getSearch().setPlayerId(vo.getResult().getPlayerId());
                 rakebackPlayerVo.getSearch().setRakebackBillId(rakebackBillVo.getResult().getId());
@@ -371,7 +421,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                 } else {
                     vo.setOperator((ServiceTool.sysUserService().get(operator)).getResult().getUsername());
                 }
-                if (StringTool.equals(transactionType, TransactionTypeEnum.FAVORABLE.getCode()) && !StringTool.equals(vo.getResult().getTransactionWay(),TransactionWayEnum.REFUND_FEE.getCode())) {
+                if (StringTool.equals(transactionType, TransactionTypeEnum.FAVORABLE.getCode()) && !StringTool.equals(vo.getResult().getTransactionWay(), TransactionWayEnum.REFUND_FEE.getCode())) {
                     //活动是否下架
                     ActivityMessageVo amVo = new ActivityMessageVo();
                     amVo.getSearch().setId(playerFavorableVo.getResult().getActivityMessageId());
@@ -379,14 +429,14 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                     if (amVo.getResult() != null && !amVo.getResult().getIsDeleted()) {
                         vo.setActivityMessageId(playerFavorableVo.getResult().getActivityMessageId());
                     }
-                }else if(StringTool.equals(vo.getResult().getTransactionWay(),TransactionWayEnum.REFUND_FEE.getCode())){
+                } else if (StringTool.equals(vo.getResult().getTransactionWay(), TransactionWayEnum.REFUND_FEE.getCode())) {
                     PlayerRechargeVo playerRechargeVo = new PlayerRechargeVo();
                     playerRechargeVo.getSearch().setId(playerFavorableVo.getResult().getPlayerRechargeId());
                     playerRechargeVo = ServiceTool.playerRechargeService().get(playerRechargeVo);
                     vo.setDepositTransactionNo(playerRechargeVo.getResult().getTransactionNo());
                     vo.setDepositMoney(playerRechargeVo.getResult().getRechargeAmount());
                 }
-            }else{
+            } else {
                 vo.setActivityMessageId(playerFavorableVo.getResult().getActivityMessageId());
             }
             //稽核倍数

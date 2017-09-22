@@ -43,7 +43,7 @@
         <div class="modal-footer">
             <soul:button target="${root}/content/cttDomain/type/persist.html" precall="validateForm" post="getCurrentFormData" callback="closePage" text="${views.content['确认']}" opType="ajax" cssClass="btn btn-filter">${views.content['确认']}</soul:button>
             <%--<button type="button" class="btn btn-filter">${views.delete-content_auto['确认']}</button>--%>
-            <soul:button tag="button" target="closePage" text="${views.content['取消']}" cssClass="btn btn-outline btn-filter" opType="function"></soul:button>
+            <soul:button tag="button" target="closePage" text="${views.common_report['取消']}" cssClass="btn btn-outline btn-filter" opType="function"></soul:button>
         </div>
     </form:form>
 </body>

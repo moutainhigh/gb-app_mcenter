@@ -16,13 +16,25 @@
 
 <body>
 
-<form:form id="editForm" action="${root}/vAnalyzePlayer/edit.html" method="post">
+<form:form id="editForm" action="${root}/vAnalyzePlayer/edit.html" method="post" name="editForm">
     <div id="validateRule" style="display: none">${command.validateRule}</div>
     <div class="modal-body">
 
+        <div class="bg-gray p-xs">
+
+            <span class="co-yellow m-r-sm"><i class="fa fa-exclamation-circle"></i></span>${views.analyze_auto['查询的开始时间']}
+            <span tabindex="0" role="button" data-container="body" data-toggle="popover" data-trigger="focus"
+                  data-placement="top" data-content="${views.analyze_auto['示例']}"
+                  class="btn btn-link co-blue"><span class="co-blue">${views.analyze_auto['示例1']}</span></span>
+        </div>
         <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm ">
             <div class="input-group date">
-                <span class="input-group-addon bg-gray">${views.analyze['存款次数']}</span>
+                <span class="input-group-addon bg-gray"><span
+                        tabindex="0" class="m-l-sm help-popover analyze" role="button" data-container="body"
+                        data-toggle="popover" data-trigger="focus" data-placement="top"
+                        data-content="${views.analyze_auto['存款次数']}" data-original-title="" title=""><i
+                        class="fa fa-question-circle"></i>
+                </span>${views.analyze['存款次数']}</span>
                 <form:hidden path="depositCountParam.id"/>
                 <shiro:hasPermission name="mcenter:analyze-param">
                     <form:input path="depositCountParam.paramValue" cssClass="form-control"/>
@@ -37,7 +49,12 @@
         <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm ">
             <div class="input-group date">
                 <form:hidden path="depositParam.id"/>
-                <span class="input-group-addon bg-gray">${views.analyze['存款金额']}</span>
+                <span class="input-group-addon bg-gray"><span
+                        tabindex="0" class="m-l-sm help-popover analyze" role="button" data-container="body"
+                        data-toggle="popover" data-trigger="focus" data-placement="top"
+                        data-content="${views.analyze_auto['存款金额']}" data-original-title="" title=""><i
+                        class="fa fa-question-circle"></i>
+                </span>${views.analyze['存款金额']}</span>
                 <shiro:hasPermission name="mcenter:analyze-param">
                     <form:input path="depositParam.paramValue" cssClass="form-control"/>
                 </shiro:hasPermission>
@@ -51,7 +68,12 @@
 
         <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm ">
             <div class="input-group date">
-                <span class="input-group-addon bg-gray">${views.analyze['有效投注额']}</span>
+                <span class="input-group-addon bg-gray"><span
+                        tabindex="0" class="m-l-sm help-popover analyze" role="button" data-container="body"
+                        data-toggle="popover" data-trigger="focus" data-placement="top"
+                        data-content="${views.analyze_auto['有效投注额']}" data-original-title="" title=""><i
+                        class="fa fa-question-circle"></i>
+                </span>${views.analyze['有效投注额']}</span>
                 <form:hidden path="effectiveParam.id"/>
                 <shiro:hasPermission name="mcenter:analyze-param">
                     <form:input path="effectiveParam.paramValue" cssClass="form-control"/>
@@ -75,6 +97,6 @@
 </body>
 <%@ include file="/include/include.js.jsp" %>
 <!--//region your codes 4-->
-<soul:import type="edit"/>
+<soul:import res="site/analyze/analyzeParam"/>
 <!--//endregion your codes 4-->
 </html>

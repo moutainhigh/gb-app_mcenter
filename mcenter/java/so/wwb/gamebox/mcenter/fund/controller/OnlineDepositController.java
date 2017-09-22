@@ -95,7 +95,7 @@ public class OnlineDepositController extends BaseDepositController {
     @ResponseBody
     public Map<String, Object> toneSwitch(@RequestParam("paramVal") String paramVal) {
         SessionManager.setOnlineVoiceNotice(paramVal);
-        Map<String, Object> map = new HashMap<>(1);
+        Map<String, Object> map = new HashMap<>(1,1f);
         map.put("state", true);
         return map;//toneSwitch(SiteParamEnum.WARMING_TONE_ONLINEPAY);
     }

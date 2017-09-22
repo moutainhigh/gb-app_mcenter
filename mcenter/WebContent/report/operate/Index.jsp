@@ -40,8 +40,10 @@
                 </c:otherwise>
             </c:choose>
         </div>
-
-        <%@ include file="middle.jsp" %>
+        <c:set var="isLotterySite" value="<%=ParamTool.isLotterySite()%>"/>
+        <c:if test="${!isLotterySite}">
+            <%@ include file="middle.jsp" %>
+        </c:if>
         <div class="search-list-container">
             <input type="hidden" name="outApiTypeId" value="${outApiTypeId}" />
             <c:choose>

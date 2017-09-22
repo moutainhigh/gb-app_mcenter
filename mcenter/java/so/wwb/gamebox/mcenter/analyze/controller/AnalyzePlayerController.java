@@ -23,6 +23,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.company.enums.SysSiteStatusEnum;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.master.analyze.po.AnalyzePlayer;
@@ -64,7 +65,7 @@ public class AnalyzePlayerController extends BaseCrudController<IAnalyzePlayerSe
     @ResponseBody
     public long effectivePlayerCount(AnalyzePlayerListVo listVo) throws ParseException {
 //        SELECT gb_analyze_player('2016-12-19', '2016-12-18 16:00:00', '2016-12-19 16:00:00');
-//        Date date = DateTool.parseDate("2017-02-01 16:00:00", DateTool.FMT_HYPHEN_DAY_CLN_SECOND);
+//        Date date = DateTool.parseDate("2017-02-01 16:00:00", DateTool.yyyy_MM_dd_HH_mm_ss);
 //        Date date1 = new Date();
 //
 //        long l = DateTool.daysBetween(date1,date );
@@ -73,14 +74,20 @@ public class AnalyzePlayerController extends BaseCrudController<IAnalyzePlayerSe
 //            Date date2 = DateTool.addDays(date, i);
 //
 //
-//            String day = DateTool.formatDate(date2,DateTool.FMT_HYPHEN_DAY);
-//            String start = DateTool.formatDate(DateTool.addDays(date2,-1),DateTool.FMT_HYPHEN_DAY_CLN_SECOND);
-//            String end = DateTool.formatDate(DateTool.addSeconds(date2,0),DateTool.FMT_HYPHEN_DAY_CLN_SECOND);
+//            String day = DateTool.formatDate(date2,DateTool.yyyy_MM_dd);
+//            String start = DateTool.formatDate(DateTool.addDays(date2,-1),DateTool.yyyy_MM_dd_HH_mm_ss);
+//            String end = DateTool.formatDate(DateTool.addSeconds(date2,0),DateTool.yyyy_MM_dd_HH_mm_ss);
 //
 //            System.out.println("SELECT gb_analyze('"+day+"', '"+start+"', '"+end+"'); ");
 //
 //        }
 
+        if (listVo.getSearch().getStartStaticTime()==null){
+            listVo.getSearch().setStartStaticTime(Const.Platform_Begin_Date);
+        }
+        if (listVo.getSearch().getEndStaticTime()==null){
+            listVo.getSearch().setEndStaticTime(new Date());
+        }
         Date startTime = DateTool.addDays(listVo.getSearch().getStartStaticTime(), 1);
         listVo.getSearch().setStartStaticTime(startTime);
         Date endTime = DateTool.addDays(listVo.getSearch().getEndStaticTime(), 1);
@@ -108,29 +115,30 @@ public class AnalyzePlayerController extends BaseCrudController<IAnalyzePlayerSe
     @ResponseBody
     public String staticToday(VAnalyzePlayerListVo vo, @FormModel("result") @Valid AnalyzeParamForm form, BindingResult result) throws ParseException {
         SysParam param = ParamTool.getSysParam(SiteParamEnum.ANALYZE_PLAYER_STATIC_TIME_END);
-        Date date = DateTool.parseDate(param.getParamValue(), DateTool.FMT_HYPHEN_DAY_CLN_SECOND);
-        String staticTime = DateTool.formatDate(date,DateTool.FMT_CLN_SECOND);
+        Date date = DateTool.parseDate(param.getParamValue(), DateTool.yyyy_MM_dd_HH_mm_ss);
+        String staticTime = DateTool.formatDate(date,DateTool.HH_mm_ss);
 //        if(DateTool.minutesBetween(date,new Date())<10){
             Date today = SessionManager.getDate().getToday();
-            String s = DateTool.formatDate(today,SessionManager.getLocale(),SessionManager.getTimeZone(), DateTool.FMT_HYPHEN_DAY);
-            vo.getSearch().setDay(DateTool.parseDate(s,DateTool.FMT_HYPHEN_DAY));
+            String s = DateTool.formatDate(today,SessionManager.getLocale(),SessionManager.getTimeZone(), DateTool.yyyy_MM_dd);
+            vo.getSearch().setDay(DateTool.parseDate(s,DateTool.yyyy_MM_dd));
             vo.getSearch().setDaySecondStart(SessionManager.getDate().getToday());
             vo.getSearch().setDaySecondEnd(SessionManager.getDate().getTomorrow());
             String count = ServiceTool.vAnalyzePlayerService().staticToday(vo);
              log.debug("执行代理分析：站点ID:{0},日期：{1}，开始时间：{2},结束时间：{3},记录数:{4}",
                 SessionManager.getSiteId(),
-                DateTool.formatDate(vo.getSearch().getDay(), DateTool.FMT_HYPHEN_DAY),
-                DateTool.formatDate(vo.getSearch().getDaySecondStart(), DateTool.FMT_HYPHEN_DAY_CLN_SECOND),
-                DateTool.formatDate(vo.getSearch().getDaySecondEnd(), DateTool.FMT_HYPHEN_DAY_CLN_SECOND),
+                DateTool.formatDate(vo.getSearch().getDay(), DateTool.yyyy_MM_dd),
+                DateTool.formatDate(vo.getSearch().getDaySecondStart(), DateTool.yyyy_MM_dd_HH_mm_ss),
+                DateTool.formatDate(vo.getSearch().getDaySecondEnd(), DateTool.yyyy_MM_dd_HH_mm_ss),
                 count);
             Date cdate = convertDateByTimezone(new Date(), SessionManager.getTimeZone());
-            staticTime = DateTool.formatDate(cdate,DateTool.FMT_CLN_SECOND);
+            staticTime = DateTool.formatDate(cdate,DateTool.HH_mm_ss);
 
 
-            param.setParamValue(DateTool.formatDate(cdate,DateTool.FMT_HYPHEN_DAY_CLN_SECOND));
+            param.setParamValue(DateTool.formatDate(cdate,DateTool.yyyy_MM_dd_HH_mm_ss));
             SysParamVo sysParamVo = new SysParamVo();
             sysParamVo.setResult(param);
-            ServiceTool.getSysParamService().update(sysParamVo);
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            ServiceTool.getSysParamService().updateOnly(sysParamVo);
             ParamTool.refresh(SiteParamEnum.ANALYZE_PLAYER_STATIC_TIME_END);
 //        }
         return staticTime;
@@ -140,7 +148,7 @@ public class AnalyzePlayerController extends BaseCrudController<IAnalyzePlayerSe
     @RequestMapping("/reAnalyze")
     @ResponseBody
     public String reAnalyze(String time,int times,int siteId){
-        Date date = DateTool.parseDate(time, DateTool.FMT_HYPHEN_DAY);
+        Date date = DateTool.parseDate(time, DateTool.yyyy_MM_dd);
 
         SysSiteVo siteVo = new SysSiteVo();
         siteVo._setDataSourceId(-1);
@@ -153,8 +161,8 @@ public class AnalyzePlayerController extends BaseCrudController<IAnalyzePlayerSe
             for(int i=1;i<=times;i++){
                 convertDate = DateTool.addDays(convertDate,1);
                 Date start = DateTool.addDays(convertDate, -1);
-                String s = DateTool.formatDate(convertDate, DateTool.FMT_HYPHEN_DAY);
-                Date day = DateTool.parseDate(s, DateTool.FMT_HYPHEN_DAY);
+                String s = DateTool.formatDate(convertDate, DateTool.yyyy_MM_dd);
+                Date day = DateTool.parseDate(s, DateTool.yyyy_MM_dd);
                 vo._setDataSourceId(siteVo.getResult().getId());
                 vo.getSearch().setDay(day);
                 vo.getSearch().setDaySecondStart(start);
@@ -162,14 +170,14 @@ public class AnalyzePlayerController extends BaseCrudController<IAnalyzePlayerSe
                 IVAnalyzePlayerService service = DubboTool.getService(IVAnalyzePlayerService.class);
                 log.debug("执行代理分析：站点ID:{0},日期：{1}，开始时间：{2},结束时间：{3},记录数:{4}",
                         siteVo.getResult().getId(),
-                        DateTool.formatDate(vo.getSearch().getDay(), DateTool.FMT_HYPHEN_DAY),
-                        DateTool.formatDate(vo.getSearch().getDaySecondStart(), DateTool.FMT_HYPHEN_DAY_CLN_SECOND),
-                        DateTool.formatDate(vo.getSearch().getDaySecondEnd(), DateTool.FMT_HYPHEN_DAY_CLN_SECOND),
+                        DateTool.formatDate(vo.getSearch().getDay(), DateTool.yyyy_MM_dd),
+                        DateTool.formatDate(vo.getSearch().getDaySecondStart(), DateTool.yyyy_MM_dd_HH_mm_ss),
+                        DateTool.formatDate(vo.getSearch().getDaySecondEnd(), DateTool.yyyy_MM_dd_HH_mm_ss),
                         0);
                 String count = service.staticToday(vo);
             }
         }
-        return "执行成功--"+DateTool.formatDate(new Date(),DateTool.FMT_HYPHEN_DAY_CLN_SECOND);
+        return "执行成功--"+DateTool.formatDate(new Date(),DateTool.yyyy_MM_dd_HH_mm_ss);
     }
     //endregion your codes 3
 

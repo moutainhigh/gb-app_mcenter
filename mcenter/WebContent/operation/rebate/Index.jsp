@@ -4,20 +4,25 @@
 <!--//region your codes 1-->
 
 <!--//endregion your codes 1-->
-<form:form action="${root}/operation/rebate/list.html" method="post">
+<form:form action="${root}/rebateBill/list.html" method="post">
     <div id="validateRule" style="display: none">${command.validateRule}</div>
     <!--//region your codes 2-->
     <div class="row">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
-            <span>${views.sysResource['资金']}</span>
+            <span>${views.fund_auto['资金管理']}</span>
             <span>/</span><span>${views.sysResource['返佣结算']}</span>
-            <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
+            <soul:button target="goToLastPage"
+                         cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text=""
+                         opType="function">
+                <em class="fa fa-caret-left"></em>${views.common['return']}
+            </soul:button>
         </div>
         <div class="col-lg-12">
             <div class="wrapper white-bg shadow clearfix">
                 <div class="clearfix filter-wraper border-b-1 line-hi34">
-                    <a href="/operation/rebate/rebateNosettled.html" nav-target="mainFrame" class="btn btn-outline btn-filter">${views.operation['Rebate.list.noRecord']}</a>
+                    <a href="/rebateBill/rebateNosettled.html" nav-target="mainFrame" class="btn btn-outline btn-filter">${views.operation['Rebate.list.noRecord']}</a>
+                    <soul:button target="query" text="${views.common['refresh']}" opType="function" cssClass="btn btn-filter"></soul:button>
                     <a href="/rebateSet/list.html?hasReturn=change" nav-target="mainFrame" class="pull-right">${views.operation['Rebate.list.setRebate']}</a>
                 </div>
 

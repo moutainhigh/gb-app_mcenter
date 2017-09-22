@@ -19,7 +19,7 @@ public class RebateSetFeeForm implements IForm {
     private Integer sysParamLimit$$_paramValue;
 
     @NotNull
-    @Range(max = 99999999, min = 1, message = "setting.rakeback.withdraw.limitRange")
+    @Range(max = 9999999999999L, min = 1, message = "setting.rakeback.withdraw.limitRange")
     public Integer getSysParamLimit$$_paramValue() {
         return sysParamLimit$$_paramValue;
     }

@@ -23,7 +23,7 @@
                 <th>${views.lottery_auto['派彩']}</th>
                 <th>${views.lottery_auto['投注时间']}</th>
                 <th>
-                    <gb:select name="search.status" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
+                    <gb:select name="search.status" cssClass="btn-group chosen-select-no-single" prompt="${views.common['status']}"
                                list="${orderStatus}" value="${command.search.status}" callback="query"/>
                 </th>
                 <th>${views.lottery_auto['操作']}</th>
@@ -46,11 +46,26 @@
                     <td>${dicts.lottery.lottery[p.code]}</td>
                     <td>${p.id}</td>
                     <td>${p.expect}</td>
-                    <td>${dicts.lottery.lottery_betting[p.betCode]}</td>
-                    <td>${dicts.lottery.lottery_betting[p.betCode]}-${p.betNum}</td>
+                    <td>${dicts.lottery.lottery_betting[p.betCode]}-${dicts.lottery.lottery_play[p.playCode]}</td>
+                    <td>${p.betNum}</td>
                     <td>${p.betAmount}</td>
                     <c:set var="allBetAmount" value="${allBetAmount+p.betAmount}"></c:set>
-                    <td>${p.odd}</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${p.playCode eq 'keno_selection_five'}">
+                                中5@${p.odd} 中4@${p.odd2} 中3@${p.odd3}
+                            </c:when>
+                            <c:when test="${p.playCode eq 'keno_selection_four'}">
+                                中4@${p.odd} 中3@${p.odd2} 中2@${p.odd3}
+                            </c:when>
+                            <c:when test="${p.playCode eq 'keno_selection_three'}">
+                                中3@${p.odd} 中2@${p.odd2}
+                            </c:when>
+                            <c:otherwise>
+                                ${p.odd}
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                     <td>${p.payout}</td>
                     <c:set var="allPayout" value="${allPayout+p.payout}"></c:set>
                     <td>${soulFn:formatDateTz(p.betTime, DateFormat.DAY_SECOND,timeZone)}</td>
@@ -66,11 +81,11 @@
                         </c:if>
                     </td>
                     <td>
-                        <c:if test="${p.status!='3'}">
+                        <c:if test="${p.status=='1'}">
                             <soul:button text="${views.lottery_auto['撤销']}" opType="ajax" target="${root}/lotteryBetOrder/cancelOrder.html?search.id=${p.id}"
                                          confirm="${views.lottery_auto['撤销注单将会扣除派彩金额,返回投注金额,有可能导致玩家余额为负数,请谨慎操作！']}" callback="query"></soul:button>
                         </c:if>
-                        <c:if test="${p.status=='3'}">${views.lottery_auto['撤销']}</c:if>
+                        <c:if test="${p.status!='1'}"><span class="co-gray">${views.lottery_auto['撤销']}</span></c:if>
                     </td>
                 </tr>
             </c:forEach>

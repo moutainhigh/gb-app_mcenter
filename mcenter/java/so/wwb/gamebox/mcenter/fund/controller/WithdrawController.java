@@ -8,6 +8,7 @@ import org.soul.commons.collections.MapTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.dubbo.DubboTool;
 import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
@@ -19,7 +20,10 @@ import org.soul.commons.log.LogFactory;
 import org.soul.commons.math.NumberTool;
 import org.soul.commons.net.IpTool;
 import org.soul.commons.net.ServletTool;
+import org.soul.commons.query.Criterion;
 import org.soul.commons.query.Paging;
+import org.soul.commons.query.enums.Operator;
+import org.soul.commons.query.sort.Direction;
 import org.soul.commons.security.CryptoTool;
 import org.soul.commons.security.key.CryptoKey;
 import org.soul.commons.support._Module;
@@ -46,6 +50,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.iservice.currency.ICurrencyExchangeService;
 import so.wwb.gamebox.iservice.master.fund.IVPlayerWithdrawService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.PlayerWithdrawRemindForm;
@@ -58,13 +63,17 @@ import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.common.Const;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.NoticeParamEnum;
 import so.wwb.gamebox.model.company.po.Bank;
+import so.wwb.gamebox.model.company.setting.po.CurrencyExchangeRate;
+import so.wwb.gamebox.model.company.setting.vo.CurrencyExchangeRateVo;
 import so.wwb.gamebox.model.company.site.po.SiteCustomerService;
 import so.wwb.gamebox.model.company.vo.BankListVo;
+import so.wwb.gamebox.model.currency.po.CurrencyRate;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.listop.FilterRow;
 import so.wwb.gamebox.model.listop.FilterSelectConstant;
@@ -73,6 +82,7 @@ import so.wwb.gamebox.model.master.content.vo.PayAccountListVo;
 import so.wwb.gamebox.model.master.dataRight.DataRightModuleType;
 import so.wwb.gamebox.model.master.dataRight.po.SysUserDataRight;
 import so.wwb.gamebox.model.master.dataRight.vo.SysUserDataRightVo;
+import so.wwb.gamebox.model.master.enums.CurrencyEnum;
 import so.wwb.gamebox.model.master.enums.RankFeeType;
 import so.wwb.gamebox.model.master.enums.RemarkEnum;
 import so.wwb.gamebox.model.master.fund.enums.*;
@@ -103,7 +113,7 @@ import java.util.*;
 
 /**
  * 资金管理
- * <p>
+ * <p/>
  * Created by Orange on 2015-08-14.
  */
 @Controller
@@ -200,17 +210,14 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         String ipStr = vo.getSearch().getIpStr();
         vo.getSearch().setIpWithdraw(StringTool.isBlank(ipStr) ? null : IpTool.ipv4StringToLong(vo.getSearch().getIpStr()));
         if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
-            String moduleType = DataRightModuleType.PLAYERWITHDRAW.getCode();
-            SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
-            sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
-            sysUserDataRightVo.getSearch().setModuleType(moduleType);
-            List<SysUserDataRight> sysUserDataRights = ServiceTool.sysUserDataRightService().searchDataRightsByUserId(sysUserDataRightVo);
+            List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
+            buildPlayerRankData(model, sysUserDataRights);
             if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
                 vo.getSearch().setCheckStatus(CheckStatusEnum.WITHOUT_REVIEW.getCode());
                 vo.getSearch().setWithdrawSta(new String[]{WithdrawStatusEnum.PENDING_SUB.getCode(),
                         WithdrawStatusEnum.CANCELLATION_OF_ORDERS.getCode()});
                 vo.getSearch().setDataRightUserId(SessionManager.getUserId());
-                vo.getSearch().setModuleType(moduleType);
+                vo.getSearch().setModuleType(DataRightModuleType.PLAYERWITHDRAW.getCode());
 
                 if (StringTool.isNotEmpty(vo.getSearch().getUsername())) {
                     String username = vo.getSearch().getUsername().toLowerCase();
@@ -225,22 +232,13 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 Paging paging = vo.getPaging();
                 paging.setTotalCount(ServiceTool.vPlayerWithdrawService().countPlayerWithdraw(vo));
                 paging.cal();
-                Double sum = ServiceTool.vPlayerWithdrawService().sumPlayerWithdraw(vo);
-
-                //今日成功统计--jerry
-                VPlayerWithdrawListVo vPlayerWithdrawListVo = new VPlayerWithdrawListVo();
-                vPlayerWithdrawListVo._setContextParam(vo._getContextParam());
-                Date today = SessionManager.getDate().getToday();
-                Date todayEnd = DateTool.addDays(SessionManager.getDate().getToday(), 1);
-                vPlayerWithdrawListVo.getSearch().setCheckTimeStart(today);
-                vPlayerWithdrawListVo.getSearch().setCheckTimeEnd(todayEnd);
-                vPlayerWithdrawListVo.getSearch().setCheckStatus(CheckStatusEnum.SUCCESS.getCode());
-                vPlayerWithdrawListVo.getSearch().setDataRightUserId(SessionManager.getUserId());
-                vPlayerWithdrawListVo.getSearch().setModuleType(vo.getSearch().getModuleType());
-                Number todayTotal = ServiceTool.vPlayerWithdrawService().sumTodayPlayerWithdraw(vPlayerWithdrawListVo);
-                vo.setTodayTotal(CurrencyTool.formatCurrency(todayTotal == null ? 0 : todayTotal));
-
-                vo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
+                if (vo.getSearch().isTodaySales()) {
+                    //今日成功统计--jerry
+                    todayTotal(vo);
+                } else {
+                    Double sum = ServiceTool.vPlayerWithdrawService().sumPlayerWithdraw(vo);
+                    vo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
+                }
                 vo = ServiceTool.vPlayerWithdrawService().searchPlayerWithdraw(vo);
             } else {
                 vo = getTotalWithdraw(vo);
@@ -248,6 +246,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
         } else {
             vo = getTotalWithdraw(vo);
+            model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
         }
 
         // 公司入款声音参数
@@ -272,6 +271,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.fund_withdraw_player_check.getCode()));
         vo.setThisUserId(SessionManager.getAuditUserId());
         model.addAttribute("command", vo);
+
         //把转义符合去掉
         if (StringTool.isNotBlank(search.getUsername())) {
             search.setUsername(search.getUsername().replaceAll("\\\\", ""));
@@ -295,6 +295,31 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         return ServletTool.isAjaxSoulRequest(request) ? WITHDRAW_INDEX_PARIAL_URl : WITHDRAW_INDEX_URL;
     }
 
+    /**
+     * 子账号查询的层级权限
+     *
+     * @param model
+     * @param sysUserDataRights
+     */
+    private void buildPlayerRankData(Model model, List<SysUserDataRight> sysUserDataRights) {
+        List<Integer> rankIds = CollectionTool.extractToList(sysUserDataRights, SysUserDataRight.PROP_ENTITY_ID);
+        PlayerRankVo rankVo = new PlayerRankVo();
+        rankVo.getSearch().setIds(rankIds);
+        model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(rankVo));
+    }
+
+    /**
+     * 子账号的数据权限
+     *
+     * @return
+     */
+    private List<SysUserDataRight> querySysUserDataRights() {
+        SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
+        sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
+        sysUserDataRightVo.getSearch().setModuleType(DataRightModuleType.PLAYERWITHDRAW.getCode());
+        return ServiceTool.sysUserDataRightService().searchDataRightsByUserId(sysUserDataRightVo);
+    }
+
 
     //查询今日成功订单总额
     public void todayTotal(VPlayerWithdrawListVo listVo) {
@@ -313,23 +338,15 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     //总额计算
     private VPlayerWithdrawListVo getTotalWithdraw(VPlayerWithdrawListVo vo) {
-        vo.setPropertyName(VPlayerWithdraw.PROP_WITHDRAW_ACTUAL_AMOUNT);
-        Number sum = this.getService().sum(vo);
-        vo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum.doubleValue()));
+        if (vo.getSearch().isTodaySales()) {
+            //今日成功统计--jerry
+            todayTotal(vo);
+        } else {
+            vo.setPropertyName(VPlayerWithdraw.PROP_WITHDRAW_ACTUAL_AMOUNT);
+            Number sum = this.getService().sum(vo);
+            vo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum.doubleValue()));
+        }
         vo = ServiceTool.getVPlayerWithdrawService().searchWithdraw(vo);
-
-
-        //今日成功统计--jerry
-        VPlayerWithdrawListVo vPlayerWithdrawListVo = new VPlayerWithdrawListVo();
-        vPlayerWithdrawListVo._setContextParam(vo._getContextParam());
-        Date today = SessionManager.getDate().getToday();
-        Date todayEnd = DateTool.addDays(SessionManager.getDate().getToday(), 1);
-        vPlayerWithdrawListVo.getSearch().setCheckTimeStart(today);
-        vPlayerWithdrawListVo.getSearch().setCheckTimeEnd(todayEnd);
-        vPlayerWithdrawListVo.getSearch().setCheckStatus(CheckStatusEnum.SUCCESS.getCode());
-        vPlayerWithdrawListVo.setPropertyName(VPlayerWithdraw.PROP_WITHDRAW_AMOUNT);
-        sum = this.getService().todayTotal(vPlayerWithdrawListVo);
-        vo.setTodayTotal(CurrencyTool.formatCurrency(sum == null ? 0 : sum));
         return vo;
     }
 
@@ -371,7 +388,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      * 声音开关
      */
     Map<String, Object> toneSwitch(SiteParamEnum paramEnum) {
-        Map<String, Object> map = new HashMap<>(1);
+        Map<String, Object> map = new HashMap<>(1, 1f);
         SysParam param = ParamTool.getSysParam(paramEnum);
         if (param != null) {
             if (param.getActive()) {
@@ -545,10 +562,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     private boolean isDataRight(Integer rankId) {
         boolean flag = false;
-        SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
-        sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
-        sysUserDataRightVo.getSearch().setModuleType(DataRightModuleType.PLAYERWITHDRAW.getCode());
-        List<SysUserDataRight> sysUserDataRights = ServiceTool.sysUserDataRightService().searchDataRightsByUserId(sysUserDataRightVo);
+        List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
         if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
             for (SysUserDataRight sysUserDataRight : sysUserDataRights) {
                 if (sysUserDataRight.getEntityId().equals(rankId)) {
@@ -625,7 +639,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     private Map<String, Object> getAuditPassList(List<PlayerTransaction> playerTransactions) {
 
-        Map<String, Object> map = new HashMap<>(6);
+        Map<String, Object> map = new HashMap<>(6, 1f);
         if (playerTransactions == null || playerTransactions.size() == 0) {
             return map;
         }
@@ -1270,7 +1284,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @RequestMapping("/auditWithdraw")
     @ResponseBody
     public Map auditWithdraw(PlayerWithdrawVo vo, Remark remark, Model model) {
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2, 1f);
         try {
             //添加备注
             remark = buildRemarkData(vo, remark);
@@ -1282,7 +1296,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             playerTransactionVo.setRemark(remark);
             playerTransactionVo = ServiceTool.getPlayerTransactionService().updatePlayerTransaction(playerTransactionVo);
             if (playerTransactionVo.isSuccess()) {
-                vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.success"));
+                vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
             } else {
                 vo.setSuccess(false);
                 vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.fail"));
@@ -1514,6 +1528,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             String time = LocaleDateTool.formatDate(playerWithdraw.getCreateTime(), LocaleDateTool.getFormat("DAY_SECOND"), sysUser.getDefaultTimezone());
             String money = CurrencyTool.formatCurrency(playerWithdraw.getWithdrawAmount());
             String actualMoney = CurrencyTool.formatCurrency(playerWithdraw.getWithdrawActualAmount());
+            String text = LocaleTool.tranMessage(_Module.COMMON, "contactCustomerService");
+            String customer = "<a href=\"" + getCustomerService() + "\" target=\"_blank\">" + text + "</a>";
             noticeVo.addParams(
                     new Pair<String, String>(NoticeParamEnum.TIME.getCode(), time),
                     new Pair<String, String>(NoticeParamEnum.PLASE_MONEY.getCode(), money),
@@ -1524,7 +1540,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                     new Pair(NoticeParamEnum.ORDER_AMOUNT.getCode(), money),
                     new Pair(NoticeParamEnum.ORDER_LAUNCH_TIME.getCode(), time),
                     new Pair(NoticeParamEnum.ORDER_NUM.getCode(), playerWithdraw.getTransactionNo()),
-                    new Pair(NoticeParamEnum.CUSTOMER.getCode(), getCustomerService()),
+                    new Pair(NoticeParamEnum.CUSTOMER.getCode(), customer),
                     new Pair<String, String>(NoticeParamEnum.TAIL_NUMBER.getCode(), bankcard.substring(bankcard.length() - 4, bankcard.length())));
             ServiceTool.noticeService().publish(noticeVo);
         } catch (Exception ex) {
@@ -1696,7 +1712,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (failReasons != null && failReasons.size() > 0) {
             bool = true;
         }
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         map.put("state", bool);
         map.put("feeList", vPlayerTransactionVo.getFeeList());
         return map;
@@ -1718,7 +1734,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (failReasons != null && failReasons.size() > 0) {
             bool = true;
         }
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         map.put("state", bool);
         map.put("feeList", vPlayerTransactionVo.getFeeList());
         return map;
@@ -1735,7 +1751,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     public Map<String, Object> hasNext(VPlayerWithdrawVo vo) {
         vo.getSearch().setLockPersonId(SessionManager.getAuditUserId());
         vo = getService().searchNext(vo);
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         if (vo.getResult() == null) {
             map.put("status", false);
             return map;
@@ -1774,12 +1790,114 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @RequestMapping(value = "/exchange", method = RequestMethod.POST)
     @ResponseBody
     public Map exchange(PlayerWithdrawVo playerWithdrawVo) {
+        LOG.info("兑换比特币:用户-{1}取款id-{2}", SessionManager.getUserName(), playerWithdrawVo.getSearch().getId());
         try {
+            Integer payAccountId = playerWithdrawVo.getPayAccountId();
+            Map<String, Object> map = new HashMap<>();
+            if (payAccountId == null) {
+                map.put("status", false);
+                map.put("notAccount", true);
+                LOG.info("取款{0}兑换交易选择收款帐号为空", playerWithdrawVo.getSearch().getId());
+                return map;
+            }
+            playerWithdrawVo = ServiceTool.playerWithdrawService().get(playerWithdrawVo);
+            PlayerWithdraw playerWithdraw = playerWithdrawVo.getResult();
+            if (playerWithdraw == null) {
+                map.put("status", false);
+                LOG.info("取款{0}兑换交易无该笔交易订单", playerWithdrawVo.getSearch().getId());
+                return map;
+            }
+            playerWithdrawVo.setResult(playerWithdraw);
+            if (!WithdrawStatusEnum.SUCCESS.getCode().equals(playerWithdraw.getWithdrawStatus()) && !CheckStatusEnum.SUCCESS.getCode().equals(playerWithdraw.getCheckStatus())) {
+                map.put("status", false);
+                map.put("hasExchange", true);
+                LOG.info("取款{0}兑换交易状态无权兑换{1}-{2}", playerWithdraw.getTransactionNo(), playerWithdraw.getWithdrawStatus(), playerWithdraw.getCheckStatus());
+                return map;
+            }
+            //查询汇率
+            CurrencyRate rate = queryRate(playerWithdrawVo);
+            if (rate == null || rate.getAskRate() == null) {
+                map.put("status", false);
+                map.put("rate", true);
+                LOG.info("取款{0}查询汇率出错", playerWithdraw.getTransactionNo());
+                return map;
+            }
+            playerWithdrawVo.setRate(rate);
+            playerWithdrawVo.setOperator(SessionManager.getUserName());
+            playerWithdrawVo.setUserId(SessionManager.getUserId());
             return ServiceTool.playerWithdrawService().exchangeBtc(playerWithdrawVo);
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>(1);
+            Map<String, Object> map = new HashMap<>(1, 1f);
             map.put("state", false);
             return map;
         }
     }
+
+    /**
+     * 自动打款
+     *
+     * @param playerWithdrawVo
+     * @return
+     */
+    @RequestMapping("/automaticPay")
+    @ResponseBody
+    public Map automaticPay(PlayerWithdrawVo playerWithdrawVo) {
+        LOG.info("取款自动打款:用户-{1}取款id-{2}", SessionManager.getUserName(), playerWithdrawVo.getSearch().getId());
+        try {
+            playerWithdrawVo.setOperator(SessionManager.getUserName());
+            playerWithdrawVo.setUserId(SessionManager.getUserId());
+            playerWithdrawVo = ServiceTool.playerWithdrawService().automaticPay(playerWithdrawVo);
+        } catch (Exception e) {
+            LOG.error(e, "自动打款失败");
+        }
+        return getVoMessage(playerWithdrawVo);
+    }
+
+    private CurrencyRate queryRate(PlayerWithdrawVo playerWithdrawVo) {
+        String currency = playerWithdrawVo.getResult().getWithdrawMonetary();
+        CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
+        rateVo.getQuery().addOrder(CurrencyExchangeRate.PROP_UPDATE_TIME, Direction.DESC);
+        rateVo.getQuery().setCriterions(new Criterion[]{new Criterion(CurrencyExchangeRate.PROP_ITO_CURRENCY, Operator.EQ, CurrencyEnum.USD.getCode()),
+                new Criterion(CurrencyExchangeRate.PROP_IFROM_CURRENCY, Operator.EQ, currency)});
+        rateVo = ServiceTool.getCurrencyExchangeRateService().search(rateVo);
+        CurrencyExchangeRate currencyExchangeRate = rateVo.getResult();
+        CurrencyRate rate = new CurrencyRate();
+        if (currencyExchangeRate == null) {
+            rate = DubboTool.getService(ICurrencyExchangeService.class).currencyToUsd(currency);
+            saveOrUpdateRate(currencyExchangeRate, rate, currency);
+        } else if (currencyExchangeRate.getUpdateTime().getTime() < SessionManager.getDate().getToday().getTime()) {
+            rate = DubboTool.getService(ICurrencyExchangeService.class).currencyToUsd(currency);
+            if (rate == null) {
+                LOG.info("更新汇率失败,用数据库原有汇率,{0}", playerWithdrawVo.getResult().getTransactionNo());
+                rate = new CurrencyRate();
+                rate.setRateTime(currencyExchangeRate.getUpdateTime());
+                rate.setAskRate(new BigDecimal(String.valueOf(currencyExchangeRate.getRate())));
+                rate.setQueryTime(SessionManager.getDate().getNow());
+            } else {
+                saveOrUpdateRate(currencyExchangeRate, rate, currency);
+            }
+        } else {
+            rate.setRateTime(currencyExchangeRate.getUpdateTime());
+            rate.setAskRate(new BigDecimal(String.valueOf(currencyExchangeRate.getRate())));
+            rate.setQueryTime(SessionManager.getDate().getNow());
+        }
+        return rate;
+    }
+
+    private void saveOrUpdateRate(CurrencyExchangeRate currencyExchangeRate, CurrencyRate rate, String currency) {
+        if (rate == null || rate.getAskRate() == null) {
+            return;
+        }
+        if (currencyExchangeRate == null) {
+            currencyExchangeRate = new CurrencyExchangeRate();
+        }
+        currencyExchangeRate.setItoCurrency(CurrencyEnum.USD.getCode());
+        currencyExchangeRate.setIfromCurrency(currency);
+        currencyExchangeRate.setUpdateUser(SessionManager.getUserId());
+        CurrencyExchangeRateVo rateVo = new CurrencyExchangeRateVo();
+        rateVo.setRate(rate);
+        rateVo.setResult(currencyExchangeRate);
+        ServiceTool.getCurrencyExchangeRateService().saveOrUpdateRate(rateVo);
+    }
+
 }

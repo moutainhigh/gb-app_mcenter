@@ -24,15 +24,43 @@
       <form:hidden path="search.code" id="lotteryCode"></form:hidden>
       <form:hidden path="search.type" id="lotteryType"></form:hidden>
   <div class="col-lg-12">
+      <ul class="clearfix sys_tab_wrap" id="lotteryDiv">
+          <li class="active" data-code="ssclottery" code="cqssc" type="ssc"><a href="javascript:void(0)">时时彩<span class="badge badge-blue m-l-sm">7种</span></a></li>
+          <li data-code="k3lottery" code="jsk3" type="k3"><a href="javascript:void(0)">快3<span class="badge badge-blue m-l-sm">4种</span></a></li>
+          <li data-code="pk10lottery" code="bjpk10" type="pk10"><a href="javascript:void(0)">PK10<span class="badge badge-blue m-l-sm">3种</span></a></li>
+          <li data-code="sfclottery" code="cqxync" type="sfc"><a href="javascript:void(0)">十分彩<span class="badge badge-blue m-l-sm">2种</span></a></li>
+          <li data-code="otherlottery" code="hklhc" type="lhc"><a href="javascript:void(0)" >其它<span class="badge badge-blue m-l-sm">5种</span></a></li>
+      </ul>
     <div class="wrapper white-bg shadow">
-      <div class="sys_tab_wrap clearfix">
-        <div class="m-sm">
-            <c:forEach var="lot" items="${lotterys}">
-                <c:if test="${lot.value.status=='normal'}">
-                    <soul:button text="${dicts.lottery.lottery[lot.key]}" opType="function" type="${lot.value.type}"
-                             target="queryByLottery" code="${lot.key}" cssClass="label ssc-label ${command.search.code==lot.key?'ssc-active':''}" tag="a"></soul:button>
-                </c:if>
-            </c:forEach>
+      <div class="sys_tab_wrap clearfix" >
+        <div class="m-sm" id="searchDiv">
+                <soul:button text="${dicts.lottery.lottery['cqssc']}" type="ssc" code="cqssc" cssClass="label ssc-label ssc-active" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['tjssc']}" type="ssc"  code="tjssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['xjssc']}" type="ssc" code="xjssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['efssc']}" type="ssc" code="efssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['sfssc']}" type="ssc" code="sfssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['wfssc']}" type="ssc" code="wfssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['ffssc']}" type="ssc" code="ffssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+
+                <soul:button text="${dicts.lottery.lottery['jsk3']}" type="k3" code="jsk3" cssClass="label ssc-label hide"   data-code="k3lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['hbk3']}" type="k3" code="hbk3" cssClass="label ssc-label hide" data-code="k3lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['ahk3']}" type="k3" code="ahk3" cssClass="label ssc-label hide" data-code="k3lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['gxk3']}" type="k3" code="gxk3" cssClass="label ssc-label hide" data-code="k3lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+
+                <soul:button text="${dicts.lottery.lottery['bjpk10']}" type="pk10" code="bjpk10" cssClass="label ssc-label hide" data-code="pk10lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['xyft']}" type="pk10" code="xyft" cssClass="label ssc-label hide" data-code="pk10lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['jspk10']}" type="pk10"  code="jspk10" cssClass="label ssc-label hide" data-code="pk10lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+
+                <soul:button text="${dicts.lottery.lottery['cqxync']}" type="sfc" code="cqxync" cssClass="label ssc-label hide" data-code="sfclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['gdkl10']}" type="sfc"  code="gdkl10" cssClass="label ssc-label hide" data-code="sfclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+
+                <soul:button text="${dicts.lottery.lottery['hklhc']}" type="lhc"  code="hklhc" cssClass="label ssc-label hide" data-code="otherlottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['xy28']}" type="xy28" code="xy28" cssClass="label ssc-label hide" data-code="otherlottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['bjkl8']}"  type="keno" code="bjkl8" cssClass="label ssc-label hide" data-code="otherlottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button  text="${dicts.lottery.lottery['fc3d']}" type="pl3" code="fc3d" cssClass="label ssc-label hide" data-code="otherlottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+                <soul:button text="${dicts.lottery.lottery['tcpl3']}" type="pl3"  code="tcpl3" cssClass="label ssc-label hide" data-code="otherlottery" target="queryByLottery" opType="function" tag="a"></soul:button>
+
+
         </div>
       </div>
         <div class="clearfix m-t-md m-b-sm">
@@ -44,12 +72,16 @@
                         <input type="number" class="form-control" placeholder="" name="search.expect">
                     </div>
                 </div>
-                <div class="form-group clearfix pull-left col-md-5 col-sm-12 m-b-sm padding-r-none-sm">
+                <div class="form-group clearfix pull-left col-md-5 col-sm-12 m-b-sm padding-r-none-sm" id="query-time-div">
                     <div class="input-group date time-select-a">
-                        <span class="input-group-addon bg-gray">${views.lottery_auto['时间']}</span>
-                        <gb:dateRange format="${DateFormat.DAY_SECOND}" useToday="true" useRange="true" position="down" btnClass="search"
+                        <span class="input-group-addon bg-gray">${views.lottery_auto['开奖时间']}</span>
+                        <gb:dateRange name="search.queryDate" value="${command.search.queryDate}" useToday="true" position="down" btnClass="search"
+                            style="width:30%" format="${DateFormat.DAY}" hideQuick="false" callback="query"></gb:dateRange>
+                        <%--<gb:dateRange format="${DateFormat.DAY_SECOND}" useToday="true" useRange="true" position="down" btnClass="search"
                                       startName="search.queryStartDate" endName="search.queryEndDate" style="width:38%;"
-                                      startDate="${command.search.queryStartDate}" endDate="${command.search.queryEndDate}"/>
+                                      startDate="${command.search.queryStartDate}" endDate="${command.search.queryEndDate}"/>--%>
+                        <soul:button target="queryResultByDate" days="0" text="${views.lottery_auto['今日']}" opType="function" cssClass="btn btn-filter btn-outline"></soul:button>
+                        <soul:button target="queryResultByDate" days="-1" text="${views.lottery_auto['昨日']}" opType="function" cssClass="btn btn-filter btn-outline"></soul:button>
                     </div>
                 </div>
 

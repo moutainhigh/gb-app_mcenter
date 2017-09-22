@@ -3,7 +3,9 @@ package so.wwb.gamebox.mcenter.operation.form;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.support.Comment;
+import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
 
 import javax.validation.constraints.NotNull;
@@ -25,12 +27,11 @@ public class RebateAgentForm implements IForm {
 
     private Double result_rebateActual;
 
-    private String result_remark;
 
     //,depends = @Depends(property={"result.rebateActual"}, operator = {Operator.EQ}, value = {"false"}, message = "实付金额必须大于等于应付金额")
 //    @Digits(integer = 8,fraction = 2)
-//    @Compare(message = "实付金额必须小于等于应付金额",logic = CompareLogic.LE,anotherProperty = "result_rebateTotal")
-    @Range(min = -99999999,max = 99999999)
+    @Compare(message = "实付金额必须小于等于应付金额",logic = CompareLogic.LE,anotherProperty = "result_rebateTotal")
+    @Range(min = -999999999999l,max = 999999999999l)
     @NotNull(message = "common.不能为空")
     @Comment("实付金额")
     public Double getResult_rebateActual() {
@@ -49,16 +50,6 @@ public class RebateAgentForm implements IForm {
         this.result_rebateTotal = result_rebateTotal;
     }
 
-    @NotBlank(message = "common.不能为空")
-    @Length(min = 1,max = 200,message = "operation_auto.不能超过200个字符")
-    @Comment("备注")
-    public String getResult_remark() {
-        return result_remark;
-    }
-
-    public void setResult_remark(String result_remark) {
-        this.result_remark = result_remark;
-    }
     //endregion your codes 2
 
 }

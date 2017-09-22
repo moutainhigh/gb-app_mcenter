@@ -20,6 +20,8 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.share.form.SysListOperatorForm;
 import so.wwb.gamebox.mcenter.share.form.SysListOperatorSearchForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +49,7 @@ public class ListColumnsController extends BaseCrudController<ISysMasterListOper
             }
             ListOpTool.refreshFields(ListOpEnum.enumOf(vo.getKeyClassName()));
         }
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         map.put("msg", StringTool.isNotBlank(vo.getOkMsg()) ? vo.getOkMsg() : vo.getErrMsg());
         map.put("state", Boolean.valueOf(vo.isSuccess()));
         return map;
@@ -88,9 +90,9 @@ public class ListColumnsController extends BaseCrudController<ISysMasterListOper
                 ListOpTool.refreshFields(ListOpEnum.enumOf(objectVo.getKeyClassName()));
             }
             Map listOp = ListOpTool.getFields(ListOpEnum.enumOf(objectVo.getKeyClassName()));
-            objectVo.setOkMsg(LocaleTool.tranMessage("common", "save.success"));
+            objectVo.setOkMsg(LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
         } else {
-            objectVo.setErrMsg(LocaleTool.tranMessage("common", "save.failed"));
+            objectVo.setErrMsg(LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
         return this.getVoMessage(objectVo);
     }

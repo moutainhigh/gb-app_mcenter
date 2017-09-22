@@ -7,32 +7,35 @@ import org.soul.commons.dubbo.DubboTool;
 import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.locale.DateQuickPicker;
 import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.math.NumberTool;
 import org.soul.commons.support._Module;
 import org.soul.commons.tree.TreeNode;
 import org.soul.iservice.security.privilege.ISysResourceService;
 import org.soul.model.common.BaseVo;
 import org.soul.model.security.privilege.po.VSysUserResource;
 import org.soul.model.security.privilege.vo.SysResourceVo;
-import org.soul.commons.locale.DateQuickPicker;
 import org.soul.web.session.RedisSessionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.iservice.company.sys.ISysSiteService;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.WeekTool;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.setting.po.ApiType;
 import so.wwb.gamebox.model.company.setting.po.ApiTypeI18n;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
+import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
+import so.wwb.gamebox.model.gameapi.enums.ApiTypeEnum;
 import so.wwb.gamebox.model.master.player.vo.PlayerTransactionVo;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerVo;
 import so.wwb.gamebox.model.master.player.vo.VPlayerOnlineListVo;
@@ -131,7 +134,7 @@ public class HomeController {
     @RequestMapping("/siteData")
     @ResponseBody
     public Map<String, Object> siteData() {
-        Map<String, Object> map = new HashMap<>(6);
+        Map<String, Object> map = new HashMap<>(6, 1f);
         List<Chart> charts = getSiteData();
         if (CollectionTool.isNotEmpty(charts)) {
             Integer size = charts.size();
@@ -150,7 +153,7 @@ public class HomeController {
                 players[i] = chart.getPlayer() == null ? 0 : chart.getPlayer();
                 deposits[i] = chart.getDeposit() == null ? 0 : chart.getDeposit();
                 bets[i] = chart.getBet() == null ? 0 : chart.getBet();
-                depoistPlayer[i] = chart.getDepositPlayer() == null? 0 : chart.getDepositPlayer();
+                depoistPlayer[i] = chart.getDepositPlayer() == null ? 0 : chart.getDepositPlayer();
             }
             map.put("date", dates);
             map.put("profit", profits);
@@ -182,7 +185,7 @@ public class HomeController {
             for (Chart chart : temp) {
                 //String fmtDate =DateTool.formatDate(chart.getStatDate(),SessionManager.getLocale(),SessionManager.getTimeZone(),LocaleDateTool.getFormat("DAY")); //LocaleDateTool.formatDate(chart.getStatDate(), LocaleDateTool.getFormat("DAY"), SessionManager.getTimeZone());
                 Date chartDate = chart.getStatDate(); //LocaleDateTool.parse(fmtDate);
-                if(date==null||chartDate==null){
+                if (date == null || chartDate == null) {
                     continue;
                 }
                 if (date.compareTo(chartDate) == 0) {
@@ -211,7 +214,7 @@ public class HomeController {
     @RequestMapping("/depositData")
     @ResponseBody
     public Map<String, Object> depositData() {
-        Map<String, Object> map = new HashMap<>(4);
+        Map<String, Object> map = new HashMap<>(4, 1f);
         List<Chart> charts = getDepositData();
         if (CollectionTool.isNotEmpty(charts)) {
             Integer size = charts.size();
@@ -246,7 +249,7 @@ public class HomeController {
         // 最近7天日期
         vo.setStatDates(getRecently7DaysFormat());
         List<Chart> charts = ServiceTool.getPlayerTransactionService().queryDeposit(vo);
-        for(Chart chart : charts){
+        for (Chart chart : charts) {
             Date statDate = chart.getStatDate();
             String day = DateTool.formatDate(statDate, LocaleDateTool.getFormat("MONTH_DAY"));
             chart.setDate(day);
@@ -262,8 +265,8 @@ public class HomeController {
         List<Date> dates = new ArrayList<>();
         for (int i = 7; i > 0; i--) {
             Date date = DateTool.addDays(today, -i);
-            String dateFormat = DateTool.formatDate(date, CommonContext.get().getLocale(), CommonContext.get().getTimeZone(), DateTool.FMT_HYPHEN_DAY);
-            date = DateTool.parseDate(dateFormat,DateTool.FMT_HYPHEN_DAY);
+            String dateFormat = DateTool.formatDate(date, CommonContext.get().getLocale(), CommonContext.get().getTimeZone(), DateTool.yyyy_MM_dd);
+            date = DateTool.parseDate(dateFormat, DateTool.yyyy_MM_dd);
             dates.add(date);
         }
         return dates;
@@ -280,17 +283,17 @@ public class HomeController {
         return dates;
     }
 
-    private List<String> toDisplayDay(){
+    private List<String> toDisplayDay() {
         List<Date> recently7Days = getRecently7Days();
         List<String> dates = new ArrayList<>();
-        for(int i=recently7Days.size()-1;i>=0;i--){
+        for (int i = recently7Days.size() - 1; i >= 0; i--) {
             String s = DateTool.formatDate(recently7Days.get(i), LocaleDateTool.getFormat("MONTH_DAY"));
             dates.add(s);
         }
         /*for (Date d : recently7Days) {
             String s = DateTool.formatDate(d, DATE_FMT_MM_DD);
             dates.add(s);
-            //dates.add(DateTool.parseDate(fmtDate, DateTool.FMT_HYPHEN_DAY));
+            //dates.add(DateTool.parseDate(fmtDate, DateTool.yyyy_MM_dd));
         }*/
         return dates;
     }
@@ -298,7 +301,7 @@ public class HomeController {
     @RequestMapping("/gameData")
     @ResponseBody
     public Map<String, Object> gameData(Integer num) {
-        Map<String, Object> map = new HashMap<>(3);
+        Map<String, Object> map = new HashMap<>(3, 1f);
 
         Map<String, ApiTypeI18n> typeMap = Cache.getApiTypeI18n();
         List<Chart> charts = getGameData(num);
@@ -313,7 +316,7 @@ public class HomeController {
                 for (Chart chart : charts) {
                     String typeId = String.valueOf(chart.getApiTypeId());
                     ApiTypeI18n typeI18n = typeMap.get(typeId);
-                    if (typeI18n!=null){
+                    if (typeI18n != null) {
                         String typeName = typeI18n.getName();
                         if (id.equals(typeId)) {
                             if (types.contains(typeName)) {
@@ -340,14 +343,19 @@ public class HomeController {
             map.put("payout", payouts.toArray());
         } else {
             List<String> apiTypes = new ArrayList<>();
-            for (String id : typeMap.keySet()) {
-                apiTypes.add(typeMap.get(id).getName());
+            if (ParamTool.isLotterySite()) {
+                apiTypes.add(typeMap.get(String.valueOf(ApiTypeEnum.LOTTERY.getCode())).getName());
+                map.put("amount", new Double[]{0.0d});
+                map.put("payout", new Double[]{0.0d});
+            } else {
+                for (String id : typeMap.keySet()) {
+                    apiTypes.add(typeMap.get(id).getName());
+                }
+                map.put("amount", new Double[]{0.0d, 0.0d, 0.0d, 0.0d});
+                map.put("payout", new Double[]{0.0d, 0.0d, 0.0d, 0.0d});
             }
             map.put("apiType", apiTypes.toArray());
-            map.put("amount", new Double[]{0.0d, 0.0d, 0.0d, 0.0d});
-            map.put("payout", new Double[]{0.0d, 0.0d, 0.0d, 0.0d});
         }
-
         return map;
     }
 
@@ -367,6 +375,9 @@ public class HomeController {
         GameSurveyVo vo = new GameSurveyVo();
         vo.getSearch().setStaticTime(date);
         vo.getSearch().setSiteId(SessionManager.getSiteId());
+        if (ParamTool.isLotterySite()) {
+            vo.getSearch().setApiId(NumberTool.toInt(ApiProviderEnum.PL.getCode()));
+        }
         return gameSurveyService().queryGameData(vo);
     }
 
@@ -382,7 +393,7 @@ public class HomeController {
         // 游戏报表数据（API）
         model.addAttribute("apiTables", getGameTableApiData());
 
-        model.addAttribute("listDateDay",toDisplayDay());
+        model.addAttribute("listDateDay", toDisplayDay());
         return TABLE_URL;
     }
 
@@ -394,7 +405,7 @@ public class HomeController {
 
         List<Chart> sites = getSiteData();
         List<Chart> deposits = getDepositData();
-        if(sites!=null&&sites.size()>0){
+        if (sites != null && sites.size() > 0) {
             for (Chart site : sites) {
                 for (Chart deposit : deposits) {
                     if (StringTool.equals(site.getDate(), deposit.getDate())) {
@@ -407,7 +418,7 @@ public class HomeController {
                 }
                 tables.add(site);
             }
-        }else{
+        } else {
             for (Chart deposit : deposits) {
                 Chart site = new Chart();
                 site.setDate(deposit.getDate());
@@ -427,11 +438,11 @@ public class HomeController {
     /**
      * 游戏报表数据（API_TYPE）
      */
-    private LinkedHashMap<String, Map<String, Object>> getGameTableData() {
+    private LinkedHashMap<String, LinkedHashMap<String, Object>> getGameTableData() {
         GameSurveyVo vo = initGameSurveyVo();
 
         List<Chart> charts = ServiceTool.gameSurveyService().query7DaysData(vo);
-        LinkedHashMap<String, Map<String, Object>> map = new LinkedHashMap<>(7);
+        LinkedHashMap<String, LinkedHashMap<String, Object>> map = new LinkedHashMap<>(7, 1f);
         Map<String, ApiType> typeMap = Cache.getApiType();
 
         List<Date> dates = getRecently7Days();
@@ -440,15 +451,22 @@ public class HomeController {
             String day = DateTool.formatDate(date, SessionManager.getLocale(), SessionManager.getTimeZone(), LocaleDateTool.getFormat("MONTH_DAY"));
             map.put(day, null);
         }
-
+        boolean isLotterySite = ParamTool.isLotterySite();
         for (Chart chart : charts) {
             String key = getKey(chart);
 
-            Map<String, Object> subMap;
+            LinkedHashMap<String, Object> subMap;
             if (map.containsKey(key) && map.get(key) != null) {
                 subMap = map.get(key);
+            } else if (isLotterySite) {
+                subMap = new LinkedHashMap<>(1, 1f);
+                Chart c = new Chart();
+                c.setApiTypeId(ApiTypeEnum.LOTTERY.getCode());
+                c.setDate(key);
+                subMap.put(String.valueOf(ApiTypeEnum.LOTTERY.getCode()), c);
+                map.put(key, subMap);
             } else {
-                subMap = new HashMap<>(4);
+                subMap = new LinkedHashMap<>(4, 1f);
                 // 填充空的子map
                 for (String id : typeMap.keySet()) {
                     Chart c = new Chart();
@@ -463,20 +481,35 @@ public class HomeController {
                 map.put(key, subMap);
             }
         }
-
-        // 填充空的key
-        for (String key : map.keySet()) {
-            if (map.get(key) == null) {
-                Map<String, Object> subMap = new HashMap<>(4);
-                for (String id : typeMap.keySet()) {
+        if(isLotterySite) {
+            // 填充空的key
+            for (String key : map.keySet()) {
+                if (map.get(key) == null) {
+                    LinkedHashMap<String, Object> subMap = new LinkedHashMap<>(1, 1f);
                     Chart c = new Chart();
-                    c.setApiTypeId(Integer.valueOf(id));
+                    c.setApiTypeId(ApiTypeEnum.LOTTERY.getCode());
                     c.setDate(key);
-                    subMap.put(id, c);
+                    subMap.put(String.valueOf(ApiTypeEnum.LOTTERY.getCode()), c);
+                    map.put(key, subMap);
                 }
-                map.put(key, subMap);
+            }
+        } else {
+            // 填充空的key
+            for (String key : map.keySet()) {
+                if (map.get(key) == null) {
+                    LinkedHashMap<String, Object> subMap = new LinkedHashMap<>(4, 1f);
+                    for (String id : typeMap.keySet()) {
+                        Chart c = new Chart();
+                        c.setApiTypeId(Integer.valueOf(id));
+                        c.setDate(key);
+                        subMap.put(id, c);
+                    }
+                    map.put(key, subMap);
+                }
             }
         }
+
+
 
         return map;
     }
@@ -488,7 +521,7 @@ public class HomeController {
      * @return key
      */
     private String getKey(Chart chart) {
-        String localeDate = DateTool.formatDate(chart.getStatDate(),SessionManager.getLocale(),SessionManager.getTimeZone(),LocaleDateTool.getFormat("MONTH_DAY")); //LocaleDateTool.formatDate(chart.getStatDate(), LocaleDateTool.getFormat("DAY"), SessionManager.getTimeZone());
+        String localeDate = DateTool.formatDate(chart.getStatDate(), SessionManager.getLocale(), SessionManager.getTimeZone(), LocaleDateTool.getFormat("MONTH_DAY")); //LocaleDateTool.formatDate(chart.getStatDate(), LocaleDateTool.getFormat("DAY"), SessionManager.getTimeZone());
         return localeDate;
         // TODO 由于日期格式暂不支持 MM-dd, 故此处暂时固定
         //return DateTool.formatDate(DateTool.parseDate(localeDate, LocaleDateTool.getFormat("DAY")), LocaleDateTool.getFormat("DAY"));
@@ -504,7 +537,7 @@ public class HomeController {
         for (String id : typeMap.keySet()) {
             vo.getSearch().setApiTypeId(Integer.valueOf(id));
             List<Chart> charts = ServiceTool.gameSurveyService().query7DaysApiData(vo);
-            LinkedHashMap<String, Map<String, Object>> secondMap = new LinkedHashMap<>(7);
+            LinkedHashMap<String, Map<String, Object>> secondMap = new LinkedHashMap<>(7, 1f);
 
             for (Chart chart : charts) {
                 Map<String, Object> thirdMap = new HashMap<>();
@@ -529,6 +562,9 @@ public class HomeController {
         vo.getSearch().setStartTime(DateTool.addDays(today, -7));
         vo.getSearch().setEndTime(today);
         vo.getSearch().setSiteId(SessionManager.getSiteId());
+        if (ParamTool.isLotterySite()) {
+            vo.getSearch().setApiId(NumberTool.toInt(ApiProviderEnum.PL.getCode()));
+        }
         return vo;
     }
 
@@ -599,7 +635,7 @@ public class HomeController {
      * 有效交易量
      */
     @RequestMapping("/effectiveData")
-    public String effectiveData(Model model){
+    public String effectiveData(Model model) {
         OperationProfileVo vo = new OperationProfileVo();
         vo.getSearch().setSiteId(SessionManager.getSiteId());
 
@@ -609,7 +645,7 @@ public class HomeController {
         vo.getSearch().setStartTime(today);
         vo.getSearch().setEndTime(now);
         Map<String, Double> stringStringTreeMap = ServiceTool.userPlayerService().queryEffectiveTodayData(vo);
-        model.addAttribute("effectiveTd",stringStringTreeMap);
+        model.addAttribute("effectiveTd", stringStringTreeMap);
         return "/home/include/EffectiveTd";
     }
 
@@ -778,7 +814,7 @@ public class HomeController {
     }
 
     private Map getVoMessage(BaseVo baseVo) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         if (baseVo.isSuccess() && StringTool.isBlank(baseVo.getOkMsg())) {
             baseVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
 
@@ -792,7 +828,7 @@ public class HomeController {
 
     @RequestMapping("/playerNum")
     @ResponseBody
-    public Map playerNum(){
+    public Map playerNum() {
         Map<String, Long> objectObjectHashMap = new HashMap<>();
         // 在线玩家数
         objectObjectHashMap.put("onlinePlayerNum", calcOnlinePlayerNum());

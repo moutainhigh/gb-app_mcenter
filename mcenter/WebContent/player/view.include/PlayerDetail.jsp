@@ -91,26 +91,6 @@
 
                     </li>
 
-                    <li class="detail-list-cow">
-                        <span class="title">${views.player_auto['所属代理']}</span>
-                        <div class="content">
-                            <c:if test="${not empty command.result.generalAgentName}">
-                                <a href="/vUserTopAgentManage/list.html?search.id=${command.result.generalAgentId}" nav-target="mainFrame">
-                                    ${command.result.generalAgentName}
-                                </a>
-                            </c:if>
-                            <c:if test="${empty command.result.generalAgentName}"><span class="co-gray">${views.player_auto['无总代']}</span></c:if>
-                            <i>→</i>
-                            <c:if test="${not empty command.result.agentName}">
-                                <a href="/vUserAgentManage/list.html?search.id=${command.result.agentId}" nav-target="mainFrame">
-                                    ${command.result.agentName}
-                                </a>
-                            </c:if>
-                            <c:if test="${empty command.result.agentName}"><span class="co-gray">${views.player_auto['无代理']}</span></c:if>
-                            <i>→</i>
-                             ${command.result.username}
-                        </div>
-                    </li>
                     <c:if test="${not empty playerWithdraw}">
                     <li style="background-color: #fcf8e3;">
                         <div class="content" style="padding: 10px 40px;font-size: 16px;text-align: center">
@@ -137,26 +117,30 @@
                             ${soulFn:formatInteger(command.result.totalAssets)}${soulFn:formatDecimals(command.result.totalAssets)}
                             </span>
                         </div>
-                        <span class="" style="padding-left: 10px">${views.player_auto['钱包余额']}</span>
-                        <div class="content">
+                        <c:if test="${!isLotterySite}">
+                            <span class="" style="padding-left: 10px">${views.player_auto['钱包余额']}</span>
+                            <div class="content">
                             <span class=" fs20 co-orange">
-                            ${dicts.common.currency_symbol[command.result.defaultCurrency]}
+                                    ${dicts.common.currency_symbol[command.result.defaultCurrency]}
                             </span>
                             <span class=" fs20 co-orange" id="wallet-balance">
-                                ${soulFn:formatInteger(command.result.walletBalance)}${soulFn:formatDecimals(command.result.walletBalance)}
+                                    ${soulFn:formatInteger(command.result.walletBalance)}${soulFn:formatDecimals(command.result.walletBalance)}
                             </span>
-                            <shiro:hasPermission name="fund:artificial">
+                        </c:if>
+                        <shiro:hasPermission name="fund:artificial">
                             <a href="/fund/manual/index.html?hasReturn=true&fromPlayerDetail=true&playerId=${command.result.id}&username=${command.result.username}" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['人工存入']}</a>
                             <a href="/fund/manual/index.html?hasReturn=true&fromPlayerDetail=true&playerId=${command.result.id}&type=withdraw&username=${command.result.username}" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['人工取出']}</a>
-                            </shiro:hasPermission>
+                        </shiro:hasPermission>
+                        <c:if test="${!isLotterySite}">
                             <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.usernames=${command.result.username}&search.userTypes=username" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['查看资金记录']}</a>
                             <a href="/report/fundsTrans/apiTrans.html?search.username=${command.result.username}&searchKey=search.username&search.type=playerDetail" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['查看转账记录']}</a>
                             <soul:button target="showApiData" text="${views.player_auto['查看游戏账户']}" opType="function" fromShowBtn="true" cssClass="btn btn-link co-blue show-api-data-btn"></soul:button>
                             <soul:button target="hideApiData" text="${views.player_auto['返回']}" opType="function" fromShowBtn="true" cssClass="btn btn-link co-blue hide hide-data-btn"></soul:button>
-                        </div>
-                        <div id="api_data" class="dataTables_wrapper hide" role="grid">
+                            </div>
+                            <div id="api_data" class="dataTables_wrapper hide" role="grid">
 
-                        </div>
+                            </div>
+                        </c:if>
                     </li>
                     <li class="detail-list-cow">
                         <span class="title">${views.player_auto['当前状态']}</span>
@@ -213,6 +197,45 @@
                     </li>
 
                     <li class="detail-list-cow">
+                        <span class="title">${views.player_auto['所属代理']}</span>
+                        <div class="content" id="agent-rank-detail">
+                            <c:if test="${not empty command.result.generalAgentName}">
+                                <a href="/vUserTopAgentManage/list.html?search.id=${command.result.generalAgentId}" nav-target="mainFrame">
+                                        ${command.result.generalAgentName}
+                                </a>
+                            </c:if>
+                            <c:if test="${empty command.result.generalAgentName}"><span class="co-gray">${views.player_auto['无总代']}</span></c:if>
+                            <i>→</i>
+                            <c:if test="${not empty command.result.agentName}">
+                                <a href="/vUserAgentManage/list.html?search.id=${command.result.agentId}" nav-target="mainFrame">
+                                        ${command.result.agentName}
+                                </a>
+                            </c:if>
+                            <c:if test="${empty command.result.agentName}"><span class="co-gray">${views.player_auto['无代理']}</span></c:if>
+                            <i>→</i>
+                            ${command.result.username}
+                            <input type="hidden" name="current-agentRank" id="current-agentRank" value="${command.result.agentId}">
+                            <soul:button target="editAgentLine" text="${'修改代理'}" opType="function" cssClass="btn btn-link co-blue" permission="role:update_agent"></soul:button>
+                            <shiro:hasPermission name="role:update_agent">
+                                <div style="font-size: 12px;color: #9c9c9c; display: inline-block; padding-right: 30px;">${messages.content['prompt.update.agent']}</div>
+                            </shiro:hasPermission>
+                            <c:if test="${not empty sysAuditLog}">
+                                <div style="font-size: 14px;color: #9c9c9c; display: inline-block;">
+                                    ${soulFn:formatDateTz(sysAuditLog.operateTime, DateFormat.DAY_SECOND,timeZone)}-${soulFn:formatTimeMemo(sysAuditLog.operateTime, locale)} ${soulFn:formatLogDesc(sysAuditLog)}
+                                </div>
+                            </c:if>
+                        </div>
+                        <div class="content hide" id="agent-rank-edit">
+                            <gb:select name="search.agentRanks" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single"
+                                       relSelect="result.agentId" value="" />
+                            <gb:select name="result.agentId" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single" callback="changeAgentLine"
+                                       relSelectPath="${root}/player/getRank/#search.agentRanks#.html"  listKey="id" listValue="username" value=""/>
+                            <soul:button target="updateAgentLine" text="${views.common['save']}" opType="function" cssClass="btn btn-link co-blue btn-save-agent hide" confirm="${messages.content['confirm.update.agent']}"></soul:button>
+                            <soul:button target="cancelEditAgentLine" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
+                        </div>
+                    </li>
+
+                    <li class="detail-list-cow">
                         <span class="title">${views.player_auto['玩家层级']}</span>
                         <div class="content" id="player-rank-detail">
                             <a href="/vPlayerRankStatistics/view.html?id=${command.result.rankId}" nav-target="mainFrame">
@@ -231,6 +254,16 @@
                             <soul:button target="cancelEditPlayerRank" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
                         </div>
                     </li>
+
+
+
+
+
+
+
+
+
+
 
                     <li class="detail-list-cow detail-list-info">
                         <div class="content">
@@ -419,28 +452,31 @@
 
                     <li class="detail-list-cow">
                         <span class="title">${views.player_auto['当前使用']}</span>
-                        <c:if test="${empty userBankcard}">
+                        <c:if test="${fn:length(userbankcards)==0 && cashParam.paramValue=='true'}">
                             <c:if test="${command.result.playerStatus ne '2'}">
+                            <br/>
                             <div class="content">
                                 ${views.player_auto['尚未设置银行卡']}
                                 <%--<a href="javascript:void(0)" class="btn btn-link co-blue">${views.player_auto['新增银行卡']}</a>--%>
                                 <soul:button target="${root}/player/view/bankEdit.html?search.userId=${command.result.id}"
-                                             userId="${command.result.id}" callback="queryView" precall="hasRealName"
+                                             userId="${command.result.id}" callback="saveOkQueryView" precall="hasRealName"
                                             text="${views.player_auto['新增银行卡']}" opType="dialog" cssClass="btn btn-link co-blue add-bank-card-btn"/>
                             </div>
                             </c:if>
                         </c:if>
-                        <c:if test="${not empty userBankcard}">
+                        <c:if test="${fn:length(userbankcards) > 0}">
+                            <c:set var="userbankcard" value="${userbankcards.get(0)}"/>
+                            <br/>
                             <div class="content">
-                                ${dicts.common.bankname[userBankcard.bankName]}
+                                ${dicts.common.bankname[userbankcard.bankName]}
                                 &nbsp;
-                                ${userBankcard.bankcardNumber}
-                                <soul:button target="showBankcardList" text="${views.player_auto['查看银行卡详细']}" opType="function" cssClass="btn btn-link show-bankcard-btn co-blue"></soul:button>
+                                ${userbankcard.bankcardNumber}
+                                <soul:button target="showBankcardList" data="bankcard-list" text="${views.player_auto['查看银行卡详细']}" opType="function" cssClass="btn btn-link show-bankcard-btn co-blue"></soul:button>
                                 <c:if test="${command.result.playerStatus ne '2'}">
-                                    <soul:button target="${root}/player/view/bankEdit.html?search.userId=${command.result.id}" userId="${command.result.id}" callback="queryView"
-                                         text="${views.role['Player.detail.bank.editBankInfo']}" opType="dialog" cssClass="btn btn-link co-blue edit-bank-card-btn hide"/>
+                                    <soul:button target="${root}/player/view/bankEdit.html?search.userId=${command.result.id}" userId="${command.result.id}" callback="saveOkQueryView"
+                                                 text="${views.role['Player.detail.bank.editBankInfo']}" opType="dialog" cssClass="btn btn-link co-blue edit-bank-card-btn hide"/>
                                 </c:if>
-                                <soul:button target="hideBankcardList" text="${views.player_auto['返回']}" opType="function" fromShowBtn="true" cssClass="btn btn-link co-blue hide hide-bankcard-btn"></soul:button>
+                                <soul:button target="hideBankcardList" data="bankcard-list" text="${views.player_auto['返回']}" opType="function" fromShowBtn="true" cssClass="btn btn-link co-blue hide hide-bankcard-btn"></soul:button>
                             </div>
                             <div id="bankcard-list" class="dataTables_wrapper hide" role="grid">
                                 <div class="table-responsive">
@@ -457,7 +493,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach var="bankCard" items="${bankcardListVo.result}" varStatus="vs">
+                                        <c:forEach var="bankCard" items="${userbankcards}" varStatus="vs">
                                             <c:set value="${fn:toLowerCase(bankCard.bankName)}" var="bankName"></c:set>
                                             <tr class="gradeA ${vs.index%2==0?'odd':'even'}">
                                                 <td>
@@ -483,6 +519,66 @@
                                 </div>
                             </div>
                         </c:if>
+                        <c:if test="${fn:length(btnBanks)==0 && bitcoinParam.paramValue=='true'}">
+                            <c:if test="${command.result.playerStatus ne '2'}">
+                                <br/>
+                                <div class="content">
+                                       ${views.player_auto['尚未设置比特币地址']}
+                                    <soul:button target="${root}/player/view/btcEdit.html?search.userId=${command.result.id}" callback="saveOkQueryView" text="${views.player_auto['新增比特币地址']}" opType="dialog" cssClass="btn btn-link co-blue add-bank-card-btn"/>
+                                </div>
+                            </c:if>
+                        </c:if>
+                        <c:if test="${fn:length(btnBanks)>0}">
+                            <c:set var="btc" value="${btnBanks.get(0)}"/>
+                            <br/>
+                            <div class="content">
+                                ${dicts.common.bankname[btc.bankName]}
+                                &nbsp;
+                                ${btc.bankcardNumber}&nbsp;
+                                <soul:button target="showBankcardList" data="btn-list" text="${views.player_auto['查看比特币详细']}" opType="function" cssClass="btn show-bankcard-btn co-blue"></soul:button>
+                                <c:if test="${command.result.playerStatus ne '2'}">
+                                    <soul:button target="${root}/player/view/btcEdit.html?search.userId=${command.result.id}" userId="${command.result.id}" callback="saveOkQueryView"
+                                                 text="${views.player_auto['修改比特币地址']}" opType="dialog" cssClass="btn btn-link co-blue edit-bank-card-btn hide"/>
+                                </c:if>
+                                <soul:button target="hideBankcardList" data="btn-list" text="${views.player_auto['返回']}" opType="function" fromShowBtn="true" cssClass="btn btn-link co-blue hide hide-bankcard-btn"></soul:button>
+                            </div>
+                            <div id="btn-list" class="dataTables_wrapper hide" role="grid">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-desc-list" aria-describedby="editable_info" style="width: 700px">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>${views.player_auto['钱包地址']}</th>
+                                            <th>${views.player_auto['添加时间']}</th>
+                                            <th>${views.player_auto['使用次数']}</th>
+                                            <th>${views.player_auto['状态']}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach var="bankCard" items="${btnBanks}" varStatus="vs">
+                                            <c:set value="${fn:toLowerCase(bankCard.bankName)}" var="bankName"></c:set>
+                                            <tr class="gradeA ${vs.index%2==0?'odd':'even'}">
+                                                <td>
+                                                    <span class="pay-third ${bankName}"></span><%--${dicts.common.bankname[bankName]}--%>
+                                                </td>
+                                                <td>${soulFn:formatBankCard(bankCard.bankcardNumber)}</td>
+                                                <td>${soulFn:formatDateTz(bankCard.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
+                                                <td class="co-red">${bankCard.useCount}</td>
+                                                <td>
+                                                    <c:if test="${bankCard.isDefault}">
+                                                        <span class="btn btn-xs btn-danger">${views.common['currentUse']}</span>
+                                                    </c:if>
+                                                    <c:if test="${!bankCard.isDefault}">
+                                                        <span>${views.common['historyUse']}</span>
+                                                    </c:if>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </c:if>
                     </li>
                     <li class="detail-list-cow">
                         <div class="content">
@@ -490,20 +586,20 @@
                                   data-html="true" data-content="${views.content['annotation.deposit']}">
                                 <i class="fa fa-question-circle" ></i>
                             </span>${views.player_auto['存款']}
-                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=deposit&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.ONLINE_BANK.getCode()%>,<%=TransactionWayEnum.WECHATPAY_FAST.getCode()%>,<%=TransactionWayEnum.ALIPAY_FAST.getCode()%>,<%=TransactionWayEnum.ATM_COUNTER.getCode()%>,<%=TransactionWayEnum.OTHER_FAST.getCode()%>,<%=TransactionWayEnum.ONLINE_DEPOSIT.getCode()%>,<%=TransactionWayEnum.WECHATPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ALIPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ATM_MONEY.getCode()%>,<%=TransactionWayEnum.ATM_RECHARGE.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>&search.orderType=manualSave" nav-target="mainFrame">
+                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=<%=TransactionTypeEnum.DEPOSIT.getCode()%>&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username" nav-target="mainFrame">
                             <span class="co-blue" id="rechargeCount">${views.player_auto['计算中']}...</span></a>${views.player_auto['次']}，
                             ${views.player_auto['共计']}${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=deposit&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.ONLINE_BANK.getCode()%>,<%=TransactionWayEnum.WECHATPAY_FAST.getCode()%>,<%=TransactionWayEnum.ALIPAY_FAST.getCode()%>,<%=TransactionWayEnum.ATM_COUNTER.getCode()%>,<%=TransactionWayEnum.OTHER_FAST.getCode()%>,<%=TransactionWayEnum.ONLINE_DEPOSIT.getCode()%>,<%=TransactionWayEnum.WECHATPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ALIPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ATM_MONEY.getCode()%>,<%=TransactionWayEnum.ATM_RECHARGE.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>&search.orderType=manualSave" nav-target="mainFrame">
+                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=<%=TransactionTypeEnum.DEPOSIT.getCode()%>&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username" nav-target="mainFrame">
                                 <span class="co-blue" id="rechargeTotal">${views.player_auto['计算中']}...</span>
                             </a>；
                             <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
                                   data-html="true" data-content="${views.player_auto['包含人工取出的所有类型']}。">
                                 <i class="fa fa-question-circle" ></i>
                             </span>${views.player_auto['取款']}
-                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.PLAYER_WITHDRAW.getCode()%>&search.manualWithdraws=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_RAKEBACK.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame"><span class="co-blue" id="withdrawCountTime">${views.player_auto['计算中']}...</span></a>${views.player_auto['次']}，
+                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username&search.transactionType=<%=TransactionTypeEnum.WITHDRAWALS.getCode()%>" nav-target="mainFrame"><span class="co-blue" id="withdrawCountTime">${views.player_auto['计算中']}...</span></a>${views.player_auto['次']}，
                             ${views.player_auto['共计']}
                             ${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.PLAYER_WITHDRAW.getCode()%>&search.manualWithdraws=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_RAKEBACK.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame"><span class="co-blue" id="withdrawTotalMoney">${views.player_auto['计算中']}...</span></a>；
+                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username&search.transactionType=<%=TransactionTypeEnum.WITHDRAWALS.getCode()%>" nav-target="mainFrame"><span class="co-blue" id="withdrawTotalMoney">${views.player_auto['计算中']}...</span></a>；
                             <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
                                   data-html="true" data-width="500px" data-content="${views.content['annotation.totalProfitLoss']}">
                                 <i class="fa fa-question-circle" ></i>
@@ -515,18 +611,17 @@
                                   data-html="true" data-content="${views.content['annotation.favorable']}">
                                 <i class="fa fa-question-circle" ></i>
                             </span>${views.player_auto['获得优惠']}
-                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.DEPOSIT_SEND.getCode()%>,<%=TransactionWayEnum.REGIST_SEND.getCode()%>,<%=TransactionWayEnum.RELIEF_FUND.getCode()%>,<%=TransactionWayEnum.PROFIT_LOSS.getCode()%>,<%=TransactionWayEnum.EFFECTIVE_TRANSACTION.getCode()%>,<%=TransactionWayEnum.MONEY.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable" nav-target="mainFrame">
+                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable&search.transactionType=<%=TransactionTypeEnum.FAVORABLE.getCode()%>" nav-target="mainFrame">
                             <span class="co-blue" id="favCount">${views.player_auto['计算中']}...</span>
                             </a>
                             ${views.player_auto['次']}，
                             ${views.player_auto['共计']}${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.DEPOSIT_SEND.getCode()%>,<%=TransactionWayEnum.REGIST_SEND.getCode()%>,<%=TransactionWayEnum.RELIEF_FUND.getCode()%>,<%=TransactionWayEnum.PROFIT_LOSS.getCode()%>,<%=TransactionWayEnum.EFFECTIVE_TRANSACTION.getCode()%>,<%=TransactionWayEnum.MONEY.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable" nav-target="mainFrame">
+                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable&search.transactionType=<%=TransactionTypeEnum.FAVORABLE.getCode()%>" nav-target="mainFrame">
                                 <span class="co-blue" id="favMoney">${views.player_auto['计算中']}...</span>
                             </a>；
                             <a href="/fund/deposit/company/list.html?search.username=${command.result.username}&search.playerId=${command.result.id}" class="btn btn-link co-blue" nav-target="mainFrame">${views.player_auto['公司入款记录']}</a>
                             <a href="/fund/deposit/online/list.html?search.username=${command.result.username}&search.playerId=${command.result.id}" class="btn btn-link co-blue" nav-target="mainFrame">${views.player_auto['线上支付记录']}</a>
                             <a href="/fund/withdraw/withdrawList.html?search.username=${command.result.username}&search.playerId=${command.result.id}" class="btn btn-link co-blue" nav-target="mainFrame">${views.player_auto['取款记录']}</a>
-                            <%--<a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.DEPOSIT_SEND.getCode()%>,<%=TransactionWayEnum.REGIST_SEND.getCode()%>,<%=TransactionWayEnum.RELIEF_FUND.getCode()%>,<%=TransactionWayEnum.PROFIT_LOSS.getCode()%>,<%=TransactionWayEnum.EFFECTIVE_TRANSACTION.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable" class="btn btn-link co-blue" nav-target="mainFrame">${views.player_auto['优惠记录']}</a>--%>
 
                         </div>
                     </li>
@@ -545,10 +640,10 @@
                                 <span class="co-blue" id="effectivetradeamount">${views.player_auto['计算中']}...</span>
                             </a>
                             ，
-                            <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+                            <%--<span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
                                   data-html="true" data-content="${views.player_auto['仅统计近40天（含今日）的派彩总和。']}">
                                 <i class="fa fa-question-circle" ></i>
-                            </span>${views.player_auto['近期损益']}
+                            </span>--%>${views.player_auto['近期损益']}
                             ${dicts.common.currency_symbol[command.result.defaultCurrency]}
                             <span class="co-blue" id="recentProfitAmout">${views.player_auto['计算中']}...</span>
                             <a href="/report/gameTransaction/init.html?isLink=true&search.username=${command.result.username}&searchKey=search.username" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['投注记录']}</a>

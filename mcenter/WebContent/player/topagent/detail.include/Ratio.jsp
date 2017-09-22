@@ -34,7 +34,7 @@
                                     </c:if>
                                 <%--</c:choose>--%>
                                 <td>
-                                    <label class="al-right"><span class="m-r-sm"></span>${command.gameTypeMap[p.gameType].value}</label>
+                                    <label class="al-right"><span class="m-r-sm"></span>${dicts.game.game_type[p.gameType]}</label>
                                     <label class="al-right"><span class="m-r-sm"></span>${views.role['topAgent.detail.ratioEdit.self']} :</label><span class="co-red"> ${empty p.ratio ? '100':100 - p.ratio}%</span>
                                     <label class="al-right"><span class="m-r-sm"></span>${views.role['topAgent.detail.ratioEdit.topAgent']} :</label><span class="co-red"> ${empty p.ratio ? '0':p.ratio}%</span>
                                 </td>
@@ -50,7 +50,7 @@
                                 </c:if>
                             <%--</c:choose>--%>
                             <td>
-                                <label class="al-right"><span class="m-r-sm"></span>${command.gameTypeMap[someGame['gameType']].value}</label>
+                                <label class="al-right"><span class="m-r-sm"></span>${dicts.game.game_type[someGame['gameType']]}</label>
                                 <label class="al-right"><span class="m-r-sm"></span>${views.role['topAgent.detail.ratioEdit.self']} :</label><span class="co-red"> ${empty p.ratio ? '100':100 - p.ratio}%</span>
                                 <label class="al-right"><span class="m-r-sm"></span>${views.role['topAgent.detail.ratioEdit.topAgent']} :</label><span class="co-red"> ${empty p.ratio ? '0':p.ratio}%</span>
                             </td>

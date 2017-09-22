@@ -47,7 +47,7 @@ public class VNoticeEmailInterfaceForm implements IForm {
     private String testEmailAccount;*/
 
     @NotBlank()
-    @Pattern(regexp = FormValidRegExps.CNANDEN_NUMBER,message = "请输入中文或英文大小写和数字")
+    @Pattern(regexp = FormValidRegExps.CNANDEN_NUMBER,message = "setting_auto.请输入中文或英文大小写和数字")
     @Length(min = 1,max = 30)
     public String getName() {
         return name;

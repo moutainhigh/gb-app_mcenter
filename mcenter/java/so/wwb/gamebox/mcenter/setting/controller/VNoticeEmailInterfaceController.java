@@ -22,6 +22,7 @@ import so.wwb.gamebox.mcenter.setting.form.NoticeEmailInterfaceForm;
 import so.wwb.gamebox.mcenter.setting.form.VNoticeEmailInterfaceForm;
 import so.wwb.gamebox.mcenter.setting.form.VNoticeEmailInterfaceSearchForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.master.player.po.PlayerRank;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.setting.po.VNoticeEmailInterface;
@@ -203,9 +204,9 @@ public class VNoticeEmailInterfaceController extends BaseCrudController<IVNotice
         vo.setPropertyValues(Arrays.asList(ids));
         vo = ServiceTool.vNoticeEmailInterfaceService().batchDel(vo);
         if(vo.isSuccess()){
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         }else {
-            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
         return this.getVoMessage(vo);
     }

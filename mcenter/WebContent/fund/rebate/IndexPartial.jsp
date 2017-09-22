@@ -41,7 +41,7 @@
                 <tr>
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                     <td>
-                        ${p.agentusername}
+                        <a href="/userAgent/agent/detail.html?search.id=${p.agentId}" nav-target="mainFrame">${p.agentusername}</a>
                     </td>
                     <td>${p.effectivePlayerNum}</td>
                     <td colspan="2" class="multiple-row-td">
@@ -89,27 +89,31 @@
                     </td>
                     <td>${dicts.fund.rebate_status[p.rebateStatus]}</td>
                     <td>
-                        <c:choose>
+                        <%--<c:choose>
                             <c:when test="${p.rebateStatus eq '0'}">
-                                <soul:button target="${root}/fund/rebate/toSettled.html?search.id=${p.id}"
+                                <soul:button target="${root}/fund/rebate/toSettled.html?search.id=${p.id}" permission="operate:rebatesettle"
                                              text="${views.fund_auto['结算']}" opType="dialog" callback="query">
                                 ${views.fund_auto['结算']}
                                 </soul:button>
-                                <soul:button target="${root}/fund/rebate/cleared/untreated.html?search.id=${p.id}"
+                                <soul:button target="${root}/fund/rebate/cleared/untreated.html?search.id=${p.id}" permission="operate:rebateclear"
                                              text="${views.fund_auto['清除']}" opType="ajax" callback="query"  confirm="${views.fund_auto['清除后数据将不会被累计到下一期']}">
                                     ${views.fund_auto['清除']}
                                 </soul:button>
+                                <soul:button target="${root}/fund/rebate/signBill.html?id=${p.id}" text="${views.fund_auto['挂账']}" permission="operate:rebatesignbill"
+                                             confirm="${views.fund['rebate.signbill.tips']}" opType="ajax" callback="query"></soul:button>
                             </c:when>
                             <c:when test="${p.rebateStatus eq '1'}">
-                                <soul:button target="${root}/fund/rebate/cleared/notreached.html?search.id=${p.id}"
+                                <soul:button target="${root}/fund/rebate/cleared/notreached.html?search.id=${p.id}" permission="operate:rebateclear"
                                              text="${views.fund_auto['清除']}" opType="ajax" callback="query" confirm="${views.fund_auto['清除后数据将不会被累计到下一期']}">
                                 ${views.fund_auto['清除']}
                                 </soul:button>
+                                <soul:button target="${root}/fund/rebate/signBill.html?id=${p.id}" text="${views.fund_auto['挂账']}" permission="operate:rebatesignbill"
+                                             confirm="${views.fund['rebate.signbill.tips']}" opType="ajax" callback="query"></soul:button>
                             </c:when>
                             <c:otherwise>
 
                             </c:otherwise>
-                        </c:choose>
+                        </c:choose>--%>
                     </td>
                 </tr>
             </c:forEach>

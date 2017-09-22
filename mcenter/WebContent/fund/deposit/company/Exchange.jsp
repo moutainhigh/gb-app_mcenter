@@ -15,12 +15,12 @@
     <c:choose>
         <c:when test="${empty r}">
             <div class="modal-body clearfix">
-                <div class="m-b">无该存款记录</div>
+                <div class="m-b">${views.fund_auto['无该存款记录']}</div>
             </div>
         </c:when>
         <c:when test="${r.rechargeStatus != '8'}">
             <div class="modal-body clearfix">
-                <div class="m-b">该笔存款已兑现过</div>
+                <div class="m-b">${views.fund_auto['该笔存款已兑现过']}</div>
             </div>
         </c:when>
         <c:otherwise>
@@ -29,17 +29,17 @@
             <div class="modal-body clearfix">
                 <div class="m-b">${views.fund['despoit.check.player']}： <span class="co-blue">${r.username}</span></div>
                 <div class="m-b">${views.column['VPlayerRecharge.realName']}： ${command.realName}</div>
-                <div class="m-b">玩家比特币地址： ${r.payerBankcard}</div>
+                <div class="m-b">${views.fund_auto['玩家比特币地址']} ${r.payerBankcard}</div>
                 <div class="m-b">
-                       比特币：
+                       ${views.fund_auto['比特币']}：
                     <b class="co-yellow"><fmt:formatNumber pattern="#.########" value="${r.bitAmount}"/></b>
                 </div>
-                <div class="m-b">收款比特币地址： ${r.account}</div>
+                <div class="m-b">${views.fund_auto['收款比特币地址']} ${r.account}</div>
                 <br/>
-                <div class="m-b co-yellow">温馨提示：兑换比特币过程会比较慢，请耐心等待！</div>
+                <div class="m-b co-yellow">${views.fund_auto['温馨提示']}</div>
             </div>
             <div class="modal-footer">
-                <soul:button tag="button" cssClass="btn btn-warning btn-deposit-result-btn" text="兑换" opType="function" target="exchange"/>
+                <soul:button tag="button" cssClass="btn btn-warning btn-deposit-result-btn" text="${views.fund_auto['兑换']}" opType="function" target="exchange"/>
                 <soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-default" opType="function" />
             </div>
         </c:otherwise>

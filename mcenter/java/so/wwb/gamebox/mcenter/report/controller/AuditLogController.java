@@ -4,6 +4,7 @@ import org.soul.commons.bean.Pair;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.enums.EnumTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.Criteria;
 import org.soul.model.log.audit.vo.BaseLog;
@@ -25,6 +26,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.SysExportForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ModuleType;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
@@ -37,9 +39,7 @@ import so.wwb.gamebox.model.report.vo.AddLogVo;
 import so.wwb.gamebox.web.cache.ExportCriteriaTool;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author fly
@@ -53,20 +53,13 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
     protected String getViewBasePath() {
         return "/report/log/";
     }
-    private static List<Pair> keys;
-    static {
-        keys = new ArrayList<>();
-        keys.add(new Pair("search.operator", "角色账号"));
-        keys.add(new Pair("search.ip", "IP 地址"));
-
-    }
 
     @RequestMapping("/logList")
     protected String logList(SysAuditLogListVo listVo, Model model, HttpServletRequest request) {
-        model.addAttribute("moduleTypes", EnumTool.getEnumList(ModuleType.class));
         model.addAttribute("opType", DictTool.get(DictEnum.Log_OpType));//操作类型
+        model.addAttribute("moduleTypes", DictTool.get(DictEnum.Log_Type));
         model.addAttribute("now", SessionManager.getDate().getNow());
-        model.addAttribute("keys", keys);
+        model.addAttribute("keys", DictTool.get(DictEnum.Search_Keyword));
         model.addAttribute("hasReturn", request.getParameter("hasReturn"));
         String searchKey = request.getParameter("keys");
         if(StringTool.isNotBlank(searchKey)){
@@ -104,14 +97,14 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
         List<Pair> roleKeys = new ArrayList<>();
         if (listVo.getSearch().getRoleType()==null || StringTool.equals(listVo.getSearch().getRoleType(), "master")){
             listVo.getSearch().setRoleType("master");
-            roleKeys.add(new Pair(UserTypeEnum.MASTER.getCode(),"站长"));
-            roleKeys.add(new Pair(UserTypeEnum.MASTER_SUB.getCode(),"站长-子账号"));
+            roleKeys.add(new Pair(UserTypeEnum.MASTER.getCode(), LocaleTool.tranView("report_auto","站长")));
+            roleKeys.add(new Pair(UserTypeEnum.MASTER_SUB.getCode(),LocaleTool.tranView("report_auto","站长-子账号")));
         }else if (StringTool.equals(listVo.getSearch().getRoleType(), SysUserTypeEnum.AGENT.getCode())){
-            roleKeys.add(new Pair(UserTypeEnum.AGENT.getCode(),"代理"));
-            roleKeys.add(new Pair(UserTypeEnum.AGENT_SUB.getCode(),"代理-子账号"));
+            roleKeys.add(new Pair(UserTypeEnum.AGENT.getCode(),LocaleTool.tranView("report_auto","代理")));
+            roleKeys.add(new Pair(UserTypeEnum.AGENT_SUB.getCode(),LocaleTool.tranView("report_auto","代理-子账号")));
         }else if (StringTool.equals(listVo.getSearch().getRoleType(),SysUserTypeEnum.TOP_AGENT.getCode())){
-            roleKeys.add(new Pair(UserTypeEnum.TOP_AGENT.getCode(),"总代"));
-            roleKeys.add(new Pair(UserTypeEnum.TOP_AGENT_SUB.getCode(),"总代-子账号"));
+            roleKeys.add(new Pair(UserTypeEnum.TOP_AGENT.getCode(),LocaleTool.tranView("report_auto","总代")));
+            roleKeys.add(new Pair(UserTypeEnum.TOP_AGENT_SUB.getCode(),LocaleTool.tranView("report_auto","总代-子账号")));
         }
         if(listVo.getSearch().getOperatorBegin()==null&&listVo.getSearch().getOperatorEnd()==null) {
             listVo.getSearch().setOperatorEnd(new Date());

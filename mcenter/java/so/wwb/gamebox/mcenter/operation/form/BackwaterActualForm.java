@@ -26,7 +26,6 @@ public class BackwaterActualForm implements IForm {
     private String result_rakebackActual;
 
     @Comment("备注")
-    @NotBlank(message = "operation.backwater.BackwaterActualForm.remarkContent.notBlank")
     @Length(message = "operation.backwater.BackwaterActualForm.remarkContent.maxLength", max = 200)
     public String getResult_remark() {
         return result_remark;

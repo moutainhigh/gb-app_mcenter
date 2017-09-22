@@ -125,13 +125,13 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
         listVo = joinTabTitle(listVo, backwaterDetailListVo);
 
         backwaterDetailListVo = getService().searchAllBackwaterDetail(backwaterDetailListVo);//查询返水明细
-        Map<Integer, Map<Integer, BackwaterApi>> map = new HashMap<>(listVo.getResult().size());
+        Map<Integer, Map<Integer, BackwaterApi>> map = new HashMap<>(listVo.getResult().size(), 1f);
         if (CollectionTool.isNotEmpty(listVo.getResult()) && CollectionTool.isNotEmpty(backwaterDetailListVo.getResult()) && CollectionTool.isNotEmpty(listVo.getTabTitles())) {
             Map<Integer, List<RakebackApi>> data = CollectionTool.groupByProperty(backwaterDetailListVo.getResult(), RakebackPlayer.PROP_PLAYER_ID, Integer.class);//根据玩家id划分map
             //组装每个列表下的金额
             for (RakebackPlayer obj : listVo.getResult()) {
                 List<RakebackApi> details = data.get(obj.getPlayerId());
-                Map<Integer, BackwaterApi> backwaterApis = new HashMap<>(listVo.getTabTitles().size());
+                Map<Integer, BackwaterApi> backwaterApis = new HashMap<>(listVo.getTabTitles().size(), 1f);
                 Map<Integer, List<RakebackApi>> data2 = CollectionTool.groupByProperty(details, RakebackApi.PROP_API_ID, Integer.class);//根据apiId划分map
                 for (TabTitle tabTitle : listVo.getTabTitles()) {
                     BackwaterApi backwaterApi = new BackwaterApi();
@@ -260,6 +260,7 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
         if (result.hasErrors()) {
             return null;
         }
+        LOG.info("账号{0}修改实付返水:{1}", SessionManager.getUserName(), vo.getResult().getRakebackActual());
         vo = getService().saveBackwaterActual(vo);//修改实付返水
         return this.getVoMessage(vo);
     }
@@ -353,9 +354,9 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
     @ResponseBody
     protected Map<String, Object> settlementSuccess(RakebackBillVo vo, @RequestParam("ids") Integer[] ids, HttpServletRequest request) {
         //所有需结算的返水信息
-        if(ids == null || ids.length == 0){
+        if (ids == null || ids.length == 0) {
             Map map = new HashMap();
-            map.put("state",false);
+            map.put("state", false);
             return map;
         }
 
@@ -387,8 +388,6 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
                 String remarkTitle = I18nTool.getDictsMap(SessionManagerBase.getLocale().toString()).get(Module.COMMON.getCode()).get(DictEnum.COMMON_REMARK_TITLE.getType()).get(RemarkEnum.OPERATION_BACKWATER.getType()).replace("{backwatername}", backwterName);
                 RakebackPlayerVo rakebackPlayerVo = new RakebackPlayerVo();
                 userIds = new ArrayList<Integer>();//记录发送固定内容的玩家id
-                NoticeVo variableNoticeVo = new NoticeVo();//修改实付返水，结算后发送的内容是站长填写的备注内容
-                variableNoticeVo.setEventType(AutoNoticeEvent.RETURN_RABBET_SUCCESS);
                 Map<String, Pair<String, String>> localeTmplMap;//发送消息内容
                 SysUserVo userVo = new SysUserVo();
                 for (RakebackPlayer obj : list) {
@@ -407,9 +406,11 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
 
                         //发送结算消息
                         userVo.getSearch().setId(obj.getPlayerId());
-                        localeTmplMap = new HashMap<>(1);
+                        localeTmplMap = new HashMap<>(1, 1f);
                         userVo = ServiceTool.sysUserService().get(userVo);
                         localeTmplMap.put(userVo.getResult().getDefaultLocale(), new Pair(remarkTitle, obj.getRemark()));
+                        NoticeVo variableNoticeVo = new NoticeVo();//修改实付返水，结算后发送的内容是站长填写的备注内容
+                        variableNoticeVo.setEventType(AutoNoticeEvent.RETURN_RABBET_SUCCESS);
                         variableNoticeVo.addUserIds(obj.getPlayerId());
                         variableNoticeVo.setLocaleTmplMap(localeTmplMap);
                         try {
@@ -469,9 +470,9 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
             return getVoMessage(vo);
         }
 
-        if(ids == null || ids.length == 0){
+        if (ids == null || ids.length == 0) {
             Map map = new HashMap();
-            map.put("state",false);
+            map.put("state", false);
             return map;
         }
 
@@ -636,7 +637,7 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
      * @return
      */
     private RakebackPlayerNosettledListVo rakebackApiNosettleds(Model model, RakebackPlayerNosettledListVo listVo, List<RakebackApiNosettled> apiNosettleds) {
-        Map<Integer, Map<Integer, BackwaterApi>> rakebackApisMap = new HashMap<>(listVo.getResult().size());
+        Map<Integer, Map<Integer, BackwaterApi>> rakebackApisMap = new HashMap<>(listVo.getResult().size(), 1f);
         if (!apiNosettleds.isEmpty()) {
             List<TabTitle> tabTitles = listVo.getTabTitles();
             Criteria criteria;
@@ -687,21 +688,22 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
         model.addAttribute("gametypes", gemtypes);
         return getViewBasePath() + "NosettledChoose";
     }
+
     @RequestMapping("/reSettleRakeback")
     @ResponseBody
-    public Map reSettleRakeback(RakebackBillVo rakebackBillVo){
+    public Map reSettleRakeback(RakebackBillVo rakebackBillVo) {
         Map resultMap = new HashMap();
-        try{
+        try {
             String returnCode = getService().reSettleRakeback(rakebackBillVo);
-            LOG.info("调用返水重结返回值:{0}",returnCode);
-            if(RakebackSettleCodeEnum.EXCEPTION.getCode().equals(returnCode)){
-                resultMap.put("state",false);
-            }else{
-                resultMap.put("state",true);
+            LOG.info("调用返水重结返回值:{0}", returnCode);
+            if (RakebackSettleCodeEnum.EXCEPTION.getCode().equals(returnCode)) {
+                resultMap.put("state", false);
+            } else {
+                resultMap.put("state", true);
             }
-        }catch (Exception ex){
-            resultMap.put("state",false);
-            LOG.error(ex,"返水重结出错");
+        } catch (Exception ex) {
+            resultMap.put("state", false);
+            LOG.error(ex, "返水重结出错");
         }
 
         return resultMap;

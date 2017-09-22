@@ -34,6 +34,7 @@ import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.SiteI18nEnum;
 import so.wwb.gamebox.model.common.ContentCheckEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.serve.po.SiteContentAudit;
 import so.wwb.gamebox.model.company.serve.vo.SiteContentAuditVo;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
@@ -144,13 +145,13 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         activityMessageVo.setProperties(ActivityMessage.PROP_IS_DELETED);
         activityMessageVo.getResult().setIsDeleted(true);
         activityMessageVo = ServiceTool.activityMessageService().updateOnly(activityMessageVo);
-        HashMap map = new HashMap(2);
+        HashMap map = new HashMap(2,1f);
         if (activityMessageVo.isSuccess()) {
             Cache.refreshActivityMessages();
             Cache.refreshCurrentSitePageCache();
-            map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else {
-            map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
         map.put("state", activityMessageVo.isSuccess());
         return map;
@@ -199,7 +200,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
                 break;
             }
         }
-        Map<String, Object> map = new HashMap(4);
+        Map<String, Object> map = new HashMap(4,1f);
         map.put("isDefault", isDefault);
         if (isDefault) {
             map.put("msg", LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), "classification.defaultNotDelete"));
@@ -223,9 +224,9 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
             if (state) {
                 CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
                 Cache.refreshCurrentSitePageCache();
-                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
             } else {
-                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
             }
             return map;
         }
@@ -266,14 +267,14 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         }
         vo.getSearch().setKey(key);
         boolean state = getService().deleteClassification(vo);
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         map.put("state", state);
         if (state) {
             CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
             Cache.refreshCurrentSitePageCache();
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else {
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
         return map;
     }
@@ -404,7 +405,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
     @ResponseBody
     @Token(valid = true)
     public Map activityRelease(ActivityTypeVo activityTypeVo, VActivityMessageVo vActivityMessageVo) {
-        Map map = new HashMap(2);
+        Map map = new HashMap(2,1f);
         try{
             vActivityMessageVo.setCode(activityTypeVo.getResult().getCode());
             assignment(activityTypeVo, vActivityMessageVo);
@@ -416,10 +417,10 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
                 updateSiteContentAudit();
                 Cache.refreshActivityMessages();// 发布和编辑刷新缓存
                 Cache.refreshCurrentSitePageCache();
-                map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, "save.success"));
+                map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             } else {
                 map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
-                map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+                map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             }
             map.put("state", success);
             //推送任务给运营商

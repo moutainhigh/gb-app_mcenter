@@ -1,8 +1,12 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.commons.support._Module;
 import org.soul.commons.validation.form.support.RegExpConstants;
+import org.soul.model.sys.po.SysParam;
+import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.springframework.stereotype.Controller;
@@ -17,6 +21,10 @@ import so.wwb.gamebox.mcenter.setting.form.SiteCustomerServiceSearchForm;
 import so.wwb.gamebox.mcenter.setting.form.SiteMobileCustomerServiceForm;
 import so.wwb.gamebox.mcenter.setting.form.SitePCCustomerServiceForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteCustomerService;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceVo;
@@ -136,7 +144,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     @RequestMapping({"/validateDelete"})
     @ResponseBody
     public Map validateDelete(Integer id,SiteCustomerServiceVo siteCustomerServiceVo,SiteCustomerServiceListVo siteCustomerServiceListVo,VFloatPicListVo vFloatPicListVo){
-        HashMap map = new HashMap(3);
+        HashMap map = new HashMap(3,1f);
         siteCustomerServiceVo.getSearch().setId(id);
         Integer picCount=0;
 
@@ -233,10 +241,10 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     @RequestMapping("/pc")
     @ResponseBody
     public Map updatePCCustomerService(SiteCustomerServiceVo objectVo, @FormModel @Valid SitePCCustomerServiceForm form, BindingResult result) {
-        Map<String,Object> map = new HashMap<>(2);
+        Map<String,Object> map = new HashMap<>(2,1f);
         if (result.hasErrors()) {
             map.put("state",false);
-            map.put("msg",LocaleTool.tranMessage("common","save.failed"));
+            map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
@@ -248,6 +256,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
         boolean b = Pattern.compile(RegExpConstants.URL).matcher(newUrl.toString()).find();
         if(b){
+            objectVo.setResult(new SiteCustomerService());
             objectVo.getResult().setParameter(newUrl.toString());
             objectVo.getResult().setId(objectVo.getPc().getId());
             objectVo.getResult().setName(objectVo.getPc().getName());
@@ -255,12 +264,12 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
 
             if (objectVo.isSuccess()) {
                 map.put("state",true);
-                map.put("msg",LocaleTool.tranMessage("common","save.success"));
+                map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 Cache.refreshCustomerService();
                 Cache.refreshCurrentSitePageCache();
             } else {
                 map.put("state",false);
-                map.put("msg",LocaleTool.tranMessage("common","save.failed"));
+                map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             }
         }else {
             map.put("state",false);
@@ -277,10 +286,10 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     @RequestMapping("/mobile")
     @ResponseBody
     public Map updateMobileCustomerService(SiteCustomerServiceVo objectVo, @FormModel @Valid SiteMobileCustomerServiceForm form, BindingResult result) {
-        Map<String,Object> map = new HashMap<>(2);
+        Map<String,Object> map = new HashMap<>(2,1f);
         if (result.hasErrors()) {
             map.put("state",false);
-            map.put("msg",LocaleTool.tranMessage("common","save.failed"));
+            map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
@@ -292,6 +301,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
         boolean b = Pattern.compile(RegExpConstants.URL).matcher(newUrl.toString()).find();
         if (b){
+            objectVo.setResult(new SiteCustomerService());
             objectVo.getResult().setParameter(newUrl.toString());
             objectVo.getResult().setId(objectVo.getMobile().getId());
             objectVo.getResult().setName(objectVo.getMobile().getName());
@@ -299,12 +309,12 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
 
             if (objectVo.isSuccess()) {
                 map.put("state",true);
-                map.put("msg",LocaleTool.tranMessage("common","save.success"));
+                map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 Cache.refreshCustomerService();
                 Cache.refreshCurrentSitePageCache();
             } else {
                 map.put("state",false);
-                map.put("msg",LocaleTool.tranMessage("common","save.failed"));
+                map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             }
         }else {
             map.put("state",false);
@@ -313,6 +323,78 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         return map;
     }
 
+    /**
+     * APP下载域名设置
+     * @param sysParamVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/appDomain")
+    @ResponseBody
+    public Map updateAppDomainService(SysParamVo sysParamVo,Model model){
+
+        Map map=new HashedMap();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
+
+        if(sysParam!=null){
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+        }else{
+            sysParamVo.getResult().setRemark("APP下载域名设置");
+            sysParamVo.getResult().setModule(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getModule().getCode());
+            sysParamVo.getResult().setParamType(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getType());
+            sysParamVo.getResult().setParamCode(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getCode());
+            sysParamVo.getResult().setActive(true);
+            sysParamVo = ServiceTool.getSysParamService().insert(sysParamVo);
+        }
+
+        ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
+        if(sysParamVo.isSuccess()){
+            map.put("msg",LocaleTool.tranMessage("setting_auto","成功"));
+            map.put("state",true);
+        }else {
+            map.put("msg",LocaleTool.tranMessage("setting_auto","失败"));
+            map.put("state",false);
+        }
+        return map;
+    }
+    /**
+     * APP下载域名设置
+     * @param sysParamVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/accessDomain")
+    @ResponseBody
+    public Map settingAccessDomain(SysParamVo sysParamVo,Model model){
+
+        Map map=new HashedMap();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
+
+        if(sysParam!=null){
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+        }else{
+            sysParamVo.getResult().setRemark("访问域名设置");
+            sysParamVo.getResult().setModule(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN.getModule().getCode());
+            sysParamVo.getResult().setParamType(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN.getType());
+            sysParamVo.getResult().setParamCode(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN.getCode());
+            sysParamVo.getResult().setActive(true);
+            sysParamVo = ServiceTool.getSysParamService().insert(sysParamVo);
+        }
+
+        ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
+        if(sysParamVo.isSuccess()){
+            map.put("msg",LocaleTool.tranMessage("setting_auto","成功"));
+            map.put("state",true);
+        }else {
+            map.put("msg",LocaleTool.tranMessage("setting_auto","失败"));
+            map.put("state",false);
+        }
+        return map;
+    }
     //endregion your codes 3
 
 }

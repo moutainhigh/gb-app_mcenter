@@ -28,7 +28,7 @@
                 <div class="input-group">
                     <span class="input-group-addon abroder-no"><b>${views.report['operate.search.account']}</b></span>
                     <span class="bg-gray input-group-addon bdn" style="width: 70px;">
-                    <gb:select name="role" list="${command.roles}" listKey="key" listValue="value" value="search.agentName" callback="changeRole" prompt="" cssClass="chosen-select-no-single"/>
+                    <gb:select name="roleName" list="${command.roles}" listKey="key" listValue="value" value="${command.roleName}" callback="changeRole" prompt="" cssClass="chosen-select-no-single"/>
                     </span>
                     <input type="text" class="form-control list-search-input-text role" name="search.agentName" placeholder="${views.report['operate.search.account.hint']}">
                 </div>
@@ -39,7 +39,7 @@
                 <input type="hidden" name="search.topagentId" value="${command.userTop.id}" />
                 <input type="hidden" name="search.agentId" value="${command.userAgent.id}" />
                 <input type="hidden" name="subSysCode" value="<%=SubSysCodeEnum.MCENTER.getCode() %>" />
-                <soul:button target="query" opType="function" text="${views.common['query']}" cssClass="btn btn-filter pull-right" />
+                <soul:button target="query" opType="function" text="${views.common['query']}" cssClass="btn btn-filter pull-right btn-search-css" />
             </div>
         </div>
     </div>

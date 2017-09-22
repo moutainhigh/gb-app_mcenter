@@ -37,6 +37,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.common.Const;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceListVo;
@@ -115,7 +116,6 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         vo.getSearch().setStatus(RankStatusEnum.NORMAL.getCode());
         List<PlayerRank> playerRanks = ServiceTool.playerRankService().queryUsableList(vo);
         listVo.setPlayerRanks(playerRanks);
-        DictTool.refresh(DictEnum.PAY_ACCOUNT_STATUS);
         Map<String, Serializable> status = DictTool.get(DictEnum.PAY_ACCOUNT_STATUS);
         status.remove(PayAccountStatusEnum.DELETED.getCode());
        // Map<String, Bank> filterDeposit = Cache.getBank();
@@ -302,8 +302,8 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
     @ResponseBody
     public Map resetHide(VPayAccountListVo vPayAccountListVo, @FormModel("result") @Valid VPayAccountHideSettingForm form, BindingResult result, SysParamVo sysParamVo) {
         if (result.hasErrors()) {
-            Map map = new HashMap(2);
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+            Map map = new HashMap(2,1f);
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             map.put("state", false);
             return map;
         }
@@ -360,9 +360,9 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         }
         payRankListVo = getService().delPayRank(payRankListVo);
         if (payRankListVo.isSuccess()) {
-            payRankListVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            payRankListVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else if (!payRankListVo.isSuccess()) {
-            payRankListVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            payRankListVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
 
         return this.getVoMessage(payRankListVo);

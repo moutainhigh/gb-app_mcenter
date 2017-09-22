@@ -116,7 +116,7 @@
                             <c:if test="${p.withdrawStatus=='1'}">
                                 <c:choose>
                                     <c:when test="${p.isLock=='1'}">
-                                        <span data-content="${views.fund_auto['锁定人']}${p.lockPersonName}" data-placement="top" data-trigger="focus"
+                                        <span data-content="${views.fund_auto['锁定人']}${p.lockPersonName}" data-placement="left" data-trigger="focus"
                                               data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
                                             <c:if test="${command.thisUserId==p.lockPersonId}">
                                                 <soul:button target="cancelLockOrder" text="${views.fund_auto['取消锁定']}" opType="function" objId="${p.id}">
@@ -149,6 +149,15 @@
                             </c:if>
                             <c:if test="${p.withdrawStatus=='4'}">
                                 <soul:button target="withdrawAuditView" dataId="${p.id}" size="auditLogCss" cssClass="label label-success p-x-md" text="${dicts.fund.withdraw_status[p.withdrawStatus]}" opType="function" />
+                                <c:if test="${p.remittanceWay=='2'&&p.checkStatus=='success'}">
+                                    [${views.fund_auto['未兑币']}]
+                                </c:if>
+                                <c:if test="${p.remittanceWay=='2'&&p.checkStatus=='exchange_bit'}">
+                                    [${views.fund_auto['已兑币']}]
+                                </c:if>
+                                <c:if test="${p.remittanceWay=='2'&&p.checkStatus=='automatic_pay'}">
+                                    [${views.fund_auto['已打款']}]
+                                </c:if>
                             </c:if>
                             <c:if test="${p.withdrawStatus=='5'}">
                                 <soul:button target="withdrawAuditView" dataId="${p.id}" size="auditLogCss" cssClass="label label-danger p-x-md" text="${dicts.fund.withdraw_status[p.withdrawStatus]}" opType="function" />

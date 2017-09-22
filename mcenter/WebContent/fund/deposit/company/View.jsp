@@ -89,13 +89,13 @@
 									<c:if test="${r.rechargeType=='wechatpay_fast'||r.rechargeType=='alipay_fast'||r.rechargeType=='other_fast'}">
 										<tr>
 											<c:if test="${r.rechargeType=='wechatpay_fast'}">
-												<c:set var="data" value="微信账号："/>
+												<c:set var="data" value="${views.fund_auto['微信账号']}："/>
 											</c:if>
 											<c:if test="${r.rechargeType=='alipay_fast'}">
-												<c:set var="data" value="支付宝账号："/>
+												<c:set var="data" value="${views.fund_auto['支付宝账号']}："/>
 											</c:if>
 											<c:if test="${r.rechargeType=='other_fast'}">
-												<c:set var="data" value="其他电子账号："/>
+												<c:set var="data" value="${views.fund_auto['其他电子账号']}："/>
 											</c:if>
 											<th scope="row" class="text-right active">${data}</th>
 											<td>
@@ -115,7 +115,7 @@
 									</c:if>
 									<c:if test="${r.rechargeType=='bitcoin_fast'}">
 										<tr>
-											<th scope="row" class="text-right active">收款比特币钱包地址：</th>
+											<th scope="row" class="text-right active">${views.fund_auto['收款比特币钱包地址']}：</th>
 											<td>
 												<span class="co-green">${r.account}</span>
 												<c:if test="${!empty r.account}">
@@ -124,7 +124,7 @@
 											</td>
 										</tr>
 										<tr>
-											<th scope="row" class="text-right active">玩家比特币钱包地址：</th>
+											<th scope="row" class="text-right active">${views.fund_auto['玩家比特币钱包地址']}：</th>
 											<td>
 												<span class="co-green">${r.payerBankcard}</span>
 												<c:if test="${!empty r.payerBankcard}">
@@ -142,11 +142,11 @@
 											</td>
 										</tr>
 										<tr>
-											<th scope="row" class="text-right active">交易时间：</th>
+											<th scope="row" class="text-right active">${views.fund_auto['交易时间']}：</th>
 											<td>
 												<span class="co-green">${soulFn:formatDateTz(r.returnTime,DateFormat.DAY_SECOND,timeZone)}</span>
 												<c:if test="${!empty r.bankOrder}">
-													<a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${r.bankOrder}" name="copy"><i class="fa fa-copy" title="${views.common['copy']}"></i></a>
+													<a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${soulFn:formatDateTz(r.returnTime,DateFormat.DAY_SECOND,timeZone)}" name="copy"><i class="fa fa-copy" title="${views.common['copy']}"></i></a>
 												</c:if>
 											</td>
 										</tr>
@@ -176,28 +176,28 @@
 						</tr>
 						<c:if test="${r.rechargeType eq 'bitcoin_fast'}">
 							<tr>
-								<th scope="row" class="text-right">比特币：</th>
+								<th scope="row" class="text-right">${views.fund_auto['比特币']}：</th>
 								<td class="money">
 									Ƀ<fmt:formatNumber value="${r.bitAmount}" pattern="#.########"/>
 									<c:if test="${exchange eq r.rechargeStatus}">
-										<soul:button permission="fund:companydeposit_check" target="${root}/fund/deposit/company/exchange.html?search.id=${r.id}" text="兑换" opType="dialog"
+										<soul:button permission="fund:companydeposit_check" target="${root}/fund/deposit/company/exchange.html?search.id=${r.id}" text="${views.fund_auto['兑换']}" opType="dialog"
 													 cssClass="btn btn-success-hide p-x-sm m-l-sm" tag="button" callback="refreshBack">
-											<i class="fa fa-check"></i>兑现
+											<i class="fa fa-check"></i>${views.fund_auto['兑现']}
 										</soul:button>
 										<soul:button permission="fund:companydeposit_check" target="checkFailure" data="${r.id}" opType="function" text="${views.common['checkFailure']}" cssClass="btn btn-danger p-x-sm m-l-sm" tag="button"/>
 									</c:if>
 								</td>
 							</tr>
-							<c:if test="${!empty transactionData['result']}">
+							<c:if test="${!empty poloniexResult.total}">
 								<tr>
-									<th scope="row" class="text-right">兑换美元：</th>
-									<td class="money">${transactionData['result'].total}</td>
+									<th scope="row" class="text-right">${views.fund_auto['兑换美元']}：</th>
+									<td class="money"><fmt:formatNumber value="${poloniexResult.total}" pattern="#.########"/></td>
 								</tr>
 							</c:if>
-							<c:if test="${!empty transactionData['rate']}">
+							<c:if test="${!empty rate.askRate}">
 								<tr>
-									<th scope="row" class="text-right">USD转换${r.defaultCurrency}汇率：</th>
-									<td class="money">${transactionData['rate'].askRate}</td>
+									<th scope="row" class="text-right">${fn:replace(views.fund_auto['USD兑汇率'], '{0}', r.defaultCurrency)}</th>
+									<td class="money">${rate.askRate}</td>
 								</tr>
 							</c:if>
 						</c:if>
@@ -308,7 +308,7 @@
 											<span class="fa fa-save"></span> ${views.fund['保存']}
 										</soul:button>
 										<soul:button target="cancelEdit" text="" opType="function" cssClass="btn btn-link co-blue">
-											<span class="fa fa-undo"></span> ${views.fund['取消']}
+											<span class="fa fa-undo"></span> ${views.common_report['取消']}
 										</soul:button>
 										<input name="checkRemark" value="${r.checkRemark}" type="hidden"/>
 									</div>

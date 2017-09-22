@@ -2,6 +2,7 @@ package so.wwb.gamebox.mcenter.setting.controller;
 
 import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.commons.support._Module;
 import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import so.wwb.gamebox.mcenter.setting.form.SiteI18nSearchForm;
 import so.wwb.gamebox.mcenter.setting.form.Sitei18nForm;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.SiteI18nEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.vo.SiteI18nListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteI18nVo;
@@ -45,10 +47,10 @@ public class SiteI18nController extends BaseCrudController<ISiteI18nService, Sit
     @RequestMapping("/batchSaveSeo")
     @ResponseBody
     public Map batchSave(SiteI18nVo objectVo,SiteI18nListVo listVo, BindingResult result) {
-        Map<String,Object> map = new HashMap<>(2);
+        Map<String,Object> map = new HashMap<>(2,1f);
         if (result.hasErrors()) {
             map.put("state",false);
-            map.put("msg","保存失败");
+            map.put("msg",LocaleTool.tranMessage("setting_auto","保存失败"));
             return map;
         }
         //需要保存的code类型
@@ -81,14 +83,14 @@ public class SiteI18nController extends BaseCrudController<ISiteI18nService, Sit
 
         if (listVo.isSuccess()) {
             map.put("state",true);
-            map.put("msg", LocaleTool.tranMessage("common","save.success"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             Cache.refreshSiteI18n(SiteI18nEnum.SETTING_SITE_TITLE);
             Cache.refreshSiteI18n(SiteI18nEnum.SETTING_SITE_KEYWORDS);
             Cache.refreshSiteI18n(SiteI18nEnum.SETTING_SITE_DESCRIPTION);
             Cache.refreshCurrentSitePageCache();
         } else {
             map.put("state",false);
-            map.put("msg",LocaleTool.tranMessage("common","save.failed"));
+            map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
         return map;
     }

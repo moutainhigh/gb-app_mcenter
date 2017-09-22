@@ -50,6 +50,7 @@ import so.wwb.gamebox.model.bitcoin.enums.BitCoinChannelEnum;
 import so.wwb.gamebox.model.bitcoin.po.BitCoinChannel;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.CryptoKey;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.enums.BankCodeEnum;
 import so.wwb.gamebox.model.company.enums.BankEnum;
 import so.wwb.gamebox.model.company.enums.BankPayTypeEnum;
@@ -89,7 +90,7 @@ import java.util.*;
 
 /**
  * 收款账户表控制器
- * <p>
+ * <p/>
  * Created by loong using soul-code-generator on 2015-7-27 15:22:07
  */
 @Controller
@@ -239,7 +240,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         Map<String, Object> map = MapTool.newHashMap();
         if (result.hasErrors()) {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("setting", "myAccount.updatePassword.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.failed"));
             return map;
         }
         SysParam pv11 = vo.getPv()[11];
@@ -269,9 +270,9 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         vo.setIds(Arrays.asList(ids));
         vo = this.getService().deleteAccount(vo);
         if (vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
-            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else if (!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
-            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
         return this.getVoMessage(vo);
     }
@@ -311,6 +312,8 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             objectVo.getOpenAndSupportList().add(siteCurrency);
         }
         model.addAttribute("bitChannel", BitCoinChannelEnum.values());
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SITE_ACB_SWITCH);
+        objectVo.setAcbSwitchParam(sysParam);
         objectVo.setValidateRule(JsRuleCreator.create(PayAccountCompanyForm.class, "result"));
         model.addAttribute("command", objectVo);
         return "/content/payaccount/company/Add";
@@ -346,6 +349,8 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             objectVo.setOpenAndSupportList(this.openAndSupport(objectVo.getResult().getBankCode()));
         }
         model.addAttribute("bitChannel", BitCoinChannelEnum.values());
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SITE_ACB_SWITCH);
+        objectVo.setAcbSwitchParam(sysParam);
         model.addAttribute("command", objectVo);
         return "/content/payaccount/company/Add";
     }
@@ -505,7 +510,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
                 account.setChannelJson(JsonTool.toJson(payAccountVo.getBitCoinChannelVo()));
             }
             if (account.getId() == null) {
-                if (PayAccountAccountType.BANKACCOUNT.getCode().equals(account.getAccountType()) || BankCodeEnum.OTHER.getCode().equals(account.getBankCode())) {
+                if (PayAccountAccountType.BANKACCOUNT.getCode().equals(account.getAccountType())) {
                     account.setQrCodeUrl(null);
                 }
                 payAccountVo.getSearch().setType(PayAccountType.COMPANY_ACCOUNT.getCode());
@@ -521,7 +526,12 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             } else {
                 payAccountVo = this.getService().updatePayAccount(payAccountVo);
             }
-
+            //上分KEY参数
+            SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SITE_PAY_KEY);
+            if(sysParam!=null) {
+                payAccountVo.setPayKeyParam(sysParam);
+                ServiceTool.acbService().addBank(payAccountVo);
+            }
             return this.getVoMessage(payAccountVo);
         } else {
             payAccountVo.setSuccess(false);
@@ -640,7 +650,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             accountType = PayAccountAccountType.ALIPAY.getCode();
         } else if (bank != null && BankPayTypeEnum.WECHAT.getCode().equals(bank.getPayType())) {
             accountType = PayAccountAccountType.WECHAT.getCode();
-        } else  if(bank!=null&&BankPayTypeEnum.QQWALLET.getCode().equals(bank.getPayType())) {
+        } else if (bank != null && BankPayTypeEnum.QQWALLET.getCode().equals(bank.getPayType())) {
             accountType = PayAccountAccountType.QQWALLET.getCode();
         }
         vo.getResult().setAccountType(accountType);
@@ -675,6 +685,9 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @ResponseBody
     public Map updateCompany(PayAccountVo payAccountVo, @FormModel("result") @Valid PayAccountCompanyEditForm form, BindingResult result) {
         if (!result.hasErrors()) {
+            //上分KEY参数
+            SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SITE_PAY_KEY);
+            payAccountVo.setPayKeyParam(sysParam);
             payAccountVo = this.getService().updatePayAccount(payAccountVo);
             return this.getVoMessage(payAccountVo);
         }
@@ -721,6 +734,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         properties[0] = PayAccount.PROP_STATUS;
         vo.setProperties(properties);
         this.getService().updateOnly(vo);
+        vo.getSearch().setId(vo.getResult().getId());
         return "true";
     }
 
@@ -1033,10 +1047,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @ResponseBody
     public Map saveDepositDefaultCount(PayAccountVo payAccountVo, @FormModel @Valid PayAccountDepositForm form,
                                        BindingResult result) {
-        Map<String, Object> map = new HashMap<>(3);
+        Map<String, Object> map = new HashMap<>(3,1f);
         if (result.hasErrors()) {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
@@ -1045,10 +1059,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         if (payAccountVo.isSuccess()) {
             map.put("payAccountValue", payAccountVo.getResult().getDepositDefaultCount());
             map.put("state", true);
-            map.put("msg", LocaleTool.tranMessage("common", "save.success"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
         } else {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
         return map;
     }
@@ -1065,10 +1079,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @ResponseBody
     public Map saveDepositDefaultTotal(PayAccountVo payAccountVo, @FormModel @Valid PayAccountDepositForm form,
                                        BindingResult result) {
-        Map<String, Object> map = new HashMap<>(3);
+        Map<String, Object> map = new HashMap<>(3,1f);
         if (result.hasErrors()) {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
@@ -1077,10 +1091,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         if (payAccountVo.isSuccess()) {
             map.put("payAccountValue", CurrencyTool.formatCurrency(payAccountVo.getResult().getDepositDefaultTotal()));
             map.put("state", true);
-            map.put("msg", LocaleTool.tranMessage("common", "save.success"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
         } else {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
         return map;
     }
@@ -1094,11 +1108,11 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @RequestMapping("/recoveryData/{types}")
     @ResponseBody
     public Map recoveryData(PayAccountVo payAccountVo, @PathVariable String types) {
-        Map<String, Object> map = new HashMap<>(3);
+        Map<String, Object> map = new HashMap<>(3,1f);
         PayAccount payAccount = payAccountVo.getResult();
         if (payAccount == null || payAccount.getId() == null) {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
@@ -1123,10 +1137,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
                         : payAccountVo.getResult().getDepositDefaultTotal());
             }
             map.put("state", true);
-            map.put("msg", LocaleTool.tranMessage("common", "save.success"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
         } else {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common", "save.failed"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
 
         return map;
@@ -1204,7 +1218,34 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         ParamTool.refresh(SiteParamEnum.SETTING_RECHARGE_URL_RANKS);
         return getVoMessage(sysParamVo);
     }
+    /**
+     * 上分设置
+     *
+     * @param payAccountVo
+     * @return
+     */
+    @RequestMapping("/acbSetting")
+    public String acbSetting(PayAccountVo payAccountVo,Model model){
+        //开启上分功能
+        payAccountVo.setPayKeyParam(ParamTool.getSysParam(SiteParamEnum.SITE_PAY_KEY));
+        model.addAttribute("command",payAccountVo);
+        return "/content/payaccount/company/AcbSetting";
+    }
 
+    /**
+     * 保存上分设置
+     *
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/saveAcbSetting")
+    @ResponseBody
+    public Map saveAcbSetting(SysParamVo sysParamVo){
+        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+        sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+        ParamTool.refresh(SiteParamEnum.SITE_PAY_KEY);
+        return this.getVoMessage(sysParamVo);
+    }
     //endregion your codes 3
 
 }

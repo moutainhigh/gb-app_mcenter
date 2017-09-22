@@ -40,7 +40,7 @@ public class VPlayerFundsRecordSearchForm implements IForm {
         return search_endMoney;
     }
 
-    @Pattern(regexp = FormValidRegExps.ACCOUNT_COMMA,message="账号由英文字母下划线\"_\"，数字任意组合，多个账号以半角逗号隔开")
+    @Pattern(regexp = FormValidRegExps.ACCOUNT_COMMA,message="report_auto.账号由英文字母下划线")
     public String getSearch_usernames() {
         return search_usernames;
     }

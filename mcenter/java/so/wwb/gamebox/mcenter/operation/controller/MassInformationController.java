@@ -395,9 +395,9 @@ public class MassInformationController {
                     enableContactCount = CollectionTool.intersection(enableContactUsers, userIds).size();
                     disableContactCount = userIds.size() - enableContactCount;
                 }
-                StringBuffer info = new StringBuffer("全局玩家(共" + (new Long(userIds.size())) + "人)");
+                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto","全局玩家").replace("{0}",new Long(userIds.size())+""));
                 if (disableContactCount > 0 && StringTool.equals(massInformationVo.getSendType(), PublishMethodEnum.EMAIL.getCode())) {
-                    info.append(",其中" + disableContactCount + "人无邮箱地址，已自动忽略!");
+                    info.append(LocaleTool.tranMessage("operation_auto","其中").replace("{0}",disableContactCount + ""));
                 }
                 massInformationVo.setSelected(info.toString());
             }
@@ -417,9 +417,9 @@ public class MassInformationController {
                 }
                 Map<String, String> checkResult = JsonTool.fromJson(this.checkUser(massInformationVo.getAppointPlayer()), Map.class);
                 int effectNum = (checkResult.get("excludeDisablePlayer").split(",")).length;
-                StringBuffer info = new StringBuffer("指定玩家(共" + Integer.parseInt(checkResult.get("totalNum")) + "人,有效" + effectNum + "人)");
+                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto","指定玩家").replace("{0}",Integer.parseInt(checkResult.get("totalNum"))+"").replace("{1}",effectNum+""));
                 if (disableContactCount > 0 && StringTool.equals(massInformationVo.getSendType(), PublishMethodEnum.EMAIL.getCode())) {
-                    info.append(",其中" + disableContactCount + "人无邮箱地址，已自动忽略!");
+                    info.append(LocaleTool.tranMessage("operation_auto","其中").replace("{0}",disableContactCount + ""));
                 }
                 massInformationVo.setSelected(info.toString());
             }
@@ -457,9 +457,9 @@ public class MassInformationController {
                     enableContactCount = CollectionTool.intersection(enableContactUsers, tagUserIds).size();
                     disableContactCount = tagUserIds.size() - enableContactCount;
                 }
-                StringBuffer info = new StringBuffer(rankIdList.size() + "个层级" + "," + tagIdList.size() + "个标签(共" + (new Long(CollectionTool.union(rankUserIds, tagUserIds).size())) + "人)");
+                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto","层级").replace("{0}",rankIdList.size()+"").replace("{1}",tagIdList.size()+"").replace("{2}",new Long(CollectionTool.union(rankUserIds, tagUserIds).size())+""));
                 if (disableContactCount > 0 && StringTool.equals(massInformationVo.getSendType(), PublishMethodEnum.EMAIL.getCode())) {
-                    info.append(",其中" + disableContactCount + "人无邮箱地址，已自动忽略!");
+                    info.append(LocaleTool.tranMessage("operation_auto","其中").replace("{0}",disableContactCount + ""));
                 }
                 massInformationVo.setSelected(info.toString());
             }
@@ -476,9 +476,9 @@ public class MassInformationController {
                     enableContactCount = CollectionTool.intersection(enableContactUsers, userIds).size();
                     disableContactCount = userIds.size() - enableContactCount;
                 }
-                StringBuffer info = new StringBuffer("全局代理商(共" + (new Long(userIds.size())) + "人)");
+                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto","全局代理商").replace("{0}",new Long(userIds.size())+""));
                 if (disableContactCount > 0 && StringTool.equals(massInformationVo.getSendType(), PublishMethodEnum.EMAIL.getCode())) {
-                    info.append(",其中" + disableContactCount + "人无邮箱地址，已自动忽略!");
+                    info.append(LocaleTool.tranMessage("operation_auto","其中").replace("{0}",disableContactCount + ""));
                 }
                 massInformationVo.setSelected(info.toString());
             }
@@ -489,9 +489,9 @@ public class MassInformationController {
                 count = masterSize + agentSize;
                 enableContactCount = CollectionTool.intersection(enableContactUsers, massInformationVo.getMaster()).size() + CollectionTool.intersection(enableContactUsers, massInformationVo.getAgent()).size();
                 disableContactCount = agentSize + masterSize - enableContactCount;
-                StringBuffer info = new StringBuffer(masterSize + "个总代" + "," + agentSize + "个代理(共" + (count) + "人)");
+                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto","总代").replace("{0}",masterSize+"").replace("{1}",agentSize+"").replace("{2}",(count)+""));
                 if (disableContactCount > 0 && StringTool.equals(massInformationVo.getSendType(), PublishMethodEnum.EMAIL.getCode())) {
-                    info.append(",其中" + disableContactCount + "人无邮箱地址，已自动忽略!");
+                    info.append(LocaleTool.tranMessage("operation_auto","其中").replace("{0}",disableContactCount + ""));
                 }
                 massInformationVo.setSelected(info.toString());
             }
@@ -508,9 +508,9 @@ public class MassInformationController {
                 List<Integer> userIds = ServiceTool.vUserAgentService().searchProperty(userAgentListVo);
                 enableContactCount = CollectionTool.intersection(enableContactUsers, userIds).size() + CollectionTool.intersection(enableContactUsers, massInformationVo.getMasterAndAgent()).size();
                 disableContactCount = userIds.size() + masterSize - enableContactCount;
-                StringBuffer info = new StringBuffer(masterSize + "个总代及其代理(共" + new Long(masterSize + userIds.size()) + "人)");
+                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto","总代及其代理").replace("{0}",masterSize+"").replace("{1}",new Long(masterSize + userIds.size())+""));
                 if (disableContactCount > 0 && StringTool.equals(massInformationVo.getSendType(), PublishMethodEnum.EMAIL.getCode())) {
-                    info.append(",其中" + disableContactCount + "人无邮箱地址，已自动忽略!");
+                    info.append(LocaleTool.tranMessage("operation_auto","其中").replace("{0}",disableContactCount + ""));
                 }
                 massInformationVo.setSelected(info.toString());
             }
@@ -824,7 +824,7 @@ public class MassInformationController {
     @ResponseBody
     public Map<String, Object> cancelPublish(VNoticeSendTextVo vo) {
         boolean success = ServiceTool.noticeService().cancelPublishJob(vo);
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         map.put("state", success);
         map.put("msg", success ? LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), "mass.info.cancelPublishSuccess") : LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), "mass.info.cancelPublishFail"));
         return map;

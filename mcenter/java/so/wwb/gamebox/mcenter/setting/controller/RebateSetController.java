@@ -1,9 +1,11 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.ListTool;
 import org.soul.commons.collections.MapTool;
 import org.soul.commons.init.context.CommonContext;
+import org.soul.commons.init.context.Const;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
@@ -12,6 +14,8 @@ import org.soul.commons.log.LogFactory;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.support._Module;
+import org.soul.model.security.privilege.po.SysUser;
+import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.controller.BaseCrudController;
@@ -30,8 +34,11 @@ import so.wwb.gamebox.mcenter.setting.form.RebateSetFeeForm;
 import so.wwb.gamebox.mcenter.setting.form.RebateSetForm;
 import so.wwb.gamebox.mcenter.setting.form.RebateSetSearchForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.SubSysCodeEnum;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.enums.GameStatusEnum;
 import so.wwb.gamebox.model.company.setting.po.Api;
 import so.wwb.gamebox.model.company.site.po.SiteApi;
@@ -40,11 +47,13 @@ import so.wwb.gamebox.model.company.site.vo.VGameTypeListVo;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
 import so.wwb.gamebox.model.master.player.po.UserAgentRebate;
 import so.wwb.gamebox.model.master.player.vo.UserAgentRebateListVo;
+import so.wwb.gamebox.model.master.player.vo.VUserAgentManageVo;
 import so.wwb.gamebox.model.master.setting.po.RebateSet;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetListVo;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetVo;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
+import so.wwb.gamebox.web.common.token.TokenHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,8 +89,29 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
 
     @Override
     protected RebateSetListVo doList(RebateSetListVo listVo, RebateSetSearchForm form, BindingResult result, Model model) {
+        listVo.getSearch().setSearchFrom(SubSysCodeEnum.MCENTER.getCode());
         listVo = searchFromTopAgent(listVo);
+        searchByOwnerName(listVo);
         return this.getService().searchCalRebateSet(listVo);
+    }
+
+    private RebateSetListVo searchByOwnerName(RebateSetListVo listVo){
+        if(StringTool.isBlank(listVo.getSearch().getOwnerName())){
+            return listVo;
+        }
+        if(String.valueOf(Const.MASTER_BUILT_IN_ID).equals(listVo.getSearch().getOwnerName())){
+            listVo.getSearch().setOwnerId(Const.MASTER_BUILT_IN_ID);
+            return listVo;
+        }
+        VUserAgentManageVo agentManageVo = new VUserAgentManageVo();
+        agentManageVo.getSearch().setUsername(listVo.getSearch().getOwnerName());
+        agentManageVo = ServiceTool.vUserAgentManageService().search(agentManageVo);
+        if(agentManageVo.getResult()==null){
+            listVo.getSearch().setOwnerId(-1);
+        }else{
+            listVo.getSearch().setOwnerId(agentManageVo.getResult().getId());
+        }
+        return listVo;
     }
 
     private RebateSetListVo searchFromTopAgent(RebateSetListVo listVo) {
@@ -110,10 +140,10 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         setVo.setId(id);
         try {
             ServiceTool.rebateSetService().deleteRebateSet(setVo);
-            setVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.success"));
+            setVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } catch (Exception e) {
             setVo.setSuccess(false);
-            setVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "delete.failed"));
+            setVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
             LOG.error(e);
         }
         return this.getVoMessage(setVo);
@@ -297,29 +327,29 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     }
 
     private Map checkData(SysParam[] sysParams, String rebatePeriodParamValue) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         if (StringTool.isBlank(rebatePeriodParamValue)) {
-            map.put("msg", LocaleTool.tranMessage("setting", "rakebackSetting.SettleAccountsCycleSetting.notBlank"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "rakebackSetting.SettleAccountsCycleSetting.notBlank"));
             map.put("state", false);
             return map;
         } else if (!rebatePeriodParamValue.equals("0") && !rebatePeriodParamValue.equals("1")
                 && !rebatePeriodParamValue.equals("2") && !rebatePeriodParamValue.equals("3") && !rebatePeriodParamValue.equals("4")) {
-            map.put("msg", LocaleTool.tranMessage("setting", "rakebackSetting.SettleAccountsCycleSetting.worngSubmit"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "rakebackSetting.SettleAccountsCycleSetting.worngSubmit"));
             map.put("state", false);
             return map;
         }
         if (StringTool.isBlank(sysParams[1].getParamValue())) {
-            map.put("msg", LocaleTool.tranMessage("setting", "rebate.setting.minNotNull"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "rebate.setting.minNotNull"));
             map.put("state", false);
             return map;
         }
         if (StringTool.isBlank(sysParams[2].getParamValue())) {
-            map.put("msg", LocaleTool.tranMessage("setting", "rebate.setting.maxNotNull"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "rebate.setting.maxNotNull"));
             map.put("state", false);
             return map;
         }
         if (Long.valueOf(sysParams[2].getParamValue()).compareTo(Long.valueOf(sysParams[1].getParamValue())) <= 0) {
-            map.put("msg", LocaleTool.tranMessage("setting", "rebate.setting.minPassMax"));
+            map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "rebate.setting.minPassMax"));
             map.put("state", false);
             return map;
         }
@@ -339,7 +369,10 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
 
     @Override
     protected RebateSetVo doEdit(RebateSetVo objectVo, Model model) {
-        return setGame(super.doEdit(objectVo, model));
+        objectVo = getService().queryRebateById(objectVo);
+        boolean canBeDelete = getService().isRebateGradsCanBeDelete(objectVo);
+        objectVo.setShowDeleteBtn(canBeDelete);
+        return setGame(objectVo);
     }
 
     @Override
@@ -347,18 +380,21 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         objectVo.getResult().setCreateUserId(SessionManager.getUserId());
         objectVo.getResult().setCreateTime(new Date());
         objectVo.getResult().setStatus(UserAgentEnum.PROGRAM_STATUS_USING.getCode());
-        return super.doSave(objectVo);
+        objectVo.getResult().setOwnerId(Const.MASTER_BUILT_IN_ID);
+        objectVo = getService().saveNewRebateSet(objectVo);
+        return objectVo;
     }
 
     @Override
     protected RebateSetVo doUpdate(RebateSetVo objectVo) {
         objectVo.getResult().setStatus(UserAgentEnum.PROGRAM_STATUS_USING.getCode());
-        return super.doUpdate(objectVo);
+        objectVo = getService().updateNewRebateSet(objectVo);
+        return objectVo;
     }
 
     @Override
     protected RebateSetVo doView(RebateSetVo objectVo, Model model) {
-        return setGame(super.doView(objectVo, model));
+        return setGame(getService().queryRebateById(objectVo));
     }
 
     /**
@@ -405,7 +441,19 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @Override
     @Token(valid = true)
     public Map persist(RebateSetVo objectVo, @FormModel("result") @Valid RebateSetForm form, BindingResult result) {
-        return super.persist(objectVo, form, result);
+        Map persist = new HashMap(3,1f);
+        try{
+            persist = super.persist(objectVo, form, result);
+
+        }catch (Exception ex){
+            persist.put("state",false);
+            String msg = LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED);
+            persist.put("msg",msg);
+            persist.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+            LOG.error(ex,"保存返佣方案出错:{0}",ex.getMessage());
+        }
+
+        return  persist;
     }
 
     /**
@@ -418,16 +466,38 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @RequestMapping("agentRebateDAWF")
     public String agentRebateDepositAndWithdrawFee(Model model) {
         model.addAttribute("validateRule", JsRuleCreator.create(RebateSetFeeForm.class));
+
         // 获取存取款手续费
         SysParam depositFee = ParamTool.getSysParam(SiteParamEnum.SETTLEMENT_DEPOSIT_FEE);
         SysParam withdrawFee = ParamTool.getSysParam(SiteParamEnum.SETTLEMENT_WITHDRAW_FEE);
         SysParam withdrawLimitMin = ParamTool.getSysParam(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MIN);
         SysParam withdrawLimitMax = ParamTool.getSysParam(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MAX);
+
         model.addAttribute("depositFee", depositFee);
         model.addAttribute("withdrawFee", withdrawFee);
         model.addAttribute("withdrawLimitMin", withdrawLimitMin);
         model.addAttribute("withdrawLimitMax", withdrawLimitMax);
 
+        SysParam rakebackParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_RAKEBACK_PERCENT);
+        SysParam favorableParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_PREFERENTIAL_PERCENT);
+        SysParam adminParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_ADMINISTRATOR_PERCENT);
+        SysParam otherParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_OTHER_PERCENT);
+        model.addAttribute("rakebackParam", rakebackParam);
+        model.addAttribute("favorableParam", favorableParam);
+        model.addAttribute("adminParam", adminParam);
+        model.addAttribute("otherParam", otherParam);
+
+        SysParam rakbackParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
+        SysParam preferentialParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+        SysParam topAdminParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_ADMINISTRATOR_PERCENT);
+        SysParam topOtherParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_OTHER_PERCENT);
+        model.addAttribute("rakbackParam",rakbackParam);
+        model.addAttribute("preferentialParam",preferentialParam);
+        model.addAttribute("topAdminParam",topAdminParam);
+        model.addAttribute("topOtherParam",topOtherParam);
+
+        SysParam rebateParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_REBATE_PERCENT);
+        model.addAttribute("rebateParam", rebateParam);
         return this.getViewBasePath() + "AgentRebateDepositAndWithdrawFee";
     }
 
@@ -443,15 +513,32 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @RequestMapping("save")
     @ResponseBody
     public Map<String, Object> saveAgentRebateDepositAndWithdrawFee(RebateSetVo rebateSetVo, @Valid @FormModel RebateSetFeeForm form, BindingResult result, Model model) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(2,1f);
         if (result.hasErrors()) {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common","save.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
-
+        SysParam [] sysParams = rebateSetVo.getSysParam();
+        double sysParam2 = Double.parseDouble(sysParams[2].getParamValue());
+        double sysParam3 = Double.parseDouble(sysParams[3].getParamValue());
+        double sysParam4 = Double.parseDouble(sysParams[4].getParamValue());
+        double sysParam5 = Double.parseDouble(sysParams[5].getParamValue());
+        double sysParam6 = Double.parseDouble(sysParams[6].getParamValue());
+        double sysParam7 = Double.parseDouble(sysParams[7].getParamValue());
+        double rakeback = sysParam2 + sysParam6;
+        double promot = sysParam3 + sysParam5;
+        double other = sysParam4 + sysParam7;
+        boolean flag = true;
+        if (rakeback>100 || promot>100 || other>100){
+            flag = false;
+        }
+        if(!flag){
+            map.put("state", false);
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
+            return map;
+        }
         List<SysParam> sysParamList = new ArrayList<>();
-        SysParam[] sysParams = rebateSetVo.getSysParam();
         SysParam[] sysParamLimit = rebateSetVo.getSysParamLimit();
         for (SysParam sysParam : sysParams) {
             sysParamList.add(sysParam);
@@ -465,14 +552,25 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         int res = ServiceTool.getSysParamService().batchUpdateOnly(paramVo);
         if (res > 0) {
             map.put("state", true);
-            map.put("msg", LocaleTool.tranMessage("common","save.success"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             ParamTool.refresh(SiteParamEnum.SETTLEMENT_DEPOSIT_FEE);
             ParamTool.refresh(SiteParamEnum.SETTLEMENT_WITHDRAW_FEE);
             ParamTool.refresh(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MIN);
             ParamTool.refresh(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MAX);
+
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_ADMINISTRATOR_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_RAKEBACK_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_OTHER_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_ADMINISTRATOR_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_OTHER_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_REBATE_PERCENT);
         } else {
             map.put("state", false);
-            map.put("msg", LocaleTool.tranMessage("common","save.failed"));
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
         }
         return map;
     }

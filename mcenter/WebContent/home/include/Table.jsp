@@ -115,7 +115,7 @@
                                             ${sign}0
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${10 + vs.count}&search.origin=PC&search.transactionWays=<%=TransactionWayEnum.ONLINE_DEPOSIT.getCode()%>,<%=TransactionWayEnum.WECHATPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ALIPAY_SCAN.getCode()%>" nav-target="mainFrame">
+                                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${10 + vs.count}&search.origin=PC&search.transactionWays=<%=TransactionWayEnum.ONLINE_DEPOSIT.getCode()%>,<%=TransactionWayEnum.WECHATPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ALIPAY_SCAN.getCode() %>,<%=TransactionWayEnum.QQWALLET_SCAN.getCode()%>" nav-target="mainFrame">
                                                 ${sign}${soulFn:formatInteger(online)}<i>${soulFn:formatDecimals(online)}</i>
                                             </a>
                                         </c:otherwise>
@@ -128,7 +128,7 @@
                                             ${sign}0
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${10 + vs.count}&search.origin=PC&search.transactionWays=<%=TransactionWayEnum.ONLINE_BANK.getCode()%>,<%=TransactionWayEnum.WECHATPAY_FAST.getCode()%>,<%=TransactionWayEnum.ALIPAY_FAST.getCode()%>,<%=TransactionWayEnum.OTHER_FAST.getCode()%>,<%=TransactionWayEnum.ATM_COUNTER.getCode()%>,<%=TransactionWayEnum.ATM_MONEY.getCode()%>,<%=TransactionWayEnum.ATM_RECHARGE.getCode()%>" nav-target="mainFrame">
+                                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${10 + vs.count}&search.origin=PC&search.transactionWays=<%=TransactionWayEnum.ONLINE_BANK.getCode()%>,<%=TransactionWayEnum.WECHATPAY_FAST.getCode()%>,<%=TransactionWayEnum.ALIPAY_FAST.getCode()%>,<%=TransactionWayEnum.OTHER_FAST.getCode()%>,<%=TransactionWayEnum.ATM_COUNTER.getCode()%>,<%=TransactionWayEnum.ATM_MONEY.getCode()%>,<%=TransactionWayEnum.ATM_RECHARGE.getCode()%>,<%=TransactionWayEnum.BITCOIN_FAST.getCode()%>" nav-target="mainFrame">
                                                 ${sign}${soulFn:formatInteger(company)}<i>${soulFn:formatDecimals(company)}</i>
                                             </a>
                                         </c:otherwise>
@@ -154,7 +154,7 @@
                                             ${sign}0
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${10 + vs.count}&search.origin=MOBILE&search.transactionWays=<%=TransactionWayEnum.ONLINE_DEPOSIT.getCode()%>,<%=TransactionWayEnum.ONLINE_BANK.getCode()%>,<%=TransactionWayEnum.WECHATPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ALIPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ATM_COUNTER.getCode()%>,<%=TransactionWayEnum.ATM_MONEY.getCode()%>,<%=TransactionWayEnum.ATM_RECHARGE.getCode()%>" nav-target="mainFrame">
+                                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${10 + vs.count}&search.origin=MOBILE" nav-target="mainFrame">
                                                 ${sign}${soulFn:formatInteger(mobile)}<i>${soulFn:formatDecimals(mobile)}</i>
                                             </a>
                                         </c:otherwise>
@@ -271,17 +271,22 @@
                     </table>
                 </div>
             </div>
-
+            <c:set var="isLotterySite" value="<%=ParamTool.isLotterySite()%>"/>
             <div class="tab-content m-t-lg">
                 <div class="table-responsive">
                     <table class="table table-striped table-hover dataTable m-b-none" aria-describedby="editable_info">
                         <thead>
                         <tr>
                             <td class="ft-bold"></td>
-                            <td class="ft-bold t-a-r">${views.home_auto['真人视讯']}<br>${views.home_auto['有效投注额']}</td>
-                            <td class="ft-bold t-a-r">${views.home_auto['电子游艺']}<br>${views.home_auto['有效投注额']}</td>
-                            <td class="ft-bold t-a-r">${views.home_auto['体育竞技']}<br>${views.home_auto['有效投注额']}</td>
-                            <td class="ft-bold t-a-r">${views.home_auto['彩票游戏']}<br>${views.home_auto['有效投注额']}</td>
+                            <c:if test="${!isLotterySite}">
+                                <td class="ft-bold t-a-r">${views.home_auto['真人视讯']}<br>${views.home_auto['有效投注额']}</td>
+                                <td class="ft-bold t-a-r">${views.home_auto['电子游艺']}<br>${views.home_auto['有效投注额']}</td>
+                                <td class="ft-bold t-a-r">${views.home_auto['体育竞技']}<br>${views.home_auto['有效投注额']}</td>
+                                <td class="ft-bold t-a-r">${views.home_auto['彩票游戏']}<br>${views.home_auto['有效投注额']}</td>
+                            </c:if>
+                           <c:if test="${isLotterySite}">
+                               <td class="ft-bold t-a-r">${views.home_auto['彩票游戏']}<br>${views.home_auto['有效投注额']}</td>
+                           </c:if>
                         </tr>
                         </thead>
                         <tbody>
