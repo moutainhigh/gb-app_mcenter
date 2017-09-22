@@ -1,6 +1,15 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
-
+<form:form action="${root}/vUserPlayerImport/list.html" method="post" id="siteParam">
+    <div class="row">
+    <div class="position-wrap clearfix">
+    <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
+    <span>${views.sysResource['系统设置']}</span><span>/</span><span>${views.sysResource['站点参数']}</span>
+    </div>
+    <div class="col-lg-12">
+    <div class="wrapper white-bg shadow">
+    <%@include file="../ParamTop.jsp" %>
+    <div id="content-div">
 <div class="clearfix p-xs border-b-1 line-hi34">
     <soul:button tag="button" text="${views.setting['userplayerImport.importIntroduce']}" target="showImportList" opType="function" cssClass="btn btn-filter btn_list"></soul:button>
     <soul:button tag="button" text="${views.setting['userplayerImport.importProcess']}" target="showImportIntroduce" opType="function" cssClass="btn btn-filter btn-outline btn_introduce"></soul:button>
@@ -40,3 +49,10 @@
     <%@ include file="IndexPartial.jsp" %>
 </div>
 ${views.setting['userplayerImport.processContent']}
+    </div>
+
+    </div>
+    </div>
+    </div>
+</form:form>
+<soul:import res="site/setting/param/importplayer/Index"/>
