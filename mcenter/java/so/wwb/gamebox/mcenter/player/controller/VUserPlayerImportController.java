@@ -42,6 +42,7 @@ public class VUserPlayerImportController extends BaseCrudController<IVUserPlayer
     protected VUserPlayerImportListVo doList(VUserPlayerImportListVo listVo, VUserPlayerImportSearchForm form, BindingResult result, Model model) {
         listVo = super.doList(listVo, form, result, model);
         findEnableImportPlayerParam(model);
+        model.addAttribute("webtype", "3");
         return listVo;
     }
 
