@@ -63,7 +63,7 @@
             <tr>
                 <th scope="row" class="text-right" width="25%">${views.fund['withdraw.edit.playerWithdraw.playerAccount']}：</th>
                 <td>
-                    <a class="btn btn-link co-blue" id="showPlayerDetail" href="/player/playerView.html?search.id=${command.result.playerId}" nav-target="mainFrame"> ${command.result.username}</a>
+                    ${command.result.username}
                     <c:choose>
                         <c:when test="${command.result.riskMarker}">
                             <span style="margin-right:0px 5px" data-content="${views.fund_auto['危险层级']}" data-placement="right" data-trigger="focus" data-toggle="popover"
@@ -85,7 +85,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-right">${views.fund_auto['所属代理']}：</th>
-                <td><a href="/userAgent/agent/detail.html?search.id=${command.result.agentId}" nav-target="mainFrame" class="btn btn-link co-blue">${command.result.agentName}</a></td>
+                <td>${command.result.agentName}</td>
             </tr>
                 <%--玩家收款账号--%>
             <tr>
