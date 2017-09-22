@@ -451,8 +451,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         List<SysDomain> result = sysDomainListVo.getResult();
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
         SysParam param = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
+        SysParam mobileTraffic = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
         model.addAttribute("access_domain",param);
         model.addAttribute("select_domain",sysParam);
+        model.addAttribute("mobile_traffic",mobileTraffic.getParamValue());
         model.addAttribute("appDomain",result);
         return "/setting/param/siteparameters/BasicSetting";
     }
@@ -1017,6 +1019,34 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             }
         }
         return result;
+    }
+
+    @RequestMapping("/saveMobileTrafficStatistics")
+    @ResponseBody
+    public Map saveMobileTrafficStatistics(SysParamVo sysParamVo){
+        Map map=new HashMap(2,1f);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
+        if (sysParam!=null){
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            ServiceTool.getSysParamService().updateOnly(sysParamVo);
+        }else {
+            sysParamVo.getResult().setRemark("手机端流量统计代码");
+            sysParamVo.getResult().setModule(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS.getModule().getCode());
+            sysParamVo.getResult().setParamType(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS.getType());
+            sysParamVo.getResult().setParamCode(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS.getCode());
+            sysParamVo.getResult().setActive(true);
+            sysParamVo = ServiceTool.getSysParamService().insert(sysParamVo);
+        }
+        ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
+        if(sysParamVo.isSuccess()){
+            map.put("msg",LocaleTool.tranMessage("setting_auto","成功"));
+            map.put("state",true);
+        }else {
+            map.put("msg",LocaleTool.tranMessage("setting_auto","失败"));
+            map.put("state",false);
+        }
+        return map;
     }
     //endregion your codes 3
 }
