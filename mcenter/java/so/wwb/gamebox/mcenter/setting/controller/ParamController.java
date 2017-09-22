@@ -5,6 +5,7 @@ import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.init.context.Const;
 import org.soul.commons.lang.ArrayTool;
 import org.soul.commons.lang.DateTool;
@@ -38,7 +39,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.mcenter.content.form.RegLimitForm;
 import so.wwb.gamebox.mcenter.player.form.RecommendedForm;
@@ -46,6 +46,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.*;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.company.site.po.SiteConfineArea;
@@ -53,7 +54,9 @@ import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.po.SiteOperateArea;
 import so.wwb.gamebox.model.company.site.vo.*;
+import so.wwb.gamebox.model.company.sys.po.SysDomain;
 import so.wwb.gamebox.model.company.sys.po.SysSite;
+import so.wwb.gamebox.model.company.sys.vo.SysDomainListVo;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.agent.po.VSubAccount;
@@ -133,7 +136,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             return this.getVoMessage(vo);
         }
         vo.getResult().setParamValue(state);
-        ServiceTool.getSysParamService().update(vo);
+        vo.setProperties(SysParam.PROP_PARAM_VALUE);
+        ServiceTool.getSysParamService().updateOnly(vo);
         //查询是否已经发过站内信
         SiteI18nListVo siteI18nListVo = new SiteI18nListVo();
         siteI18nListVo._setDataSourceId(SessionManager.getSiteParentId());
@@ -384,9 +388,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     }
 
     @RequestMapping({"/siteParam"})
-    public String siteParam(SysSiteVo sysSiteVo, Model model) {
+    public String siteParam(SysSiteVo sysSiteVo,Model model) {
         findEnableImportPlayerParam(model);
-        model.addAttribute("index", sysSiteVo.getIndex());
+        basicSettingEdit(sysSiteVo,model);
+        model.addAttribute("webtype", "1");
         return "setting/param/siteparameters/SiteParam";
     }
 
@@ -395,15 +400,11 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
      * 加载站点参数-基本设置信息
      *
      * @param sysSiteVo
-     * @param cttLogoVo
-     * @param languageListVo
-     * @param
-     * @param siteOperateAreaListVo
      * @param model
      * @return
      */
     @RequestMapping({"/basicSettingIndex"})
-    public String basicSettingEdit(SysSiteVo sysSiteVo, CttLogoVo cttLogoVo, SiteLanguageListVo languageListVo, SiteOperateAreaListVo siteOperateAreaListVo, Model model) {
+    public String basicSettingEdit(SysSiteVo sysSiteVo, Model model) {
         Integer siteId = SessionManagerBase.getSiteId();
         sysSiteVo.getSearch().setId(siteId);
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
@@ -413,12 +414,13 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         sysSiteVo.setMonth(DateTool.monthsBetween(new Date(), openingTime) % 12);
         sysSiteVo.setDay(DateTool.daysBetween(new Date(), openingTime) % 30);
         //国旗
-        sysSiteVo.setCttLogo(ServiceTool.getCttLogService().getCttlog(cttLogoVo));
+        sysSiteVo.setCttLogo(ServiceTool.getCttLogService().getCttlog(new CttLogoVo()));
         //货币 和 语言
-        sysSiteVo = ServiceTool.siteOperateAreaService().getAreaCurrancyLang(siteOperateAreaListVo, sysSiteVo);
+        sysSiteVo = ServiceTool.siteOperateAreaService().getAreaCurrancyLang(new SiteOperateAreaListVo(), sysSiteVo);
         sysSiteVo.setValidateRule(JsRuleCreator.create(TrafficStatisticsForm.class, "result"));
         //查询货币使用的玩家数
         //增加设置languageListVo的查询条件 siteId 开始--cogo
+        SiteLanguageListVo languageListVo = new SiteLanguageListVo();
         languageListVo.getSearch().setSiteId(siteId);
         //增加设置languageListVo的查询条件 siteId 结束--cogo
         languageListVo = ServiceTool.siteLanguageService().search(languageListVo);
@@ -443,6 +445,16 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("mobileCustomerService", SiteCustomerServiceHelper.getMobileCustomerService());
         //取款方式
         withdrawTypeParam(model);
+        //APP下载域名
+        SysDomainListVo sysDomainListVo = new SysDomainListVo();
+        sysDomainListVo.getSearch().setSiteId(SessionManager.getSiteId());
+        sysDomainListVo = ServiceTool.sysDomainService().updateAppDomain(sysDomainListVo);
+        List<SysDomain> result = sysDomainListVo.getResult();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
+        SysParam param = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
+        model.addAttribute("access_domain",param);
+        model.addAttribute("select_domain",sysParam);
+        model.addAttribute("appDomain",result);
         return "/setting/param/siteparameters/BasicSetting";
     }
 
@@ -696,6 +708,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     @ResponseBody
     public Map saveTrafficStatistics(SysSiteVo vo, @FormModel("result") @Valid TrafficStatisticsForm form, BindingResult result) {
         if (!result.hasErrors()) {
+            vo.getResult().setId(CommonContext.get().getSiteId());
             vo.setProperties(SysSite.PROP_TRAFFIC_STATISTICS);
             ServiceTool.sysSiteService().updateOnly(vo);
             Cache.refreshSysSite();
@@ -812,8 +825,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     @ResponseBody
     private Map saveServiceTrems(SiteConfineAreaVo siteConfineAreaVo, @FormModel("result") @Valid ServiceTermsForm form, BindingResult result, SiteI18nListVo siteI18nListVo) {
         if (result.hasErrors()) {
-            Map map = new HashMap(2);
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+            Map map = new HashMap(2,1f);
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             map.put("state", false);
             return map;
         }
@@ -870,8 +883,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     @ResponseBody
     public Map saveApportion(PayAccountVo vo, @FormModel() @Valid ApportionForm form, BindingResult result) {
         if (result.hasErrors()) {
-            Map map = new HashMap(2);
-            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "save.failed"));
+            Map map = new HashMap(2,1f);
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             map.put("state", false);
             return map;
         }
