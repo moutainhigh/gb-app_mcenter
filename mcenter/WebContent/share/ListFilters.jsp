@@ -18,7 +18,7 @@
                 <span class="con-title">${views.common['filter.condition']}：</span>
                 <c:set value="${filterList[0]}" var="fistFilterCondition"/>
                 <div class="wjcj">
-                    <select name="property" class="btn-group chosen-select-no-single1" callback="selectChange">
+                    <select name="property" class="btn-group chosen-select-no-single1 chosen-select-add-mid-width" callback="selectChange">
                         <option value="">${views.common['pleaseSelect']}</option>
                         <c:forEach items="${filterList}" var="fl">
                             <option value="${fl.property}">${fl.propertyName}</option>
