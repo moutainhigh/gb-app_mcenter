@@ -203,7 +203,7 @@ public class RebateAgentController extends BaseRebateAgentController{
 
             vo.setProperties(RebateAgent.PROP_SETTLEMENT_STATE);
             vo.getResult().setSettlementState(SettlementStateEnum.NEXT_LSSUING.getCode());
-            vo = getService().updateOnly(vo);
+           getService().updateOnly(vo);
         }
         return resMap;
     }
@@ -276,8 +276,14 @@ public class RebateAgentController extends BaseRebateAgentController{
                     RebateAgentVo vo = new RebateAgentVo();
                     vo.getSearch().setId(id);
                     vo = getService().get(vo);
+                    if(vo.getResult()==null){
+                        continue;
+                    }
+                    if(!SettlementStateEnum.PENDING_LSSUING.getCode().equals(vo.getResult().getSettlementState())){
+                        continue;
+                    }
                     vo.getResult().setRebateActual(0d);
-                    vo = getRebateAgentVo(vo, SettlementStateEnum.REJECT_LSSUING.getCode());
+                    getRebateAgentVo(vo, SettlementStateEnum.REJECT_LSSUING.getCode());
                 }
             }
         }catch (Exception ex){
