@@ -18,6 +18,7 @@
             <th>${views.common['orderNum']}</th>
             <th>${views.column['VPlayerDeposit.username']}</th>
             <th>${views.column['VPlayerDeposit.rankName']}</th>
+            <th>创建时间</th>
             <th class="inline" style="width: 20%">
                 <gb:select name="search.rechargeType" value="${command.search.rechargeType}"
                            cssClass="btn-group chosen-select-no-single" callback="query"
@@ -67,6 +68,13 @@
                     <a href="/vPlayerRankStatistics/view.html?id=${r.rankId}" nav-target="mainFrame">
                         <span class="label label-info">${r.rankName}</span>
                     </a>
+                </td>
+                <td>
+                    <span data-content="${soulFn:formatDateTz(r.createTime, DateFormat.DAY_SECOND,timeZone)}"
+                          data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                          role="button" class="ico-lock" tabindex="0" data-original-title="" title="">
+                        <apan class="co-grayc2">${soulFn:formatTimeMemo(r.createTime, locale)}</apan>
+                    </span>
                 </td>
                 <td style="width: 20%">
                     <a href="${url}" nav-target="mainFrame">
