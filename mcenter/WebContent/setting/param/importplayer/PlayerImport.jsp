@@ -21,8 +21,7 @@
             </div>
         </div>
         <div style="padding-left: 20px">
-            <a href="/vUserPlayerImport/list.html" nav-target="mainFrame" class="btn btn-filter btn-outline m-r">${views.common['return']}</a>
-            <%--<soul:button target="playerImportIndex" text="${views.common['return']}" opType="function" cssClass="btn btn-filter btn-outline m-r" ></soul:button>--%>
+            <soul:button target="playerImportIndex" text="${views.common['return']}" opType="function" cssClass="btn btn-filter btn-outline m-r" ></soul:button>
             <soul:button target="doAjax" text="${views.setting['userplayerImport.importButton']}" opType="function" callback="myCallBack" precall="myValidateForm"
                          cssClass="btn btn-filter m-r save-import" ></soul:button>
 

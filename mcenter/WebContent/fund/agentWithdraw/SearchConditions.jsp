@@ -134,7 +134,6 @@
         </div>
 
         <div class="col-sm-9 clearfix  search_2 m-b-xs">
-            <c:if test="${systemParam.getActive()}">
             <div class="btn-group pull-right">
                 <select class="btn-group chosen-select-no-single" app="btn btn-info-hide dropdown-toggle radius_3" name="toneSwitch" callback="toneSwitch">
                     <option value="0" ${command.tone.active ? 'selected' : ''}>${views.fund['启用声音']}</option>
@@ -143,7 +142,7 @@
                 <input type="hidden" name="switchVal" value="${command.tone.active ? 0 : 1}" />
                 <span class="switchTip hide"></span>
             </div>
-            </c:if>
+
             <%@include file="/fund/Refresh.jsp"%>
             <div class="pull-right line-hi34 m-r-sm" hidden>${views.fund['共']}<span class="co-red3">${siteCurrencySign}<span id="totalSumTarget">${command.totalSum}</span></span></div>
             <div class="pull-right line-hi34 m-r-sm" hidden>${views.fund['今日成功']}<span class="co-red3">${siteCurrencySign}<span id="todayTotal">0.00</span></span></div>
