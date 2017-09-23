@@ -19,8 +19,8 @@ public class RemarkForm implements IForm {
     private String result_remarkContent;
 
     @Comment("备注标题")
-    @NotBlank(message = "fund.fund.playerRemarkForm.remarkTitle.notBlank")
-//    @Max(value = 256)
+    //@NotBlank(message = "fund.fund.playerRemarkForm.remarkTitle.notBlank")
+    @Max(value = 256)
     public String getRemarkTitle() {
         return remarkTitle;
     }

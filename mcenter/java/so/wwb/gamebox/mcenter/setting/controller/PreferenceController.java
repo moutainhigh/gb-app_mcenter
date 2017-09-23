@@ -61,7 +61,7 @@ public class PreferenceController {
         model.addAttribute("toneWarm",ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_WARM));
         model.addAttribute("toneNotice", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_NOTICE));
         findEnableImportPlayerParam(model);
-        model.addAttribute("webtype", "2");
+
         return "/setting/preferences/Index";
     }
     /**
