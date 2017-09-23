@@ -216,13 +216,12 @@
                             ${command.result.username}
                             <input type="hidden" name="current-agentRank" id="current-agentRank" value="${command.result.agentId}">
                             <soul:button target="editAgentLine" text="${'修改代理'}" opType="function" cssClass="btn btn-link co-blue" permission="role:update_agent"></soul:button>
-                            <shiro:hasPermission name="role:update_agent">
-                                <div style="font-size: 12px;color: #9c9c9c; display: inline-block; padding-right: 30px;">${messages.content['prompt.update.agent']}</div>
-                            </shiro:hasPermission>
                             <c:if test="${not empty sysAuditLog}">
-                                <div style="font-size: 14px;color: #9c9c9c; display: inline-block;">
-                                    ${soulFn:formatDateTz(sysAuditLog.operateTime, DateFormat.DAY_SECOND,timeZone)}-${soulFn:formatTimeMemo(sysAuditLog.operateTime, locale)} ${soulFn:formatLogDesc(sysAuditLog)}
-                                </div>
+                                <span data-content="<div>${views.common['content.editUser']}：${sysAuditLog.operator}</div>
+                                <div>${views.common['content.editTime']}：${soulFn:formatDateTz(sysAuditLog.operateTime, DateFormat.DAY_SECOND,timeZone)}-${soulFn:formatTimeMemo(sysAuditLog.operateTime, locale)}</div>"
+                                      data-placement="bottom" data-trigger="focus" data-toggle="popover" data-container="body" data-html="true"
+                                      role="button" class="ico-lock" tabindex="0"
+                                      data-original-title="" title="" style="font-size: 14px;color: #9c9c9c; display: inline-block;">${soulFn:formatLogDesc(sysAuditLog)}</span>
                             </c:if>
                         </div>
                         <div class="content hide" id="agent-rank-edit">
@@ -232,6 +231,7 @@
                                        relSelectPath="${root}/player/getRank/#search.agentRanks#.html"  listKey="id" listValue="username" value=""/>
                             <soul:button target="updateAgentLine" text="${views.common['save']}" opType="function" cssClass="btn btn-link co-blue btn-save-agent hide" confirm="${messages.content['confirm.update.agent']}"></soul:button>
                             <soul:button target="cancelEditAgentLine" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
+                            <div style="font-size: 12px;color: #9c9c9c; display: inline-block; padding-right: 30px;">${messages.content['prompt.update.agent']}</div>
                         </div>
                     </li>
 
