@@ -114,13 +114,7 @@ public class RebateAgentController extends BaseRebateAgentController{
             return resMap;
         }
         try{
-            rebateAgentVo.getResult().setOperateUserId(SessionManager.getUserId());
-            rebateAgentVo.getResult().setOperateUsername(SessionManager.getUserName());
-            rebateAgentVo.getResult().setSettlementTime(new Date());
-            rebateAgentVo.getResult().setSettlementState(SettlementStateEnum.LSSUING.getCode());
-            rebateAgentVo.setProperties(RebateAgent.PROP_REBATE_ACTUAL,RebateAgent.PROP_SETTLEMENT_STATE,RebateAgent.PROP_OPERATE_USER_ID,RebateAgent.PROP_OPERATE_USERNAME,
-                    RebateAgent.PROP_SETTLEMENT_TIME);
-            rebateAgentVo = getService().settled(rebateAgentVo);
+            rebateAgentVo = getRebateAgentVo(rebateAgentVo, SettlementStateEnum.LSSUING.getCode());
             resMap = getVoMessage(rebateAgentVo);
             List<String> agentName = new ArrayList<>();
             agentName.add(rebateAgentVo.getResult().getAgentName());
@@ -132,6 +126,38 @@ public class RebateAgentController extends BaseRebateAgentController{
         }
 
         return resMap;
+    }
+
+    @RequestMapping("/batchSettled")
+    @ResponseBody
+    public Map batchSettled(RebateAgentVo rebateAgentVo){
+        Map resMap = new HashMap(3,1f);
+        try {
+            List<Integer> ids = rebateAgentVo.getIds();
+            if(ids!=null && ids.size()>0){
+                for (Integer id : ids){
+                    RebateAgentVo vo = new RebateAgentVo();
+                    vo.getSearch().setId(id);
+                    vo = getService().get(vo);
+                    vo.getResult().setRebateActual(vo.getResult().getRebateTotal());
+                    vo = getRebateAgentVo(vo, SettlementStateEnum.LSSUING.getCode());
+                }
+            }
+        }catch (Exception ex){
+            resMap.put("state",false);
+        }
+        return resMap;
+    }
+
+    private RebateAgentVo getRebateAgentVo(RebateAgentVo rebateAgentVo, String code) {
+        rebateAgentVo.getResult().setOperateUserId(SessionManager.getUserId());
+        rebateAgentVo.getResult().setOperateUsername(SessionManager.getUserName());
+        rebateAgentVo.getResult().setSettlementTime(new Date());
+        rebateAgentVo.getResult().setSettlementState(code);
+        rebateAgentVo.setProperties(RebateAgent.PROP_REBATE_ACTUAL, RebateAgent.PROP_SETTLEMENT_STATE, RebateAgent.PROP_OPERATE_USER_ID, RebateAgent.PROP_OPERATE_USERNAME,
+                RebateAgent.PROP_SETTLEMENT_TIME);
+        rebateAgentVo = getService().settled(rebateAgentVo);
+        return rebateAgentVo;
     }
 
     /**
@@ -149,6 +175,37 @@ public class RebateAgentController extends BaseRebateAgentController{
         baseLog.addParam("date", new Param("date", SessionManager.getDate().getNow(), ParamType.DATE.getCode()));
         baseLog.addParam(SessionManager.getUserName()).addParam(StringTool.join(",", agentNames));
         request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+    }
+
+    @RequestMapping("/batchSignBill")
+    @ResponseBody
+    public Map batchSignBill(RebateAgentVo rebateAgentVo){
+        Map resMap = new HashedMap(2,1f);
+        resMap.put("state",true);
+        List<Integer> ids = rebateAgentVo.getIds();
+        if(ids==null){
+            resMap.put("state",false);
+            return resMap;
+        }
+        for (Integer id : ids){
+            RebateAgentVo vo = new RebateAgentVo();
+            vo.getSearch().setId(id);
+            vo = getService().get(vo);
+            if(vo.getResult()==null){
+                continue;
+            }
+            if(!SettlementStateEnum.PENDING_LSSUING.getCode().equals(vo.getResult().getSettlementState())){
+                continue;
+            }
+            if(hasNextPeriod(vo)){
+                continue;
+            }
+
+            vo.setProperties(RebateAgent.PROP_SETTLEMENT_STATE);
+            vo.getResult().setSettlementState(SettlementStateEnum.NEXT_LSSUING.getCode());
+            vo = getService().updateOnly(vo);
+        }
+        return resMap;
     }
 
     @RequestMapping("/signBill")
@@ -208,6 +265,27 @@ public class RebateAgentController extends BaseRebateAgentController{
         return false;
     }
 
+    @RequestMapping("/batchClear")
+    @ResponseBody
+    public Map batchClear(RebateAgentVo rebateAgentVo){
+        Map resMap = new HashedMap(2,1f);
+        try {
+            List<Integer> ids = rebateAgentVo.getIds();
+            if(ids!=null && ids.size()>0){
+                for (Integer id : ids){
+                    RebateAgentVo vo = new RebateAgentVo();
+                    vo.getSearch().setId(id);
+                    vo = getService().get(vo);
+                    vo.getResult().setRebateActual(0d);
+                    vo = getRebateAgentVo(vo, SettlementStateEnum.REJECT_LSSUING.getCode());
+                }
+            }
+        }catch (Exception ex){
+            resMap.put("state",false);
+        }
+        return resMap;
+    }
+
     @RequestMapping("/clear")
     @ResponseBody
     public Map clear(Integer id){
@@ -230,13 +308,7 @@ public class RebateAgentController extends BaseRebateAgentController{
         }
         try{
             rebateAgentVo.getResult().setRebateActual(0d);
-            rebateAgentVo.getResult().setOperateUserId(SessionManager.getUserId());
-            rebateAgentVo.getResult().setOperateUsername(SessionManager.getUserName());
-            rebateAgentVo.getResult().setSettlementTime(new Date());
-            rebateAgentVo.getResult().setSettlementState(SettlementStateEnum.REJECT_LSSUING.getCode());
-            rebateAgentVo.setProperties(RebateAgent.PROP_REBATE_ACTUAL,RebateAgent.PROP_SETTLEMENT_STATE,RebateAgent.PROP_OPERATE_USER_ID,RebateAgent.PROP_OPERATE_USERNAME,
-                    RebateAgent.PROP_SETTLEMENT_TIME);
-            rebateAgentVo = getService().settled(rebateAgentVo);
+            rebateAgentVo = getRebateAgentVo(rebateAgentVo, SettlementStateEnum.REJECT_LSSUING.getCode());
             resMap = getVoMessage(rebateAgentVo);
         }catch (Exception ex){
             resMap.put("state",false);
