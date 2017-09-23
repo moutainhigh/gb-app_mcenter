@@ -1,7 +1,6 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import jdk.nashorn.internal.ir.RuntimeNode;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
@@ -359,7 +358,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     public Map saveYzm(Integer yzmId, String yzmValue,
                        Integer exclusionsId, String exclusionsValue, @FormModel() @Valid CaptchaForm form, BindingResult result) {
         if (result.hasErrors()) {
-            Map<String, Object> map = new HashMap<>(2,1f);
+            Map<String, Object> map = new HashMap<>(2);
             map.put("state", false);
             map.put("msg", LocaleTool.tranMessage("setting_auto", "请检查输入是否错误并且不能排除所有的字母和数字"));
             return map;
@@ -389,9 +388,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     }
 
     @RequestMapping({"/siteParam"})
-    public String siteParam(SysSiteVo sysSiteVo, Model model) {
+    public String siteParam(SysSiteVo sysSiteVo,Model model) {
         findEnableImportPlayerParam(model);
-        model.addAttribute("index", sysSiteVo.getIndex());
+        basicSettingEdit(sysSiteVo,model);
+        model.addAttribute("webtype", "1");
         return "setting/param/siteparameters/SiteParam";
     }
 
@@ -400,15 +400,11 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
      * 加载站点参数-基本设置信息
      *
      * @param sysSiteVo
-     * @param cttLogoVo
-     * @param languageListVo
-     * @param
-     * @param siteOperateAreaListVo
      * @param model
      * @return
      */
     @RequestMapping({"/basicSettingIndex"})
-    public String basicSettingEdit(SysSiteVo sysSiteVo, CttLogoVo cttLogoVo, SiteLanguageListVo languageListVo, SiteOperateAreaListVo siteOperateAreaListVo, SysDomainListVo sysDomainListVo, Model model,HttpServletRequest request) {
+    public String basicSettingEdit(SysSiteVo sysSiteVo, Model model) {
         Integer siteId = SessionManagerBase.getSiteId();
         sysSiteVo.getSearch().setId(siteId);
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
@@ -418,12 +414,13 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         sysSiteVo.setMonth(DateTool.monthsBetween(new Date(), openingTime) % 12);
         sysSiteVo.setDay(DateTool.daysBetween(new Date(), openingTime) % 30);
         //国旗
-        sysSiteVo.setCttLogo(ServiceTool.getCttLogService().getCttlog(cttLogoVo));
+        sysSiteVo.setCttLogo(ServiceTool.getCttLogService().getCttlog(new CttLogoVo()));
         //货币 和 语言
-        sysSiteVo = ServiceTool.siteOperateAreaService().getAreaCurrancyLang(siteOperateAreaListVo, sysSiteVo);
+        sysSiteVo = ServiceTool.siteOperateAreaService().getAreaCurrancyLang(new SiteOperateAreaListVo(), sysSiteVo);
         sysSiteVo.setValidateRule(JsRuleCreator.create(TrafficStatisticsForm.class, "result"));
         //查询货币使用的玩家数
         //增加设置languageListVo的查询条件 siteId 开始--cogo
+        SiteLanguageListVo languageListVo = new SiteLanguageListVo();
         languageListVo.getSearch().setSiteId(siteId);
         //增加设置languageListVo的查询条件 siteId 结束--cogo
         languageListVo = ServiceTool.siteLanguageService().search(languageListVo);
@@ -449,15 +446,14 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         //取款方式
         withdrawTypeParam(model);
         //APP下载域名
+        SysDomainListVo sysDomainListVo = new SysDomainListVo();
         sysDomainListVo.getSearch().setSiteId(SessionManager.getSiteId());
         sysDomainListVo = ServiceTool.sysDomainService().updateAppDomain(sysDomainListVo);
         List<SysDomain> result = sysDomainListVo.getResult();
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
         SysParam param = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
-        SysParam mobileTraffic = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
         model.addAttribute("access_domain",param);
         model.addAttribute("select_domain",sysParam);
-        model.addAttribute("mobile_traffic",mobileTraffic.getParamValue());
         model.addAttribute("appDomain",result);
         return "/setting/param/siteparameters/BasicSetting";
     }
@@ -1023,34 +1019,6 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             }
         }
         return result;
-    }
-
-    @RequestMapping("/saveMobileTrafficStatistics")
-    @ResponseBody
-    public Map saveMobileTrafficStatistics(SysParamVo sysParamVo){
-        Map map=new HashMap(2,1f);
-        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
-        if (sysParam!=null){
-            sysParamVo.getResult().setId(sysParam.getId());
-            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-            ServiceTool.getSysParamService().updateOnly(sysParamVo);
-        }else {
-            sysParamVo.getResult().setRemark("手机端流量统计代码");
-            sysParamVo.getResult().setModule(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS.getModule().getCode());
-            sysParamVo.getResult().setParamType(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS.getType());
-            sysParamVo.getResult().setParamCode(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS.getCode());
-            sysParamVo.getResult().setActive(true);
-            sysParamVo = ServiceTool.getSysParamService().insert(sysParamVo);
-        }
-        ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
-        if(sysParamVo.isSuccess()){
-            map.put("msg",LocaleTool.tranMessage("setting_auto","成功"));
-            map.put("state",true);
-        }else {
-            map.put("msg",LocaleTool.tranMessage("setting_auto","失败"));
-            map.put("state",false);
-        }
-        return map;
     }
     //endregion your codes 3
 }
