@@ -448,6 +448,10 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         }catch (Exception ex){
             persist.put("state",false);
             String msg = LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED);
+            if("返佣比例不能小于下级代理设置的比例".equals(ex.getMessage())){
+                String errMsg = LocaleTool.tranMessage(Module.MASTER_SETTING, MessageI18nConst.REBATE_EDIT_VALIDSUBAGENTREBATE);
+                msg += ":"+errMsg;
+            }
             persist.put("msg",msg);
             persist.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
             LOG.error(ex,"保存返佣方案出错:{0}",ex.getMessage());
