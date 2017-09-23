@@ -28,6 +28,7 @@
                 <gb:select name="search.fundType" value="${command.search.fundType}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
                            list="${dictFundType}" listKey="key" listValue="${dicts.common.fund_type[key]}" callback="query"/>
             </th>
+            <th>收款账号</th>
             <th style="padding-left: 35px;">${views.report['fund.list.transactionNo']}</th>
             <soul:orderColumn poType="${poType}" property="transactionMoney" column="${views.report['fund.list.money']}"/>
             <soul:orderColumn poType="${poType}" property="balance" column="${views.report['fund.list.balance']}"/>
@@ -128,6 +129,16 @@
                     <%--类别名称--%>
                 <td>
                         ${_desc}
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${pt.payName!=null}">
+                            ${pt.payName}
+                        </c:when>
+                        <c:otherwise>
+                            ---
+                        </c:otherwise>
+                    </c:choose>
                 </td>
                 <td>
                     <c:choose>
