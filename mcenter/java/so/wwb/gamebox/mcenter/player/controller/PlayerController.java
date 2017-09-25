@@ -2449,8 +2449,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     private void getLogData(HttpServletRequest request, Integer oldagentId, UserPlayer userPlayer) {
         String oldAgentLines = this.getAgentLine(oldagentId);
         List<String> list = new ArrayList<>();
-        list.add(SessionManager.getUser().getUsername());
-        list.add(SessionManager.getUserType().getTrans());
         list.add(oldAgentLines);
         AddLogVo addLogVo = new AddLogVo();
         SysAuditLog sysAuditLog = new SysAuditLog();
