@@ -276,10 +276,14 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
         if (maps.get("status").equals(true)) {
             msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS);
             //操作日志
-            maps.remove("status");
+            Iterator<String> iter = maps.keySet().iterator();
             LogVo logVo = new LogVo();
-            for(Object obj:maps.values()){
-                addLog(request, "player.playerRank.success",obj,logVo);
+            while (iter.hasNext()){
+                String key = iter.next();
+                if(!"status".equals(key)){
+                    Object obj = maps.get(key);
+                    addLog(request, "player.playerRank.success",obj,logVo);
+                }
             }
         } else {
             msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_FAILED);
