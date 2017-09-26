@@ -28,6 +28,8 @@
         <input type="hidden" name="allFee" value="${command.allFee}"/>
         <input type="hidden" name="withdrawStatus" value="${command.result.withdrawStatus}"/>
         <input type="hidden" name="withdrawActualAmount" value="${fn:replace(soulFn:formatCurrency(command.result.withdrawActualAmount),",","")}">
+        <input type="hidden" name="playerId" value="${command.result.playerId}">
+        <input type="hidden" name="agentId" value="${command.result.agentId}">
         <table class="table no-border table-desc-list">
             <tbody>
             <tr>
@@ -63,7 +65,7 @@
             <tr>
                 <th scope="row" class="text-right" width="25%">${views.fund['withdraw.edit.playerWithdraw.playerAccount']}：</th>
                 <td>
-                    ${command.result.username}
+                    <soul:button target="userDetail" text="${command.result.username}" opType="function">${command.result.username}</soul:button>
                     <c:choose>
                         <c:when test="${command.result.riskMarker}">
                             <span style="margin-right:0px 5px" data-content="${views.fund_auto['危险层级']}" data-placement="right" data-trigger="focus" data-toggle="popover"
@@ -85,7 +87,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-right">${views.fund_auto['所属代理']}：</th>
-                <td>${command.result.agentName}</td>
+                <td><soul:button target="agentDetail" text="${command.result.agentName}" opType="function">${command.result.agentName}</soul:button></td>
             </tr>
                 <%--玩家收款账号--%>
             <tr>

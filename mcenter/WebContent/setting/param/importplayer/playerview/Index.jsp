@@ -17,10 +17,33 @@
             <%--<a href="/vUserPlayerImport/list.html" nav-target="mainFrame">
                     ${views.setting['setting.parameter.importPlayer']}</a>--%>
         </div>
-        <form:hidden path="validateRule" />
         <div class="col-lg-12">
             <div class="wrapper white-bg shadow">
                 <div class="clearfix filter-wraper border-b-1">
+                    <div class="search-wrapper btn-group pull-left m-r-n-xs">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <select id="searchlist" class="btn-group chosen-select-no-single" tabindex="-1">
+                                    <c:forEach items="${command.searchList()}" var="item" varStatus="status">
+                                        <option value="${item.key}" ${status.index==0?'selected':''}>${item.value}</option>
+                                        <c:if test="${status.index==0}">
+                                            <c:set value="${item.key}" var="firstSelectKey"/>
+                                        </c:if>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <input type="text" class="form-control list-search-input-text " placeholder="多个账号,用半角逗号隔开" id="searchtext" name="${firstSelectKey}"  style="width: 250px">
+                            <div class="input-group" style="padding-left: 10px;">
+                                <span class="input-group-addon bg-gray">真实姓名</span>
+                                <input type="text" class="form-control list-search-input-text" name="search.realName" style="width: 150px">
+                            </div>
+                            <span class="input-group-btn">
+                                        <soul:button cssClass="btn btn-filter btn-query-css" precall="checksearch" tag="button" opType="function" text="${views.common['search']}" target="query">
+                                            <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
+                                        </soul:button>
+                                    </span>
+                        </div>
+                    </div>
                 </div>
                 <div id="editable_wrapper" class="dataTables_wrapper search-list-container" role="grid">
                     <%@ include file="IndexPartial.jsp" %>
