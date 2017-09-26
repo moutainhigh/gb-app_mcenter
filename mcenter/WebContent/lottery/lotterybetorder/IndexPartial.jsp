@@ -49,7 +49,7 @@
                     <td>${dicts.lottery.lottery_betting[p.betCode]}-${dicts.lottery.lottery_play[p.playCode]}</td>
                     <td>${p.betNum}</td>
                     <td>${p.betAmount}</td>
-                    <c:set var="allBetAmount" value="${allBetAmount+p.betAmount}"></c:set>
+                    <c:set var="allBetAmount" value="${p.status eq '3'?allBetAmount:allBetAmount+p.betAmount}"></c:set>
                     <td>
                         <c:choose>
                             <c:when test="${p.playCode eq 'keno_selection_five'}">
@@ -67,7 +67,7 @@
                         </c:choose>
                     </td>
                     <td>${p.payout}</td>
-                    <c:set var="allPayout" value="${allPayout+p.payout}"></c:set>
+                    <c:set var="allPayout" value="${p.status eq '3'?allPayout:allPayout+p.payout}"></c:set>
                     <td>${soulFn:formatDateTz(p.betTime, DateFormat.DAY_SECOND,timeZone)}</td>
                     <td>
                         <c:if test="${p.status=='1'}">
