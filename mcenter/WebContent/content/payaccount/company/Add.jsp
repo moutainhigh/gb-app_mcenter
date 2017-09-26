@@ -155,8 +155,8 @@
                                     </div>
                                 </c:if>
                             </div>
-                            <input id="image_file_path" class="file" type="file" accept=".png,.jpg,.jpeg" name="image_file_path" target="result.qrCodeUrl">
-                            <div style="line-height: 20px; color: #A7A6A6;">${views.content['payaccount.company.edit.qrcodetip']}</div>
+                            <input id="image_file_path" class="file" type="file" accept="image/*" name="image_file_path" target="result.qrCodeUrl">
+                            <div style="line-height: 20px; color: #A7A6A6;">${views.content['carousel.uploadPictureTips']}</div>
                             <input type="hidden" name="result.qrCodeUrl" id="path" value="${command.result.qrCodeUrl}">
                         </div>
                     </div>

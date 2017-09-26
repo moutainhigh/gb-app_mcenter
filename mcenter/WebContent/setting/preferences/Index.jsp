@@ -162,7 +162,7 @@
         </div>
     </div>
 </form:form>
-<soul:import res="site/setting/param/siteParam/SiteParam"/>
+<soul:import res="site/setting/preference/PreferenceEdit"/>
 <script src="${resComRoot}/js/audiojs/audio.min.js"></script>
 <script>
     audiojs.events.ready(function() {
