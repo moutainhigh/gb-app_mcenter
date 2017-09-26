@@ -40,7 +40,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group time-select-a">
                                     <span class="input-group-addon bg-gray">${views.wc_fund['可获返佣']}</span>
                                     <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
