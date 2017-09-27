@@ -96,17 +96,6 @@ public class VUserAgentManageController extends AbstractExportController<IVUserA
         Map<String, Serializable> status = DictTool.get(DictEnum.USER_STATUS);
         status.remove(SysUserStatus.AUDIT_FAIL.getCode());
         model.addAttribute("status", status);
-
-        if(listVo.getResult()!=null){
-            for(VUserAgentManage agent : listVo.getResult()){
-                if(StringTool.isNotBlank(agent.getRegistCode())){
-                    String code = agent.getRegistCode()+agent.getId();
-                    String regCode = Base36.encryptIgnoreCase(code);
-                    agent.setRegistCode(regCode);
-                }
-
-            }
-        }
         String params = ExportCriteriaTool.criteriaToJson(listVo.getQuery().getCriteria());
         model.addAttribute("params",params);
         model.addAttribute("hasReturn",listVo.getSearch().isHasReturn());
