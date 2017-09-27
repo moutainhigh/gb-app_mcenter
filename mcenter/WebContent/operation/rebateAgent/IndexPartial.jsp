@@ -46,7 +46,11 @@
             <c:forEach items="${command.result}" var="p" varStatus="status">
                 <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
-                    <td><input type="checkbox" class="i-checks" value="${p.id}"></td>
+                    <c:set var="status" value="kobe"></c:set>
+                    <c:if test="${p.settlementState != 'pending_lssuing'}">
+                        <c:set var="status" value="disabled"></c:set>
+                    </c:if>
+                    <td><input type="checkbox" class="i-checks" ${status} value="${p.id}"></td>
                     <td style="text-align: left">
                         <a href="/rebateAgent/list.html?search.agentId=${p.agentId}" nav-target="mainFrame">${p.parentNameArray}</a>
                     </td>

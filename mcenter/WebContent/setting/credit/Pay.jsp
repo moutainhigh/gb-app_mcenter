@@ -16,7 +16,7 @@
                 <c:choose>
                     <c:when test="${!empty leftTime && leftTime>0 && rate<120}">
                         <div class="sys_tab_wrap p-xs">
-                            <b class="fs16">${views.setting_auto['离后台维护还剩']}：</b><span class="fs20 ft-bold co-red" id="leftTime" data-time="${leftTime}"><span id="hour">00</span>小时<span id="minute">00</span>分</span>
+                            <b class="fs16">${views.setting_auto['离后台维护还剩']}：</b><span class="fs20 ft-bold co-red" id="leftTime" data-time="${leftTime}"><span id="hour">00</span>${views.setting_auto['小时']}<span id="minute">00</span>${views.setting_auto['分']}</span>
                         </div>
                     </c:when>
                     <c:when test="${(!empty leftTime && leftTime<=0) || rate>=120}">
@@ -90,7 +90,7 @@
                                             <soul:button target="quickAmount" data="50000" cssClass="btn btn-info dropdown-toggle m-r-sm" text="5万" opType="function"/>
                                             <soul:button target="quickAmount" data="100000" cssClass="btn btn-info-hide dropdown-toggle m-r-sm" text="10万" opType="function"/>
                                         </div>
-                                       <%-- <div class="m-t-md fs16">您将获得 <span class="co-green">50万</span> 额度</div>--%>
+                                       <%-- <div class="m-t-md fs16">${views.setting_auto['您将获得']} <span class="co-green">50万</span> ${views.setting_auto['额度']}</div>--%>
                                         <div class="m-t-md">
                                             <soul:button target="submit" precall="validateForm" text="${views.setting_auto['确认']}" cssClass="btn btn-filter btn-lg btn-block" opType="function"/>
                                         </div>
