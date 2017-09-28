@@ -85,7 +85,7 @@
                                 <td>
                                     <div class="table-desc-right-t">
                                         <input type="text" name="result.payAmount" id="result.payAmount" class="form-control"/>
-                                        <div class="co-grayc2 m-t-sm">请输入（<span>${singleMin}</span>~<span>${singleMax}</span>）之间的整数</div>
+                                        <div class="co-grayc2 m-t-sm">${fn:replace(fn:replace(views.setting_auto['请输入'],"{0}" ,singleMin),"{1}" , singleMax)}</div>
                                         <div class="m-t-sm">
                                             <soul:button target="quickAmount" data="50000" cssClass="btn btn-info dropdown-toggle m-r-sm" text="5万" opType="function"/>
                                             <soul:button target="quickAmount" data="100000" cssClass="btn btn-info-hide dropdown-toggle m-r-sm" text="10万" opType="function"/>
@@ -102,10 +102,10 @@
                     </div>
                     <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 limit-tips">
                         <ul>
-                            <li>1、本系统默认可用额度${defaultProfit},当系统提示额度超时,请在本页面自助充值即可增加额度上限</li>
-                            <li>2、如果充值出现问题,请及时联系我们技术支持</li>
-                            <li>3、本页面充值仅用于提高额度上限，不支持缴纳月结账单；</li>
-                            <li>4、如果维护时间已过，站点玩家将不能进行转账游戏，请及时充值增加额度上限</li>
+                            <li>1、${fn:replace(views.setting_auto['本系统默认可用额度'],"{0}" ,defaultProfit )}</li>
+                            <li>2、${views.setting_auto['如果充值出现问题']}</li>
+                            <li>3、${views.setting_auto['本页面充值仅用于提高额度上限']}</li>
+                            <li>4、${views.setting_auto['如果维护时间已过']}</li>
                         </ul>
                     </div>
                 </div>
