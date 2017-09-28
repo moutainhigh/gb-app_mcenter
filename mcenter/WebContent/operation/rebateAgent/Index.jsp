@@ -53,13 +53,13 @@
 
                             <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm function-menu-show hide">
                                 <soul:button tag="button" target="${root}/rebateAgent/batchSettled.html" opType="ajax" precall=""
-                                             text="${views.fund_auto['结算']}" post="getSelectIds" cssClass="btn btn-filter" callback="query">${views.fund_auto['结算']}
+                                             text="${views.fund_auto['结算']}" post="getSelectIds" cssClass="btn btn-filter" callback="query" confirm="${views.fund_auto['确认要批量结算吗？']}">${views.fund_auto['结算']}
                                 </soul:button>
                                 <soul:button tag="button" target="${root}/rebateAgent/batchClear.html" opType="ajax" precall=""
-                                             text="${views.fund_auto['清除']}" post="getSelectIds" cssClass="btn btn-filter" callback="query">${views.fund_auto['清除']}
+                                             text="${views.fund_auto['清除']}" post="getSelectIds" cssClass="btn btn-filter" callback="query" confirm="${views.fund_auto['确认要批量清除吗？']}">${views.fund_auto['清除']}
                                 </soul:button>
                                 <soul:button tag="button" target="${root}/rebateAgent/batchSignBill.html" opType="ajax" precall=""
-                                             text="${views.wc_fund['挂账']}" post="getSelectIds" cssClass="btn btn-filter" callback="query">${views.wc_fund['挂账']}
+                                             text="${views.wc_fund['挂账']}" post="getSelectIds" cssClass="btn btn-filter" callback="query" confirm="${views.fund_auto['确认要批量挂账吗？']}">${views.wc_fund['挂账']}
                                 </soul:button>
                             </div>
 
