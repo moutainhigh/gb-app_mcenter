@@ -107,7 +107,7 @@
                                 <td>${gbFn:getSiteApiName(ratio.apiId)}</td>
                                 <td>
                                     <label class="al-right"><span class="m-r-sm"></span>${dicts.game.game_type[ratio.gameType]}</label>
-                                    <label class="al-right"><span class="m-r-sm"></span>${views.role['topAgent.detail.ratioEdit.self']} :</label><span class="co-red"> ${100.0-ratio.ratio}%</span>
+                                    <label class="al-right"><span class="m-r-sm"></span>${views.role['topAgent.detail.ratioEdit.self']} :</label><span class="co-red"> <fmt:formatNumber value='${100.0-ratio.ratio}' pattern='#.##' minFractionDigits='2'></fmt:formatNumber>%</span>
                                     <label class="al-right"><span class="m-r-sm"></span>${views.role['topAgent.detail.ratioEdit.topAgent']} :</label><span class="co-red"> ${ratio.ratio}%</span>
                                 </td>
                             </tr>

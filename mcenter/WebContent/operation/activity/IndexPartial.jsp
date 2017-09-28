@@ -41,7 +41,7 @@
                     <span class="${p.activityStatesShow.cssClass}">${views.operation[p.activityStatesShow.activityState]}</span>
                 </td>
                 <td>
-                    <shiro:hasPermission name="operate:activity_showfront">
+                    <shiro:hasPermission name="operate:activity_edit">
                         <c:choose>
                             <c:when test="${p.isRemove}">
                                 <input type="checkbox" name="my-checkbox" data-size="mini" disabled>
@@ -52,7 +52,7 @@
                             </c:otherwise>
                         </c:choose>
                     </shiro:hasPermission>
-                    <shiro:lacksPermission name="operate:activity_showfront">
+                    <shiro:lacksPermission name="operate:activity_edit">
                         <input type="checkbox" name="my-checkbox" data-size="mini" disabled ${p.isDisplay ? 'checked' : ''}>
                     </shiro:lacksPermission>
 
