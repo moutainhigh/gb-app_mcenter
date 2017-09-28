@@ -367,11 +367,13 @@
                         <span id="index-clock" class="clock-show"></span>
                     </span>--%>
                     <div class="pull-right m-r-md">
-                        <span class="htm-5-logo m-r" type="button" data-toggle="tooltip" data-placement="top"
-                          title="${views.common['我们项目使用html5规范开发']}"></span>
+                        <%--<span class="htm-5-logo m-r" type="button" data-toggle="tooltip" data-placement="top"
+                          title="${views.common['我们项目使用html5规范开发']}"></span>--%>
                         <%--<span class="footer-boder pull-left"></span>--%>
                         <%--<span class="m-l-sm pull-left m-r">Copyright © 2015  <a href="http://hongtubet.com/" target="_blank">宏圖HongTu</a> 版权所有</span>--%>
-                        <a href="javascript:void(0)" id="feedback">${views.common['意见反馈']}</a>
+                        <div class="support-btn">
+                        <a href="javascript:void(0)" id="feedback" data-toggle="modal" data-target="#competencePwd"></a>
+                        </div>
                     </div>
                 </div>
             </div>

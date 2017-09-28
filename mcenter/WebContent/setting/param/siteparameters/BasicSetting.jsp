@@ -50,12 +50,23 @@
 
                     </span>
                 </div>
-                <div class="clearfix m-b">
+                <div class="clearfix">
                     <label class="ft-bold pull-left">${views.setting['basic.webSite.useLogo']}：</label>
                     <c:set var="logo" value="<%=SessionManager.getLogo()%>"/>
                     <img src="${soulFn:getThumbPath(domain,logo,66,24)}">
                     <a class="m-l" href="/cttLogo/list.html?hasReturn=true"
                        nav-target="mainFrame">${views.setting['basic.webSite.logoSet']}</a>
+                </div>
+                <div class="clearfix">
+                    <c:set var="dd" value="<%= SessionManager.getTimeZone().getID() %>"/>
+                    <label class="ft-bold">${views.setting['basic.otherSet.useTimeZone']}：</label>
+                    ${fn:substring(dd,0 ,dd.length()-3 )}
+                    <span> </span>
+                    <span>${soulFn:formatDateTz(dateQPicker.now, DateFormat.DAY_SECOND, timeZone)}</span>
+                </div>
+                <div class="clearfix m-b">
+                    <label class="ft-bold">${views.setting['basic.otherSet.postfix']}：</label>
+                    <span>${command.result.postfix}</span>
                 </div>
             </div>
         </div>
@@ -291,19 +302,7 @@
         </div>
         <div class="col-lg-6 site-switch">
             <h3>${views.setting['basic.otherSet']}</h3>
-
             <div class="content line-hi34 clearfix">
-                <div class="clearfix">
-                    <c:set var="dd" value="<%= SessionManager.getTimeZone().getID() %>"/>
-                    <label class="ft-bold">${views.setting['basic.otherSet.useTimeZone']}：</label>
-                        ${fn:substring(dd,0 ,dd.length()-3 )}
-                    <span> </span>
-                    <span>${soulFn:formatDateTz(dateQPicker.now, DateFormat.DAY_SECOND, timeZone)}</span>
-                </div>
-                <div class="clearfix">
-                    <label class="ft-bold">${views.setting['basic.otherSet.postfix']}：</label>
-                    <span>${command.result.postfix}</span>
-                </div>
                 <div class="clearfix">
                     <label class="ft-bold">${views.setting['basic.otherSet.trafficStatistics']}：<span
                             data-content="${views.setting['trafficStatistics.prompt']}" data-placement="top"
@@ -317,6 +316,16 @@
                     <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
                                  dataType="json" target="${root}/param/saveTrafficStatistics.html"
                                  precall="staticValidateForm" post="getStaticValidateForm" callback="saveCallbak"/>
+                </div>
+                <div class="clearfix" id="mobileTrafficStatistics">
+                    <label class="ft-bold">${views.setting['手机端流量统计代码']}：</label>
+                    <textarea class="form-control m-b"
+                              name="result.paramValue">${mobile_traffic}</textarea>
+                </div>
+                <div class="modal-footer">
+                    <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
+                                 dataType="json" target="${root}/param/saveMobileTrafficStatistics.html"
+                                 precall="staticValidateForm" post="getMobileStaticValidateForm" callback="saveCallbak"/>
                 </div>
             </div>
         </div>
