@@ -29,6 +29,7 @@ import so.wwb.gamebox.model.WeekTool;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
+import so.wwb.gamebox.model.company.site.po.SiteApi;
 import so.wwb.gamebox.model.master.enums.CommonStatusEnum;
 import so.wwb.gamebox.model.master.fund.enums.FundTypeEnum;
 import so.wwb.gamebox.model.master.fund.enums.TransactionTypeEnum;
@@ -43,6 +44,7 @@ import so.wwb.gamebox.model.master.report.po.VPlayerFundsRecord;
 import so.wwb.gamebox.model.master.report.so.VPlayerFundsRecordSo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerFundsRecordListVo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerFundsRecordVo;
+import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.report.controller.AbstractExportController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -103,10 +105,11 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
         //表头的状态和资金类型列表
         model.addAttribute("dictCommonStatus", DictTool.get(DictEnum.COMMON_STATUS));
         Map<String, String> dictFundType = DictTool.get(DictEnum.COMMON_FUND_TYPE);
-        dictFundType.remove(FundTypeEnum.TRANSFER_INTO.getCode());
-        dictFundType.remove(FundTypeEnum.TRANSFER_OUT.getCode());
         model.addAttribute("dictFundType", dictFundType);
         model.addAttribute("validateRule", JsRuleCreator.create(VPlayerFundsRecordSearchForm.class));
+
+        Map<String, SiteApi> siteApiMaps = Cache.getSiteApi(SessionManager.getSiteId());
+        model.addAttribute("siteApiMaps",siteApiMaps);
         //默认搜索成功订单:列表页面
         if (listVo.getSearch().getStatus() == null) {
             listVo.getSearch().setStatus(CommonStatusEnum.SUCCESS.getCode());

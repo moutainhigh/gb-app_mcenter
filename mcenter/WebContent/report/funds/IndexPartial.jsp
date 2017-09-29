@@ -32,6 +32,7 @@
             <th style="padding-left: 35px;">${views.report['fund.list.transactionNo']}</th>
             <soul:orderColumn poType="${poType}" property="transactionMoney" column="${views.report['fund.list.money']}"/>
             <soul:orderColumn poType="${poType}" property="balance" column="${views.report['fund.list.balance']}"/>
+            <th>API余额</th>
             <th>
                 <gb:select name="search.status" value="${command.search.status}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}" list="${dictCommonStatus}" listKey="key" listValue="${dicts.common.status[key]}" callback="query"/>
             </th>
@@ -179,6 +180,9 @@
                 <td>
                     <c:set value="${soulFn:formatCurrency(pt.balance)}" var="balanceData"></c:set>
                         ${empty pt.balance ? '---' : balanceData}
+                </td>
+                <td>
+                    ${empty pt.apiMoney ? '---' : soulFn:formatCurrency(pt.apiMoney)}
                 </td>
                 <td>
                     <c:set value="" var="status_class"></c:set>
