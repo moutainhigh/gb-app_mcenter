@@ -155,8 +155,8 @@
                                     </div>
                                 </c:if>
                             </div>
-                            <input id="image_file_path" class="file" type="file" accept=".png,.jpg,.jpeg" name="image_file_path" target="result.qrCodeUrl">
-                            <div style="line-height: 20px; color: #A7A6A6;">${views.content['payaccount.company.edit.qrcodetip']}</div>
+                            <input id="image_file_path" class="file" type="file" accept="image/*" name="image_file_path" target="result.qrCodeUrl">
+                            <div style="line-height: 20px; color: #A7A6A6;">${views.content['carousel.uploadPictureTips']}</div>
                             <input type="hidden" name="result.qrCodeUrl" id="path" value="${command.result.qrCodeUrl}">
                         </div>
                     </div>
@@ -201,7 +201,8 @@
                             <input name="customBankName" style="${bankCode=='other_bank'?'':'display: none'}" class="form-control" value="${command.result.accountType=='1'&&bankCode=='other_bank'?command.result.customBankName:''}">
                         </div>
                     </div>
-                    <div class="form-group clearfix line-hi34 bank-div" style="display: ${isBank?'':'none'}">
+                    <c:set var="isAcb" value="${command.acbSwitchParam.paramValue =='true'}"/>
+                    <div class="form-group clearfix line-hi34 bank-div" style="display: ${isBank&&isAcb?'':'none'}">
                         <label for="result.bankLoginName" class="ft-bold col-sm-3 al-right line-hi34">${views.content_auto['网银登陆名']}：</label>
 
                         <div class="col-sm-5">
@@ -212,7 +213,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group clearfix line-hi34 bank-div" style="display: ${isBank?'':'none'}">
+                    <div class="form-group clearfix line-hi34 bank-div" style="display: ${isBank&&isAcb?'':'none'}">
                         <label for="result.bankPassword" class="ft-bold col-sm-3 al-right line-hi34">${views.content_auto['网银密码']}：</label>
 
                         <div class="col-sm-5">
@@ -225,7 +226,7 @@
                     </div>
 
                     <input type="hidden" name="result.isAcb" value="${command.result.isAcb}">
-                    <div class="form-group clearfix line-hi34 bank-div" style="display: ${isBank&&command.acbSwitchParam.paramValue =='true'?'':'none'}">
+                    <div class="form-group clearfix line-hi34 bank-div" style="display: ${isBank&&isAcb?'':'none'}">
                         <label for="" class="ft-bold col-sm-3 al-right line-hi34">${views.content_auto['自动上分']}：</label>
                         <div class="col-sm-5">
                             <div class="input-group date">

@@ -238,7 +238,7 @@
                         <%--<button class="btn btn-filter btn-lg" data-toggle="modal"  data-dismiss="modal" data-target="#audit">下一步，设置占成</button>--%>
                         <c:choose>
                             <c:when test="${empty command.result.id}">
-                                <soul:button target="openSetRatio" cssClass="btn btn-filter btn-lg" text="" opType="function">
+                                <soul:button target="openSetRatio" cssClass="btn btn-filter btn-lg" text="" opType="function" precall="validateForm">
                                     ${views.role['topAgent.edit.nextStep']}
                                 </soul:button>
                                 <%--//测试用--%>

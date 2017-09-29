@@ -18,7 +18,7 @@
             <th>${views.common['orderNum']}</th>
             <th>${views.column['VPlayerDeposit.username']}</th>
             <th>${views.column['VPlayerDeposit.rankName']}</th>
-            <th>创建时间</th>
+            <th>${views.fund_auto['创建时间']}</th>
             <th class="inline" style="width: 20%">
                 <gb:select name="search.rechargeType" value="${command.search.rechargeType}"
                            cssClass="btn-group chosen-select-no-single" callback="query"

@@ -34,8 +34,8 @@
                             </div>
                             <input type="text" class="form-control list-search-input-text " placeholder="多个账号,用半角逗号隔开" id="searchtext" name="${firstSelectKey}"  style="width: 250px">
                             <div class="input-group" style="padding-left: 10px;">
-                                <span class="input-group-addon bg-gray">真实姓名</span>
-                                <input type="text" class="form-control list-search-input-text" name="search.realName" style="width: 150px">
+                                <span class="input-group-addon bg-gray">${views.setting_auto['真实姓名']}</span>
+                                <input type="text" class="list-search-input-text" name="search.realName" style="font-size:14px;height:34px;width: 150px;float:left;padding: 5px 12px;border: 1px solid #b4b7bb">
                             </div>
                             <span class="input-group-btn">
                                         <soul:button cssClass="btn btn-filter btn-query-css" precall="checksearch" tag="button" opType="function" text="${views.common['search']}" target="query">
