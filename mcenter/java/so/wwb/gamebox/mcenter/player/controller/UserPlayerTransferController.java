@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
+import org.soul.commons.lang.string.StringTool;
 import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,9 @@ import so.wwb.gamebox.mcenter.player.form.UserPlayerTransferSearchForm;
 import so.wwb.gamebox.model.master.player.po.UserPlayerTransfer;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerTransferListVo;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerTransferVo;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -36,6 +40,13 @@ public class UserPlayerTransferController extends BaseCrudController<IUserPlayer
 
     @Override
     protected UserPlayerTransferListVo doList(UserPlayerTransferListVo listVo, UserPlayerTransferSearchForm form, BindingResult result, Model model) {
+        if(StringTool.isNotBlank(listVo.getSearch().getPlayerAccount())){
+            String playerAccount = listVo.getSearch().getPlayerAccount();
+            String[] usernames = playerAccount.split(",");
+            List<String> nameList = Arrays.asList(usernames);
+            listVo.getSearch().setUsernameList(nameList);
+            listVo.getSearch().setPlayerAccount(null);
+        }
         return super.doList(listVo, form, result, model);
     }
 

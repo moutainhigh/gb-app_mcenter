@@ -7,6 +7,7 @@
         <thead>
         <tr class="bg-gray">
             <th rowspan="2">${views.fund_auto['序号']}</th>
+            <th rowspan="2"><input type="checkbox" class="i-checks"></th>
             <th rowspan="2">${views.wc_fund['operation.rebate.agentPath']}</th>
             <th rowspan="2">${views.wc_fund['代理账号']}</th>
             <th rowspan="2">${views.wc_fund['代理层级']}</th>
@@ -45,6 +46,7 @@
             <c:forEach items="${command.result}" var="p" varStatus="status">
                 <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
+                    <td><input type="checkbox" class="i-checks" value="${p.id}"></td>
                     <td style="text-align: left">
                         <a href="/rebateAgent/list.html?search.agentId=${p.agentId}" nav-target="mainFrame">${p.parentNameArray}</a>
                     </td>
