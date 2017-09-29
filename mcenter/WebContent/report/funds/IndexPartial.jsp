@@ -132,7 +132,7 @@
                 </td>
                 <td>
                     <c:choose>
-                        <c:when test="${pt.payName!=null}">
+                        <c:when test="${!empty pt.payName && pt.transactionType eq 'deposit'}">
                             ${pt.payName}
                         </c:when>
                         <c:otherwise>
