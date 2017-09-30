@@ -34,7 +34,7 @@
                 <div class="form-group over clearfix">
                     <label class="col-xs-3 al-right line-hi34">${views.role['player.view.remark.remarkTitle']}：</label>
                     <div class="input-group m-b col-xs-9">
-                        <input class="form-control" name="result.remarkTitle" value="${result.remarkTitle}">
+                        <input class="form-control" name="result.remarkTitle" value="${command.result.remarkTitle}">
                     </div>
                 </div>
             <div class="form-group over clearfix">
