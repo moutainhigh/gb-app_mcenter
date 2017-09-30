@@ -61,6 +61,12 @@
                             <c:when test="${p.playCode eq 'keno_selection_three'}">
                                 中3@${p.odd} 中2@${p.odd2}
                             </c:when>
+                            <c:when test="${p.playCode eq 'lhc_three_in_two'}">
+                                中二@${p.odd} 中三@${p.odd2}
+                            </c:when>
+                            <c:when test="${p.playCode eq 'lhc_two_in_special'}">
+                                中特@${p.odd} 中二@${p.odd2}
+                            </c:when>
                             <c:otherwise>
                                 ${p.odd}
                             </c:otherwise>
