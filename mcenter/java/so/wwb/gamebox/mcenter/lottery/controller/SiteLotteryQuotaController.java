@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.lottery.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
+import org.soul.commons.enums.EnumTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
@@ -23,10 +24,12 @@ import so.wwb.gamebox.model.company.lottery.po.SiteLotteryQuota;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryQuotaListVo;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryQuotaVo;
 import so.wwb.gamebox.model.enums.lottery.LotteryEnum;
+import so.wwb.gamebox.model.enums.lottery.LotteryPlayEnum;
 import so.wwb.gamebox.web.cache.Cache;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +72,14 @@ public class SiteLotteryQuotaController extends NoMappingCrudController {
         quotaVo.setQuotaList(listVo.getResult());
         Map<Object, SiteLotteryQuota> quotaMap = CollectionTool.toEntityMap(listVo.getResult(), SiteLotteryQuota.PROP_PLAY_CODE);
         model.addAttribute("command", quotaMap);
+        Map<String,String> playMap = new LinkedHashMap<>();
+        for(SiteLotteryQuota quota : listVo.getResult()){
+            LotteryPlayEnum playEnum = EnumTool.enumOf(LotteryPlayEnum.class,quota.getPlayCode());
+            if(playEnum != null){
+                playMap.put(playEnum.getTrans(),playEnum.getCode());
+            }
+        }
+        model.addAttribute("playMap", playMap);
         String url = getViewBasePath() + "/" + code + "/Index";
         return url;
     }
