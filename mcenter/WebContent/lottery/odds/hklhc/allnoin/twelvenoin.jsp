@@ -17,12 +17,12 @@
                         <th>十二不中</th>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="hidden" value="${command['十二不中'].id}" name="lotteryOdds[49].id">
-                                <input type="hidden" value="${command['十二不中'].code}" name="lotteryOdds[49].code">
-                                <input type="hidden" value="${command['十二不中'].betCode}" name="lotteryOdds[49].betCode">
-                                <input type="hidden" value="${command['十二不中'].siteId}" name="lotteryOdds[49].siteId">
-                                <input type="hidden" value="${command['十二不中'].betNum}" name="lotteryOdds[49].betNum">
-                                <input type="text" class="form-control input-sm" placeholder="<=${command['十二不中'].oddLimit}" data-limit="${command['十二不中'].oddLimit}" data-value="${command['十二不中'].odd}" name="lotteryOdds[49].odd" value="${command['十二不中'].odd}">
+                                <input type="hidden" value="${command['12'].id}" name="lotteryOdds[49].id">
+                                <input type="hidden" value="${command['12'].code}" name="lotteryOdds[49].code">
+                                <input type="hidden" value="${command['12'].betCode}" name="lotteryOdds[49].betCode">
+                                <input type="hidden" value="${command['12'].siteId}" name="lotteryOdds[49].siteId">
+                                <input type="hidden" value="${command['12'].betNum}" name="lotteryOdds[49].betNum">
+                                <input type="text" class="form-control input-sm" placeholder="<=${command['12'].oddLimit}" data-limit="${command['12'].oddLimit}" data-value="${command['12'].odd}" name="lotteryOdds[49].odd" value="${command['12'].odd}">
                             </div>
                         </td>
                     </tr>
