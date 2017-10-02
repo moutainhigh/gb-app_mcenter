@@ -2602,10 +2602,23 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
         UserBankcardVo vo = new UserBankcardVo();
         vo.getSearch().setBankcardNumber(userBankcardForm.getResult_bankcardNumber());
+        vo.getSearch().setUserType(UserTypeEnum.PLAYER.getCode());
         UserBankcard isExists = ServiceTool.userBankcardService().cardIsExists(vo);
+        if(isExists==null){
+            return true;
+        }
         String userId = userBankcardForm.getResult_userId();
-        if (isExists != null && isExists.getIsDefault() && isExists.getUserId().equals(Integer.valueOf(userId))) {
-            return false;
+        String parameter = request.getParameter("result.id");
+        if(StringTool.isNotBlank(parameter)){
+            Integer id = Integer.valueOf(parameter);
+            if(!id.equals(isExists.getId())                                                                                                                                                                                                                                                                     ){
+                return false;
+            }
+        }else{
+            if (!isExists.getUserId().equals(Integer.valueOf(userId))) {
+                return false;
+            }
+
         }
         return true;
     }
