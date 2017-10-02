@@ -156,7 +156,7 @@ public class SiteLotteryQuotaController extends NoMappingCrudController {
                 LOG.info("查询查询不到对应的站点单类别单项限额,id{0},odd{1}", quota.getId(), quota.getPlayQuota());
                 return false;
             }
-            if (quota.getBetQuota() < 0 || quota.getNumQuota() < 0 ||quota.getPlayQuota() < 0&&!lotteryQuota.getCode().equals(LotteryEnum.HKLHC.getCode())) {
+            if (quota.getBetQuota() < 0 || quota.getNumQuota() < 0 ||(!lotteryQuota.getCode().equals(LotteryEnum.HKLHC.getCode())&&quota.getPlayQuota() < 0)) {
                 LOG.info("设置限额不能小于0");
                 return false;
             }
