@@ -13,7 +13,10 @@
         <div class="wrapper white-bg shadow">
             <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
                 <c:set var="rate" value="${useProfit*100/profit}"/>
-                <c:set var="transferRate" value="${transferLimit*100/currentTransferLimit}"/>
+                <c:set var="transferRate" value="0"/>
+                <c:if test="${!empty currentTransferLimit}">
+                    <c:set var="transferRate" value="${transferLimit*100/currentTransferLimit}"/>
+                </c:if>
                 <c:choose>
                     <c:when test="${!empty leftTime && leftTime>0 && (rate<120 && rate>=100||transferRate<120&&transferRate>=100)}">
                         <div class="sys_tab_wrap p-xs">
