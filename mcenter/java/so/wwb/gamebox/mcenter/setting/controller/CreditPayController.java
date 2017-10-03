@@ -78,6 +78,11 @@ public class CreditPayController {
         SysSite sysSite = ServiceToolBase.sysSiteService().get(sysSiteVo).getResult();
         model.addAttribute("profit", sysSite.getMaxProfit());
         model.addAttribute("defaultProfit", sysSite.getDefaultProfit());
+        double transferOutSum = sysSite.getTransferOutSum() == null ? 0 : sysSite.getTransferOutSum();
+        double transferIntoSum = sysSite.getTransferIntoSum() == null ? 0 : sysSite.getTransferIntoSum();
+        //转入api余额扣除（转出到api金额-转入到钱包余额）
+        model.addAttribute("transferLimit",  transferOutSum - transferIntoSum);
+        model.addAttribute("currentTransferLimit", sysSite.getCurrentTransferLimit());
         Date profitTime = sysSite.getProfitTime();
         if (profitTime != null) { //如果时间为空就说明还没有提醒无需显示倒计时
             //默认剩余时间
