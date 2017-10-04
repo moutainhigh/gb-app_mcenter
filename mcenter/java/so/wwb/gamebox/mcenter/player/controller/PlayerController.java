@@ -1,7 +1,6 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
 
-import org.apache.ibatis.annotations.Insert;
 import org.soul.commons.bean.IEntity;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionQueryTool;
@@ -23,7 +22,6 @@ import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.IpTool;
 import org.soul.commons.net.ServletTool;
-import org.soul.commons.query.Criteria;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Order;
@@ -64,7 +62,6 @@ import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -102,7 +99,6 @@ import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawListVo;
 import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawVo;
 import so.wwb.gamebox.model.master.operation.po.PlayerAdvisoryRead;
 import so.wwb.gamebox.model.master.operation.vo.PlayerAdvisoryReadVo;
-import so.wwb.gamebox.model.master.operation.vo.RebateAgentListVo;
 import so.wwb.gamebox.model.master.player.enums.PlayerAdvisoryEnum;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
 import so.wwb.gamebox.model.master.player.enums.UserBankcardTypeEnum;
@@ -129,7 +125,6 @@ import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.xml.ws.RequestWrapper;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -2831,6 +2826,28 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
 
         return "true";
+    }
+
+    /**
+     * 批量冻结账号
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping("/changeStatus")
+    @ResponseBody
+    public Map changeStatus(VUserPlayerListVo listVo) {
+        Map map=new HashMap(2,1f);
+        try {
+            ServiceTool.userPlayerService().batchFreezenAccount(listVo);
+            map = getVoMessage(listVo);
+        }catch (Exception ex){
+            map.put("state",false);
+            map.put("msg","操作失败");
+            LOG.error(ex,"批量冻结账户失败！");
+        }
+
+        return map;
     }
 
     //endregion

@@ -205,7 +205,9 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                 listVo.getSearch().getEndCreateTime() == null &&
                 listVo.getSearch().getPlayerRanks() == null &&
                 listVo.getSearch().getStartMoney() == null &&
-                listVo.getSearch().getEndMoney() == null;
+                listVo.getSearch().getEndMoney() == null &&
+                listVo.getSearch().getFundTypes() == null &&
+                listVo.getSearch().getApiList() == null;
     }
 
     /**

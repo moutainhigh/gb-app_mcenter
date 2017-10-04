@@ -78,12 +78,24 @@ public class CreditPayController {
         SysSite sysSite = ServiceToolBase.sysSiteService().get(sysSiteVo).getResult();
         model.addAttribute("profit", sysSite.getMaxProfit());
         model.addAttribute("defaultProfit", sysSite.getDefaultProfit());
+        double transferOutSum = sysSite.getTransferOutSum() == null ? 0 : sysSite.getTransferOutSum();
+        double transferIntoSum = sysSite.getTransferIntoSum() == null ? 0 : sysSite.getTransferIntoSum();
+        //转入api余额扣除（转出到api金额-转入到钱包余额）
+        model.addAttribute("transferLimit", transferOutSum - transferIntoSum);
+        model.addAttribute("currentTransferLimit", sysSite.getCurrentTransferLimit());
         Date profitTime = sysSite.getProfitTime();
-        if (profitTime != null) { //如果时间为空就说明还没有提醒无需显示倒计时
+        Date transferTime = sysSite.getTransferLimitTime();
+        if (profitTime != null || transferTime != null) { //如果时间为空就说明还没有提醒无需显示倒计时
+            Date time;
+            if (profitTime == null || (transferTime != null && profitTime.getTime() >= transferTime.getTime())) {
+                time = transferTime;
+            } else {
+                time = profitTime;
+            }
             //默认剩余时间
             SysParam leftTimeParam = ParamTool.getSysParam(BossParamEnum.SETTING_CREDIT_PROFIT_LEFT_TIME);
             int leftTime = leftTimeParam != null && StringTool.isNotBlank(leftTimeParam.getParamValue()) && NumberTool.isNumber(leftTimeParam.getParamValue()) ? NumberTool.toInt(leftTimeParam.getParamValue()) : DEFAULT_LEFT_TIME;
-            Date lastTime = DateTool.addHours(profitTime, leftTime);
+            Date lastTime = DateTool.addHours(time, leftTime);
             //倒计时
             model.addAttribute("leftTime", DateTool.minutesBetween(lastTime, SessionManager.getDate().getNow()));
         }
@@ -94,7 +106,7 @@ public class CreditPayController {
         creditAccountVo.setCurrency(CurrencyEnum.CNY.getCode());
         model.addAttribute("accountMap", ServiceTool.creditAccountService().getBankAccount(creditAccountVo));
         model.addAttribute("validateRule", JsRuleCreator.create(CreditRecordForm.class));
-        model.addAttribute("useProfit", CreditHelper.getProfit(SessionManager.getSiteId(),SessionManager.getTimeZone()));
+        model.addAttribute("useProfit", CreditHelper.getProfit(SessionManager.getSiteId(), SessionManager.getTimeZone()));
         return CREDIT_PAY_URI;
     }
 

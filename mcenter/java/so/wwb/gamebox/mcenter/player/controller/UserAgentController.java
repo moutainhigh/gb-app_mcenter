@@ -17,6 +17,7 @@ import org.soul.model.sys.po.SysParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
@@ -83,8 +84,6 @@ public class UserAgentController extends BaseUserAgentController {
         playerRankListVo.setProperties(PlayerRank.PROP_ID, PlayerRank.PROP_RANK_NAME);
 
         userAgentVo.setSomePlayerRanks(ServiceToolBase.playerRankService().searchProperties(playerRankListVo));*/
-        PlayerRankVo playerRankVo = new PlayerRankVo();
-        userAgentVo.setSomePlayerRanks(ServiceToolBase.playerRankService().queryUsableRankList(playerRankVo));
 
         SysParam param= ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_FIELD_SETTING_AGENT);
         List<FieldSort> fieldSortAll = (List<FieldSort>) JsonTool.fromJson(param.getParamValue(),JsonTool.createCollectionType(ArrayList.class,FieldSort.class));
@@ -133,10 +132,25 @@ public class UserAgentController extends BaseUserAgentController {
             sysUserListVo.getQuery().setCriterions(new Criterion[]{new Criterion(SysUser.PROP_ID, Operator.EQ, userAgentVo.getSearch().getParentId())});
             userAgentVo.setTopAgents(ServiceToolBase.sysUserService().searchProperties(sysUserListVo));
             userAgentVo.setAgentUserId(userAgentVo.getSearch().getParentId());
+
+            if(userAgentVo.getSearch().getParentId()!=null){
+                UserAgentVo parentAgent = new UserAgentVo();
+                parentAgent.getSearch().setId(userAgentVo.getSearch().getParentId());
+                parentAgent = ServiceTool.userAgentService().get(parentAgent);
+                if(parentAgent.getResult()!=null&&parentAgent.getResult().getPlayerRankId()!=null){
+                    PlayerRankVo playerRankVo = new PlayerRankVo();
+                    playerRankVo.getSearch().setId(parentAgent.getResult().getPlayerRankId());
+                    userAgentVo.setSomePlayerRanks(ServiceToolBase.playerRankService().queryUsableRankList(playerRankVo));
+                }
+            }
+
         }else{
             sysUserListVo.getQuery().setCriterions(new Criterion[]{new Criterion(SysUser.PROP_USER_TYPE, Operator.EQ, UserTypeEnum.TOP_AGENT.getCode()),
                     new Criterion(SysUser.PROP_STATUS,Operator.EQ,SysUserStatus.NORMAL.getCode())});
             userAgentVo.setTopAgents(ServiceToolBase.sysUserService().searchProperties(sysUserListVo));
+
+            PlayerRankVo playerRankVo = new PlayerRankVo();
+            userAgentVo.setSomePlayerRanks(ServiceToolBase.playerRankService().queryUsableRankList(playerRankVo));
 
         }
         getAnswer(userAgentVo);
