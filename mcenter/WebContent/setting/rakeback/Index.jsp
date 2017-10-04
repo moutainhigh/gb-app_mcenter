@@ -22,7 +22,7 @@
                     <a href="/setting/rakebackSet/create.html" nav-target="mainFrame" type="button" class="btn btn-info btn-addon pull-left m-r-sm">
                         <i class="fa fa-plus"></i><span class="hd">${views.setting['rakeback.list.createPlan']}</span>
                     </a>
-                    <%--<soul:button tag="button" cssClass="btn btn-primary-hide" text="${views.setting['rakeback.settlement.period']}" target="${root}/setting/vRakebackSet/rakebackPeriod/view.html" opType="dialog"><i class="fa fa-sign-out"></i><span class="hd">${views.setting['rakeback.settlement.period']}</span></soul:button>--%>
+                    <soul:button tag="button" cssClass="btn btn-primary-hide" text="${views.setting['rakeback.settlement.period']}" target="${root}/setting/vRakebackSet/rakebackPeriod/view.html" opType="dialog"><i class="fa fa-sign-out"></i><span class="hd">${views.setting['rakeback.settlement.period']}</span></soul:button>
                     <%--<button type="button" class="btn btn-danger-hide"><i class="fa fa-trash-o"></i><span class="hd">${views.common['delete']}</span></button>--%>
                     <div class="search-wrapper btn-group pull-right m-r-n-xs">
                         <div class="input-group">
