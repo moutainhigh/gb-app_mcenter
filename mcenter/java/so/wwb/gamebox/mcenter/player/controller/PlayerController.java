@@ -2836,7 +2836,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/changeStatus")
     @ResponseBody
-    public Map changeStatus(VUserPlayerListVo listVo) {
+    public Map changeStatus(Integer[] ids) {
+        VUserPlayerListVo listVo=new VUserPlayerListVo();
+        listVo.getSearch().setIds(Arrays.asList(ids));
         Map map=new HashMap(2,1f);
         try {
             ServiceTool.userPlayerService().batchFreezenAccount(listVo);
