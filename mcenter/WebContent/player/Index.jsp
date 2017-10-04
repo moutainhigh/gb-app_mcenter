@@ -612,7 +612,7 @@
 
                         <div class="btn-group" style="padding-right: 10px">
                             <soul:button tag="button" target="freezenAccount" opType="function" text="${views.player_auto['账号冻结']}"
-                                         cssClass="btn btn-danger-hide _delete" callback="callBackQuery"
+                                         cssClass="btn btn-danger-hide _delete" callback="query"
                                          confirm="${views.player_auto['确认冻结']}"><i class="fa fa-road"></i>
                                 <span class="hd">${views.player_auto['账号冻结']}</span></soul:button>
                         </div>
