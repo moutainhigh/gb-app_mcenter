@@ -60,8 +60,7 @@
                     <div class="joy-list-row-operations">
                         <c:if test="${p.simulationPlayerStatus!='2'}">
                             <soul:button target="${root}/simulationAccount/editaAccount.html?search.id=${p.id}" text="${views.common['edit']}" opType="dialog" callback="callBackQuery"/>
-                            <soul:button target="unableAccount" opType="function" text="${views.player_auto['账号停用']}"
-                                         callback="query">
+                            <soul:button target="unableAccount" searchId="${p.id}" opType="function" text="${views.player_auto['账号停用']}">
                                 <span class="hd">${views.player_auto['停用']}</span></soul:button>
                             <soul:button target="${root}/simulationAccount/addQuota.html?search.id=${p.id}" text="额度" opType="dialog" callback="callBackQuery" title="增加额度"/>
                         </c:if>
