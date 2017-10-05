@@ -6,6 +6,7 @@ import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
 import so.wwb.gamebox.mcenter.player.controller.SimulationAccountController;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Pattern;
 
 
@@ -33,7 +34,9 @@ public class SimulationEditPlayerForm implements IForm {
         this.sysUser_password = sysUser_password;
     }
 
-    @NotBlank(message = "额度不能为空")
+    @NotBlank(message = "fund.ManualDepositForm.rechargeAmount.notBlank")
+    @Pattern(regexp = FormValidRegExps.MONEY, message = "fund_auto.金额格式不正确")
+    @Max(value = 99999999, message = "fund.ManualDepositForm.rechargeAmount.Max")
     public String getResult_walletBalance() {
         return result_walletBalance;
     }

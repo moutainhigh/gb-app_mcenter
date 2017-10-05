@@ -10,6 +10,7 @@ import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,7 +43,7 @@ import java.util.Map;
 /**`
  * 控制器
  *
- * Created by snekey using soul-code-generator on 2015-6-19 13:51:46
+ * Created by snekey using soul-code-generator on 2015-6-19 virtualAccountSiteId:51:46
  */
 @Controller
 @RequestMapping("/simulationAccount")
@@ -53,10 +54,13 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         return "/player/simulationAccount/";
     }
 
+    @Value("${role.virtual.account.siteId}")
+    private Integer virtualAccountSiteId;
+
     @RequestMapping("/playerView")
     protected String playerView(VUserPlayerListVo listVo, Model model, HttpServletRequest request) {
         listVo.getSearch().setSiteId(SessionManager.getSiteId());
-        listVo._setDataSourceId(13);
+        listVo._setDataSourceId(virtualAccountSiteId);
         VUserPlayerListVo vUserPlayerListVo = ServiceTool.vUserPlayerService().search(listVo);
         model.addAttribute("command",vUserPlayerListVo);
         if (ServletTool.isAjaxSoulRequest(request)) {
@@ -92,9 +96,9 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         sysUser.setMemo(Vo.getSysUser().getMemo());
         userRegisterVo.setUserPlayer(userPlayer);
         userRegisterVo.setSysUser(sysUser);
-        userRegisterVo._setDataSourceId(13);
+        userRegisterVo._setDataSourceId(virtualAccountSiteId);
         userRegisterVo = ServiceTool.userPlayerService().register(userRegisterVo);
-        Vo._setDataSourceId(13);
+        Vo._setDataSourceId(virtualAccountSiteId);
         userPlayer.setId(userRegisterVo.getSysUser().getId());
         Vo.setResult(userPlayer);
         Vo.setProperties(UserPlayer.PROP_WALLET_BALANCE);
@@ -116,7 +120,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         sysUserVo.getSearch().setSubsysCode(SubSysCodeEnum.PCENTER.getCode());
         sysUserVo.getSearch().setUsername(userName);
         sysUserVo.getSearch().setSiteId(SessionManager.getSiteId());
-        sysUserVo._setDataSourceId(13);
+        sysUserVo._setDataSourceId(virtualAccountSiteId);
         String existAgent = ServiceTool.userAgentService().isExistAgent(sysUserVo);
         return existAgent;
     }
@@ -139,7 +143,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
     @RequestMapping("/editaAccount")
     public String editAccount(VUserPlayerVo vUserPlayerVo, Model model){
         model.addAttribute("validateRule", JsRuleCreator.create(SimulationEditPlayerForm.class));
-        vUserPlayerVo._setDataSourceId(13);
+        vUserPlayerVo._setDataSourceId(virtualAccountSiteId);
         VUserPlayerVo playerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
         model.addAttribute("command",playerVo);
         return getViewBasePath()+"Edit";
@@ -160,7 +164,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         }
         sysUser.setMemo(vUserPlayerVo.getSysUser().getMemo());
         sysUserVo.setResult(sysUser);
-        sysUserVo._setDataSourceId(13);
+        sysUserVo._setDataSourceId(virtualAccountSiteId);
         sysUserVo.setProperties(SysUser.PROP_PASSWORD,SysUser.PROP_FREEZE_START_TIME,SysUser.PROP_MEMO);
         SysUserVo userVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
         if (userVo.isSuccess()){
@@ -206,7 +210,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         playerRecharge.setRechargeAmount(walletBalance);
         playerRecharge.setRechargeType(RechargeTypeEnum.MANUAL_DEPOSIT.getCode());
         playerRechargeVo.setResult(playerRecharge);
-        playerRechargeVo._setDataSourceId(13);
+        playerRechargeVo._setDataSourceId(virtualAccountSiteId);
         PlayerRechargeVo rechargeVo = ServiceTool.playerRechargeService().manualRecharge(playerRechargeVo);
         if (rechargeVo.isSuccess()){
             map.put("state",true);
@@ -223,7 +227,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
     public Map deletePlayer(Integer[] ids){
         VUserPlayerListVo listVo=new VUserPlayerListVo();
         listVo.getSearch().setIds( Arrays.asList(ids));
-        listVo._setDataSourceId(13);
+        listVo._setDataSourceId(virtualAccountSiteId);
         ServiceTool.userPlayerService().deletePlayer(listVo);
         return null;
     }
@@ -236,7 +240,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         sysUser.setStatus(PlayerStatusEnum.DISABLE.getCode());
         sysUser.setId(vUserPlayerVo.getSearch().getId());
         sysUserVo.setResult(sysUser);
-        sysUserVo._setDataSourceId(13);
+        sysUserVo._setDataSourceId(virtualAccountSiteId);
         sysUserVo.setProperties(SysUser.PROP_STATUS);
         ServiceTool.sysUserService().updateOnly(sysUserVo);
         return null;
