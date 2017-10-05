@@ -83,6 +83,7 @@ public class CreditPayController {
         //转入api余额扣除（转出到api金额-转入到钱包余额）
         model.addAttribute("transferLimit", transferOutSum - transferIntoSum);
         model.addAttribute("currentTransferLimit", sysSite.getCurrentTransferLimit());
+        model.addAttribute("defaultTransferLimit", sysSite.getDefaultTransferLimit());
         Date profitTime = sysSite.getProfitTime();
         Date transferTime = sysSite.getTransferLimitTime();
         if (profitTime != null || transferTime != null) { //如果时间为空就说明还没有提醒无需显示倒计时
