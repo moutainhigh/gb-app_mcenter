@@ -51,7 +51,7 @@
                             <tr>
                                 <c:if test="${empty _apiId || _apiId ne someGame['apiId']}">
                                     <th rowspan="${command.groupSomeGames[someGame['apiId']].size()}">
-                                            ${gbFn:getApiName(someGame['apiId'].toString())}
+                                            ${gbFn:getSiteApiName(someGame['apiId'].toString())}
                                     </th>
                                 </c:if>
                                 <td>
@@ -83,7 +83,7 @@
                         <tr>
                             <c:if test="${empty _apiId || _apiId ne someGame['apiId']}">
                                 <th rowspan="${command.groupSomeGames[someGame['apiId']].size()}">
-                                        ${gbFn:getApiName(someGame['apiId'].toString())}
+                                        ${gbFn:getSiteApiName(someGame['apiId'].toString())}
                                 </th>
                             </c:if>
                             <td>

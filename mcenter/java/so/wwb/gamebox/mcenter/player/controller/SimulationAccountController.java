@@ -62,6 +62,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         listVo.getSearch().setSiteId(SessionManager.getSiteId());
         listVo._setDataSourceId(virtualAccountSiteId);
         VUserPlayerListVo vUserPlayerListVo = ServiceTool.vUserPlayerService().search(listVo);
+        model.addAttribute("foreverTime",Const.Platform_Forever_Date);
         model.addAttribute("command",vUserPlayerListVo);
         if (ServletTool.isAjaxSoulRequest(request)) {
             return getViewBasePath() + "IndexPartial";
@@ -92,7 +93,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         }else {
             sysUser.setFreezeStartTime(Const.Platform_Forever_Date);
         }
-        sysUser.setFreezeEndTime(DateTool.addYears(Vo.getSysUser().getFreezeStartTime(),3000));
+        sysUser.setFreezeEndTime(DateTool.addYears(sysUser.getFreezeStartTime(),3000));
         sysUser.setMemo(Vo.getSysUser().getMemo());
         userRegisterVo.setUserPlayer(userPlayer);
         userRegisterVo.setSysUser(sysUser);
