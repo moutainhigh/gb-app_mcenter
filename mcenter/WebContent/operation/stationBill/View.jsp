@@ -84,7 +84,7 @@
 										<tr>
 											<c:if test="${status.index == 0}">
 												<td rowspan="${a.value.size()}" class="api-name-b-r">
-													<input type="checkbox" class="i-checks" disabled="" ${contractApiMap[a.key].isAssume?"checked":""}><b>${gbFn:getApiName(a.key.toString())}</b>
+													<input type="checkbox" class="i-checks" disabled="" ${contractApiMap[a.key].isAssume?"checked":""}><b>${gbFn:getSiteApiName(a.key.toString())}</b>
 												</td>
 											</c:if>
 											<td>${dicts.game.game_type[s.gameType]}</td>

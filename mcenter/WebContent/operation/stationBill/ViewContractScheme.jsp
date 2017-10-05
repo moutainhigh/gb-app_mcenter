@@ -69,7 +69,7 @@
 											</tr>
 											<c:forEach items="${command.contractApiList}" var="p">
 												<tr>
-													<td><input type="checkbox" class="i-checks" disabled ${p.isAssume?'checked':''}> ${gbFn:getApiName((p.apiId).toString())}</td>
+													<td><input type="checkbox" class="i-checks" disabled ${p.isAssume?'checked':''}> ${gbFn:getSiteApiName((p.apiId).toString())}</td>
 													<td>
 														<c:forEach items="${p.siteI18nList}" var="ps">
 															<dd class="inline-ch">${ps.value}</dd>

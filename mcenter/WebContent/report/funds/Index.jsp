@@ -403,7 +403,7 @@
                                                 <td class=" al-left">
                                                     <label><input type="checkbox" class="i-checks Ptype" data-type="6">
                                                         <span class="search-game-title m-l-xs">
-                                                            <b>转账</b></span>
+                                                            <b>${views.fund['transfer']}</b></span>
                                                     </label>
                                                 </td>
                                             </tr>
@@ -435,7 +435,7 @@
                                                     <c:forEach var="api" items="${siteApiMaps}">
                                                         <label class="fwn m-r-sm">
                                                             <input type="checkbox" class="i-checks tranType" data-type="7" apiId="${api.key}" transaction-type="${transfers}" name="search.apiList" value="${api.key}">
-                                                            <span class="m-r-xs">${gbFn:getSiteApiName(api.key)}</span>
+                                                            <span class="m-r-xs">${gbFn:getApiName(api.key)}</span>
                                                         </label>
                                                     </c:forEach>
 
