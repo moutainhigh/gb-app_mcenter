@@ -41,13 +41,19 @@
                 <td>${soulFn:formatCurrency(p.walletBalance)}</td>
                 <td>
                     <c:if test="${p.simulationPlayerStatus=='1'}">
+                        <span class="label label-success">
                         正常
+                            </span>
                     </c:if>
                     <c:if test="${p.simulationPlayerStatus=='5'}">
+                    <span class="label label-warning">
                         过期
+                    </span>
                     </c:if>
                     <c:if test="${p.simulationPlayerStatus=='2'}">
+                    <span class="label label-danger">
                         已停用
+                    </span>
                     </c:if>
                 </td>
                 <td>
