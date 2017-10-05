@@ -27,6 +27,17 @@
                                      post="getSelectIds" cssClass="btn btn-danger-hide _delete" callback="query" confirm="${views.content_auto['确认删除']}?">
                             <i class="fa fa-trash-o"></i><span class="hd">删除</span></soul:button>
                     </div>
+                    <div class="col-sm-3 btn-group pull-right m-r-n-xs">
+                        <div class="input-group">
+                            <input type="text" name="search.username" class="form-control" placeholder="模拟账号" value="${command1.search.username}"/>
+                            <span class="input-group-btn">
+                                <soul:button target="query" opType="function" cssClass="btn btn-filter btn-query-css" tag="button" text="">
+                                    <i class="fa fa-search"></i>
+                                    <span class="hd">&nbsp;${views.common['detection']}</span>
+                                </soul:button>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
                     <div class="search-list-container">
