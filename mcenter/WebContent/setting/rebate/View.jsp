@@ -43,7 +43,7 @@
 							</tr>
 							<tr class="bg-color">
 								<c:forEach items="${command.apiIds}" var="api">
-									<td class="bg-gray"><b>${gbFn:getSiteApiName(api.toString())}</b></td>
+									<td class="bg-gray"><b>${gbFn:getApiName(api.toString())}</b></td>
 								</c:forEach>
 							</tr>
 							<c:forEach items="${command.rebateGrads}" var="rebateGrad" varStatus="status">
