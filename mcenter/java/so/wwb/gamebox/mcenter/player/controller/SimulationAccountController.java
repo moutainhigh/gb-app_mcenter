@@ -92,7 +92,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         }else {
             sysUser.setFreezeStartTime(Const.Platform_Forever_Date);
         }
-        sysUser.setFreezeEndTime(DateTool.addYears(Vo.getSysUser().getFreezeStartTime(),3000));
+        sysUser.setFreezeEndTime(DateTool.addYears(sysUser.getFreezeStartTime(),3000));
         sysUser.setMemo(Vo.getSysUser().getMemo());
         userRegisterVo.setUserPlayer(userPlayer);
         userRegisterVo.setSysUser(sysUser);
