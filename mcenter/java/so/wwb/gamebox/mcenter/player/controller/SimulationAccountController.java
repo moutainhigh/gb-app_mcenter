@@ -195,18 +195,19 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         if (CollectionTool.isEmpty(vUserPlayerVo.getPlayerIds())){
             sysUser.setId(vUserPlayerVo.getSearch().getId());
             playerRechargeVo.setSysUser(sysUser);
-            insertQuota(vUserPlayerVo, playerRechargeVo, playerRecharge,walletBalance,map);
+            map=insertQuota(playerRechargeVo, playerRecharge,walletBalance);
         }else {
             for (Integer id : vUserPlayerVo.getPlayerIds()){
                 playerRechargeVo.getSysUser().setId(id);
-                insertQuota(vUserPlayerVo, playerRechargeVo, playerRecharge,walletBalance,map);
+                map=insertQuota(playerRechargeVo, playerRecharge,walletBalance);
             }
         }
 
         return map;
     }
 
-    private void insertQuota(VUserPlayerVo vUserPlayerVo, PlayerRechargeVo playerRechargeVo, PlayerRecharge playerRecharge,double walletBalance,Map map) {
+    private Map insertQuota(PlayerRechargeVo playerRechargeVo, PlayerRecharge playerRecharge,double walletBalance) {
+        Map map=new HashMap(2,1f);
         playerRecharge.setRechargeAmount(walletBalance);
         playerRecharge.setRechargeType(RechargeTypeEnum.MANUAL_DEPOSIT.getCode());
         playerRechargeVo.setResult(playerRecharge);
@@ -219,22 +220,31 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
             map.put("state",false);
             map.put("msg","失败");
         }
-        return;
+        return map;
     }
 
     @RequestMapping("/deletePlayer")
     @ResponseBody
     public Map deletePlayer(Integer[] ids){
+        Map map=new HashMap(2,1f);
         VUserPlayerListVo listVo=new VUserPlayerListVo();
         listVo.getSearch().setIds( Arrays.asList(ids));
         listVo._setDataSourceId(virtualAccountSiteId);
-        ServiceTool.userPlayerService().deletePlayer(listVo);
-        return null;
+        VUserPlayerListVo vUserPlayerListVo = ServiceTool.userPlayerService().deletePlayer(listVo);
+        if (vUserPlayerListVo.isSuccess()){
+            map.put("state",true);
+            map.put("msg","成功");
+        }else {
+            map.put("state",false);
+            map.put("msg","失败");
+        }
+        return map;
     }
 
     @RequestMapping("/disablePlayer")
     @ResponseBody
-    public String disablePlayer(VUserPlayerVo vUserPlayerVo){
+    public Map disablePlayer(VUserPlayerVo vUserPlayerVo){
+        Map map=new HashMap(2,1f);
         SysUserVo sysUserVo=new SysUserVo();
         SysUser sysUser=new SysUser();
         sysUser.setStatus(PlayerStatusEnum.DISABLE.getCode());
@@ -242,8 +252,15 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         sysUserVo.setResult(sysUser);
         sysUserVo._setDataSourceId(virtualAccountSiteId);
         sysUserVo.setProperties(SysUser.PROP_STATUS);
-        ServiceTool.sysUserService().updateOnly(sysUserVo);
-        return null;
+        SysUserVo userVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
+        if (userVo.isSuccess()){
+            map.put("state",true);
+            map.put("msg","成功");
+        }else {
+            map.put("state",false);
+            map.put("msg","失败");
+        }
+        return map;
     }
     //    endregion your codes
 
