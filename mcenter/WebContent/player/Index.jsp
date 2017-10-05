@@ -490,7 +490,7 @@
 
                             <soul:button target="${root}/player/addNewPlayer.html" opType="dialog" permission="role:player_add"
                                          text="${views.player_auto['新增玩家']}" callback="query"
-                                         cssClass="btn btn-filter"/>
+                                         cssClass="btn btn-filter pull-right m-r"/>
 
                             <%--<a href="/player/list.html?search.version=old" nav-target="mainFrame"--%>
                                <%--style="right: 21%;position: absolute;z-index: 888; padding-top: 10px;">${views.player_auto['切换到旧版本']}</a>--%>
