@@ -35,6 +35,7 @@ import so.wwb.gamebox.model.master.player.vo.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.Null;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -193,14 +194,18 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         PlayerRecharge playerRecharge=new PlayerRecharge();
         SysUser sysUser=new SysUser();
         playerRechargeVo.setAuditType(PlayerRechargeVo.FREE_AUDIT);
-        if (CollectionTool.isEmpty(vUserPlayerVo.getPlayerIds())){
+        if ((vUserPlayerVo.getSearch().getId())!=null){
             sysUser.setId(vUserPlayerVo.getSearch().getId());
             playerRechargeVo.setSysUser(sysUser);
             map=insertQuota(playerRechargeVo, playerRecharge,walletBalance);
         }else {
-            for (Integer id : vUserPlayerVo.getPlayerIds()){
-                playerRechargeVo.getSysUser().setId(id);
-                map=insertQuota(playerRechargeVo, playerRecharge,walletBalance);
+            for (Integer id : vUserPlayerVo.getSearch().getIds()){
+                SysUser user=new SysUser();
+                PlayerRechargeVo rechargeVo=new PlayerRechargeVo();
+                rechargeVo.setAuditType(PlayerRechargeVo.FREE_AUDIT);
+                user.setId(id);
+                rechargeVo.setSysUser(user);
+                map=insertQuota(rechargeVo, playerRecharge,walletBalance);
             }
         }
 

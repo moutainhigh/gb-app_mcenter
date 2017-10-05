@@ -33,7 +33,7 @@
                         <td>${soulFn:formatDateTz(p.freezeStartTime, DateFormat.DAY_SECOND,timeZone)}</td>
                     </c:otherwise>
                 </c:choose>
-                <td>${p.walletBalance}</td>
+                <td>${soulFn:formatCurrency(p.walletBalance)}</td>
                 <td>
                     <c:if test="${p.simulationPlayerStatus=='1'}">
                         正常
