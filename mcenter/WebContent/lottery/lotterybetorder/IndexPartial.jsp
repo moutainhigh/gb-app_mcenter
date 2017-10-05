@@ -48,7 +48,7 @@
                     <td>${p.expect}</td>
                     <td>${dicts.lottery.lottery_betting[p.betCode]}-${dicts.lottery.lottery_play[p.playCode]}</td>
                     <td>${p.betNum}</td>
-                    <td>${p.totalBetAmount}</td>
+                    <td>${p.betAmount}</td>
                     <c:set var="allBetAmount" value="${allBetAmount+p.realBetAmount}"></c:set>
                     <td>
                         <c:choose>
