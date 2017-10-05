@@ -19,7 +19,7 @@
                 <td>
                     <a href="javascript:void(0)">
                         <span class="content-width-no content-width-limit-10">
-                            ${gbFn:getApiName(item.apiId.toString())}
+                            ${gbFn:getSiteApiName(item.apiId.toString())}
                         </span>
                     </a>
                 </td>
