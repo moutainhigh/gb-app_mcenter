@@ -68,7 +68,7 @@
 
                     </td>
                     <td>${p.effectivePlayer}</td>
-                    <td>${empty p.rebateGradsId ?"否":"是"}</td>
+                    <td>${empty p.rebateGradsId ?views.common['yes']:views.common['no']}</td>
                     <td colspan="2" class="multiple-row-td">
                         <div class="${p.effectiveSelf<0?'co-red':''}">${soulFn:formatCurrency(p.effectiveSelf)}</div>
                         <div class="${p.effectiveTransaction-p.effectiveSelf<0?'co-red':''}">${soulFn:formatCurrency(p.effectiveTransaction-p.effectiveSelf)}</div>
