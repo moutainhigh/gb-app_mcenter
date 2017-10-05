@@ -49,7 +49,7 @@
                     <td>${dicts.lottery.lottery_betting[p.betCode]}-${dicts.lottery.lottery_play[p.playCode]}</td>
                     <td>${p.betNum}</td>
                     <td>${p.totalBetAmount}</td>
-                    <c:set var="allBetAmount" value="${allBetAmount+p.betAmount}"></c:set>
+                    <c:set var="allBetAmount" value="${allBetAmount+p.realBetAmount}"></c:set>
                     <td>
                         <c:choose>
                             <c:when test="${p.playCode eq 'keno_selection_five'}">
