@@ -50,7 +50,7 @@
 			<div class="form-group clearfix">
 				<label class="col-xs-3 al-right line-hi34">${views.player_auto['备注']}：</label>
 				<div class="col-xs-9 p-x">
-					<textarea class="form-control" name="result.memo"></textarea>
+					<textarea class="form-control" name="sysUser.memo"></textarea>
 				</div>
 			</div>
 			<div class="modal-footer">
