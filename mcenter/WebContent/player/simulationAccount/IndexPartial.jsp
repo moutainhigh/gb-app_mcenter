@@ -19,6 +19,11 @@
         </tr>
         </thead>
         <tbody>
+        <c:if test="${fn:length(command.result)==0}">
+            <tr>
+                <td colspan="9" style="text-align: center"><i class="fa fa-exclamation-circle">暂无内容！</i></td>
+            </tr>
+        </c:if>
         <c:forEach items="${command.result}" var="p" varStatus="status">
             <tr>
                 <td><input type="checkbox" value="${p.id}" name="id"></td>
@@ -49,10 +54,10 @@
                     <div class="joy-list-row-operations">
                         <c:if test="${p.simulationPlayerStatus!='2'}">
                             <soul:button target="${root}/simulationAccount/editaAccount.html?search.id=${p.id}" text="${views.common['edit']}" opType="dialog" callback="callBackQuery"/>
-                        <soul:button target="unableAccount" opType="function" text="${views.player_auto['账号停用']}"
-                                     callback="query">
-                            <span class="hd">${views.player_auto['停用']}</span></soul:button>
-                        <soul:button target="${root}/simulationAccount/addQuota.html?search.id=${p.id}" text="额度" opType="dialog" callback="callBackQuery" title="增加额度"/>
+                            <soul:button target="unableAccount" opType="function" text="${views.player_auto['账号停用']}"
+                                         callback="query">
+                                <span class="hd">${views.player_auto['停用']}</span></soul:button>
+                            <soul:button target="${root}/simulationAccount/addQuota.html?search.id=${p.id}" text="额度" opType="dialog" callback="callBackQuery" title="增加额度"/>
                         </c:if>
                         <c:if test="${p.simulationPlayerStatus=='2'}">
                             <span CLASS="co-gray">${views.common['edit']}</span>
