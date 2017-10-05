@@ -81,10 +81,16 @@
                                            relSelectPath="${root}/content/cttCarousel/searchApiTypeList/#apiId#.html" listValue="apiTypeName"
                                            listKey="id" cssClass="chosen-select-no-single"/>
                             </div>
-                            <div id="url-div" class="${command.result.type=='carousel_type_player_index'&&apiMap.apiId=='link'?'':not empty command.result.type&&command.result.type!='carousel_type_player_index'?'':'hide'}">
-                                <input type="text" class="form-control col-sm-4 _edit "
+                            <div id="url-div" class="${command.result.type=='carousel_type_player_index'&&apiMap.apiId=='link'?'':not empty command.result.type&&command.result.type!='carousel_type_player_index'?'':'hide'} row">
+                                <input type="text" class="form-control col-sm-4 _edit " style="width: 340px; display: inline-block;"
                                        id="url" name="result.url" value="${command.result.type=='carousel_type_player_index'?apiMap.url:command.result.link}"
                                        placeholder="${views.content['carousel.pictureLinkTips']}" />
+                                <span class="input-group-addon bdn _editTags" style="display: inline-block;">
+                                    <a href="javascript:void(0)" name="float_pic_list_item_placeholder"
+                                       class="variable">
+                                            ${views.operation['MassInformation.step3.website']}<span>{website}</span>
+                                    </a>
+                                </span>
                                 <input name="result.link" type="hidden" value="${command.result.link}">
                             </div>
                         </div>
