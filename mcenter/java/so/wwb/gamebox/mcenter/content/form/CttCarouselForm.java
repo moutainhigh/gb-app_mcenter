@@ -84,7 +84,7 @@ public class CttCarouselForm implements IForm {
     public void setCttCarouselI18n$$_cover(String[] cttCarouselI18n$$_cover) {
         this.cttCarouselI18n$$_cover = cttCarouselI18n$$_cover;
     }
-    @Pattern(regexp = FormValidRegExps.URL)
+    /*@Pattern(regexp = FormValidRegExps.URL)*/
     public String getResult_url() {
         return result_url;
     }
