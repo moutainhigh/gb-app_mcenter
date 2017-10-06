@@ -19,25 +19,25 @@
 		<div id="validateRule" style="display: none">${validateRule}</div>
 		<div class="modal-body">
 			<div class="form-group over clearfix">
-				<label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>账号：</label>
+				<label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.player_auto['账号']}：</label>
 				<div class="col-xs-9 p-x">
 					<input type="text" name="sysUser.username" class="form-control"/>
 				</div>
 			</div>
 			<div class="form-group over clearfix">
-				<label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>密码：</label>
+				<label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.player_auto['密码']}：</label>
 				<div class="col-xs-9 p-x">
 					<input type="text" name="sysUser.password" class="form-control"/>
 				</div>
 			</div>
 			<div class="form-group over clearfix">
-				<label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>额度：</label>
+				<label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.player_auto['额度']}：</label>
 				<div class="col-xs-9 p-x">
 					<input type="text" name="result.walletBalance" class="form-control"/>
 				</div>
 			</div>
 			<div class="form-group over clearfix">
-				<label class="col-xs-3 al-right">有效时间截止：</label>
+				<label class="col-xs-3 al-right">${views.player_auto['有效时间截止']}：</label>
 				<div class="col-xs-9 p-x">
 				<gb:dateRange format="${DateFormat.DAY}" style="width:38%"
 							  useRange="false"
