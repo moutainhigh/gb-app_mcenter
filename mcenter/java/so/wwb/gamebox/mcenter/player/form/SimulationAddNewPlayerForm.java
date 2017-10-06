@@ -27,7 +27,7 @@ public class SimulationAddNewPlayerForm implements IForm {
 
     @NotBlank(message = "common_auto.username.notBlank")
     @Pattern(regexp = FormValidRegExps.ACCOUNT,message = "common_auto.username.format")
-    @Remote(message = "common_auto.username.exist",checkMethod = "checkUserNameExist",checkClass = SimulationAccountController.class)
+    @Remote(message = "common_auto.username.exist",checkMethod = "checkUserNameExist",checkClass = SimulationAccountController.class,additionalProperties = "accountSiteId")
     public String getSysUser_username() {
         return sysUser_username;
     }

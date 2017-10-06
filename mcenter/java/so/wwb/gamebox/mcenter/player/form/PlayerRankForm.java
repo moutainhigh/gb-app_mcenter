@@ -115,15 +115,20 @@ public class PlayerRankForm implements IForm {
     @Pattern(regexp = FormValidRegExps.POSITIVE_INTEGER,message = "common.POSITIVE_INTEGER")
     @Max(720)
     @Comment("提现 时限/小时")
+    @Depends(property ={"result.withdrawFreeCount"}, operator = {Operator.IS_NOT_NULL}, value = {"true"})
     public String getResult_withdrawTimeLimit() {
         return result_withdrawTimeLimit;
     }
+
     @Pattern(regexp = FormValidRegExps.POSITIVE_INTEGER,message = "common.POSITIVE_INTEGER")
     @Max(1500)
     @Comment("免手续费次数")
+    @Depends(property ={"result.withdrawTimeLimit"}, operator = {Operator.IS_NOT_NULL}, value = {"true"})
     public String getResult_withdrawFreeCount() {
         return result_withdrawFreeCount;
     }
+
+
     @Digits(integer = 8,fraction = 2,message = "common.POSITIVE")
     @Min(value = 1,message = "player_auto.请输入大于0的正数")
     @Max(99999999)
