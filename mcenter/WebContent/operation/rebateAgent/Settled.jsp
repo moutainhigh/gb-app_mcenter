@@ -46,7 +46,7 @@
     </div>
     <div class="modal-footer">
         <soul:button target="${root}/rebateAgent/settled.html" text="${views.common['OK']}" opType="ajax" cssClass="btn btn-filter"
-                     post="getCurrentFormData" callback="saveCallbak" precall="validateForm" tag="button">${views.common['OK']}</soul:button>
+                     post="getCurrentFormData" callback="saveCallbak" precall="myValidateForm" tag="button">${views.common['OK']}</soul:button>
         <soul:button target="closePage" text="${views.common['cancel']}" opType="function" cssClass="btn btn-outline btn-filter"/>
     </div>
     <!--//endregion your codes 3-->
@@ -55,6 +55,6 @@
 </body>
 <%@ include file="/include/include.js.jsp" %>
 <!--//region your codes 4-->
-<soul:import type="edit"/>
+<soul:import res="site/operation/rebate/Settle"/>
 <!--//endregion your codes 4-->
 </html>
