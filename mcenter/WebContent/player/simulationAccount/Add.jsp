@@ -17,6 +17,7 @@
 	<!--//region your codes 3-->
 	<form:form method="post" name="addSimulationAccount">
 		<div id="validateRule" style="display: none">${validateRule}</div>
+		<input type="hidden" name="accountSiteId" value="${accountSiteId}">
 		<div class="modal-body">
 			<div class="form-group over clearfix">
 				<label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.player_auto['账号']}：</label>

@@ -74,8 +74,9 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
 
     @RequestMapping("/addPlayer")
     public String addPlayer(UserPlayerVo Vo,Model model){
+        model.addAttribute("accountSiteId",virtualAccountSiteId);
         model.addAttribute("validateRule", JsRuleCreator.create(SimulationAddNewPlayerForm.class));
-        return getViewBasePath()+"add";
+        return getViewBasePath()+"Add";
     }
 
     @RequestMapping("/savePlayer")
