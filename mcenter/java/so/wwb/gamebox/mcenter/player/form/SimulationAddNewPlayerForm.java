@@ -27,7 +27,7 @@ public class SimulationAddNewPlayerForm implements IForm {
 
     @NotBlank(message = "common_auto.username.notBlank")
     @Pattern(regexp = FormValidRegExps.ACCOUNT,message = "common_auto.username.format")
-    @Remote(message = "common_auto.username.exist",checkMethod = "checkUserNameExist",checkClass = SimulationAccountController.class)
+    @Remote(message = "common_auto.username.exist",checkMethod = "checkUserNameExist",checkClass = SimulationAccountController.class,additionalProperties = "accountSiteId")
     public String getSysUser_username() {
         return sysUser_username;
     }
@@ -37,7 +37,7 @@ public class SimulationAddNewPlayerForm implements IForm {
     }
 
     @NotBlank(message = "common_auto.password.notBlank")
-    @Remote(message = "common_auto.passport.tooEasy",checkClass = SimulationAccountController.class,checkMethod = "passwordNotWeak",additionalProperties = {"sysUser.username","accountSiteId"})
+    @Remote(message = "common_auto.passport.tooEasy",checkClass = SimulationAccountController.class,checkMethod = "passwordNotWeak",additionalProperties = "sysUser.username")
     @Pattern(message = "common_auto.password.format",regexp = FormValidRegExps.LOGIN_PWD)
     public String getSysUser_password() {
         return sysUser_password;
