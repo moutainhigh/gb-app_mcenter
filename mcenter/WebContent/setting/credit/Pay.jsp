@@ -51,19 +51,19 @@
                     <c:if test="${!empty currentTransferLimit}">
                         <div class="m-b-none col-xs-6 col-sm-7-1">
                             <div class="limit-price-wrap al-center clearfix">
-                                <div class="bold-fs16 p-sm co-gray6" title="转账上限">转账上限</div>
+                                <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['转账上限']}">${views.setting_auto['转账上限']}</div>
                                 <div class="fs20 p-b-sm al-center">${soulFn:formatCurrency(currentTransferLimit)}</div>
                             </div>
                         </div>
                         <div class="m-b-none col-xs-6 col-sm-7-1">
                             <div class="limit-price-wrap al-center clearfix">
-                                <div class="bold-fs16 p-sm co-gray6" title="已使用额度">已使用额度</div>
+                                <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用额度']}">${views.setting_auto['已使用额度']}</div>
                                 <div class="fs20 p-b-sm al-center co-blue">${soulFn:formatCurrency(transferLimit)}</div>
                             </div>
                         </div>
                         <div class="m-b-none col-xs-6 col-sm-7-1">
                             <div class="limit-price-wrap al-center clearfix">
-                                <div class="bold-fs16 p-sm co-gray6" title="已使用的百分比">已使用的百分比</div>
+                                <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['兑换已使用的百分比比例']}">${views.setting_auto['已使用的百分比']}</div>
                                 <div class="fs20 p-b-sm al-center co-red">${soulFn:formatInteger(transferRate)}%</div>
                             </div>
                         </div>
@@ -126,11 +126,11 @@
                     </div>
                     <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 limit-tips">
                         <ul>
-                            <li>1、本系统额度上限默认可用${defaultProfit},转账上限默认可用${defaultTransferLimit},当系统提示额度超时,请在本页面自助充值即可增加上限；</li>
+                            <li>1、${fn:replace(fn:replace(views.setting_auto['本系统额度上限默认可用'],"[0]" ,defaultProfit ),"[1]" ,defaultTransferLimit )}</li>
                             <li>2、${views.setting_auto['如果充值出现问题']}</li>
-                            <li>3、本页面充值仅用于提高额度上限和转账上限，不支持缴纳月结账单；</li>
+                            <li>3、${views.setting_auto['本页面充值仅用于提高额度上限和转账上限']}</li>
                             <li>4、${views.setting_auto['如果维护时间已过']}</li>
-                            <li>5、财务正常工作时间：09:00-21:00</li>
+                            <li>5、${views.setting_auto['财务正常工作时间']}</li>
                         </ul>
                     </div>
                 </div>
