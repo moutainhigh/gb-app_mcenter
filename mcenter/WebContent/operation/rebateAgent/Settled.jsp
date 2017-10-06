@@ -40,7 +40,7 @@
         <div class="form-group clearfix line-hi34 m-b-sm col-xs-12">
             <label class="col-xs-3 al-right">${views.fund_auto['返佣金额']}：</label>
             <div class="col-xs-8 p-x">
-                <input type="text" class="form-control" name="result.rebateActual">
+                <input type="number" class="form-control" name="result.rebateActual">
             </div>
         </div>
     </div>
