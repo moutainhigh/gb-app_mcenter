@@ -20,7 +20,7 @@
 		<div id="validateRule" style="display: none">${validateRule}</div>
 		<div class="modal-body">
 				<div class="form-group over clearfix">
-                    <label class="col-xs-2 al-right">额度：</label>
+                    <label class="col-xs-2 al-right">${views.player_auto['额度']}：</label>
                     <div class="col-xs-9 p-x">
                         <input type="text" name="search.walletBalance" class="form-control" id="walletBalance"/>
                     </div>

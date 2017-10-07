@@ -74,8 +74,9 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
 
     @RequestMapping("/addPlayer")
     public String addPlayer(UserPlayerVo Vo,Model model){
+        model.addAttribute("accountSiteId",virtualAccountSiteId);
         model.addAttribute("validateRule", JsRuleCreator.create(SimulationAddNewPlayerForm.class));
-        return getViewBasePath()+"add";
+        return getViewBasePath()+"Add";
     }
 
     @RequestMapping("/savePlayer")
@@ -117,7 +118,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
 
     @RequestMapping(value = "/checkUserNameExist")
     @ResponseBody
-    public String checkUserNameExist(@RequestParam("sysUser.username") String userName) {
+    public String checkUserNameExist(@RequestParam("sysUser.username") String userName,@RequestParam("accountSiteId")Integer virtualAccountSiteId) {
         SysUserVo sysUserVo = new SysUserVo();
         sysUserVo.getSearch().setSubsysCode(SubSysCodeEnum.PCENTER.getCode());
         sysUserVo.getSearch().setUsername(userName);

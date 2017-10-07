@@ -8,14 +8,14 @@
         <thead>
         <tr>
             <th class="user_checkbox"><label><input type="checkbox" class="i-checks"></label></th>
-            <th>序号</th>
-            <th>模拟账号</th>
-            <th>创建时间</th>
-            <th>有效截止时间</th>
-            <th>剩余额度</th>
-            <th>状态</th>
-            <th>操作</th>
-            <th>备注</th>
+            <th>${views.player_auto['序号']}</th>
+            <th>${views.player_auto['模拟账号']}</th>
+            <th>${views.player_auto['创建时间']}</th>
+            <th>${views.player_auto['有效截止时间']}</th>
+            <th>${views.player_auto['剩余额度']}</th>
+            <th>${views.player_auto['状态']}</th>
+            <th>${views.player_auto['操作']}</th>
+            <th>${views.player_auto['备注']}</th>
         </tr>
         </thead>
         <tbody>
@@ -42,17 +42,17 @@
                 <td>
                     <c:if test="${p.simulationPlayerStatus=='1'}">
                         <span class="label label-success">
-                        正常
+                        ${views.player_auto['正常']}
                             </span>
                     </c:if>
                     <c:if test="${p.simulationPlayerStatus=='5'}">
                     <span class="label label-warning">
-                        过期
+                        ${views.player_auto['过期']}
                     </span>
                     </c:if>
                     <c:if test="${p.simulationPlayerStatus=='2'}">
                     <span class="label label-danger">
-                        已停用
+                        ${views.player_auto['已停用']}
                     </span>
                     </c:if>
                 </td>
@@ -62,12 +62,12 @@
                             <soul:button target="${root}/simulationAccount/editaAccount.html?search.id=${p.id}" text="${views.common['edit']}" opType="dialog" callback="callBackQuery"/>
                             <soul:button target="unableAccount" searchId="${p.id}" opType="function" text="${views.player_auto['账号停用']}">
                                 <span class="hd">${views.player_auto['停用']}</span></soul:button>
-                            <soul:button target="${root}/simulationAccount/addQuota.html?search.id=${p.id}" text="额度" opType="dialog" callback="callBackQuery" title="增加额度"/>
+                            <soul:button target="${root}/simulationAccount/addQuota.html?search.id=${p.id}" text="${views.player_auto['额度']}" opType="dialog" callback="callBackQuery" title="${views.player_auto['增加额度']}"/>
                         </c:if>
                         <c:if test="${p.simulationPlayerStatus=='2'}">
                             <span CLASS="co-gray">${views.common['edit']}</span>
                             <span CLASS="co-gray">${views.player_auto['停用']}</span>
-                            <span CLASS="co-gray">额度</span>
+                            <span CLASS="co-gray">${views.player_auto['额度']}</span>
                         </c:if>
                     </div>
                 </td>

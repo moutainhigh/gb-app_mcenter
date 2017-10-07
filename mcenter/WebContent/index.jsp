@@ -26,6 +26,7 @@
             -o-transition: 0.3s ease-in-out left;
             transition: 0.3s ease-in-out left;
         }
+
         /*.popover {
             max-width:330px;
         }*/
