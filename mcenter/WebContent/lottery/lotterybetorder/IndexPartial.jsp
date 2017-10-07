@@ -19,7 +19,7 @@
                 <th>${views.lottery_auto['投注玩法']}</th>
                 <th>${views.lottery_auto['投注内容']}</th>
                 <th>${views.lottery_auto['投注金额']}</th>
-                <th>${views.lottery_auto['赔率']}</th>
+                <th>${views.lottery_auto['赔率|奖金']}</th>
                 <th>${views.lottery_auto['派彩']}</th>
                 <th>${views.lottery_auto['投注时间']}</th>
                 <th>
