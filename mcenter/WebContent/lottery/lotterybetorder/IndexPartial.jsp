@@ -44,7 +44,18 @@
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                     <td>${p.username}</td>
                     <td>${dicts.lottery.lottery[p.code]}</td>
-                    <td>${p.id}</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${p.terminal eq '2'}">
+                            <span class="fa fa-mobile mobile" data-content="手机投注" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
+                            </span>
+                            </c:when>
+                            <c:otherwise>
+                                <span style="width:8px; display: inline-block"></span>
+                            </c:otherwise>
+                        </c:choose>&nbsp;
+                        ${p.id}
+                    </td>
                     <td>${p.expect}</td>
                     <td>${dicts.lottery.lottery_betting[p.betCode]}-${dicts.lottery.lottery_play[p.playCode]}</td>
                     <td>${p.betNum}</td>
