@@ -4,6 +4,7 @@ import org.soul.commons.collections.CollectionQueryTool;
 import org.soul.commons.collections.ListTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.exception.SystemException;
+import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
@@ -697,6 +698,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     @ResponseBody
     public Map saveSiteDomain(SysDomainVo sysDomainVo, @FormModel("result") @Valid SysDomainDefaultForm form, BindingResult result) {
         if (!result.hasErrors()) {
+            sysDomainVo.getSearch().setSiteId(CommonContext.get().getSiteId());
             sysDomainVo.setDomainPlatform(DomainPlatformEnum.SITE.getCode());
             SysDomain sysDomain = setDomainData(sysDomainVo);
             sysDomain.setSubsysCode(SubSysCodeEnum.MCENTER.getCode());
