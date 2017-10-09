@@ -8,6 +8,7 @@ import org.soul.commons.validation.form.support.Comment;
 import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
 
@@ -29,9 +30,9 @@ public class RebateAgentForm implements IForm {
 
 
     //,depends = @Depends(property={"result.rebateActual"}, operator = {Operator.EQ}, value = {"false"}, message = "实付金额必须大于等于应付金额")
-//    @Digits(integer = 8,fraction = 2)
-    @Compare(message = "实付金额必须小于等于应付金额",logic = CompareLogic.LE,anotherProperty = "result_rebateTotal")
-    @Range(min = -999999999999l,max = 999999999999l)
+    @Digits(integer = 13,fraction = 2)
+    /*@Compare(message = "实付金额必须小于等于应付金额",logic = CompareLogic.LE,anotherProperty = "result_rebateTotal")*/
+    @Range(min = -9999999999999l,max = 9999999999999l)
     @NotNull(message = "common.不能为空")
     @Comment("实付金额")
     public Double getResult_rebateActual() {
