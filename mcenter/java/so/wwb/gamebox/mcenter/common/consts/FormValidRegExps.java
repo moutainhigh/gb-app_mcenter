@@ -19,7 +19,7 @@ public interface FormValidRegExps extends RegExpConstants {
     //验证手机（验证只带数字）
     String MOBILE = "^[0-9]*$";
     //验证正数，含小数
-    String POSITIVE = "^(?!0+(?:\\.0+)?$)(?:[1-9]\\d*)(?:\\.\\d{1,2})?$";
+    String POSITIVE =  "^(?!0+(?:\\.0+)?$)(?:[1-9]\\d*|0)(?:\\.\\d{1,2})?$";
     //验证IP
     String IP = "^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$";
     //验证数字，只能是数字（0-9）
