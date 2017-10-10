@@ -15,7 +15,7 @@
         <div id="validateRule" style="display: none">${oddRule}</div>
         <div id="${id}" class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
-            <span>${views.sysResource['彩票']}</span><span>/</span><span>${views.lottery_auto['赔率设置']}</span>
+            <span>${views.sysResource['彩票']}</span><span>/</span><span>奖金赔率设置</span>
             <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         </div>
 
@@ -61,7 +61,7 @@
                 </div>
                 <div id="gfwfqh">
                     <div id="wfqh-btn" class="wfqh-btn" style="display: none">
-                        <a id="jdwf" class="active">经典玩法</a>
+                        <a id="jdwf" class="active">信用玩法</a>
                         <a id="gfwf" nav-target="mainFrame">官方玩法</a>
                     </div>
                     <div id="lot_two_menu">
