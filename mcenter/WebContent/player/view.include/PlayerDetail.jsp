@@ -583,7 +583,7 @@
                     <li class="detail-list-cow">
                         <div class="content">
                             <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
-                                  data-html="true" data-content="${views.content['annotation.deposit']}">
+                                  data-html="true" data-content="${views.fund_auto['包含人工存入的“人工存取/派彩/其他”']}<br/>PS:${views.fund_auto['仅统计“免稽核”和“存款稽核”类的“派彩/其他“订单']}">
                                 <i class="fa fa-question-circle" ></i>
                             </span>${views.player_auto['存款']}
                             <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=<%=TransactionTypeEnum.DEPOSIT.getCode()%>&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username" nav-target="mainFrame">
