@@ -68,12 +68,18 @@
                         </label>
                         <div class="col-sm-5" id="thirdError">
                             <div class="input-group date">
-                                <form:select path="result.bankCode" callback="bankChannel" cssClass="btn-group chosen-select-no-single">
+                               <%-- <form:select path="result.bankCode" callback="bankChannel" cssClass="btn-group chosen-select-no-single">
                                     <option value="">${views.common['pleaseSelect']}</option>
                                     <c:forEach items="${command.bankList}" var="p">
                                         <option value="${p.bankName}" ${command.result.bankCode==p.bankName?'selected':''}>${(dicts.common.bankname[p.bankName]==null)?p.bankShortName:dicts.common.bankname[p.bankName]}</option>
                                     </c:forEach>
-                                </form:select>
+                                </form:select>--%>
+                                   <select name="result.bankCode">
+                                       <option value="">${views.common['pleaseSelect']}</option>
+                                       <c:forEach items="${command.bankList}" var="p">
+                                           <option value="${p.bankName}" ${command.result.bankCode==p.bankName?'selected':''}>${(dicts.common.bankname[p.bankName]==null)?p.bankShortName:dicts.common.bankname[p.bankName]}</option>
+                                       </c:forEach>
+                                   </select>
                                 <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
                             </div>
                         </div>
