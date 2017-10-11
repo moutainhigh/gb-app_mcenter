@@ -94,7 +94,7 @@
         <dependency>
             <groupId>so.wwb.gamebox</groupId>
             <artifactId>pay-resources</artifactId>
-            <version>${soul.version}</version>
+            <version>${gamebox.version}</version>
         </dependency>
         <!--Pay引用-->
         <!--Soul引用-->
