@@ -1256,7 +1256,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @RequestMapping("/digiccyAccount")
     public String digiccyAccount(Model model) {
         SysParam param = ParamTool.getSysParam(SiteParamEnum.DIGICCY_PROVIDER_ACCOUNT_INFO);
-        if (param != null && StringTool.isBlank(param.getParamValue())) {
+        if (param != null && StringTool.isNotBlank(param.getParamValue())) {
             model.addAttribute("info", JsonTool.fromJson(param.getParamValue(), DigiccyAccountInfo.class));
         }
         model.addAttribute("providers", Cache.getDigiccyApiProviderMap());

@@ -8,7 +8,7 @@
     <%@ include file="/include/include.head.jsp" %>
 </head>
 <body>
-<form method="post">
+<form method="post" name="digiccyAccountForm">
     <div id="validateRule" style="display: none">${validate}</div>
     <div class="modal-body">
         <div class="form-group over clearfix">
@@ -16,7 +16,7 @@
             <div class="col-xs-9 p-x">
                 <select name="code" id="code" class="btn-group chosen-select-no-single">
                     <c:forEach items="${providers}" var="i">
-                        <option value="${i.key}">${dicts.common.digiccy_providers[i.key]}</option>
+                        <option value="${i.key}">${dicts.common.digiccy_provider[i.key]}</option>
                     </c:forEach>
                 </select>
             </div>
@@ -36,7 +36,7 @@
         <div class="form-group over clearfix">
             <label class="col-xs-3 al-right">状态：</label>
             <div class="col-xs-9 p-x">
-                <input type="checkbox" name="status" data-size="mini" ${info.status eq '1'?'checked':''}>
+                <input type="checkbox" name="status"  value="1" data-size="mini" ${info.status eq '1'?'checked':''}>
             </div>
         </div>
     </div>
@@ -47,5 +47,5 @@
 </form>
 </body>
 <%@ include file="/include/include.js.jsp" %>
-<soul:import type="edit"/>
+<soul:import res="site/content/payaccount/onLine/DigiccyAccount"/>
 </html>
