@@ -19,6 +19,7 @@
                 <th>${views.lottery_auto['投注玩法']}</th>
                 <th>${views.lottery_auto['投注内容']}</th>
                 <th>${views.lottery_auto['投注金额']}</th>
+                <th>${views.lottery_auto['返还金额']}</th>
                 <th>${views.lottery_auto['赔率|奖金']}</th>
                 <th>${views.lottery_auto['派彩']}</th>
                 <th>${views.lottery_auto['投注时间']}</th>
@@ -39,6 +40,7 @@
             </c:if>
             <c:set var="allBetAmount" value="${0}"></c:set>
             <c:set var="allPayout" value="${0}"></c:set>
+            <c:set var="allRebateAmount" value="${0}"></c:set>
             <c:forEach items="${command.result}" var="p" varStatus="status">
                 <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
@@ -60,6 +62,8 @@
                     <td>${dicts.lottery.lottery_betting[p.betCode]}-${dicts.lottery.lottery_play[p.playCode]}</td>
                     <td>${p.betNum}</td>
                     <td>${p.betAmount}</td>
+                    <td>${p.rebateAmount}</td>
+                    <c:set var="allRebateAmount" value="${allRebateAmount+p.rebateAmount}"></c:set>
                     <c:set var="allBetAmount" value="${allBetAmount+p.realBetAmount}"></c:set>
                     <td>
                         <c:choose>
@@ -112,8 +116,9 @@
 </div>
 <div class="p-sm all-statistics">
     <b>${views.lottery_auto['本页投注总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allBetAmount)}</span> ${views.lottery_auto['元']}
+    <b class="m-l">${views.lottery_auto['返还金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allRebateAmount)}</span>${views.lottery_auto['元']}
     <b class="m-l">${views.lottery_auto['派彩总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allPayout)}</span>${views.lottery_auto['元']}
-    <b class="m-l">${views.lottery_auto['赢利总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allPayout-allBetAmount)}</span>${views.lottery_auto['元']}
+    <b class="m-l">${views.lottery_auto['赢利总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allPayout-allBetAmount+allRebateAmount)}</span>${views.lottery_auto['元']}
 </div>
 <soul:pagination cssClass="bdtop3"/>
 <!--//endregion your codes 1-->
