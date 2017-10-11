@@ -133,7 +133,7 @@
                         </shiro:hasPermission>
                         <c:if test="${!isLotterySite}">
                             <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.usernames=${command.result.username}&search.userTypes=username" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['查看资金记录']}</a>
-                            <a href="/report/fundsTrans/apiTrans.html?search.username=${command.result.username}&searchKey=search.username&search.type=playerDetail" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['查看转账记录']}</a>
+                            <%--<a href="/report/fundsTrans/apiTrans.html?search.username=${command.result.username}&searchKey=search.username&search.type=playerDetail" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['查看转账记录']}</a>--%>
                             <soul:button target="showApiData" text="${views.player_auto['查看游戏账户']}" opType="function" fromShowBtn="true" cssClass="btn btn-link co-blue show-api-data-btn"></soul:button>
                             <soul:button target="hideApiData" text="${views.player_auto['返回']}" opType="function" fromShowBtn="true" cssClass="btn btn-link co-blue hide hide-data-btn"></soul:button>
                             </div>
