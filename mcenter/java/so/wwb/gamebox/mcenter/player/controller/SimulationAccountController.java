@@ -55,7 +55,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         return "/player/simulationAccount/";
     }
 
-    @Value("${role.virtual.account.siteId}")
+    @Value("${ds.id.model.mock.account}")
     private Integer virtualAccountSiteId;
 
     @RequestMapping("/playerView")
