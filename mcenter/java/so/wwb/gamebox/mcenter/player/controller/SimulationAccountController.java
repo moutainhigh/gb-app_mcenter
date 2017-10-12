@@ -92,10 +92,11 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         sysUser.setPassword(Vo.getSysUser().getPassword());
         if (Vo.getSysUser().getFreezeStartTime()!=null){
             sysUser.setFreezeStartTime(Vo.getSysUser().getFreezeStartTime());
+            sysUser.setFreezeEndTime(DateTool.addYears(sysUser.getFreezeStartTime(),3000));
         }else {
-            sysUser.setFreezeStartTime(Const.Platform_Forever_Date);
+            sysUser.setFreezeStartTime(null);
+            sysUser.setFreezeEndTime(null);
         }
-        sysUser.setFreezeEndTime(DateTool.addYears(sysUser.getFreezeStartTime(),3000));
         sysUser.setMemo(Vo.getSysUser().getMemo());
         userRegisterVo.setUserPlayer(userPlayer);
         userRegisterVo.setSysUser(sysUser);
