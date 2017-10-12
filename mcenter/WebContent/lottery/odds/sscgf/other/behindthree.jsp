@@ -30,18 +30,12 @@
                                     <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
                                     <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
                                     <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
-                                    <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    <input type="text" class="form-control input-sm odd" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group content-width-limit-10">
-                                    <c:set var="odd" value="${p}"/>
-                                    <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
-                                    <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].rebate">
-                                    <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
-                                    <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
-                                    <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
-                                    <input type="text" class="form-control input-sm" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
+                                    <input type="text" class="form-control input-sm rebate" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${status.index}].rebate " data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
                                 </div>
                             </td>
                         </c:forEach>
@@ -56,7 +50,7 @@
                                             <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
                                             <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
                                             <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
-                                            <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                            <input type="text" class="form-control input-sm odd" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
                                         </div>
                                   </td>
                                   <td>
@@ -67,7 +61,7 @@
                                             <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
                                             <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
                                             <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
-                                            <input type="text" class="form-control input-sm" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
+                                            <input type="text" class="form-control input-sm rebate" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${status.index}].rebate" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
                                         </div>
                                     </td>
                                 </c:if>
@@ -81,7 +75,7 @@
                                             <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
                                             <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
                                             <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
-                                            <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                            <input type="text" class="form-control input-sm odd" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
                                         </div>
                                     </td>
                                     <td>
@@ -92,7 +86,7 @@
                                             <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
                                             <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
                                             <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
-                                            <input type="text" class="form-control input-sm" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
+                                            <input type="text" class="form-control input-sm rebate" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${status.index}].rebate" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
                                         </div>
                                     </td>
                                 </c:if>
@@ -110,7 +104,7 @@
                                             <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
                                             <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
                                             <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
-                                            <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                            <input type="text" class="form-control input-sm odd" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
                                         </div>
                                     </td>
                                     <td>
@@ -121,7 +115,7 @@
                                             <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
                                             <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
                                             <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
-                                            <input type="text" class="form-control input-sm" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
+                                            <input type="text" class="form-control input-sm rebate" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${status.index}].rebate" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
                                         </div>
                                     </td>
                                 </c:if>

@@ -203,7 +203,7 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         if (CollectionTool.isEmpty(lotteryOdds)) {
             return getVoMessage(siteLotteryOddVo);
         }
-        siteLotteryOddVo.setProperties(SiteLotteryOdd.PROP_ODD);
+        siteLotteryOddVo.setProperties(SiteLotteryOdd.PROP_ODD,SiteLotteryOdd.PROP_REBATE);
 
         List<SiteLotteryOdd> updateOdds = new ArrayList<>();
         List<Integer> ids = new ArrayList<>();
@@ -256,6 +256,14 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
                 return false;
             }
 
+            if (lotteryOdd.getRebate() == null) {
+                LOG.info("查询查询不到对应的站点返点比例,id{0},odd{1}", odd.getId(), odd.getRebateLimit());
+                return false;
+            }
+            if (odd.getRebate() < 0 || odd.getRebate() > lotteryOdd.getRebateLimit()) {
+                LOG.info("设置返点比例格式不正确,odd:{0},上限{1}", odd.getRebate(), lotteryOdd.getRebateLimit());
+                return false;
+            }
         }
         return true;
     }
