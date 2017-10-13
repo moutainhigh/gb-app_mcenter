@@ -123,7 +123,6 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         SysUserVo sysUserVo = new SysUserVo();
         sysUserVo.getSearch().setSubsysCode(SubSysCodeEnum.PCENTER.getCode());
         sysUserVo.getSearch().setUsername(userName);
-        sysUserVo.getSearch().setSiteId(SessionManager.getSiteId());
         sysUserVo._setDataSourceId(virtualAccountSiteId);
         String existAgent = ServiceTool.userAgentService().isExistAgent(sysUserVo);
         return existAgent;

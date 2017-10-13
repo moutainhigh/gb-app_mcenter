@@ -31,7 +31,7 @@
                 <td>${p.username}</td>
                 <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
                 <c:choose>
-                    <c:when test="${p.freezeStartTime==foreverTime}">
+                    <c:when test="${p.freezeStartTime==null}">
                         <td>---</td>
                     </c:when>
                     <c:otherwise>
