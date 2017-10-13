@@ -82,6 +82,14 @@
                             <c:when test="${p.playCode eq 'lhc_two_in_special'}">
                                 中特@${p.odd} 中二@${p.odd2}
                             </c:when>
+                            <c:when test="${p.betCode eq 'ssc_sanxing_zhixuan_qszh' || p.betCode eq 'ssc_sanxing_zhixuan_hszh'}">
+                                三星@${p.odd} 二星@${p.odd2} 一星@${p.odd3}
+                            </c:when>
+                            <c:when test="${p.betCode eq 'ssc_sanxing_zuxuan_qshhzx' || p.betCode eq 'ssc_sanxing_zuxuan_hshhzx'
+                                            || p.betCode eq 'ssc_sanxing_zuxuan_qszxhz' || p.betCode eq 'ssc_sanxing_zuxuan_hszxhz'
+                                            || p.betCode eq 'ssc_sanxing_zuxuan_qszxbd' || p.betCode eq 'ssc_sanxing_zuxuan_hszxbd'}">
+                                组三@${p.odd} 组六@${p.odd2}
+                            </c:when>
                             <c:otherwise>
                                 ${p.odd}
                             </c:otherwise>
