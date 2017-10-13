@@ -18,6 +18,7 @@
                 <th>${views.lottery_auto['彩票期号']}</th>
                 <th>${views.lottery_auto['投注玩法']}</th>
                 <th>${views.lottery_auto['投注内容']}</th>
+                <th>${views.lottery_auto['倍数']}</th>
                 <th>${views.lottery_auto['投注金额']}</th>
                 <th>${views.lottery_auto['返还金额']}</th>
                 <th>${views.lottery_auto['赔率|奖金']}</th>
@@ -61,6 +62,9 @@
                     <td>${p.expect}</td>
                     <td>${dicts.lottery.lottery_betting[p.betCode]}-${dicts.lottery.lottery_play[p.playCode]}</td>
                     <td>${p.betNum}</td>
+                    <td><c:if test="${empty p.multiple}">1</c:if>
+                        <c:if test="${not empty p.multiple}">${p.multiple}</c:if>
+                    </td>
                     <td>${p.betAmount}</td>
                     <td>${p.rebateAmount}</td>
                     <c:set var="allRebateAmount" value="${allRebateAmount+p.rebateAmount}"></c:set>
@@ -81,6 +85,14 @@
                             </c:when>
                             <c:when test="${p.playCode eq 'lhc_two_in_special'}">
                                 中特@${p.odd} 中二@${p.odd2}
+                            </c:when>
+                            <c:when test="${p.betCode eq 'ssc_sanxing_zhixuan_qszh' || p.betCode eq 'ssc_sanxing_zhixuan_hszh'}">
+                                三星@${p.odd} 二星@${p.odd2} 一星@${p.odd3}
+                            </c:when>
+                            <c:when test="${p.betCode eq 'ssc_sanxing_zuxuan_qshhzx' || p.betCode eq 'ssc_sanxing_zuxuan_hshhzx'
+                                            || p.betCode eq 'ssc_sanxing_zuxuan_qszxhz' || p.betCode eq 'ssc_sanxing_zuxuan_hszxhz'
+                                            || p.betCode eq 'ssc_sanxing_zuxuan_qszxbd' || p.betCode eq 'ssc_sanxing_zuxuan_hszxbd'}">
+                                组三@${p.odd} 组六@${p.odd2}
                             </c:when>
                             <c:otherwise>
                                 ${p.odd}
