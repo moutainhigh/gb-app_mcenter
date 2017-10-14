@@ -11,29 +11,30 @@
             <c:set var="poType" value="<%= LotteryBetOrder.class %>"></c:set>
             <thead>
             <tr role="row" class="bg-gray">
-                <th style="width: 80px">${views.lottery_auto['序号']}</th>
-                <th>${views.lottery_auto['投注帐号']}</th>
-                <th>${views.lottery_auto['所属彩种']}</th>
-                <th>${views.lottery_auto['注单号']}</th>
-                <th>${views.lottery_auto['彩票期号']}</th>
-                <th>${views.lottery_auto['投注玩法']}</th>
-                <th>${views.lottery_auto['投注内容']}</th>
-                <th>${views.lottery_auto['倍数']}</th>
-                <th>${views.lottery_auto['投注金额']}</th>
-                <th>${views.lottery_auto['返还金额']}</th>
-                <th>${views.lottery_auto['赔率|奖金']}</th>
-                <th>${views.lottery_auto['派彩']}</th>
-                <th>${views.lottery_auto['投注时间']}</th>
-                <th>
+                <th style="width: 3%">${views.lottery_auto['序号']}</th>
+                <th style="width: 5%">${views.lottery_auto['投注帐号']}</th>
+                <th style="width: 7%">${views.lottery_auto['所属彩种']}</th>
+                <th style="width: 5%">${views.lottery_auto['注单号']}</th>
+                <th style="width: 7%">${views.lottery_auto['彩票期号']}</th>
+                <th style="width: 10%">${views.lottery_auto['投注玩法']}</th>
+                <th style="width: 14%">${views.lottery_auto['投注内容']}</th>
+                <th style="width: 3%">${views.lottery_auto['倍数']}</th>
+                <th style="width: 5%">${views.lottery_auto['奖金模式']}</th>
+                <th style="width: 5%">${views.lottery_auto['投注金额']}</th>
+                <th style="width: 5%">${views.lottery_auto['返还金额']}</th>
+                <th style="width: 4%">${views.lottery_auto['赔率|奖金']}</th>
+                <th style="width: 4%">${views.lottery_auto['派彩']}</th>
+                <th style="width: 8%">${views.lottery_auto['投注时间']}</th>
+                <th style="width: 5%">
                     <gb:select name="search.status" cssClass="btn-group chosen-select-no-single" prompt="${views.common['status']}"
                                list="${orderStatus}" value="${command.search.status}" callback="query"/>
                 </th>
-                <th>${views.lottery_auto['操作']}</th>
+                <th style="width: 5%">${views.lottery_auto['操作']}</th>
             </tr>
             </thead>
             <tbody>
             <c:if test="${empty command.result}">
-                <td colspan="13" class="no-content_wrap">
+                <td colspan="16" class="no-content_wrap">
                     <div>
                         <i class="fa fa-exclamation-circle"></i> ${views.common['noResult']}
                     </div>
@@ -60,45 +61,48 @@
                         ${p.id}
                     </td>
                     <td>${p.expect}</td>
-                    <td>${dicts.lottery.lottery_betting[p.betCode]}-${dicts.lottery.lottery_play[p.playCode]}</td>
-                    <td>${p.betNum}</td>
+                    <td class="td-width-150" title="${dicts.lottery.lottery_betting[p.betCode]}-${dicts.lottery.lottery_play[p.playCode]}">${dicts.lottery.lottery_betting[p.betCode]}-${dicts.lottery.lottery_play[p.playCode]}</td>
+                    <td class="td-width-150" title="${p.betNum}">${p.betNum}</td>
                     <td><c:if test="${empty p.multiple}">1</c:if>
                         <c:if test="${not empty p.multiple}">${p.multiple}</c:if>
+                    </td>
+                    <td><c:if test="${empty p.bonusModel || p.bonusModel eq 1}">元</c:if>
+                        <c:if test="${p.bonusModel eq 10}">角</c:if>
+                        <c:if test="${p.bonusModel eq 100}">分</c:if>
                     </td>
                     <td>${p.betAmount}</td>
                     <td>${p.rebateAmount}</td>
                     <c:set var="allRebateAmount" value="${allRebateAmount+p.rebateAmount}"></c:set>
                     <c:set var="allBetAmount" value="${allBetAmount+p.realBetAmount}"></c:set>
-                    <td>
-                        <c:choose>
-                            <c:when test="${p.playCode eq 'keno_selection_five'}">
-                                中5@${p.odd} 中4@${p.odd2} 中3@${p.odd3}
-                            </c:when>
-                            <c:when test="${p.playCode eq 'keno_selection_four'}">
-                                中4@${p.odd} 中3@${p.odd2} 中2@${p.odd3}
-                            </c:when>
-                            <c:when test="${p.playCode eq 'keno_selection_three'}">
-                                中3@${p.odd} 中2@${p.odd2}
-                            </c:when>
-                            <c:when test="${p.playCode eq 'lhc_three_in_two'}">
-                                中二@${p.odd} 中三@${p.odd2}
-                            </c:when>
-                            <c:when test="${p.playCode eq 'lhc_two_in_special'}">
-                                中特@${p.odd} 中二@${p.odd2}
-                            </c:when>
-                            <c:when test="${p.betCode eq 'ssc_sanxing_zhixuan_qszh' || p.betCode eq 'ssc_sanxing_zhixuan_hszh'}">
-                                三星@${p.odd} 二星@${p.odd2} 一星@${p.odd3}
-                            </c:when>
-                            <c:when test="${p.betCode eq 'ssc_sanxing_zuxuan_qshhzx' || p.betCode eq 'ssc_sanxing_zuxuan_hshhzx'
-                                            || p.betCode eq 'ssc_sanxing_zuxuan_qszxhz' || p.betCode eq 'ssc_sanxing_zuxuan_hszxhz'
-                                            || p.betCode eq 'ssc_sanxing_zuxuan_qszxbd' || p.betCode eq 'ssc_sanxing_zuxuan_hszxbd'}">
-                                组三@${p.odd} 组六@${p.odd2}
-                            </c:when>
-                            <c:otherwise>
-                                ${p.odd}
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
+                    <c:choose>
+                        <c:when test="${p.playCode eq 'keno_selection_five'}">
+                            <c:set var="pOdd" value="中5@${p.odd} 中4@${p.odd2} 中3@${p.odd3}"/>
+                        </c:when>
+                        <c:when test="${p.playCode eq 'keno_selection_four'}">
+                            <c:set var="pOdd" value="中4@${p.odd} 中3@${p.odd2} 中2@${p.odd3}"/>
+                        </c:when>
+                        <c:when test="${p.playCode eq 'keno_selection_three'}">
+                            <c:set var="pOdd" value="中3@${p.odd} 中2@${p.odd2}"/>
+                        </c:when>
+                        <c:when test="${p.playCode eq 'lhc_three_in_two'}">
+                            <c:set var="pOdd" value="中二@${p.odd} 中三@${p.odd2}"/>
+                        </c:when>
+                        <c:when test="${p.playCode eq 'lhc_two_in_special'}">
+                            <c:set var="pOdd" value="中特@${p.odd} 中二@${p.odd2}"/>
+                        </c:when>
+                        <c:when test="${p.betCode eq 'ssc_sanxing_zhixuan_qszh' || p.betCode eq 'ssc_sanxing_zhixuan_hszh'}">
+                            <c:set var="pOdd" value="三星@${p.odd} 二星@${p.odd2} 一星@${p.odd3}"/>
+                        </c:when>
+                        <c:when test="${p.betCode eq 'ssc_sanxing_zuxuan_qshhzx' || p.betCode eq 'ssc_sanxing_zuxuan_hshhzx'
+                                        || p.betCode eq 'ssc_sanxing_zuxuan_qszxhz' || p.betCode eq 'ssc_sanxing_zuxuan_hszxhz'
+                                        || p.betCode eq 'ssc_sanxing_zuxuan_qszxbd' || p.betCode eq 'ssc_sanxing_zuxuan_hszxbd'}">
+                            <c:set var="pOdd" value="组三@${p.odd} 组六@${p.odd2}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="pOdd" value="${p.odd}"/>
+                        </c:otherwise>
+                    </c:choose>
+                    <td class="td-width-150" title="${pOdd}">${pOdd}</td>
                     <td>${p.payout}</td>
                     <c:set var="allPayout" value="${allPayout+p.payout}"></c:set>
                     <td>${soulFn:formatDateTz(p.betTime, DateFormat.DAY_SECOND,timeZone)}</td>
