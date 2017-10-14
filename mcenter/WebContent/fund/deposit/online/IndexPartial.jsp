@@ -96,7 +96,13 @@
                                 <span class="fee none"></span>
                             </span>
                     </c:if>
-                        ${siteCurrencySign}${soulFn:formatInteger(r.rechargeAmount)}<i>${soulFn:formatDecimals(r.rechargeAmount)}</i>
+                    <c:if test="${!empty r.bitAmount}">
+                        ${dicts.common.currency_symbol[r.payerBank]}<fmt:formatNumber value="${r.bitAmount}" pattern="#.########"/>
+                    </c:if>
+                    <c:if test="${r.rechargeAmount!=0}">
+                        &nbsp; ${siteCurrencySign}${soulFn:formatInteger(r.rechargeAmount)}<i>${soulFn:formatDecimals(r.rechargeAmount)}</i>
+                    </c:if>
+
                 </td>
                 <td>
                     <a href="/fund/deposit/online/view.html?search.id=${r.id}" nav-target="mainFrame" class="co-blue">
