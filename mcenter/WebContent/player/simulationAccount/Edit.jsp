@@ -17,12 +17,6 @@
                     <span>${command.result.username}</span>
                 </div>
             </div>
-            <div class="form-group over clearfix">
-                <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.player_auto['密码']}：</label>
-                <div class="col-xs-9 p-x">
-                    <input type="text" name="sysUser.password" class="form-control"/>
-                </div>
-            </div>
             <%--<div class="form-group over clearfix">
                 <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.player_auto['额度']}：</label>
                 <div class="col-xs-9 p-x">
@@ -32,10 +26,10 @@
             <div class="form-group over clearfix">
                 <label class="col-xs-3 al-right">${views.player_auto['有效时间截止']}：</label>
                 <div class="col-xs-9 p-x">
-                    <gb:dateRange format="${DateFormat.DAY}" style="width:38%"
+                    <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:45%"
                                   useRange="false"
                                   opens="right" position="down"
-                                  name="sysUser.freezeStartTime"/>
+                                  name="sysUser.freezeStartTime" value="${command.result.freezeStartTime}"/>
                     <div><span>若未设置，虚拟账号有效期默认为永久！</span></div>
                 </div>
             </div>
@@ -43,7 +37,7 @@
             <div class="form-group clearfix">
                 <label class="col-xs-3 al-right line-hi34">${views.player_auto['备注']}：</label>
                 <div class="col-xs-9 p-x">
-                    <textarea class="form-control" name="sysUser.memo"></textarea>
+                    <textarea class="form-control" name="sysUser.memo">${command.result.memo}</textarea>
                 </div>
             </div>
             <div class="modal-footer">
