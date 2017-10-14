@@ -2,9 +2,11 @@ package so.wwb.gamebox.mcenter.player.controller;
 
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.lang.DateTool;
+import org.soul.commons.lang.string.RandomStringTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.validation.form.PasswordRule;
+import org.soul.model.log.audit.enums.OpMode;
 import org.soul.model.security.privilege.po.SysUser;
 import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.web.controller.BaseCrudController;
@@ -18,10 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.security.AuthTool;
 import so.wwb.gamebox.iservice.master.player.IUserPlayerService;
-import so.wwb.gamebox.mcenter.player.form.SimulationAddNewPlayerForm;
-import so.wwb.gamebox.mcenter.player.form.SimulationEditPlayerForm;
-import so.wwb.gamebox.mcenter.player.form.UserPlayerForm;
-import so.wwb.gamebox.mcenter.player.form.UserPlayerSearchForm;
+import so.wwb.gamebox.mcenter.player.form.*;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.SubSysCodeEnum;
@@ -32,6 +31,7 @@ import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
 import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
 import so.wwb.gamebox.model.master.player.po.UserPlayer;
 import so.wwb.gamebox.model.master.player.vo.*;
+import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -123,7 +123,6 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         SysUserVo sysUserVo = new SysUserVo();
         sysUserVo.getSearch().setSubsysCode(SubSysCodeEnum.PCENTER.getCode());
         sysUserVo.getSearch().setUsername(userName);
-        sysUserVo.getSearch().setSiteId(SessionManager.getSiteId());
         sysUserVo._setDataSourceId(virtualAccountSiteId);
         String existAgent = ServiceTool.userAgentService().isExistAgent(sysUserVo);
         return existAgent;
@@ -160,7 +159,6 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         SysUserVo sysUserVo=new SysUserVo();
         SysUser sysUser=new SysUser();
         sysUser.setId(vUserPlayerVo.getSearch().getId());
-        sysUser.setPassword(AuthTool.md5SysUserPassword(vUserPlayerVo.getSysUser().getPassword(), vUserPlayerVo.getSysUser().getUsername()));
         if (vUserPlayerVo.getSysUser().getFreezeStartTime()!=null){
             sysUser.setFreezeStartTime(vUserPlayerVo.getSysUser().getFreezeStartTime());
         }else {
@@ -169,7 +167,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         sysUser.setMemo(vUserPlayerVo.getSysUser().getMemo());
         sysUserVo.setResult(sysUser);
         sysUserVo._setDataSourceId(virtualAccountSiteId);
-        sysUserVo.setProperties(SysUser.PROP_PASSWORD,SysUser.PROP_FREEZE_START_TIME,SysUser.PROP_MEMO);
+        sysUserVo.setProperties(SysUser.PROP_FREEZE_START_TIME,SysUser.PROP_MEMO);
         SysUserVo userVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
         if (userVo.isSuccess()){
             map.put("state",true);
@@ -267,6 +265,36 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         }else {
             map.put("state",false);
             map.put("msg","失败");
+        }
+        return map;
+    }
+
+    @RequestMapping("/autoResetPwd")
+    public String autoResetPwd(ResetPwdVo resetPwdVo, Model model){
+        // 重置密码
+        String newPwd = RandomStringTool.randomNumeric(6);
+        if(resetPwdVo.getResetTypeLoginPwd().equals(resetPwdVo.getResetType())){
+            resetPwdVo.setPassword(newPwd);
+            resetUserPwd(resetPwdVo);
+            KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL,"站长中心重置玩家密码强制踢出");
+        }
+        model.addAttribute("newPwd",newPwd);
+        return getViewBasePath()+"SuccessPassword";
+    }
+    /**
+     * 重置密码
+     * @param resetPwdVo
+     * @return
+     */
+    private Map resetUserPwd(ResetPwdVo resetPwdVo) {
+        Map map = new HashMap();
+        resetPwdVo._setDataSourceId(virtualAccountSiteId);
+        Boolean isOk = ServiceTool.userPlayerService().resetPassword(resetPwdVo);
+        map.put("state",isOk);
+        if(StringTool.isBlank(resetPwdVo.getInformType())){
+            resetPwdVo.setInformType("false");
+        }else{
+            resetPwdVo.setInformType("true");
         }
         return map;
     }

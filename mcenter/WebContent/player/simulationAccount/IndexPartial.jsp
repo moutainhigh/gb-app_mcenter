@@ -31,7 +31,7 @@
                 <td>${p.username}</td>
                 <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
                 <c:choose>
-                    <c:when test="${p.freezeStartTime==foreverTime}">
+                    <c:when test="${p.freezeStartTime==null}">
                         <td>---</td>
                     </c:when>
                     <c:otherwise>
@@ -63,11 +63,13 @@
                             <soul:button target="unableAccount" searchId="${p.id}" opType="function" text="${views.player_auto['账号停用']}">
                                 <span class="hd">${views.player_auto['停用']}</span></soul:button>
                             <soul:button target="${root}/simulationAccount/addQuota.html?search.id=${p.id}" text="${views.player_auto['额度']}" opType="dialog" callback="callBackQuery" title="${views.player_auto['增加额度']}"/>
+                            <soul:button target="${root}/simulationAccount/autoResetPwd.html" opType="dialog" text="重置密码" callback="" confirm="确认重置密码吗？"><span class="hd">重置密码</span></soul:button>
                         </c:if>
                         <c:if test="${p.simulationPlayerStatus=='2'}">
                             <span CLASS="co-gray">${views.common['edit']}</span>
                             <span CLASS="co-gray">${views.player_auto['停用']}</span>
                             <span CLASS="co-gray">${views.player_auto['额度']}</span>
+                            <span CLASS="co-gray">重置密码</span>
                         </c:if>
                     </div>
                 </td>
