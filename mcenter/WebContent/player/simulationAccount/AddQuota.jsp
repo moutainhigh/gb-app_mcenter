@@ -25,10 +25,10 @@
                         <input type="text" name="search.walletBalance" class="form-control" id="walletBalance"/>
                     </div>
                 </div>
-			<div class="modal-footer">
-				<soul:button precall="validateForm" cssClass="btn btn-filter" callback="saveCallbak" text="${views.common['OK']}" opType="function" target="updatePlayer" />
-				<soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter" opType="function"/>
-			</div>
+		</div>
+		<div class="modal-footer">
+			<soul:button precall="validateForm" cssClass="btn btn-filter" callback="saveCallbak" text="${views.common['OK']}" opType="function" target="updatePlayer" />
+			<soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter" opType="function"/>
 		</div>
 	</form:form>
 	<!--//endregion your codes 3-->

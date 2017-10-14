@@ -40,10 +40,10 @@
                     <textarea class="form-control" name="sysUser.memo">${command.result.memo}</textarea>
                 </div>
             </div>
-            <div class="modal-footer">
-                <soul:button precall="validateForm" cssClass="btn btn-filter" callback="saveCallbak" text="${views.common['OK']}" opType="ajax" dataType="json" target="${root}/simulationAccount/updatePlayer.html" post="getCurrentFormData"/>
-                <soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter" opType="function"/>
-            </div>
+        </div>
+        <div class="modal-footer">
+            <soul:button precall="validateForm" cssClass="btn btn-filter" callback="saveCallbak" text="${views.common['OK']}" opType="ajax" dataType="json" target="${root}/simulationAccount/updatePlayer.html" post="getCurrentFormData"/>
+            <soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter" opType="function"/>
         </div>
     </form:form>
 </body>

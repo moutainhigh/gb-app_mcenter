@@ -40,10 +40,10 @@
 			<div class="form-group over clearfix">
 				<label class="col-xs-3 al-right">${views.player_auto['有效时间截止']}：</label>
 				<div class="col-xs-9 p-x">
-				<gb:dateRange format="${DateFormat.DAY}" style="width:38%"
-							  useRange="false"
-							  opens="right" position="down"
-							  name="sysUser.freezeStartTime"/>
+					<gb:dateRange format="${DateFormat.DAY}" style="width:38%"
+								  useRange="false"
+								  opens="right" position="down"
+								  name="sysUser.freezeStartTime"/>
 					<div><span>若未设置，虚拟账号有效期默认为永久！</span></div>
 				</div>
 			</div>
@@ -54,10 +54,10 @@
 					<textarea class="form-control" name="sysUser.memo"></textarea>
 				</div>
 			</div>
-			<div class="modal-footer">
-				<soul:button precall="validateForm" cssClass="btn btn-filter" callback="saveCallbak" text="${views.common['OK']}" opType="ajax" dataType="json" target="${root}/simulationAccount/savePlayer.html" post="getCurrentFormData"/>
-				<soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter" opType="function"/>
-			</div>
+		</div>
+		<div class="modal-footer">
+			<soul:button precall="validateForm" cssClass="btn btn-filter" callback="saveCallbak" text="${views.common['OK']}" opType="ajax" dataType="json" target="${root}/simulationAccount/savePlayer.html" post="getCurrentFormData"/>
+			<soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter" opType="function"/>
 		</div>
 	</form:form>
 	<!--//endregion your codes 3-->
