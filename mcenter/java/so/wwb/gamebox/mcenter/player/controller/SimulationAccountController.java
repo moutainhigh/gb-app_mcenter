@@ -25,6 +25,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.common.Const;
+import so.wwb.gamebox.model.enums.DemoModelEnum;
 import so.wwb.gamebox.model.master.enums.PlayerStatusEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeEnum;
 import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
@@ -101,13 +102,14 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         userRegisterVo.setUserPlayer(userPlayer);
         userRegisterVo.setSysUser(sysUser);
         userRegisterVo._setDataSourceId(virtualAccountSiteId);
+        userRegisterVo.setDemoModel(DemoModelEnum.MODEL_4_MOCK_ACCOUNT);
         userRegisterVo = ServiceTool.userPlayerService().register(userRegisterVo);
-        Vo._setDataSourceId(virtualAccountSiteId);
+        /*Vo._setDataSourceId(virtualAccountSiteId);
         userPlayer.setId(userRegisterVo.getSysUser().getId());
         Vo.setResult(userPlayer);
         Vo.setProperties(UserPlayer.PROP_WALLET_BALANCE);
-        UserPlayerVo userPlayerVo = ServiceTool.userPlayerService().updateOnly(Vo);
-        if (userPlayerVo.isSuccess()){
+        UserPlayerVo userPlayerVo = ServiceTool.userPlayerService().updateOnly(Vo);*/
+        if (userRegisterVo.isSuccess()){
             map.put("state",true);
             map.put("msg","成功");
         }else {
