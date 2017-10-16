@@ -30,7 +30,7 @@
                             <tr>
                                 <%--<c:choose>--%>
                                     <c:if test="${empty _apiId || _apiId ne someGame['apiId']}">
-                                        <td rowspan="${command.groupSomeGames[someGame['apiId']].size()}">${gbFn:getApiName(someGame['apiId'].toString())}</td>
+                                        <td rowspan="${command.groupSomeGames[someGame['apiId']].size()}">${gbFn:getSiteApiName(someGame['apiId'].toString())}</td>
                                     </c:if>
                                 <%--</c:choose>--%>
                                 <td>
@@ -46,7 +46,7 @@
                         <tr>
                             <%--<c:choose>--%>
                                 <c:if test="${empty _apiId || _apiId ne someGame['apiId']}">
-                                    <td rowspan="${command.groupSomeGames[someGame['apiId']].size()}">${gbFn:getApiName(someGame['apiId'].toString())}</td>
+                                    <td rowspan="${command.groupSomeGames[someGame['apiId']].size()}">${gbFn:getSiteApiName(someGame['apiId'].toString())}</td>
                                 </c:if>
                             <%--</c:choose>--%>
                             <td>

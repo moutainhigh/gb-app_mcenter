@@ -92,6 +92,7 @@
                 </c:when>
                 <c:when test="${pt.transactionType eq 'transfers'}">
                     <%--转账:转入 转出 --%>
+                    <c:set value="/report/fundsTrans/view.html?id=${pt.id}" var="view_url"></c:set>
                     <c:choose>
                         <c:when test="${pt.fundType eq 'transfer_into'}">
                             <c:set value="+" var="_symbol"></c:set>

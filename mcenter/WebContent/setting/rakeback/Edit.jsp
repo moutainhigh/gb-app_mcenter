@@ -99,7 +99,7 @@
                             <c:otherwise>
                                 <table class="table table-striped table-bordered table-hover dataTable m-b-none" ${rake.id} ${rake.maxRakeback}>
                                     <tr role="row" class="bg-color">
-                                        <td rowspan="2">&nbsp;${command.rakebackGrads.size()}</td>
+                                        <td rowspan="2">&nbsp;</td>
                                         <td rowspan="2"><h3>${views.setting['rakeback.edit.validValue']}</h3></td>
                                         <td rowspan="2"><h3>${views.setting['rakeback.edit.maxRakeback']}</h3></td>
                                         <td colspan="${command.apiIds.size()}"><h3>${views.setting['rakeback.edit.grads']}</h3></td>

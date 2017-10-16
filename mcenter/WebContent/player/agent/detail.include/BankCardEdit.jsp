@@ -22,7 +22,7 @@
                     value="${not empty bankcard.bankcardMasterName?bankcard.bankcardMasterName:sysUser.realName}"/>
         <form:input path="result.bankName" type="hidden"
                     value="${empty bankcard.bankName?bankListVo.result.get(0).bankName:bankcard.bankName}"/>
-
+        <input type="hidden" name="userType" value="23">
 
         <div class="modal-body">
             <div class="form-group over clearfix">

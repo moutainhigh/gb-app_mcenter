@@ -25,7 +25,7 @@
             <th>${views.report['operate.detail.account.player']}</th>
             <th>${views.report['rakeback.detail.period']}</th>
             <c:forEach var="api" items="${command.apis}">
-                <th>${gbFn:getApiName(api.toString())}</th>
+                <th>${gbFn:getSiteApiName(api.toString())}</th>
             </c:forEach>
             <c:set value="<span tabindex=\"0\" class=\"m-l-sm help-popover\" role=\"button\" data-container=\"body\" data-toggle=\"popover\" data-trigger=\"focus\" data-placement=\"top\" data-content=\"${views.report['rakeback.help.total']}\"><i class=\"fa fa-question-circle\"></i></span>" var="tips1"></c:set>
             <soul:orderColumn poType="${type}" property="rakebackTotal" column="${tips1} ${views.report['rakeback.list.total']}"></soul:orderColumn>

@@ -13,13 +13,18 @@
         <div class="wrapper white-bg shadow">
             <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
                 <c:set var="rate" value="${useProfit*100/profit}"/>
+                <c:set var="transferRate" value="0"/>
+                <c:set var="demoValue" value="${demoParam.paramValue=='true'}"/>
+                <c:if test="${!empty currentTransferLimit}">
+                    <c:set var="transferRate" value="${transferLimit*100/currentTransferLimit}"/>
+                </c:if>
                 <c:choose>
-                    <c:when test="${!empty leftTime && leftTime>0 && rate<120 && rate>=100}">
+                    <c:when test="${!empty leftTime && leftTime>0 && (rate<120 && rate>=100||transferRate<120&&transferRate>=100) && !demoValue}">
                         <div class="sys_tab_wrap p-xs">
                             <b class="fs16">${views.setting_auto['离后台维护还剩']}：</b><span class="fs20 ft-bold co-red" id="leftTime" data-time="${leftTime}"><span id="hour">00</span>${views.setting_auto['小时']}<span id="minute">00</span>${views.setting_auto['分']}</span>
                         </div>
                     </c:when>
-                    <c:when test="${(!empty leftTime && leftTime<=0) || rate>=120}">
+                    <c:when test="${(!empty leftTime && leftTime<=0) || rate>=120 || transferRate>=120 || demoValue}">
                         <div class="sys_tab_wrap p-xs">
                             <b class="fs16">${views.setting_auto['离后台维护还剩']}：</b><span class="fs20 ft-bold co-red">0小时0分</span>
                         </div>
@@ -41,26 +46,26 @@
                     <div class="m-b-none col-xs-6 col-sm-7-1">
                         <div class="limit-price-wrap al-center clearfix">
                             <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用']}">${views.setting_auto['已使用']}</div>
-                            <div class="fs20 p-b-sm al-center co-red">${soulFn:formatInteger(useProfit*100/profit)}%</div>
+                            <div class="fs20 p-b-sm al-center co-red">${soulFn:formatInteger(rate)}%</div>
                         </div>
                     </div>
                     <c:if test="${!empty currentTransferLimit}">
                         <div class="m-b-none col-xs-6 col-sm-7-1">
                             <div class="limit-price-wrap al-center clearfix">
-                                <div class="bold-fs16 p-sm co-gray6" title="转账上限">转账上限</div>
+                                <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['转账上限']}">${views.setting_auto['转账上限']}</div>
                                 <div class="fs20 p-b-sm al-center">${soulFn:formatCurrency(currentTransferLimit)}</div>
                             </div>
                         </div>
                         <div class="m-b-none col-xs-6 col-sm-7-1">
                             <div class="limit-price-wrap al-center clearfix">
-                                <div class="bold-fs16 p-sm co-gray6" title="已使用额度">已使用额度</div>
+                                <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用额度']}">${views.setting_auto['已使用额度']}</div>
                                 <div class="fs20 p-b-sm al-center co-blue">${soulFn:formatCurrency(transferLimit)}</div>
                             </div>
                         </div>
                         <div class="m-b-none col-xs-6 col-sm-7-1">
                             <div class="limit-price-wrap al-center clearfix">
-                                <div class="bold-fs16 p-sm co-gray6" title="已使用的百分比">已使用的百分比</div>
-                                <div class="fs20 p-b-sm al-center co-red">${soulFn:formatInteger(transferLimit*100/currentTransferLimit)}%</div>
+                                <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['兑换已使用的百分比比例']}">${views.setting_auto['已使用的百分比']}</div>
+                                <div class="fs20 p-b-sm al-center co-red">${soulFn:formatInteger(transferRate)}%</div>
                             </div>
                         </div>
                     </c:if>
@@ -122,11 +127,11 @@
                     </div>
                     <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 limit-tips">
                         <ul>
-                            <li>1、${fn:replace(views.setting_auto['本系统默认可用额度'],"{0}" ,defaultProfit )}</li>
+                            <li>1、${fn:replace(fn:replace(views.setting_auto['本系统额度上限默认可用'],"[0]" ,defaultProfit ),"[1]" ,defaultTransferLimit )}</li>
                             <li>2、${views.setting_auto['如果充值出现问题']}</li>
-                            <li>3、${views.setting_auto['本页面充值仅用于提高额度上限']}</li>
+                            <li>3、${views.setting_auto['本页面充值仅用于提高额度上限和转账上限']}</li>
                             <li>4、${views.setting_auto['如果维护时间已过']}</li>
-                            <li>5、财务正常工作时间：09:00-21:00</li>
+                            <li>5、${views.setting_auto['财务正常工作时间']}</li>
                         </ul>
                     </div>
                 </div>

@@ -43,7 +43,7 @@
                                 <c:when test="${!api.taskStatus}">
                                     <soul:button target="${root}/playerFunds/recovery.html?type=singlePlayerApi&search.id=${api.id}&search.apiId=${api.apiId}&search.playerId=${player.id}"
                                                  text="${views.role['player.view.funds.recoveryFunds']}" opType="ajax" callback="refresh"
-                                                 confirm="${fn:replace(fn:replace(views.role['player.view.funds.confirmPlayerGameRecoveryWallect'], '{username}', player.username), '{api}', gbFn:getApiName(api.apiId.toString()))}" />
+                                                 confirm="${fn:replace(fn:replace(views.role['player.view.funds.confirmPlayerGameRecoveryWallect'], '{username}', player.username), '{api}', gbFn:getSiteApiName(api.apiId.toString()))}" />
                                 </c:when>
                                <%-- <c:otherwise>
                                     <span>${views.role['player.view.funds.recoveryFunds']}</span>
