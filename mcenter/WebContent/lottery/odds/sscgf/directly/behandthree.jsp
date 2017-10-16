@@ -173,7 +173,7 @@
                             </td>
                             <td>
                                 <div class="input-group content-width-limit-10">
-                                    <input type="text" class="form-control input-sm rebate" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${lotteryIndex}].rebate" data-limit="${odd.oddLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
+                                    <input type="text" class="form-control input-sm rebate" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${lotteryIndex}].rebate" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
                                 </div>
                             </td>
                             <c:set value="${lotteryIndex+1}" var="lotteryIndex"/>

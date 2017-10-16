@@ -167,7 +167,6 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         listVo.getSearch().setSiteId(SessionManager.getSiteId());
         listVo.setPaging(null);
         listVo = ServiceTool.siteLotteryOddService().search(listVo);
-        addSiteLotteryOddBaseNum(code,listVo.getResult());
         return CollectionTool.toEntityMap(listVo.getResult(), SiteLotteryOdd.PROP_BET_NUM);
     }
     private Map<String, List<SiteLotteryOdd>> searchLotteryOdd(@PathVariable String code, @PathVariable String[] betcodes, SiteLotteryOddVo oddVo) {
@@ -181,30 +180,8 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         listVo.setPaging(null);
         listVo = ServiceTool.siteLotteryOddService().search(listVo);
         List<SiteLotteryOdd> result = listVo.getResult();
-        addSiteLotteryOddBaseNum(code,result);
         Map<String, List<SiteLotteryOdd>> stringListMap = CollectionTool.groupByProperty(result, LotteryOdd.PROP_BET_CODE, String.class);
         return stringListMap;
-    }
-
-    /**
-     * sitelotteryodd增加baseNum属性值
-     * @param code
-     * @param result
-     */
-    private void addSiteLotteryOddBaseNum(String code,List<SiteLotteryOdd> result){
-        List<LotteryOdd> lotteryOdds = Cache.getLotteryOdd(code);
-        if(CollectionTool.isNotEmpty(result) && CollectionTool.isNotEmpty(lotteryOdds)){
-            for (SiteLotteryOdd siteLotteryOdd : result) {
-                if(siteLotteryOdd != null && StringTool.isNotEmpty(siteLotteryOdd.getBetCode()) && StringTool.isNotEmpty(siteLotteryOdd.getBetNum())){
-                    for (LotteryOdd lotteryOdd : lotteryOdds) {
-                        if(lotteryOdd != null && lotteryOdd.getBaseNum() != null && siteLotteryOdd.getBetCode().equals(lotteryOdd.getBetCode()) && siteLotteryOdd.getBetNum().equals(lotteryOdd.getBetNum())){
-                            siteLotteryOdd.setBaseNum(lotteryOdd.getBaseNum());
-                            break;
-                        }
-                    }
-                }
-            }
-        }
     }
 
     @RequestMapping(value = "/saveSiteLotteryOdds", method = RequestMethod.POST)
