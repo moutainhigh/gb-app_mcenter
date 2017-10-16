@@ -21,7 +21,7 @@ public class SimulationEditPlayerForm implements IForm {
 
     private String sysUser_password;
 
-    private String result_walletBalance;
+    private String search_walletBalance;
 
     @NotBlank(message = "common_auto.password.notBlank")
     @Remote(message = "common_auto.passport.tooEasy",checkClass = SimulationAccountController.class,checkMethod = "passwordNotWeak",additionalProperties = "sysUser.username")
@@ -37,15 +37,13 @@ public class SimulationEditPlayerForm implements IForm {
     @NotBlank(message = "fund.ManualDepositForm.rechargeAmount.notBlank")
     @Pattern(regexp = FormValidRegExps.MONEY, message = "fund_auto.金额格式不正确")
     @Max(value = 99999999, message = "fund.ManualDepositForm.rechargeAmount.Max")
-    public String getResult_walletBalance() {
-        return result_walletBalance;
+    public String getSearch_walletBalance() {
+        return search_walletBalance;
     }
 
-    public void setResult_walletBalance(String result_walletBalance) {
-        this.result_walletBalance = result_walletBalance;
+    public void setSearch_walletBalance(String search_walletBalance) {
+        this.search_walletBalance = search_walletBalance;
     }
-
-
     //endregion your codes
 
 }
