@@ -65,7 +65,7 @@
                         </c:forEach>
                         <c:forEach items="${command.ssc_sanxing_zhixuan_qszh}" var="p" >
                             <c:if test="${p.betNum eq '一星'}">
-                            <th><span>前后三直选组合(一星)</span></th>
+                            <th><span>前三直选组合(一星)</span></th>
                             <td>
                                 <div class="input-group content-width-limit-10">
                                     <c:set var="odd" value="${p}"/>

@@ -3,8 +3,9 @@
 <div class="lot_two_menu">
     <a href="javascript:void(0)" type="directly" page="directly">直选</a>
     <a href="javascript:void(0)" type="groupselect" page="groupselect">组选</a>
-    <a href="javascript:void(0)" type="uncertain" page="uncertain">不定选</a>
-    <a href="javascript:void(0)"  type="size" page="size">大小单双</a>
+    <a href="javascript:void(0)" type="uncertain" page="uncertain">不定位</a>
+    <%--注释玩法如需开放，去掉注释--%>
+    <%--<a href="javascript:void(0)"  type="size" page="size">大小单双</a>--%>
     <a href="javascript:void(0)" type="other"  page="other">其他</a>
 </div>
 
