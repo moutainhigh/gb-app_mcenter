@@ -1,12 +1,21 @@
 <%--@elvariable id="sup" type="so.wwb.gamebox.model.company.lottery.vo.SiteLotteryOddVo"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/include/include.inc.jsp" %>
+<style>
+    /*赔率官方玩法*/
+    .gfwfqh-wrap{border-bottom: 1px solid #e6e6e6; position: relative;min-height: 108px;}
+    .gfwfqh-wrap .lot_two_menu,.gfwfqh-wrap .lot_three_menu{margin-left: 126px;}
+    .gfwfqh-wrap .wfqh-btn{ position: absolute; background: #fff;  height: 100%;  width: 125px;}
+    .gfwfqh-wrap .wfqh-btn a{display: block; width: 100px; margin-left: auto; margin-right: auto; text-align: center; background: #fff; color: #333; border:1px solid #b4b7bb; padding: 10px 0; border-radius: 40px; margin-top: 9px;}
+    .gfwfqh-wrap .wfqh-btn a:hover,.gfwfqh-wrap .wfqh-btn a.active{background: #f39503; border:1px solid #f39503; color: #fff;}
+    .gfwfqh-wrap .lot_three_menu{padding: 10px 15px 10px 15px;}
+</style>
 <div class="row">
     <form:form method="post">
         <div id="validateRule" style="display: none">${oddRule}</div>
         <div id="${id}" class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
-            <span>${views.sysResource['彩票']}</span><span>/</span><span>${views.lottery_auto['赔率设置']}</span>
+            <span>${views.sysResource['彩票']}</span><span>/</span><span>奖金赔率设置</span>
             <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         </div>
 
@@ -50,11 +59,15 @@
 
                     </div>
                 </div>
-                <div id="lot_two_menu" >
-
-                </div>
-                <div id="lot_three_menu" class="lot_three_menu">
-
+                <div id="gfwfqh">
+                    <div id="wfqh-btn" class="wfqh-btn" style="display: none">
+                        <a id="jdwf" class="active">信用玩法</a>
+                        <a id="gfwf" nav-target="mainFrame">官方玩法</a>
+                    </div>
+                    <div id="lot_two_menu">
+                    </div>
+                    <div id="lot_three_menu" class="lot_three_menu">
+                    </div>
                 </div>
                 <!--表格内容-->
                 <div id="editable_wrapper" class="editable_wrapper">
