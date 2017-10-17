@@ -2849,6 +2849,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     @ResponseBody
     public Map changeStatus(Integer[] ids) {
         VUserPlayerListVo listVo=new VUserPlayerListVo();
+        for (Integer id:ids){
+            KickoutFilter.loginKickoutAll(id,OpMode.MANUAL,"站长中心冻结玩家强制踢出");
+        }
         listVo.getSearch().setIds(Arrays.asList(ids));
         Map map=new HashMap(2,1f);
         try {

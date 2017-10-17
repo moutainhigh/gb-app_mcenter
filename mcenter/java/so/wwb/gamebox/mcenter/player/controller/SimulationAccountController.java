@@ -257,6 +257,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         SysUser sysUser=new SysUser();
         sysUser.setStatus(PlayerStatusEnum.DISABLE.getCode());
         sysUser.setId(vUserPlayerVo.getSearch().getId());
+        KickoutFilter.loginKickoutAll(vUserPlayerVo.getSearch().getId(),OpMode.MANUAL,"站长中心停用玩家强制踢出");
         sysUserVo.setResult(sysUser);
         sysUserVo._setDataSourceId(virtualAccountSiteId);
         sysUserVo.setProperties(SysUser.PROP_STATUS);
