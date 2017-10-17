@@ -451,6 +451,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                     else if (searchType==2){
                         resetFormatTime(listVo);
                         List<Integer> player = ServiceTool.vUserPlayerService().queryEffectivePlayer(listVo);
+                        //玩家id不能为空
                         if (CollectionTool.isEmpty(player)){
                             player.add(-1);
                         }
