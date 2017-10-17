@@ -130,6 +130,7 @@ public class VAnalyzePlayerController extends BaseCrudController<IVAnalyzePlayer
         listVo = this.getService().analyzeLink(listVo);
         model.addAttribute("command",listVo);
         if (ServletTool.isAjaxSoulRequest(request)) {
+            listVo = resetFormatTime(listVo);
             listVo = this.getService().analyzeLink(listVo);
             model.addAttribute("command",listVo);
             return getViewBasePath() + "link/AnalyzeLinkPartial";
