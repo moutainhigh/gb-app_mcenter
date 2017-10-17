@@ -103,7 +103,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         userRegisterVo.setSysUser(sysUser);
         userRegisterVo._setDataSourceId(virtualAccountSiteId);
         userRegisterVo.setDemoModel(DemoModelEnum.MODEL_4_MOCK_ACCOUNT);
-        userRegisterVo = ServiceTool.userPlayerService().register(userRegisterVo);
+        userRegisterVo = ServiceTool.userPlayerService().registerModelAccount(userRegisterVo);
         /*Vo._setDataSourceId(virtualAccountSiteId);
         userPlayer.setId(userRegisterVo.getSysUser().getId());
         Vo.setResult(userPlayer);
