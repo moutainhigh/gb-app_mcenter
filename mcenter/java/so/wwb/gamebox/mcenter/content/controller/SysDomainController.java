@@ -28,7 +28,10 @@ import so.wwb.gamebox.iservice.company.sys.ISysDomainService;
 import so.wwb.gamebox.mcenter.content.form.*;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
-import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.BossParamEnum;
+import so.wwb.gamebox.model.CacheBase;
+import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.enums.DomainCheckStatusEnum;
 import so.wwb.gamebox.model.company.enums.DomainPageUrlEnum;
@@ -42,11 +45,7 @@ import so.wwb.gamebox.model.company.sys.vo.SysDomainListVo;
 import so.wwb.gamebox.model.company.sys.vo.SysDomainVo;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
-import so.wwb.gamebox.model.master.player.po.PlayerRank;
-import so.wwb.gamebox.model.master.player.po.VPlayerTag;
 import so.wwb.gamebox.model.master.player.po.VUserAgent;
-import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
-import so.wwb.gamebox.model.master.player.vo.VPlayerTagVo;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentListVo;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentVo;
 import so.wwb.gamebox.web.cache.Cache;
@@ -746,7 +745,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         if (!result.hasErrors()) {
             sysDomainVo.setDomainPlatform(DomainPlatformEnum.SITE.getCode());
             SysDomain sysDomain = setDomainData(sysDomainVo);
-            sysDomain.setSubsysCode(SubSysCodeEnum.MCENTER.getCode());
+            sysDomain.setSubsysCode(SubSysCodeEnum.MSITES.getCode());
             sysDomainVo.setResult(sysDomain);
 
             sysDomainVo = initSysDomainCheckData(sysDomainVo);
