@@ -44,7 +44,7 @@
 								  useRange="false"
 								  opens="right" position="down"
 								  name="sysUser.freezeStartTime"/>
-					<div><span>若未设置，虚拟账号有效期默认为永久！</span></div>
+					<div><span>${views.player_auto['若未设置']}</span></div>
 				</div>
 			</div>
 

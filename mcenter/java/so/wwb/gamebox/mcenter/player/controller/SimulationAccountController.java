@@ -1,6 +1,5 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
-import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.RandomStringTool;
 import org.soul.commons.lang.string.StringTool;
@@ -18,13 +17,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.security.AuthTool;
 import so.wwb.gamebox.iservice.master.player.IUserPlayerService;
-import so.wwb.gamebox.mcenter.player.form.*;
+import so.wwb.gamebox.mcenter.player.form.SimulationAddNewPlayerForm;
+import so.wwb.gamebox.mcenter.player.form.SimulationEditPlayerForm;
+import so.wwb.gamebox.mcenter.player.form.UserPlayerForm;
+import so.wwb.gamebox.mcenter.player.form.UserPlayerSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.common.Const;
+import so.wwb.gamebox.model.enums.DemoModelEnum;
 import so.wwb.gamebox.model.master.enums.PlayerStatusEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeEnum;
 import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
@@ -35,7 +37,6 @@ import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.constraints.Null;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -101,13 +102,14 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         userRegisterVo.setUserPlayer(userPlayer);
         userRegisterVo.setSysUser(sysUser);
         userRegisterVo._setDataSourceId(virtualAccountSiteId);
-        userRegisterVo = ServiceTool.userPlayerService().register(userRegisterVo);
-        Vo._setDataSourceId(virtualAccountSiteId);
+        userRegisterVo.setDemoModel(DemoModelEnum.MODEL_4_MOCK_ACCOUNT);
+        userRegisterVo = ServiceTool.userPlayerService().registerModelAccount(userRegisterVo);
+        /*Vo._setDataSourceId(virtualAccountSiteId);
         userPlayer.setId(userRegisterVo.getSysUser().getId());
         Vo.setResult(userPlayer);
         Vo.setProperties(UserPlayer.PROP_WALLET_BALANCE);
-        UserPlayerVo userPlayerVo = ServiceTool.userPlayerService().updateOnly(Vo);
-        if (userPlayerVo.isSuccess()){
+        UserPlayerVo userPlayerVo = ServiceTool.userPlayerService().updateOnly(Vo);*/
+        if (userRegisterVo.isSuccess()){
             map.put("state",true);
             map.put("msg","成功");
         }else {
@@ -273,11 +275,10 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
     public String autoResetPwd(ResetPwdVo resetPwdVo, Model model){
         // 重置密码
         String newPwd = RandomStringTool.randomNumeric(6);
-        if(resetPwdVo.getResetTypeLoginPwd().equals(resetPwdVo.getResetType())){
-            resetPwdVo.setPassword(newPwd);
-            resetUserPwd(resetPwdVo);
-            KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL,"站长中心重置玩家密码强制踢出");
-        }
+        resetPwdVo.setResetType("loginPwd");
+        resetPwdVo.setPassword(newPwd);
+        resetUserPwd(resetPwdVo);
+        KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL,"站长中心重置玩家密码强制踢出");
         model.addAttribute("newPwd",newPwd);
         return getViewBasePath()+"SuccessPassword";
     }
