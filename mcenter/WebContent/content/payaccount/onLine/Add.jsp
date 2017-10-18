@@ -68,12 +68,18 @@
                         </label>
                         <div class="col-sm-5" id="thirdError">
                             <div class="input-group date">
-                                <form:select path="result.bankCode" callback="bankChannel" cssClass="btn-group chosen-select-no-single">
+                               <%-- <form:select path="result.bankCode" callback="bankChannel" cssClass="btn-group chosen-select-no-single">
                                     <option value="">${views.common['pleaseSelect']}</option>
                                     <c:forEach items="${command.bankList}" var="p">
                                         <option value="${p.bankName}" ${command.result.bankCode==p.bankName?'selected':''}>${(dicts.common.bankname[p.bankName]==null)?p.bankShortName:dicts.common.bankname[p.bankName]}</option>
                                     </c:forEach>
-                                </form:select>
+                                </form:select>--%>
+                                   <select name="result.bankCode">
+                                       <option value="">${views.common['pleaseSelect']}</option>
+                                       <c:forEach items="${command.bankList}" var="p">
+                                           <option value="${p.bankName}" ${command.result.bankCode==p.bankName?'selected':''}>${(dicts.common.bankname[p.bankName]==null)?p.bankShortName:dicts.common.bankname[p.bankName]}</option>
+                                       </c:forEach>
+                                   </select>
                                 <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
                             </div>
                         </div>
@@ -96,6 +102,15 @@
                                     <input type="radio" value="2" name="result.terminal" ${terminal eq '2'?'checked':''}/>${views.content['手机端']}
                                 </label>
                             </div>
+                        </div>
+                    </div>
+                    <%-- 随机额度 --%>
+                    <div class="form-group clearfix line-hi34">
+                        <label class="ft-bold col-sm-3 al-right">
+                            随机额度：</label>
+                        <div class="col-sm-5">
+                            <input type="checkbox" name="my-checkbox" data-size="mini" ${command.result.randomAmount?'checked':''}>
+                            <input type="hidden" name="result.randomAmount" value="${not empty command.result.randomAmount && command.result.randomAmount?'true':'false'}">
                         </div>
                     </div>
                     <%-- 账户名称 --%>

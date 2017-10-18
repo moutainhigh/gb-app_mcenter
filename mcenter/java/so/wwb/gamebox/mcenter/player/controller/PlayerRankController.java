@@ -291,7 +291,7 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
     @ResponseBody
     public String copyParameter(Integer id, PlayerRankVo objectVo) {
         objectVo = this.getService().get(objectVo);
-        if(objectVo.getResult().getRakebackId()!=null){
+        if(objectVo.getResult()!=null&&objectVo.getResult().getRakebackId()!=null){
             RakebackSetVo rakebackSetVo = new RakebackSetVo();
             rakebackSetVo.getSearch().setId(objectVo.getResult().getRakebackId());
             rakebackSetVo = ServiceTool.rakebackSetService().get(rakebackSetVo);

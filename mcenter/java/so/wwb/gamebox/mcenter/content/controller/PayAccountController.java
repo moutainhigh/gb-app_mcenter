@@ -21,7 +21,6 @@ import org.soul.iservice.pay.IOnlinePayService;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.log.audit.vo.BaseLog;
 import org.soul.model.log.audit.vo.LogVo;
-import org.soul.model.log.audit.vo.Param;
 import org.soul.model.pay.vo.OnlinePayVo;
 import org.soul.model.sys.po.SysAuditLog;
 import org.soul.model.sys.po.SysParam;
@@ -51,7 +50,6 @@ import so.wwb.gamebox.model.bitcoin.po.BitCoinChannel;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.CryptoKey;
 import so.wwb.gamebox.model.common.MessageI18nConst;
-import so.wwb.gamebox.model.company.enums.BankCodeEnum;
 import so.wwb.gamebox.model.company.enums.BankEnum;
 import so.wwb.gamebox.model.company.enums.BankPayTypeEnum;
 import so.wwb.gamebox.model.company.enums.ResolveStatusEnum;
@@ -68,6 +66,7 @@ import so.wwb.gamebox.model.master.content.enums.PayAccountStatusEnum;
 import so.wwb.gamebox.model.master.content.po.PayAccount;
 import so.wwb.gamebox.model.master.content.po.VPayAccount;
 import so.wwb.gamebox.model.master.content.vo.*;
+import so.wwb.gamebox.model.master.digiccy.po.DigiccyAccountInfo;
 import so.wwb.gamebox.model.master.enums.PayAccountAccountType;
 import so.wwb.gamebox.model.master.enums.PayAccountType;
 import so.wwb.gamebox.model.master.enums.UserTaskEnum;
@@ -528,7 +527,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             }
             //上分KEY参数
             SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SITE_PAY_KEY);
-            if(sysParam!=null) {
+            if (sysParam != null) {
                 payAccountVo.setPayKeyParam(sysParam);
                 ServiceTool.acbService().addBank(payAccountVo);
             }
@@ -1047,7 +1046,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @ResponseBody
     public Map saveDepositDefaultCount(PayAccountVo payAccountVo, @FormModel @Valid PayAccountDepositForm form,
                                        BindingResult result) {
-        Map<String, Object> map = new HashMap<>(3,1f);
+        Map<String, Object> map = new HashMap<>(3, 1f);
         if (result.hasErrors()) {
             map.put("state", false);
             map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
@@ -1079,7 +1078,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @ResponseBody
     public Map saveDepositDefaultTotal(PayAccountVo payAccountVo, @FormModel @Valid PayAccountDepositForm form,
                                        BindingResult result) {
-        Map<String, Object> map = new HashMap<>(3,1f);
+        Map<String, Object> map = new HashMap<>(3, 1f);
         if (result.hasErrors()) {
             map.put("state", false);
             map.put("msg", LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED));
@@ -1108,7 +1107,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @RequestMapping("/recoveryData/{types}")
     @ResponseBody
     public Map recoveryData(PayAccountVo payAccountVo, @PathVariable String types) {
-        Map<String, Object> map = new HashMap<>(3,1f);
+        Map<String, Object> map = new HashMap<>(3, 1f);
         PayAccount payAccount = payAccountVo.getResult();
         if (payAccount == null || payAccount.getId() == null) {
             map.put("state", false);
@@ -1218,6 +1217,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         ParamTool.refresh(SiteParamEnum.SETTING_RECHARGE_URL_RANKS);
         return getVoMessage(sysParamVo);
     }
+
     /**
      * 上分设置
      *
@@ -1225,10 +1225,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
      * @return
      */
     @RequestMapping("/acbSetting")
-    public String acbSetting(PayAccountVo payAccountVo,Model model){
+    public String acbSetting(PayAccountVo payAccountVo, Model model) {
         //开启上分功能
         payAccountVo.setPayKeyParam(ParamTool.getSysParam(SiteParamEnum.SITE_PAY_KEY));
-        model.addAttribute("command",payAccountVo);
+        model.addAttribute("command", payAccountVo);
         return "/content/payaccount/company/AcbSetting";
     }
 
@@ -1240,11 +1240,55 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
      */
     @RequestMapping("/saveAcbSetting")
     @ResponseBody
-    public Map saveAcbSetting(SysParamVo sysParamVo){
+    public Map saveAcbSetting(SysParamVo sysParamVo) {
         sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
         sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
         ParamTool.refresh(SiteParamEnum.SITE_PAY_KEY);
         return this.getVoMessage(sysParamVo);
+    }
+
+    /**
+     * 数字货币信息
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/digiccyAccount")
+    public String digiccyAccount(Model model) {
+        SysParam param = ParamTool.getSysParam(SiteParamEnum.DIGICCY_PROVIDER_ACCOUNT_INFO);
+        if (param != null && StringTool.isNotBlank(param.getParamValue())) {
+            model.addAttribute("info", JsonTool.fromJson(param.getParamValue(), DigiccyAccountInfo.class));
+        }
+        model.addAttribute("providers", Cache.getDigiccyApiProviderMap());
+        model.addAttribute("validate", JsRuleCreator.create(DigiccyAccountForm.class));
+        return "/content/payaccount/onLine/DigiccyAccount";
+    }
+
+    /**
+     * 保存数字货币信息
+     *
+     * @param digiccyAccountInfo
+     * @return
+     */
+    @RequestMapping("/saveDigiccyAccount")
+    @ResponseBody
+    public Map saveDigiccyAccount(DigiccyAccountInfo digiccyAccountInfo) {
+        if (!PayAccountStatusEnum.USING.getCode().equals(digiccyAccountInfo.getStatus())) {
+            digiccyAccountInfo.setStatus(PayAccountStatusEnum.DISABLED.getCode());
+        }
+        SysParam param = ParamTool.getSysParam(SiteParamEnum.DIGICCY_PROVIDER_ACCOUNT_INFO);
+        SysParamVo sysParamVo = new SysParamVo();
+        if (param != null) {
+            digiccyAccountInfo.setAccount(CryptoTool.aesEncrypt(digiccyAccountInfo.getAccount(), CryptoKey.KEY_DIGICCY_ACCOUNT_INFO));
+            digiccyAccountInfo.setPwd(CryptoTool.aesEncrypt(digiccyAccountInfo.getPwd(), CryptoKey.KEY_DIGICCY_ACCOUNT_INFO));
+            param.setParamValue(JsonTool.toJson(digiccyAccountInfo));
+            sysParamVo.setResult(param);
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            sysParamVo = ServiceTool.siteSysParamService().updateOnly(sysParamVo);
+            ParamTool.refresh(SiteParamEnum.DIGICCY_PROVIDER_ACCOUNT_INFO);
+        }
+
+        return getVoMessage(sysParamVo);
     }
     //endregion your codes 3
 

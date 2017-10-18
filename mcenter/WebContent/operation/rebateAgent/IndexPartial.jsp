@@ -8,10 +8,11 @@
         <tr class="bg-gray">
             <th rowspan="2">${views.fund_auto['序号']}</th>
             <th rowspan="2"><input type="checkbox" class="i-checks"></th>
-            <th rowspan="2">${views.wc_fund['operation.rebate.agentPath']}</th>
+            <%--<th rowspan="2" >${views.wc_fund['operation.rebate.agentPath']}</th>--%>
             <th rowspan="2">${views.wc_fund['代理账号']}</th>
             <th rowspan="2">${views.wc_fund['代理层级']}</th>
             <th rowspan="2">${views.wc_fund['rebate.edit.validPlayerNum']}</th>
+            <th>${views.wc_fund["达到梯度"]}</th>
             <th class="multiple-row" colspan="2">
                 <div class="title">${views.wc_fund['effective_transaction']}</div>
                 <div class="two-col">${views.wc_fund['operation.rebate.self']}</div>
@@ -46,15 +47,28 @@
             <c:forEach items="${command.result}" var="p" varStatus="status">
                 <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
-                    <td><input type="checkbox" class="i-checks" value="${p.id}"></td>
-                    <td style="text-align: left">
+                    <c:set var="status" value="kobe"></c:set>
+                    <c:if test="${p.settlementState != 'pending_lssuing'}">
+                        <c:set var="status" value="disabled"></c:set>
+                    </c:if>
+                    <td><input type="checkbox" class="i-checks" ${status} value="${p.id}"></td>
+                    <%--<td style="text-align: left"  >
                         <a href="/rebateAgent/list.html?search.agentId=${p.agentId}" nav-target="mainFrame">${p.parentNameArray}</a>
-                    </td>
+                    </td>--%>
                     <td>
                         <a href="/userAgent/agent/detail.html?search.id=${p.agentId}" nav-target="mainFrame">${p.agentName}</a>
                     </td>
-                    <td>${p.agentRank}</td>
+                    <td>
+                        <span data-content="${p.parentNameArray}" style="padding: 3px;"
+                              data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                              role="button" class="help-popover co-red3" tabindex="0"
+                              data-original-title="" title="">
+                            <a href="/rebateAgent/list.html?search.agentId=${p.agentId}" nav-target="mainFrame">${p.agentRank}</a>
+                        </span>
+
+                    </td>
                     <td>${p.effectivePlayer}</td>
+                    <td>${empty p.rebateGradsId ?views.common['no']:views.common['yes']}</td>
                     <td colspan="2" class="multiple-row-td">
                         <div class="${p.effectiveSelf<0?'co-red':''}">${soulFn:formatCurrency(p.effectiveSelf)}</div>
                         <div class="${p.effectiveTransaction-p.effectiveSelf<0?'co-red':''}">${soulFn:formatCurrency(p.effectiveTransaction-p.effectiveSelf)}</div>

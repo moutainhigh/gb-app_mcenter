@@ -49,19 +49,29 @@
 							<a class="btn btn-link" nav-Target="mainFrame" href="/fund/deposit/online/list.html?search.fundTypes=online_deposit&search.userNameEqual=true&search.username=${r.username}"><i class="iconfont icon-wanjiaguanli"></i>${views.fund['despoit.index.viewPlayerAllDespoit']}</a>
 						</td>
 					</tr>
-					<tr>
-						<th scope="row" class="text-right">${views.fund['收款账户']}</th>
-						<td>
-							<a href="/vPayAccount/detail.html?result.id=${r.payAccountId}&search.type=2" nav-target="mainFrame" class="btn co-blue">
-								${r.payName}
-							</a>
-							<c:if test="${rs eq overTime}">
+					<c:if test="${!empty r.payAccountId}">
+						<tr>
+							<th scope="row" class="text-right">${views.fund['收款账户']}</th>
+							<td>
+								<a href="/vPayAccount/detail.html?result.id=${r.payAccountId}&search.type=2" nav-target="mainFrame" class="btn co-blue">
+										${r.payName}
+								</a>
+								<c:if test="${rs eq overTime}">
 								<span class="btn btn-sm ${r.payAccountStatusCss} btn-stroke m-l-sm">
 										${dicts.content.pay_account_status[r.payAccountStatus]}
 								</span>
-							</c:if>
-						</td>
-					</tr>
+								</c:if>
+							</td>
+						</tr>
+					</c:if>
+					<c:if test="${!empty r.bitAmount}">
+						<tr>
+							<th scope="row" class="text-right">${r.payerBank}：</th>
+							<td class="money">
+								${dicts.common.currency_symbol[r.payerBank]}<fmt:formatNumber value="${r.bitAmount}" pattern="#.########"/>
+							</td>
+						</tr>
+					</c:if>
 					<tr>
 						<th scope="row" class="text-right">${views.fund['实际到账：']}</th>
 						<td class="money">

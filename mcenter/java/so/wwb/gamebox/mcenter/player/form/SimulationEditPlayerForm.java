@@ -1,0 +1,49 @@
+package so.wwb.gamebox.mcenter.player.form;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.soul.commons.validation.form.constraints.Remote;
+import org.soul.web.support.IForm;
+import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
+import so.wwb.gamebox.mcenter.player.controller.SimulationAccountController;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Pattern;
+
+
+/**
+ * 查询表单验证对象
+ *
+ * Created by snekey using soul-code-generator on 2015-6-19 13:51:46
+ */
+public class SimulationEditPlayerForm implements IForm {
+
+    //region your codes
+
+    private String sysUser_password;
+
+    private String search_walletBalance;
+
+    @NotBlank(message = "common_auto.password.notBlank")
+    @Remote(message = "common_auto.passport.tooEasy",checkClass = SimulationAccountController.class,checkMethod = "passwordNotWeak",additionalProperties = "sysUser.username")
+    @Pattern(message = "common_auto.password.format",regexp = FormValidRegExps.LOGIN_PWD)
+    public String getSysUser_password() {
+        return sysUser_password;
+    }
+
+    public void setSysUser_password(String sysUser_password) {
+        this.sysUser_password = sysUser_password;
+    }
+
+    @NotBlank(message = "fund.ManualDepositForm.rechargeAmount.notBlank")
+    @Pattern(regexp = FormValidRegExps.MONEY, message = "fund_auto.金额格式不正确")
+    @Max(value = 99999999, message = "fund.ManualDepositForm.rechargeAmount.Max")
+    public String getSearch_walletBalance() {
+        return search_walletBalance;
+    }
+
+    public void setSearch_walletBalance(String search_walletBalance) {
+        this.search_walletBalance = search_walletBalance;
+    }
+    //endregion your codes
+
+}

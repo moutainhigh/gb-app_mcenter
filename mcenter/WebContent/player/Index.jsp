@@ -490,7 +490,7 @@
 
                             <soul:button target="${root}/player/addNewPlayer.html" opType="dialog" permission="role:player_add"
                                          text="${views.player_auto['新增玩家']}" callback="query"
-                                         cssClass="btn btn-filter"/>
+                                         cssClass="btn btn-filter pull-right m-r"/>
 
                             <%--<a href="/player/list.html?search.version=old" nav-target="mainFrame"--%>
                                <%--style="right: 21%;position: absolute;z-index: 888; padding-top: 10px;">${views.player_auto['切换到旧版本']}</a>--%>
@@ -608,6 +608,13 @@
                                          cssClass="btn btn-primary-hide dropdown-toggle player_tag_dropdown_btn">
                                 <i class="fa fa-comments-o"></i>${views.role['player.list.button.message']}
                             </soul:button>
+                        </div>
+
+                        <div class="btn-group" style="padding-right: 10px">
+                            <soul:button tag="button" target="freezenAccount" opType="function" text="${views.player_auto['账号冻结']}"
+                                         cssClass="btn btn-danger-hide _delete" callback="query"
+                                         confirm="${views.player_auto['确认冻结']}"><i class="fa fa-road"></i>
+                                <span class="hd">${views.player_auto['账号冻结']}</span></soul:button>
                         </div>
 
                     </div>

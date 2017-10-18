@@ -29,12 +29,12 @@
                         <i class="fa fa-filter"></i>
                         <span class="hd">${views.common['filter']}</span>
                     </soul:button>
-                    <%--<soul:button tag="button" cssClass="btn btn-export-btn btn-primary-hide"
+                    <soul:button tag="button" cssClass="btn btn-export-btn btn-primary-hide"
                                  text="${views.common['export']}" callback="gotoExportHistory"
                                  precall="validExportCount" post="getCurrentFormData" title="${views.role['player.dataExport']}"
                                  target="${root}/vUserAgentManage/exportRecords.html" opType="ajax">
                         <i class="fa fa-sign-out"></i><span class="hd">${views.common['export']}</span>
-                    </soul:button>--%>
+                    </soul:button>
                     <div class="search-wrapper btn-group pull-right">
                         <div class="input-group">
                             <div class="input-group-btn">

@@ -74,6 +74,8 @@ public class VAnalyzePlayerController extends BaseCrudController<IVAnalyzePlayer
         //默认昨天的统计
         defaultStaticTime(listVo);
         if (ServletTool.isAjaxSoulRequest(request)) {
+            listVo.setTimeStart(listVo.getSearch().getStartStaticTime());
+            listVo.setTimeEnd(listVo.getSearch().getEndStaticTime());
             listVo = resetFormatTime(listVo);
             listVo = this.getService().analyze(listVo);
             model.addAttribute("command",listVo);
@@ -128,6 +130,7 @@ public class VAnalyzePlayerController extends BaseCrudController<IVAnalyzePlayer
         listVo = this.getService().analyzeLink(listVo);
         model.addAttribute("command",listVo);
         if (ServletTool.isAjaxSoulRequest(request)) {
+            listVo = resetFormatTime(listVo);
             listVo = this.getService().analyzeLink(listVo);
             model.addAttribute("command",listVo);
             return getViewBasePath() + "link/AnalyzeLinkPartial";

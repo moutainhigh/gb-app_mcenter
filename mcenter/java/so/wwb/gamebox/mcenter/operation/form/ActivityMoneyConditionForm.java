@@ -143,7 +143,7 @@ public class ActivityMoneyConditionForm implements IForm {
         this.moneyAwardsRules$$_amount = moneyAwardsRules$$_amount;
     }
     @NotBlank
-    @Pattern(regexp = FormValidRegExps.POSITIVE,message = "operation_auto.请输入正数")
+    @Pattern(regexp = FormValidRegExps.DECIMAL,message = "operation_auto.请输入正数")
     @Digits(integer = 8,fraction = 2)
     @Max(value = 99999999)
     public String[] getMoneyAwardsRules$$_audit() {

@@ -89,6 +89,7 @@
                                                     <c:set var="favorable" value="<%=TransactionTypeEnum.FAVORABLE.getCode()%>"/>
                                                     <c:set var="recommend" value="<%=TransactionTypeEnum.RECOMMEND.getCode()%>"/>
                                                     <c:set var="backwater" value="<%=TransactionTypeEnum.BACKWATER.getCode()%>"/>
+                                                    <c:set var="transfers" value="<%=TransactionTypeEnum.TRANSFERS.getCode()%>"/>
                                                     <label class="fwn m-r-sm">
                                                         <input type="checkbox" class="i-checks tranType deposit checkOnline" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="online_deposit">
                                                         <span class="m-l-xs">${views.report_auto['线上支付']}</span>
@@ -120,6 +121,10 @@
                                                     <label class="fwn m-r-sm">
                                                         <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="bitcoin_fast">
                                                         <span class="m-l-xs">${views.report_auto['比特币支付']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkOnline" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="online_deposit">
+                                                        <span class="m-l-xs">${dicts.common.fund_type['digiccy_scan']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
                                                         <input type="checkbox" id="atm_money" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="atm_money">
@@ -374,18 +379,91 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
-                                <div class="input-group time-select-a">
-                                    <span class="input-group-addon bg-gray">${views.report_auto['金额']}</span>
-                                    <span class="input-group-addon border-right-none">${views.report_auto['起']}</span>
-                                    <input type="text" class="form-control border-left-none" name="search.startMoney" value="${command.search.startMoney}">
-                                    <span class="input-group-addon time-select-t">~</span>
-                                    <span class="input-group-addon border-right-none">${views.report_auto['止']}</span>
-                                    <input type="text" class="form-control border-left-none" name="search.endMoney" value="${command.search.endMoney}">
+
+
+                            <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
+                                <div class="input-group">
+                                    <span class="input-group-addon bg-gray">${views.report_auto['转账类型']}</span>
+                                    <span class=" input-group-addon bdn right-btn-down">
+                                        <div class="btn-group table-desc-right-t-dropdown" initprompt="10${views.report_auto['条']}" callback="query">
+                                            <button type="button" class="btn btn btn-default right-radius type-search-btn">
+                                                <span prompt="prompt" class="tranTypeNum">${views.report_auto['请选择']}</span>
+                                                <span class="caret-a pull-right"></span>
+                                            </button>
+                                        </div>
+                                    </span>
+                                </div>
+                                <div class="type-search">
+                                    <div class="m-b-sm">
+                                        <button type="button" class="btn btn-filter btn-xs" data-type="all">${views.common_report['全选']}</button>
+                                        <button type="button" class="btn btn-outline btn-filter btn-xs" data-type="clear" style="margin-right: 10px;">${views.report_auto['清空']}</button>
+                                    </div>
+                                    <div class="m-t">
+                                        <table class="table table-bordered m-b-xxs">
+
+
+                                            <tbody>
+                                            <tr class="title-search">
+                                                <td class=" al-left">
+                                                    <label><input type="checkbox" class="i-checks Ptype" data-type="6">
+                                                        <span class="search-game-title m-l-xs">
+                                                            <b>${views.fund['transfer']}</b></span>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="al-left" style="padding-left: 15px;">
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType" data-type="6" transaction-type="${transfers}" name="search.fundTypes" value="transfer_into">
+                                                        <span class="m-r-xs">${dicts.common.fund_type['transfer_into']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType" data-type="6" transaction-type="${transfers}" name="search.fundTypes" value="transfer_out">
+                                                        <span class="m-l-xs">${dicts.common.fund_type['transfer_out']}</span>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+
+                                            <tbody>
+                                            <tr class="title-search">
+                                                <td class=" al-left">
+                                                    <label><input type="checkbox" class="i-checks Ptype" data-type="7">
+                                                        <span class="search-game-title m-l-xs">
+                                                            <b>${views.common['all']}API</b></span>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="al-left" style="padding-left: 15px;">
+                                                    <c:forEach var="api" items="${siteApiMaps}">
+                                                        <label class="fwn m-r-sm">
+                                                            <input type="checkbox" class="i-checks tranType" data-type="7" apiId="${api.key}" transaction-type="${transfers}" name="search.apiList" value="${api.key}">
+                                                            <span class="m-r-xs">${gbFn:getApiName(api.key)}</span>
+                                                        </label>
+                                                    </c:forEach>
+
+                                                </td>
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
 
+
                             <div class="show-demand-a">
+                                <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
+                                    <div class="input-group time-select-a">
+                                        <span class="input-group-addon bg-gray">${views.report_auto['金额']}</span>
+                                        <span class="input-group-addon border-right-none">${views.report_auto['起']}</span>
+                                        <input type="text" class="form-control border-left-none" name="search.startMoney" value="${command.search.startMoney}">
+                                        <span class="input-group-addon time-select-t">~</span>
+                                        <span class="input-group-addon border-right-none">${views.report_auto['止']}</span>
+                                        <input type="text" class="form-control border-left-none" name="search.endMoney" value="${command.search.endMoney}">
+                                    </div>
+                                </div>
                                 <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
                                     <div class="input-group date time-select-a">
                                         <span class="input-group-addon bg-gray">${views.report_auto['创建时间']}</span>

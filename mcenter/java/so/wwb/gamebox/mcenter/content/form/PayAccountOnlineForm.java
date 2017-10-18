@@ -102,7 +102,7 @@ public class PayAccountOnlineForm implements IForm {
     }
 
     @NotBlank
-    @Length(min = 1, max = 20)
+    @Length(min = 1, max = 30)
     //@Pattern(regexp = FormValidRegExps.DIGITS)
     @Remote(checkClass = PayAccountController.class, checkMethod = "checkChnnel", additionalProperties = {"result.bankCode", "result_account", "result_id"}, message = "content_auto.该渠道的账号已存在")
     public String getResult_account() {
@@ -154,7 +154,7 @@ public class PayAccountOnlineForm implements IForm {
 
 
     @Comment("单笔存款最小值")
-    @Range(min = 1, max = 99999999)
+    @Range(min = 0, max = 9999999999999L)
     @Digits(integer = 8, fraction = 0, message = "content.payAccount.tips1")
     public Integer getResult_singleDepositMin() {
         return result_singleDepositMin;
@@ -162,7 +162,7 @@ public class PayAccountOnlineForm implements IForm {
 
 
     @Comment("单笔存款最大值")
-    @Range(min = 1, max = 99999999)
+    @Range(min = 1, max = 9999999999999L)
     @Digits(integer = 8, fraction = 0, message = "content.payAccount.tips1")
     @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin", logic = CompareLogic.GT, anotherProperty = "result_singleDepositMin")
     public Integer getResult_singleDepositMax() {

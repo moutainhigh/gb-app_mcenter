@@ -32,6 +32,7 @@
             <th style="padding-left: 35px;">${views.report['fund.list.transactionNo']}</th>
             <soul:orderColumn poType="${poType}" property="transactionMoney" column="${views.report['fund.list.money']}"/>
             <soul:orderColumn poType="${poType}" property="balance" column="${views.report['fund.list.balance']}"/>
+            <th>API余额</th>
             <th>
                 <gb:select name="search.status" value="${command.search.status}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}" list="${dictCommonStatus}" listKey="key" listValue="${dicts.common.status[key]}" callback="query"/>
             </th>
@@ -65,7 +66,7 @@
                         <c:set value="${_desc}-${dicts.common.transaction_way[pt.transactionWay]}" var="_desc"/>
                     </c:if>
                     <c:choose>
-                        <c:when test="${pt.fundType eq 'online_deposit' || pt.fundType eq 'qqwallet_scan' || pt.fundType eq 'wechatpay_scan' || pt.fundType eq 'alipay_scan'}">
+                        <c:when test="${pt.fundType eq 'online_deposit' || pt.fundType eq 'qqwallet_scan' || pt.fundType eq 'wechatpay_scan' || pt.fundType eq 'alipay_scan' || pt.fundType eq 'digiccy_scan'}">
                             <c:set value="false" var="showSubType"></c:set>
                             <%--在线--%>
                             <c:set value="/fund/deposit/online/view.html?search.id=${pt.sourceId}" var="view_url"></c:set>
@@ -91,6 +92,7 @@
                 </c:when>
                 <c:when test="${pt.transactionType eq 'transfers'}">
                     <%--转账:转入 转出 --%>
+                    <c:set value="/report/fundsTrans/view.html?id=${pt.id}" var="view_url"></c:set>
                     <c:choose>
                         <c:when test="${pt.fundType eq 'transfer_into'}">
                             <c:set value="+" var="_symbol"></c:set>
@@ -132,7 +134,7 @@
                 </td>
                 <td>
                     <c:choose>
-                        <c:when test="${pt.payName!=null}">
+                        <c:when test="${!empty pt.payName && pt.transactionType eq 'deposit'}">
                             ${pt.payName}
                         </c:when>
                         <c:otherwise>
@@ -179,6 +181,9 @@
                 <td>
                     <c:set value="${soulFn:formatCurrency(pt.balance)}" var="balanceData"></c:set>
                         ${empty pt.balance ? '---' : balanceData}
+                </td>
+                <td>
+                    ${empty pt.apiMoney ? '---' : soulFn:formatCurrency(pt.apiMoney)}
                 </td>
                 <td>
                     <c:set value="" var="status_class"></c:set>

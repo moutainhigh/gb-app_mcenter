@@ -117,15 +117,23 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
      */
     @RequestMapping("/{code}/{category}/{betCode}/Index")
     public String getSscPlayIndex(@PathVariable String code, @PathVariable String category, @PathVariable String betCode, @RequestParam("page") String page, SiteLotteryOddVo oddVo, Model model) {
+
+        String code1;
+        if(code.contains("gf")){
+            code1=code.substring(0,code.length()-2);
+        }else {
+            code1=code;
+        }
+
         String[] betcodes = {};
         if (StringTool.isNotBlank(betCode)) {
             betcodes = betCode.split(",");
         }
         if (betcodes.length > 1) {
-            Map<String, List<SiteLotteryOdd>> siteLotteryOdds = searchLotteryOdd(code, betcodes, oddVo);
+            Map<String, List<SiteLotteryOdd>> siteLotteryOdds = searchLotteryOdd(code1, betcodes, oddVo);
             model.addAttribute("command", siteLotteryOdds);
         } else {
-            Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code, betCode, oddVo);
+            Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code1, betCode, oddVo);
             model.addAttribute("command", siteLotteryOddMap);
         }
 
@@ -136,8 +144,10 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
     }
 
     private String handleCode(@PathVariable String code) {
-        if (code.contains("ssc")) {
+        if (code.contains("ssc")&&!code.contains("gf")) {
             code = LotteryTypeEnum.SSC.getCode();
+        } else if (code.contains("sscgf")){
+            code = LotteryTypeEnum.SSCGF.getCode();
         } else if (code.contains("k3")) {
             code = LotteryTypeEnum.K3.getCode();
         } else if (code.contains("cqxync") || code.contains("gdkl10")) {
@@ -166,6 +176,7 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         listVo.getSearch().setSiteId(SessionManager.getSiteId());
         listVo.getQuery().addOrder(LotteryOdd.PROP_BET_CODE, Direction.ASC);
         listVo.getQuery().addOrder(LotteryOdd.PROP_BET_NUM,Direction.DESC);
+
         listVo.setPaging(null);
         listVo = ServiceTool.siteLotteryOddService().search(listVo);
         List<SiteLotteryOdd> result = listVo.getResult();
@@ -192,7 +203,7 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         if (CollectionTool.isEmpty(lotteryOdds)) {
             return getVoMessage(siteLotteryOddVo);
         }
-        siteLotteryOddVo.setProperties(SiteLotteryOdd.PROP_ODD);
+        siteLotteryOddVo.setProperties(SiteLotteryOdd.PROP_ODD,SiteLotteryOdd.PROP_REBATE);
 
         List<SiteLotteryOdd> updateOdds = new ArrayList<>();
         List<Integer> ids = new ArrayList<>();
@@ -245,6 +256,12 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
                 return false;
             }
 
+            if (lotteryOdd.getRebate() != null) {
+                if (odd.getRebate() < 0 || odd.getRebate() > lotteryOdd.getRebateLimit()) {
+                    LOG.info("设置返点比例格式不正确,odd:{0},上限{1}", odd.getRebate(), lotteryOdd.getRebateLimit());
+                    return false;
+                }
+            }
         }
         return true;
     }

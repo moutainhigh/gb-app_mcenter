@@ -16,12 +16,13 @@
         <input id="activityMessageId" type="hidden" name="activityMessageId" value="${activityMessageVo.result.id}">
         <input id="states" type="hidden" name="states" value="${activityMessageVo.states}">
         <gb:token/>
-        <%@include file="ActivityContent.jsp"%>
+
+        <jsp:include page="ActivityContent.jsp"/>
         <c:if test="${activityType.result.code ne 'content'}">
-            <%@include file="ActivityRule.jsp"%>
+            <jsp:include page="ActivityRule.jsp"/>
         </c:if>
-        <%@include file="ActivityPreview.jsp"%>
-        <%@include file="ActivityRelease.jsp"%>
+        <jsp:include page="ActivityPreview.jsp"/>
+        <jsp:include page="ActivityRelease.jsp"/>
     </form>
     <table id="hidden_open_period" style="display: none;">
         <tr class="fd">

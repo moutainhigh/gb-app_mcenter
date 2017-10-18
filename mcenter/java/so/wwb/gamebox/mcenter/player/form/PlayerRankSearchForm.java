@@ -89,8 +89,8 @@ public class PlayerRankSearchForm implements IForm {
     private String favorableAudit;
 
     @Depends(property = "isValid", operator = Operator.EQ, value = "false", message = "playerRank.notBlank", jsValueExp = "$(\"[name=\'isValid\']\").val()=='true'")
-    @Digits(integer = 8, fraction = 0, message = "common.DIGITS_POSITIVE_INTEGER")
-    @Max(99999999)
+    @Digits(integer = 13, fraction = 0, message = "common.DIGITS_POSITIVE_INTEGER")
+    @Max(9999999999999L)
     @Compare(message = "playerRank.must.more.than.min", logic = CompareLogic.GE, anotherProperty = "result_onlinePayMin")
     @Comment("充值单笔上限金额")
     public Integer getOnlinePayMax() {
@@ -98,8 +98,8 @@ public class PlayerRankSearchForm implements IForm {
     }
 
     @Depends(property = "$isValid", operator = Operator.EQ, value = "false", message = "playerRank.notBlank", jsValueExp = "$(\"[name=\'isValid\']\").val()=='true'")
-    @Digits(integer = 8, fraction = 0, message = "common.POSITIVE_INTEGER")
-    @Range(min = 1, max = 99999999)
+    @Digits(integer = 13, fraction = 0, message = "common.POSITIVE_INTEGER")
+    @Range(min = 0, max = 9999999999999L)
     //@Compare(message = "playerRank.must.lower.than.max",logic = CompareLogic.LE,anotherProperty = "result_onlinePayMax")
     @Comment("充值单笔下限金额")
     public Integer getOnlinePayMin() {

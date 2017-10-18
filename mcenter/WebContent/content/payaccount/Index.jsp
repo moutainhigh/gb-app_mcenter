@@ -32,6 +32,7 @@
                             <%--<soul:button tag="button" target="${root}/vPayAccount/filters.html" opType="dialog" cssClass="btn btn-warning-hide" callback="showFiltersCallBack" text="${views.common['filter']}"><i class="fa fa-filter"></i><span class="hd">${views.common['filter']}</span></soul:button>--%>
                             <c:if test="${command.search.type eq '2'}">
                                 <a href="/vPayAccount/cashFlowOrder.html" nav-target="mainFrame" class="btn btn-primary-hide pull-left m-r-sm"><i class="fa fa-exchange"></i><span class="hd">${views.content['payAccount.cash.order']}</span></a>
+                                <soul:button target="${root}/payAccount/digiccyAccount.html" cssClass="btn btn-primary-hide pull-left m-r-sm" text="数字货币" opType="dialog" permission="content:onlineaccount_digiccy"/>
                             </c:if>
                             <%--<soul:button cssClass="pull-left btn btn-warning-hide m-r-sm" target="${root}/payAccount/warningSettings/${command.search.type}.html" text="" opType="dialog"><i class="fa fa-warning"></i><span class="hd">${views.content['payAccount.warm.setting']}</span></soul:button>--%>
                             <%--<a href="/payAccount/warningSettings/${command.search.type}.html" nav-target="mainFrame" class="pull-left btn btn-warning-hide m-r-sm"><i class="fa fa-warning"></i><span class="hd">${views.content['payAccount.warm.setting']}</span></a>--%>

@@ -45,7 +45,8 @@
         <li class="pull-right m-t-md">
           <%--<a href="javascript:void(0)" class="lge" id="hfmr">${views.content_auto['恢复默认']}</a>--%>
           <c:if test="${command.cttDocumentVo!=null&&not empty command.cttDocumentVo.buildIn}">
-          <soul:button target="revertDefault" text="${views.content['document.revertDefault']}" opType="function" cssClass="lge"></soul:button>
+            <soul:button target="revertDefault" text="${views.content['document.revertDefault']}" opType="function" cssClass="lge"></soul:button>
+            <input type="hidden" name="saveFrom" value="3">
           </c:if>
           <div class="btn-group">
             <button data-toggle="dropdown" class="btn btn-link dropdown-toggle fzyx">${views.setting['serviceTrems.copy']}&nbsp;&nbsp;<span class="caret"></span></button>
