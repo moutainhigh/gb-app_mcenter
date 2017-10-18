@@ -1,8 +1,10 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
+import org.apache.shiro.session.Session;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.net.IpTool;
+import org.soul.model.session.SessionKey;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.session.RedisSessionDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import so.wwb.gamebox.model.master.player.po.VPlayerOnline;
 import so.wwb.gamebox.model.master.player.vo.VPlayerOnlineListVo;
 import so.wwb.gamebox.model.master.player.vo.VPlayerOnlineVo;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 
@@ -44,47 +47,42 @@ public class VPlayerOnlineController extends BaseCrudController<IVPlayerOnlineSe
     //region your codes 3
     @Override
     protected VPlayerOnlineListVo doList(VPlayerOnlineListVo listVo, VPlayerOnlineSearchForm form, BindingResult result, Model model) {
-        List<String> strings= redisSessionDao.getUserTypeActiveSessions(UserTypeEnum.PLAYER.getCode());
-        for(String key:strings){
-            String[] str = key.split(",");
-
-            if(str.length==3 && !listVo.getSearch().getUserIds().contains(Integer.valueOf(str[1]))) {
-                listVo.getSearch().getUserIds().add(Integer.valueOf(str[1]));
-                //listVo.getSearch().getSessionKeys().add(str[2]);
-            }
+        //调用接口的getplayersOnline方法
+        String ip = listVo.getSearch().getIp();
+        if (StringTool.isNotBlank(ip)) {
+            listVo.getSearch().setLoginIp(IpTool.ipv4StringToLong(ip));
         }
+        listVo = this.getService().queryOnlineUser(listVo);
+        // 查询总资产
+        listVo = this.getService().queryApiBalance(listVo);
 
-        if(strings.size()>0) {
-            //调用接口的getplayersOnline方法
-            String ip = listVo.getSearch().getIp();
-            if (StringTool.isNotBlank(ip)) {
-                listVo.getSearch().setLoginIp(IpTool.ipv4StringToLong(ip));
+        List<VPlayerOnline> list = listVo.getResult();
+
+        for (int i = 0; i < list.size(); i++) {
+            Long hours = DateTool.hoursBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime());
+            Long minutes = DateTool.minutesBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime()) - hours * 60;
+            Long seconds = DateTool.secondsBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime()) - hours * 3600 - minutes * 60;
+            Session session=redisSessionDao.getSessionByKey(MessageFormat.format("{0}:{1},{2},{3}",
+                    redisSessionDao.genPrefix(),UserTypeEnum.PLAYER.getCode(),list.get(i).getId().toString(),list.get(i).getSessionKey()));
+            String userClient="PC";
+            if(session!=null && session.getAttributeKeys().contains(SessionKey.S_USER_CLINT_INFO)){
+                userClient=String.valueOf(session.getAttribute(SessionKey.S_USER_CLINT_INFO));
             }
-            listVo = this.getService().search(listVo);
-            // 查询总资产
-            listVo = this.getService().queryApiBalance(listVo);
-
-            List<VPlayerOnline> list = listVo.getResult();
-
-            for (int i = 0; i < list.size(); i++) {
-                Long hours = DateTool.hoursBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime());
-                Long minutes = DateTool.minutesBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime()) - hours * 60;
-                Long seconds = DateTool.secondsBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime()) - hours * 3600 - minutes * 60;
-                list.get(i).setHours(hours);
-                list.get(i).setMinutes(minutes);
-                list.get(i).setSeconds(seconds);
-                if (list.get(i).getTotalOnlineTime() != null && list.get(i).getTotalOnlineTime() > 0) {
-                    Long time_total = list.get(i).getTotalOnlineTime();
-                    list.get(i).setDays_total(time_total / (3600 * 24));
-                    list.get(i).setHours_total((time_total % (3600 * 24)) / 3600);
-                    list.get(i).setMinutes_total((time_total % (3600)) / 60);
-                    list.get(i).setSeconds_total(time_total % 60);
-                } else {
-                    list.get(i).setDays_total(0L);
-                    list.get(i).setHours_total(0L);
-                    list.get(i).setMinutes_total(0L);
-                    list.get(i).setSeconds_total(0L);
-                }
+            list.get(i).setTerminal(userClient);
+            list.get(i).setHours(hours);
+            list.get(i).setMinutes(minutes);
+            list.get(i).setSeconds(seconds);
+            if (list.get(i).getTotalOnlineTime() != null && list.get(i).getTotalOnlineTime() > 0) {
+                Long time_total = list.get(i).getTotalOnlineTime();
+                list.get(i).setDays_total(time_total / (3600 * 24));
+                list.get(i).setHours_total((time_total % (3600 * 24)) / 3600);
+                list.get(i).setMinutes_total((time_total % (3600)) / 60);
+                list.get(i).setSeconds_total(time_total % 60);
+            } else {
+                list.get(i).setDays_total(0L);
+                list.get(i).setHours_total(0L);
+                list.get(i).setMinutes_total(0L);
+                list.get(i).setSeconds_total(0L);
             }
         }
         return listVo;
