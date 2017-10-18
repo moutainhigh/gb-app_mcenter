@@ -681,10 +681,14 @@ public class IndexController extends BaseIndexController {
         map.put("isMaster", isMaster);
         //站长账号显示盈利上限，非站长账号不显示
         if (isMaster) {
-            map.put("profitLimit", getProfitLimit());//盈利上限值
+            map.put("profitLimit", getProfitLimit().getMaxProfit());//额度上限值
             Double profit = getProfit();
-            map.put("profit", profit);//本月盈利值
+            map.put("profit", profit);//本月使用额度值
             map.put("profitCur", CurrencyTool.formatCurrency(profit));
+            map.put("transferLimit",getProfitLimit().getCurrentTransferLimit());//转账上限值
+            double transferOutSum = getProfitLimit().getTransferOutSum() == null ? 0 : getProfitLimit().getTransferOutSum();
+            double transferIntoSum = getProfitLimit().getTransferIntoSum() == null ? 0 : getProfitLimit().getTransferIntoSum();
+            map.put("currentProfit",transferOutSum - transferIntoSum);
         }
         return map;
     }
@@ -694,7 +698,7 @@ public class IndexController extends BaseIndexController {
      *
      * @return
      */
-    private Double getProfitLimit() {
+    private SysSite getProfitLimit() {
         SysSiteVo sysSiteVo = new SysSiteVo();
         sysSiteVo.getSearch().setId(SessionManager.getSiteId());
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
@@ -703,7 +707,7 @@ public class IndexController extends BaseIndexController {
             LOG.info("查不到该站点,siteId:{0}", SessionManager.getSiteId());
             return null;
         }
-        return sysSite.getMaxProfit();
+        return sysSite;
     }
 
     private Double getProfit() {
