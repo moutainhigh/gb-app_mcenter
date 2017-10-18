@@ -9,8 +9,10 @@ import org.soul.model.log.audit.enums.OpMode;
 import org.soul.model.security.privilege.po.SysUser;
 import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.web.controller.BaseCrudController;
+import org.soul.web.session.RedisSessionDao;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,10 +35,12 @@ import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
 import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
 import so.wwb.gamebox.model.master.player.po.UserPlayer;
 import so.wwb.gamebox.model.master.player.vo.*;
+import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,6 +62,8 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
 
     @Value("${ds.id.model.mock.account}")
     private Integer virtualAccountSiteId;
+    @Autowired
+    private RedisSessionDao redisSessionDao;
 
     @RequestMapping("/playerView")
     protected String playerView(VUserPlayerListVo listVo, Model model, HttpServletRequest request) {
@@ -257,7 +263,14 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         SysUser sysUser=new SysUser();
         sysUser.setStatus(PlayerStatusEnum.DISABLE.getCode());
         sysUser.setId(vUserPlayerVo.getSearch().getId());
-        KickoutFilter.loginKickoutAll(vUserPlayerVo.getSearch().getId(),OpMode.MANUAL,"站长中心停用玩家强制踢出");
+        String targetSiteId= virtualAccountSiteId.toString();
+        String key= MessageFormat.format("{0}{1},{2},{3}:{4},{5},*",
+                redisSessionDao.getSessionKeyPreFix(),
+                String.valueOf(Cache.getSysSite().get(targetSiteId).getParentId()),
+                String.valueOf(Cache.getSysSite().get(targetSiteId).getSysUserId()),
+                String.valueOf(targetSiteId),
+                String.valueOf(24),String.valueOf(vUserPlayerVo.getSearch().getId()));
+        redisSessionDao.kickOutSession(key, OpMode.MANUAL,"站长中心停用玩家强制踢出");
         sysUserVo.setResult(sysUser);
         sysUserVo._setDataSourceId(virtualAccountSiteId);
         sysUserVo.setProperties(SysUser.PROP_STATUS);
@@ -279,7 +292,6 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         resetPwdVo.setResetType("loginPwd");
         resetPwdVo.setPassword(newPwd);
         resetUserPwd(resetPwdVo);
-        KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL,"站长中心重置玩家密码强制踢出");
         model.addAttribute("newPwd",newPwd);
         return getViewBasePath()+"SuccessPassword";
     }
