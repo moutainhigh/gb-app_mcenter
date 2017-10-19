@@ -28,7 +28,6 @@ import so.wwb.gamebox.mcenter.player.form.UserPlayerForm;
 import so.wwb.gamebox.mcenter.player.form.UserPlayerSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
-import so.wwb.gamebox.model.CacheBase;
 import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.enums.DemoModelEnum;
@@ -42,13 +41,12 @@ import so.wwb.gamebox.model.master.player.po.UserPlayer;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
-import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
-import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -177,6 +175,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         Map map=new HashMap(2,1f);
         SysUserVo sysUserVo=new SysUserVo();
         SysUser sysUser=new SysUser();
+        Date date=new Date();
         sysUser.setId(vUserPlayerVo.getSearch().getId());
         if (vUserPlayerVo.getSysUser().getFreezeStartTime()!=null){
             sysUser.setFreezeStartTime(vUserPlayerVo.getSysUser().getFreezeStartTime());
@@ -184,6 +183,17 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         }else {
             sysUser.setFreezeStartTime(Const.Platform_Forever_Date);
 
+        }
+        if (vUserPlayerVo.getSysUser().getFreezeStartTime().before(date) ){
+            String targetSiteId= CommonContext.get().getSiteId().toString();
+            String key= MessageFormat.format("{0}{1},{2},{3}:{4},{5},*",
+                    redisSessionDao.getSessionKeyPreFix(),
+                    String.valueOf(Cache.getSysSite().get(targetSiteId).getParentId()),
+                    String.valueOf(Cache.getSysSite().get(targetSiteId).getSysUserId()),
+                    String.valueOf(targetSiteId),
+                    UserTypeEnum.PLAYER.getCode(),String.valueOf(vUserPlayerVo.getSearch().getId()));
+            redisSessionDao.kickOutSession(key, OpMode.MANUAL,"站长中心过期玩家强制踢出");
+            LOG.info("踢出玩家key:{0}",key);
         }
         sysUser.setMemo(vUserPlayerVo.getSysUser().getMemo());
         sysUserVo.setResult(sysUser);
