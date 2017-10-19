@@ -72,8 +72,10 @@
                     </td>
                     <td>${p.betAmount}</td>
                     <td>${p.rebateAmount}</td>
-                    <c:set var="allRebateAmount" value="${allRebateAmount+p.rebateAmount}"></c:set>
-                    <c:set var="allBetAmount" value="${allBetAmount+p.realBetAmount}"></c:set>
+                    <c:if test="${p.status !=3}">
+                        <c:set var="allRebateAmount" value="${allRebateAmount+p.rebateAmount}"/>
+                        <c:set var="allBetAmount" value="${allBetAmount+p.betAmount}"/>
+                    </c:if>
                     <c:choose>
                         <c:when test="${p.playCode eq 'keno_selection_five'}">
                             <c:set var="pOdd" value="中5@${p.odd} 中4@${p.odd2} 中3@${p.odd3}"/>
