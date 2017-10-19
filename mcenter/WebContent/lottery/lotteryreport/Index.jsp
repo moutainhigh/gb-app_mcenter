@@ -23,7 +23,7 @@
             <div class="wrapper white-bg shadow">
                 <ul class="clearfix sys_tab_wrap">
                     <li class="active"><a href="javascript:void(0)">即时报表</a></li>
-                    <li><a href="/LotteryBetOrderReport/reportlist.html?searchtype=1" nav-target="mainFrame">历史报表</a></li>
+                    <li><a href="/LotteryBetOrderReport/reportlist.html?searchtype=1&searchcs=1" nav-target="mainFrame">历史报表</a></li>
                 </ul>
                 <!--筛选条件-->
                 <div class="filter-wraper clearfix m-t-sm p-xs" id="searchDiv">
@@ -84,6 +84,12 @@
                         <i class="fa fa-exclamation-circle m-t-n-sm"></i>
                     </span>
                     <div class="line-hi25 pull-left m-b-sm">此报表只统计已开奖结算的订单，未开奖订单不做统计。</div>
+                </div>
+                <div class="p-sm">
+                    <b>${views.lottery_auto['投注总金额']}：</b><span class="co-red3" id="betAmount">0</span> ${views.lottery_auto['元']}
+                    <b class="m-l">${views.lottery_auto['返点总金额']}：</b><span class="co-red3" id="rabateAmount">0</span>${views.lottery_auto['元']}
+                    <b class="m-l">${views.lottery_auto['派彩总金额']}：</b><span class="co-red3" id="payoutAmount">0</span>${views.lottery_auto['元']}
+                    <b class="m-l">${views.lottery_auto['赢利总金额']}：</b><span class="co-red3" id="profitLoss">0</span>${views.lottery_auto['元']}
                 </div>
     <div class="search-list-container">
                 <%@ include file="IndexPartial.jsp" %>
