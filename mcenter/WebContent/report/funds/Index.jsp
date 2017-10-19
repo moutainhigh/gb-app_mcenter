@@ -123,7 +123,7 @@
                                                         <span class="m-l-xs">${views.report_auto['比特币支付']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
-                                                        <input type="checkbox" class="i-checks tranType deposit checkOnline" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="online_deposit">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkOnline" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="digiccy_scan">
                                                         <span class="m-l-xs">${dicts.common.fund_type['digiccy_scan']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
