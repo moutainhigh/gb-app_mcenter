@@ -21,7 +21,7 @@
                 <th style="width: 3%">${views.lottery_auto['倍数']}</th>
                 <th style="width: 5%">${views.lottery_auto['奖金模式']}</th>
                 <th style="width: 5%">${views.lottery_auto['投注金额']}</th>
-                <th style="width: 5%">${views.lottery_auto['返还金额']}</th>
+                <th style="width: 5%">${views.lottery_auto['返点金额']}</th>
                 <th style="width: 4%">${views.lottery_auto['赔率|奖金']}</th>
                 <th style="width: 4%">${views.lottery_auto['派彩']}</th>
                 <th style="width: 8%">${views.lottery_auto['投注时间']}</th>
@@ -134,7 +134,7 @@
 </div>
 <div class="p-sm all-statistics">
     <b>${views.lottery_auto['本页投注总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allBetAmount)}</span> ${views.lottery_auto['元']}
-    <b class="m-l">${views.lottery_auto['返还金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allRebateAmount)}</span>${views.lottery_auto['元']}
+    <b class="m-l">${views.lottery_auto['返点总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allRebateAmount)}</span>${views.lottery_auto['元']}
     <b class="m-l">${views.lottery_auto['派彩总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allPayout)}</span>${views.lottery_auto['元']}
     <b class="m-l">${views.lottery_auto['赢利总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allPayout-allBetAmount+allRebateAmount)}</span>${views.lottery_auto['元']}
 </div>
