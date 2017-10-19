@@ -2049,6 +2049,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         sysUser.setRegisterIp(IpTool.ipv4StringToLong(ServletTool.getIpAddr(request)));
         sysUser.setCreateUser(SessionManager.getUserId());
         UserPlayer userPlayer = new UserPlayer();
+        String domain = SessionManagerCommon.getDomain(request);
+        sysUser.setRegisterSite(domain);
         userPlayer.setCreateChannel(CreateChannelEnum.BACKSTAGE_MANAGEMENT.getCode());
         userPlayer.setRankId(objectVo.getResult().getRankId());
         UserRegisterVo userRegisterVo = new UserRegisterVo();

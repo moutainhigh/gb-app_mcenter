@@ -33,12 +33,14 @@ import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.enums.DemoModelEnum;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
+import so.wwb.gamebox.model.master.enums.CreateChannelEnum;
 import so.wwb.gamebox.model.master.enums.PlayerStatusEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeEnum;
 import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
 import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
 import so.wwb.gamebox.model.master.player.po.UserPlayer;
 import so.wwb.gamebox.model.master.player.vo.*;
+import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
 import sun.rmi.runtime.Log;
@@ -94,7 +96,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
 
     @RequestMapping("/savePlayer")
     @ResponseBody
-    public Map savePlayer(UserPlayerVo Vo, @FormModel("result") @Valid SimulationAddNewPlayerForm form){
+    public Map savePlayer(UserPlayerVo Vo, HttpServletRequest request, @FormModel("result") @Valid SimulationAddNewPlayerForm form){
         Map map=new HashMap(2, 1f);
         UserPlayer userPlayer=new UserPlayer();
         SysUser sysUser=new SysUser();
@@ -111,6 +113,9 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
             sysUser.setFreezeEndTime(null);
         }
         sysUser.setMemo(Vo.getSysUser().getMemo());
+        String domain = SessionManagerCommon.getDomain(request);
+        sysUser.setRegisterSite(domain);
+        userPlayer.setCreateChannel(CreateChannelEnum.BACKSTAGE_MANAGEMENT.getCode());
         userRegisterVo.setUserPlayer(userPlayer);
         userRegisterVo.setSysUser(sysUser);
         userRegisterVo._setDataSourceId(virtualAccountSiteId);
