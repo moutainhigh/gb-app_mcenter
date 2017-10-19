@@ -21,7 +21,7 @@
         <tbody>
         <c:if test="${fn:length(command.result)==0}">
             <tr>
-                <td colspan="9" style="text-align: center"><i class="fa fa-exclamation-circle">暂无内容！</i></td>
+                <td colspan="9" style="text-align: center"><i class="fa fa-exclamation-circle">${views.player_auto['暂无内容']}</i></td>
             </tr>
         </c:if>
         <c:forEach items="${command.result}" var="p" varStatus="status">
@@ -63,13 +63,13 @@
                             <soul:button target="unableAccount" searchId="${p.id}" opType="function" text="${views.player_auto['账号停用']}">
                                 <span class="hd">${views.player_auto['停用']}</span></soul:button>
                             <soul:button target="${root}/simulationAccount/addQuota.html?search.id=${p.id}" text="${views.player_auto['额度']}" opType="dialog" callback="callBackQuery" title="${views.player_auto['增加额度']}"/>
-                            <soul:button target="${root}/simulationAccount/autoResetPwd.html?userId=${p.id}" opType="dialog" text="重置密码" confirm="确认重置密码吗？"><span class="hd">重置密码</span></soul:button>
+                            <soul:button target="${root}/simulationAccount/autoResetPwd.html?userId=${p.id}" opType="dialog" text="${views.player_auto['重置密码']}" confirm="${views.player_auto['确认重置密码吗']}？"><span class="hd">${views.player_auto['重置密码']}</span></soul:button>
                         </c:if>
                         <c:if test="${p.simulationPlayerStatus=='2'}">
                             <span CLASS="co-gray">${views.common['edit']}</span>
                             <span CLASS="co-gray">${views.player_auto['停用']}</span>
                             <span CLASS="co-gray">${views.player_auto['额度']}</span>
-                            <span CLASS="co-gray">重置密码</span>
+                            <span CLASS="co-gray">${views.player_auto['重置密码']}</span>
                         </c:if>
                     </div>
                 </td>

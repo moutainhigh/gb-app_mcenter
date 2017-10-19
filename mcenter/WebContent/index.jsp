@@ -247,7 +247,6 @@
                         <i class="icon-baozhang iconfont"></i>
                     </a>
                     <dl class="infos_list tasks_list nav-shadow">
-                        <dt>${views.common['我的盈利上限']}</dt>
                         <dd>
                             <div class="clearfix">
                                 <a href="javascript:">${views.common['盈利上限']}：</a>
@@ -264,6 +263,24 @@
                             <div class="clearfix">
                                 <a href="javascript:">${views.common['已使用']}：</a>
                                 <span id="usePercent"></span>
+                            </div>
+                        </dd>
+                        <dd>
+                            <div class="clearfix">
+                                <a href="javascript:">${views.common['转账上限']}：</a>
+                                <span id="transferLimit"></span>
+                            </div>
+                        </dd>
+                        <dd>
+                            <div class="clearfix">
+                                <a href="javascript:">${views.common['当前转账']}：</a>
+                                <span id="currentProfit"></span>
+                            </div>
+                        </dd>
+                        <dd>
+                            <div class="clearfix">
+                                <a href="javascript:">${views.common['已使用']}：</a>
+                                <span id="currentUsePercent"></span>
                             </div>
                         </dd>
                     </dl>
