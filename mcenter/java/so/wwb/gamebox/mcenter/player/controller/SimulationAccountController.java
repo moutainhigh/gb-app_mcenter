@@ -180,13 +180,15 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         sysUser.setId(vUserPlayerVo.getSearch().getId());
         if (vUserPlayerVo.getSysUser().getFreezeStartTime()!=null){
             sysUser.setFreezeStartTime(vUserPlayerVo.getSysUser().getFreezeStartTime());
+            sysUser.setFreezeEndTime(DateTool.addYears(sysUser.getFreezeStartTime(),3000));
         }else {
             sysUser.setFreezeStartTime(Const.Platform_Forever_Date);
+
         }
         sysUser.setMemo(vUserPlayerVo.getSysUser().getMemo());
         sysUserVo.setResult(sysUser);
         sysUserVo._setDataSourceId(virtualAccountSiteId);
-        sysUserVo.setProperties(SysUser.PROP_FREEZE_START_TIME,SysUser.PROP_MEMO);
+        sysUserVo.setProperties(SysUser.PROP_FREEZE_START_TIME,SysUser.PROP_FREEZE_END_TIME,SysUser.PROP_MEMO);
         SysUserVo userVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
         if (userVo.isSuccess()){
             map.put("state",true);
