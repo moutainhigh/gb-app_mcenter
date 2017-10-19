@@ -93,6 +93,7 @@ import so.wwb.gamebox.model.listop.FilterRow;
 import so.wwb.gamebox.model.listop.FilterSelectConstant;
 import so.wwb.gamebox.model.listop.FreezeType;
 import so.wwb.gamebox.model.listop.TabTypeEnum;
+import so.wwb.gamebox.model.master.analyze.vo.VAnalyzePlayerListVo;
 import so.wwb.gamebox.model.master.enums.*;
 import so.wwb.gamebox.model.master.fund.po.PlayerWithdraw;
 import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawListVo;
@@ -448,15 +449,25 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                         listVo = ServiceTool.vUserPlayerService().queryTotalDepositPlayer(listVo);
                     }
                     else if (searchType==2){
-                        listVo = ServiceTool.vUserPlayerService().queryEffectivePlayer(listVo);
+                        resetFormatTime(listVo);
+                        List<Integer> player = ServiceTool.vUserPlayerService().queryEffectivePlayer(listVo);
+                        //玩家id不能为空
+                        if (CollectionTool.isEmpty(player)){
+                            player.add(-1);
+                        }
+                        listVo.getSearch().setIds(player);
                     }else {
-                        listVo =ServiceTool.vUserPlayerService().queryDepositPlayer(listVo);
+                        resetFormatTime(listVo);
+                        List<Integer> player = ServiceTool.vUserPlayerService().queryDepositPlayer(listVo);
+                        if (CollectionTool.isEmpty(player)){
+                            player.add(-1);
+                        }
+                        listVo.getSearch().setIds(player);
                     }
                 }
 
-            }else {
-                listVo = ServiceTool.vUserPlayerService().searchByCustom(listVo);
             }
+                listVo = ServiceTool.vUserPlayerService().searchByCustom(listVo);
         }
         listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
         return listVo;
@@ -2038,6 +2049,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         sysUser.setRegisterIp(IpTool.ipv4StringToLong(ServletTool.getIpAddr(request)));
         sysUser.setCreateUser(SessionManager.getUserId());
         UserPlayer userPlayer = new UserPlayer();
+        String domain = SessionManagerCommon.getDomain(request);
+        sysUser.setRegisterSite(domain);
         userPlayer.setCreateChannel(CreateChannelEnum.BACKSTAGE_MANAGEMENT.getCode());
         userPlayer.setRankId(objectVo.getResult().getRankId());
         UserRegisterVo userRegisterVo = new UserRegisterVo();
@@ -2838,6 +2851,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     @ResponseBody
     public Map changeStatus(Integer[] ids) {
         VUserPlayerListVo listVo=new VUserPlayerListVo();
+        for (Integer id:ids){
+            KickoutFilter.loginKickoutAll(id,OpMode.MANUAL,"站长中心冻结玩家强制踢出");
+        }
         listVo.getSearch().setIds(Arrays.asList(ids));
         Map map=new HashMap(2,1f);
         try {
@@ -2850,6 +2866,27 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
 
         return map;
+    }
+
+    /**
+     * 时间格式更改
+     * @param listVo
+     * @return
+     */
+    private VUserPlayerListVo resetFormatTime(VUserPlayerListVo listVo) {
+        Date startStaticTime = listVo.getStartTime();
+        if(startStaticTime!=null){
+            Date date = DateTool.addHours(startStaticTime, listVo.getSearch().getTimeZoneInterval());
+            listVo.setStartTime(date);
+        }
+
+        Date endStaticTime = listVo.getEndTime();
+        if(endStaticTime!=null){
+            Date date = DateTool.addHours(endStaticTime, listVo.getSearch().getTimeZoneInterval());
+            listVo.setEndTime(date);
+        }
+
+        return listVo;
     }
 
     //endregion
