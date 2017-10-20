@@ -113,6 +113,11 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         sysUser.setMemo(Vo.getSysUser().getMemo());
         String domain = SessionManagerCommon.getDomain(request);
         sysUser.setRegisterSite(domain);
+        sysUser.setCreateUser(SessionManager.getUser().getId());
+        //UserRegisterVo 的result没有用到。暂时用来传参
+        userRegisterVo.getSearch().setImportUsername(SessionManager.getUser().getUsername());
+        userRegisterVo.getSearch().setId(SessionManager.getSiteId());
+        sysUser.setCreateTime(new Date());
         userPlayer.setCreateChannel(CreateChannelEnum.BACKSTAGE_MANAGEMENT.getCode());
         userRegisterVo.setUserPlayer(userPlayer);
         userRegisterVo.setSysUser(sysUser);
@@ -223,8 +228,16 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
 
     @RequestMapping("/saveAddQuota")
     @ResponseBody
-    public Map saveAddQuota(VUserPlayerVo vUserPlayerVo,double walletBalance){
+    public Map saveAddQuota(VUserPlayerVo vUserPlayerVo){
         Map map=new HashMap(2,1f);
+        Double walletBalance = vUserPlayerVo.getSearch().getWalletBalance();
+        VUserPlayerVo userPlayerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
+        Double totalAssets = userPlayerVo.getResult().getTotalAssets();
+        double quota = walletBalance + totalAssets;
+        if (quota >1000000){
+            map.put("msg","总额度不能超过100万，请重新添加！");
+            return map;
+        }
         PlayerRechargeVo playerRechargeVo=new PlayerRechargeVo();
         PlayerRecharge playerRecharge=new PlayerRecharge();
         SysUser sysUser=new SysUser();
@@ -249,6 +262,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
 
     private Map insertQuota(PlayerRechargeVo playerRechargeVo, PlayerRecharge playerRecharge,double walletBalance) {
         Map map=new HashMap(2,1f);
+        initCheckData(playerRecharge);
         playerRecharge.setRechargeAmount(walletBalance);
         playerRecharge.setRechargeType(RechargeTypeEnum.MANUAL_DEPOSIT.getCode());
         playerRechargeVo.setResult(playerRecharge);
@@ -262,6 +276,15 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
             map.put("msg","失败");
         }
         return map;
+    }
+
+    private void initCheckData(PlayerRecharge playerRecharge) {
+        playerRecharge.setCheckUserId(SessionManager.getUser().getId());
+        playerRecharge.setCheckUsername(SessionManager.getUser().getUsername());
+        String remark = "站点ID：{0}，操作人ID：{1}，操作人账号：{2}，操作时间：{3}";
+        String time = DateTool.formatDate(new Date(), CommonContext.get().getTimeZone(),DateTool.yyyy_MM_dd_HH_mm_ss);
+        remark = MessageFormat.format(remark,SessionManager.getSiteId().toString(),playerRecharge.getCheckUserId().toString(),playerRecharge.getCheckUsername(),time);
+        playerRecharge.setCheckRemark(remark);
     }
 
     @RequestMapping("/deletePlayer")
