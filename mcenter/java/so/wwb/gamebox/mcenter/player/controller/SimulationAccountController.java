@@ -54,7 +54,7 @@ import java.util.Map;
 /**`
  * 控制器
  *
- * Created by snekey using soul-code-generator on 2015-6-19 virtualAccountSiteId:51:46
+ * Created by snekey using soul-code-generator on 2015-6-19 mockAccountSiteId:51:46
  */
 @Controller
 @RequestMapping("/simulationAccount")
@@ -67,14 +67,14 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
     private static final org.soul.commons.log.Log LOG = LogFactory.getLog(SimulationAccountController.class);
 
     @Value("${ds.id.model.mock.account}")
-    private Integer virtualAccountSiteId;
+    private Integer mockAccountSiteId;
     @Autowired
     private RedisSessionDao redisSessionDao;
 
     @RequestMapping("/playerView")
     protected String playerView(VUserPlayerListVo listVo, Model model, HttpServletRequest request) {
         listVo.getSearch().setSiteId(SessionManager.getSiteId());
-        listVo._setDataSourceId(virtualAccountSiteId);
+        listVo._setDataSourceId(mockAccountSiteId);
         VUserPlayerListVo vUserPlayerListVo = ServiceTool.vUserPlayerService().search(listVo);
         model.addAttribute("foreverTime",Const.Platform_Forever_Date);
         model.addAttribute("command",vUserPlayerListVo);
@@ -87,7 +87,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
 
     @RequestMapping("/addPlayer")
     public String addPlayer(UserPlayerVo Vo,Model model){
-        model.addAttribute("accountSiteId",virtualAccountSiteId);
+        model.addAttribute("accountSiteId",mockAccountSiteId);
         model.addAttribute("validateRule", JsRuleCreator.create(SimulationAddNewPlayerForm.class));
         return getViewBasePath()+"Add";
     }
@@ -116,10 +116,10 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         userPlayer.setCreateChannel(CreateChannelEnum.BACKSTAGE_MANAGEMENT.getCode());
         userRegisterVo.setUserPlayer(userPlayer);
         userRegisterVo.setSysUser(sysUser);
-        userRegisterVo._setDataSourceId(virtualAccountSiteId);
+        userRegisterVo._setDataSourceId(mockAccountSiteId);
         userRegisterVo.setDemoModel(DemoModelEnum.MODEL_4_MOCK_ACCOUNT);
         userRegisterVo = ServiceTool.userPlayerService().registerModelAccount(userRegisterVo);
-        /*Vo._setDataSourceId(virtualAccountSiteId);
+        /*Vo._setDataSourceId(mockAccountSiteId);
         userPlayer.setId(userRegisterVo.getSysUser().getId());
         Vo.setResult(userPlayer);
         Vo.setProperties(UserPlayer.PROP_WALLET_BALANCE);
@@ -136,11 +136,11 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
 
     @RequestMapping(value = "/checkUserNameExist")
     @ResponseBody
-    public String checkUserNameExist(@RequestParam("sysUser.username") String userName,@RequestParam("accountSiteId")Integer virtualAccountSiteId) {
+    public String checkUserNameExist(@RequestParam("sysUser.username") String userName,@RequestParam("accountSiteId")Integer mockAccountSiteId) {
         SysUserVo sysUserVo = new SysUserVo();
         sysUserVo.getSearch().setSubsysCode(SubSysCodeEnum.PCENTER.getCode());
         sysUserVo.getSearch().setUsername(userName);
-        sysUserVo._setDataSourceId(virtualAccountSiteId);
+        sysUserVo._setDataSourceId(mockAccountSiteId);
         String existAgent = ServiceTool.userAgentService().isExistAgent(sysUserVo);
         return existAgent;
     }
@@ -163,7 +163,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
     @RequestMapping("/editaAccount")
     public String editAccount(VUserPlayerVo vUserPlayerVo, Model model){
         model.addAttribute("validateRule", JsRuleCreator.create(SimulationEditPlayerForm.class));
-        vUserPlayerVo._setDataSourceId(virtualAccountSiteId);
+        vUserPlayerVo._setDataSourceId(mockAccountSiteId);
         VUserPlayerVo playerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
         model.addAttribute("command",playerVo);
         return getViewBasePath()+"Edit";
@@ -184,23 +184,15 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
             sysUser.setFreezeStartTime(Const.Platform_Forever_Date);
 
         }
-        if (vUserPlayerVo.getSysUser().getFreezeStartTime().before(date) ){
-            String targetSiteId= CommonContext.get().getSiteId().toString();
-            String key= MessageFormat.format("{0}{1},{2},{3}:{4},{5},*",
-                    redisSessionDao.getSessionKeyPreFix(),
-                    String.valueOf(Cache.getSysSite().get(targetSiteId).getParentId()),
-                    String.valueOf(Cache.getSysSite().get(targetSiteId).getSysUserId()),
-                    String.valueOf(targetSiteId),
-                    UserTypeEnum.PLAYER.getCode(),String.valueOf(vUserPlayerVo.getSearch().getId()));
-            redisSessionDao.kickOutSession(key, OpMode.MANUAL,"站长中心过期玩家强制踢出");
-            LOG.info("踢出玩家key:{0}",key);
-        }
         sysUser.setMemo(vUserPlayerVo.getSysUser().getMemo());
         sysUserVo.setResult(sysUser);
-        sysUserVo._setDataSourceId(virtualAccountSiteId);
+        sysUserVo._setDataSourceId(mockAccountSiteId);
         sysUserVo.setProperties(SysUser.PROP_FREEZE_START_TIME,SysUser.PROP_FREEZE_END_TIME,SysUser.PROP_MEMO);
         SysUserVo userVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
         if (userVo.isSuccess()){
+            if (vUserPlayerVo.getSysUser().getFreezeStartTime().before(date) ){
+                kickOutPlayer(vUserPlayerVo);
+            }
             map.put("state",true);
             map.put("msg","成功");
         }else {
@@ -208,6 +200,18 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
             map.put("msg","失败");
         }
         return map;
+    }
+
+    private void kickOutPlayer(VUserPlayerVo vUserPlayerVo) {
+        String targetSiteId= CommonContext.get().getSiteId().toString();
+        String key= MessageFormat.format("{0}{1},{2},{3}:{4},{5},*",
+                redisSessionDao.getSessionKeyPreFix(),
+                String.valueOf(Cache.getSysSite().get(targetSiteId).getParentId()),
+                String.valueOf(Cache.getSysSite().get(targetSiteId).getSysUserId()),
+                String.valueOf(targetSiteId),
+                UserTypeEnum.PLAYER.getCode(),String.valueOf(vUserPlayerVo.getSearch().getId()));
+        redisSessionDao.kickOutSession(key, OpMode.MANUAL,"站长中心玩家强制踢出");
+        LOG.info("踢出玩家key:{0}",key);
     }
 
     @RequestMapping("/addQuota")
@@ -248,7 +252,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         playerRecharge.setRechargeAmount(walletBalance);
         playerRecharge.setRechargeType(RechargeTypeEnum.MANUAL_DEPOSIT.getCode());
         playerRechargeVo.setResult(playerRecharge);
-        playerRechargeVo._setDataSourceId(virtualAccountSiteId);
+        playerRechargeVo._setDataSourceId(mockAccountSiteId);
         PlayerRechargeVo rechargeVo = ServiceTool.playerRechargeService().manualRecharge(playerRechargeVo);
         if (rechargeVo.isSuccess()){
             map.put("state",true);
@@ -266,7 +270,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         Map map=new HashMap(2,1f);
         VUserPlayerListVo listVo=new VUserPlayerListVo();
         listVo.getSearch().setIds( Arrays.asList(ids));
-        listVo._setDataSourceId(virtualAccountSiteId);
+        listVo._setDataSourceId(mockAccountSiteId);
         VUserPlayerListVo vUserPlayerListVo = ServiceTool.userPlayerService().deletePlayer(listVo);
         if (vUserPlayerListVo.isSuccess()){
             map.put("state",true);
@@ -286,20 +290,12 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         SysUser sysUser=new SysUser();
         sysUser.setStatus(PlayerStatusEnum.DISABLE.getCode());
         sysUser.setId(vUserPlayerVo.getSearch().getId());
-        String targetSiteId= CommonContext.get().getSiteId().toString();
-        String key= MessageFormat.format("{0}{1},{2},{3}:{4},{5},*",
-                redisSessionDao.getSessionKeyPreFix(),
-                String.valueOf(Cache.getSysSite().get(targetSiteId).getParentId()),
-                String.valueOf(Cache.getSysSite().get(targetSiteId).getSysUserId()),
-                String.valueOf(targetSiteId),
-                UserTypeEnum.PLAYER.getCode(),String.valueOf(vUserPlayerVo.getSearch().getId()));
-        redisSessionDao.kickOutSession(key, OpMode.MANUAL,"站长中心停用玩家强制踢出");
-        LOG.info("踢出玩家key:{0}",key);
         sysUserVo.setResult(sysUser);
-        sysUserVo._setDataSourceId(virtualAccountSiteId);
+        sysUserVo._setDataSourceId(mockAccountSiteId);
         sysUserVo.setProperties(SysUser.PROP_STATUS);
         SysUserVo userVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
         if (userVo.isSuccess()){
+            kickOutPlayer(vUserPlayerVo);
             map.put("state",true);
             map.put("msg","成功");
         }else {
@@ -316,7 +312,12 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         resetPwdVo.setResetType("loginPwd");
         resetPwdVo.setPassword(newPwd);
         resetUserPwd(resetPwdVo);
-        model.addAttribute("newPwd",newPwd);
+        if (resetPwdVo.getInformType()=="false"){
+            model.addAttribute("newPwd",newPwd);
+        }else {
+            model.addAttribute("status","false");
+        }
+
         return getViewBasePath()+"SuccessPassword";
     }
     /**
@@ -326,7 +327,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
      */
     private Map resetUserPwd(ResetPwdVo resetPwdVo) {
         Map map = new HashMap();
-        resetPwdVo._setDataSourceId(virtualAccountSiteId);
+        resetPwdVo._setDataSourceId(mockAccountSiteId);
         Boolean isOk = ServiceTool.userPlayerService().resetPassword(resetPwdVo);
         map.put("state",isOk);
         if(StringTool.isBlank(resetPwdVo.getInformType())){
