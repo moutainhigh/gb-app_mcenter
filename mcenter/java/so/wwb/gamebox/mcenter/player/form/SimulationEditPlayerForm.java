@@ -36,7 +36,7 @@ public class SimulationEditPlayerForm implements IForm {
 
     @NotBlank(message = "fund.ManualDepositForm.rechargeAmount.notBlank")
     @Pattern(regexp = FormValidRegExps.MONEY, message = "fund_auto.金额格式不正确")
-    @Max(value = 99999999, message = "fund.ManualDepositForm.rechargeAmount.Max")
+    @Max(value = 1000000, message = "fund.小于一百万")
     public String getSearch_walletBalance() {
         return search_walletBalance;
     }

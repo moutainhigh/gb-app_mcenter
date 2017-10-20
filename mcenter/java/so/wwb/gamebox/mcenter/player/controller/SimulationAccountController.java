@@ -223,8 +223,16 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
 
     @RequestMapping("/saveAddQuota")
     @ResponseBody
-    public Map saveAddQuota(VUserPlayerVo vUserPlayerVo,double walletBalance){
+    public Map saveAddQuota(VUserPlayerVo vUserPlayerVo){
         Map map=new HashMap(2,1f);
+        Double walletBalance = vUserPlayerVo.getSearch().getWalletBalance();
+        VUserPlayerVo userPlayerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
+        Double totalAssets = userPlayerVo.getResult().getTotalAssets();
+        double quota = walletBalance + totalAssets;
+        if (quota >1000000){
+            map.put("msg","总额度不能超过100万，请重新添加！");
+            return map;
+        }
         PlayerRechargeVo playerRechargeVo=new PlayerRechargeVo();
         PlayerRecharge playerRecharge=new PlayerRecharge();
         SysUser sysUser=new SysUser();
