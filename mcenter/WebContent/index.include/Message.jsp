@@ -3,7 +3,7 @@
 <dt>${views.index_auto['系统消息']}</dt>
 <%--没有最新消息--%>
 <c:if test="${unReadCount<=0}">
-    <dd class="infos-none"><i class="fa fa-exclamation-circle"></i>${views.home['no new message']}</dd>
+    <dd class="infos-none"><i class="fa fa-exclamation-circle"></i>${views.home['暂无内容']}</dd>
 </c:if>
 <%--有最新消息--%>
 <c:if test="${unReadCount>0}">
