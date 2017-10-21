@@ -188,7 +188,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
             sysUser.setFreezeStartTime(vUserPlayerVo.getSysUser().getFreezeStartTime());
             sysUser.setFreezeEndTime(DateTool.addYears(sysUser.getFreezeStartTime(),3000));
         }else {
-            sysUser.setFreezeStartTime(Const.Platform_Forever_Date);
+            sysUser.setFreezeStartTime(null);
 
         }
         sysUser.setMemo(vUserPlayerVo.getSysUser().getMemo());
@@ -197,7 +197,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         sysUserVo.setProperties(SysUser.PROP_FREEZE_START_TIME,SysUser.PROP_FREEZE_END_TIME,SysUser.PROP_MEMO);
         SysUserVo userVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
         if (userVo.isSuccess()){
-            if (vUserPlayerVo.getSysUser().getFreezeStartTime().before(date) ){
+            if (vUserPlayerVo.getSysUser()!=null&&vUserPlayerVo.getSysUser().getFreezeStartTime()!=null&&vUserPlayerVo.getSysUser().getFreezeStartTime().before(date) ){
                 kickOutPlayer(vUserPlayerVo);
             }
             map.put("state",true);
