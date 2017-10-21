@@ -633,14 +633,6 @@ public class MassInformationController {
         }
         SimpleDateFormat sdf = new SimpleDateFormat("dd");
         String day = sdf.format(new Date());
-        String scheme = request.getHeader("X-Forwarded-Scheme");
-        String port = request.getHeader("X-Forwarded-Port");
-        if (StringTool.isEmpty(scheme)) {
-            scheme = request.getScheme();
-        }
-        if (StringTool.isEmpty(port)) {
-            port = String.valueOf(request.getServerPort());
-        }
         Map<String,SiteI18n> siteNameMap=Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_NAME);
         String siteName="";
         if(siteNameMap.containsKey(lanuages)){
@@ -653,7 +645,7 @@ public class MassInformationController {
                 /*${user}在前台进行替换*/
                 new Pair<String, String>("sitename", siteName),
                 new Pair<String, String>("customer", cus),
-                new Pair<String, String>("website", "<a target='_blank' href='" + scheme + "://" + request.getServerName() + ":" + port + "'>" + scheme + "://" + request.getServerName() + ":" + port + "</a>"),
+                new Pair<String, String>("website", "<a target='_blank' href='" + ServletTool.getRequestDomainWithSechmaPort(request) + "'>" + ServletTool.getRequestDomainWithSechmaPort(request)+ "</a>"),
                 new Pair<String, String>("year", LocaleDateTool.formatDate(new Date(), CommonContext.getDateFormat().getYEAR(), SessionManager.getTimeZone())),
                 new Pair<String, String>("month", LocaleDateTool.formatDate(new Date(), CommonContext.getDateFormat().getMONTH(), SessionManager.getTimeZone())),
                 new Pair<String, String>("day", day))
