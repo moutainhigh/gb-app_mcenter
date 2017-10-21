@@ -645,7 +645,7 @@ public class MassInformationController {
                 /*${user}在前台进行替换*/
                 new Pair<String, String>("sitename", siteName),
                 new Pair<String, String>("customer", cus),
-                new Pair<String, String>("website", "<a target='_blank' href='" + ServletTool.getRequestDomainWithSechmaPort(request) + "'>" + ServletTool.getRequestDomainWithSechmaPort(request)+ "</a>"),
+                new Pair<String, String>("website", "<a target='_blank' href='" + ServletTool.getDomainFullAddress(request) + "'>" + ServletTool.getDomainFullAddress(request)+ "</a>"),
                 new Pair<String, String>("year", LocaleDateTool.formatDate(new Date(), CommonContext.getDateFormat().getYEAR(), SessionManager.getTimeZone())),
                 new Pair<String, String>("month", LocaleDateTool.formatDate(new Date(), CommonContext.getDateFormat().getMONTH(), SessionManager.getTimeZone())),
                 new Pair<String, String>("day", day))
