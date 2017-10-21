@@ -41,6 +41,8 @@ import so.wwb.gamebox.model.master.player.po.UserPlayer;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.common.token.Token;
+import so.wwb.gamebox.web.common.token.TokenHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -220,6 +222,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
     }
 
     @RequestMapping("/addQuota")
+    @Token(generate = true)
     public String addQuota(VUserPlayerVo vUserPlayerVo,Model model){
         model.addAttribute("validateRule", JsRuleCreator.create(SimulationEditPlayerForm.class));
         model.addAttribute("id",vUserPlayerVo.getSearch().getId());
@@ -228,33 +231,43 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
 
     @RequestMapping("/saveAddQuota")
     @ResponseBody
+    @Token(valid = true)
     public Map saveAddQuota(VUserPlayerVo vUserPlayerVo){
         Map map=new HashMap(2,1f);
-        Double walletBalance = vUserPlayerVo.getSearch().getWalletBalance();
-        VUserPlayerVo userPlayerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
-        Double totalAssets = userPlayerVo.getResult().getTotalAssets();
-        double quota = walletBalance + totalAssets;
-        if (quota >1000000){
-            map.put("msg","总额度不能超过100万，请重新添加！");
-            return map;
-        }
-        PlayerRechargeVo playerRechargeVo=new PlayerRechargeVo();
-        PlayerRecharge playerRecharge=new PlayerRecharge();
-        SysUser sysUser=new SysUser();
-        playerRechargeVo.setAuditType(PlayerRechargeVo.FREE_AUDIT);
-        if ((vUserPlayerVo.getSearch().getId())!=null){
-            sysUser.setId(vUserPlayerVo.getSearch().getId());
-            playerRechargeVo.setSysUser(sysUser);
-            map=insertQuota(playerRechargeVo, playerRecharge,walletBalance);
-        }else {
-            for (Integer id : vUserPlayerVo.getSearch().getIds()){
-                SysUser user=new SysUser();
-                PlayerRechargeVo rechargeVo=new PlayerRechargeVo();
-                rechargeVo.setAuditType(PlayerRechargeVo.FREE_AUDIT);
-                user.setId(id);
-                rechargeVo.setSysUser(user);
-                map=insertQuota(rechargeVo, playerRecharge,walletBalance);
+        try{
+            PlayerRechargeVo playerRechargeVo=new PlayerRechargeVo();
+            PlayerRecharge playerRecharge=new PlayerRecharge();
+            SysUser sysUser=new SysUser();
+            playerRechargeVo.setAuditType(PlayerRechargeVo.FREE_AUDIT);
+            if ((vUserPlayerVo.getSearch().getId())!=null){
+                vUserPlayerVo._setDataSourceId(mockAccountSiteId);
+                VUserPlayerVo userPlayerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
+                Double totalAssets = userPlayerVo.getResult().getTotalAssets();
+                Double walletBalance = vUserPlayerVo.getSearch().getWalletBalance();
+                double quota = walletBalance + totalAssets;
+                if (quota >1000000){
+                    map.put("state",false);
+                    map.put("msg","总额度不能超过100万，请重新添加！");
+                    map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+                    return map;
+                }
+                sysUser.setId(vUserPlayerVo.getSearch().getId());
+                playerRechargeVo.setSysUser(sysUser);
+                map=insertQuota(playerRechargeVo, playerRecharge,walletBalance);
+            }else {
+                vUserPlayerVo.setSysUser(new SysUser());
+                vUserPlayerVo.getSysUser().setCreateUser(SessionManager.getUser().getId());
+                vUserPlayerVo.getSysUser().setUsername(SessionManager.getUser().getUsername());
+                vUserPlayerVo._setDataSourceId(mockAccountSiteId);
+                vUserPlayerVo = getService().batchAddQuota(vUserPlayerVo);
+
+                map = getVoMessage(vUserPlayerVo);
             }
+        }catch (Exception ex){
+            map.put("state",false);
+            map.put("msg",ex.getMessage());
+            map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+            LOG.error(ex,"批量调整额度异常：{0}",ex.getMessage());
         }
 
         return map;
