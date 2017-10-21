@@ -439,7 +439,7 @@
                                                     <c:forEach var="api" items="${siteApiMaps}">
                                                         <label class="fwn m-r-sm">
                                                             <input type="checkbox" class="i-checks tranType" data-type="7" apiId="${api.key}" transaction-type="${transfers}" name="search.apiList" value="${api.key}">
-                                                            <span class="m-r-xs">${gbFn:getApiName(api.key)}</span>
+                                                            <span class="m-r-xs">${gbFn:getSiteApiName(api.key)}</span>
                                                         </label>
                                                     </c:forEach>
 
