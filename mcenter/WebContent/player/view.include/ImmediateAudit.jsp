@@ -66,6 +66,7 @@
                 <table class="table table-desc-list table-bordered table-hover dataTable m-b-none" aria-describedby="editable_info">
                     <thead>
                     <tr>
+                        <th>${views.fund['number']}</th>
                         <th>${views.fund['withdraw.edit.playerWithdraw.despoitTime']}</th>
                         <th>${views.fund['withdraw.edit.playerWithdraw.effectiveTransation']}</th>
                         <th>${views.fund['withdraw.edit.playerWithdraw.despoitAmount']}</th>
@@ -82,6 +83,7 @@
                     <c:set var="depositComleteTime" value="${dateQPicker.now}"></c:set>
                     <c:forEach items="${listVo}" var="s" varStatus="vs">
                         <tr>
+                            <td>${vs.index+1}</td>
                             <td>
                                             ${soulFn:formatDateTz(s.completionTime, DateFormat.DAY_SECOND,timeZone)}
                                 <input type="hidden" name="feeList[${vs.index}].id" value="${s.id}" >
