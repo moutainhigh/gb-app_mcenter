@@ -12,7 +12,7 @@
     <div id="validateRule" style="display: none">${validate}</div>
     <div class="modal-body">
         <div class="form-group over clearfix">
-            <label for="code" class="col-xs-3 al-right">渠道：</label>
+            <label for="code" class="col-xs-3 al-right">${views.content_auto['渠道']}：</label>
             <div class="col-xs-9 p-x">
                 <select name="code" id="code" class="btn-group chosen-select-no-single">
                     <c:forEach items="${providers}" var="i">
@@ -22,19 +22,19 @@
             </div>
         </div>
         <div class="form-group over clearfix">
-            <label for="account" class="col-xs-3 al-right">用户名：</label>
+            <label for="account" class="col-xs-3 al-right">${views.content_auto['用户名']}：</label>
             <div class="col-xs-9 p-x">
                 <input name="account" id="account" type="text" class="form-control" value="${info.decAccount}"/>
             </div>
         </div>
         <div class="form-group over clearfix">
-            <label for="pwd" class="col-xs-3 al-right">密码：</label>
+            <label for="pwd" class="col-xs-3 al-right">${views.content_auto['密码']}：</label>
             <div class="col-xs-9 p-x">
                 <input name="pwd" id="pwd" type="text" class="form-control" value="${info.decPwd}"/>
             </div>
         </div>
         <div class="form-group over clearfix">
-            <label class="col-xs-3 al-right">状态：</label>
+            <label class="col-xs-3 al-right">${views.content_auto['状态']}：</label>
             <div class="col-xs-9 p-x">
                 <input type="checkbox" name="status"  value="1" data-size="mini" ${info.status eq '1'?'checked':''}>
             </div>
