@@ -40,7 +40,7 @@
         <tr>
             <th scope="row" class="text-right">${views.fund['稽核：']}</th>
             <td>
-                <div class="line-hi34 m-b-sm min-w" style="width: 600px;">
+                <div class="line-hi34 m-b-sm min-w">
                     <label class="m-r"><input type="radio"  value="0" name="auditType">${views.fund['免稽核']}</label>
                     <label><input type="radio" value="1" name="auditType">${views.fund['存款稽核']}</label>
                     <span tabindex="0" class=" help-popover m-r" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" data-content="${views.fund_auto['勾选并成功存款后']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span>
