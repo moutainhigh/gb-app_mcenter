@@ -37,11 +37,11 @@
       <c:choose>
         <c:when test="${command.result.fundType eq 'transfer_into'}">
           <c:set value="+" var="_symbol"></c:set>
-          <c:set value="${gbFn:getApiName(command.result._describe['API'].toString())}${views.fund['transaction.list.transferInto']}" var="_desc"></c:set>
+          <c:set value="${gbFn:getSiteApiName(command.result._describe['API'].toString())}${views.fund['transaction.list.transferInto']}" var="_desc"></c:set>
           <%--转入--%>
         </c:when>
         <c:when test="${command.result.fundType eq 'transfer_out'}">
-          <c:set value="${views.fund['transaction.list.transferOut']}${gbFn:getApiName(command.result._describe['API'].toString())}" var="_desc"></c:set>
+          <c:set value="${views.fund['transaction.list.transferOut']}${gbFn:getSiteApiName(command.result._describe['API'].toString())}" var="_desc"></c:set>
           <%--转出--%>
         </c:when>
       </c:choose>
