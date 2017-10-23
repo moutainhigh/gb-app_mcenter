@@ -21,10 +21,10 @@
                 </ul>
                 <div class="clearfix" style="padding:10px 10px;" id="searchDiv">
                         <%--时间--%>
-                    <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm " style="width: 400px">
+                    <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm ">
                         <div class="input-group date time-select-a">
                             <span class="input-group-addon bg-gray">${views.analyze['时间']}</span>
-                            <gb:dateRange format="${DateFormat.DAY}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:40%;" useToday="true" btnClass="search" startName="search.startStaticTime" endName="search.endStaticTime" startDate="${command.search.startStaticTime}" endDate="${command.search.endStaticTime}"/>
+                            <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:40%;" useToday="true" btnClass="search" startName="search.startStaticTime" endName="search.endStaticTime" startDate="${command.search.startStaticTime}" endDate="${command.search.endStaticTime}"/>
                         </div>
                     </div>
                             <%--推广链接--%>

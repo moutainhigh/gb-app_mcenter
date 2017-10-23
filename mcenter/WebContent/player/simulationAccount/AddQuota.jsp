@@ -16,6 +16,7 @@
 <body>
 	<!--//region your codes 3-->
 	<form:form method="post" name="addSimulationAccount">
+		<gb:token/>
 		<input type="hidden" name="search.id" value="${id}"/>
 		<div id="validateRule" style="display: none">${validateRule}</div>
 		<div class="modal-body">
