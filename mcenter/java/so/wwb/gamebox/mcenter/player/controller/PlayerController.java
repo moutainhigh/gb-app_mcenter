@@ -700,6 +700,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         RemarkListVo remarkListVo = queryUserRemark(playerListVo);
         model.addAttribute("remarkListVo", remarkListVo);
         model.addAttribute("isLotterySite",ParamTool.isLotterySite());
+        SysUserProtectionVo sysUserProtectionVo=new SysUserProtectionVo();
+        sysUserProtectionVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
+        SysUserProtectionVo protectionVo = ServiceTool.sysUserProtectionService().get(sysUserProtectionVo);
+        model.addAttribute("saferQuestion",protectionVo);
         return "/player/view.include/PlayerDetail";
     }
 
