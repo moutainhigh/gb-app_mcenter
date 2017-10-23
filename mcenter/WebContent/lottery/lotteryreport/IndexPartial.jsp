@@ -5,6 +5,14 @@
 <%@taglib uri="http://soul/tags" prefix="soul" %>
 
 <!--//region your codes 1-->
+<div class="sys_tab_wrap clearfix" id="showSelect">
+    <div class="clearfix m-sm">
+        <b>已选：</b>
+        <span class="co-yellow codeDisplay">未选择彩种</span>
+        <div class="pull-right m-t-n-xxs">
+        </div>
+    </div>
+</div>
 <div class="table-responsive">
     <table class="table table-condensed table-hover table-striped table-bordered">
         <thead>
