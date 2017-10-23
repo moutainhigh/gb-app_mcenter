@@ -97,7 +97,7 @@
                                 <span id="fav_tip" class="right-flo co-grayc2" style="display: none"></span>
                             </div>
                             <div class="table-desc-right-t" id="favorableAuditMultipleDiv" style="display: block; width:100px;">
-                                <input type="text" class="form-control" name="auditMultiple" placeholder="${views.fund_auto['稽核倍数']}"/>
+                                <input type="text" class="form-control" name="playerFavorable.auditFavorableMultiple" placeholder="${views.fund_auto['稽核倍数']}"/>
                                 <span class="right-flo co-grayc2">${views.fund['倍']}</span>
                             </div>
                         </td>
