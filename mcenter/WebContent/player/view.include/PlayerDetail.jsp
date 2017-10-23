@@ -445,6 +445,18 @@
                                         </c:if>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th scope="row" class="text-center active">安全问题</th>
+                                    <td colspan="3">
+                                        <c:if test="${empty saferQuestion.result.question1}">
+                                            <span class="co-grayc2">${views.player_auto['未填写']}</span>
+                                        </c:if>
+                                        <c:if test="${not empty saferQuestion.result.question1}">
+                                            <span class="co-grayc2">${dicts.setting.master_question1[saferQuestion.result.question1]}</span>&nbsp;&nbsp;&nbsp;
+                                            <span class="co-black">${saferQuestion.result.answer1}</span>
+                                        </c:if>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
