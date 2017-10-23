@@ -3,7 +3,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/include/include.inc.jsp" %>
 <c:set value="<%=RechargeTypeEnum.MANUAL_FAVORABLE.getCode()%>" var="manualFavorable"/>
-<c:set value="<%=RechargeTypeEnum.MANUAL_DEPOSIT.getCode()%>" var="manualFavorable"/>
+<c:set value="<%=RechargeTypeEnum.MANUAL_DEPOSIT.getCode()%>" var="manualDeposit"/>
+<c:set value="<%=RechargeTypeEnum.MANUAL_RAKEBACK.getCode()%>" var="manualRakeback"/>
 <!--人工存入-->
 <form>
     <div class="panel-body p-sm sdcq-wrap">
@@ -31,7 +32,7 @@
                     <tr>
                         <th scope="row" class="text-right">${views.fund['存款金额：']}</th>
                         <td>
-                            <input type="text" name="result.rechargeAmount" class="form-control" placeholder="26" style="width:30%;"/>
+                            <input type="text" name="result.rechargeAmount" class="form-control" style="width:30%;"/>
                         </td>
                     </tr>
                     <tr>
@@ -40,7 +41,7 @@
                             <div class="table-desc-right-t" style="width:30%;">
                                 <select name="result.rechargeType" class="btn-group chosen-select-no-single">
                                     <c:forEach items="${rechargeType}" var="i">
-                                        <c:if test="${rechargeType != manualFavorable}">
+                                        <c:if test="${rechargeType != manualFavorable && rechargeType != manualRakeback}">
                                             <option value="${i.dictCode}">${dicts.fund.recharge_type[i.dictCode]}</option>
                                         </c:if>
                                     </c:forEach>
@@ -84,8 +85,10 @@
                         <td>
                             <div class="table-desc-right-t" style="width:30%;">
                                 <select name="result.rechargeType" class="btn-group chosen-select-no-single">
-                                    <c:forEach items="${rechargeType}" var="i">
-                                        <option value="${i.dictCode}">${dicts.fund.recharge_type[i.dictCode]}</option>
+                                    <c:forEach items="${rechargeType!=''}" var="i">
+                                        <c:if test="${rechargeType != manualDeposit}">
+                                            <option value="${i.dictCode}">${dicts.fund.recharge_type[i.dictCode]}</option>
+                                        </c:if>
                                     </c:forEach>
                                 </select>
                             </div>
