@@ -1,7 +1,9 @@
-<%--@elvariable id="rechargeType" type="java.util.List<org.soul.model.sys.po.SysDict>"--%>
+<%@ page import="so.wwb.gamebox.model.master.fund.enums.RechargeTypeEnum" %><%--@elvariable id="rechargeType" type="java.util.List<org.soul.model.sys.po.SysDict>"--%>
 <%--@elvariable id="sales" type="java.util.List<java.util.Map<java.lang.String,java.lang.Object>>"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/include/include.inc.jsp" %>
+<c:set value="<%=RechargeTypeEnum.MANUAL_FAVORABLE.getCode()%>" var="manualFavorable"/>
+<c:set value="<%=RechargeTypeEnum.MANUAL_DEPOSIT.getCode()%>" var="manualFavorable"/>
 <!--人工存入-->
 <form>
     <div class="panel-body p-sm sdcq-wrap">
@@ -38,7 +40,9 @@
                             <div class="table-desc-right-t" style="width:30%;">
                                 <select name="result.rechargeType" class="btn-group chosen-select-no-single">
                                     <c:forEach items="${rechargeType}" var="i">
-                                        <option value="${i.dictCode}">${dicts.fund.recharge_type[i.dictCode]}</option>
+                                        <c:if test="${rechargeType != manualFavorable}">
+                                            <option value="${i.dictCode}">${dicts.fund.recharge_type[i.dictCode]}</option>
+                                        </c:if>
                                     </c:forEach>
                                 </select>
                                 <span class="right-flo co-grayc2" style="display: none" id="spanTips">${views.fund['总代和代理将按分摊比例共同承担']}</span>
@@ -105,19 +109,19 @@
                     <tr>
                         <th scope="row" class="text-right">活动名称：</th>
                         <td>
-                            <div class="table-desc-right-t" style="width:90%;">
-                                <div class="table-desc-right-t" style="width:25%;">
+                            <div class="table-desc-right-t">
+                                <div class="table-desc-right-t" style="background: white;">
                                     <select name="activityId">
                                         <option value="">${views.fund['请选择']}</option>
                                         <c:forEach items="${sales}" var="i">
                                             <option value="${i.id}">${i.activityName}</option>
                                         </c:forEach>
                                     </select>
-                                    <span class="right-flo co-grayc2" style="left:83px;">
-                                        <input type="text" class="form-control" style="width: 100%;"/>
+                                    <span class="right-flo">
+                                        <input type="text" name="activityName" class="form-control" style="width: 100%;">
                                     </span>
                                 </div>
-                                <div class="right-flo co-grayc2 line-hi34">非必填；选择后，活动名称将在玩家中心-优惠记录页面显示</div>
+                                <div class="right-flo co-grayc2 line-hi34">${views.fund['非必填；选择后，活动名称将在玩家中心-优惠记录页面显示']}</div>
                             </div>
                         </td>
                     </tr>
@@ -145,3 +149,9 @@
         </table>
     </div>
 </form>
+<script type="text/javascript">
+    curl(['site/fund/manual/Deposit'], function(Deposit) {
+        page.deposit = new Deposit();
+        page.deposit.bindButtonEvents();
+    });
+</script>
