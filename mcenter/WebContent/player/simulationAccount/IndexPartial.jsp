@@ -62,10 +62,10 @@
                             <soul:button target="${root}/simulationAccount/editaAccount.html?search.id=${p.id}" text="${views.common['edit']}" opType="dialog" callback="callBackQuery"/>
                             <soul:button target="unableAccount" searchId="${p.id}" opType="function" text="${views.player_auto['账号停用']}">
                                 <span class="hd">${views.player_auto['停用']}</span></soul:button>
-                            <c:if test="${p.totalAssets != '1000000'}">
+                            <c:if test="${p.totalAssets < '1000000'}">
                             <soul:button target="${root}/simulationAccount/addQuota.html?search.id=${p.id}" text="${views.player_auto['额度']}" opType="dialog" callback="callBackQuery" title="${views.player_auto['增加额度']}"/>
                             </c:if>
-                            <c:if test="${p.totalAssets == '1000000'}">
+                            <c:if test="${p.totalAssets >= '1000000'}">
                                 <span CLASS="co-gray">${views.player_auto['额度']}</span>
                             </c:if>
                             <soul:button target="${root}/simulationAccount/autoResetPwd.html?userId=${p.id}" opType="dialog" text="${views.player_auto['重置密码']}" confirm="${views.player_auto['确认重置密码吗']}？"><span class="hd">${views.player_auto['重置密码']}</span></soul:button>
