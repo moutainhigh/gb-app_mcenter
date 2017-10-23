@@ -30,7 +30,7 @@
 				</div>
 				<div class="form-group clearfix m-t-sm m-b-sm line-hi25">
 					<label class="ft-bold al-right content-width-limit-10">
-						<span title="" data-original-title="" data-content="1、${views.setting_auto['优惠稽核倍数为空']}<br>2、${views.setting['玩家在取款时']}<br>3、${views.setting['当没有通过存款申请获得优惠']}" data-html="true" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover m-l-sm" tabindex="0"><i class="fa fa-question-circle"></i></span>
+						<span title="" data-original-title="" data-content="1、${views.setting_auto['优惠稽核倍数为空']}<br>2、${views.setting_auto['玩家在取款时']}<br>3、${views.setting_auto['当没有通过存款申请获得优惠']}" data-html="true" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover m-l-sm" tabindex="0"><i class="fa fa-question-circle"></i></span>
 					${views.setting['rakeback.edit.auditNum']}
 					</label>
 					<span class="co-red m-r-xs fs12">${command.result.auditNum}</span>${views.setting['rakeback.edit.times']}

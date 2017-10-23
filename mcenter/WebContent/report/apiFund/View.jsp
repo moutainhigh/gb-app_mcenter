@@ -22,12 +22,12 @@
         <c:choose>
             <c:when test="${command.result.fundType eq 'transfer_into'}">
                 <c:set value="+" var="_symbol"></c:set>
-                <c:set value="${gbFn:getApiName(command.result.apiId.toString())} - ${views.report['fund.list.wallect']}"
+                <c:set value="${gbFn:getSiteApiName(command.result.apiId.toString())} - ${views.report['fund.list.wallect']}"
                        var="_desc"></c:set>
                 <%--转入--%>
             </c:when>
             <c:when test="${command.result.fundType eq 'transfer_out'}">
-                <c:set value="${views.report['fund.list.wallect']} - ${gbFn:getApiName(command.result.apiId.toString())}"
+                <c:set value="${views.report['fund.list.wallect']} - ${gbFn:getSiteApiName(command.result.apiId.toString())}"
                        var="_desc"></c:set>
                 <%--转出--%>
             </c:when>
