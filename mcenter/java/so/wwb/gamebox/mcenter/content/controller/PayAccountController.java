@@ -984,7 +984,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
      */
     @RequestMapping("/checkPayName")
     @ResponseBody
-    public String checkPayName(@RequestParam("result.payName") String payName, @RequestParam("result.accountType") String type, @RequestParam("result.id") Integer id, @RequestParam("result.bankCode") String bankCode) {
+    public boolean checkPayName(@RequestParam("result.payName") String payName, @RequestParam("result.accountType") String type, @RequestParam("result.id") Integer id, @RequestParam("result.bankCode") String bankCode) {
         PayAccountListVo payAccountListVo = new PayAccountListVo();
         payAccountListVo.getSearch().setPayName(payName);
         payAccountListVo.getSearch().setType(type);
@@ -992,9 +992,9 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         if (PayAccountType.ONLINE_ACCOUNT.getCode().equals(type)) {
             payAccountListVo.getSearch().setBankCode(bankCode);
         }
-        long count = this.getService().count(payAccountListVo);
-        LOG.debug("账户列表有{0}个相同的账户名！", count);
-        return (count == 0) + "";
+
+        boolean isExist = this.getService().payNameIsExist(payAccountListVo);
+        return !isExist;
     }
 
     /**
