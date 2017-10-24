@@ -39,6 +39,7 @@ import so.wwb.gamebox.model.report.vo.AddLogVo;
 import so.wwb.gamebox.web.cache.ExportCriteriaTool;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -56,11 +57,18 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
 
     @RequestMapping("/logList")
     protected String logList(SysAuditLogListVo listVo, Model model, HttpServletRequest request) {
+        DictTool.refresh(DictEnum.Search_Keyword);
+
+
+        List<Pair> keys = new ArrayList<>();
+        keys.add(new Pair("search.operator", LocaleTool.tranDict(DictEnum.Search_Keyword,"sole")));
+        keys.add(new Pair("search.ip", LocaleTool.tranDict(DictEnum.Search_Keyword,"ip")));
+
         model.addAttribute("opType", DictTool.get(DictEnum.Log_OpType));//操作类型
         model.addAttribute("moduleTypes", DictTool.get(DictEnum.Log_Type));
         model.addAttribute("now", SessionManager.getDate().getNow());
-        model.addAttribute("keys", DictTool.get(DictEnum.Search_Keyword));
-        model.addAttribute("hasReturn", request.getParameter("hasReturn"));
+        model.addAttribute("keys", keys);
+        model.addAttribute("hasReturnhasReturn", request.getParameter("hasReturn"));
         String searchKey = request.getParameter("keys");
         if(StringTool.isNotBlank(searchKey)){
             model.addAttribute("searchKey",searchKey);
