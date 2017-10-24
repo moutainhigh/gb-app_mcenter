@@ -139,12 +139,20 @@
                                  cssClass="btn btn-filter pull-left search_btn btnleft"><i
                             class="fa fa-search"></i>&nbsp;搜索</soul:button>
                 </div>
-                <%--<div class="p-sm">--%>
-                    <%--<b>${views.lottery_auto['投注总金额']}：</b><span class="co-red3" id="betAmount">0</span> ${views.lottery_auto['元']}--%>
-                    <%--<b class="m-l">${views.lottery_auto['返点总金额']}：</b><span class="co-red3" id="rabateAmount">0</span>${views.lottery_auto['元']}--%>
-                    <%--<b class="m-l">${views.lottery_auto['派彩总金额']}：</b><span class="co-red3" id="payoutAmount">0</span>${views.lottery_auto['元']}--%>
-                    <%--<b class="m-l">${views.lottery_auto['赢利总金额']}：</b><span class="co-red3" id="profitLoss">0</span>${views.lottery_auto['元']}--%>
-                <%--</div>--%>
+                <div class="p-sm">
+                    <b>${views.lottery_auto['投注总金额']}：</b><span class="co-red3" id="betAmount">0</span> ${views.lottery_auto['元']}
+                    <b class="m-l">${views.lottery_auto['返点总金额']}：</b><span class="co-red3" id="rabateAmount">0</span>${views.lottery_auto['元']}
+                    <b class="m-l">${views.lottery_auto['派彩总金额']}：</b><span class="co-red3" id="payoutAmount">0</span>${views.lottery_auto['元']}
+                    <b class="m-l">${views.lottery_auto['赢利总金额']}：</b><span class="co-red3" id="profitLoss">0</span>${views.lottery_auto['元']}
+                </div>
+                <div class="sys_tab_wrap clearfix" id="showSelect">
+                    <div class="clearfix m-sm">
+                        <b>已选：</b>
+                        <span class="co-yellow codeDisplay">未选择彩种</span>
+                        <div class="pull-right m-t-n-xxs">
+                        </div>
+                    </div>
+                </div>
                 <div class="search-list-container">
                     <%@ include file="IndexPartial.jsp" %>
                 </div>

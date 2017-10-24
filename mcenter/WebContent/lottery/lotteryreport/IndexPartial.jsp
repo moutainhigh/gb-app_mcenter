@@ -5,6 +5,7 @@
 <%@taglib uri="http://soul/tags" prefix="soul" %>
 
 <!--//region your codes 1-->
+
 <div class="table-responsive">
     <table class="table table-condensed table-hover table-striped table-bordered">
         <thead>
