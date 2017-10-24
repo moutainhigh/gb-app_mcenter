@@ -7,6 +7,8 @@
 <c:set value="<%=RechargeTypeEnum.MANUAL_RAKEBACK.getCode()%>" var="manualRakeback"/>
 <!--人工存入-->
 <form>
+    <div id="validateRule" style="display: none">${validateRule}</div>
+    <gb:token></gb:token>
     <div class="panel-body p-sm sdcq-wrap">
         <table class="table no-border table-desc-list">
             <tbody>
@@ -77,14 +79,14 @@
                     <tr>
                         <th scope="row" class="text-right">优惠金额：</th>
                         <td>
-                            <input type="text" class="form-control" name="playerFavorable.favorableTotalAmount" style="width:30%;">
+                            <input type="text" class="form-control" name="playerFavorable.favorable" style="width:30%;">
                         </td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-right">类型：</th>
                         <td>
                             <div class="table-desc-right-t" style="width:30%;">
-                                <select name="favorableType" class="btn-group chosen-select-no-single" callback="changeFavorableType">
+                                <select name="favorableType" class="btn-group chosen-select-no-single">
                                     <c:forEach items="${rechargeType}" var="i">
                                         <c:if test="${i.dictCode != manualDeposit}">
                                             <option value="${i.dictCode}">${dicts.fund.recharge_type[i.dictCode]}</option>
@@ -101,7 +103,7 @@
                         <td>
                             <div class="line-hi34 m-b-sm min-w">
                                 <label class="m-r"><input type="radio"  value="false" name="playerFavorable.isAuditFavorable">${views.fund['免稽核']}</label>
-                                <label><input type="radio" value="true" name="auditType">${views.fund['优惠稽核']}</label>
+                                <label><input type="radio" value="true" name="playerFavorable.isAuditFavorable">${views.fund['优惠稽核']}</label>
                                 <span tabindex="0" class=" help-popover m-r" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" data-content="1、${views.fund_auto['玩家在取款时']}<br>2、${views.fund_auto['当没有通过存款申请获得优惠']}" title=""><i class="fa fa-question-circle"></i></span>
                                 <span id="fav_tip" class="right-flo co-grayc2" style="display: none"></span>
                             </div>

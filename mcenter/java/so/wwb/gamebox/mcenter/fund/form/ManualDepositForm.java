@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.fund.form;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.soul.commons.query.enums.Operator;
+import org.soul.commons.validation.form.constraints.AtLeast;
 import org.soul.commons.validation.form.constraints.Depends;
 import org.soul.commons.validation.form.support.Comment;
 import org.soul.web.support.IForm;
@@ -21,8 +22,8 @@ public class ManualDepositForm implements IForm {
     private String result_rechargeAmount;
     private String auditMultiple;
     private String result_checkRemark;
-    private String favorable_favorableTotalAmount;
-    private String favorable_auditFavorableMultiple;
+    private String playerFavorable_favorable;
+    private String playerFavorable_auditFavorableMultiple;
 
     @NotBlank(message = "fund.ManualDepositForm.userNames.notBlank")
     @Pattern(message = "fund.ManualDepositForm.userNames.Pattern", regexp = FormValidRegExps.ENGLISH_NUMBER_COMMA)
@@ -34,7 +35,7 @@ public class ManualDepositForm implements IForm {
         this.$userNames = $userNames;
     }
 
-    @NotBlank(message = "fund.ManualDepositForm.rechargeAmount.notBlank")
+    @AtLeast(message = "存款金额和优惠金额不能同时为空", groups = {rechargeFavorableAtLeast.class})
     @Pattern(regexp = FormValidRegExps.MONEY, message = "fund_auto.金额格式不正确")
     @Max(value = 99999999, message = "fund.ManualDepositForm.rechargeAmount.Max")
     public String getResult_rechargeAmount() {
@@ -45,7 +46,7 @@ public class ManualDepositForm implements IForm {
         this.result_rechargeAmount = result_rechargeAmount;
     }
 
-    @Depends(message = "fund.ManualDepositForm.auditMultiple.notBlank", property = {"auditType"}, value = {"0"}, operator = {Operator.NE}, jsValueExp = "$(\"input[name=auditType]:checked\").val()")
+    @Depends(message = "fund.ManualDepositForm.auditMultiple.notBlank", property = {"result.isAuditRecharge", "result.rechargeAmount"}, value = {"true", ""}, operator = {Operator.EQ, Operator.IS_NOT_NULL}, jsValueExp = {"$(\"input[name='result.isAuditRecharge']:checked\").val()=='true'", "$(\"input[name='result.rechargeAmount']\").val()"})
     @Pattern(regexp = FormValidRegExps.MONEY, message = "fund.ManualDepositForm.auditMultiple.Pattern")
     @Max(value = 100, message = "fund.ManualDepositForm.auditMultiple.Pattern")
     public String getAuditMultiple() {
@@ -65,22 +66,29 @@ public class ManualDepositForm implements IForm {
         this.result_checkRemark = result_checkRemark;
     }
 
+    @AtLeast(message = "存款金额和优惠金额不能同时为空", groups = {rechargeFavorableAtLeast.class})
     @Pattern(regexp = FormValidRegExps.MONEY, message = "fund_auto.金额格式不正确")
-    public String getFavorable_favorableTotalAmount() {
-        return favorable_favorableTotalAmount;
+    @Max(value = 99999999)
+    public String getPlayerFavorable_favorable() {
+        return playerFavorable_favorable;
     }
 
-    public void setFavorable_favorableTotalAmount(String favorable_favorableTotalAmount) {
-        this.favorable_favorableTotalAmount = favorable_favorableTotalAmount;
+    public void setPlayerFavorable_favorable(String playerFavorable_favorable) {
+        this.playerFavorable_favorable = playerFavorable_favorable;
     }
 
-    @Digits(integer = 3,fraction = 2)
+    @Depends(property = {"playerFavorable.isAuditFavorable", "playerFavorable.favorable"}, value = {"true", ""}, operator = {Operator.EQ, Operator.IS_NOT_NULL}, jsValueExp = {"$(\"input[name='playerFavorable.isAuditFavorable']:checked\").val()=='true'", "$(\"input[name='playerFavorable.favorable']\").val()"})
+    @Digits(integer = 3, fraction = 2)
     @Max(value = 100)
-    public String getFavorable_auditFavorableMultiple() {
-        return favorable_auditFavorableMultiple;
+    public String getPlayerFavorable_auditFavorableMultiple() {
+        return playerFavorable_auditFavorableMultiple;
     }
 
-    public void setFavorable_auditFavorableMultiple(String favorable_auditFavorableMultiple) {
-        this.favorable_auditFavorableMultiple = favorable_auditFavorableMultiple;
+    public void setPlayerFavorable_auditFavorableMultiple(String playerFavorable_auditFavorableMultiple) {
+        this.playerFavorable_auditFavorableMultiple = playerFavorable_auditFavorableMultiple;
+    }
+
+    interface rechargeFavorableAtLeast {
+
     }
 }
