@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
 import org.apache.shiro.session.Session;
+import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.net.IpTool;
@@ -15,13 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.iservice.master.player.IVPlayerOnlineService;
 import so.wwb.gamebox.mcenter.player.form.VPlayerOnlineForm;
 import so.wwb.gamebox.mcenter.player.form.VPlayerOnlineSearchForm;
+import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.player.po.VPlayerOnline;
+import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.player.vo.VPlayerOnlineListVo;
 import so.wwb.gamebox.model.master.player.vo.VPlayerOnlineVo;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -57,6 +63,10 @@ public class VPlayerOnlineController extends BaseCrudController<IVPlayerOnlineSe
         listVo = this.getService().queryApiBalance(listVo);
 
         List<VPlayerOnline> list = listVo.getResult();
+
+        Map<String, Serializable> terminal = DictTool.get(DictEnum.PLAYER_CHANNEL_TERMINAL);
+        model.addAttribute("channelTerminal", terminal);
+        model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
 
         for (int i = 0; i < list.size(); i++) {
             Long hours = DateTool.hoursBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime());
