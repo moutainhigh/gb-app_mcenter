@@ -41,7 +41,7 @@
                             <div class="table-desc-right-t" style="width:30%;">
                                 <select name="result.rechargeType" class="btn-group chosen-select-no-single">
                                     <c:forEach items="${rechargeType}" var="i">
-                                        <c:if test="${rechargeType != manualFavorable && rechargeType != manualRakeback}">
+                                        <c:if test="${i.dictCode != manualFavorable && i.dictCode != manualRakeback}">
                                             <option value="${i.dictCode}">${dicts.fund.recharge_type[i.dictCode]}</option>
                                         </c:if>
                                     </c:forEach>
@@ -84,9 +84,9 @@
                         <th scope="row" class="text-right">类型：</th>
                         <td>
                             <div class="table-desc-right-t" style="width:30%;">
-                                <select name="favorableType" class="btn-group chosen-select-no-single">
-                                    <c:forEach items="${rechargeType!=''}" var="i">
-                                        <c:if test="${rechargeType != manualDeposit}">
+                                <select name="favorableType" class="btn-group chosen-select-no-single" callback="changeFavorableType">
+                                    <c:forEach items="${rechargeType}" var="i">
+                                        <c:if test="${i.dictCode != manualDeposit}">
                                             <option value="${i.dictCode}">${dicts.fund.recharge_type[i.dictCode]}</option>
                                         </c:if>
                                     </c:forEach>
