@@ -84,13 +84,15 @@
                         <th scope="row" class="text-right">类型：</th>
                         <td>
                             <div class="table-desc-right-t" style="width:30%;">
-                                <select name="result.rechargeType" class="btn-group chosen-select-no-single">
+                                <select name="favorableType" class="btn-group chosen-select-no-single">
                                     <c:forEach items="${rechargeType!=''}" var="i">
                                         <c:if test="${rechargeType != manualDeposit}">
                                             <option value="${i.dictCode}">${dicts.fund.recharge_type[i.dictCode]}</option>
                                         </c:if>
                                     </c:forEach>
                                 </select>
+                                <span class="right-flo co-grayc2" style="display: none" id="spanTips3">${views.fund['总代和代理将按分摊比例共同承担']}</span>
+                                <span class="right-flo co-grayc2" style="display: none" id="spanTips4">${views.fund['该笔资金记录不对玩家展示']}</span>
                             </div>
                         </td>
                     </tr>
@@ -98,8 +100,8 @@
                         <th scope="row" class="text-right">稽核：</th>
                         <td>
                             <div class="line-hi34 m-b-sm min-w">
-                                <label class="m-r"><input type="radio"  value="0" name="playerFavorable.isAuditFavorable">${views.fund['免稽核']}</label>
-                                <label><input type="radio" value="2" name="auditType">${views.fund['优惠稽核']}</label>
+                                <label class="m-r"><input type="radio"  value="false" name="playerFavorable.isAuditFavorable">${views.fund['免稽核']}</label>
+                                <label><input type="radio" value="true" name="auditType">${views.fund['优惠稽核']}</label>
                                 <span tabindex="0" class=" help-popover m-r" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" data-content="1、${views.fund_auto['玩家在取款时']}<br>2、${views.fund_auto['当没有通过存款申请获得优惠']}" title=""><i class="fa fa-question-circle"></i></span>
                                 <span id="fav_tip" class="right-flo co-grayc2" style="display: none"></span>
                             </div>
@@ -109,7 +111,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    <tr id="favorableTr">
                         <th scope="row" class="text-right">活动名称：</th>
                         <td>
                             <div class="table-desc-right-t">
