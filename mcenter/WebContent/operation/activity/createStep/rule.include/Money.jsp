@@ -82,18 +82,34 @@
 <div class="clearfix m-t-md">
     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation_auto['是否条件限制']}：</label>
     <div class="col-sm-9">
-        <label class="ft-bold col-sm-3 al-left line-hi34">
-            <input type="radio" name="activityRule.hasCondition" value="true" class="has-condition-radio"
-                   <c:if test="${empty activityRule.hasCondition || activityRule.hasCondition=='true'}">checked</c:if> >${views.operation_auto['优惠条件']}
-            <input type="radio" name="activityRule.hasCondition" value="false" class="has-condition-radio"
-                   <c:if test="${activityRule.hasCondition=='false'}">checked</c:if>>${views.operation_auto['无条件限制']}
+        <label class="ft-bold al-left line-hi34">
+            <input type="radio" name="activityRule.conditionType" value="1" class="has-condition-radio"
+                   <c:if test="${empty activityRule.conditionType || activityRule.conditionType=='1'}">checked</c:if> >单次存款金额
+        </label>
+        <label class="ft-bold al-left line-hi34">
+            <input type="radio" name="activityRule.conditionType" value="2" class="has-condition-radio"
+                   <c:if test="${activityRule.conditionType=='2'}">checked</c:if> >累计存款金额
+        </label>
+        <label class="ft-bold al-left line-hi34">
+            <input type="radio" name="activityRule.conditionType" value="3" class="has-condition-radio"
+                   <c:if test="${activityRule.conditionType=='3'}">checked</c:if>>${views.operation_auto['无条件限制']}
         </label>
         <div class="tab-content" id="money_condition-div" style="width: 553px">
-            <table class="table border ${activityRule.hasCondition=='false'?'hide':''}" style="width: 550px" id="money_condition">
+            <table class="table border ${activityRule.conditionType=='3'?'hide':''}" style="width: 550px" id="money_condition">
                 <tr>
-                    <td class="bg-gray ft-bold" style="width: 150px">${views.operation_auto['单次存款金额']}</td>
-                    <td class="bg-gray ft-bold" style="width: 160px;">${views.operation_auto['时段累计有效投注额']}</td>
-                    <td class="bg-gray ft-bold" style="width: 150px">${views.operation_auto['抽奖次数']}</td>
+                    <td class="bg-gray ft-bold" style="width: 150px">
+                        <div id="deposit_type_title">
+                            <c:if test="${activityRule.conditionType=='1'}">${views.operation_auto['单次存款金额']}</c:if>
+                            <c:if test="${activityRule.conditionType=='2'}">累计存款金额</c:if>
+                        </div>
+
+                    </td>
+                    <td class="bg-gray ft-bold" style="width: 160px;">
+                        ${views.operation_auto['时段累计有效投注额']}
+                    </td>
+                    <td class="bg-gray ft-bold" style="width: 150px">
+                        ${views.operation_auto['抽奖次数']}
+                    </td>
                     <td class="bg-gray ft-bold">${views.common['operate']}</td>
                 </tr>
                 <c:if test="${not empty conditionListVo.result}">
@@ -127,7 +143,7 @@
                     </c:forEach>
                 </c:if>
             </table>
-            <table class="${activityRule.hasCondition=='false'?'hide':''}" style="width: 550px" id="money_condition_add_btn"><tr><td>
+            <table class="${activityRule.conditionType=='3'?'hide':''}" style="width: 550px" id="money_condition_add_btn"><tr><td>
                 <soul:button target="addCondition" text="" opType="function" cssClass="btn btn-info btn-addon pull-right">
                     <span class="hd">${views.common['create']}</span>
                 </soul:button>
@@ -136,7 +152,7 @@
     </div>
 
 </div>
-<div class="clearfix m-t-md ${empty activityRule.hasCondition||activityRule.hasCondition==true?'hide':''}" id="betCountMaxLimit_div">
+<div class="clearfix m-t-md ${empty activityRule.conditionType||activityRule.conditionType!='3'?'hide':''}" id="betCountMaxLimit_div">
     <label class="ft-bold col-sm-3 al-right line-hi34"></label>
     <div class="col-sm-9">
         <div class="tab-content table-responsive">
