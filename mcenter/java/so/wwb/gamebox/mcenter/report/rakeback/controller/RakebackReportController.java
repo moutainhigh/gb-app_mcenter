@@ -51,10 +51,6 @@ import java.util.Map;
 @RequestMapping("/report/rakeback")
 public class RakebackReportController extends BaseCrudController<IRakebackBillService, RakebackBillListVo, RakebackBillVo, RakebackBillSearchForm, RakebackBillForm, RakebackBill, Integer> {
     static int LIMIT_NUM = 11; // 限制展示数目
-    static Map<String, SysDictVo> stateMap = null;
-    static {
-        stateMap = DictTool.get(DictEnum.SETTLEMENT_STATE);
-    }
 
     @Override
     protected String getViewBasePath() {
@@ -67,6 +63,7 @@ public class RakebackReportController extends BaseCrudController<IRakebackBillSe
             return null;
         }
 
+        Map<String, SysDictVo> stateMap = DictTool.get(DictEnum.SETTLEMENT_STATE);
         model.addAttribute("states", stateMap);
 
         model.addAttribute("roles", subVo.getRoles());

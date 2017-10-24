@@ -63,11 +63,6 @@ public class VRakebackReportController extends AbstractExportController<IVRakeba
     }
 
     //region your codes 3
-    private static Map<String, SysDictVo> stateMap = null;
-    static {
-        stateMap = DictTool.get(DictEnum.SETTLEMENT_STATE);
-    }
-
     @RequestMapping("/reportDetail")
     public String reportDetail(VRakebackReportListVo listVo, Model model, @FormModel("search") @Valid RakebackBillSearchForm form, BindingResult result) {
         if (result.hasErrors()) {
@@ -86,6 +81,7 @@ public class VRakebackReportController extends AbstractExportController<IVRakeba
         // 角色
         listVo.setRoles(listVo.getRoles());
         // 玩家结算状态
+        Map<String, SysDictVo> stateMap = DictTool.get(DictEnum.SETTLEMENT_STATE);
         listVo.setStateMap(stateMap);
         // 切换站点
         listVo._setDataSourceId(listVo.getSearch().getSiteId());

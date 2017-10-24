@@ -96,11 +96,11 @@
                     <c:choose>
                         <c:when test="${pt.fundType eq 'transfer_into'}">
                             <c:set value="+" var="_symbol"></c:set>
-                            <c:set value="${gbFn:getApiName(pt._describe['API'].toString())}-${views.report['fund.list.wallect']}" var="_desc"></c:set>
+                            <c:set value="${gbFn:getSiteApiName(pt._describe['API'].toString())}-${views.report['fund.list.wallect']}" var="_desc"></c:set>
                             <%--转入--%>
                         </c:when>
                         <c:when test="${pt.fundType eq 'transfer_out'}">
-                            <c:set value="${views.report['fund.list.wallect']}-${views.fund['transaction.list.to']} ${gbFn:getApiName(pt._describe['API'].toString())}" var="_desc"></c:set>
+                            <c:set value="${views.report['fund.list.wallect']}-${views.fund['transaction.list.to']} ${gbFn:getSiteApiName(pt._describe['API'].toString())}" var="_desc"></c:set>
                             <%--转出--%>
                         </c:when>
                     </c:choose>

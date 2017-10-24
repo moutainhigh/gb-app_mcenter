@@ -185,7 +185,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     /*返水方案*/
     private static final String RAKEBACK_INDEX = "player/player/rakeback/Index";
 
-    private Map<String, Serializable> phoneCode = DictTool.get(DictEnum.REGION_CALLING_CODE);
     private String root;
 
     public String getRoot() {
@@ -2125,6 +2124,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         objectVo.setSiteLanguageList(ServiceTool.siteLanguageService().search(siteLanguageListVo).getResult());
         //获取手机区号字典
         DictTool.refresh(DictEnum.REGION_CALLING_CODE);
+        Map<String, Serializable> phoneCode = DictTool.get(DictEnum.REGION_CALLING_CODE);
         objectVo.setPhoneCodeDict(phoneCode);
         Map<String, Serializable> imTypeMaps = DictTool.get(DictEnum.COMMON_IM_TYPE);
         objectVo.setImTypeMaps(imTypeMaps);
