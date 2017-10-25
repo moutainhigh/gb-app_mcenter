@@ -104,6 +104,9 @@
 						<td class="money">
 							<c:if test="${empty r.favorableTotalAmount||r.favorableTotalAmount==0}">
 								--
+								<c:if test="${r.rechargeStatus eq success}">
+									<a href="/fund/manual/index.html?transactionNo=${r.transactionNo}&username=${r.username}" nav-target="mainFrame" class="btn btn-filter p-x-sm m-l-sm">补优惠</a>
+								</c:if>
 							</c:if>
 							<c:if test="${r.favorableTotalAmount>0}">
 								${r.currencySign}${soulFn:formatInteger(r.favorableTotalAmount)}<i>${soulFn:formatDecimals(r.favorableTotalAmount)}</i>

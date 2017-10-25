@@ -17,7 +17,7 @@
                 <td>
                     <div class="table-desc-right-t width-response">
                         <input type="hidden" value="${username}" name="username"/>
-                        <textarea class="form-control resize-vertical" placeholder="${views.fund_auto['多个账号，用半角逗号隔开']}" name="userNames">${username}</textarea>
+                        <textarea class="form-control resize-vertical" placeholder="${views.fund_auto['多个账号，用半角逗号隔开']}" name="userNames" ${!empty transacionNo?'readOnly':''}>${username}</textarea>
                         <span class="right-flo">${views.fund['共']} <i class="co-red font-sty ft-bold" id="userCount">0</i>${views.fund_auto['人']}</span>
                     </div>
                 </td>

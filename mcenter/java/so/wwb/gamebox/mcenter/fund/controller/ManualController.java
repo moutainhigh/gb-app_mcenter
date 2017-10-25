@@ -127,6 +127,7 @@ public class ManualController {
         model.addAttribute("hasReturn", request.getParameter("hasReturn"));
         model.addAttribute("fromPlayerDetail", request.getParameter("fromPlayerDetail"));
         model.addAttribute("playerId", request.getParameter("playerId"));
+        model.addAttribute("playerId", request.getParameter("transactionNo"));
         return MANUAL_INDEX;
     }
 
