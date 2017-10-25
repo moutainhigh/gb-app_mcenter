@@ -1260,7 +1260,6 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             model.addAttribute("info", JsonTool.fromJson(param.getParamValue(), DigiccyAccountInfo.class));
         }
         model.addAttribute("providers", Cache.getDigiccyApiProviderMap());
-        model.addAttribute("validate", JsRuleCreator.create(DigiccyAccountForm.class));
         return "/content/payaccount/onLine/DigiccyAccount";
     }
 
