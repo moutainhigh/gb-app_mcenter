@@ -37,12 +37,14 @@
             <div class="wrapper white-bg shadow clearfix">
                 <div class="present_wrap"><b>${command.editType=='1' ? views.common['newFloatPic'] : views.common['editFloatPic']}</b></div>
                 <div class="m-t">
+                        <%-- 标题 --%>
                     <div class="form-group clearfix">
                         <label class="ft-bold col-sm-3 al-right line-hi34"><span class="co-red m-r-sm">*</span>${views.column['CttFloatPic.title']}</label>
                         <div class="col-sm-5">
                             <form:input path="result.title" cssClass="form-control" placeholder="${views.content['floatPic.placeholder.title']}"/>
                         </div>
                     </div>
+                            <%-- 适用语序 --%>
                     <div class="form-group clearfix">
                         <label class="ft-bold col-sm-3 al-right line-hi34"><span class="co-red m-r-sm">*</span>${views.column['CttFloatPic.language']}</label>
                         <div class="col-sm-5">
@@ -61,6 +63,7 @@
                             </div>
                         </div>
                     </div>
+                                <%-- 边距 --%>
                     <div class="form-group clearfix">
                         <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.location']}</label>
                         <div class="col-sm-5">
@@ -88,6 +91,7 @@
                             </div>
                         </div>
                     </div>
+                                <%-- 页面交互效果 --%>
                     <div class="form-group clearfix">
                         <label class="ft-bold col-sm-3 al-right line-hi34">${views.column['CttFloatPic.interactivity']}</label>
                         <div class="col-sm-5">
@@ -98,24 +102,40 @@
                             </select>
                         </div>
                     </div>
+                                <%-- 鼠标移入效果开关 --%>
                     <div class="form-group clearfix" id="content_float_pic_mouseInEffect_div">
                         <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.mouseInEffect']}</label>
                         <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="mouseInEffect" value="true" data-size="mini" ${empty command.result.id || command.result.mouseInEffect ? 'checked' : ''}></div>
                         <form:hidden path="result.mouseInEffect" value="${empty command.result.mouseInEffect?true:command.result.mouseInEffect}"/>
                     </div>
+                                <%-- 关闭按钮开关 --%>
                     <div class="form-group clearfix">
                         <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.hideCloseButton']}</label>
                         <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="hideCloseButton" value="true" data-size="mini" ${empty command.result.id || command.result.hideCloseButton ? 'checked' : ''}></div>
                         <form:hidden path="result.hideCloseButton" value="${empty command.result.hideCloseButton?true:command.result.hideCloseButton}"/>
                     </div>
+
+
+
+
+
+
                     <%-- start模板模式--%>
                     <div class="form-group clearfix">
+                        <div class="form-group clearfix">
+                            <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.type']}</label>
+                            <div class="col-sm-5">
+                                <input type="radio" class="i-checks" name="result.picType" value="1" ${command.result.picType == '1' || empty command.result.picType? 'checked' : ''}>${views.column['CttFloatPic.template.type.server']}
+                                <input type="radio" class="i-checks" name="result.picType" value="2" ${command.result.picType == '2' ? 'checked' : ''}>${views.column['CttFloatPic.template.type.promo']}
+                            </div>
+                        </div>
                         <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.display.style']}</label>
                         <div class="col-sm-8">
                             <input type="radio" class="i-checks" name="result.singleMode" value="true" ${command.result.singleMode==true||empty command.result.singleMode ? 'checked' : ''}>${views.column['CttFloatPic.template.style.system']}
                             <input type="radio" class="i-checks" name="result.singleMode" value="false" ${command.result.singleMode==false ? 'checked' : ''}>${views.column['CttFloatPic.template.style.custom']}
+                                <%-- 单图模式的模板 --%>
                             <div class="${command.result.singleMode==false?'hide':''}" id="singleMode_templateType_div">
-                                <ul class="tempstyle clearfix">
+                                <ul class="tempstyle clearfix ${command.result.picType=='1' || empty command.result.picType ? '' : 'hide'}" id="singleMode_service_pic">
                                     <li>
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-red.png")}" data-image=""
                                              alt="${command.result.title}" class="singleModeTemplateImageType">
@@ -153,9 +173,33 @@
                                         <input type="radio" name="templateType" class="i-checks" value="6" ${command.result.tempId==6?"checked":""}>
                                     </li>
                                 </ul>
+
+                                    <%-- 新增bykobefor优惠浮动图单图模式 --%>
+                                <ul class="tempstyle clearfix ${command.result.picType=='2' ? '' : 'hide'}" id="singleMode_promo_pic">
+                                    <li>
+                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-red.png")}" data-image=""
+                                             alt="${command.result.title}" class="singleModeTemplateImageType">
+                                            <%--<img src="${resRoot}/images/floatpic/panel-red.png" class="singleModeTemplateImageType">--%>
+                                        <input type="radio" name="templateType" class="i-checks" value="1" ${empty command.result.tempId || command.result.tempId==1 || !(command.result.tempId>0&&command.result.tempId<7)?"checked":""}>
+                                    </li>
+                                    <li>
+                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-gold.png")}"
+                                             alt="${command.result.title}" class="singleModeTemplateImageType">
+                                            <%--<img src="${resRoot}/images/floatpic/panel-gold.png" class="singleModeTemplateImageType">--%>
+                                        <input type="radio" name="templateType" class="i-checks" value="2" ${command.result.tempId==2?"checked":""}>
+                                    </li>
+                                    <li>
+                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-green.png")}"
+                                             alt="${command.result.title}" class="singleModeTemplateImageType">
+                                            <%--<img src="${resRoot}/images/floatpic/panel-green.png" class="singleModeTemplateImageType">--%>
+                                        <input type="radio" name="templateType" class="i-checks" value="3" ${command.result.tempId==3?"checked":""}>
+                                    </li>
+                                </ul>
                             </div>
+
                         </div>
                     </div>
+                                <%-- 单图模式的链接 --%>
                     <div class="form-group clearfix ${command.result.singleMode==false?'hide':''}" id="content_float_pic_single_link_div">
                         <label class="ft-bold col-sm-3 al-right line-hi34">${views.column['CttFloatPic.image.link']}</label>
                         <div class="col-sm-5">
@@ -320,14 +364,36 @@
                         </div>
                     </div>
                     <%--自定义模板--%>
+
+
+
+                    <%--新增bykobefor显示效果--%>
+                    <div class="form-group clearfix ${command.result.picType == '1' || empty command.result.picType? 'hide' : ''}" id="pic_showEffect">
+                        <label class="ft-bold col-sm-3 al-right"><span class="co-red m-r-sm">*</span>${views.column['CttFloatPic.showEffect']}</label>
+                        <div class="col-sm-5">
+                            <div>
+                                <input type="radio" class="i-checks" name="result.showEffect" value="true" ${command.result.showEffect==true || empty command.result.showEffect ? 'checked' : ''}>${views.column['CttFloatPic.showEffect.hidden']}
+                                <input type="radio" class="i-checks" name="result.showEffect" value="false" ${command.result.showEffect==false ? 'checked' : ''}>${views.column['CttFloatPic.showEffect.show.after.refresh']}
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                                <%-- 展示页面 --%>
                     <div class="form-group clearfix">
                         <label class="ft-bold col-sm-3 al-right"><span class="co-red m-r-sm">*</span>${views.column['CttFloatPic.image.displayInPages']}</label>
                         <div class="col-sm-5">
-                            <div>
+                            <div id="service_show_page" <%--class="${command.result.picType=='1'? '' : 'hide'}--%>">
                                 <c:forEach items="${floatPicDisplayInMaps}" var="map">
                                     <input type="checkbox" class="i-checks" name="result.displayInPages" value="${map.key}" ${fn:contains(command.result.displayInPages, map.key) ? 'checked' : ''}>${views.content['floatPic.displayIn.'.concat(map.key)]}&nbsp;
                                 </c:forEach>
                             </div>
+                                <%-- kobe新增for显示页面 --%>
+                            <%--<div id="promo_show_paeg" class="${command.result.picType=='2'? '' : 'hide'}">
+                                <input type="checkbox" class="i-checks disabled" name="cjcch" value="1" checked>
+                            </div>--%>
                         </div>
                     </div>
                     <hr class="m-t-sm m-b">
