@@ -2,7 +2,9 @@ package so.wwb.gamebox.mcenter.player.form;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.web.support.IForm;
+import so.wwb.gamebox.mcenter.player.controller.PlayerRankController;
 
 
 /**
@@ -28,6 +30,7 @@ public class PlayerRankAddForm implements IForm {
 
     @NotBlank
     @Length(min = 1, max = 20)
+    @Remote(message = "player_auto.bankName.exist",checkMethod = "checkUserNameExist",checkClass = PlayerRankController.class)
     public String getResult_rankName() {
         return result_rankName;
     }
