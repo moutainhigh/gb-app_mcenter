@@ -53,8 +53,7 @@
                                         ${views.fund['存款稽核']}&nbsp;${soulFn:formatInteger(audit)}${soulFn:formatDecimals(audit)}&nbsp;${views.fund['倍']}
                                     </c:when>
                                     <c:when test="${!empty r.favorableAuditPoints}">
-                                        <c:set var="audit" value="${r.favorableAuditPoints/r.transactionMoney}"/>
-                                        ${views.fund['优惠稽核']}&nbsp;${soulFn:formatInteger(audit)}${soulFn:formatDecimals(audit)}&nbsp;${views.fund['倍']}
+                                        ${views.fund['优惠稽核']}&nbsp;${soulFn:formatInteger(favorableAudit)}${soulFn:formatDecimals(favorableAudit)}&nbsp;${views.fund['倍']}
                                     </c:when>
                                     <c:otherwise>
                                         ${views.fund['免稽核']}
