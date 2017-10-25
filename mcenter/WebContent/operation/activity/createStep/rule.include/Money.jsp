@@ -166,6 +166,15 @@
     <label class="ft-bold col-sm-3 al-right line-hi34">
         ${views.operation_auto['奖项设置']}：</label>
     <div class="col-sm-9">
+        <%--先到先得，抢完为止：
+        <label class="ft-bold al-left line-hi34">
+            <input type="radio" name="activityRule.awardsRulesType" value="1" class="has-condition-radio"
+                   <c:if test="${activityRule.awardsRulesType=='1'}">checked</c:if> >是
+        </label>
+        <label class="ft-bold al-left line-hi34">
+            <input type="radio" name="activityRule.awardsRulesType" value="0" class="has-condition-radio"
+                   <c:if test="${empty activityRule.awardsRulesType || activityRule.awardsRulesType=='0'}">checked</c:if> >否
+        </label>--%>
         <div class="tab-content table-responsive">
             <table class="table border" style="width: 720px" id="awards_rules">
                 <tr>
