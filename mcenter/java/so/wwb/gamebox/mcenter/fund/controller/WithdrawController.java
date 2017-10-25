@@ -46,10 +46,8 @@ import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.iservice.currency.ICurrencyExchangeService;
 import so.wwb.gamebox.iservice.master.fund.IVPlayerWithdrawService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
@@ -121,6 +119,12 @@ import java.util.*;
 public class WithdrawController extends NoMappingCrudController<IVPlayerWithdrawService, VPlayerWithdrawListVo, VPlayerWithdrawVo, VPlayerWithdrawSearchForm, VPlayerWithdrawForm, VPlayerWithdraw, Integer> {
 
     private static final Log LOG = LogFactory.getLog(WithdrawController.class);
+
+    @InitBinder
+    public void initListBinder(WebDataBinder binder){
+        // 设置需要包裹的元素个数，默认为256d
+        binder.setAutoGrowCollectionLimit(1024);
+    }
 
     //region Orange code
     private static final String WITHDRAW_INDEX_URL = "/fund/withdraw/Index";

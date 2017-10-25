@@ -60,11 +60,6 @@ private static final Log LOG = LogFactory.getLog(VRebateReportController.class);
     }
 
     //region your codes 3
-    static Map<String, SysDictVo> stateMap = null;
-    static {
-        stateMap = DictTool.get(DictEnum.SETTLEMENT_STATE);
-    }
-
     @RequestMapping("/reportDetail")
     public String reportDetail(VRebateReportListVo listVo, HttpServletRequest request, Model model) {
         // 站长账号
@@ -79,6 +74,7 @@ private static final Log LOG = LogFactory.getLog(VRebateReportController.class);
         // 设置角色
         listVo.setRoles(listVo.getRoles());
         // 玩家结算状态
+        Map<String, SysDictVo> stateMap = DictTool.get(DictEnum.SETTLEMENT_STATE);
         listVo.setStateMap(stateMap);
         // 切换站点
         listVo._setDataSourceId(listVo.getSearch().getSiteId());

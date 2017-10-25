@@ -9,6 +9,7 @@
                 <th class="inline">${views.column['VPlayerOnline.username']}</th>
                 <th class="inline">${views.column['VPlayerOnline.realName']}</th>
                 <th class="inline">${views.player_auto['总资产']}</th>
+                <th>${views.player_auto['来源终端']}</th>
                 <th class="inline">${views.column['VPlayerOnline.loginTime']}/${views.column['VPlayerOnline.ip']}</th>
                 <th class="inline">${views.column['VPlayerOnline.currentingame']}</th>
                 <%--<th class="inline">${views.column['VPlayerOnline.lastActiveTime']}</th>--%>
@@ -27,8 +28,25 @@
                             <a href="/player/playerView.html?search.id=${p.id}" nav-Target="mainFrame">${p.username }</a>
                         </div>
                     </td>
-                    <td>${p.realName }</td>
+                    <td>${p.realName}</td>
                     <td>${soulFn:formatInteger(p.assets)}${soulFn:formatDecimals(p.assets)}</td>
+                    <td>
+                        <c:if test="${p.channelTerminal=='PC'}">
+                        <span>
+                                ${dicts.player.channel_terminal[p.channelTerminal]}
+                        </span>
+                        </c:if>
+                        <c:if test="${p.channelTerminal=='Mobile'}">
+                        <span>
+                                ${dicts.player.channel_terminal[p.channelTerminal]}
+                        </span>
+                        </c:if>
+                        <c:if test="${p.channelTerminal=='App'}">
+                        <span>
+                                ${dicts.player.channel_terminal[p.channelTerminal]}
+                        </span>
+                        </c:if>
+                    </td>
                     <td>
                         <c:if test="${p.terminal eq '2'}">
                             <span class="fa fa-mobile mobile" data-content="${views.player_auto['手机登录']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">

@@ -309,6 +309,18 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         listVo._setDataSourceId(mockAccountSiteId);
         VUserPlayerListVo vUserPlayerListVo = ServiceTool.userPlayerService().deletePlayer(listVo);
         if (vUserPlayerListVo.isSuccess()){
+            String targetSiteId= CommonContext.get().getSiteId().toString();
+            for (Integer id:ids){
+                String key= MessageFormat.format("{0}{1},{2},{3}:{4},{5},*",
+                        redisSessionDao.getSessionKeyPreFix(),
+                        String.valueOf(Cache.getSysSite().get(targetSiteId).getParentId()),
+                        String.valueOf(Cache.getSysSite().get(targetSiteId).getSysUserId()),
+                        String.valueOf(targetSiteId),
+                        UserTypeEnum.PLAYER.getCode(),String.valueOf(id));
+                redisSessionDao.kickOutSession(key, OpMode.MANUAL,"站长中心玩家强制踢出");
+                LOG.info("踢出玩家key:{0}",key);
+            }
+
             map.put("state",true);
             map.put("msg","成功");
         }else {

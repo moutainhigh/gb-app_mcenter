@@ -50,10 +50,6 @@ import java.util.Map;
 @RequestMapping("/report/rebate")
 public class RebateReportController extends BaseCrudController<IRebateBillService, RebateBillListVo, RebateBillVo, RebateBillSearchForm, RebateBillForm, RebateBill, Integer> {
     static int LIMIT_NUM = 11; // 限制展示数目
-    static Map<String, SysDictVo> stateMap = null;
-    static {
-        stateMap = DictTool.get(DictEnum.SETTLEMENT_STATE);
-    }
 
     @Override
     protected String getViewBasePath() {
@@ -91,6 +87,7 @@ public class RebateReportController extends BaseCrudController<IRebateBillServic
      */
     private SiteRebateVo masterReport(SiteRebateVo command) {
         // 设置结算状态
+        Map<String, SysDictVo> stateMap = DictTool.get(DictEnum.SETTLEMENT_STATE);
         command.setStateMap(stateMap);
         // 设置角色
         command.setRoles(command.getRoles());
@@ -116,6 +113,7 @@ public class RebateReportController extends BaseCrudController<IRebateBillServic
      */
     private RebateBillVo siteReport(RebateBillVo command) {
         // 设置结算状态
+        Map<String, SysDictVo> stateMap = DictTool.get(DictEnum.SETTLEMENT_STATE);
         command.setStateMap(stateMap);
         // 设置角色
         command.setRoles(command.getRoles());
