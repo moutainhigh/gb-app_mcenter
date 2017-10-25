@@ -10,12 +10,14 @@
     <table class="table table-condensed table-hover table-striped table-bordered">
         <thead>
         <tr>
-            <th>彩种</th>
+            <th>彩种(代号)</th>
+            <c:if test="${searchcode == 2}">
             <th>玩法</th>
-            <th>投注单量</th>
-            <th>投注金额</th>
-            <th>返点金额</th>
-            <th>派彩金额</th>
+            </c:if>
+            <th>注单量</th>
+            <th>投注</th>
+            <th>返点</th>
+            <th>派彩</th>
             <th>损益</th>
         </tr>
         </thead>
@@ -23,6 +25,7 @@
         <c:set var="allBetAmount" value="${0}"></c:set>
         <c:set var="allPayout" value="${0}"></c:set>
         <c:set var="allRebateAmount" value="${0}"></c:set>
+        <c:set var="allBetCount" value="${0}"></c:set>
         <c:if test="${empty command.reportList}">
             <td colspan="13" class="no-content_wrap">
                 <div>
@@ -34,9 +37,12 @@
             <c:set var="allRebateAmount" value="${allRebateAmount+p.rebateamount}"/>
             <c:set var="allBetAmount" value="${allBetAmount+p.amount}"/>
             <c:set var="allPayout" value="${allPayout+p.payout}"></c:set>
+            <c:set var="allBetCount" value="${allBetCount+p.betcount}"></c:set>
             <tr class="tab-detail">
             <td>${dicts.lottery.lottery[p.code]}</td>
+            <c:if test="${searchcode == 2}">
             <td>${dicts.lottery.lottery_play[p.play_code]}-${dicts.lottery.lottery_betting[p.bet_code]}</td>
+            </c:if>
             <td>${p.betcount}</td>
             <td>${p.amount}</td>
             <td>${soulFn:formatCurrency(p.rebateamount)}</td>
@@ -49,7 +55,8 @@
     </table>
 </div>
 <div class="p-sm all-statistics">
-    <b>${views.lottery_auto['本页投注总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allBetAmount)}</span> ${views.lottery_auto['元']}
+    <b>本页注单量：</b><span class="co-red3">${allBetCount}</span>
+    <b class="m-l">总金额：</b><span class="co-red3">${soulFn:formatCurrency(allBetAmount)}</span>${views.lottery_auto['元']}
     <b class="m-l">${views.lottery_auto['返点总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allRebateAmount)}</span>${views.lottery_auto['元']}
     <b class="m-l">${views.lottery_auto['派彩总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allPayout)}</span>${views.lottery_auto['元']}
     <b class="m-l">${views.lottery_auto['赢利总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allPayout-allBetAmount+allRebateAmount)}</span>${views.lottery_auto['元']}

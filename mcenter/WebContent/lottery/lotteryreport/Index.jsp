@@ -9,7 +9,7 @@
     }
 </style>
 <!--//endregion your codes 1-->
-<form:form action="${root}/LotteryBetOrderReport/reportlist.html" method="post">
+<form:form action="${root}/LotteryBetOrderReport/reportlist.html?search.searchCode=${searchcode}" method="post">
     <div id="validateRule" style="display: none">${command.validateRule}</div>
     <div class="row">
         <div class="position-wrap clearfix">
@@ -25,7 +25,11 @@
                     <li class="active"><a href="javascript:void(0)">即时报表</a></li>
                     <li><a href="/LotteryBetOrderReport/reportlist.html?searchtype=1&searchcs=1" nav-target="mainFrame">历史报表</a></li>
                 </ul>
-                <!--筛选条件-->
+                <div class="m-sm" id="searchTab">
+                    <a  class="label ssc-label ${searchcode == 1 || empty searchcode ?'ssc-active':''}" href="/LotteryBetOrderReport/reportlist.html?search.searchCode=1" nav-target="mainFrame">彩种盈亏</a>
+                    <a  class="label ssc-label ${searchcode == 2 ?'ssc-active':''}" href="/LotteryBetOrderReport/reportlist.html?search.searchCode=2" nav-target="mainFrame">玩法盈亏</a>
+                </div>
+                    <!--筛选条件-->
                 <div class="filter-wraper clearfix m-t-sm p-xs" id="searchDiv">
                     <soul:button target="changeTime" data="0" text="今天" cssClass="filterbtn btn btn-filter btn-outline m-r-xs active" opType="function" tag="button"/>
                     <soul:button target="changeTime" data="1" text="昨天" cssClass="filterbtn btn btn-filter btn-outline m-r-xs" opType="function" tag="button"/>
@@ -60,7 +64,7 @@
                                         <td class="bg-gray al-left" style="width: 80px;"><label><span class="m-l-xs"><b>高频彩</b></span></label></td>
                                         <td class="al-left" id="highlottery">
                                             <c:forEach var="h" items="${highlottery.result}" varStatus="status">
-                                                <label class="m-r-sm"><input type="checkbox" class="i-checks" name="code"  value="${h.lotteryCode}"  data-code="${h.lotteryCode}"><span class="m-l-xs">${dicts.lottery.lottery[h.lotteryCode]}</span></label>
+                                                <label class="m-r-sm"><input type="checkbox" class="i-checks" name="search.codes"  value="${h.lotteryCode}"  data-code="${h.lotteryCode}"><span class="m-l-xs">${dicts.lottery.lottery[h.lotteryCode]}</span></label>
                                             </c:forEach>
                                         </td>
                                     </tr>
@@ -68,7 +72,7 @@
                                         <td class="bg-gray al-left"><label><span class="m-l-xs"><b>低频彩</b></span></label></td>
                                         <td class="al-left" id="lowlottery">
                                             <c:forEach var="p" items="${lowlottery.result}" varStatus="status">
-                                                <label class="m-r-sm"><input type="checkbox" class="i-checks" name="code"  value="${p.lotteryCode}" data-code="${p.lotteryCode}"><span class="m-l-xs">${dicts.lottery.lottery[p.lotteryCode]}</span></label>
+                                                <label class="m-r-sm"><input type="checkbox" class="i-checks" name="search.codes"  value="${p.lotteryCode}" data-code="${p.lotteryCode}"><span class="m-l-xs">${dicts.lottery.lottery[p.lotteryCode]}</span></label>
                                             </c:forEach>
                                         </td>
                                     </tr>
@@ -86,10 +90,11 @@
                     <div class="line-hi25 pull-left m-b-sm">此报表只统计已开奖结算的订单，未开奖订单不做统计。</div>
                 </div>
                 <div class="p-sm">
-                    <b>${views.lottery_auto['投注总金额']}：</b><span class="co-red3" id="betAmount">0</span> ${views.lottery_auto['元']}
-                    <b class="m-l">${views.lottery_auto['返点总金额']}：</b><span class="co-red3" id="rabateAmount">0</span>${views.lottery_auto['元']}
-                    <b class="m-l">${views.lottery_auto['派彩总金额']}：</b><span class="co-red3" id="payoutAmount">0</span>${views.lottery_auto['元']}
-                    <b class="m-l">${views.lottery_auto['赢利总金额']}：</b><span class="co-red3" id="profitLoss">0</span>${views.lottery_auto['元']}
+                    <b>总注单量：</b><span class="co-red3" id="betCount">0</span>
+                    <b class="m-l">总投注：</b><span class="co-red3" id="betAmount">0</span>${views.lottery_auto['元']}
+                    <b class="m-l">总返点：</b><span class="co-red3" id="rabateAmount">0</span>${views.lottery_auto['元']}
+                    <b class="m-l">总派彩：</b><span class="co-red3" id="payoutAmount">0</span>${views.lottery_auto['元']}
+                    <b class="m-l">总损益：</b><span class="co-red3" id="profitLoss">0</span>${views.lottery_auto['元']}
                 </div>
                 <div class="sys_tab_wrap clearfix" id="showSelect">
                     <div class="clearfix m-sm">
