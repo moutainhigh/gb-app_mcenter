@@ -120,24 +120,24 @@ public class ManualController {
         model.addAttribute("type", type);
         //type为空显示存款，否则显示取款
         if (StringTool.isBlank(type)) {
-            deposit(model, username);
+            deposit(model, username, request);
         } else {
             withdraw(model, username);
         }
         model.addAttribute("hasReturn", request.getParameter("hasReturn"));
         model.addAttribute("fromPlayerDetail", request.getParameter("fromPlayerDetail"));
         model.addAttribute("playerId", request.getParameter("playerId"));
-        model.addAttribute("playerId", request.getParameter("transactionNo"));
         return MANUAL_INDEX;
     }
 
     @RequestMapping("/deposit")
     @Token(generate = true)
-    public String deposit(Model model, String username) {
+    public String deposit(Model model, String username, HttpServletRequest request) {
         //类型
         model.addAttribute("rechargeType", manualRechargeType());
         model.addAttribute("validateRule", JsRuleCreator.create(ManualDepositForm.class));
         model.addAttribute("username", username);
+        model.addAttribute("transactionNo", request.getParameter("transactionNo"));
         sales(model);//优惠活动
         return MANUAL_DEPOSIT;
     }
@@ -197,7 +197,7 @@ public class ManualController {
     @ResponseBody
     @Token(valid = true)
     public Map<String, Object> manualDeposit(PlayerRechargeVo playerRechargeVo, @FormModel @Valid ManualDepositForm form, BindingResult result) {
-        Map<String, Object> map = new HashMap<>(5,1f);
+        Map<String, Object> map = new HashMap<>(5, 1f);
         if (result.hasErrors()) {
             return errorMsg(map);
         }
@@ -237,7 +237,7 @@ public class ManualController {
     @ResponseBody
     @Token(valid = true)
     public Map<String, Object> manualWithdraw(PlayerWithdrawVo playerWithdrawVo, @FormModel @Valid ManualWithdrawForm form, BindingResult result) {
-        Map<String, Object> map = new HashMap<>(3,1f);
+        Map<String, Object> map = new HashMap<>(3, 1f);
         if (result.hasErrors()) {
             return errorMsg(map);
         }
@@ -350,7 +350,7 @@ public class ManualController {
         VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
         vUserPlayerVo.getSearch().setUsername(username);
         vUserPlayerVo = ServiceTool.vUserPlayerService().search(vUserPlayerVo);
-        Map<String, String> map = new HashMap<>(3,1f);
+        Map<String, String> map = new HashMap<>(3, 1f);
         map.put(VUserPlayer.PROP_WALLET_BALANCE, CurrencyTool.formatInteger(vUserPlayerVo.getResult().getWalletBalance()));
         map.put(VUserPlayer.PROP_DEFAULT_CURRENCY, getCurrencySign(vUserPlayerVo.getResult().getDefaultCurrency()));
         map.put("decimals", CurrencyTool.formatDecimals(vUserPlayerVo.getResult().getWalletBalance()));
@@ -437,7 +437,7 @@ public class ManualController {
     @RequestMapping("/updateRemark")
     @ResponseBody
     public Map updateRemark(PlayerTransactionVo playerTransactionVo, String remarkContent) {
-        Map<String, Object> map = new HashMap<>(2,1f);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         Integer entityId = playerTransactionVo.getResult().getSourceId();
         String transactionType = playerTransactionVo.getResult().getTransactionType();
         if (TransactionTypeEnum.FAVORABLE.getCode().equals(transactionType)) {
@@ -507,7 +507,7 @@ public class ManualController {
      */
     private Map<String, Object> errorMsg(Map<String, Object> map) {
         map.put("state", false);
-        map.put("msg", LocaleTool.tranMessage("fund_auto","由于网络繁忙"));
+        map.put("msg", LocaleTool.tranMessage("fund_auto", "由于网络繁忙"));
         return map;
     }
 
@@ -521,9 +521,9 @@ public class ManualController {
     private Map<String, Object> resultMsg(boolean isSuccess, Map<String, Object> map) {
         map.put("state", isSuccess);
         if (isSuccess) {
-            map.put("msg", LocaleTool.tranMessage("fund_auto","操作成功"));
+            map.put("msg", LocaleTool.tranMessage("fund_auto", "操作成功"));
         } else {
-            map.put("msg", LocaleTool.tranMessage("fund_auto","由于网络繁忙"));
+            map.put("msg", LocaleTool.tranMessage("fund_auto", "由于网络繁忙"));
         }
         return map;
     }
@@ -620,7 +620,7 @@ public class ManualController {
                 notExistUserNames.add(name);
             }
         }
-        Map<String, Object> map = new HashMap<>(2,1f);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         map.put("illegalNames", notExistUserNames);
         map.put("existUser", existUser);
         return map;
