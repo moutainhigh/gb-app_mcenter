@@ -104,7 +104,8 @@
 						<td class="money">
 							<c:if test="${empty r.favorableTotalAmount||r.favorableTotalAmount==0}">
 								--
-								<c:if test="${r.rechargeStatus eq success}">
+								<%---只有满足无申请优惠且订单成功才能补优惠--%>
+								<c:if test="${r.rechargeStatus eq success && empty command.activityId}">
 									<a href="/fund/manual/index.html?transactionNo=${r.transactionNo}&username=${r.username}" nav-target="mainFrame" class="btn btn-filter p-x-sm m-l-sm">补优惠</a>
 								</c:if>
 							</c:if>

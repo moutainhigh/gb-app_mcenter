@@ -41,6 +41,7 @@ import so.wwb.gamebox.model.common.notice.enums.NoticeParamEnum;
 import so.wwb.gamebox.model.company.setting.po.SysCurrency;
 import so.wwb.gamebox.model.company.site.po.SiteCustomerService;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
+import so.wwb.gamebox.model.master.enums.ActivityTypeEnum;
 import so.wwb.gamebox.model.master.enums.RemarkEnum;
 import so.wwb.gamebox.model.master.enums.TransactionOriginEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeParentEnum;
@@ -137,15 +138,19 @@ public class ManualController {
         model.addAttribute("rechargeType", manualRechargeType());
         model.addAttribute("validateRule", JsRuleCreator.create(ManualDepositForm.class));
         model.addAttribute("username", username);
-        model.addAttribute("transactionNo", request.getParameter("transactionNo"));
-        sales(model);//优惠活动
+        String transactionNo = request.getParameter("transactionNo");
+        model.addAttribute("transactionNo", transactionNo);
+        sales(model, transactionNo);//优惠活动
         return MANUAL_DEPOSIT;
     }
 
-    private void sales(Model model) {
+    private void sales(Model model, String transactionNo) {
         VActivityMessageListVo vActivityMessageListVo = new VActivityMessageListVo();
         vActivityMessageListVo.getSearch().setActivityVersion(SessionManager.getLocale().toString());
         vActivityMessageListVo.getSearch().setIsDeleted(false);
+        if (StringTool.isNotBlank(transactionNo)) {
+            vActivityMessageListVo.getSearch().setCodes(new String[]{ActivityTypeEnum.DEPOSIT_SEND.getCode(), ActivityTypeEnum.FIRST_DEPOSIT.getCode()});
+        }
         vActivityMessageListVo.setProperties(VActivityMessage.PROP_ID, VActivityMessage.PROP_ACTIVITY_NAME);
         List<Map<String, Object>> mapList = ServiceTool.vActivityMessageService().searchProperties(vActivityMessageListVo);
         model.addAttribute("sales", mapList);

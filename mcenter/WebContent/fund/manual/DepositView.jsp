@@ -61,6 +61,16 @@
                                 </c:choose>
                             </td>
                         </tr>
+                        <c:if test="${!empty r.favorableAuditPoints}">
+                            <tr>
+                                <th scope="row" class="text-right">优惠稽核点：</th>
+                                <td>${r.favorableAuditPoints}</td>
+                            </tr>
+                        </c:if>
+                        <tr>
+                            <th scope="row" class="text-right">关联存款交易号：</th>
+                            <td>${r.favorableAuditPoints}</td>
+                        </tr>
                         <tr class="success major">
                             <th scope="row" class="text-right">${views.fund['存款金额：']}</th>
                             <td class="money">
