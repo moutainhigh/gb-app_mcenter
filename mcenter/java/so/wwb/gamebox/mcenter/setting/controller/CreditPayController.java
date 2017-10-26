@@ -30,7 +30,6 @@ import so.wwb.gamebox.mcenter.setting.form.CreditRecordForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.BossParamEnum;
 import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.TerminalEnum;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
@@ -109,7 +108,7 @@ public class CreditPayController {
         model.addAttribute("accountMap", ServiceTool.creditAccountService().getBankAccount(creditAccountVo));
         model.addAttribute("validateRule", JsRuleCreator.create(CreditRecordForm.class));
         model.addAttribute("useProfit", CreditHelper.getProfit(SessionManager.getSiteId(), SessionManager.getTimeZone()));
-        model.addAttribute("demoParam", ParamTool.getSysParam(SiteParamEnum.IS_DEMO));
+        model.addAttribute("disableTransfer", ParamTool.disableTransfer(SessionManager.getSiteId()));
         return CREDIT_PAY_URI;
     }
 
