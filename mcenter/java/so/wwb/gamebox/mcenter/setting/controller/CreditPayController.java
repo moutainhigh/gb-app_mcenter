@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dubbo.DubboTool;
+import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
@@ -30,7 +31,6 @@ import so.wwb.gamebox.mcenter.setting.form.CreditRecordForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.BossParamEnum;
 import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.TerminalEnum;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
@@ -108,8 +108,8 @@ public class CreditPayController {
         creditAccountVo.setCurrency(CurrencyEnum.CNY.getCode());
         model.addAttribute("accountMap", ServiceTool.creditAccountService().getBankAccount(creditAccountVo));
         model.addAttribute("validateRule", JsRuleCreator.create(CreditRecordForm.class));
-        model.addAttribute("useProfit", CreditHelper.getProfit(SessionManager.getSiteId(), SessionManager.getTimeZone()));
-        model.addAttribute("demoParam", ParamTool.getSysParam(SiteParamEnum.IS_DEMO));
+        model.addAttribute("useProfit", CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone()));
+        model.addAttribute("disableTransfer", ParamTool.disableTransfer(SessionManager.getSiteId()));
         return CREDIT_PAY_URI;
     }
 
