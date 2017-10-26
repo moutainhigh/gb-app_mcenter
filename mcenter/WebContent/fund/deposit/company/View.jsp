@@ -228,6 +228,12 @@
 							<td class="money">
 								<c:if test="${empty r.favorableTotalAmount||r.favorableTotalAmount==0}">
 									--
+									<%---只有满足无申请优惠且订单成功才能补优惠--%>
+									<c:if test="${r.rechargeStatus eq '2' && empty command.activityId}">
+										<shiro:hasPermission name="fund:artificial">
+											<a href="/fund/manual/index.html?transactionNo=${r.transactionNo}&username=${r.username}" nav-target="mainFrame" class="btn btn-filter p-x-sm m-l-sm">补优惠</a>
+										</shiro:hasPermission>
+									</c:if>
 								</c:if>
 								<c:if test="${r.favorableTotalAmount>0}">
 									${r.currencySign}${soulFn:formatInteger(r.favorableTotalAmount)}<i>${soulFn:formatDecimals(r.favorableTotalAmount)}</i>
@@ -250,15 +256,15 @@
 											<c:if test="${command.activityStatus=='3'}">
 												<span class="co-red">[${views.common['checkFailure']}]</span>
 											</c:if>
-									<span class="co-gray9 m-l-md">
-										<a href="/operation/activityType/viewActivityDetail.html?search.id=${command.activityId}" nav-target="mainFrame">${command.activityName}</a>
-										<c:if test="${command.activityStatus=='1'}">
-											<a style="margin-left:10px" href="/operation/vActivityPlayerApply/activityPlayerApply.html?search.id=${command.activityId}&search.playerId=${r.playerId}&search.playerRechargeId=${r.id}" nav-target="mainFrame">${views.fund['去审核']}</a>
-										</c:if>
-										<c:if test="${command.activityStatus=='2'}">
-											<a style="margin-left:10px" href="/report/vPlayerFundsRecord/view.html?search.id=${command.favorableTransactionId}" nav-target="mainFrame">${views.fund['查看优惠记录']}</a>
-										</c:if>
-									</span>
+											<span class="co-gray9 m-l-md">
+												<a href="/operation/activityType/viewActivityDetail.html?search.id=${command.activityId}" nav-target="mainFrame">${command.activityName}</a>
+												<c:if test="${command.activityStatus=='1'}">
+													<a style="margin-left:10px" href="/operation/vActivityPlayerApply/activityPlayerApply.html?search.id=${command.activityId}&search.playerId=${r.playerId}&search.playerRechargeId=${r.id}" nav-target="mainFrame">${views.fund['去审核']}</a>
+												</c:if>
+												<c:if test="${command.activityStatus=='2'}">
+													<a style="margin-left:10px" href="/report/vPlayerFundsRecord/view.html?search.id=${command.favorableTransactionId}" nav-target="mainFrame">${views.fund['查看优惠记录']}</a>
+												</c:if>
+											</span>
 										</c:when>
 									</c:choose>
 								</c:if>

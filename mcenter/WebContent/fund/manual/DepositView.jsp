@@ -67,10 +67,12 @@
                                 <td>${r.favorableAuditPoints}</td>
                             </tr>
                         </c:if>
-                        <tr>
-                            <th scope="row" class="text-right">关联存款交易号：</th>
-                            <td>${r.favorableAuditPoints}</td>
-                        </tr>
+                        <c:if test="${!empty transactionData['rechargeTransactionNo']}">
+                            <tr>
+                                <th scope="row" class="text-right">关联存款交易号：</th>
+                                <td>${transactionData['rechargeTransactionNo']}</td>
+                            </tr>
+                        </c:if>
                         <tr class="success major">
                             <th scope="row" class="text-right">${views.fund['存款金额：']}</th>
                             <td class="money">

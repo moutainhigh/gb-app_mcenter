@@ -429,6 +429,7 @@ public class ManualController {
         model.addAttribute("currency", getCurrencySign(sysUser.getDefaultCurrency()));
         model.addAttribute("remark", playerFavorableVo.getResult().getFavorableRemark());
         model.addAttribute("favorableAudit", playerFavorableVo.getResult().getAuditFavorableMultiple());
+        model.addAttribute("transactionData",JsonTool.fromJson(playerTransaction.getTransactionData(),HashMap.class));
     }
 
     @RequestMapping("/withdrawView")
