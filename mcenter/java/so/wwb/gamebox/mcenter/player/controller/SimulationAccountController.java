@@ -239,7 +239,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
             PlayerRechargeVo playerRechargeVo=new PlayerRechargeVo();
             PlayerRecharge playerRecharge=new PlayerRecharge();
             SysUser sysUser=new SysUser();
-            playerRechargeVo.setAuditType(PlayerRechargeVo.FREE_AUDIT);
+            playerRecharge.setIsAuditRecharge(false);
             if ((vUserPlayerVo.getSearch().getId())!=null){
                 vUserPlayerVo._setDataSourceId(mockAccountSiteId);
                 VUserPlayerVo userPlayerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
