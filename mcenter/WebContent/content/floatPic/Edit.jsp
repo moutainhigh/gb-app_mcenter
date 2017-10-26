@@ -1,3 +1,4 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%--@elvariable id="command" type="so.wwb.gamebox.model.master.content.vo.CttFloatPicVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -140,7 +141,7 @@
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-red.png")}" data-image=""
                                              alt="${command.result.title}" class="singleModeTemplateImageType">
                                         <%--<img src="${resRoot}/images/floatpic/panel-red.png" class="singleModeTemplateImageType">--%>
-                                        <input type="radio" name="templateType" class="i-checks" value="1" ${empty command.result.tempId || command.result.tempId==1 || !(command.result.tempId>0&&command.result.tempId<7)?"checked":""}>
+                                        <input type="radio" name="templateType" class="i-checks" value="1" ${empty command.result.tempId || command.result.tempId==1 || !(command.result.tempId>0&&command.result.tempId<10)?"checked":""}>
                                     </li>
                                     <li>
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-gold.png")}"
@@ -180,19 +181,19 @@
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-red.png")}" data-image=""
                                              alt="${command.result.title}" class="singleModeTemplateImageType">
                                             <%--<img src="${resRoot}/images/floatpic/panel-red.png" class="singleModeTemplateImageType">--%>
-                                        <input type="radio" name="templateType" class="i-checks" value="1" ${empty command.result.tempId || command.result.tempId==1 || !(command.result.tempId>0&&command.result.tempId<7)?"checked":""}>
+                                        <input type="radio" name="templateType" class="i-checks" value="7" ${command.result.tempId==7 ?"checked":""}>
                                     </li>
                                     <li>
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-gold.png")}"
                                              alt="${command.result.title}" class="singleModeTemplateImageType">
                                             <%--<img src="${resRoot}/images/floatpic/panel-gold.png" class="singleModeTemplateImageType">--%>
-                                        <input type="radio" name="templateType" class="i-checks" value="2" ${command.result.tempId==2?"checked":""}>
+                                        <input type="radio" name="templateType" class="i-checks" value="8" ${command.result.tempId==8?"checked":""}>
                                     </li>
                                     <li>
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-green.png")}"
                                              alt="${command.result.title}" class="singleModeTemplateImageType">
                                             <%--<img src="${resRoot}/images/floatpic/panel-green.png" class="singleModeTemplateImageType">--%>
-                                        <input type="radio" name="templateType" class="i-checks" value="3" ${command.result.tempId==3?"checked":""}>
+                                        <input type="radio" name="templateType" class="i-checks" value="9" ${command.result.tempId==9?"checked":""}>
                                     </li>
                                 </ul>
                             </div>
@@ -385,13 +386,13 @@
                     <div class="form-group clearfix">
                         <label class="ft-bold col-sm-3 al-right"><span class="co-red m-r-sm">*</span>${views.column['CttFloatPic.image.displayInPages']}</label>
                         <div class="col-sm-5">
-                            <div id="service_show_page" <%--class="${command.result.picType=='1'? '' : 'hide'}--%>">
+                            <div id="service_show_page" class="<%--${command.result.picType=='1'? '' : 'hide'}--%>">
                                 <c:forEach items="${floatPicDisplayInMaps}" var="map">
-                                    <input type="checkbox" class="i-checks" name="result.displayInPages" value="${map.key}" ${fn:contains(command.result.displayInPages, map.key) ? 'checked' : ''}>${views.content['floatPic.displayIn.'.concat(map.key)]}&nbsp;
+                                    <input type="checkbox" class="i-checks show_page_${map.key}" name="result.displayInPages" value="${map.key}" ${fn:contains(command.result.displayInPages, map.key) ? 'checked' : ''}><span class="show_page_span_${map.key}">${views.content['floatPic.displayIn.'.concat(map.key)]}</span>&nbsp;
                                 </c:forEach>
                             </div>
                                 <%-- kobe新增for显示页面 --%>
-                            <%--<div id="promo_show_paeg" class="${command.result.picType=='2'? '' : 'hide'}">
+                            <%--<div id="promo_show_page" class="${command.result.picType=='2'? '' : 'hide'}">${views.content['floatPic.displayIn.1']}
                                 <input type="checkbox" class="i-checks disabled" name="cjcch" value="1" checked>
                             </div>--%>
                         </div>
