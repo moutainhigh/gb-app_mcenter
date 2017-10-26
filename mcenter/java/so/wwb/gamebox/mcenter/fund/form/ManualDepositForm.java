@@ -46,7 +46,7 @@ public class ManualDepositForm implements IForm {
         this.result_rechargeAmount = result_rechargeAmount;
     }
 
-    @Depends(message = "fund.ManualDepositForm.auditMultiple.notBlank", property = {"result.isAuditRecharge", "result.rechargeAmount"}, value = {"true", ""}, operator = {Operator.EQ, Operator.IS_NOT_NULL}, jsValueExp = {"$(\"input[name='result.isAuditRecharge']:checked\").val()=='true'", "$(\"input[name='result.rechargeAmount']\").val()"})
+    @Depends(message = "fund.ManualDepositForm.auditMultiple.notBlank", property = {"result.isAuditRecharge", "result.rechargeAmount"}, value = {"true", "0"}, operator = {Operator.EQ, Operator.GT}, jsValueExp = {"$(\"input[name='result.isAuditRecharge']:checked\").val()=='true'", "$(\"input[name='result.rechargeAmount']\").val()"})
     @Pattern(regexp = FormValidRegExps.MONEY, message = "fund.ManualDepositForm.auditMultiple.Pattern")
     @Max(value = 100, message = "fund.ManualDepositForm.auditMultiple.Pattern")
     public String getAuditMultiple() {
@@ -77,7 +77,7 @@ public class ManualDepositForm implements IForm {
         this.playerFavorable_favorable = playerFavorable_favorable;
     }
 
-    @Depends(property = {"playerFavorable.isAuditFavorable", "playerFavorable.favorable"}, value = {"true", ""}, operator = {Operator.EQ, Operator.IS_NOT_NULL}, jsValueExp = {"$(\"input[name='playerFavorable.isAuditFavorable']:checked\").val()=='true'", "$(\"input[name='playerFavorable.favorable']\").val()"})
+    @Depends(property = {"playerFavorable.isAuditFavorable", "playerFavorable.favorable"}, value = {"true", "0"}, operator = {Operator.EQ, Operator.GT}, jsValueExp = {"$(\"input[name='playerFavorable.isAuditFavorable']:checked\").val()=='true'", "$(\"input[name='playerFavorable.favorable']\").val()"})
     @Digits(integer = 3, fraction = 2)
     @Max(value = 100)
     public String getPlayerFavorable_auditFavorableMultiple() {
