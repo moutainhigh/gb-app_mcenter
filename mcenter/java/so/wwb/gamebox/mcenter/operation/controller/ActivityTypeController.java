@@ -22,6 +22,8 @@ import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
+import so.wwb.gamebox.model.master.content.po.CttFloatPic;
+import so.wwb.gamebox.model.master.content.vo.CttFloatPicVo;
 import so.wwb.gamebox.model.master.enums.ActivityTypeEnum;
 import so.wwb.gamebox.model.master.enums.DepositWayEnum;
 import so.wwb.gamebox.model.master.operation.po.*;
@@ -154,6 +156,18 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
 
         //创建活动时间最小为当前时间
         model.addAttribute("minDate",SessionManager.getDate().getNow());
+        //是否设置红包--首页浮层弹窗
+        CttFloatPicVo cttFloatPicVo=new CttFloatPicVo();
+        cttFloatPicVo.getSearch().setPicType("2");
+        cttFloatPicVo.getSearch().setStatus(true);
+        List<CttFloatPic> cttFloatPics = ServiceTool.cttFloatPicService().isExistAgent(cttFloatPicVo);
+        String isExist = "true";
+        if (CollectionTool.isNotEmpty(cttFloatPics) && cttFloatPics.size() > 0) {
+            isExist = "false";
+            Integer id = cttFloatPics.get(0).getId();
+            model.addAttribute("id", id);
+        }
+        model.addAttribute("isPicType",isExist);
         return OPERATION_ACTIVITY_STEP;
     }
 

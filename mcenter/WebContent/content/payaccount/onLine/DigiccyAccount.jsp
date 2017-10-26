@@ -9,7 +9,6 @@
 </head>
 <body>
 <form method="post" name="digiccyAccountForm">
-    <div id="validateRule" style="display: none">${validate}</div>
     <div class="modal-body">
         <div class="form-group over clearfix">
             <label for="code" class="col-xs-3 al-right">${views.content_auto['渠道']}：</label>
@@ -36,7 +35,7 @@
         <div class="form-group over clearfix">
             <label class="col-xs-3 al-right">${views.content_auto['状态']}：</label>
             <div class="col-xs-9 p-x">
-                <input type="checkbox" name="status"  value="1" data-size="mini" ${info.status eq '1'?'checked':''}>
+                <input type="checkbox" name="status" value="1" data-size="mini" ${info.status eq '1'?'checked':''}>
             </div>
         </div>
     </div>

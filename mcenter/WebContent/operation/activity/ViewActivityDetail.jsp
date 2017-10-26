@@ -352,7 +352,7 @@
 
                                             </div>
                                         </div>
-                                        <c:if test="${activityRuleVo.result.hasCondition}">
+                                        <c:if test="${activityRuleVo.result.conditionType!='3'}">
                                         <div class="clearfix m-t-md">
                                             <div class="col-sm-9">
                                                 <label class="ft-bold al-right line-hi34">${views.operation_auto['优惠条件']}：</label>
@@ -385,7 +385,7 @@
                                             </div>
                                         </div>
                                         </c:if>
-                                        <c:if test="${!activityRuleVo.result.hasCondition}">
+                                        <c:if test="${!activityRuleVo.result.conditionType!='3'}">
                                         <div class="clearfix m-t-md">
                                             <div class="col-sm-9">
                                                 <div class="tab-content table-responsive">

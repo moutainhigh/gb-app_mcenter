@@ -4,6 +4,7 @@ import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.RandomStringTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.validation.form.PasswordRule;
@@ -247,7 +248,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
                 double quota = walletBalance + totalAssets;
                 if (quota >1000000){
                     map.put("state",false);
-                    map.put("msg","总额度不能超过100万，请重新添加！");
+                    map.put("msg", LocaleTool.tranMessage("player_auto","总额度不能超过100万"));
                     map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
                     return map;
                 }

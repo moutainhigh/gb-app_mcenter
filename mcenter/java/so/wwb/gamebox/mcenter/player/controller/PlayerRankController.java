@@ -11,6 +11,7 @@ import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
 import org.soul.commons.support._Module;
+import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.annotation.FormModel;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.iservice.master.player.IPlayerRankService;
 import so.wwb.gamebox.mcenter.player.form.PlayerRankAddForm;
@@ -28,6 +30,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.RankStatusEnum;
+import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.master.content.enums.PayAccountStatusEnum;
 import so.wwb.gamebox.model.master.content.po.PayAccount;
@@ -418,6 +421,14 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
         objectVo.setProperties(array);
         this.getService().updateOnly(objectVo);
         return this.getVoMessage(objectVo);
+    }
+    @RequestMapping(value = "/checkUserNameExist")
+    @ResponseBody
+    public String checkUserNameExist(@RequestParam("result.rankName")String rankName) {
+        PlayerRankVo playerRankVo=new PlayerRankVo();
+        playerRankVo.getSearch().setRankName(rankName);
+        String existAgent = ServiceTool.playerRankService().isExistAgent(playerRankVo);
+        return existAgent;
     }
     //endregion your codes 3
 }

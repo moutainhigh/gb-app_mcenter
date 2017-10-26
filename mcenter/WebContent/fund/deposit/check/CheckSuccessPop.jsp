@@ -32,14 +32,23 @@
                     <i class="fa fa-copy" title="${views.common['copy']}"></i>
                 </a>
             </div>
-            <div class="m-b">${views.column['VPlayerRecharge.payerBank']}： ${dicts.common.bankname[r.payerBank]}</div>
-            <div class="m-b">
-                ${views.column['VPlayerRecharge.rechargeAmount']}${r.defaultCurrency}：
-                <b class="co-yellow" id="rechargeAmount">${soulFn:formatCurrency(r.rechargeAmount)}</b>
+            <c:if test="${r.rechargeAmount>0}">
+                <div class="m-b">${views.column['VPlayerRecharge.payerBank']}： ${dicts.common.bankname[r.payerBank]}</div>
+                <div class="m-b">
+                        ${views.column['VPlayerRecharge.rechargeAmount']}${r.defaultCurrency}：
+
+                    <b class="co-yellow" id="rechargeAmount">${soulFn:formatCurrency(r.rechargeAmount)}</b>
                     <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-target="rechargeAmount" data-clipboard-text="Default clipboard text from attribute" name="copy">
                         <i class="fa fa-copy" title="${views.common['copy']}"></i>
                     </a>
-            </div>
+                </div>
+            </c:if>
+            <c:if test="${r.bitAmount>0}">
+                <div class="m-b">
+                    ${r.payerBank}：
+                    <b class="co-yellow">${dicts.common.currency_symbol[r.payerBank]}<fmt:formatNumber value="${r.bitAmount}" pattern="#.########"/></b>
+                </div>
+            </c:if>
         </div>
         <div class="modal-footer">
             <c:set var="url" value="${r.rechargeTypeParent=='company_deposit'?'fund/deposit/company/confirmCheck.html':'fund/deposit/online/confirmCheck.html'}" />
