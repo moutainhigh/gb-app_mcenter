@@ -33,6 +33,25 @@
                     </c:if>
                 </div>
             </div>
+            <%--红包首页浮层弹窗--%>
+            <c:if test="${activityType.result.code eq 'money'}">
+                <div class="clearfix m-t-sm">
+                    <label class="ft-bold col-sm-3 al-right"><span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+                                                                             data-html="true" data-content="${views.operation_auto['设置后']}">
+                        <i class="fa fa-question-circle"></i>
+                    </span>${views.operation_auto['首页浮层弹窗']}</label>
+                    <div class="col-sm-5">
+                    <c:choose>
+                        <c:when test="${isPicType eq false}">
+                            <a nav-target="mainFrame"  href="/cttFloatPic/edit.html?id=${id}&editType=2">${views.operation_auto['已设置']}</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a nav-target="mainFrame"  href="/cttFloatPic/create.html?editType=1">${views.operation_auto['未设置']}</a>
+                        </c:otherwise>
+                    </c:choose>
+                    </div>
+                </div>
+            </c:if>
             <%--活动分类--%>
             <div class="clearfix m-t-sm">
                 <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityClass']}：</label>
