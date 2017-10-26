@@ -260,7 +260,7 @@
 
                         <div class="col-sm-5">
                             <div class="input-group date">
-                                <input type="checkbox" name="result.supportAtmCounter" value="true" data-size="mini" ${command.result.supportAtmCounter?'checked':''}>
+                                <input type="checkbox" name="result.supportAtmCounter" value="true" data-size="mini" ${command.result.supportAtmCounter||empty command.result.supportAtmCounter?'checked':''}>
                                 <span class="input-group-addon bdn">&nbsp;&nbsp;</span></div>
                         </div>
                     </div>

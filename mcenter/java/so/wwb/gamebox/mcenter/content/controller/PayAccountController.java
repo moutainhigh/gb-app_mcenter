@@ -502,6 +502,9 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             if (PayAccountAccountType.BANKACCOUNT.getCode().equals(account.getAccountType())) {
                 account.setCustomBankName(form.get$customBankName());
             }
+            if (account.getSupportAtmCounter() == null) {
+                account.setSupportAtmCounter(false);
+            }
             //比特币地址存在channeljson里
             if (StringTool.isNotBlank(form.getBitCoinChannelVo_apiKey()) && StringTool.isNotBlank(form.getBitCoinChannelVo_apiSecret())) {
                 payAccountVo.getBitCoinChannelVo().setApiKey(CryptoTool.aesEncrypt(form.getBitCoinChannelVo_apiKey(), CryptoKey.KEY_BIT_COIN_CHANNEL));
