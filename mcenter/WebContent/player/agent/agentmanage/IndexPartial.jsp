@@ -228,7 +228,7 @@
                                     <c:when test="${!empty p[f.key]}">
                                         <c:choose>
                                             <c:when test="${f.key eq 'withdrawPlayerTotal' || f.key eq 'rechargePlayerTotal'}">
-                                                <fmt:formatNumber value="${p[f.key]}" pattern="#,###.00"></fmt:formatNumber>
+                                                <fmt:formatNumber value="${p[f.key]}" pattern="#,###.##"></fmt:formatNumber>
                                             </c:when>
                                             <c:otherwise>
                                                 ${p[f.key]}
