@@ -14,7 +14,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <th><span>前一直选复式</span></th>
+                        <th><span>定位胆</span></th>
                         <c:set var="odd" value="${command['定位胆']}"/>
                             <td>
                                 <div class="input-group content-width-limit-10">
