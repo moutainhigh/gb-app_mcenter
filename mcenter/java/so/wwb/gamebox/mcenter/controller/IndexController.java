@@ -67,6 +67,7 @@ import so.wwb.gamebox.model.master.tasknotify.po.UserTaskReminder;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderListVo;
 import so.wwb.gamebox.model.report.vo.OperationProfileVo;
 import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.credit.CreditHelper;
 import so.wwb.gamebox.web.defense.biz.annotataion.Defense;
 import so.wwb.gamebox.web.defense.biz.enums.DefenseAction;
 import so.wwb.gamebox.web.defense.core.DefenseRs;
@@ -320,7 +321,7 @@ public class IndexController extends BaseIndexController {
         vSystemAnnouncementListVo.getSearch().setEndTime(SessionManager.getDate().getNow());
         vSystemAnnouncementListVo.getSearch().setLocal(SessionManager.getLocale().toString());
         vSystemAnnouncementListVo.getSearch().setPublishTime(SessionManager.getUser().getCreateTime());
-        if(ParamTool.isLotterySite()) {
+        if (ParamTool.isLotterySite()) {
             vSystemAnnouncementListVo.getSearch().setApiId(NumberTool.toInt(ApiProviderEnum.PL.getCode()));
         }
         vSystemAnnouncementListVo = ServiceTool.vSystemAnnouncementService().searchMasterSystemNotice(vSystemAnnouncementListVo);
@@ -411,7 +412,7 @@ public class IndexController extends BaseIndexController {
         SysSiteVo sysSiteVo = new SysSiteVo();
         sysSiteVo.getSearch().setId(SessionManager.getSiteId());
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
-        Map<String, String> map = new HashMap<>(2,1f);
+        Map<String, String> map = new HashMap<>(2, 1f);
         map.put("dateTimeFromat", CommonContext.getDateFormat().getDAY_SECOND());
         map.put("dateTime", SessionManager.getUserDate(CommonContext.getDateFormat().getDAY_SECOND()));
         map.put("dateTime", DateTool.formatDate(new Date(), SessionManagerBase.getLocale(), TimeZone.getTimeZone(sysSiteVo.getResult().getTimezone()), CommonContext.getDateFormat().getDAY_SECOND()));
@@ -548,7 +549,7 @@ public class IndexController extends BaseIndexController {
             }
         }
 
-        if(isActiviteDeposit){
+        if (isActiviteDeposit) {
             if (hasPermission("fund/deposit/company/list.html") && (SessionManager.getCompanyVoiceNotice() == null || SessionManager.getCompanyVoiceNotice())) {
                 Integer count = 0;
                 VPlayerDepositVo vPlayerDepositVo = new VPlayerDepositVo();
@@ -572,7 +573,7 @@ public class IndexController extends BaseIndexController {
             }
         }
 
-        if(isActiviteDraw){
+        if (isActiviteDraw) {
             if (hasPermission("fund/withdraw/withdrawAuditView.html") && (SessionManager.getWithdrawNotice() == null || SessionManager.getWithdrawNotice())) {
                 Integer withdrawCount = 0;
                 VPlayerWithdrawListVo vPlayerWithdrawListVo = new VPlayerWithdrawListVo();
@@ -676,19 +677,19 @@ public class IndexController extends BaseIndexController {
     @RequestMapping("/index/profitLimit")
     @ResponseBody
     public Map<String, Object> profitLimit() {
-        Map<String, Object> map = new HashMap<>(3,1f);
+        Map<String, Object> map = new HashMap<>(3, 1f);
         boolean isMaster = SessionManager.isCurrentSiteMaster();
         map.put("isMaster", isMaster);
         //站长账号显示盈利上限，非站长账号不显示
         if (isMaster) {
             map.put("profitLimit", getProfitLimit().getMaxProfit());//额度上限值
-            Double profit = getProfit();
+            Double profit = CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone());
             map.put("profit", profit);//本月使用额度值
             map.put("profitCur", CurrencyTool.formatCurrency(profit));
-            map.put("transferLimit",getProfitLimit().getCurrentTransferLimit());//转账上限值
+            map.put("transferLimit", getProfitLimit().getCurrentTransferLimit());//转账上限值
             double transferOutSum = getProfitLimit().getTransferOutSum() == null ? 0 : getProfitLimit().getTransferOutSum();
             double transferIntoSum = getProfitLimit().getTransferIntoSum() == null ? 0 : getProfitLimit().getTransferIntoSum();
-            map.put("currentProfit",transferOutSum - transferIntoSum);
+            map.put("currentProfit", transferOutSum - transferIntoSum);
         }
         return map;
     }
@@ -708,14 +709,6 @@ public class IndexController extends BaseIndexController {
             return null;
         }
         return sysSite;
-    }
-
-    private Double getProfit() {
-        //查询本月1号到昨日的数据从统计库获取
-        Double monthProfit = getMonthProfit();
-        //今日盈利从player_game_order里查询
-        Double todayProfit = getTodayProfit();
-        return monthProfit + todayProfit;
     }
 
     /**
