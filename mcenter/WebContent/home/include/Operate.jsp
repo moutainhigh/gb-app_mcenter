@@ -116,7 +116,7 @@
                                         </c:choose>
                                     </td>
                                     <td class="t-a-r money">
-                                        <c:set var="deposit" value="${v.depositAmount}" />
+                                        <c:set var="deposit" value="${v.depositTotal}" />
                                         <c:choose>
                                             <c:when test="${deposit == 0.0}">
                                                 ${sign}0
