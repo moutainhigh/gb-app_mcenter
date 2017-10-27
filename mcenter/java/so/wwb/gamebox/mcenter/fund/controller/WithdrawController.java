@@ -736,7 +736,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     public String refreshAuditList(PlayerTransactionListVo listVo, Model model) {
         VPlayerWithdraw withdrawRecord = getWithdrawRecord(listVo);
         if (withdrawRecord != null && withdrawRecord.getPlayerId() != null) {
-            Map map = reAuditTransaction(withdrawRecord.getPlayerId());
+            Map map = reAuditTransaction(withdrawRecord.getPlayerId(),withdrawRecord.getCreateTime());
             searchAuditList(listVo, model);
             updateWithdrawRecord(withdrawRecord.getPlayerId(), map);
         }
@@ -805,7 +805,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     public String immediateAudit(PlayerTransactionListVo listVo, Model model) {
         Integer playerId = listVo.getSearch().getPlayerId();
         if (playerId != null) {
-            Map transactionMap = reAuditTransaction(playerId);
+            Map transactionMap = reAuditTransaction(playerId,new Date());
             model.addAttribute("user", getSysUser(playerId));
             listVo.getSearch().setPlayerId(playerId);
             listVo.getSearch().setCreateTime(new Date());
@@ -964,12 +964,12 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         return poundage == null ? 0d : poundage;
     }
 
-    private Map reAuditTransaction(Integer playerId) {
+    private Map reAuditTransaction(Integer playerId,Date searchDate) {
         PlayerTransactionVo transactionVo = new PlayerTransactionVo();
         transactionVo.setResult(new PlayerTransaction());
         transactionVo.setPlayerId(playerId);
         transactionVo.setAuditDate(new Date());
-        transactionVo.getSearch().setCreateTime(new Date());
+        transactionVo.getSearch().setCreateTime(searchDate);
         return ServiceTool.getPlayerTransactionService().getTransactionMap(transactionVo);
     }
 
@@ -1031,7 +1031,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             transactionVo.setProperties(PlayerTransaction.PROP_RECHARGE_AUDIT_POINTS, PlayerTransaction.PROP_FAVORABLE_AUDIT_POINTS);
             ServiceTool.getPlayerTransactionService().batchUpdateOnly(transactionVo);
             result.put("state", true);
-            Map map = reAuditTransaction(objVo.getSearch().getPlayerId());
+            Map map = reAuditTransaction(objVo.getSearch().getPlayerId(),new Date());
             updateWithdrawRecord(objVo.getSearch().getPlayerId(), map);
         } catch (Exception ex) {
             result.put("state", false);
