@@ -47,19 +47,19 @@
             <td>${p.amount}</td>
             <td>${soulFn:formatCurrency(p.rebateamount)}</td>
             <td>${p.payout}</td>
-            <c:if test="${p.amount>=p.payout}"><td><span class="co-green">+${p.amount-p.payout}</span></td></c:if>
-            <c:if test="${p.amount<p.payout}"><td><span class="co-red">${p.amount-p.payout}</span></td></c:if>
+            <c:if test="${p.amount>=(p.payout+p.rebateamount)}"><td><span class="co-green">+${soulFn:formatCurrency(p.amount-p.payout-p.rebateamount)}</span></td></c:if>
+            <c:if test="${p.amount<(p.payout+p.rebateamount)}"><td><span class="co-red">${soulFn:formatCurrency(p.amount-p.payout-p.rebateamount)}</span></td></c:if>
             </tr>
         </c:forEach>
         </tbody>
     </table>
 </div>
 <div class="p-sm all-statistics">
-    <b>本页注单量：</b><span class="co-red3">${allBetCount}</span>
-    <b class="m-l">总金额：</b><span class="co-red3">${soulFn:formatCurrency(allBetAmount)}</span>${views.lottery_auto['元']}
-    <b class="m-l">${views.lottery_auto['返点总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allRebateAmount)}</span>${views.lottery_auto['元']}
-    <b class="m-l">${views.lottery_auto['派彩总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allPayout)}</span>${views.lottery_auto['元']}
-    <b class="m-l">${views.lottery_auto['赢利总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allPayout-allBetAmount+allRebateAmount)}</span>${views.lottery_auto['元']}
+    <b>小计：  注单量</b>&nbsp;&nbsp;<span class="co-red3">${allBetCount}</span>注
+    <b class="m-l">投注</b>&nbsp;&nbsp;<span class="co-red3">${soulFn:formatCurrency(allBetAmount)}</span>${views.lottery_auto['元']}
+    <b class="m-l">返点</b>&nbsp;&nbsp;<span class="co-red3">${soulFn:formatCurrency(allRebateAmount)}</span>${views.lottery_auto['元']}
+    <b class="m-l">派彩</b>&nbsp;&nbsp;<span class="co-red3">${soulFn:formatCurrency(allPayout)}</span>${views.lottery_auto['元']}
+    <b class="m-l">损益</b>&nbsp;&nbsp;<span class="co-red3">${soulFn:formatCurrency(allBetAmount-allPayout-allRebateAmount)}</span>${views.lottery_auto['元']}
 </div>
 <soul:pagination />
 <!--//endregion your codes 1-->
