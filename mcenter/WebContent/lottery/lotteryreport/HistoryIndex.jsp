@@ -9,7 +9,7 @@
     }
 </style>
 <!--//endregion your codes 1-->
-<form:form action="${root}/LotteryBetOrderReport/reportlist.html" method="post">
+<form:form action="${root}/LotteryBetOrderReport/reportlist.html?search.searchCode=${searchcode}" method="post">
     <div id="validateRule" style="display: none">${command.validateRule}</div>
     <div class="row">
         <div class="position-wrap clearfix">
@@ -25,6 +25,10 @@
                     <li><a href="/LotteryBetOrderReport/reportlist.html" nav-target="mainFrame">即时报表</a></li>
                     <li class="active"><a href="javascript:void(0)">历史报表</a></li>
                 </ul>
+                <div class="m-sm" id="searchTab">
+                    <a  class="label ssc-label ${searchcode == 1 || empty searchcode ?'ssc-active':''}" href="/LotteryBetOrderReport/reportlist.html?searchtype=1&search.searchCode=1" nav-target="mainFrame">彩种盈亏</a>
+                    <a  class="label ssc-label ${searchcode == 2 ?'ssc-active':''}" href="/LotteryBetOrderReport/reportlist.html?searchtype=1&search.searchCode=2" nav-target="mainFrame">玩法盈亏</a>
+                </div>
                 <!--筛选条件-->
                 <div class="filter-wraper clearfix m-t-sm p-xs">
                     <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
@@ -112,7 +116,7 @@
                                         <td class="al-left" id="highlottery">
                                             <c:forEach var="h" items="${highlottery.result}" varStatus="status">
                                                 <label class="m-r-sm"><input type="checkbox" class="i-checks"
-                                                                             name="code" value="${h.lotteryCode}"
+                                                                             name="search.codes" value="${h.lotteryCode}"
                                                                              data-code="${h.lotteryCode}"><span
                                                         class="m-l-xs">${dicts.lottery.lottery[h.lotteryCode]}</span></label>
                                             </c:forEach>
@@ -124,7 +128,7 @@
                                         <td class="al-left" id="lowlottery">
                                             <c:forEach var="p" items="${lowlottery.result}" varStatus="status">
                                                 <label class="m-r-sm"><input type="checkbox" class="i-checks"
-                                                                             name="code" value="${p.lotteryCode}"
+                                                                             name="search.codes" value="${p.lotteryCode}"
                                                                              data-code="${p.lotteryCode}"><span
                                                         class="m-l-xs">${dicts.lottery.lottery[p.lotteryCode]}</span></label>
                                             </c:forEach>
@@ -139,12 +143,21 @@
                                  cssClass="btn btn-filter pull-left search_btn btnleft"><i
                             class="fa fa-search"></i>&nbsp;搜索</soul:button>
                 </div>
-                <%--<div class="p-sm">--%>
-                    <%--<b>${views.lottery_auto['投注总金额']}：</b><span class="co-red3" id="betAmount">0</span> ${views.lottery_auto['元']}--%>
-                    <%--<b class="m-l">${views.lottery_auto['返点总金额']}：</b><span class="co-red3" id="rabateAmount">0</span>${views.lottery_auto['元']}--%>
-                    <%--<b class="m-l">${views.lottery_auto['派彩总金额']}：</b><span class="co-red3" id="payoutAmount">0</span>${views.lottery_auto['元']}--%>
-                    <%--<b class="m-l">${views.lottery_auto['赢利总金额']}：</b><span class="co-red3" id="profitLoss">0</span>${views.lottery_auto['元']}--%>
-                <%--</div>--%>
+                <div class="p-sm">
+                    <b>总注单量：</b><span class="co-red3" id="betCount">0</span>
+                    <b class="m-l">总投注：</b><span class="co-red3" id="betAmount">0</span>${views.lottery_auto['元']}
+                    <b class="m-l">总返点：</b><span class="co-red3" id="rabateAmount">0</span>${views.lottery_auto['元']}
+                    <b class="m-l">总派彩：</b><span class="co-red3" id="payoutAmount">0</span>${views.lottery_auto['元']}
+                    <b class="m-l">总损益：</b><span class="co-red3" id="profitLoss">0</span>${views.lottery_auto['元']}
+                </div>
+                <div class="sys_tab_wrap clearfix" id="showSelect">
+                    <div class="clearfix m-sm">
+                        <b>已选：</b>
+                        <span class="co-yellow codeDisplay">未选择彩种</span>
+                        <div class="pull-right m-t-n-xxs">
+                        </div>
+                    </div>
+                </div>
                 <div class="search-list-container">
                     <%@ include file="IndexPartial.jsp" %>
                 </div>

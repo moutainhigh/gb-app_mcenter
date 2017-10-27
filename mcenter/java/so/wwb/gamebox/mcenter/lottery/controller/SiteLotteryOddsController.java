@@ -76,11 +76,17 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         if (StringTool.isNotBlank(betting)) {
             betcodes = betting.split(",");
         }
+        String code1;
+        if(code.contains("gf")){
+            code1=code.substring(0,code.length()-2);
+        }else {
+            code1=code;
+        }
         if (betcodes.length > 1) {
-            Map<String, List<SiteLotteryOdd>> siteLotteryOdds = searchLotteryOdd(code, betcodes, oddVo);
+            Map<String, List<SiteLotteryOdd>> siteLotteryOdds = searchLotteryOdd(code1, betcodes, oddVo);
             model.addAttribute("command", siteLotteryOdds);
         } else {
-            Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code, betting, oddVo);
+            Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code1, betting, oddVo);
             model.addAttribute("command", siteLotteryOddMap);
         }
         model.addAttribute("betCode", betting);
@@ -148,12 +154,16 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
             code = LotteryTypeEnum.SSC.getCode();
         } else if (code.contains("sscgf")){
             code = LotteryTypeEnum.SSCGF.getCode();
-        } else if (code.contains("k3")) {
+        }else if (code.contains("k3")&&!code.contains("gf")) {
             code = LotteryTypeEnum.K3.getCode();
+        }else if (code.contains("k3gf")) {
+            code = LotteryTypeEnum.K3GF.getCode();
         } else if (code.contains("cqxync") || code.contains("gdkl10")) {
             code = LotteryTypeEnum.SFC.getCode();
-        } else if (code.contains("fc3d") || code.contains("tcpl3")) {
+        }  else if ((code.contains("fc3d") || code.contains("tcpl3"))&&!code.contains("gf")) {
             code = LotteryTypeEnum.PL3.getCode();
+        }else if(code.contains("fc3dgf") || code.contains("tcpl3gf")) {
+            code = LotteryTypeEnum.PL3GF.getCode();
         }else if(code.contains("xyft")||code.contains("jspk10")){
             code=LotteryTypeEnum.PK10.getCode();
         }
