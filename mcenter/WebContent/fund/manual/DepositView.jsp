@@ -13,7 +13,7 @@
             <span>${views.sysResource['统计']}</span>
             <span>/</span>
             <span>${views.sysResource['资金记录']}</span>
-            <soul:button target="goToLastPage" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
+            <soul:button target="goToLastPage" refresh="true" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
                 <em class="fa fa-caret-left"></em>${views.common['return']}
             </soul:button>
             <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>

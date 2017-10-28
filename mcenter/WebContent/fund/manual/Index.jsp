@@ -13,7 +13,7 @@
                 </a>
             </c:if>
             <c:if test="${fromPlayerDetail!='playerList'}">
-                <soul:button target="goToLastPage" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
+                <soul:button target="goToLastPage" refresh="${empty transactionNo?'':'true'}" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
                     <em class="fa fa-caret-left"></em>${views.common['return']}
                 </soul:button>
             </c:if>
