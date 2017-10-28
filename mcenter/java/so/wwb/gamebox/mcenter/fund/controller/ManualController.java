@@ -573,7 +573,7 @@ public class ManualController {
             sendNotice(AutoNoticeEvent.MANUAL_RECHARGE_SUCCESS, operateSuccess.toArray(new Integer[operateSuccess.size()]), playerRechargeVo.getResult().getRechargeAmount(), date);
         }
         if (CollectionTool.isNotEmpty(operateSuccess) && !TransactionWayEnum.MANUAL_PAYOUT.getCode().equals(playerRechargeVo.getFavorableType()) && playerRechargeVo.getPlayerFavorable() != null && playerRechargeVo.getPlayerFavorable().getFavorable() != null) {
-            sendNotice(AutoNoticeEvent.MANUAL_RECHARGE_SUCCESS, operateSuccess.toArray(new Integer[operateSuccess.size()]), playerRechargeVo.getResult().getRechargeAmount(), date);
+            sendNotice(AutoNoticeEvent.MANUAL_RECHARGE_SUCCESS, operateSuccess.toArray(new Integer[operateSuccess.size()]), playerRechargeVo.getPlayerFavorable().getFavorable(), date);
         }
         return resultMsg(isSuccess, map);
     }
