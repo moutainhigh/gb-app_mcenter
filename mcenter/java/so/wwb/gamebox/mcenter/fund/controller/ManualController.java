@@ -429,7 +429,7 @@ public class ManualController {
         model.addAttribute("currency", getCurrencySign(sysUser.getDefaultCurrency()));
         model.addAttribute("remark", playerFavorableVo.getResult().getFavorableRemark());
         model.addAttribute("favorableAudit", playerFavorableVo.getResult().getAuditFavorableMultiple());
-        model.addAttribute("transactionData",JsonTool.fromJson(playerTransaction.getTransactionData(),HashMap.class));
+        model.addAttribute("transactionData", JsonTool.fromJson(playerTransaction.getTransactionData(), HashMap.class));
     }
 
     @RequestMapping("/withdrawView")
@@ -549,6 +549,8 @@ public class ManualController {
             try {
                 playerRechargeVo = ServiceTool.playerRechargeService().manualRecharge(playerRechargeVo);
             } catch (Exception e) {
+                LOG.error(e);
+                playerRechargeVo.setSuccess(false);
                 operateFails.add(sysUser.getUsername());
             }
             if (!playerRechargeVo.isSuccess()) {
@@ -567,7 +569,10 @@ public class ManualController {
             map.put("failNum", failNum);
             map.put("successNum", existUser.size() - failNum);
         }
-        if (CollectionTool.isNotEmpty(operateSuccess) && !TransactionWayEnum.MANUAL_PAYOUT.getCode().equals(playerRechargeVo.getResult().getRechargeType())) {
+        if (CollectionTool.isNotEmpty(operateSuccess) && StringTool.isEmpty(playerRechargeVo.getSearch().getTransactionNo()) && !TransactionWayEnum.MANUAL_PAYOUT.getCode().equals(playerRechargeVo.getResult().getRechargeType()) && playerRechargeVo.getResult() != null && playerRechargeVo.getResult().getRechargeAmount() != null) {
+            sendNotice(AutoNoticeEvent.MANUAL_RECHARGE_SUCCESS, operateSuccess.toArray(new Integer[operateSuccess.size()]), playerRechargeVo.getResult().getRechargeAmount(), date);
+        }
+        if (CollectionTool.isNotEmpty(operateSuccess) && !TransactionWayEnum.MANUAL_PAYOUT.getCode().equals(playerRechargeVo.getFavorableType()) && playerRechargeVo.getPlayerFavorable() != null && playerRechargeVo.getPlayerFavorable().getFavorable() != null) {
             sendNotice(AutoNoticeEvent.MANUAL_RECHARGE_SUCCESS, operateSuccess.toArray(new Integer[operateSuccess.size()]), playerRechargeVo.getResult().getRechargeAmount(), date);
         }
         return resultMsg(isSuccess, map);
