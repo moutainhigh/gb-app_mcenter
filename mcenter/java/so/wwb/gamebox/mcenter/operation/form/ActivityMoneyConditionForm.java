@@ -98,7 +98,7 @@ public class ActivityMoneyConditionForm implements IForm {
 
 
 
-    @Depends(property = "activityRule.hasCondition",operator = Operator.EQ,value = {"true"},jsValueExp ="$(\"[name=\\'activityRule.hasCondition\\']:checked\").val()=='true'")
+    @Depends(property = "activityRule.conditionType",operator = Operator.EQ,value = {"true"},jsValueExp ="$(\"[name=\\'activityRule.conditionType\\']:checked\").val()!='3'")
     @Pattern(regexp = FormValidRegExps.DECIMAL,message = "operation_auto.请输入正数")
     @Digits(integer = 13,fraction = 2)
     @Max(value = 9999999999999L)
@@ -109,7 +109,7 @@ public class ActivityMoneyConditionForm implements IForm {
     public void setMoneyConditions$$_singleDepositAmount(String[] moneyConditions$$_singleDepositAmount) {
         this.moneyConditions$$_singleDepositAmount = moneyConditions$$_singleDepositAmount;
     }
-    @Depends(property = "activityRule.hasCondition",operator = Operator.EQ,value = {"true"},jsValueExp ="$(\"[name=\\'activityRule.hasCondition\\']:checked\").val()=='true'")
+    @Depends(property = "activityRule.conditionType",operator = Operator.EQ,value = {"true"},jsValueExp ="$(\"[name=\\'activityRule.conditionType\\']:checked\").val()!='3'")
     @Pattern(regexp = FormValidRegExps.DECIMAL,message = "operation_auto.请输入正数")
     @Digits(integer = 13,fraction = 2)
     @Max(value = 9999999999999L)
@@ -120,7 +120,7 @@ public class ActivityMoneyConditionForm implements IForm {
     public void setMoneyConditions$$_effectiveAmount(String[] moneyConditions$$_effectiveAmount) {
         this.moneyConditions$$_effectiveAmount = moneyConditions$$_effectiveAmount;
     }
-    @Depends(property = "activityRule.hasCondition",operator = Operator.EQ,value = {"true"},jsValueExp ="$(\"[name=\\'activityRule.hasCondition\\']:checked\").val()=='true'")
+    @Depends(property = "activityRule.conditionType",operator = Operator.EQ,value = {"true"},jsValueExp ="$(\"[name=\\'activityRule.conditionType\\']:checked\").val()!='3'")
     @Pattern(regexp = FormValidRegExps.ZERO_POSITIVE_INTEGER,message = "operation_auto.请输入正整数")
     @Max(value = 99999999)
     public String[] getMoneyConditions$$_betCount() {
@@ -185,7 +185,7 @@ public class ActivityMoneyConditionForm implements IForm {
         this.moneyAwardsRules$$_remainCount = moneyAwardsRules$$_remainCount;
     }
 
-    @Depends(property = "activityRule.hasCondition",operator = Operator.EQ,value = {"true"},jsValueExp ="$(\"[name=\\'activityRule.hasCondition\\']:checked\").val()=='false'")
+    @Depends(property = "activityRule.conditionType",operator = Operator.EQ,value = {"true"},jsValueExp ="$(\"[name=\\'activityRule.conditionType\\']:checked\").val()=='3'")
     @Pattern(regexp = FormValidRegExps.ZERO_POSITIVE_INTEGER,message = "operation_auto.请输入正整数")
     @Min(value = 1)
     @Max(value = 99)

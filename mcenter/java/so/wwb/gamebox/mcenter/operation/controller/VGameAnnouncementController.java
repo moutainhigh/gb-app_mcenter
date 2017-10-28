@@ -30,6 +30,7 @@ import so.wwb.gamebox.model.company.operator.vo.SystemAnnouncementListVo;
 import so.wwb.gamebox.model.company.operator.vo.SystemAnnouncementVo;
 import so.wwb.gamebox.model.company.operator.vo.VSystemAnnouncementListVo;
 import so.wwb.gamebox.model.company.site.po.SiteApi;
+import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
 import so.wwb.gamebox.model.master.enums.AnnouncementTypeEnum;
 import so.wwb.gamebox.model.master.player.enums.PlayerAdvisoryEnum;
@@ -232,6 +233,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         vListVo.setIsAgent("true");
         vListVo.getSearch().setLocal(SessionManager.getLocale().toString());
         vListVo.getSearch().setPublishTime(SessionManager.getUser().getCreateTime());
+        vListVo.getSearch().setReceiveUserType(UserTypeEnum.MASTER.getCode());
         vListVo = ServiceTool.vSystemAnnouncementService().searchMasterSystemNotice(vListVo);
         model.addAttribute("command", vListVo);
         model.addAttribute("maxDate", new Date());
