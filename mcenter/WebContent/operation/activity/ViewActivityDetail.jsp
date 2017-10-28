@@ -359,7 +359,10 @@
                                                 <div class="tab-content table-responsive">
                                                     <table class="table border" id="preview_money_condition">
                                                         <tr>
-                                                            <td class="bg-gray ft-bold">${views.operation_auto['单次存款金额']}</td>
+                                                            <td class="bg-gray ft-bold">
+                                                                <c:if test="${activityRuleVo.result.conditionType=='1'}">${views.operation_auto['单次存款金额']}</c:if>
+                                                                <c:if test="${activityRuleVo.result.conditionType=='2'}">${views.content_auto['累计存款金额']}</c:if>
+                                                            </td>
                                                             <td class="bg-gray ft-bold" >${views.operation_auto['时段累计有效投注额']}</td>
                                                             <td class="bg-gray ft-bold">${views.operation_auto['抽奖次数']}</td>
                                                         </tr>
@@ -385,7 +388,7 @@
                                             </div>
                                         </div>
                                         </c:if>
-                                        <c:if test="${!activityRuleVo.result.conditionType!='3'}">
+                                        <c:if test="${activityRuleVo.result.conditionType=='3'}">
                                         <div class="clearfix m-t-md">
                                             <div class="col-sm-9">
                                                 <div class="tab-content table-responsive">

@@ -84,11 +84,11 @@
     <div class="col-sm-9">
         <label class="ft-bold al-left line-hi34">
             <input type="radio" name="activityRule.conditionType" value="1" class="has-condition-radio"
-                   <c:if test="${empty activityRule.conditionType || activityRule.conditionType=='1'}">checked</c:if> >单次存款金额
+                   <c:if test="${empty activityRule.conditionType || activityRule.conditionType=='1'}">checked</c:if> >${views.operation_auto['单次存款金额']}
         </label>
         <label class="ft-bold al-left line-hi34">
             <input type="radio" name="activityRule.conditionType" value="2" class="has-condition-radio"
-                   <c:if test="${activityRule.conditionType=='2'}">checked</c:if> >累计存款金额
+                   <c:if test="${activityRule.conditionType=='2'}">checked</c:if> >${views.content_auto['累计存款金额']}
         </label>
         <label class="ft-bold al-left line-hi34">
             <input type="radio" name="activityRule.conditionType" value="3" class="has-condition-radio"
@@ -100,7 +100,7 @@
                     <td class="bg-gray ft-bold" style="width: 150px">
                         <div id="deposit_type_title">
                             <c:if test="${activityRule.conditionType=='1'}">${views.operation_auto['单次存款金额']}</c:if>
-                            <c:if test="${activityRule.conditionType=='2'}">累计存款金额</c:if>
+                            <c:if test="${activityRule.conditionType=='2'}">${views.content_auto['累计存款金额']}</c:if>
                         </div>
 
                     </td>
