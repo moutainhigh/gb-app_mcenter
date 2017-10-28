@@ -53,8 +53,6 @@ public class CttMaterialTextController extends BaseCrudController<ICttMaterialTe
     /**
      * 页面显示最多 站长语言
      */
-    private static final Integer MAX_LANG = 3;
-
     @Override
     protected String getViewBasePath() {
         //region your codes 2
@@ -106,7 +104,6 @@ public class CttMaterialTextController extends BaseCrudController<ICttMaterialTe
     @Token(generate = true)
     public String createCtt(CttMaterialTextVo vo,Model model) {
         siteLang(model);
-        model.addAttribute("maxLang", MAX_LANG);
         if (CttMaterialEnum.TEXT.getCode().equals(vo.getSearch().getType())) {
             model.addAttribute("validateRule", JsRuleCreator.create(CttMaterialTextForm.class, null));
             return getViewBasePath()+"EditText";
@@ -175,7 +172,6 @@ public class CttMaterialTextController extends BaseCrudController<ICttMaterialTe
             }
         }
         model.addAttribute("groupCode",vo.getSearch().getGroupCode());
-        model.addAttribute("maxLang", MAX_LANG);
         model.addAttribute("cttListJson", StringEscapeUtils.unescapeHtml4(JsonTool.toJson(cttMaterialList)));
         model.addAttribute("validateRule", JsRuleCreator.create(CttMaterialTextForm.class, null));
         return getViewBasePath()+"EditText";
@@ -255,6 +251,7 @@ public class CttMaterialTextController extends BaseCrudController<ICttMaterialTe
             _siteLanguageList.add(siteLanguage);
         }
 
+        model.addAttribute("maxLang", _siteLanguageList.size());
         model.addAttribute("siteLang", _siteLanguageList);
         return _siteLanguageList;
     }
