@@ -16,12 +16,12 @@
                 <th style="width: 7%">${views.lottery_auto['所属彩种']}</th>
                 <th style="width: 5%">${views.lottery_auto['注单号']}</th>
                 <th style="width: 7%">${views.lottery_auto['彩票期号']}</th>
-                <th style="width: 10%">${views.lottery_auto['投注玩法']}</th>
+                <th style="width: 10%">玩法</th>
                 <th style="width: 14%">${views.lottery_auto['投注内容']}</th>
                 <th style="width: 3%">${views.lottery_auto['倍数']}</th>
                 <th style="width: 5%">${views.lottery_auto['奖金模式']}</th>
-                <th style="width: 5%">${views.lottery_auto['投注金额']}</th>
-                <th style="width: 5%">${views.lottery_auto['返点金额']}</th>
+                <th style="width: 5%">投注</th>
+                <th style="width: 5%">返点</th>
                 <th style="width: 4%">${views.lottery_auto['赔率|奖金']}</th>
                 <th style="width: 4%">${views.lottery_auto['派彩']}</th>
                 <th style="width: 8%">${views.lottery_auto['投注时间']}</th>
@@ -133,10 +133,10 @@
     </div>
 </div>
 <div class="p-sm all-statistics">
-    <b>${views.lottery_auto['本页投注总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allBetAmount)}</span> ${views.lottery_auto['元']}
-    <b class="m-l">${views.lottery_auto['返点总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allRebateAmount)}</span>${views.lottery_auto['元']}
-    <b class="m-l">${views.lottery_auto['派彩总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allPayout)}</span>${views.lottery_auto['元']}
-    <b class="m-l">${views.lottery_auto['赢利总金额']}：</b><span class="co-red3">${soulFn:formatCurrency(allPayout-allBetAmount+allRebateAmount)}</span>${views.lottery_auto['元']}
+    <b>小计：  投注</b>&nbsp;&nbsp;<span class="co-red3">${soulFn:formatCurrency(allBetAmount)}</span> 元
+    <b class="m-l">返点</b>&nbsp;&nbsp;<span class="co-red3">${soulFn:formatCurrency(allRebateAmount)}</span>元
+    <b class="m-l">派彩</b>&nbsp;&nbsp;<span class="co-red3">${soulFn:formatCurrency(allPayout)}</span>元
+    <b class="m-l">损益</b>&nbsp;&nbsp;<span class="co-red3">${soulFn:formatCurrency(allBetAmount-allPayout-allRebateAmount)}</span>元
 </div>
 <soul:pagination cssClass="bdtop3"/>
 <!--//endregion your codes 1-->
