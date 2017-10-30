@@ -238,7 +238,14 @@
                                     <th class="bg-tbcolor">${views.column['VPayAccount.fullName']}：</th>
                                     <td>${result.fullName}</td>
                                     <th class="bg-tbcolor">${views.content['前端备注：']}</th>
-                                    <td colspan="5" width="67.5%">${command.result.remark}</td>
+                                    <td >${command.result.remark}</td>
+                                    <th class="bg-tbcolor">自定义别名</th>
+                                    <td >${command.result.aliasName}</td>
+                                    <th class="bg-tbcolor">柜员机/柜台存款</th>
+                                    <c:choose>
+                                        <c:when test="${command.result.supportAtmCounter}"><td >启用</td></c:when>
+                                        <c:otherwise><td >禁用</td></c:otherwise>
+                                    </c:choose>
                                 </tr>
                             </c:if>
                             <c:if test="${result.type=='2'}">
