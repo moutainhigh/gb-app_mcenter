@@ -13,7 +13,7 @@
                     <c:forEach var="api" items="${listVo.result}" varStatus="vs">
                         <c:if test="${item.key==api.apiId}">
                             <c:set var="hasApi" value="true"></c:set>
-                            <th class="${empty apiAccountMap[api.apiId]?'':'bg-blue'}">${gbFn:getSiteApiName(api.apiId.toString())}</th>
+                            <th class="${empty apiAccountMap[api.apiId]?'':'bg-blue'}" style="${empty apiAccountMap[api.apiId]?'':'width: 150px'}">${gbFn:getSiteApiName(api.apiId.toString())}</th>
                         </c:if>
                     </c:forEach>
                     <c:if test="${hasApi=='false'}">
