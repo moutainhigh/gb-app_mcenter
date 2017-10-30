@@ -245,7 +245,7 @@
                                 <span class="input-group-addon bdn">&nbsp;&nbsp;</span></div>
                         </div>
                     </div>
-                    <div class="form-group clearfix line-hi34">
+                  <%--  <div class="form-group clearfix line-hi34">
                         <label class="ft-bold col-sm-3 al-right line-hi34">自定义别名</label>
 
                         <div class="col-sm-5">
@@ -263,7 +263,7 @@
                                 <input type="checkbox" name="result.supportAtmCounter" value="true" data-size="mini" ${command.result.supportAtmCounter||empty command.result.supportAtmCounter?'checked':''}>
                                 <span class="input-group-addon bdn">&nbsp;&nbsp;</span></div>
                         </div>
-                    </div>
+                    </div>--%>
                     <%--<div class="form-group clearfix">--%>
                         <%--<label for="result.disableAmount" class="ft-bold col-sm-3 al-right line-hi34"><span class="co-red m-r-sm">*</span>${views.column['PayAccount.disableAmount']}${sessionSysUser.defaultCurrency}：</label>--%>
 
