@@ -7,17 +7,17 @@
 <!--//endregion your codes 1-->
 <body>
 <form:form id="editForm" action="${root}/payAccount/edit.html" method="post">
-<form:hidden path="result.id" id="resultId"/>
-<div id="validateRule" style="display: none">${command.validateRule}</div>
-<form:hidden path="currencyStr" id="currencyStr"/>
-<form:hidden path="rankStr" id="rankStr"/>
-<form:hidden path="result.account" id="account"/>
-<form:hidden path="result.bankCode" id="bankCode"/>
-<input type="hidden" value="1" name="result.type"/>
-<input name="channelJson" hidden="hidden" value="1">
-<gb:token/>
-<input id="code" name="result.payChannelCode" hidden="hidden">
-<input name="result.fullRank" value="${empty command.result.fullRank?false:command.result.fullRank}" hidden="hidden">
+    <form:hidden path="result.id" id="resultId"/>
+    <div id="validateRule" style="display: none">${command.validateRule}</div>
+    <form:hidden path="currencyStr" id="currencyStr"/>
+    <form:hidden path="rankStr" id="rankStr"/>
+    <form:hidden path="result.account" id="account"/>
+    <form:hidden path="result.bankCode" id="bankCode"/>
+    <input type="hidden" value="1" name="result.type"/>
+    <input name="channelJson" hidden="hidden" value="1">
+    <gb:token/>
+    <input id="code" name="result.payChannelCode" hidden="hidden">
+    <input name="result.fullRank" value="${empty command.result.fullRank?false:command.result.fullRank}" hidden="hidden">
 
     <div class="row">
         <div class="position-wrap clearfix">
@@ -147,7 +147,7 @@
                                 <c:if test="${not empty command.result.qrCodeUrl}">
                                     <div class="file-preview">
                                         <soul:button target="deleteQrCode" text="×" opType="function" cssClass="close fileinput-remove"/>
-                                       <%-- <div class="close fileinput-remove">×</div>--%>
+                                            <%-- <div class="close fileinput-remove">×</div>--%>
                                         <div class="file-preview-thumbnails">
                                             <img id="picUrl" src="${soulFn:getImagePathWithDefault(domain, command.result.qrCodeUrl,null)}" style="max-width: 650px;max-height: 150px"/>
                                         </div>
@@ -169,7 +169,7 @@
                                 <span class="input-group-addon bdn">&nbsp;&nbsp;</span></div>
                         </div>
                     </div>
-                    <%--是否是银行账户--%>
+                        <%--是否是银行账户--%>
                     <c:set var="isBank" value="${empty command.result.accountType||command.result.accountType=='1'}"/>
                     <div class="form-group clearfix line-hi34 bank-div" style="display: ${isBank?'':'none'}">
                         <label class="ft-bold col-sm-3 al-right"><span class="co-red m-r-sm">*</span>${views.column['VUserBankcard.bankName']}：</label>
@@ -245,40 +245,40 @@
                                 <span class="input-group-addon bdn">&nbsp;&nbsp;</span></div>
                         </div>
                     </div>
-                  <%--  <div class="form-group clearfix line-hi34">
-                        <label class="ft-bold col-sm-3 al-right line-hi34">自定义别名</label>
+                        <%--  <div class="form-group clearfix line-hi34">
+                              <label class="ft-bold col-sm-3 al-right line-hi34">自定义别名</label>
 
-                        <div class="col-sm-5">
-                            <div class="input-group date">
-                                <input name="result.aliasName" class="form-control" value="${command.result.aliasName}"/>
-                                <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix line-hi34 ${empty command.result.accountType || command.result.accountType=='1'?'':'hide'}" id="supportAtmCounter-div">
-                        <label class="ft-bold col-sm-3 al-right line-hi34">柜员机/柜台存款开关</label>
+                              <div class="col-sm-5">
+                                  <div class="input-group date">
+                                      <input name="result.aliasName" class="form-control" value="${command.result.aliasName}"/>
+                                      <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group clearfix line-hi34 ${empty command.result.accountType || command.result.accountType=='1'?'':'hide'}" id="supportAtmCounter-div">
+                              <label class="ft-bold col-sm-3 al-right line-hi34">柜员机/柜台存款开关</label>
 
-                        <div class="col-sm-5">
-                            <div class="input-group date">
-                                <input type="checkbox" name="result.supportAtmCounter" value="true" data-size="mini" ${command.result.supportAtmCounter||empty command.result.supportAtmCounter?'checked':''}>
-                                <span class="input-group-addon bdn">&nbsp;&nbsp;</span></div>
-                        </div>
-                    </div>--%>
-                    <%--<div class="form-group clearfix">--%>
+                              <div class="col-sm-5">
+                                  <div class="input-group date">
+                                      <input type="checkbox" name="result.supportAtmCounter" value="true" data-size="mini" ${command.result.supportAtmCounter||empty command.result.supportAtmCounter?'checked':''}>
+                                      <span class="input-group-addon bdn">&nbsp;&nbsp;</span></div>
+                              </div>
+                          </div>--%>
+                        <%--<div class="form-group clearfix">--%>
                         <%--<label for="result.disableAmount" class="ft-bold col-sm-3 al-right line-hi34"><span class="co-red m-r-sm">*</span>${views.column['PayAccount.disableAmount']}${sessionSysUser.defaultCurrency}：</label>--%>
 
                         <%--<div class="col-sm-5" style="width: 41.2%">--%>
-                            <%--<div class="input-group date">--%>
-                                <%--<form:input id="disableAmount" path="result.disableAmount"--%>
-                                            <%--cssClass="form-control"/>--%>
-                            <%--<span tabindex="0" class=" help-popover input-group-addon" role="button"--%>
-                                  <%--data-container="body" data-toggle="popover" data-trigger="focus"--%>
-                                  <%--data-placement="top" data-original-title="" title="" data-html="true"--%>
-                                  <%--data-content="${views.content['payAccount.disableAmount']}"><i--%>
-                                    <%--class="fa fa-question-circle"></i></span>--%>
-                            <%--</div>--%>
+                        <%--<div class="input-group date">--%>
+                        <%--<form:input id="disableAmount" path="result.disableAmount"--%>
+                        <%--cssClass="form-control"/>--%>
+                        <%--<span tabindex="0" class=" help-popover input-group-addon" role="button"--%>
+                        <%--data-container="body" data-toggle="popover" data-trigger="focus"--%>
+                        <%--data-placement="top" data-original-title="" title="" data-html="true"--%>
+                        <%--data-content="${views.content['payAccount.disableAmount']}"><i--%>
+                        <%--class="fa fa-question-circle"></i></span>--%>
                         <%--</div>--%>
-                    <%--</div>--%>
+                        <%--</div>--%>
+                        <%--</div>--%>
                     <div class="form-group clearfix">
                         <label class="ft-bold col-sm-3 al-right line-hi34" for="result.remark">
                             <span tabindex="0" class="help-popover m-r" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" data-content="${views.content['填写后，站点前端入款账户展示区域，将显示此备注内容；']}" title=""><i class="fa fa-question-circle"></i></span>
@@ -288,32 +288,32 @@
                             <textarea class="form-control" placeholder="${views.content_auto['非必填']}" maxlength="500" id="result.remark" name="result.remark">${command.result.remark}</textarea>
                         </div>
                     </div>
-                    <%--<div class="form-group clearfix line-hi34" style="display:${command.result.id>0?"":"none"}">
-                        <label class="ft-bold col-sm-3 al-right">${views.column['PayAccount.depositCount']}</label>
-                        <div class="col-sm-5">
-                            <div class="input-group date">
-                                <form:input path="result.depositCount"
-                                            cssClass="form-control"/>
-                                <span class="input-group-addon bdn">&nbsp;&nbsp;<span class="co-red">*</span></span>
-                                <span class="input-group-addon bdn">
-                                    <soul:button cssClass="m-l-sm" target="revertDepositCount" text="${views.column['PayAccount.revert']}" opType="function"></soul:button>
-                                </span>
+                        <%--<div class="form-group clearfix line-hi34" style="display:${command.result.id>0?"":"none"}">
+                            <label class="ft-bold col-sm-3 al-right">${views.column['PayAccount.depositCount']}</label>
+                            <div class="col-sm-5">
+                                <div class="input-group date">
+                                    <form:input path="result.depositCount"
+                                                cssClass="form-control"/>
+                                    <span class="input-group-addon bdn">&nbsp;&nbsp;<span class="co-red">*</span></span>
+                                    <span class="input-group-addon bdn">
+                                        <soul:button cssClass="m-l-sm" target="revertDepositCount" text="${views.column['PayAccount.revert']}" opType="function"></soul:button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group clearfix line-hi34" style="display:${command.result.id>0?"":"none"}">
-                        <label class="ft-bold col-sm-3 al-right">${views.column['PayAccount.depositTotal']}</label>
-                        <div class="col-sm-5">
-                            <div class="input-group">
-                                <form:input path="result.depositTotal"
-                                            cssClass="form-control"/>
-                                <span class="input-group-addon bdn">&nbsp;&nbsp;<span class="co-red">*</span></span>
-                                <span class="input-group-addon bdn">
-                                    <soul:button cssClass="m-l-sm" target="revertDepositTotal" text="${views.column['PayAccount.revert']}" opType="function"></soul:button>
-                                </span>
+                        <div class="form-group clearfix line-hi34" style="display:${command.result.id>0?"":"none"}">
+                            <label class="ft-bold col-sm-3 al-right">${views.column['PayAccount.depositTotal']}</label>
+                            <div class="col-sm-5">
+                                <div class="input-group">
+                                    <form:input path="result.depositTotal"
+                                                cssClass="form-control"/>
+                                    <span class="input-group-addon bdn">&nbsp;&nbsp;<span class="co-red">*</span></span>
+                                    <span class="input-group-addon bdn">
+                                        <soul:button cssClass="m-l-sm" target="revertDepositTotal" text="${views.column['PayAccount.revert']}" opType="function"></soul:button>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    </div>--%>
+                        </div>--%>
 
                     <div class="line-hi34 col-sm-12 bg-gray m-b">
                         <label class="ft-bold col-sm-3 al-right line-hi34"></label>
@@ -323,7 +323,7 @@
                     <div class="form-group clearfix line-hi34">
                             <%--支持货币--%>
                         <label class="ft-bold col-sm-3 al-right"><span class="co-red m-r-sm">*</span>
-                        ${views.content['payAccount.add.supportMoney']}：
+                                ${views.content['payAccount.add.supportMoney']}：
                         </label>
 
                         <div class="col-sm-5">
@@ -332,17 +332,17 @@
                                 </div><span class="input-group-addon bdn">&nbsp;&nbsp;</span>
                             </div>
                         </div>
-                                <div id="old-currency-div" class="hide">
-                                    <c:forEach var="cu" items="${command.payAccountCurrencyList}">
-                                        ${cu.currencyCode},
-                                    </c:forEach>
-                                </div>
+                        <div id="old-currency-div" class="hide">
+                            <c:forEach var="cu" items="${command.payAccountCurrencyList}">
+                                ${cu.currencyCode},
+                            </c:forEach>
+                        </div>
 
                     </div>
                     <div class="form-group clearfix line-hi34">
                             <%--使用层级--%>
                         <label class="ft-bold col-sm-3 al-right"><span class="co-red m-r-sm">*</span>${views.content['payAccount.add.useRank']}：</label>
-                                <%--<input name="result.fullRank" value="${empty command.result.fullRank?false:command.result.fullRank}" type="hidden">--%>
+                            <%--<input name="result.fullRank" value="${empty command.result.fullRank?false:command.result.fullRank}" type="hidden">--%>
                         <div class="col-sm-5 rank">
                             <div><label class="m-r-sm"><input type="checkbox" name="result.fullRank" value="${empty command.result.fullRank?false:command.result.fullRank}"
                                                               id="fullRank" ${command.result.fullRank?'checked':''}>${views.content['全部层级']}</label><span class="m-l co-grayc2">${views.content['勾选后后续']}</span></div>
@@ -350,12 +350,12 @@
                                 <c:forEach items="${command.playerRankList}" var="p">
                                     <label class="m-r-sm">
                                         <input name="rank" type="checkbox" class="i-checks"
-                                       <c:if test="${command.result.fullRank}">checked</c:if>
+                                               <c:if test="${command.result.fullRank}">checked</c:if>
                                         <c:if test="${!command.result.fullRank}">
                                             <c:forEach items="${command.payRankList}" var="payRank">${p.id==payRank.playerRankId?"checked":""}</c:forEach>
                                         </c:if>
 
-                                       value="${p.id}"> ${p.rankName}
+                                               value="${p.id}"> ${p.rankName}
                                     </label>
                                 </c:forEach>
                                 <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
@@ -365,10 +365,10 @@
                     <hr class="m-t-sm m-b">
                     <div class="operate-btn">
                         <soul:button cssClass="btn btn-filter btn-lg disabled _search " text="${views.common['commit']}" opType="ajax"
-                                    dataType="json"
-                                    target="${root}/payAccount/saveCompany.html" precall="savePlayer"
-                                    post="getCurrentFormData"
-                                    callback="saveCallbak" />
+                                     dataType="json"
+                                     target="${root}/payAccount/saveCompany.html" precall="savePlayer"
+                                     post="getCurrentFormData"
+                                     callback="saveCallbak" />
                         <soul:button target="goToLastPage" refresh="true" cssClass="btn btn-outline btn-filter btn-lg m-r" text="${views.common['cancel']}" opType="function" />
 
                     </div>
@@ -376,7 +376,7 @@
             </div>
         </div>
     </div>
-    </form:form>
+</form:form>
 </body>
 <!--//region your codes 4-->
 
