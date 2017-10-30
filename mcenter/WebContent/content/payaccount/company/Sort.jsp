@@ -15,15 +15,15 @@
         <div class="col-lg-12">
             <div class="wrapper white-bg shadow clearfix">
                 <div class="form-group clearfix">
-                        <span tabindex="0" class="m-l m-r help-popover" role="button" data-container="body" data-toggle="popover"  data-trigger="focus" data-placement="right" data-content="当某支付方式/渠道下有多个账号时，存款将按照设置的账号顺序依次入账。降低因短时间内大量入款，导致被第三方平台或银行视为违规，被停用账号的风险。">
+                        <span tabindex="0" class="m-l m-r help-popover" role="button" data-container="body" data-toggle="popover"  data-trigger="focus" data-placement="right" data-content="${views.content_auto['当某支付方式/渠道下有多个账号时']}">
                             <i class="fa fa-question-circle"></i>
                         </span>
                     <b class="co-yellow">${views.content['payAccount.suggest.enable']}</b>
-                    <label class="m-l-sm"><input type="checkbox" class="i-checks" name="takeTurns" value="true" ${takeTurns.paramValue eq 'true'?'checked':''}>开启金流顺序</label>
+                    <label class="m-l-sm"><input type="checkbox" class="i-checks" name="takeTurns" value="true" ${takeTurns.paramValue eq 'true'?'checked':''}>${views.content_auto['开启金流顺序']}</label>
                 </div>
                 <div class="line-hi34 col-sm-12 bg-gray m-b">
                     <span class="co-yellow m-r-sm"><i class="fa fa-exclamation-circle"></i></span>
-                    可拖动账号在该支付方式下进行排序。使用时，系统将自动跳过已停用和被冻结账户。重新开启或解冻后，可继续按设置的顺序使用
+                        ${views.content_auto['可拖动账号在该支付方式下进行排序']}
                 </div>
                 <hr class="m-t m-b-sm">
                     <%--线上支付--%>
@@ -40,7 +40,7 @@
                                 </td>
                                 <td  width="80" style="text-align: left">${i.payName}</td>
                                 <td class="co-yellow"  width="250" style="text-align: left">${i.account}</td>
-                                <td  width="180" style="text-align: left">停用金额：<fmt:formatNumber value="${empty i.disableAmount?0:i.disableAmount}" pattern="#,####.##"/></td>
+                                <td  width="180" style="text-align: left">${views.content_auto['停用金额']}：<fmt:formatNumber value="${empty i.disableAmount?0:i.disableAmount}" pattern="#,####.##"/></td>
                                 <td  width="80">
                                     <c:choose>
                                         <c:when test="${i.status=='1'}">
@@ -61,7 +61,7 @@
                             <tr>
                                 <td colspan="7" class="no-content_wrap">
                                     <div>
-                                        <i class="fa fa-exclamation-circle"></i> 暂无账号，请先添加设置
+                                        <i class="fa fa-exclamation-circle"></i> ${views.content_auto['暂无账号，请先添加设置']}
                                     </div>
                                 </td>
                             </tr>

@@ -14,7 +14,7 @@
         <table class="table no-border table-desc-list">
             <tbody>
             <tr>
-                <th scope="row" class="text-right">玩家账号：</th>
+                <th scope="row" class="text-right">${views.fund_auto['玩家账号']}：</th>
                 <td>
                     <div class="table-desc-right-t width-response">
                         <input type="hidden" value="${username}" name="username"/>
@@ -29,7 +29,7 @@
             <c:if test="${empty transactionNo}">
                 <div class="col-sm-6">
                     <div class="panel-heading">
-                        <h3 class="co-blue">存款</h3>
+                        <h3 class="co-blue">${views.fund_auto['存款']}</h3>
                     </div>
                     <table class="table no-border table-desc-list">
                         <tbody>
@@ -40,7 +40,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th scope="row" class="text-right">类型：</th>
+                            <th scope="row" class="text-right">${views.fund_auto['类型']}：</th>
                             <td>
                                 <div class="table-desc-right-t" style="width:30%;">
                                     <select name="result.rechargeType" class="btn-group chosen-select-no-single">
@@ -56,7 +56,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th scope="row" class="text-right">稽核：</th>
+                            <th scope="row" class="text-right">${views.fund_auto['稽核']}：</th>
                             <td>
                                 <div class="line-hi34 m-b-sm min-w">
                                     <label class="m-r"><input type="radio" value="false" name="result.isAuditRecharge">${views.fund['免稽核']}</label>
@@ -76,18 +76,18 @@
 
             <div class="col-sm-6">
                 <div class="panel-heading">
-                    <h3 class="co-blue">优惠</h3>
+                    <h3 class="co-blue">${views.fund_auto['优惠']}</h3>
                 </div>
                 <table class="table no-border table-desc-list">
                     <tbody>
                     <tr>
-                        <th scope="row" class="text-right">优惠金额：</th>
+                        <th scope="row" class="text-right">${views.fund_auto['优惠金额']}：</th>
                         <td>
                             <input type="text" class="form-control" name="playerFavorable.favorable" style="width:30%;">
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-right">类型：</th>
+                        <th scope="row" class="text-right">${views.fund_auto['类型']}：</th>
                         <td>
                             <div class="table-desc-right-t" style="width:30%;">
                                 <select name="favorableType" class="btn-group chosen-select-no-single">
@@ -103,7 +103,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-right">稽核：</th>
+                        <th scope="row" class="text-right">${views.fund_auto['稽核']}：</th>
                         <td>
                             <div class="line-hi34 m-b-sm min-w">
                                 <label class="m-r"><input type="radio"  value="false" name="playerFavorable.isAuditFavorable">${views.fund['免稽核']}</label>
@@ -118,7 +118,7 @@
                         </td>
                     </tr>
                     <tr id="favorableTr">
-                        <th scope="row" class="text-right">活动名称：</th>
+                        <th scope="row" class="text-right">${views.fund_auto['活动名称']}：</th>
                         <td>
                             <div class="table-desc-right-t">
                                 <div class="table-desc-right-t" style="background: white;">
@@ -143,7 +143,7 @@
         <table class="table no-border table-desc-list">
             <tbody>
             <tr>
-                <th scope="row" class="text-right" style="vertical-align: top;">备注：</th>
+                <th scope="row" class="text-right" style="vertical-align: top;">${views.fund_auto['备注']}：</th>
                 <td>
                     <textarea name="result.checkRemark" maxlength="200" class="form-control resize-vertical width-response" rows="4"></textarea>
                 </td>
