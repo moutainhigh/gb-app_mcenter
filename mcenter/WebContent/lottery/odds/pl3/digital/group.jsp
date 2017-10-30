@@ -18,21 +18,23 @@
                     <tr>
                         <th rowspan="3"><span>中2</span></th>
                         <th><span>佰拾定位</span></th>
+                        <c:set value="0" var="lotteryIndex"/>
                         <c:forEach items="${command.pl3_hundred_ten}" var="p" >
                             <c:if test="${p.betNum eq '中2'}">
 
                                 <td>
                                     <div class="input-group content-width-limit-10">
                                         <c:set var="odd" value="${p}"/>
-                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
-                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
-                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
-                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
-                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
-                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${lotteryIndex}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${lotteryIndex}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${lotteryIndex}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${lotteryIndex}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${lotteryIndex}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${lotteryIndex}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
                                     </div>
                                 </td>
                             </c:if>
+                            <c:set value="${lotteryIndex+1}" var="lotteryIndex"/>
                         </c:forEach>
                     </tr>
                     <tr>
@@ -42,15 +44,16 @@
                                 <td>
                                     <div class="input-group content-width-limit-10">
                                         <c:set var="odd" value="${p}"/>
-                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
-                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
-                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
-                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
-                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
-                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${lotteryIndex}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${lotteryIndex}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${lotteryIndex}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${lotteryIndex}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${lotteryIndex}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${lotteryIndex}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
                                     </div>
                                 </td>
                             </c:if>
+                            <c:set value="${lotteryIndex+1}" var="lotteryIndex"/>
                         </c:forEach>
                     </tr>
                     <tr>
@@ -61,15 +64,16 @@
                                 <td>
                                     <div class="input-group content-width-limit-10">
                                         <c:set var="odd" value="${p}"/>
-                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
-                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
-                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
-                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
-                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
-                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${lotteryIndex}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${lotteryIndex}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${lotteryIndex}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${lotteryIndex}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${lotteryIndex}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${lotteryIndex}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
                                     </div>
                                 </td>
                             </c:if>
+                            <c:set value="${lotteryIndex+1}" var="lotteryIndex"/>
                         </c:forEach>
                     </tr>
                     <tr>
@@ -80,15 +84,16 @@
                                 <td>
                                     <div class="input-group content-width-limit-10">
                                         <c:set var="odd" value="${p}"/>
-                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${status.index}].id">
-                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${status.index}].code">
-                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${status.index}].betCode">
-                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${status.index}].siteId">
-                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${status.index}].betNum">
-                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${status.index}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${lotteryIndex}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${lotteryIndex}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${lotteryIndex}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${lotteryIndex}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${lotteryIndex}].betNum">
+                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${lotteryIndex}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
                                     </div>
                                 </td>
                             </c:if>
+                            <c:set value="${lotteryIndex+1}" var="lotteryIndex"/>
                         </c:forEach>
                     </tr>
                     </tbody>

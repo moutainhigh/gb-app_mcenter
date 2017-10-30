@@ -6,6 +6,7 @@
 <style>
     .btnleft{
         margin-left: 20px;
+        margin-right: 150px;
     }
 </style>
 <!--//endregion your codes 1-->
@@ -36,7 +37,7 @@
                     <soul:button target="changeTime" data="2" text="本周" cssClass="filterbtn btn btn-filter btn-outline m-r-xs" opType="function" tag="button"/>
                     <soul:button target="changeTime" data="3" text="本月" cssClass="filterbtn btn btn-filter btn-outline m-r-xs" opType="function" tag="button"/>
                     <input id="searchDate" name="searchDate" value="0" style="display: none">
-                    <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-l-n m-b-sm padding-r-none-sm">
+                    <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-l-n m-b-sm padding-r-none-sm" style="width: 350px">
                         <div class="input-group">
                             <span class="input-group-addon bg-gray">彩种选择</span>
                             <span class=" input-group-addon bdn right-btn-down">
@@ -82,19 +83,17 @@
                         </div>
                     </div>
                     <soul:button target="query" text="" opType="function" cssClass="btn btn-filter pull-left search_btn btnleft"><i class="fa fa-search"></i>&nbsp;搜索</soul:button>
-                </div>
-                <div class="clearfix m-b bg-gray p-t-xs p-l-sm p-r-sm">
-                    <span class="co-orange fs36 line-hi25 pull-left m-r-sm">
-                        <i class="fa fa-exclamation-circle m-t-n-sm"></i>
-                    </span>
-                    <div class="line-hi25 pull-left m-b-sm">此报表只统计已开奖结算的订单，未开奖订单不做统计。</div>
+                    <div style="margin-top: 9px">
+                    <span class="co-yellow"><i class="fa fa-exclamation-circle"></i></span>
+                    本功能只统计已结算注单。
+                    </div>
                 </div>
                 <div class="p-sm">
-                    <b>总注单量：</b><span class="co-red3" id="betCount">0</span>
-                    <b class="m-l">总投注：</b><span class="co-red3" id="betAmount">0</span>${views.lottery_auto['元']}
-                    <b class="m-l">总返点：</b><span class="co-red3" id="rabateAmount">0</span>${views.lottery_auto['元']}
-                    <b class="m-l">总派彩：</b><span class="co-red3" id="payoutAmount">0</span>${views.lottery_auto['元']}
-                    <b class="m-l">总损益：</b><span class="co-red3" id="profitLoss">0</span>${views.lottery_auto['元']}
+                    <b>总注单量</b>&nbsp;&nbsp;<span class="co-red3" id="betCount">0</span>注
+                    <b class="m-l">总投注</b>&nbsp;&nbsp;<span class="co-red3" id="betAmount">0</span>${views.lottery_auto['元']}
+                    <b class="m-l">总返点</b>&nbsp;&nbsp;<span class="co-red3" id="rabateAmount">0</span>${views.lottery_auto['元']}
+                    <b class="m-l">总派彩</b>&nbsp;&nbsp;<span class="co-red3" id="payoutAmount">0</span>${views.lottery_auto['元']}
+                    <b class="m-l">总损益</b>&nbsp;&nbsp;<span class="co-red3" id="profitLoss">0</span>${views.lottery_auto['元']}
                 </div>
                 <div class="sys_tab_wrap clearfix" id="showSelect">
                     <div class="clearfix m-sm">
