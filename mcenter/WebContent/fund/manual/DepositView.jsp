@@ -63,13 +63,13 @@
                         </tr>
                         <c:if test="${!empty r.favorableAuditPoints}">
                             <tr>
-                                <th scope="row" class="text-right">优惠稽核点：</th>
+                                <th scope="row" class="text-right">${views.fund_auto['优惠稽核点']}：</th>
                                 <td>${r.favorableAuditPoints}</td>
                             </tr>
                         </c:if>
                         <c:if test="${!empty transactionData['rechargeTransactionNo']}">
                             <tr>
-                                <th scope="row" class="text-right">关联存款交易号：</th>
+                                <th scope="row" class="text-right">${views.fund_auto['关联存款交易号']}：</th>
                                 <td>${transactionData['rechargeTransactionNo']}</td>
                             </tr>
                         </c:if>
