@@ -100,10 +100,10 @@
         </div>
       </div>
         <div class="p-sm">
-            <b>${views.lottery_auto['投注总金额']}：</b><span class="co-red3" id="betAmount">0</span> ${views.lottery_auto['元']}
-            <b class="m-l">${views.lottery_auto['返点总金额']}：</b><span class="co-red3" id="rabateAmount">0</span>${views.lottery_auto['元']}
-            <b class="m-l">${views.lottery_auto['派彩总金额']}：</b><span class="co-red3" id="payoutAmount">0</span>${views.lottery_auto['元']}
-            <b class="m-l">${views.lottery_auto['赢利总金额']}：</b><span class="co-red3" id="profitLoss">0</span>${views.lottery_auto['元']}
+            <b>总投注</b>&nbsp;&nbsp;<span class="co-red3" id="betAmount">0</span> 元
+            <b class="m-l">总返点</b>&nbsp;&nbsp;<span class="co-red3" id="rabateAmount">0</span>元
+            <b class="m-l">总派彩</b>&nbsp;&nbsp;<span class="co-red3" id="payoutAmount">0</span>元
+            <b class="m-l">总损益</b>&nbsp;&nbsp;<span class="co-red3" id="profitLoss">0</span>元
         </div>
       <div class="search-list-container">
         <%@ include file="IndexPartial.jsp" %>
