@@ -226,6 +226,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         playeFilter(model, list);
 
         Map<String, Serializable> status = DictTool.get(DictEnum.PLAYER_STATUS);
+        status.remove(PlayerStatusEnum.ACCOUNTEXPIRED.getCode());
         model.addAttribute("playerStatus", status);
 
         //新增的语句
@@ -686,6 +687,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             model.addAttribute("playerAdvisoryCount", listVo.getResult().size());
         }
         Map<String, Serializable> status = DictTool.get(DictEnum.PLAYER_STATUS);
+        status.remove(PlayerStatusEnum.ACCOUNTEXPIRED.getCode());
         model.addAttribute("playerStatus", status);
         model.addAttribute("unencryption", SessionManager.checkPrivilegeStatus());
         PlayerWithdraw playerWithdraw = fetchWithdrawRecord(vUserPlayerVo.getSearch().getId());
