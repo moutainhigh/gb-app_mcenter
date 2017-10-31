@@ -97,7 +97,7 @@
                                     <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${lotteryIndex}].siteId">
                                     <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${lotteryIndex}].betNum">
                                     <input type="hidden" value="${odd.baseNum}" name="lotteryOdds[${lotteryIndex}].baseNum">
-                                    <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${lotteryIndex}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    <input type="text" class="form-control input-sm odd" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${lotteryIndex}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
                                 </div>
                             </td>
                             <td>
@@ -119,7 +119,7 @@
                                         <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${lotteryIndex}].siteId">
                                         <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${lotteryIndex}].betNum">
                                         <input type="hidden" value="${odd.baseNum}" name="lotteryOdds[${lotteryIndex}].baseNum">
-                                        <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${lotteryIndex}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                        <input type="text" class="form-control input-sm odd" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${lotteryIndex}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
                                     </div>
                                 </td>
                                 <td>
@@ -164,7 +164,7 @@
                                     <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${lotteryIndex}].siteId">
                                     <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${lotteryIndex}].betNum">
                                     <input type="hidden" value="${odd.baseNum}" name="lotteryOdds[${lotteryIndex}].baseNum">
-                                    <input type="text" class="form-control input-sm" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${lotteryIndex}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    <input type="text" class="form-control input-sm odd" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${lotteryIndex}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
                                 </div>
                             </td>
                             <td>
@@ -197,7 +197,7 @@
                         </c:forEach>
                         <c:forEach items="${command.ssc_sanxing_zuxuan_qszxbd}" var="p" >
                             <c:if test="${p.betNum eq '组三'}">
-                            <th><span>前三组选包胆(组六)</span></th>
+                            <th><span>前三组选包胆(组三)</span></th>
                             <td>
                                 <div class="input-group content-width-limit-10">
                                     <c:set var="odd" value="${p}"/>
