@@ -18,7 +18,9 @@
             <div class="wrapper white-bg shadow clearfix">
                 <div class="present_wrap"><b>${views.content['payAccount.cash.order']}</b></div>
                 <div class="line-hi34 col-sm-12 bg-gray m-b">
-                    <input type="checkbox" name="openMoreAccount" value="true"/>是否开启多个账号
+                    是否开启多个账号：<input type="checkbox" name="openMoreAccount"　value="true" data-size="mini" ${command.result.addNewPlayer?'checked':''}>
+                    <input type="hidden" name="result.addNewPlayer" value="${not empty command.result.addNewPlayer && command.result.addNewPlayer?'true':'false'}">
+                    <%--<input type="checkbox" name="openMoreAccount" />是否开启多个账号--%>
                     <span class="co-yellow m-r-sm"><i class="fa fa-exclamation-circle"></i></span>
                     如果开启将在前台展示全部已使用账户
                 </div>
