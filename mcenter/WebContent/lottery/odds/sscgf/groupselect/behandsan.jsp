@@ -197,7 +197,7 @@
                         </c:forEach>
                         <c:forEach items="${command.ssc_sanxing_zuxuan_hszxbd}" var="p" >
                             <c:if test="${p.betNum eq '组三'}">
-                            <th><span>后三组选包胆(组六)</span></th>
+                            <th><span>后三组选包胆(组三)</span></th>
                             <td>
                                 <div class="input-group content-width-limit-10">
                                     <c:set var="odd" value="${p}"/>
