@@ -445,7 +445,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row" class="text-center active">安全问题</th>
+                                        <th scope="row" class="text-center active">${views.player_auto['安全问题']}</th>
                                         <td colspan="3">
                                             <c:if test="${empty saferQuestion.result.question1}">
                                                 <span class="co-grayc2">${views.player_auto['未填写']}</span>
