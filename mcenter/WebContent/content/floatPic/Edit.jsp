@@ -373,8 +373,8 @@
                         <label class="ft-bold col-sm-3 al-right"><span class="co-red m-r-sm">*</span>${views.column['CttFloatPic.showEffect']}</label>
                         <div class="col-sm-5">
                             <div>
-                                <input type="radio" class="i-checks" name="result.showEffect" value="true" ${command.result.showEffect==true || empty command.result.showEffect ? 'checked' : ''}>${views.column['CttFloatPic.showEffect.hidden']}
-                                <input type="radio" class="i-checks" name="result.showEffect" value="false" ${command.result.showEffect==false ? 'checked' : ''}>${views.column['CttFloatPic.showEffect.show.after.refresh']}
+                                <input type="radio" class="i-checks" name="result.showEffect" value="false" ${command.result.showEffect==true || empty command.result.showEffect ? 'checked' : ''}>${views.column['CttFloatPic.showEffect.hidden']}
+                                <input type="radio" class="i-checks" name="result.showEffect" value="true" ${command.result.showEffect==false ? 'checked' : ''}>${views.column['CttFloatPic.showEffect.show.after.refresh']}
                             </div>
                         </div>
                     </div>

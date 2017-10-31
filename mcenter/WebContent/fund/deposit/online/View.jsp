@@ -107,7 +107,7 @@
 								<%---只有满足无申请优惠且订单成功才能补优惠--%>
 								<c:if test="${r.rechargeStatus eq success && empty command.activityId}">
 									<shiro:hasPermission name="fund:artificial">
-										<a href="/fund/manual/index.html?transactionNo=${r.transactionNo}&username=${r.username}&hasReturn=true" nav-target="mainFrame" class="btn btn-filter p-x-sm m-l-sm">补优惠</a>
+										<a href="/fund/manual/index.html?transactionNo=${r.transactionNo}&username=${r.username}&hasReturn=true" nav-target="mainFrame" class="btn btn-filter p-x-sm m-l-sm">${views.fund_auto['补优惠']}</a>
 									</shiro:hasPermission>
 								</c:if>
 							</c:if>
@@ -183,7 +183,7 @@
 						</tr>
 						<tr>
 							<th scope="row" class="text-right">${views.fund['审核人：']}</th>
-							<td>${empty r.checkUsername ? "系统自动" : r.checkUsername}</td>
+							<td>${empty r.checkUsername ? views.fund_auto['系统自动'] : r.checkUsername}</td>
 						</tr>
 					</c:if>
 					<c:if test="${rs eq overTime}">
