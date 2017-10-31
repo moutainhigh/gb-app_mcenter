@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.content.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.collections.Predicate;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionTool;
@@ -47,12 +48,15 @@ import so.wwb.gamebox.model.listop.FilterRow;
 import so.wwb.gamebox.model.listop.FilterSelectConstant;
 import so.wwb.gamebox.model.listop.TabTypeEnum;
 import so.wwb.gamebox.model.master.content.enums.PayAccountStatusEnum;
+import so.wwb.gamebox.model.master.content.po.PayAccount;
 import so.wwb.gamebox.model.master.content.po.VPayAccount;
 import so.wwb.gamebox.model.master.content.po.VPayAccountCashOrder;
 import so.wwb.gamebox.model.master.content.vo.PayAccountCurrencyListVo;
+import so.wwb.gamebox.model.master.content.vo.PayAccountListVo;
 import so.wwb.gamebox.model.master.content.vo.VPayAccountListVo;
 import so.wwb.gamebox.model.master.content.vo.VPayAccountVo;
 import so.wwb.gamebox.model.master.enums.PayAccountAccountType;
+import so.wwb.gamebox.model.master.enums.PayAccountType;
 import so.wwb.gamebox.model.master.enums.SiteLangStatusEnum;
 import so.wwb.gamebox.model.master.player.po.PayRank;
 import so.wwb.gamebox.model.master.player.po.PlayerRank;
@@ -118,7 +122,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         listVo.setPlayerRanks(playerRanks);
         Map<String, Serializable> status = DictTool.get(DictEnum.PAY_ACCOUNT_STATUS);
         status.remove(PayAccountStatusEnum.DELETED.getCode());
-       // Map<String, Bank> filterDeposit = Cache.getBank();
+        // Map<String, Bank> filterDeposit = Cache.getBank();
         model.addAttribute("statusMap", status);
         //model.addAttribute("filterDeposit", filterDeposit.values());
         return this.getService().search(listVo);
@@ -187,11 +191,11 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
     }
 
     private VPayAccountVo buildChannelJson(VPayAccountVo objectVo) {
-        String jsonString=objectVo.getResult().getChannelJson();
+        String jsonString = objectVo.getResult().getChannelJson();
         // 解决比特币和其他支付账户channelJson格式不一致问题
-        if(StringTool.isNotBlank(jsonString) && !objectVo.getResult().getChannelJson().startsWith("[")){
+        if (StringTool.isNotBlank(jsonString) && !objectVo.getResult().getChannelJson().startsWith("[")) {
             return objectVo;
-        }else{
+        } else {
             List<Map<String, String>> channelJson = JsonTool.fromJson(jsonString, List.class);
             if (channelJson != null) {
                 for (Map<String, String> map : channelJson) {
@@ -302,7 +306,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
     @ResponseBody
     public Map resetHide(VPayAccountListVo vPayAccountListVo, @FormModel("result") @Valid VPayAccountHideSettingForm form, BindingResult result, SysParamVo sysParamVo) {
         if (result.hasErrors()) {
-            Map map = new HashMap(2,1f);
+            Map map = new HashMap(2, 1f);
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             map.put("state", false);
             return map;
@@ -397,6 +401,63 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         SessionManager.setAttribute(Const.sessionRemindKey, YesNot.YES.getCode());
     }
 
+    /**
+     * 公司入款金流顺序
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/companySort")
+    public String companySort(Model model) {
+        List<PlayerRank> ranks = ServiceTool.playerRankService().searchCompanyAccountRank(new PlayerRankVo());
+        model.addAttribute("ranks", ranks);
+        if (CollectionTool.isNotEmpty(ranks)) {
+            companyAccountByRank(model, ranks.get(0).getId());
+        }
+        return getViewBasePath() + "/company/Sort";
+    }
+
+    @RequestMapping("/companyAccountByRank")
+    public String companyAccountByRank(Model model, Integer rankId) {
+        PayAccountListVo payAccountListVo = new PayAccountListVo();
+        payAccountListVo.setRankId(rankId);
+        payAccountListVo.getSearch().setType(PayAccountType.COMPANY_ACCOUNT.getCode());
+        List<VPayAccountCashOrder> payAccounts = ServiceTool.payAccountService().queryAccountByRank(payAccountListVo);
+        Map<String, List<VPayAccountCashOrder>> payAccountMap = CollectionTool.groupByProperty(payAccounts, PayAccount.PROP_ACCOUNT_TYPE, String.class);
+        model.addAttribute("bankAccounts", payAccountMap.get(PayAccountAccountType.BANKACCOUNT.getCode()));
+        model.addAttribute("thirdAccounts", payAccountMap.get(PayAccountAccountType.THIRTY.getCode()));
+        model.addAttribute("rankId", rankId);
+        return getViewBasePath() + "/company/SortPartial";
+    }
+
+    @RequestMapping("/saveCompanySort")
+    @ResponseBody
+    public boolean saveCompanySort(String payRankJson) {
+        if (StringTool.isBlank(payRankJson)) {
+            return false;
+        }
+        PayRankListVo payRankListVo = new PayRankListVo();
+        try {
+            List<PayRank> list = JsonTool.fromJson(payRankJson, new TypeReference<ArrayList<PayRank>>() {
+            });
+            payRankListVo.setResult(list);
+        } catch (Exception e) {
+            return false;
+        }
+        if (CollectionTool.isEmpty(payRankListVo.getResult())) {
+            return true;
+        }
+        Date date = new Date();
+        for(PayRank payRank:payRankListVo.getResult()) {
+            payRank.setCreateTime(date);
+            payRank.setCreateUser(SessionManager.getUserId());
+        }
+        int count = ServiceTool.payRankService().batchSaveOrUpdatePayRank(payRankListVo);
+        if (count > 0) {
+            return true;
+        }
+        return false;
+    }
     //endregion your codes 3
 
 }
