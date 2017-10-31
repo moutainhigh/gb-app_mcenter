@@ -11,6 +11,7 @@
             <th width="60">${views.content['float.orderNum']}</th>
             <th>${views.column['CttFloatPic.title']}</th>
             <th>${views.column['CttFloatPic.preview']}</th>
+            <th>${views.column['CttFloatPic.type']}</th>
             <th>
                 <select id="float_pic_language_select" data-placeholder="${views.column['CttFloatPic.allLanguage']}" name="search.language" class="btn-group chosen-select-no-single btn-us" callback="query">
                     <option value="">${views.column['CttFloatPic.allLanguage']}</option>
@@ -58,6 +59,7 @@
                         </c:forEach>
                     </c:if>--%>
                 </td>
+                <td>${dicts.setting.float_pic_type[p.picType]}</td>
                 <td>${views.common[p.language]}</td>
                 <td>
                     <c:forEach items="${fn:split(p.displayInPages, ',')}" var="v" varStatus="list">

@@ -62,7 +62,7 @@
                 <div id="gfwfqh">
                     <div id="wfqh-btn" class="wfqh-btn" style="display: none">
                         <a id="jdwf" class="active">信用玩法</a>
-                        <a id="gfwf" nav-target="mainFrame">官方玩法</a>
+                        <a id="gfwf" >官方玩法</a>
                     </div>
                     <div id="lot_two_menu">
                     </div>

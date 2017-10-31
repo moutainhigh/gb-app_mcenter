@@ -97,15 +97,6 @@
                         </div>
                     </div>
 
-                    <%--<div class="form-group clearfix m-b-sm col-lg-6">
-                        <label class="col-sm-3 al-right line-hi34 ft-bold"><span class="co-red m-r-sm">*</span>${views.column['VUserAgentManage.yffsfa']} :</label>
-                        <div class="col-sm-8">
-                            <div  class="input-group date">
-                                <gb:select name="userAgentRakeback.rakebackId" ajaxListPath="${root}/userAgent/getProgram.html?search.userId=${map.parent_id}&search.type=rakeback" value="${rakeback.programId}" listKey="programId" listValue="name" cssClass="btn-primary"/>
-                                <span tabindex="0" class=" help-popover input-group-addon" role="button" data-container="body" data-toggle="popover"  data-trigger="focus" data-placement="top" data-html="true"  data-content="${views.role['agent.check.rakeback_remark1']}；<br>${views.role['agent.check.rakeback_remark2']}；<br><a href='/setting/vRakebackSet/list.html' nav-target='mainFrame'>${views.role['agent.check.rakeback_set']}</a>"><i class="fa fa-question-circle"></i></span></div>
-                        </div>
-                    </div>--%>
-
                     <div class="form-group clearfix m-b-sm col-lg-6">
                         <label class="col-sm-3 al-right line-hi34 ft-bold"><span class="co-red m-r-sm">*</span>${views.column['UserAgent.playerRankId']} :</label>
                         <div class="col-sm-8">
@@ -115,7 +106,6 @@
                         </div>
                     </div>
                     <input type="hidden" name="userAgentRebate.id" value="${rebate.id}">
-                    <input type="hidden" name="userAgentRakeback.id" value="${rakeback.id}">
                     <input type="hidden" name="result.id" value="${map.id}">
                     <input type="hidden" id="freeze_status" value="${map.freeze_status}">
                     <input type="hidden" id="nextCheckAgentId" value="${nextCheckAgentId}">

@@ -116,7 +116,7 @@
                                 </td>
                             </c:if>
                             <c:if test="${p.betNum eq '组六'}">
-                                <th><span>三星组选和值(组六)</span></th>
+                                <th><span>三星混合组选(组六)</span></th>
                                 <td>
                                     <div class="input-group content-width-limit-10">
                                         <c:set var="odd" value="${p}"/>
