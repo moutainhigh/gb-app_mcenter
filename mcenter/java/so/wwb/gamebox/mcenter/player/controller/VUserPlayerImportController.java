@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
+import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,9 @@ import so.wwb.gamebox.mcenter.player.form.VUserPlayerImportForm;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerImportSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.ParamEnum;
+import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.company.sys.po.SysSite;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.master.player.po.VUserPlayerImport;
@@ -42,6 +46,8 @@ public class VUserPlayerImportController extends BaseCrudController<IVUserPlayer
     protected VUserPlayerImportListVo doList(VUserPlayerImportListVo listVo, VUserPlayerImportSearchForm form, BindingResult result, Model model) {
         listVo = super.doList(listVo, form, result, model);
         findEnableImportPlayerParam(model);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_NAME_VERIFICATION);
+        model.addAttribute("nameVerification",sysParam.getParamValue());
         model.addAttribute("webtype", "3");
         return listVo;
     }
