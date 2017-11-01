@@ -327,6 +327,16 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
         model.addAttribute("floatPicDisplayInMaps", displayInMaps);
     }
 
+    @RequestMapping("/isExitPromo")
+    @ResponseBody
+    public Map isExitPromo(Model model, CttFloatPicVo cttFloatPicVo){
+        Map map = new HashMap(2, 1f);
+        cttFloatPicVo.getSearch().setStatus(true);
+        boolean b = this.getService().isExitPromo(cttFloatPicVo);
+        map.put("isExitPromo", b);
+        return map;
+    }
+
     //endregion your codes 3
 
 }

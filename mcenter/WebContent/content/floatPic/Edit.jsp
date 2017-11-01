@@ -178,20 +178,20 @@
                                     <%-- 新增bykobefor优惠浮动图单图模式 --%>
                                 <ul class="tempstyle clearfix ${command.result.picType=='2' ? '' : 'hide'}" id="singleMode_promo_pic">
                                     <li>
-                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-red.png")}" data-image=""
-                                             alt="${command.result.title}" class="singleModeTemplateImageType">
+                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-first.png")}" data-image=""
+                                             alt="${command.result.title}" class="singleModeTemplateImageType" style="max-width: 160px">
                                             <%--<img src="${resRoot}/images/floatpic/panel-red.png" class="singleModeTemplateImageType">--%>
                                         <input type="radio" name="templateType" class="i-checks" value="7" ${command.result.tempId==7 ?"checked":""}>
                                     </li>
                                     <li>
-                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-gold.png")}"
-                                             alt="${command.result.title}" class="singleModeTemplateImageType">
+                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-second.png")}"
+                                             alt="${command.result.title}" class="singleModeTemplateImageType" style="max-width: 160px">
                                             <%--<img src="${resRoot}/images/floatpic/panel-gold.png" class="singleModeTemplateImageType">--%>
                                         <input type="radio" name="templateType" class="i-checks" value="8" ${command.result.tempId==8?"checked":""}>
                                     </li>
                                     <li>
-                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-green.png")}"
-                                             alt="${command.result.title}" class="singleModeTemplateImageType">
+                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-third.png")}"
+                                             alt="${command.result.title}" class="singleModeTemplateImageType" style="max-width: 160px">
                                             <%--<img src="${resRoot}/images/floatpic/panel-green.png" class="singleModeTemplateImageType">--%>
                                         <input type="radio" name="templateType" class="i-checks" value="9" ${command.result.tempId==9?"checked":""}>
                                     </li>
@@ -201,7 +201,7 @@
                         </div>
                     </div>
                                 <%-- 单图模式的链接 --%>
-                    <div class="form-group clearfix ${command.result.singleMode==false?'hide':''}" id="content_float_pic_single_link_div">
+                    <div class="form-group clearfix ${command.result.singleMode==false || command.result.picType=='2'?'hide':''}" id="content_float_pic_single_link_div">
                         <label class="ft-bold col-sm-3 al-right line-hi34">${views.column['CttFloatPic.image.link']}</label>
                         <div class="col-sm-5">
                             <div class="input-group date">
