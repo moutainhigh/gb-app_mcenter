@@ -19,8 +19,9 @@
                 <div class="present_wrap"><b>${views.content['payAccount.cash.order']}</b></div>
                 <div class="line-hi34 col-sm-12 bg-gray m-b">
                     <input type="checkbox" name="openMoreAccount" value="true"/>是否开启多个账号
-                    <span class="co-yellow m-r-sm"><i class="fa fa-exclamation-circle"></i></span>
-                    如果开启将在前台展示全部已使用账户
+                    <span tabindex="0" class="m-l m-r help-popover" role="button" data-container="body" data-toggle="popover"  data-trigger="focus" data-placement="right" data-content="如果开启将在前台展示全部已使用账户">
+                        <i class="fa fa-question-circle"></i>
+                    </span>
                 </div>
                 <div class="select-level clearfix">
                     <c:forEach items="${ranks}" var="i" varStatus="status">
