@@ -264,12 +264,12 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
                 LOG.info("查询查询不到对应的站点赔率,id{0},odd{1}", odd.getId(), odd.getOdd());
                 return false;
             }
-            if (odd.getOdd() < 0 || odd.getOdd() > lotteryOdd.getOddLimit()) {
+            if (odd.getOdd()!=null && (odd.getOdd() < 0 || odd.getOdd() > lotteryOdd.getOddLimit())) {
                 LOG.info("设置赔率格式不正确,odd:{0},上限{1}", odd.getOdd(), lotteryOdd.getOddLimit());
                 return false;
             }
 
-            if (lotteryOdd.getRebate() != null) {
+            if (odd.getRebate()!=null &&lotteryOdd.getRebate() != null && lotteryOdd.getRebateLimit() !=null) {
                 if (odd.getRebate() < 0 || odd.getRebate() > lotteryOdd.getRebateLimit()) {
                     LOG.info("设置返点比例格式不正确,odd:{0},上限{1}", odd.getRebate(), lotteryOdd.getRebateLimit());
                     return false;

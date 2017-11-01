@@ -60,11 +60,21 @@
                     </td>
                     <td>
                         <div style="width: 150px;overflow-x: hidden" id="gamenames">
-                            <c:if test="${fn:length(fn:split(p.gameids, ',')) > 0}">
-                                <c:forEach items="${fn:split(p.gameids, ',')}" var="id" varStatus="vs">
-                                    ${gbFn:getGameName(id)}<c:if test="${fn:length(fn:split(p.gameids, ',')) != vs.index+1}">，</c:if>
-                                </c:forEach>
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${p.gameids ne null}">
+                                    <c:if test="${fn:length(fn:split(p.gameids, ',')) > 0}">
+                                        <c:forEach items="${fn:split(p.gameids, ',')}" var="id" varStatus="vs">
+                                            ${gbFn:getGameName(id)}<c:if test="${fn:length(fn:split(p.gameids, ',')) != vs.index+1}">，</c:if>
+                                        </c:forEach>
+                                    </c:if>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach items="${fn:split(p.apiids, ',')}" var="id" varStatus="vs">
+                                        ${gbFn:getApiName(id)}<c:if test="${fn:length(fn:split(p.apiids, ',')) != vs.index+1}">，</c:if>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
+
                         </div>
                     </td>
                     <%--<td>${soulFn:formatDateTz(p.lastActiveTime, DateFormat.DAY_SECOND,timeZone)}</td>--%>

@@ -6,6 +6,7 @@
 <style>
     .btnleft {
         margin-left: 20px;
+        margin-right: 150px;
     }
 </style>
 <!--//endregion your codes 1-->
@@ -31,7 +32,7 @@
                 </div>
                 <!--筛选条件-->
                 <div class="filter-wraper clearfix m-t-sm p-xs">
-                    <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                    <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm" style="width: 220px">
                         <div class="input-group">
                             <span class="input-group-addon bg-gray">年</span>
                             <span class=" input-group-addon bdn  right-btn-down">
@@ -58,7 +59,7 @@
                         </span>
                         </div>
                     </div>
-                    <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                    <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm" style="width: 220px">
                         <div class="input-group">
                             <span class="input-group-addon bg-gray">月</span>
                             <span class=" input-group-addon bdn  right-btn-down">
@@ -82,8 +83,8 @@
                         </span>
                         </div>
                     </div>
-                    <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
-                        <div class="input-group">
+                    <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm" style="width:350px">
+                        <div class="input-group" >
                             <span class="input-group-addon bg-gray">彩种选择</span>
                             <span class=" input-group-addon bdn right-btn-down">
                             <div class="btn-group table-desc-right-t-dropdown" initprompt="10条" callback="query">
@@ -142,6 +143,10 @@
                     <soul:button target="query" text="" opType="function"
                                  cssClass="btn btn-filter pull-left search_btn btnleft"><i
                             class="fa fa-search"></i>&nbsp;搜索</soul:button>
+                    <div style="margin-top: 9px">
+                        <span class="co-yellow"><i class="fa fa-exclamation-circle"></i></span>
+                        本功能只统计已结算注单。
+                    </div>
                 </div>
                 <div class="p-sm">
                     <b>总注单量：</b><span class="co-red3" id="betCount">0</span>
