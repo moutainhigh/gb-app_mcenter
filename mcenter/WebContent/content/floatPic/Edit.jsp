@@ -201,7 +201,7 @@
                         </div>
                     </div>
                                 <%-- 单图模式的链接 --%>
-                    <div class="form-group clearfix ${command.result.singleMode==false?'hide':''}" id="content_float_pic_single_link_div">
+                    <div class="form-group clearfix ${command.result.singleMode==false || command.result.picType=='2'?'hide':''}" id="content_float_pic_single_link_div">
                         <label class="ft-bold col-sm-3 al-right line-hi34">${views.column['CttFloatPic.image.link']}</label>
                         <div class="col-sm-5">
                             <div class="input-group date">
