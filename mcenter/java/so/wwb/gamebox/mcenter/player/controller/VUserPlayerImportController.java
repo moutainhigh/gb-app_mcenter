@@ -1,17 +1,18 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
 import org.soul.model.sys.po.SysParam;
+import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerImportService;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerImportForm;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerImportSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
-import so.wwb.gamebox.model.ParamEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.company.sys.po.SysSite;
@@ -19,6 +20,8 @@ import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.master.player.po.VUserPlayerImport;
 import so.wwb.gamebox.model.master.player.vo.VUserPlayerImportListVo;
 import so.wwb.gamebox.model.master.player.vo.VUserPlayerImportVo;
+
+import java.util.Map;
 
 
 /**
@@ -66,6 +69,19 @@ public class VUserPlayerImportController extends BaseCrudController<IVUserPlayer
             model.addAttribute("isEnableImport","1");
             model.addAttribute("endImportTime",sysSite.getImportPlayersTime());
         }
+    }
+
+    @RequestMapping("/changeStatus")
+    @ResponseBody
+    public Map changeStatus(VUserPlayerImportListVo vUserPlayerImportListVo){
+        SysParamVo sysParamVo=new SysParamVo();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_NAME_VERIFICATION);
+        sysParam.setParamValue(vUserPlayerImportListVo.getNameVerification());
+        sysParamVo.setResult(sysParam);
+        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+        SysParamVo paramVo = ServiceTool.siteSysParamService().updateOnly(sysParamVo);
+        ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_NAME_VERIFICATION);
+        return getVoMessage(paramVo);
     }
     //endregion your codes 3
 
