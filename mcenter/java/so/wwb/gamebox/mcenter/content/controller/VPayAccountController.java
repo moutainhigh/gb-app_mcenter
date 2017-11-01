@@ -414,6 +414,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         if (CollectionTool.isNotEmpty(ranks)) {
             companyAccountByRank(model, ranks.get(0).getId());
         }
+        model.addAttribute("openAccounts", ParamTool.getSysParam(SiteParamEnum.CONTENT_PAY_ACCOUNT_OPEN_ACCOUNTS));
         return getViewBasePath() + "/company/Sort";
     }
 
@@ -472,14 +473,30 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         return false;
     }
 
-    @RequestMapping("saveOpenAccounts")
+    /**
+     * 变更公司入款是否展示多个账户
+     *
+     * @return
+     */
+    @RequestMapping("changeOpenAccounts")
     @ResponseBody
-    public boolean saveOpenAccounts(String paramValue) {
+    public boolean saveOpenAccounts() {
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.CONTENT_PAY_ACCOUNT_OPEN_ACCOUNTS);
         if (sysParam == null) {
             return false;
         }
-
+        Boolean value = Boolean.valueOf(sysParam.getParamValue());
+        if (value == null || value) {
+            value = false;
+        } else {
+            value = true;
+        }
+        sysParam.setParamValue(String.valueOf(value));
+        SysParamVo sysParamVo = new SysParamVo();
+        sysParamVo.setResult(sysParam);
+        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+        ServiceTool.siteSysParamService().updateOnly(sysParamVo);
+        ParamTool.refresh(SiteParamEnum.CONTENT_PAY_ACCOUNT_OPEN_ACCOUNTS);
         return true;
     }
     //endregion your codes 3
