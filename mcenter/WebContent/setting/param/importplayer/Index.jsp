@@ -15,12 +15,12 @@
                         <soul:button tag="button" text="${views.setting['userplayerImport.importProcess']}" target="showImportIntroduce" opType="function" cssClass="btn btn-filter btn-outline btn_introduce"></soul:button>
                     </div>
                         <%--${fn:replace(fn:replace(fn:replace(views.setting['userplayerImport.introduceContent'],"#{endTime}" ,soulFn:formatDateTz(endImportTime, DateFormat.DAY_SECOND,timeZone)),"#{downloadUrl}",resRoot.concat("/template/user_player_template_zh_CN.xlsx")),"#{toImportUrl}","/userPlayerImport/playerImport.html")}--%>
-                    <div class="clearfix line-hi34 p-sm import_list" id="introduce-div">
+                    <div class="clearfix line-hi34 p-sm" id="introduce-div">
                         <dd class="m-b-sm">1、${views.setting_auto['您可通过该功能将你其他站点的玩家资料导入到本站点；']}</dd>
                         <dd class="m-b-sm">2、${views.setting_auto['导入后，即可将原站点域名解析到本站点；']}</dd>
                         <dd class="m-b-sm">3、${views.setting_auto['原站点玩家登录时需要进行验证，验证通过后即可正常使用；']}</dd>
                     </div>
-                    <div class="clearfix line-hi34 p-sm import_introduce hide" id="process-div">
+                    <div class="clearfix line-hi34 p-sm hide" id="process-div">
                         <dd class="m-b-sm">1、${views.setting_auto['建议可先在原站点发布升级维护公告，公告内容大概如下：']}
                             <div class="m-t-sm m-l-md">
                                 <div class="gray-chunk clearfix">
