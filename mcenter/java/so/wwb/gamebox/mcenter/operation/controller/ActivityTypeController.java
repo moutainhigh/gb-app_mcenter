@@ -286,6 +286,18 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
         model.addAttribute("activityMessageVo", activityMessageVo);
         model.addAttribute("validateRule", JsRuleCreator.create(ActivityContentStepForm.class));
 
+        CttFloatPicVo cttFloatPicVo=new CttFloatPicVo();
+        cttFloatPicVo.getSearch().setPicType("2");
+        cttFloatPicVo.getSearch().setStatus(true);
+        List<CttFloatPic> cttFloatPics = ServiceTool.cttFloatPicService().isExistAgent(cttFloatPicVo);
+        String isExist = "true";
+        if (CollectionTool.isNotEmpty(cttFloatPics) && cttFloatPics.size() > 0) {
+            isExist = "false";
+            Integer id = cttFloatPics.get(0).getId();
+            model.addAttribute("id", id);
+        }
+        model.addAttribute("isPicType",isExist);
+
         return OPERATION_ACTIVITY_STEP;
     }
 
