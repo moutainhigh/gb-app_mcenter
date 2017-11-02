@@ -414,9 +414,17 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         if (CollectionTool.isNotEmpty(ranks)) {
             companyAccountByRank(model, ranks.get(0).getId());
         }
+        model.addAttribute("openAccounts", ParamTool.getSysParam(SiteParamEnum.CONTENT_PAY_ACCOUNT_OPEN_ACCOUNTS));
         return getViewBasePath() + "/company/Sort";
     }
 
+    /**
+     * 根据层级获取收款账户
+     *
+     * @param model
+     * @param rankId
+     * @return
+     */
     @RequestMapping("/companyAccountByRank")
     public String companyAccountByRank(Model model, Integer rankId) {
         PayAccountListVo payAccountListVo = new PayAccountListVo();
@@ -430,6 +438,12 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         return getViewBasePath() + "/company/SortPartial";
     }
 
+    /**
+     * 保存公司入款收款账号金流顺序
+     *
+     * @param payRankJson
+     * @return
+     */
     @RequestMapping("/saveCompanySort")
     @ResponseBody
     public boolean saveCompanySort(String payRankJson) {
@@ -448,7 +462,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
             return true;
         }
         Date date = new Date();
-        for(PayRank payRank:payRankListVo.getResult()) {
+        for (PayRank payRank : payRankListVo.getResult()) {
             payRank.setCreateTime(date);
             payRank.setCreateUser(SessionManager.getUserId());
         }
@@ -457,6 +471,33 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
             return true;
         }
         return false;
+    }
+
+    /**
+     * 变更公司入款是否展示多个账户
+     *
+     * @return
+     */
+    @RequestMapping("changeOpenAccounts")
+    @ResponseBody
+    public boolean saveOpenAccounts() {
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.CONTENT_PAY_ACCOUNT_OPEN_ACCOUNTS);
+        if (sysParam == null) {
+            return false;
+        }
+        Boolean value = Boolean.valueOf(sysParam.getParamValue());
+        if (value == null || value) {
+            value = false;
+        } else {
+            value = true;
+        }
+        sysParam.setParamValue(String.valueOf(value));
+        SysParamVo sysParamVo = new SysParamVo();
+        sysParamVo.setResult(sysParam);
+        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+        ServiceTool.siteSysParamService().updateOnly(sysParamVo);
+        ParamTool.refresh(SiteParamEnum.CONTENT_PAY_ACCOUNT_OPEN_ACCOUNTS);
+        return true;
     }
     //endregion your codes 3
 
