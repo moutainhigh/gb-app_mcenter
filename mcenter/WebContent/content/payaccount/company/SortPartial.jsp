@@ -21,6 +21,7 @@
                     <span>${dicts.common.bankname[i.bankCode]}</span>
                 </td>
                 <td  width="80" style="text-align: left">${i.accountName}</td>
+                <td  width="80" style="text-align: left">${empty i.aliasName?'--':i.aliasName}</td>
                 <td class="co-yellow"  width="250" style="text-align: left">${i.account}</td>
                 <td  width="180" style="text-align: left">${views.column['VPayAccount.disableAmount']}：${soulFn:formatCurrency(i.disableAmount)}</td>
                 <td  width="80">
@@ -66,6 +67,7 @@
                 </td>
 
                 <td  width="80" style="text-align: left">${i.accountName}</td>
+                <td  width="80" style="text-align: left">${empty i.aliasName?'--':i.aliasName}</td>
                 <td class="co-yellow"  width="250" style="text-align: left">${i.account}</td>
                 <td  width="180" style="text-align: left">${views.column['VPayAccount.disableAmount']}：<fmt:formatNumber value="${empty order.disableAmount?0:order.disableAmount}" pattern="#,####.##"/></td>
                 <td  width="80">
