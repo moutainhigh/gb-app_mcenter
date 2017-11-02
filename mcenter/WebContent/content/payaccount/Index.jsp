@@ -44,7 +44,6 @@
                                 </span>--%>
                                 <a nav-target="mainFrame" href="/param/basicSettingIndex.html" style="display: none">
                                 </a>
-                                <a nav-target="mainFrame" class="btn btn-primary-hide" href="/vPayAccount/companySort.html">金流顺序</a>
                             </c:if>
                             <soul:button target="${root}/cttAnnouncement/addAnnouncement.html?announcementType=2" title="${views.content_auto['公告']}" tag="button" opType="dialog"
                                          text="${views.common['create']}" cssClass="btn btn-primary-hide">
