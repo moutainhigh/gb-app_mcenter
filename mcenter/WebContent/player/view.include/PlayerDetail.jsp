@@ -117,15 +117,15 @@
                                     ${soulFn:formatInteger(command.result.totalAssets)}${soulFn:formatDecimals(command.result.totalAssets)}
                                 </span>
                             </div>
-                            <c:if test="${!isLotterySite}">
                             <span class="" style="padding-left: 10px">${views.player_auto['钱包余额']}</span>
+                            <span class=" fs20 co-orange">
+                                ${dicts.common.currency_symbol[command.result.defaultCurrency]}
+                            </span>
+                            <span class=" fs20 co-orange" id="wallet-balance">
+                                ${soulFn:formatInteger(command.result.walletBalance)}${soulFn:formatDecimals(command.result.walletBalance)}
+                            </span>
+                            <c:if test="${!isLotterySite}">
                             <div class="content">
-                                <span class=" fs20 co-orange">
-                                        ${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                                </span>
-                                <span class=" fs20 co-orange" id="wallet-balance">
-                                        ${soulFn:formatInteger(command.result.walletBalance)}${soulFn:formatDecimals(command.result.walletBalance)}
-                                </span>
                                 </c:if>
                                 <shiro:hasPermission name="fund:artificial">
                                     <a href="/fund/manual/index.html?hasReturn=true&fromPlayerDetail=true&playerId=${command.result.id}&username=${command.result.username}" nav-target="mainFrame" class="btn btn-link co-blue">${views.player_auto['人工存入']}</a>
@@ -253,17 +253,6 @@
                                 <soul:button target="cancelEditPlayerRank" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
                             </div>
                         </li>
-
-
-
-
-
-
-
-
-
-
-
                         <li class="detail-list-cow detail-list-info">
                             <div class="content">
                                 ${views.player_auto['共返水']}
@@ -451,7 +440,7 @@
                                                 <span class="co-grayc2">${views.player_auto['未填写']}</span>
                                             </c:if>
                                             <c:if test="${not empty saferQuestion.result.question1}">
-                                                <span class="co-grayc2">${dicts.setting.master_question1[saferQuestion.result.question1]}</span>&nbsp;&nbsp;&nbsp;
+                                                <span class="co-grayc2">${dicts.setting.master_questions[saferQuestion.result.question1]}</span>&nbsp;&nbsp;&nbsp;
                                                 <span class="co-black">${saferQuestion.result.answer1}</span>
                                             </c:if>
                                         </td>
