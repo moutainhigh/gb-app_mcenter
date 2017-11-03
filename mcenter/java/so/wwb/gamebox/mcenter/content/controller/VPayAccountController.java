@@ -414,7 +414,6 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         if (CollectionTool.isNotEmpty(ranks)) {
             companyAccountByRank(model, ranks.get(0).getId());
         }
-        model.addAttribute("openAccounts", ParamTool.getSysParam(SiteParamEnum.CONTENT_PAY_ACCOUNT_OPEN_ACCOUNTS));
         return getViewBasePath() + "/company/Sort";
     }
 
@@ -435,6 +434,11 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         model.addAttribute("bankAccounts", payAccountMap.get(PayAccountAccountType.BANKACCOUNT.getCode()));
         model.addAttribute("thirdAccounts", payAccountMap.get(PayAccountAccountType.THIRTY.getCode()));
         model.addAttribute("rankId", rankId);
+        //查询层级获取是否展示多个账号
+        PlayerRankVo rankVo = new PlayerRankVo();
+        rankVo.getSearch().setId(rankId);
+        rankVo = ServiceTool.playerRankService().get(rankVo);
+        model.addAttribute("rank", rankVo.getResult());
         return getViewBasePath() + "/company/SortPartial";
     }
 
@@ -480,24 +484,18 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
      */
     @RequestMapping("changeOpenAccounts")
     @ResponseBody
-    public boolean saveOpenAccounts() {
-        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.CONTENT_PAY_ACCOUNT_OPEN_ACCOUNTS);
-        if (sysParam == null) {
+    public boolean saveOpenAccounts(Integer rankId, Boolean state) {
+        if (rankId == null || state == null) {
             return false;
         }
-        Boolean value = Boolean.valueOf(sysParam.getParamValue());
-        if (value == null || value) {
-            value = false;
-        } else {
-            value = true;
-        }
-        sysParam.setParamValue(String.valueOf(value));
-        SysParamVo sysParamVo = new SysParamVo();
-        sysParamVo.setResult(sysParam);
-        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-        ServiceTool.siteSysParamService().updateOnly(sysParamVo);
-        ParamTool.refresh(SiteParamEnum.CONTENT_PAY_ACCOUNT_OPEN_ACCOUNTS);
-        return true;
+        PlayerRankVo playerRankVo = new PlayerRankVo();
+        PlayerRank playerRank = new PlayerRank();
+        playerRank.setId(rankId);
+        playerRank.setDisplayCompanyAccount(state);
+        playerRankVo.setResult(playerRank);
+        playerRankVo.setProperties(PlayerRank.PROP_DISPLAY_COMPANY_ACCOUNT);
+        playerRankVo = ServiceTool.playerRankService().updateOnly(playerRankVo);
+        return playerRankVo.isSuccess();
     }
     //endregion your codes 3
 

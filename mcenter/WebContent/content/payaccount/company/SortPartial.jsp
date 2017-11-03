@@ -1,7 +1,15 @@
 <%--@elvariable id="bankAccounts" type="java.util.List<so.wwb.gamebox.model.master.content.po.VPayAccountCashOrder>"--%>
 <%--@elvariable id="thirdAccounts" type="java.util.List<so.wwb.gamebox.model.master.content.po.VPayAccountCashOrder>"--%>
+<%--@elvariable id="rank" type="so.wwb.gamebox.model.master.player.po.PlayerRank"--%>
+
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
+<div class="line-hi34 col-sm-12 bg-gray m-b">
+    <input type="checkbox" name="openMoreAccount" data-rank="${rank.id}" ${rank.displayCompanyAccount ?'checked':''} value="true"/>&nbsp;是否开启多个账号
+    <span tabindex="0" class="m-l m-r help-popover" role="button" data-container="body" data-toggle="popover"  data-trigger="focus" data-placement="right" data-content="如果开启将在前台展示全部已使用账户">
+        <i class="fa fa-question-circle"></i>
+    </span>
+</div>
 <div class="clearfix m-b limit_title_wrap">
     <h3 name="type" class="limit_title cur" data="bank">银行账户</h3>
     <h3 name="type" class="limit_title" data="third">第三方账户</h3>
