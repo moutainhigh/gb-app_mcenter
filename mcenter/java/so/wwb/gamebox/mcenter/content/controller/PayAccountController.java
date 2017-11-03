@@ -654,6 +654,12 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             accountType = PayAccountAccountType.WECHAT.getCode();
         } else if (bank != null && BankPayTypeEnum.QQWALLET.getCode().equals(bank.getPayType())) {
             accountType = PayAccountAccountType.QQWALLET.getCode();
+        } else if (bank != null && BankPayTypeEnum.JD_PAY.getCode().equals(bank.getPayType())) {
+            accountType = PayAccountAccountType.JD_PAY.getCode();
+        } else if (bank != null && BankPayTypeEnum.BAIFU_PAY.getCode().equals(bank.getPayType())) {
+            accountType = PayAccountAccountType.BAIFU_PAY.getCode();
+        } else if (bank != null && BankPayTypeEnum.ＵUNION_PAY.getCode().equals(bank.getPayType())) {
+            accountType = PayAccountAccountType.ＵUNION_PAY.getCode();
         }
         vo.getResult().setAccountType(accountType);
     }
