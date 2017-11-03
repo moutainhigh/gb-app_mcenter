@@ -91,6 +91,18 @@
                                 <c:if test="${rt eq 'alipay_fast'}">
                                     <c:set value="${views.fund_auto['支付宝账号']}" var="data"/>
                                 </c:if>
+                                <c:if test="${rt eq 'qqwallet_fast'}">
+                                    <c:set value="${views.fund_auto['QQ钱包账号']}" var="data"/>
+                                </c:if>
+                                <c:if test="${rt eq 'jdwallet_fast'}">
+                                    <c:set value="${views.fund_auto['京东钱包账号']}" var="data"/>
+                                </c:if>
+                                <c:if test="${rt eq 'bdwallet_fast'}">
+                                    <c:set value="${views.fund_auto['百度钱包账号']}" var="data"/>
+                                </c:if>
+                                <c:if test="${rt eq 'onecodepay_fast'}">
+                                    <c:set value="${views.fund_auto['一码付账号']}" var="data"/>
+                                </c:if>
                                 <c:if test="${rt eq 'other_fast'}">
                                     <c:set value="${views.fund_auto['其他电子账号']}" var="data"/>
                                 </c:if>
