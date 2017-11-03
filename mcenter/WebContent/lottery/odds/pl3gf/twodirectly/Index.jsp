@@ -80,18 +80,18 @@
                         <c:set var="odd" value="${command.pl3_erxing_zhixuan_heds}"/>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="hidden" value="${odd[0].id}" name="lotteryOdds[3].id">
-                                <input type="hidden" value="${odd[0].code}" name="lotteryOdds[3].code">
-                                <input type="hidden" value="${odd[0].betCode}" name="lotteryOdds[3].betCode">
-                                <input type="hidden" value="${odd[0].siteId}" name="lotteryOdds[3].siteId">
-                                <input type="hidden" value="${odd[0].betNum}" name="lotteryOdds[3].betNum">
-                                <input type="hidden" value="${odd[0].baseNum}" name="lotteryOdds[3].baseNum">
-                                <input type="text" class="form-control input-sm odd" placeholder="<=${odd[0].oddLimit}" name="lotteryOdds[3].odd" data-limit="${odd[0].oddLimit}" data-value="${odd[0].odd}" value="${odd[0].odd}">
+                                <input type="hidden" value="${odd[0].id}" name="lotteryOdds[4].id">
+                                <input type="hidden" value="${odd[0].code}" name="lotteryOdds[4].code">
+                                <input type="hidden" value="${odd[0].betCode}" name="lotteryOdds[4].betCode">
+                                <input type="hidden" value="${odd[0].siteId}" name="lotteryOdds[4].siteId">
+                                <input type="hidden" value="${odd[0].betNum}" name="lotteryOdds[4].betNum">
+                                <input type="hidden" value="${odd[0].baseNum}" name="lotteryOdds[4].baseNum">
+                                <input type="text" class="form-control input-sm odd" placeholder="<=${odd[0].oddLimit}" name="lotteryOdds[4].odd" data-limit="${odd[0].oddLimit}" data-value="${odd[0].odd}" value="${odd[0].odd}">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm rebate" placeholder="<=${odd[0].rebateLimit}" name="lotteryOdds[3].rebate" data-limit="${odd[0].rebateLimit}" data-value="${odd[0].rebate}" value="${odd[0].rebate}">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${odd[0].rebateLimit}" name="lotteryOdds[4].rebate" data-limit="${odd[0].rebateLimit}" data-value="${odd[0].rebate}" value="${odd[0].rebate}">
                             </div>
                         </td>
                     </tr>

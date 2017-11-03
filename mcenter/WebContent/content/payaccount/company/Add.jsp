@@ -245,25 +245,25 @@
                                 <span class="input-group-addon bdn">&nbsp;&nbsp;</span></div>
                         </div>
                     </div>
-                        <%--  <div class="form-group clearfix line-hi34">
-                              <label class="ft-bold col-sm-3 al-right line-hi34">自定义别名</label>
+                      <div class="form-group clearfix line-hi34">
+                          <label class="ft-bold col-sm-3 al-right line-hi34">自定义别名</label>
 
-                              <div class="col-sm-5">
-                                  <div class="input-group date">
-                                      <input name="result.aliasName" class="form-control" value="${command.result.aliasName}"/>
-                                      <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
-                                  </div>
+                          <div class="col-sm-5">
+                              <div class="input-group date">
+                                  <input name="result.aliasName" class="form-control" value="${command.result.aliasName}"/>
+                                  <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
                               </div>
                           </div>
-                          <div class="form-group clearfix line-hi34 ${empty command.result.accountType || command.result.accountType=='1'?'':'hide'}" id="supportAtmCounter-div">
-                              <label class="ft-bold col-sm-3 al-right line-hi34">柜员机/柜台存款开关</label>
+                      </div>
+                      <div class="form-group clearfix line-hi34 ${empty command.result.accountType || command.result.accountType=='1'?'':'hide'}" id="supportAtmCounter-div">
+                          <label class="ft-bold col-sm-3 al-right line-hi34">柜员机/柜台存款开关</label>
 
-                              <div class="col-sm-5">
-                                  <div class="input-group date">
-                                      <input type="checkbox" name="result.supportAtmCounter" value="true" data-size="mini" ${command.result.supportAtmCounter||empty command.result.supportAtmCounter?'checked':''}>
-                                      <span class="input-group-addon bdn">&nbsp;&nbsp;</span></div>
-                              </div>
-                          </div>--%>
+                          <div class="col-sm-5">
+                              <div class="input-group date">
+                                  <input type="checkbox" name="result.supportAtmCounter" value="true" data-size="mini" ${command.result.supportAtmCounter||empty command.result.supportAtmCounter?'checked':''}>
+                                  <span class="input-group-addon bdn">&nbsp;&nbsp;</span></div>
+                          </div>
+                      </div>
                         <%--<div class="form-group clearfix">--%>
                         <%--<label for="result.disableAmount" class="ft-bold col-sm-3 al-right line-hi34"><span class="co-red m-r-sm">*</span>${views.column['PayAccount.disableAmount']}${sessionSysUser.defaultCurrency}：</label>--%>
 
