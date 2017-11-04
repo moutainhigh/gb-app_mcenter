@@ -39,6 +39,7 @@ import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.MessageI18nConst;
+import so.wwb.gamebox.model.company.enums.BankCodeEnum;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceListVo;
@@ -430,9 +431,23 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         payAccountListVo.setRankId(rankId);
         payAccountListVo.getSearch().setType(PayAccountType.COMPANY_ACCOUNT.getCode());
         List<VPayAccountCashOrder> payAccounts = ServiceTool.payAccountService().queryAccountByRank(payAccountListVo);
-        Map<String, List<VPayAccountCashOrder>> payAccountMap = CollectionTool.groupByProperty(payAccounts, PayAccount.PROP_ACCOUNT_TYPE, String.class);
-        model.addAttribute("bankAccounts", payAccountMap.get(PayAccountAccountType.BANKACCOUNT.getCode()));
-        model.addAttribute("thirdAccounts", payAccountMap.get(PayAccountAccountType.THIRTY.getCode()));
+        List<VPayAccountCashOrder> bankAccounts = new ArrayList<>();
+        List<VPayAccountCashOrder> electronicAccounts = new ArrayList<>();
+        List<VPayAccountCashOrder> bitAccounts = new ArrayList<>();
+        String bank = PayAccountAccountType.BANKACCOUNT.getCode();
+        String bitcoin = BankCodeEnum.BITCOIN.getCode();
+        for (VPayAccountCashOrder cashOrder : payAccounts) {
+            if (bank.equals(cashOrder.getAccountType())) {
+                bankAccounts.add(cashOrder);
+            } else if (bitcoin.equals(cashOrder.getBankCode())) {
+                bitAccounts.add(cashOrder);
+            } else {
+                electronicAccounts.add(cashOrder);
+            }
+        }
+        model.addAttribute("bankAccounts", bankAccounts);
+        model.addAttribute("thirdAccounts", electronicAccounts);
+        model.addAttribute("bitAccounts", bitAccounts);
         model.addAttribute("rankId", rankId);
         //查询层级获取是否展示多个账号
         PlayerRankVo rankVo = new PlayerRankVo();
