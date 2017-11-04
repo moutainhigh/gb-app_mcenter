@@ -11,8 +11,8 @@
     </span>
 </div>
 <div class="clearfix m-b limit_title_wrap">
-    <h3 name="type" class="limit_title cur" data="bank">银行账户</h3>
-    <h3 name="type" class="limit_title" data="third">第三方账户</h3>
+    <h3 name="type" class="limit_title cur" data="bank">网银存款</h3>
+    <h3 name="type" class="limit_title" data="third">电子支付</h3>
 </div>
 <hr class="m-t m-b-sm">
 <%--银行账户--%>
