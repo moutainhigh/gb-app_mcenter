@@ -17,12 +17,7 @@
             <%@ include file="/include/include.inc.jsp" %>
             <div class="wrapper white-bg shadow clearfix">
                 <div class="present_wrap"><b>${views.content['payAccount.cash.order']}</b></div>
-                <div class="line-hi34 col-sm-12 bg-gray m-b">
-                    <input type="checkbox" name="openMoreAccount" ${!empty openAccounts && openAccounts.paramValue eq 'true'?'checked':''} value="true"/>&nbsp;是否开启多个账号
-                    <span tabindex="0" class="m-l m-r help-popover" role="button" data-container="body" data-toggle="popover"  data-trigger="focus" data-placement="right" data-content="如果开启将在前台展示全部已使用账户">
-                        <i class="fa fa-question-circle"></i>
-                    </span>
-                </div>
+
                 <div class="select-level clearfix">
                     <c:forEach items="${ranks}" var="i" varStatus="status">
                         <soul:button text="${i.rankName}" opType="function" url="${root}/vPayAccount/companyAccountByRank.html?rankId=${i.id}" target="rankAccount" cssClass="${i.payAccountNum>0?'':'disabled'} ${rankId eq i.id?'current':''}"/>
