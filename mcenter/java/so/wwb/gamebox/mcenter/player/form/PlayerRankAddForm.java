@@ -30,7 +30,7 @@ public class PlayerRankAddForm implements IForm {
 
     @NotBlank
     @Length(min = 1, max = 20)
-    @Remote(message = "player_auto.bankName.exist",checkMethod = "checkUserNameExist",checkClass = PlayerRankController.class)
+    @Remote(message = "player_auto.bankName.exist",checkMethod = "checkUserNameExist",checkClass = PlayerRankController.class,additionalProperties = "result.id")
     public String getResult_rankName() {
         return result_rankName;
     }
