@@ -659,7 +659,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         } else if (bank != null && BankPayTypeEnum.BAIFU_PAY.getCode().equals(bank.getPayType())) {
             accountType = PayAccountAccountType.BAIFU_PAY.getCode();
         } else if (bank != null && BankPayTypeEnum.ＵUNION_PAY.getCode().equals(bank.getPayType())) {
-            accountType = PayAccountAccountType.ＵUNION_PAY.getCode();
+            accountType = PayAccountAccountType.UNION_PAY.getCode();
         }
         vo.getResult().setAccountType(accountType);
     }
