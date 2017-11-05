@@ -96,6 +96,8 @@ public class PayAccountCompanyForm implements IForm {
     private String bitCoinChannelVo_apiKey;
     //api Secret
     private String bitCoinChannelVo_apiSecret;
+    /*别名*/
+    private String result_aliasName;
 
     @Depends(property = {"result_type"}, operator = {Operator.EQ}, value = {PayAccountType.COMMPANY_ACCOUNT_CODE})
     @Length(min = 2, max = 30)
@@ -234,6 +236,16 @@ public class PayAccountCompanyForm implements IForm {
     @Length(max = 500)
     public String getResult_remark() {
         return result_remark;
+    }
+
+    @Length(min = 1,max = 20)
+    @Remote(checkClass = PayAccountController.class, checkMethod = "checkAliasName", additionalProperties = {"result.id"}, message = "别名已存在")
+    public String getResult_aliasName() {
+        return result_aliasName;
+    }
+
+    public void setResult_aliasName(String result_aliasName) {
+        this.result_aliasName = result_aliasName;
     }
 
     public void setResult_remark(String result_remark) {
