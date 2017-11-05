@@ -424,9 +424,12 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
     }
     @RequestMapping(value = "/checkUserNameExist")
     @ResponseBody
-    public String checkUserNameExist(@RequestParam("result.rankName")String rankName) {
+    public String checkUserNameExist(@RequestParam("result.rankName")String rankName,@RequestParam("result.id")Integer rankId) {
         PlayerRankVo playerRankVo=new PlayerRankVo();
         playerRankVo.getSearch().setRankName(rankName);
+        if (rankId!=null){
+            playerRankVo.getSearch().setId(rankId);
+        }
         String existAgent = ServiceTool.playerRankService().isExistAgent(playerRankVo);
         return existAgent;
     }
