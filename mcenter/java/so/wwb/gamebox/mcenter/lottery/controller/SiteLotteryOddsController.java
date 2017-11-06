@@ -85,9 +85,12 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         if (betcodes.length > 1) {
             Map<String, List<SiteLotteryOdd>> siteLotteryOdds = searchLotteryOdd(code1, betcodes, oddVo);
             model.addAttribute("command", siteLotteryOdds);
+            LOG.error("玩法：{0},赔率查询结果{1}",code,JsonTool.toJson(siteLotteryOdds));
+
         } else {
             Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code1, betting, oddVo);
             model.addAttribute("command", siteLotteryOddMap);
+            LOG.error("玩法：{0},赔率查询结果{1}",code,JsonTool.toJson(siteLotteryOddMap));
         }
         model.addAttribute("betCode", betting);
         model.addAttribute("code", code);
@@ -138,9 +141,11 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         if (betcodes.length > 1) {
             Map<String, List<SiteLotteryOdd>> siteLotteryOdds = searchLotteryOdd(code1, betcodes, oddVo);
             model.addAttribute("command", siteLotteryOdds);
+            LOG.error("玩法：{0},赔率查询结果{1}",code,JsonTool.toJson(siteLotteryOdds));
         } else {
             Map<Object, SiteLotteryOdd> siteLotteryOddMap = searchLotteryOdd(code1, betCode, oddVo);
             model.addAttribute("command", siteLotteryOddMap);
+            LOG.error("玩法：{0},赔率查询结果{1}",code,JsonTool.toJson(siteLotteryOddMap));
         }
 
         model.addAttribute("betCode", betCode);
@@ -200,6 +205,8 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
     @RequestMapping(value = "/saveSiteLotteryOdds", method = RequestMethod.POST)
     @ResponseBody
     public Map saveSiteLotteryOdds(SiteLotteryOddVo siteLotteryOddVo) {
+        LOG.error("form传入的参数:{0}", siteLotteryOddVo!= null? JsonTool.toJson(siteLotteryOddVo):"");
+
         if (StringTool.isBlank(siteLotteryOddVo.getLotteryOddJson())) {
             return getVoMessage(siteLotteryOddVo);
         }
@@ -232,6 +239,7 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
             return getVoMessage(siteLotteryOddVo);
         }
         if (CollectionTool.isNotEmpty(updateOdds)) {
+            LOG.error("需要保存的修改的赔率：{0}",JsonTool.toJson(updateOdds));
             siteLotteryOddVo.setEntities(updateOdds);
             int count = ServiceTool.siteLotteryOddService().batchUpdateOnly(siteLotteryOddVo);
             LOG.info("保存站点彩票赔率成功,更新条数{0},更新赔率值{1}", count, JsonTool.toJson(updateOdds));
