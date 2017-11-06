@@ -652,7 +652,7 @@ public class MassInformationController {
         Integer siteId = SessionManager.getSiteId();
         if (MapTool.isNotEmpty(domainMap)) {
             for (VSysSiteDomain domain : domainMap.values()) {
-                if (siteId.intValue() == domain.getSiteId() && ResolveStatusEnum.SUCCESS.getCode().equals(domain.getResolveStatus()) && DomainPageUrlEnum.INDEX.getCode().equals(domain.getPageUrl()) && domain.getIsDefault()!=null && domain.getIsDefault()) {
+                if (siteId.intValue() == domain.getSiteId() && ResolveStatusEnum.SUCCESS.getCode().equals(domain.getResolveStatus()) && DomainPageUrlEnum.INDEX.getCode().equals(domain.getPageUrl()) && domain.getIsDeleted() != null && !domain.getIsDeleted() && domain.getAgentId()==null) {
                     if (domain.getSslEnabled()) {
                         webSite = "https://" + domain.getDomain();
                     } else {
