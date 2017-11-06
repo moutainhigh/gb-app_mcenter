@@ -227,7 +227,7 @@
                         </div>
                         <input type="hidden" name="result.isAcb" value="${command.result.isAcb}">
                         <div class="form-group clearfix line-hi34 bank-div" style="display: ${isBank&&isAcb?'':'none'}">
-                            <label for="" class="ft-bold col-sm-3 al-right line-hi34">${views.content_auto['自动上分']}：</label>
+                            <label class="ft-bold col-sm-3 al-right line-hi34">${views.content_auto['自动上分']}：</label>
                             <div class="col-sm-5">
                                 <div class="input-group date">
                                     <input id="isEnabled" name="my-checkbox" class="check-box"  data-size="mini" ${command.result.isAcb eq 'true'?'checked':''} value="true" type="checkbox"/>
@@ -246,11 +246,11 @@
                         </div>
                     </div>
                       <div class="form-group clearfix line-hi34">
-                          <label class="ft-bold col-sm-3 al-right line-hi34">自定义别名</label>
+                          <label class="ft-bold col-sm-3 al-right line-hi34" for="result.aliasName">自定义别名</label>
 
                           <div class="col-sm-5">
                               <div class="input-group date">
-                                  <input name="result.aliasName" class="form-control" value="${command.result.aliasName}"/>
+                                  <input name="result.aliasName" id="result.aliasName" class="form-control" value="${command.result.aliasName}"/>
                                   <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
                               </div>
                           </div>

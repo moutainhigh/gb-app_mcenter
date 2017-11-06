@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.lang.BooleanTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
@@ -354,7 +355,7 @@ public class PlayerFundsController extends BaseCrudController<IPlayerTransaction
         List<PlayerApi> playerApiByUser = getPlayerApiByUser(userId);
         if (playerApiByUser != null && playerApiByUser.size() > 0) {
             for (PlayerApi playerApi : playerApiByUser) {
-                if (playerApi.getTaskStatus() == true) {
+                if (BooleanTool.isTrue(playerApi.getTaskStatus())) {
                     flag = false;
                 }
             }
