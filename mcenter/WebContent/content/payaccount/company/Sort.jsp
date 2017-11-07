@@ -23,10 +23,6 @@
                         <soul:button text="${i.rankName}" opType="function" url="${root}/vPayAccount/companyAccountByRank.html?rankId=${i.id}" target="rankAccount" cssClass="${i.payAccountNum>0?'':'disabled'} ${rankId eq i.id?'current':''}"/>
                     </c:forEach>
                 </div>
-                <div class="line-hi34 col-sm-12 bg-gray m-b">
-                    <span class="co-yellow m-r-sm"><i class="fa fa-exclamation-circle"></i></span>
-                    ${views.content['payAccount.drag.tip']}
-                </div>
                 <div id="companySort">
                     <%@include file="SortPartial.jsp"%>
                 </div>
