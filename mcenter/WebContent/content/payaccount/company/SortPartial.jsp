@@ -12,6 +12,10 @@
         启用后，使用中的网银存款账号、电子支付账号和bitcoin账号将按渠道全部展示在前端。
     </span>
 </div>
+<div class="line-hi34 col-sm-12 bg-gray m-b">
+    <span class="co-yellow m-r-sm"><i class="fa fa-exclamation-circle"></i></span>
+    ${views.content['payAccount.drag.tip']}
+</div>
 <div class="clearfix m-b limit_title_wrap">
     <h3 name="type" class="limit_title cur" data="bank">网银存款</h3>
     <h3 name="type" class="limit_title" data="third">电子支付</h3>
