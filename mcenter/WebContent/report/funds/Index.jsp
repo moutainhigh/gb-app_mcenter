@@ -127,6 +127,22 @@
                                                         <span class="m-l-xs">${dicts.common.fund_type['digiccy_scan']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="onecodepay_fast">
+                                                        <span class="m-l-xs">${views.report_auto['一码付']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="qqwallet_fast">
+                                                        <span class="m-l-xs">${views.report_auto['QQ钱包']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="bdwallet_fast">
+                                                        <span class="m-l-xs">${views.report_auto['百度钱包']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="jdpay_scan">
+                                                        <span class="m-l-xs">${views.report_auto['京东钱包']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
                                                         <input type="checkbox" id="atm_money" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="atm_money">
                                                         <input type="hidden" value="atm_counter" />
                                                         <input type="hidden" value="atm_recharge" />
