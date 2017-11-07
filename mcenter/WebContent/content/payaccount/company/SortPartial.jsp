@@ -6,10 +6,9 @@
 <%@ include file="/include/include.inc.jsp" %>
 <div class="line-hi34 col-sm-12 bg-gray m-b">
     展示所有账户：
-    <input type="checkbox" name="openMoreAccount" data-rank="${rank.id}" ${rank.displayCompanyAccount ?'checked':''} value="true"/>&nbsp;是否开启多个账号
+    <input type="checkbox" name="openMoreAccount" data-rank="${rank.id}" ${rank.displayCompanyAccount ?'checked':''} value="true"/>&nbsp;启用后，使用中的网银存款账号、电子支付账号和bitcoin账号将按渠道全部展示在前端。
     <span tabindex="0" class="m-l m-r help-popover" role="button" data-container="body" data-toggle="popover"  data-trigger="focus" data-placement="right" data-content="启用后，使用中的网银存款账号、电子支付账号和bitcoin账号将按渠道全部展示在前端">
         <i class="fa fa-question-circle"></i>
-        启用后，使用中的网银存款账号、电子支付账号和bitcoin账号将按渠道全部展示在前端。
     </span>
 </div>
 <div class="line-hi34 col-sm-12 bg-gray m-b">
