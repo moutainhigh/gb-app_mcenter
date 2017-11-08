@@ -13,14 +13,33 @@
                         <th>号码</th>
                         <th>当前奖金</th>
                         <th>返点比例</th>
-                        <th>号码</th>
-                        <th>当前奖金</th>
-                        <th>返点比例</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <c:set value="0" var="lotteryIndex"/>
+                        <c:forEach items="${command.ssc_sanxing_zuxuan_qsts}" var="p" >
+                            <c:if test="${p.betNum eq '豹子'}">
+                                <th><span>前三特殊号(豹子)</span></th>
+                                <td>
+                                    <div class="input-group content-width-limit-10">
+                                        <c:set var="odd" value="${p}"/>
+                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${lotteryIndex}].id">
+                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${lotteryIndex}].code">
+                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${lotteryIndex}].betCode">
+                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${lotteryIndex}].siteId">
+                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${lotteryIndex}].betNum">
+                                        <input type="hidden" value="${odd.baseNum}" name="lotteryOdds[${lotteryIndex}].baseNum">
+                                        <input type="text" class="form-control input-sm odd" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${lotteryIndex}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group content-width-limit-10">
+                                        <input type="hidden" class="form-control input-sm rebate" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${lotteryIndex}].rebate" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
+                                    </div>
+                                </td>
+                            </c:if>
+                        </c:forEach>
                         <th><span>前三和值尾数</span></th>
                         <c:forEach items="${command.ssc_sanxing_zuxuan_qshzws}" var="p" >
                             <td>
@@ -42,27 +61,9 @@
                             </td>
                             <c:set value="${lotteryIndex+1}" var="lotteryIndex"/>
                         </c:forEach>
+                    </tr>
+                    <tr>
                         <c:forEach items="${command.ssc_sanxing_zuxuan_qsts}" var="p" >
-                            <c:if test="${p.betNum eq '豹子'}">
-                                <th><span>前三特殊号(豹子)</span></th>
-                                <td>
-                                    <div class="input-group content-width-limit-10">
-                                        <c:set var="odd" value="${p}"/>
-                                        <input type="hidden" value="${odd.id}" name="lotteryOdds[${lotteryIndex}].id">
-                                        <input type="hidden" value="${odd.code}" name="lotteryOdds[${lotteryIndex}].code">
-                                        <input type="hidden" value="${odd.betCode}" name="lotteryOdds[${lotteryIndex}].betCode">
-                                        <input type="hidden" value="${odd.siteId}" name="lotteryOdds[${lotteryIndex}].siteId">
-                                        <input type="hidden" value="${odd.betNum}" name="lotteryOdds[${lotteryIndex}].betNum">
-                                        <input type="hidden" value="${odd.baseNum}" name="lotteryOdds[${lotteryIndex}].baseNum">
-                                        <input type="text" class="form-control input-sm odd" placeholder="<=${odd.oddLimit}" name="lotteryOdds[${lotteryIndex}].odd" data-limit="${odd.oddLimit}" data-value="${odd.odd}" value="${odd.odd}">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-group content-width-limit-10">
-                                        <input type="text" class="form-control input-sm rebate" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${lotteryIndex}].rebate" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
-                                    </div>
-                                </td>
-                            </c:if>
                             <c:if test="${p.betNum eq '顺子'}">
                                 <th><span>前三特殊号(顺子)</span></th>
                                 <td>
@@ -79,7 +80,7 @@
                                 </td>
                                 <td>
                                     <div class="input-group content-width-limit-10">
-                                        <input type="text" class="form-control input-sm rebate" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${lotteryIndex}].rebate" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
+                                        <input  id="sameRebate" type="text" class="form-control input-sm rebate" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${lotteryIndex}].rebate" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
                                     </div>
                                 </td>
                             </c:if>
@@ -104,7 +105,7 @@
                                 </td>
                                 <td>
                                     <div class="input-group content-width-limit-10">
-                                        <input type="text" class="form-control input-sm rebate" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${lotteryIndex}].rebate" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
+                                        <input type="hidden" class="form-control input-sm rebate" placeholder="<=${odd.rebateLimit}" name="lotteryOdds[${lotteryIndex}].rebate" data-limit="${odd.rebateLimit}" data-value="${odd.rebate}" value="${odd.rebate}">
                                     </div>
                                 </td>
                             </c:if>
