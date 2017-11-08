@@ -14,7 +14,7 @@
             <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
                 <c:set var="rate" value="${useProfit*100/profit}"/>
                 <c:set var="transferRate" value="0"/>
-                <c:if test="${!empty currentTransferLimit}">
+                <c:if test="${!empty currentTransferLimit && currentTransferLimit!=0}">
                     <c:set var="transferRate" value="${transferLimit*100/currentTransferLimit}"/>
                 </c:if>
                 <c:choose>
