@@ -181,6 +181,7 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         listVo.getSearch().setBetCode(betting);
         listVo.getSearch().setSiteId(SessionManager.getSiteId());
         listVo.setPaging(null);
+        listVo.getQuery().addOrder(LotteryOdd.PROP_BET_NUM, Direction.ASC);
         listVo = ServiceTool.siteLotteryOddService().search(listVo);
         List<SiteLotteryOdd> result = listVo.getResult();
         addSiteLotteryOddBaseNum(code,result);
