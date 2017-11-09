@@ -44,6 +44,11 @@
                         <dd class="m-b-sm m-t-md"><b>${views.setting_auto['导入玩家资料']}</b>
                             <soul:button target="toImportPlayer" text="${views.setting_auto['导入']}" opType="function" cssClass="btn btn-filter m-l"></soul:button>
                         </dd>
+                        <dd class="m-b-sm m-t-md"><b>${views.setting_auto['玩家真实姓名验证']}</b>
+                            <input type="checkbox" name="my-checkbox" data-size="mini" ${nameVerification?'checked':''}>
+                            <input type="hidden" name="" value="${not empty nameVerification&&nameVerification?true:false}">
+                            <span class="m-l co-grayc2">${views.setting_auto['关闭后']}</span>
+                        </dd>
                     </div>
                     <div id="editable_wrapper" class="dataTables_wrapper search-list-container  import_list panel-body " role="grid">
                         <%@ include file="IndexPartial.jsp" %>
