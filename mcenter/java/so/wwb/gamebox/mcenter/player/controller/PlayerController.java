@@ -2857,6 +2857,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     @ResponseBody
     public Map changeStatus(Integer[] ids) {
         VUserPlayerListVo listVo=new VUserPlayerListVo();
+        listVo.setMasterName(SessionManager.getUserName());
         listVo.getSearch().setIds(Arrays.asList(ids));
         Map map=new HashMap(2,1f);
         try {
