@@ -14,12 +14,15 @@
                 <th style="width: 80px">序号</th>
                 <th>彩票类型</th>
                 <th>彩票期号</th>
-                <th>开盘时间</th>
-                <th>封盘时间</th>
-                <th>开奖时间</th>
-                <th>第一球</th>
-                <th>第二球</th>
-                <th>第三球</th>
+                <th>${views.lottery_auto['开奖时间']}</th>
+                <th>${views.lottery_auto['开奖号码']}</th>
+                <th colspan="3" style="text-align: center">${views.lottery_auto['总和']}</th>
+                <%--<th>开盘时间</th>--%>
+                <%--<th>封盘时间</th>--%>
+                <%--<th>开奖时间</th>--%>
+                <%--<th>第一球</th>--%>
+                <%--<th>第二球</th>--%>
+                <%--<th>第三球</th>--%>
             </tr>
             </thead>
             <tbody>
@@ -35,19 +38,27 @@
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                     <td>${dicts.lottery.lottery[p.code]}</td>
                     <td>${p.expect}</td>
-                    <td>${soulFn:formatDateTz(p.openingTime, DateFormat.DAY_SECOND,timeZone)}</td>
-                    <td>${soulFn:formatDateTz(p.closeTime, DateFormat.DAY_SECOND,timeZone)}</td>
+                    <%--<td>${soulFn:formatDateTz(p.openingTime, DateFormat.DAY_SECOND,timeZone)}</td>--%>
+                    <%--<td>${soulFn:formatDateTz(p.closeTime, DateFormat.DAY_SECOND,timeZone)}</td>--%>
                     <td>${soulFn:formatDateTz(p.openTime, DateFormat.DAY_SECOND,timeZone)}</td>
+                    <c:set value="0" var="numSum"></c:set>
                     <c:if test="${not empty p.openCode}">
-                        <c:forEach var="rs" items="${fn:split(p.openCode, ',')}" varStatus="vs">
-                            <td><span ${p.code=='xklhc'?'num="'.concat(rs).concat('"'):''} class="cpq-num cpq-cqssc">${rs}</span></td>
-                        </c:forEach>
+                        <td>
+                            <c:forEach var="rs" items="${fn:split(p.openCode, ',')}" varStatus="vs">
+                                <span ${p.code=='hklhc'?'num="'.concat(rs).concat('"'):''} class="cpq-num cpq-cqssc">${rs}</span>
+                                <c:set value="${numSum+rs}" var="numSum"></c:set>
+                            </c:forEach>
+                        </td>
                     </c:if>
                     <c:if test="${empty p.openCode}">
-                        <c:forEach var="i" begin="0" end="2" >
-                            <td>--</td>
-                        </c:forEach>
+                        <%--<c:forEach var="i" begin="0" end="2" >--%>
+                            <td></td>
+                        <%--</c:forEach>--%>
                     </c:if>
+                    <td>${numSum}</td>
+                    <td><c:if test="${numSum%2 == 0}">双</c:if><c:if test="${numSum%2 != 0}">单</c:if></td>
+                    <td><c:if test="${numSum>=14}">大</c:if><c:if test="${numSum <= 13}">小</c:if></td>
+
                 </tr>
             </c:forEach>
             </tbody>

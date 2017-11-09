@@ -15,16 +15,17 @@
                 <th style="width: 80px">${views.lottery_auto['序号']}</th>
                 <th>${views.lottery_auto['彩票类型']}</th>
                 <th>${views.lottery_auto['彩票期号']}</th>
-                <th>${views.lottery_auto['开盘时间']}</th>
-                <th>${views.lottery_auto['封盘时间']}</th>
+                <%--<th>${views.lottery_auto['开盘时间']}</th>--%>
+                <%--<th>${views.lottery_auto['封盘时间']}</th>--%>
                 <th>${views.lottery_auto['开奖时间']}</th>
-                <th>${views.lottery_auto['正一']}</th>
-                <th>${views.lottery_auto['正二']}</th>
-                <th>${views.lottery_auto['正三']}</th>
-                <th>${views.lottery_auto['正四']}</th>
-                <th>${views.lottery_auto['正五']}</th>
-                <th>${views.lottery_auto['正六']}</th>
-                <th>${views.lottery_auto['特码']}</th>
+                <th>${views.lottery_auto['开奖号码']}</th>
+                <%--<th>${views.lottery_auto['正一']}</th>--%>
+                <%--<th>${views.lottery_auto['正二']}</th>--%>
+                <%--<th>${views.lottery_auto['正三']}</th>--%>
+                <%--<th>${views.lottery_auto['正四']}</th>--%>
+                <%--<th>${views.lottery_auto['正五']}</th>--%>
+                <%--<th>${views.lottery_auto['正六']}</th>--%>
+                <%--<th>${views.lottery_auto['特码']}</th>--%>
             </tr>
             </thead>
             <tr class="bd-none hide">
@@ -48,18 +49,21 @@
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                     <td>${dicts.lottery.lottery[p.code]}</td>
                     <td>${p.expect}</td>
-                    <td>${soulFn:formatDateTz(p.openingTime, DateFormat.DAY_SECOND,timeZone)}</td>
-                    <td>${soulFn:formatDateTz(p.closeTime, DateFormat.DAY_SECOND,timeZone)}</td>
+                    <%--<td>${soulFn:formatDateTz(p.openingTime, DateFormat.DAY_SECOND,timeZone)}</td>--%>
+                    <%--<td>${soulFn:formatDateTz(p.closeTime, DateFormat.DAY_SECOND,timeZone)}</td>--%>
                     <td>${soulFn:formatDateTz(p.openTime, DateFormat.DAY_SECOND,timeZone)}</td>
                     <c:if test="${not empty p.openCode}">
-                        <c:forEach var="rs" items="${fn:split(p.openCode, ',')}" varStatus="vs">
-                            <td><span class="cpq-num cpq-cqssc">${rs}</span></td>
-                        </c:forEach>
+                        <td>
+                            <c:forEach var="rs" items="${fn:split(p.openCode, ',')}" varStatus="vs">
+                                <span ${p.code=='hklhc'?'num="'.concat(rs).concat('"'):''} class="cpq-num cpq-cqssc">${rs}</span>
+                                <c:set value="${numSum+rs}" var="numSum"></c:set>
+                            </c:forEach>
+                        </td>
                     </c:if>
                     <c:if test="${empty p.openCode}">
-                        <c:forEach var="i" begin="0" end="6" >
-                            <td>--</td>
-                        </c:forEach>
+                        <%--<c:forEach var="i" begin="0" end="6" >--%>
+                            <td></td>
+                        <%--</c:forEach>--%>
                     </c:if>
 
                 </tr>
