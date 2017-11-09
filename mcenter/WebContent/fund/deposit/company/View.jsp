@@ -74,7 +74,7 @@
 									<!--柜台现金-展示交易地点-->
 									<c:if test="${r.rechargeType=='atm_money'}">
 										<tr>
-											<th scope="row" class="text-right">${views.fund['交易地点:']}</th>
+											<th scope="row" class="text-right">${views.fund['交易地点']}</th>
 											<td>
 												<span id="rechargeAddress">${empty r.rechargeAddress?'--':r.rechargeAddress}</span>
 												<c:if test="${!empty r.rechargeAddress}">
