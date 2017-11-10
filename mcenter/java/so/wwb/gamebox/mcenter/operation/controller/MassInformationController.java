@@ -7,6 +7,7 @@ import org.soul.commons.collections.MapTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.init.context.CommonContext;
+import org.soul.commons.lang.BooleanTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
@@ -653,7 +654,7 @@ public class MassInformationController {
         if (MapTool.isNotEmpty(domainMap)) {
             for (VSysSiteDomain domain : domainMap.values()) {
                 if (siteId.intValue() == domain.getSiteId() && ResolveStatusEnum.SUCCESS.getCode().equals(domain.getResolveStatus()) && DomainPageUrlEnum.INDEX.getCode().equals(domain.getPageUrl()) && domain.getIsDeleted() != null && !domain.getIsDeleted() && domain.getAgentId()==null) {
-                    if (domain.getSslEnabled()) {
+                    if (BooleanTool.isTrue(domain.getSslEnabled())) {
                         webSite = "https://" + domain.getDomain();
                     } else {
                         webSite = "http://" + domain.getDomain();
