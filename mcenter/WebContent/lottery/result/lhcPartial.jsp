@@ -13,14 +13,15 @@
             <thead>
             <tr role="row" class="bg-gray">
                 <th style="width: 80px">${views.lottery_auto['序号']}</th>
-                <th>${views.lottery_auto['操作']}</th>
                 <th>${views.lottery_auto['彩票类型']}</th>
                 <th>${views.lottery_auto['彩票期号']}</th>
                 <%--<th>${views.lottery_auto['开盘时间']}</th>--%>
                 <%--<th>${views.lottery_auto['封盘时间']}</th>--%>
                 <th>${views.lottery_auto['开奖时间']}</th>
                 <th>${views.lottery_auto['开奖号码']}</th>
-                <%--<th>${views.lottery_auto['正一']}</th>--%>
+                <th>${views.lottery_auto['操作']}</th>
+
+            <%--<th>${views.lottery_auto['正一']}</th>--%>
                 <%--<th>${views.lottery_auto['正二']}</th>--%>
                 <%--<th>${views.lottery_auto['正三']}</th>--%>
                 <%--<th>${views.lottery_auto['正四']}</th>--%>
@@ -48,9 +49,7 @@
             <c:forEach items="${command.result}" var="p" varStatus="status">
                 <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
-                    <td>
-                        <soul:button target="payout" text="派彩" opType="function"  objId="${p.id}"></soul:button>
-                    </td>
+
                     <td>${dicts.lottery.lottery[p.code]}</td>
                     <td>${p.expect}</td>
                     <%--<td>${soulFn:formatDateTz(p.openingTime, DateFormat.DAY_SECOND,timeZone)}</td>--%>
@@ -69,6 +68,9 @@
                             <td></td>
                         <%--</c:forEach>--%>
                     </c:if>
+                    <td>
+                        <soul:button target="payout" text="派彩" opType="function"  objId="${p.id}"></soul:button>
+                    </td>
 
                 </tr>
             </c:forEach>

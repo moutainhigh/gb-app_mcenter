@@ -12,13 +12,14 @@
             <thead>
             <tr role="row" class="bg-gray">
                 <th style="width: 80px">${views.lottery_auto['序号']}</th>
-                <th>${views.lottery_auto['操作']}</th>
                 <th>${views.lottery_auto['彩票类型']}</th>
                 <th>${views.lottery_auto['彩票期号']}</th>
                 <th>${views.lottery_auto['开奖时间']}</th>
                 <th>${views.lottery_auto['开奖号码']}</th>
                 <th colspan="3" style="text-align: center">${views.lottery_auto['总和']}</th>
-                <%--<th>第一球</th>--%>
+                <th>${views.lottery_auto['操作']}</th>
+
+            <%--<th>第一球</th>--%>
                 <%--<th>第二球</th>--%>
                 <%--<th>第三球</th>--%>
                 <%--<th>第四球</th>--%>
@@ -39,9 +40,7 @@
             <c:forEach items="${command.result}" var="p" varStatus="status">
                 <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
-                    <td>
-                        <soul:button target="payout" text="派彩" opType="function"  objId="${p.id}"></soul:button>
-                    </td>
+
                     <td>${dicts.lottery.lottery[p.code]}</td>
                     <td>${p.expect}</td>
                     <%--<td>${soulFn:formatDateTz(p.openingTime, DateFormat.DAY_SECOND,timeZone)}</td>--%>
@@ -55,15 +54,22 @@
                                 <c:set value="${numSum+rs}" var="numSum"></c:set>
                             </c:forEach>
                         </td>
+                        <td>${numSum}</td>
+                        <td><c:if test="${numSum%2 == 0}">双</c:if><c:if test="${numSum%2 != 0}">单</c:if></td>
+                        <td><c:if test="${numSum==84}">和</c:if><c:if test="${numSum>=85}">大</c:if><c:if test="${numSum <= 83}">小</c:if></td>
                     </c:if>
                     <c:if test="${empty p.openCode}">
                         <%--<c:forEach var="i" begin="0" end="7" >--%>
                             <td></td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
                         <%--</c:forEach>--%>
                     </c:if>
-                    <td>${numSum}</td>
-                    <td><c:if test="${numSum%2 == 0}">双</c:if><c:if test="${numSum%2 != 0}">单</c:if></td>
-                    <td><c:if test="${numSum==84}">和</c:if><c:if test="${numSum>=85}">大</c:if><c:if test="${numSum <= 83}">小</c:if></td>
+                    <td>
+                        <soul:button target="payout" text="派彩" opType="function"  objId="${p.id}"></soul:button>
+                    </td>
+
                 </tr>
             </c:forEach>
             </tbody>
