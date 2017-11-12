@@ -7,6 +7,7 @@ import org.soul.commons.collections.MapTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.init.context.CommonContext;
+import org.soul.commons.lang.BooleanTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
@@ -40,14 +41,18 @@ import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.operation.form.MassInformationForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.model.CacheBase;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.SiteI18nEnum;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
+import so.wwb.gamebox.model.company.enums.DomainPageUrlEnum;
+import so.wwb.gamebox.model.company.enums.ResolveStatusEnum;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
+import so.wwb.gamebox.model.company.sys.po.VSysSiteDomain;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.enums.ContactWayTypeEnum;
 import so.wwb.gamebox.model.master.enums.PlayerStatusEnum;
@@ -395,9 +400,9 @@ public class MassInformationController {
                     enableContactCount = CollectionTool.intersection(enableContactUsers, userIds).size();
                     disableContactCount = userIds.size() - enableContactCount;
                 }
-                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto","全局玩家").replace("{0}",new Long(userIds.size())+""));
+                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto", "全局玩家").replace("{0}", new Long(userIds.size()) + ""));
                 if (disableContactCount > 0 && StringTool.equals(massInformationVo.getSendType(), PublishMethodEnum.EMAIL.getCode())) {
-                    info.append(LocaleTool.tranMessage("operation_auto","其中").replace("{0}",disableContactCount + ""));
+                    info.append(LocaleTool.tranMessage("operation_auto", "其中").replace("{0}", disableContactCount + ""));
                 }
                 massInformationVo.setSelected(info.toString());
             }
@@ -417,9 +422,9 @@ public class MassInformationController {
                 }
                 Map<String, String> checkResult = JsonTool.fromJson(this.checkUser(massInformationVo.getAppointPlayer()), Map.class);
                 int effectNum = (checkResult.get("excludeDisablePlayer").split(",")).length;
-                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto","指定玩家").replace("{0}",Integer.parseInt(checkResult.get("totalNum"))+"").replace("{1}",effectNum+""));
+                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto", "指定玩家").replace("{0}", Integer.parseInt(checkResult.get("totalNum")) + "").replace("{1}", effectNum + ""));
                 if (disableContactCount > 0 && StringTool.equals(massInformationVo.getSendType(), PublishMethodEnum.EMAIL.getCode())) {
-                    info.append(LocaleTool.tranMessage("operation_auto","其中").replace("{0}",disableContactCount + ""));
+                    info.append(LocaleTool.tranMessage("operation_auto", "其中").replace("{0}", disableContactCount + ""));
                 }
                 massInformationVo.setSelected(info.toString());
             }
@@ -457,9 +462,9 @@ public class MassInformationController {
                     enableContactCount = CollectionTool.intersection(enableContactUsers, tagUserIds).size();
                     disableContactCount = tagUserIds.size() - enableContactCount;
                 }
-                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto","层级").replace("{0}",rankIdList.size()+"").replace("{1}",tagIdList.size()+"").replace("{2}",new Long(CollectionTool.union(rankUserIds, tagUserIds).size())+""));
+                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto", "层级").replace("{0}", rankIdList.size() + "").replace("{1}", tagIdList.size() + "").replace("{2}", new Long(CollectionTool.union(rankUserIds, tagUserIds).size()) + ""));
                 if (disableContactCount > 0 && StringTool.equals(massInformationVo.getSendType(), PublishMethodEnum.EMAIL.getCode())) {
-                    info.append(LocaleTool.tranMessage("operation_auto","其中").replace("{0}",disableContactCount + ""));
+                    info.append(LocaleTool.tranMessage("operation_auto", "其中").replace("{0}", disableContactCount + ""));
                 }
                 massInformationVo.setSelected(info.toString());
             }
@@ -476,9 +481,9 @@ public class MassInformationController {
                     enableContactCount = CollectionTool.intersection(enableContactUsers, userIds).size();
                     disableContactCount = userIds.size() - enableContactCount;
                 }
-                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto","全局代理商").replace("{0}",new Long(userIds.size())+""));
+                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto", "全局代理商").replace("{0}", new Long(userIds.size()) + ""));
                 if (disableContactCount > 0 && StringTool.equals(massInformationVo.getSendType(), PublishMethodEnum.EMAIL.getCode())) {
-                    info.append(LocaleTool.tranMessage("operation_auto","其中").replace("{0}",disableContactCount + ""));
+                    info.append(LocaleTool.tranMessage("operation_auto", "其中").replace("{0}", disableContactCount + ""));
                 }
                 massInformationVo.setSelected(info.toString());
             }
@@ -489,9 +494,9 @@ public class MassInformationController {
                 count = masterSize + agentSize;
                 enableContactCount = CollectionTool.intersection(enableContactUsers, massInformationVo.getMaster()).size() + CollectionTool.intersection(enableContactUsers, massInformationVo.getAgent()).size();
                 disableContactCount = agentSize + masterSize - enableContactCount;
-                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto","总代").replace("{0}",masterSize+"").replace("{1}",agentSize+"").replace("{2}",(count)+""));
+                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto", "总代").replace("{0}", masterSize + "").replace("{1}", agentSize + "").replace("{2}", (count) + ""));
                 if (disableContactCount > 0 && StringTool.equals(massInformationVo.getSendType(), PublishMethodEnum.EMAIL.getCode())) {
-                    info.append(LocaleTool.tranMessage("operation_auto","其中").replace("{0}",disableContactCount + ""));
+                    info.append(LocaleTool.tranMessage("operation_auto", "其中").replace("{0}", disableContactCount + ""));
                 }
                 massInformationVo.setSelected(info.toString());
             }
@@ -508,9 +513,9 @@ public class MassInformationController {
                 List<Integer> userIds = ServiceTool.vUserAgentService().searchProperty(userAgentListVo);
                 enableContactCount = CollectionTool.intersection(enableContactUsers, userIds).size() + CollectionTool.intersection(enableContactUsers, massInformationVo.getMasterAndAgent()).size();
                 disableContactCount = userIds.size() + masterSize - enableContactCount;
-                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto","总代及其代理").replace("{0}",masterSize+"").replace("{1}",new Long(masterSize + userIds.size())+""));
+                StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto", "总代及其代理").replace("{0}", masterSize + "").replace("{1}", new Long(masterSize + userIds.size()) + ""));
                 if (disableContactCount > 0 && StringTool.equals(massInformationVo.getSendType(), PublishMethodEnum.EMAIL.getCode())) {
-                    info.append(LocaleTool.tranMessage("operation_auto","其中").replace("{0}",disableContactCount + ""));
+                    info.append(LocaleTool.tranMessage("operation_auto", "其中").replace("{0}", disableContactCount + ""));
                 }
                 massInformationVo.setSelected(info.toString());
             }
@@ -614,14 +619,15 @@ public class MassInformationController {
         HashMap<String, Pair<String, String>> localTempMap = new HashMap();
         String[] lanuages = massInformationVo.getLanguage();
         for (int i = 0; i < lanuages.length; i++) {
-            Pair<String, String> pair = new Pair<>(replaceVarTags(massInformationVo.getTitle()[i], request, lanuages[i]), replaceVarTags(massInformationVo.getContent()[i], request, lanuages[i]));
+            Map<String, String> replaceMap = replaceMap(request, lanuages[i]);
+            Pair<String, String> pair = new Pair<>(replaceVarTags(massInformationVo.getTitle()[i], replaceMap), replaceVarTags(massInformationVo.getContent()[i], replaceMap));
             localTempMap.put(lanuages[i], pair);
         }
         noticeVo.setLocaleTmplMap(localTempMap);
     }
 
 
-    private String replaceVarTags(String content, HttpServletRequest request, String lanuages) {
+    private Map<String, String> replaceMap(HttpServletRequest request, String lanuages) {
         /* 信息群发用到的标签 ${user} ${sitename} ${customer} ${website} ${year} ${month} ${day}*/
         String cus = "<a href='javascript:void(0)'>联系客服</a>";
         String url = Cache.getDefaultCustomerService().getParameter();
@@ -631,26 +637,45 @@ public class MassInformationController {
             }
             cus = "<a target='_blank' href='" + url + "'>联系客服</a>";
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("dd");
-        String day = sdf.format(new Date());
-        Map<String,SiteI18n> siteNameMap=Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_NAME);
-        String siteName="";
-        if(siteNameMap.containsKey(lanuages)){
-            siteName=siteNameMap.get(lanuages).getValue();
-        }else
-        {
-            siteName=SessionManager.getSiteName(request);
+        Map<String, SiteI18n> siteNameMap = Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_NAME);
+        String siteName = "";
+        if (siteNameMap.containsKey(lanuages)) {
+            siteName = siteNameMap.get(lanuages).getValue();
+        } else {
+            siteName = SessionManager.getSiteName(request);
         }
-        String afterRe = StringTool.fillTemplate(content, MapTool.newHashMap(
+        Date date = SessionManager.getDate().getNow();
+        TimeZone timeZone = SessionManager.getTimeZone();
+        SimpleDateFormat outDateFormat = new SimpleDateFormat("dd");
+        outDateFormat.setTimeZone(timeZone);
+        Map<String, VSysSiteDomain> domainMap = CacheBase.getSiteDomain();
+        String webSite = "";
+        Integer siteId = SessionManager.getSiteId();
+        if (MapTool.isNotEmpty(domainMap)) {
+            for (VSysSiteDomain domain : domainMap.values()) {
+                if (siteId.intValue() == domain.getSiteId() && ResolveStatusEnum.SUCCESS.getCode().equals(domain.getResolveStatus()) && DomainPageUrlEnum.INDEX.getCode().equals(domain.getPageUrl()) && domain.getIsDeleted() != null && !domain.getIsDeleted() && domain.getAgentId()==null) {
+                    if (BooleanTool.isTrue(domain.getSslEnabled())) {
+                        webSite = "https://" + domain.getDomain();
+                    } else {
+                        webSite = "http://" + domain.getDomain();
+                    }
+                    break;
+                }
+            }
+        }
+        return MapTool.newHashMap(
                 /*${user}在前台进行替换*/
                 new Pair<String, String>("sitename", siteName),
                 new Pair<String, String>("customer", cus),
-                new Pair<String, String>("website", "<a target='_blank' href='" + ServletTool.getDomainFullAddress(request) + "'>" + ServletTool.getDomainFullAddress(request)+ "</a>"),
-                new Pair<String, String>("year", LocaleDateTool.formatDate(new Date(), CommonContext.getDateFormat().getYEAR(), SessionManager.getTimeZone())),
-                new Pair<String, String>("month", LocaleDateTool.formatDate(new Date(), CommonContext.getDateFormat().getMONTH(), SessionManager.getTimeZone())),
-                new Pair<String, String>("day", day))
-        );
+                new Pair<String, String>("website", "<a target='_blank' href='" + webSite + "'>" + webSite + "</a>"),
+                new Pair<String, String>("year", LocaleDateTool.formatDate(date, CommonContext.getDateFormat().getYEAR(), timeZone)),
+                new Pair<String, String>("month", LocaleDateTool.formatDate(date, CommonContext.getDateFormat().getMONTH(), timeZone)),
+                new Pair<String, String>("day", outDateFormat.format(date)));
+    }
 
+    private String replaceVarTags(String content, Map<String, String> replaceMap) {
+        /* 信息群发用到的标签 ${user} ${sitename} ${customer} ${website} ${year} ${month} ${day}*/
+        String afterRe = StringTool.fillTemplate(content, replaceMap);
         return afterRe;
 
     }
@@ -816,7 +841,7 @@ public class MassInformationController {
     @ResponseBody
     public Map<String, Object> cancelPublish(VNoticeSendTextVo vo) {
         boolean success = ServiceTool.noticeService().cancelPublishJob(vo);
-        Map<String, Object> map = new HashMap<>(2,1f);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         map.put("state", success);
         map.put("msg", success ? LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), "mass.info.cancelPublishSuccess") : LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), "mass.info.cancelPublishFail"));
         return map;

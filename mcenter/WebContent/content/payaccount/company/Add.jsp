@@ -250,7 +250,7 @@
 
                           <div class="col-sm-5">
                               <div class="input-group date">
-                                  <input name="result.aliasName" class="form-control" value="${command.result.aliasName}"/>
+                                  <input name="result.aliasName" id="result.aliasName" class="form-control" value="${command.result.aliasName}"/>
                                   <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
                               </div>
                           </div>

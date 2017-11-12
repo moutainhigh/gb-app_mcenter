@@ -5,14 +5,19 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <div class="line-hi34 col-sm-12 bg-gray m-b">
-    <input type="checkbox" name="openMoreAccount" data-rank="${rank.id}" ${rank.displayCompanyAccount ?'checked':''} value="true"/>&nbsp;是否开启多个账号
-    <span tabindex="0" class="m-l m-r help-popover" role="button" data-container="body" data-toggle="popover"  data-trigger="focus" data-placement="right" data-content="如果开启将在前台展示全部已使用账户">
+    ${views.content_auto['展示所有账户']}：
+    <input type="checkbox" name="openMoreAccount" data-rank="${rank.id}" ${rank.displayCompanyAccount ?'checked':''} value="true"/>&nbsp;${views.content_auto['启用后']}。
+    <span tabindex="0" class="m-l m-r help-popover" role="button" data-container="body" data-toggle="popover"  data-trigger="focus" data-placement="right" data-content=${views.content_auto['启用后']}>
         <i class="fa fa-question-circle"></i>
     </span>
 </div>
+<div class="line-hi34 col-sm-12 bg-gray m-b">
+    <span class="co-yellow m-r-sm"><i class="fa fa-exclamation-circle"></i></span>
+    ${views.content['payAccount.drag.tip']}
+</div>
 <div class="clearfix m-b limit_title_wrap">
-    <h3 name="type" class="limit_title cur" data="bank">网银存款</h3>
-    <h3 name="type" class="limit_title" data="third">电子支付</h3>
+    <h3 name="type" class="limit_title cur" data="bank">${views.content_auto['网银存款']}</h3>
+    <h3 name="type" class="limit_title" data="third">${views.content_auto['电子支付']}</h3>
     <h3 name="type" class="limit_title" data="bitcoin">bitcoin</h3>
 </div>
 <hr class="m-t m-b-sm">

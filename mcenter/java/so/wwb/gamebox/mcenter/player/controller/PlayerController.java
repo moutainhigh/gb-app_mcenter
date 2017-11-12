@@ -2857,14 +2857,17 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     @ResponseBody
     public Map changeStatus(Integer[] ids) {
         VUserPlayerListVo listVo=new VUserPlayerListVo();
-        for (Integer id:ids){
-            KickoutFilter.loginKickoutAll(id,OpMode.MANUAL,"站长中心冻结玩家强制踢出");
-        }
+        listVo.setMasterName(SessionManager.getUserName());
         listVo.getSearch().setIds(Arrays.asList(ids));
         Map map=new HashMap(2,1f);
         try {
-            ServiceTool.userPlayerService().batchFreezenAccount(listVo);
-            map = getVoMessage(listVo);
+            VUserPlayerListVo vUserPlayerListVo = ServiceTool.userPlayerService().batchFreezenAccount(listVo);
+            if (vUserPlayerListVo.isSuccess()){
+                for (Integer id:ids){
+                    KickoutFilter.loginKickoutAll(id,OpMode.MANUAL,"站长中心冻结玩家强制踢出");
+                }
+                map = getVoMessage(listVo);
+            }
         }catch (Exception ex){
             map.put("state",false);
             map.put("msg","操作失败");

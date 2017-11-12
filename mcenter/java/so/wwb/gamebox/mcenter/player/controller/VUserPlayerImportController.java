@@ -50,7 +50,9 @@ public class VUserPlayerImportController extends BaseCrudController<IVUserPlayer
         listVo = super.doList(listVo, form, result, model);
         findEnableImportPlayerParam(model);
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_NAME_VERIFICATION);
-        model.addAttribute("nameVerification",sysParam.getParamValue());
+        if (sysParam!=null){
+            model.addAttribute("nameVerification",sysParam.getParamValue());
+        }
         model.addAttribute("webtype", "3");
         return listVo;
     }
