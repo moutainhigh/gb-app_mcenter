@@ -66,12 +66,12 @@
                         <c:set value="${_desc}-${dicts.common.transaction_way[pt.transactionWay]}" var="_desc"/>
                     </c:if>
                     <c:choose>
-                        <c:when test="${pt.fundType eq 'online_deposit' || pt.fundType eq 'qqwallet_scan' || pt.fundType eq 'wechatpay_scan' || pt.fundType eq 'alipay_scan' || pt.fundType eq 'digiccy_scan'}">
+                        <c:when test="${pt.fundType eq 'online_deposit' || pt.fundType eq 'qqwallet_scan' || pt.fundType eq 'wechatpay_scan' || pt.fundType eq 'alipay_scan' || pt.fundType eq 'digiccy_scan' || pt.fundType eq 'jdpay_scan' || pt.fundType eq 'bdwallet_san' || pt.fundType eq 'union_pay_scan'}">
                             <c:set value="false" var="showSubType"></c:set>
                             <%--在线--%>
                             <c:set value="/fund/deposit/online/view.html?search.id=${pt.sourceId}" var="view_url"></c:set>
                         </c:when>
-                        <c:when test="${pt.fundType eq 'online_bank' || pt.fundType eq 'wechatpay_fast' || pt.fundType eq 'alipay_fast' || pt.fundType eq 'atm_money'|| pt.fundType eq 'atm_recharge'|| pt.fundType eq 'atm_counter' || pt.fundType eq 'bitcoin_fast'}">
+                        <c:when test="${pt.fundType eq 'online_bank' || pt.fundType eq 'wechatpay_fast' || pt.fundType eq 'alipay_fast' || pt.fundType eq 'atm_money'|| pt.fundType eq 'atm_recharge'|| pt.fundType eq 'atm_counter' || pt.fundType eq 'bitcoin_fast' || pt.fundType eq 'onecodepay_fast' || pt.fundType eq 'qqwallet_fast' || pt.fundType eq 'jdwallet_fast' || pt.fundType eq 'bdwallet_fast' || pt.fundType eq 'other_fast'}">
                             <%-- 公司入款 --%>
                             <c:set value="/fund/deposit/company/view.html?search.id=${pt.sourceId}" var="view_url"></c:set>
                         </c:when>

@@ -74,7 +74,7 @@
 									<!--柜台现金-展示交易地点-->
 									<c:if test="${r.rechargeType=='atm_money'}">
 										<tr>
-											<th scope="row" class="text-right">${views.fund['交易地点:']}</th>
+											<th scope="row" class="text-right">${views.fund['交易地点']}</th>
 											<td>
 												<span id="rechargeAddress">${empty r.rechargeAddress?'--':r.rechargeAddress}</span>
 												<c:if test="${!empty r.rechargeAddress}">
@@ -86,13 +86,25 @@
 										</tr>
 									</c:if>
 									<!--电子支付-展示支付账号、尾号-->
-									<c:if test="${r.rechargeType=='wechatpay_fast'||r.rechargeType=='alipay_fast'||r.rechargeType=='other_fast'}">
+									<c:if test="${r.rechargeType=='wechatpay_fast'||r.rechargeType=='alipay_fast'||r.rechargeType=='qqwallet_fast'||r.rechargeType=='jdwallet_fast'||r.rechargeType=='bdwallet_fast'||r.rechargeType=='onecodepay_fast'||r.rechargeType=='other_fast'}">
 										<tr>
 											<c:if test="${r.rechargeType=='wechatpay_fast'}">
 												<c:set var="data" value="${views.fund_auto['微信账号']}："/>
 											</c:if>
 											<c:if test="${r.rechargeType=='alipay_fast'}">
 												<c:set var="data" value="${views.fund_auto['支付宝账号']}："/>
+											</c:if>
+											<c:if test="${r.rechargeType=='qqwallet_fast'}">
+												<c:set var="data" value="${views.fund_auto['QQ钱包账号']}："/>
+											</c:if>
+											<c:if test="${r.rechargeType=='jdwallet_fast'}">
+												<c:set var="data" value="${views.fund_auto['京东钱包账号']}："/>
+											</c:if>
+											<c:if test="${r.rechargeType=='bdwallet_fast'}">
+												<c:set var="data" value="${views.fund_auto['百度钱包账号']}："/>
+											</c:if>
+											<c:if test="${r.rechargeType=='onecodepay_fast'}">
+												<c:set var="data" value="${views.fund_auto['一码付账号']}："/>
 											</c:if>
 											<c:if test="${r.rechargeType=='other_fast'}">
 												<c:set var="data" value="${views.fund_auto['其他电子账号']}："/>

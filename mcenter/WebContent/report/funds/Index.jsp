@@ -111,6 +111,18 @@
                                                         <span class="m-l-xs">${views.report_auto['QQ钱包扫码支付']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkOnline" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="union_pay_scan">
+                                                        <span class="m-l-xs">${views.report_auto['银联扫码支付']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkOnline" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="bdwallet_san">
+                                                        <span class="m-l-xs">${views.report_auto['百度扫码支付']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkOnline" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="jdpay_scan">
+                                                        <span class="m-l-xs">${views.report_auto['京东扫码支付']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
                                                         <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="wechatpay_fast">
                                                         <span class="m-l-xs">${views.report_auto['微信电子支付']}</span>
                                                     </label>
@@ -125,6 +137,22 @@
                                                     <label class="fwn m-r-sm">
                                                         <input type="checkbox" class="i-checks tranType deposit checkOnline" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="digiccy_scan">
                                                         <span class="m-l-xs">${dicts.common.fund_type['digiccy_scan']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="onecodepay_fast">
+                                                        <span class="m-l-xs">${views.report_auto['一码付电子支付']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="qqwallet_fast">
+                                                        <span class="m-l-xs">${views.report_auto['QQ钱包电子支付']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="bdwallet_fast">
+                                                        <span class="m-l-xs">${views.report_auto['百度钱包电子支付']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="jdwallet_fast">
+                                                        <span class="m-l-xs">${views.report_auto['京东钱包电子支付']}</span>
                                                     </label>
                                                     <label class="fwn m-r-sm">
                                                         <input type="checkbox" id="atm_money" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="atm_money">

@@ -12,6 +12,7 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.math.NumberTool;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
@@ -654,6 +655,12 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             accountType = PayAccountAccountType.WECHAT.getCode();
         } else if (bank != null && BankPayTypeEnum.QQWALLET.getCode().equals(bank.getPayType())) {
             accountType = PayAccountAccountType.QQWALLET.getCode();
+        } else if (bank != null && BankPayTypeEnum.JD_PAY.getCode().equals(bank.getPayType())) {
+            accountType = PayAccountAccountType.JD_PAY.getCode();
+        } else if (bank != null && BankPayTypeEnum.BAIFU_PAY.getCode().equals(bank.getPayType())) {
+            accountType = PayAccountAccountType.BAIFU_PAY.getCode();
+        } else if (bank != null && BankPayTypeEnum.ＵUNION_PAY.getCode().equals(bank.getPayType())) {
+            accountType = PayAccountAccountType.UNION_PAY.getCode();
         }
         vo.getResult().setAccountType(accountType);
     }
@@ -1291,6 +1298,17 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         }
 
         return getVoMessage(sysParamVo);
+    }
+
+    @RequestMapping("/checkAliasName")
+    @ResponseBody
+    public boolean checkAliasName(@RequestParam("result.aliasName") String aliasName, @RequestParam("result.id") String id) {
+        if (StringTool.isBlank(aliasName)) {
+            return false;
+        }
+        PayAccountListVo payAccountListVo = new PayAccountListVo();
+        payAccountListVo.getQuery().setCriterions(new Criterion[]{new Criterion(PayAccount.PROP_ALIAS_NAME, Operator.EQ, aliasName), new Criterion(PayAccount.PROP_ID, Operator.NE, NumberTool.toInt(id))});
+        return ServiceTool.payAccountService().count(payAccountListVo) <= 0;
     }
     //endregion your codes 3
 
