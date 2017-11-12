@@ -246,7 +246,7 @@
                         </div>
                     </div>
                       <div class="form-group clearfix line-hi34">
-                          <label class="ft-bold col-sm-3 al-right line-hi34">自定义别名</label>
+                          <label class="ft-bold col-sm-3 al-right line-hi34">${views.content_auto['自定义别名']}</label>
 
                           <div class="col-sm-5">
                               <div class="input-group date">
@@ -256,7 +256,7 @@
                           </div>
                       </div>
                       <div class="form-group clearfix line-hi34 ${empty command.result.accountType || command.result.accountType=='1'?'':'hide'}" id="supportAtmCounter-div">
-                          <label class="ft-bold col-sm-3 al-right line-hi34">柜员机/柜台存款开关</label>
+                          <label class="ft-bold col-sm-3 al-right line-hi34">${views.content_auto['柜员机/柜台存款开关']}</label>
 
                           <div class="col-sm-5">
                               <div class="input-group date">

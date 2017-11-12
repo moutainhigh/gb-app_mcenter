@@ -39,6 +39,7 @@
             </th>
         <c:if test="${command.search.type=='1'}">
             <th>${views.content_auto['姓名']}</th>
+            <th>${views.content_auto['别名']}</th>
         </c:if>
             <soul:orderColumn poType="${poType}" property="payRankNum" column="${views.column['VPayAccount.payRankNum']}"/>
             <soul:orderColumn poType="${poType}" property="depositDefaultCount" column='
@@ -94,6 +95,16 @@
                     <td>${dicts.common.bankname[p.bankCode]}</td>
                     <c:if test="${command.search.type=='1'}">
                     <td>${p.fullName}</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${not empty p.aliasName}">
+                                ${p.aliasName}
+                            </c:when>
+                            <c:otherwise>
+                                ---
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                     </c:if>
                     <td>
                         <div class="btn-group" ajaxId="${p.id}">
