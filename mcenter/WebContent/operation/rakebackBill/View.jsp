@@ -58,10 +58,10 @@
             </div></div>
             <hr class="m-t-sm m-b-sm">
             <div class="clearfix line-hi34">
-                <div class="input-group content-width-limit-250 m-l pull-left">
-                    <input type="text" class="form-control" name="search.username" placeholder="${views.operation['backwater.settlement.username']}" value="${command.search.username}">
+                <div class="input-group col-md-3 m-l pull-left">
+                    <input type="text" class="form-control" name="search.username" placeholder="${views.player_auto['多个账号，用半角逗号隔开']}" value="${command.search.username}">
                     <span class="input-group-btn p-l-sm">
-                        <soul:button target="query" text="" opType="function" cssClass="btn btn-filter" tag="button">
+                        <soul:button target="query" text="" opType="function" cssClass="btn btn-filter" tag="button" >
                             <i class="fa fa-search"></i>
                             <span class="hd">&nbsp;${views.common['search']}</span>
                         </soul:button>
