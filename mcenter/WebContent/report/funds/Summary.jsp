@@ -47,7 +47,7 @@
                             <th>${views.report_auto['玩家取款']}<span title="" data-original-title="" data-content="${views.report_auto['所有玩家申请的取款总额']}" data-html="true" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover m-l-sm" tabindex="0"><i class="fa fa-question-circle"></i></span></th>
                             <td class="co-blue3">
                                 <a href="/report/vPlayerFundsRecord/fundsLog.html?search.transactionWays=player_withdraw&search.startTime=${soulFn:formatDateTz(command.search.startTime, DateFormat.DAY_SECOND, timeZone )}&search.endTime=${soulFn:formatDateTz(command.search.endTime, DateFormat.DAY_SECOND, timeZone )}&search.outer=-1" nav-target="mainFrame">
-                                    ${soulFn:formatCurrency(fundsSum.player_withdraw)}
+                                    ${soulFn:formatCurrency(-fundsSum.player_withdraw)}
                                 </a>
                             </td>
                         </tr>
@@ -78,7 +78,7 @@
                         <tr>
                             <td colspan="4" style="text-align: right;">
                                 ${views.report_auto['总计']}：<span class="co-red">
-                                ${soulFn:formatCurrency(fundsSum.company_import+fundsSum.online_deposit+fundsSum.arti_deposit+fundsSum.player_withdraw-fundsSum.arti_withdraw)}
+                                ${soulFn:formatCurrency(fundsSum.company_import+fundsSum.online_deposit+fundsSum.arti_deposit-fundsSum.player_withdraw-fundsSum.arti_withdraw)}
                                 </span>
                             </td>
                         </tr>
