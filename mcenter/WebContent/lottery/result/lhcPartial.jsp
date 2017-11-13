@@ -59,7 +59,7 @@
                         <td>
                             <c:forEach var="rs" items="${fn:split(p.openCode, ',')}" varStatus="vs">
                                 <span ${p.code=='hklhc'?'num="'.concat(rs).concat('"'):''} class="cpq-num cpq-cqssc">${rs}</span>
-                                <c:set value="${numSum+rs}" var="numSum"></c:set>
+                                <%--<c:set value="${numSum+rs}" var="numSum"></c:set>--%>
                             </c:forEach>
                         </td>
                     </c:if>
