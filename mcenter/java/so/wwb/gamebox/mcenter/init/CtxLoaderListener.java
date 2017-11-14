@@ -15,5 +15,6 @@ public class CtxLoaderListener extends CommonCtxLoaderListener {
     public void contextInitialized(ServletContextEvent event) {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC")); // 设置JVM默认时区为０时区
         super.contextInitialized(event);
+        BaseCtxLoaderListener.isStoped=false;
     }
 }
