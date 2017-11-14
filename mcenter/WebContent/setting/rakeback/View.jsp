@@ -84,7 +84,7 @@
 													<c:forEach items="${rake.rakebackGradsApis}" var="rga" varStatus="apiStatus">
 														<c:if test="${game['apiId'] eq rga.apiId && game['gameType'] eq rga.gameType}">
 															<div class="input-group date" title="${gbFn:getGameTypeName(game['gameType'])}">
-																${gbFn:getGameTypeName(game['gameType'])}: ${rga.ratio}%
+																${dicts.game.game_type[game['gameType']]}: ${rga.ratio}%
 															</div>
 														</c:if>
 													</c:forEach>

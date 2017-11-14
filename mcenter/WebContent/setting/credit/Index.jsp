@@ -55,5 +55,5 @@
 </form:form>
 
 <!--//region your codes 3-->
-<soul:import type="list"/>
+<soul:import res="site/setting/credit/Index"/>
 <!--//endregion your codes 3-->
