@@ -18,8 +18,8 @@ public class SiteLotteryOddsForm implements IForm {
     private String[] lotteryOdds$$_rebate;
 
     @NotBlank(message = "common.赔率不能为空")
+    @Min(message = "赔率不能小于1", value = 1)
     @Pattern(message = "格式错误", regexp = "^[0-9]\\d*(\\.\\d{1,3})?$")
-//    @Min(message = "player_auto.请输入数字", value = 1)
     @Digits(integer = 7,fraction = 3)
     public String[] getLotteryOdds$$_odd() {
         return lotteryOdds$$_odd;
