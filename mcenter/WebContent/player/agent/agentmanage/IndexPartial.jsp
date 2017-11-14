@@ -188,7 +188,34 @@
                             </td>
                         </c:when>
                         <c:when test="${f.key=='createChannel'}">
-                            <td>${dicts.player.create_channel[p.createChannel]}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${not empty p.createChannel}">
+                                        <c:choose>
+                                        <c:when test="${p.createChannel==2}">
+                                            <span data-content="<span class='co-gray'>${views.player_auto['操作人']}</span><span class='co-blue'>${p.createUserName}</span>"
+                                                  data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                                                  role="button" class="help-popover" tabindex="0" data-html="true"
+                                                  data-original-title="" title="">${dicts.player.create_channel[p.createChannel]}
+                                            </span>
+                                        </c:when>
+                                        <c:when test="${p.createChannel==1}">
+                                            <span data-content="<span class='co-gray'>${views.player_auto['注册来源']}</span><span class='co-blue'>${p.registerSite}</span>"
+                                                  data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                                                  role="button" class="help-popover" tabindex="0" data-html="true"
+                                                  data-original-title="" title="">${dicts.player.create_channel[p.createChannel]}
+                                            </span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${dicts.player.create_channel[p.createChannel]}
+                                        </c:otherwise>
+                                        </c:choose>
+                                    </c:when>
+                                    <c:otherwise>
+                                        ---
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                         </c:when>
                         <c:when test="${f.key=='registerIp'}">
                             <td>${soulFn:formatIp(p.registerIp)} </td>
