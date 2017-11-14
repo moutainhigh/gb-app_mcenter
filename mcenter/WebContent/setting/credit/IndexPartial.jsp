@@ -24,8 +24,16 @@
         <tbody>
         <c:forEach items="${command.result}" var="p" varStatus="status">
             <tr class="tab-detail">
-                <td>${p.transactionNo}</td>
-                <td>${p.payUserName}</td>
+                <td>${empty p.transactionNo?"---":p.transactionNo}</td>
+                <td>
+                        ${p.payUserName}
+                    <c:if test="${p.backgroundAdded == true}">
+                        <span data-content="后台充值操作人"
+                              data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                              role="button" class="ico-lock" tabindex="0"
+                              data-original-title="" title=""><i class="fa fa-user"></i></span>
+                    </c:if>
+                </td>
                 <td>${soulFn:formatCurrency(p.payAmount)}</td>
                 <td>${dicts.credit.pay_type[p.payType]}</td>
                 <td>
@@ -37,7 +45,7 @@
                     </c:choose>
                     <span class="${status_class}">${dicts.credit.credit_status[p.status]}</span>
                 </td>
-                <td>${dicts.common.bankname[p.bankName]}</td>
+                <td>${empty dicts.common.bankname[p.bankName]?"---":dicts.common.bankname[p.bankName]}</td>
                 <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
                 <td>${soulFn:formatIp(p.ip)}</td>
             </tr>
