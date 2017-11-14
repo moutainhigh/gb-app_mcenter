@@ -68,7 +68,7 @@
                         <%--</c:forEach>--%>
                     </c:if>
                     <td>
-                        <soul:button target="payout" text="派彩" opType="function"  objId="${p.id}"></soul:button>
+                        <soul:button target="payout" text="派彩" opType="function" permission="lottery:openresult_payout" objId="${p.id}"></soul:button>
                     </td>
 
 
