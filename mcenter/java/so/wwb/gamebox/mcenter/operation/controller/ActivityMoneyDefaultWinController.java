@@ -105,7 +105,7 @@ public class ActivityMoneyDefaultWinController extends BaseCrudController<IActiv
             if(noExistName.length()>0){
                 noExistName = noExistName.substring(0,noExistName.length()-1);
                 objectVo.setSuccess(false);
-                objectVo.setErrMsg(MessageFormat.format(LocaleTool.tranMessage("operation_auto","不存在玩家账号：")+"{0}",noExistName));
+                objectVo.setErrMsg(MessageFormat.format(LocaleTool.tranMessage("operation_auto","不存在玩家账号")+"{0}",noExistName));
                 return objectVo;
             }
 

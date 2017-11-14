@@ -35,6 +35,9 @@
                                     <c:if test="${s.riskMarker == true}"><i
                                             class="fa fa-warning"></i>
                                     </c:if>
+                                    <c:if test="${s.activityTypeCode == 'money'}">
+                                        <i>红包类型</i>
+                                    </c:if>
                                 </span>
                 <a href="/fund/playerDetect/userPlayView.html?search.username=${s.playerName}"
                    nav-target="mainFrame"
