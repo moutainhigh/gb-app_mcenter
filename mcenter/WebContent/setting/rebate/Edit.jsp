@@ -162,6 +162,7 @@
                                         <tr class="bg-color apiGrad">
                                             <td>
                                                 <div class="ratio_area"></div>
+
                                                 <c:choose>
                                                     <c:when test="${command.showDeleteBtn}">
                                                         <soul:button target="deletePlan" text="" opType="function" cssClass="btn btn-danger${status.first ? ' disabled ui-button-disable':''}" tag="button">
@@ -173,6 +174,7 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <soul:button target="batchUpdateRatio" text="${views.setting_auto['批量调整比例']}" opType="function" cssClass="btn batch_ratio" tag="button"></soul:button>
+                                                <soul:button target="insertRow" text="插入" opType="function" cssClass="btn btn-info" tag="button"></soul:button>
                                             </td>
                                             <td>
                                                 <input type="hidden" name="rebateGrads[${status.index}].id" value="${rebateGrad.id}">
@@ -274,6 +276,7 @@
                 ${views.common['delete']}
             </soul:button>
             <soul:button target="batchUpdateRatio" text="${views.setting['rebate.edit.batchRatio']}" opType="function" cssClass="btn batch_ratio" tag="button"></soul:button>
+            <soul:button target="insertRow" text="插入" opType="function" cssClass="btn btn-info" tag="button"></soul:button>
         </td>
         <td><input type="text" name="rebateGrads[0].totalProfit" data-name="rebateGrads[{n}].totalProfit" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.profit']}"></td>
         <td><input type="text" name="rebateGrads[0].validPlayerNum" data-name="rebateGrads[{n}].validPlayerNum" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.validPlayer']}"></td>

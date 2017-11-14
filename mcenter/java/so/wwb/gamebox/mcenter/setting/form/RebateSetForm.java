@@ -44,7 +44,7 @@ public class RebateSetForm implements IForm {
     private String result_remark;
 
     @NotNull(message = "setting.rebate.edit.totalProfitNotNull")
-    @Range(max = 9999999999999L,min = 0,message = "setting.rebate.edit.totalProfitRange")
+    @Range(max = 9999999999999L,min = -9999999999999L,message = "setting.rebate.edit.totalProfitRange")
     @Digits(integer = 13,fraction = 0,message = "setting.rebate.edit.totalProfitDigits")
     @Series(message = "setting.rebate.edit.totalProfitSeries",type = SeriesType.INC)
     public BigDecimal[] get$rebateGrads$$_totalProfit() {
