@@ -62,8 +62,8 @@
                             </c:forEach>
                         </td>
                         <td>${numSum}</td>
-                        <td><c:if test="${numSum == 11}">和</c:if><c:if test="${numSum != 11}"><c:if test="${numSum%2 == 0}">双</c:if><c:if test="${numSum%2 != 0}">单</c:if></c:if></td>
-                        <td><c:if test="${numSum == 11}">和</c:if><c:if test="${numSum>11}">大</c:if><c:if test="${numSum < 11}">小</c:if></td>
+                        <td><c:if test="${p.code == 'bjpk10'}"><c:if test="${numSum == 11}">和</c:if><c:if test="${numSum != 11}"><c:if test="${numSum%2 == 0}">双</c:if><c:if test="${numSum%2 != 0}">单</c:if></c:if></c:if><c:if test="${p.code != 'bjpk10'}"><c:if test="${numSum%2 == 0}">双</c:if><c:if test="${numSum%2 != 0}">单</c:if></c:if></td>
+                        <td><c:if test="${p.code == 'bjpk10'}"><c:if test="${numSum == 11}">和</c:if><c:if test="${numSum>11}">大</c:if><c:if test="${numSum < 11}">小</c:if></c:if><c:if test="${p.code != 'bjpk10'}"><c:if test="${numSum>=12}">大</c:if><c:if test="${numSum <= 11}">小</c:if></c:if></td>
                     </c:if>
                     <c:if test="${empty p.openCode}">
                         <%--<c:forEach var="i" begin="0" end="9" >--%>
