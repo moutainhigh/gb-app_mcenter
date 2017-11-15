@@ -115,7 +115,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         setDomainData(sysDomain);
         sysDomainVo = initSysDomainCheckData(sysDomainVo);
         sysDomainVo = getService().batchSaveDomain(sysDomainVo);
-        Cache.refreshSiteDomain();
+        Cache.refreshSiteDomain(sysDomain.getDomain());
         Cache.refreshCurrentSitePageCache();
         return sysDomainVo;
     }
@@ -182,7 +182,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         //sysDomainVo.setProperties(SysDomain.PROP_NAME,SysDomain.PROP_PAGE_URL,SysDomain.PROP_UPDATE_TIME,SysDomain.PROP_UPDATE_USER);
         //this.getService().updateOnly(sysDomainVo);
         //sysDomainVo = super.doUpdate(sysDomainVo);
-        Cache.refreshSiteDomain();
+        Cache.refreshSiteDomain(sysDomainVo.getResult().getDomain());
         return sysDomainVo;
     }
 
@@ -297,7 +297,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         } else if (!sysDomainVo.isSuccess() && StringTool.isBlank(sysDomainVo.getErrMsg())) {
             sysDomainVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "operation.fail"));
         }
-        CacheBase.refreshSiteDomain();
+        CacheBase.refreshSiteDomain(sysDomainVo.getResult().getDomain());
         map.put("msg", StringTool.isNotBlank(sysDomainVo.getOkMsg()) ? sysDomainVo.getOkMsg() : sysDomainVo.getErrMsg());
         map.put("state", sysDomainVo.isSuccess());
         return map;
@@ -370,7 +370,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     public Map changeStatus(SysDomainVo sysDomainVo) {
         sysDomainVo.setProperties(SysDomain.PROP_IS_ENABLE);
         sysDomainVo = getService().updateOnly(sysDomainVo);
-        Cache.refreshSiteDomain();
+        Cache.refreshSiteDomain(sysDomainVo.getResult().getDomain());
         Cache.refreshCurrentSitePageCache();
         return getVoMessage(sysDomainVo);
     }
@@ -706,7 +706,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
             sysDomainVo.setSaveManageDomain(true);
             this.getService().saveSiteDomain(sysDomainVo);
             domainSaveMsg(sysDomainVo);
-            Cache.refreshSiteDomain();
+            Cache.refreshSiteDomain(sysDomainVo.getResult().getDomain());
             Cache.refreshCurrentSitePageCache();
             return this.getVoMessage(sysDomainVo);
         }
@@ -751,7 +751,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
             sysDomainVo = initSysDomainCheckData(sysDomainVo);
             this.getService().saveSiteDomain(sysDomainVo);
             domainSaveMsg(sysDomainVo);
-            Cache.refreshSiteDomain();
+            Cache.refreshSiteDomain(sysDomainVo.getResult().getDomain());
             Cache.refreshCurrentSitePageCache();
             return this.getVoMessage(sysDomainVo);
         }
