@@ -189,7 +189,7 @@ public class CreditPayController {
 
     public String getDomain(String domain, CreditAccount creditAccount) {
         domain = domain.replace("http://", "");
-        VSysSiteDomain siteDomain = Cache.getSiteDomain().get(domain);
+        VSysSiteDomain siteDomain = Cache.getSiteDomain(domain);
         Boolean sslEnabled = false;
         if (siteDomain != null && siteDomain.getSslEnabled() != null && siteDomain.getSslEnabled()) {
             sslEnabled = true;
