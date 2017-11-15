@@ -58,6 +58,7 @@
             <hr class="m-t-sm m-b-sm">
             <div class="clearfix line-hi34">
                 <div class="input-group col-md-3 m-l pull-left">
+                    <span class="input-group-addon bg-gray">${views.operation_auto['玩家']}</span>
                     <input type="text" class="form-control" name="search.username" placeholder="${views.player_auto['多个账号，用半角逗号隔开']}" value="${command.search.username}"/>
                     <span class="input-group-btn p-l-sm">
                         <soul:button target="query" text="" opType="function" cssClass="btn btn-filter" tag="button">
