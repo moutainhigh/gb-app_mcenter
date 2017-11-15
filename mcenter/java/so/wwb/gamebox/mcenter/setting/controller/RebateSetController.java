@@ -388,6 +388,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @Override
     protected RebateSetVo doUpdate(RebateSetVo objectVo) {
         objectVo.getResult().setStatus(UserAgentEnum.PROGRAM_STATUS_USING.getCode());
+        objectVo.getSearch().setSearchFrom(SubSysCodeEnum.MCENTER.getCode());
         objectVo = getService().updateNewRebateSet(objectVo);
         return objectVo;
     }
