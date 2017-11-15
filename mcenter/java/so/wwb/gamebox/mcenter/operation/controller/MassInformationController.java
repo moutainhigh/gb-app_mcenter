@@ -6,6 +6,7 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.MapTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.dubbo.DubboTool;
 import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.BooleanTool;
 import org.soul.commons.lang.DateTool;
@@ -37,6 +38,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
+import so.wwb.gamebox.iservice.company.sys.IVSysSiteDomainService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.operation.form.MassInformationForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -53,6 +55,8 @@ import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
 import so.wwb.gamebox.model.company.sys.po.VSysSiteDomain;
+import so.wwb.gamebox.model.company.sys.vo.VSysSiteDomainListVo;
+import so.wwb.gamebox.model.company.sys.vo.VSysSiteDomainVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.enums.ContactWayTypeEnum;
 import so.wwb.gamebox.model.master.enums.PlayerStatusEnum;
@@ -648,21 +652,23 @@ public class MassInformationController {
         TimeZone timeZone = SessionManager.getTimeZone();
         SimpleDateFormat outDateFormat = new SimpleDateFormat("dd");
         outDateFormat.setTimeZone(timeZone);
-        Map<String, VSysSiteDomain> domainMap = CacheBase.getSiteDomain();
+        VSysSiteDomainListVo vSysSiteDomainListVo=new VSysSiteDomainListVo();
+        vSysSiteDomainListVo.getSearch().setSiteId(CommonContext.get().getSiteId());
+        List<VSysSiteDomain> domainList= DubboTool.getService(IVSysSiteDomainService.class).loadSiteDomain(vSysSiteDomainListVo);
+
         String webSite = "";
         Integer siteId = SessionManager.getSiteId();
-        if (MapTool.isNotEmpty(domainMap)) {
-            for (VSysSiteDomain domain : domainMap.values()) {
-                if (siteId.intValue() == domain.getSiteId() && ResolveStatusEnum.SUCCESS.getCode().equals(domain.getResolveStatus()) && DomainPageUrlEnum.INDEX.getCode().equals(domain.getPageUrl()) && domain.getIsDeleted() != null && !domain.getIsDeleted() && domain.getAgentId()==null) {
-                    if (BooleanTool.isTrue(domain.getSslEnabled())) {
-                        webSite = "https://" + domain.getDomain();
-                    } else {
-                        webSite = "http://" + domain.getDomain();
-                    }
-                    break;
+        for (VSysSiteDomain domain : domainList) {
+            if (siteId.intValue() == domain.getSiteId() && ResolveStatusEnum.SUCCESS.getCode().equals(domain.getResolveStatus()) && DomainPageUrlEnum.INDEX.getCode().equals(domain.getPageUrl()) && domain.getIsDeleted() != null && !domain.getIsDeleted() && domain.getAgentId()==null) {
+                if (BooleanTool.isTrue(domain.getSslEnabled())) {
+                    webSite = "https://" + domain.getDomain();
+                } else {
+                    webSite = "http://" + domain.getDomain();
                 }
+                break;
             }
         }
+
         return MapTool.newHashMap(
                 /*${user}在前台进行替换*/
                 new Pair<String, String>("sitename", siteName),
