@@ -19,7 +19,7 @@ public class SiteLotteryOddsForm implements IForm {
 
     @NotBlank(message = "common.赔率不能为空")
     @DecimalMin("0.001")
-    @Pattern(message = "格式错误", regexp = "^[0-9]\\d*(\\.\\d*[1-9]{1,3})?$")
+    @Pattern(message = "格式错误", regexp = "^[0-9]\\d*(\\.\\d*[0-9]{1,3})?$")
     @Digits(integer = 7,fraction = 3)
     public String[] getLotteryOdds$$_odd() {
         return lotteryOdds$$_odd;
@@ -31,7 +31,7 @@ public class SiteLotteryOddsForm implements IForm {
 
     @NotBlank(message = "common.赔率不能为空")
     @DecimalMin("0.001")
-    @Pattern(message = "格式错误", regexp = "^[0-9]\\d*(\\.\\d*[1-9]{1,3})?$")
+    @Pattern(message = "格式错误", regexp = "^[0-9]\\d*(\\.\\d*[0-9]{1,3})?$")
     @Digits(integer = 1,fraction = 3)
     public String[] getLotteryOdds$$_rebate() {
         return lotteryOdds$$_rebate;
