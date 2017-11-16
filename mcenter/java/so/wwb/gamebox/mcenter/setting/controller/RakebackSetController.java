@@ -1,9 +1,5 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
-import org.soul.commons.collections.CollectionTool;
-import org.soul.commons.collections.MapTool;
-import org.soul.commons.query.Criterion;
-import org.soul.commons.query.enums.Operator;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.log.audit.vo.BaseLog;
 import org.soul.model.log.audit.vo.LogVo;
@@ -23,10 +19,6 @@ import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ModuleType;
 import so.wwb.gamebox.model.common.Audit;
-import so.wwb.gamebox.model.company.enums.GameStatusEnum;
-import so.wwb.gamebox.model.company.setting.po.Api;
-import so.wwb.gamebox.model.company.site.po.SiteApi;
-import so.wwb.gamebox.model.company.site.po.VGameType;
 import so.wwb.gamebox.model.company.site.vo.VGameTypeListVo;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
 import so.wwb.gamebox.model.master.setting.po.RakebackSet;
@@ -39,7 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -134,23 +125,10 @@ public class RakebackSetController extends BaseCrudController<IRakebackSetServic
 
     public RakebackSetVo setGame(RakebackSetVo objectVo) {
         VGameTypeListVo vGameTypeListVo = new VGameTypeListVo();
-        vGameTypeListVo.getQuery().setCriterions(new Criterion[]{new Criterion(VGameType.PROP_SITE_ID, Operator.EQ, SessionManager.getSiteId())});
-        vGameTypeListVo.setProperties(VGameType.PROP_GAME_TYPE, VGameType.PROP_API_ID);
-        List<Map<String, Object>> someGames = ServiceTool.vGameTypeService().searchProperties(vGameTypeListVo);
-        if (CollectionTool.isNotEmpty(someGames)) {
-            Map<String, Api> apiMap = Cache.getApi();
-            Map<String, SiteApi> siteApiMap = Cache.getSiteApi();
-            String disable = GameStatusEnum.DISABLE.getCode();
-            Iterator it = someGames.iterator();
-            while (it.hasNext()) {
-                Map<String, Object> game = (Map<String, Object>) it.next();
-                Api api = apiMap.get(MapTool.getString(game, VGameType.PROP_API_ID));
-                SiteApi siteApi = siteApiMap.get(MapTool.getString(game, VGameType.PROP_API_ID));
-                if (api == null || siteApi == null || disable.equals(api.getSystemStatus()) || disable.equals(siteApi.getSystemStatus())) {
-                    it.remove(); //移除该对象
-                }
-            }
-        }
+        vGameTypeListVo.getSearch().setSiteId(SessionManager.getSiteId());
+        vGameTypeListVo.setCahceApiMap(Cache.getApi());
+        vGameTypeListVo.setCahceSiteApiMap(Cache.getSiteApi());
+        List<Map<String, Object>> someGames = ServiceTool.rebateSetService().queryGameData(vGameTypeListVo);
         objectVo.setSomeGames(someGames);
         return objectVo;
     }

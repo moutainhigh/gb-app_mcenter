@@ -1,6 +1,5 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.ListTool;
 import org.soul.commons.collections.MapTool;
@@ -11,11 +10,7 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
-import org.soul.commons.query.Criterion;
-import org.soul.commons.query.enums.Operator;
 import org.soul.commons.support._Module;
-import org.soul.model.security.privilege.po.SysUser;
-import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.controller.BaseCrudController;
@@ -39,15 +34,12 @@ import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.common.MessageI18nConst;
-import so.wwb.gamebox.model.company.enums.GameStatusEnum;
-import so.wwb.gamebox.model.company.setting.po.Api;
-import so.wwb.gamebox.model.company.site.po.SiteApi;
-import so.wwb.gamebox.model.company.site.po.VGameType;
 import so.wwb.gamebox.model.company.site.vo.VGameTypeListVo;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
 import so.wwb.gamebox.model.master.player.po.UserAgentRebate;
 import so.wwb.gamebox.model.master.player.vo.UserAgentRebateListVo;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentManageVo;
+import so.wwb.gamebox.model.master.setting.po.RebateGrads;
 import so.wwb.gamebox.model.master.setting.po.RebateSet;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetListVo;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetVo;
@@ -356,9 +348,26 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         return null;
     }
 
-    /*************
-     * jeff
-     *****************/
+
+    /**
+     * 复制返佣方案 -younger
+     * @param objectVo
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "copyRebateSet")
+    @Token(generate = true)
+    public String copyRebateSet(RebateSetVo objectVo, Model model){
+        objectVo = doEdit(objectVo,model);
+        objectVo.getResult().setId(null);
+        objectVo.getResult().setName(objectVo.getResult().getName()+"_copy");
+        objectVo.setShowDeleteBtn(true);
+        List<RebateGrads> rebateGrads = objectVo.getRebateGrads();
+        CollectionTool.batchUpdate(rebateGrads, RebateGrads.PROP_ID, null);
+        objectVo.setValidateRule(JsRuleCreator.create(RebateSetForm.class));
+        model.addAttribute("command",objectVo);
+        return getViewBasePath() + "Edit";
+    }
 
     @Override
     protected RebateSetVo doCreate(RebateSetVo objectVo, Model model) {
@@ -406,23 +415,10 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
      */
     public RebateSetVo setGame(RebateSetVo objectVo) {
         VGameTypeListVo vGameTypeListVo = new VGameTypeListVo();
-        vGameTypeListVo.getQuery().setCriterions(new Criterion[]{new Criterion(VGameType.PROP_SITE_ID, Operator.EQ, SessionManager.getSiteId())});
-        vGameTypeListVo.setProperties(VGameType.PROP_GAME_TYPE, VGameType.PROP_API_ID,VGameType.PROP_API_TYPE_ID);
-        List<Map<String, Object>> someGames = ServiceTool.vGameTypeService().searchProperties(vGameTypeListVo);
-        if (CollectionTool.isNotEmpty(someGames)) {
-            Map<String, Api> apiMap = Cache.getApi();
-            Map<String, SiteApi> siteApiMap = Cache.getSiteApi();
-            String disable = GameStatusEnum.DISABLE.getCode();
-            Iterator it = someGames.iterator();
-            while (it.hasNext()) {
-                Map<String, Object> game = (Map<String, Object>) it.next();
-                Api api = apiMap.get(MapTool.getString(game, VGameType.PROP_API_ID));
-                SiteApi siteApi = siteApiMap.get(MapTool.getString(game, VGameType.PROP_API_ID));
-                if (api == null || siteApi == null || disable.equals(api.getSystemStatus()) || disable.equals(siteApi.getSystemStatus())) {
-                    it.remove(); //移除该对象
-                }
-            }
-        }
+        vGameTypeListVo.getSearch().setSiteId(SessionManager.getSiteId());
+        vGameTypeListVo.setCahceApiMap(Cache.getApi());
+        vGameTypeListVo.setCahceSiteApiMap(Cache.getSiteApi());
+        List<Map<String, Object>> someGames = getService().queryGameData(vGameTypeListVo);
         objectVo.setSomeGames(someGames);
         return objectVo;
     }
@@ -445,7 +441,9 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         Map persist = new HashMap(3,1f);
         try{
             persist = super.persist(objectVo, form, result);
-
+            if(!MapTool.getBoolean(persist,"state")){
+                persist.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+            }
         }catch (Exception ex){
             persist.put("state",false);
             String msg = LocaleTool.tranMessage(Module.COMMON, MessageI18nConst.SAVE_FAILED);

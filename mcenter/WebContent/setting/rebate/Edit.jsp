@@ -20,7 +20,11 @@
                         <div class="present_wrap"><b>${views.setting['rebate.edit.create']}</b></div>
                     </c:when>
                     <c:otherwise>
-                        <div class="present_wrap"><b>${views.setting['rebate.edit.edit']}</b></div>
+                        <div class="present_wrap">
+                            <b>${views.setting['rebate.edit.edit']}</b>
+                            <a href="/rebateSet/copyRebateSet.html?search.id=${command.result.id}" nav-target="mainFrame">复制本方案</a>
+                        </div>
+
                     </c:otherwise>
                 </c:choose>
                 <div class="form-group clearfix m-t">
