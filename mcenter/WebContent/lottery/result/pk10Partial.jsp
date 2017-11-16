@@ -14,19 +14,24 @@
                 <th style="width: 80px">${views.lottery_auto['序号']}</th>
                 <th>${views.lottery_auto['彩票类型']}</th>
                 <th>${views.lottery_auto['彩票期号']}</th>
-                <th>${views.lottery_auto['开盘时间']}</th>
-                <th>${views.lottery_auto['封盘时间']}</th>
                 <th>${views.lottery_auto['开奖时间']}</th>
-                <th>${views.lottery_auto['第一球']}</th>
-                <th>${views.lottery_auto['第二球']}</th>
-                <th>${views.lottery_auto['第三球']}</th>
-                <th>${views.lottery_auto['第四球']}</th>
-                <th>${views.lottery_auto['第五球']}</th>
-                <th>${views.lottery_auto['第六球']}</th>
-                <th>${views.lottery_auto['第七球']}</th>
-                <th>${views.lottery_auto['第八球']}</th>
-                <th>${views.lottery_auto['第九球']}</th>
-                <th>${views.lottery_auto['第十球']}</th>
+                <th>${views.lottery_auto['开奖号码']}</th>
+                <th colspan="3" style="text-align: center">${views.lottery_auto['冠亚和']}</th>
+                <th>${views.lottery_auto['操作']}</th>
+
+            <%--<th>${views.lottery_auto['开盘时间']}</th>--%>
+                <%--<th>${views.lottery_auto['封盘时间']}</th>--%>
+                <%--<th>${views.lottery_auto['开奖时间']}</th>--%>
+                <%--<th>${views.lottery_auto['第一球']}</th>--%>
+                <%--<th>${views.lottery_auto['第二球']}</th>--%>
+                <%--<th>${views.lottery_auto['第三球']}</th>--%>
+                <%--<th>${views.lottery_auto['第四球']}</th>--%>
+                <%--<th>${views.lottery_auto['第五球']}</th>--%>
+                <%--<th>${views.lottery_auto['第六球']}</th>--%>
+                <%--<th>${views.lottery_auto['第七球']}</th>--%>
+                <%--<th>${views.lottery_auto['第八球']}</th>--%>
+                <%--<th>${views.lottery_auto['第九球']}</th>--%>
+                <%--<th>${views.lottery_auto['第十球']}</th>--%>
             </tr>
             </thead>
             <tbody>
@@ -40,21 +45,38 @@
             <c:forEach items="${command.result}" var="p" varStatus="status">
                 <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
+
                     <td>${dicts.lottery.lottery[p.code]}</td>
                     <td>${p.expect}</td>
-                    <td>${soulFn:formatDateTz(p.openingTime, DateFormat.DAY_SECOND,timeZone)}</td>
-                    <td>${soulFn:formatDateTz(p.closeTime, DateFormat.DAY_SECOND,timeZone)}</td>
+                    <%--<td>${soulFn:formatDateTz(p.openingTime, DateFormat.DAY_SECOND,timeZone)}</td>--%>
+                    <%--<td>${soulFn:formatDateTz(p.closeTime, DateFormat.DAY_SECOND,timeZone)}</td>--%>
                     <td>${soulFn:formatDateTz(p.openTime, DateFormat.DAY_SECOND,timeZone)}</td>
+                    <c:set value="0" var="numSum"></c:set>
                     <c:if test="${not empty p.openCode}">
-                    <c:forEach var="rs" items="${fn:split(p.openCode, ',')}" varStatus="vs">
-                        <td><span ${p.code=='xklhc'?'num="'.concat(rs).concat('"'):''} class="cpq-num cpq-cqssc">${rs}</span></td>
-                    </c:forEach>
+                        <td>
+                            <c:forEach var="rs" items="${fn:split(p.openCode, ',')}" varStatus="vs">
+                                <span ${p.code=='hklhc'?'num="'.concat(rs).concat('"'):''} class="cpq-num cpq-cqssc">${rs}</span>
+                                <c:if test="${vs.index==0 || vs.index ==1}">
+                                <c:set value="${numSum+rs}" var="numSum"></c:set>
+                                </c:if>
+                            </c:forEach>
+                        </td>
+                        <td>${numSum}</td>
+                        <td><c:if test="${p.code == 'bjpk10'}"><c:if test="${numSum == 11}">和</c:if><c:if test="${numSum != 11}"><c:if test="${numSum%2 == 0}">双</c:if><c:if test="${numSum%2 != 0}">单</c:if></c:if></c:if><c:if test="${p.code != 'bjpk10'}"><c:if test="${numSum%2 == 0}">双</c:if><c:if test="${numSum%2 != 0}">单</c:if></c:if></td>
+                        <td><c:if test="${p.code == 'bjpk10'}"><c:if test="${numSum == 11}">和</c:if><c:if test="${numSum>11}">大</c:if><c:if test="${numSum < 11}">小</c:if></c:if><c:if test="${p.code != 'bjpk10'}"><c:if test="${numSum>=12}">大</c:if><c:if test="${numSum <= 11}">小</c:if></c:if></td>
                     </c:if>
                     <c:if test="${empty p.openCode}">
-                        <c:forEach var="i" begin="0" end="9" >
-                            <td>--</td>
-                        </c:forEach>
+                        <%--<c:forEach var="i" begin="0" end="9" >--%>
+                        <td></td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <%--</c:forEach>--%>
                     </c:if>
+                    <td>
+                        <soul:button target="payout" text="派彩" opType="function" permission="lottery:openresult_payout" objId="${p.id}"></soul:button>
+                    </td>
+
                 </tr>
             </c:forEach>
             </tbody>

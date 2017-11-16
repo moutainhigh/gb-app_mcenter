@@ -32,7 +32,7 @@
                                 <input type="hidden" value="${num.betCode}" name="lotteryOdds[${status.index}].betCode">
                                 <input type="hidden" value="${num.siteId}" name="lotteryOdds[${status.index}].siteId">
                                 <input type="hidden" value="${num.betNum}" name="lotteryOdds[${status.index}].betNum">
-                                <input type="text" class="form-control input-sm" placeholder="<=${num.oddLimit}" data-limit="${num.oddLimit}" data-value="${num.odd}" name="lotteryOdds[${i}].odd" data-value="${num.odd}" value="${num.odd}">
+                                <input type="text" class="form-control input-sm" placeholder="<=${num.oddLimit}" data-limit="${num.oddLimit}" data-value="${num.odd}" name="lotteryOdds[${status.index}].odd" data-value="${num.odd}" value="${num.odd}">
                             </div>
                         </td>
                     <c:if test="${status.index%4==3}">

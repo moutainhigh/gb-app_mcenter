@@ -75,6 +75,7 @@
                     <c:if test="${p.status !=3}">
                         <c:set var="allRebateAmount" value="${allRebateAmount+p.rebateAmount}"/>
                         <c:set var="allBetAmount" value="${allBetAmount+p.betAmount}"/>
+                        <c:set var="allPayout" value="${allPayout+p.payout}"></c:set>
                     </c:if>
                     <c:choose>
                         <c:when test="${p.playCode eq 'keno_selection_five'}">
@@ -106,7 +107,6 @@
                     </c:choose>
                     <td class="td-width-150" title="${pOdd}">${pOdd}</td>
                     <td>${p.payout}</td>
-                    <c:set var="allPayout" value="${allPayout+p.payout}"></c:set>
                     <td>${soulFn:formatDateTz(p.betTime, DateFormat.DAY_SECOND,timeZone)}</td>
                     <td>
                         <c:if test="${p.status=='1'}">
