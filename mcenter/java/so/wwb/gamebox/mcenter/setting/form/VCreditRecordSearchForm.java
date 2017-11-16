@@ -1,4 +1,4 @@
-package so.wwb.gamebox.boss.credit.form;
+package so.wwb.gamebox.mcenter.setting.form;
 
 import org.soul.web.support.IForm;
 

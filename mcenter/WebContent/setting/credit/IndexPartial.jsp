@@ -1,7 +1,7 @@
-<%@ page import="so.wwb.gamebox.model.company.credit.po.CreditRecord" %><%--@elvariable id="command" type="so.wwb.gamebox.model.company.credit.vo.CreditRecordListVo"--%>
+<%@ page import="so.wwb.gamebox.model.company.credit.po.VCreditRecord" %><%--@elvariable id="command" type="so.wwb.gamebox.model.company.credit.vo.VCreditRecordListVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
-<c:set var="poType" value="<%= CreditRecord.class %>" />
+<c:set var="poType" value="<%= VCreditRecord.class %>" />
 <!--//region your codes 1-->
 <div class="table-responsive table-min-h">
     <table class="table table-striped table-hover dataTable m-b-none" aria-describedby="editable_info">
@@ -10,12 +10,15 @@
             <th>${views.setting_auto['订单号']}</th>
             <th>${views.setting_auto['操作人']}</th>
             <th>${views.setting_auto['充值金额']}</th>
-            <th>${views.setting_auto['类型']}</th>
+            <th>
+                <gb:select name="search.payType" value="${command.search.payType}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
+                           list="${payType}" listKey="key" listValue="value" callback="query"/>
+            </th>
             <th>
                 <gb:select name="search.status" value="${command.search.status}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
                            list="${status}" listKey="key" listValue="value" callback="query"/>
             </th>
-            <th>${views.setting_auto['存款渠道']}</th>
+            <th>${views.setting_auto['账户名称']}</th>
             <soul:orderColumn poType="${poType}" property="createTime" column="${views.setting_auto['支付时间']}"/>
             <th>${views.setting_auto['IP']}</th>
         </tr>
@@ -28,7 +31,7 @@
                 <td>
                         ${p.payUserName}
                     <c:if test="${p.backgroundAdded == true}">
-                        <span data-content="后台充值操作人"
+                        <span data-content="${views.setting_auto['后台操作人']}"
                               data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
                               role="button" class="ico-lock" tabindex="0"
                               data-original-title="" title=""><i class="fa fa-user"></i></span>
@@ -45,7 +48,7 @@
                     </c:choose>
                     <span class="${status_class}">${dicts.credit.credit_status[p.status]}</span>
                 </td>
-                <td>${empty dicts.common.bankname[p.bankName]?"---":dicts.common.bankname[p.bankName]}</td>
+                <td>${empty p.payName?"---":p.payName}</td>
                 <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
                 <td>${soulFn:formatIp(p.ip)}</td>
             </tr>

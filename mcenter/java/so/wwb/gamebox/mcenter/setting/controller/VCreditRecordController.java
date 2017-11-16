@@ -1,4 +1,4 @@
-package so.wwb.gamebox.boss.credit.controller;
+package so.wwb.gamebox.mcenter.setting.controller;
 
 import org.soul.commons.dict.DictTool;
 import org.soul.web.controller.NoMappingCrudController;
@@ -7,9 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import so.wwb.gamebox.boss.credit.form.VCreditRecordForm;
-import so.wwb.gamebox.boss.credit.form.VCreditRecordSearchForm;
 import so.wwb.gamebox.iservice.company.credit.IVCreditRecordService;
+import so.wwb.gamebox.mcenter.setting.form.VCreditRecordForm;
+import so.wwb.gamebox.mcenter.setting.form.VCreditRecordSearchForm;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.company.credit.po.VCreditRecord;
 import so.wwb.gamebox.model.company.credit.vo.VCreditRecordListVo;
@@ -36,7 +36,7 @@ public class VCreditRecordController extends NoMappingCrudController<IVCreditRec
     @Override
     protected String getViewBasePath() {
         //region your codes 2
-        return "/creditRecord/";
+        return "/setting/credit/";
         //endregion your codes 2
     }
 
