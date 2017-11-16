@@ -53,18 +53,7 @@ public class CreditRecordController extends NoMappingCrudController<ICreditRecor
     }
 
     //region your codes 3
-    @RequestMapping({"/list"})
-    public String searchCreditRecord(CreditRecordListVo listVo, @FormModel("search") @Valid CreditRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
-        return list(listVo, form, result, model, request, response);
-    }
 
-    @Override
-    public String list(CreditRecordListVo listVo, @FormModel("search") @Valid CreditRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
-        listVo.getSearch().setSiteId(SessionManager.getSiteId());
-        Map Status = DictTool.get(DictEnum.CREDIT_STATUS);
-        model.addAttribute("status", Status);
-        return super.list(listVo, form, result, model, request, response);
-    }
     //endregion your codes 3
 
 }

@@ -1,10 +1,10 @@
-<%--@elvariable id="command" type="so.wwb.gamebox.model.company.credit.vo.CreditRecordListVo"--%>
+<%--@elvariable id="command" type="so.wwb.gamebox.model.company.credit.vo.vcreditrecordlistvo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <!--//region your codes 1-->
 
 <!--//endregion your codes 1-->
-<form:form action="${root}/creditRecord/list.html" method="post">
+<form:form action="${root}/vCreditRecord/list.html" method="post">
     <div id="validateRule" style="display: none">${validateRule}</div>
     <div class="row">
         <div class="position-wrap clearfix">
