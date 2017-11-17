@@ -480,7 +480,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         /*activityMessageVo.setProperties(ActivityMessage.PROP_IS_DISPLAY);
         activityMessageVo = ServiceTool.activityMessageService().updateOnly(activityMessageVo);
         */
-        Cache.refreshActivityMessages();
+        Cache.refreshActivityMessages(SessionManager.getSiteId());
         Cache.refreshCurrentSitePageCache();
         Map map = new HashMap();
         map.put("state", activityMessageVo.isSuccess());
