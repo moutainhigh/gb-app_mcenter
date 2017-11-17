@@ -77,7 +77,10 @@ public class CreditPayController {
         SysSiteVo sysSiteVo = new SysSiteVo();
         sysSiteVo.getSearch().setId(SessionManager.getSiteId());
         SysSite sysSite = ServiceToolBase.sysSiteService().get(sysSiteVo).getResult();
-        model.addAttribute("profit", sysSite.getMaxProfit());
+        if (sysSite.getCreditLine()==null||"".equals(sysSite.getCreditLine())){
+            sysSite.setCreditLine(0.0);
+        }
+        model.addAttribute("profit", sysSite.getMaxProfit()+sysSite.getCreditLine());
         model.addAttribute("defaultProfit", sysSite.getDefaultProfit());
         double transferOutSum = sysSite.getTransferOutSum() == null ? 0 : sysSite.getTransferOutSum();
         double transferIntoSum = sysSite.getTransferIntoSum() == null ? 0 : sysSite.getTransferIntoSum();
