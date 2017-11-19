@@ -23,13 +23,13 @@
                             <input type="hidden" value="${command[playWay.value].playCode}" name="quotaList[${status.index}].playCode">
                             <td>
                                 <div class="input-group content-width-limit-10">
-                                    <input type="text" class="form-control input-sm" value="${command[playWay.value].numQuota}" data-value="${command[playWay.value].numQuota}" name="quotaList[${status.index}].numQuota">
+                                    <input type="text" class="form-control input-sm" value="${command[playWay.value].numQuotaStr}" data-value="${command[playWay.value].numQuota}" name="quotaList[${status.index}].numQuota">
 
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group content-width-limit-10">
-                                    <input type="text" class="form-control input-sm" value="${command[playWay.value].betQuota}" data-value="${command[playWay.value].betQuota}" name="quotaList[${status.index}].betQuota">
+                                    <input type="text" class="form-control input-sm" value="${command[playWay.value].betQuotaStr}" data-value="${command[playWay.value].betQuota}" name="quotaList[${status.index}].betQuota">
                                 </div>
                             </td>
                         </tr>

@@ -26,20 +26,20 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_big_small'].numQuota}" data-value="${command['sfc_big_small'].numQuota}"  name="quotaList[0].numQuota">
+                                       value="${command['sfc_big_small'].numQuotaStr}" data-value="${command['sfc_big_small'].numQuota}"  name="quotaList[0].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_big_small'].betQuota}" data-value="${command['sfc_big_small'].betQuota}" name="quotaList[0].betQuota">
+                                       value="${command['sfc_big_small'].betQuotaStr}" data-value="${command['sfc_big_small'].betQuota}" name="quotaList[0].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_big_small'].playQuota}" data-value="${command['sfc_big_small'].playQuota}" name="quotaList[0].playQuota">
+                                       value="${command['sfc_big_small'].playQuotaStr}" data-value="${command['sfc_big_small'].playQuota}" name="quotaList[0].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -53,20 +53,20 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_digital'].numQuota}" data-value="${command['sfc_digital'].numQuota}"  name="quotaList[1].numQuota">
+                                       value="${command['sfc_digital'].numQuotaStr}" data-value="${command['sfc_digital'].numQuota}"  name="quotaList[1].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_digital'].betQuota}" data-value="${command['sfc_digital'].betQuota}" name="quotaList[1].betQuota">
+                                       value="${command['sfc_digital'].betQuotaStr}" data-value="${command['sfc_digital'].betQuota}" name="quotaList[1].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_digital'].playQuota}" data-value="${command['sfc_digital'].playQuota}" name="quotaList[1].playQuota">
+                                       value="${command['sfc_digital'].playQuotaStr}" data-value="${command['sfc_digital'].playQuota}" name="quotaList[1].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -82,20 +82,20 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_dragon_tiger'].numQuota}" data-value="${command['sfc_dragon_tiger'].numQuota}"  name="quotaList[2].numQuota">
+                                       value="${command['sfc_dragon_tiger'].numQuotaStr}" data-value="${command['sfc_dragon_tiger'].numQuota}"  name="quotaList[2].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_dragon_tiger'].betQuota}" data-value="${command['sfc_dragon_tiger'].betQuota}" name="quotaList[2].betQuota">
+                                       value="${command['sfc_dragon_tiger'].betQuotaStr}" data-value="${command['sfc_dragon_tiger'].betQuota}" name="quotaList[2].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_dragon_tiger'].playQuota}" data-value="${command['sfc_dragon_tiger'].playQuota}" name="quotaList[2].playQuota">
+                                       value="${command['sfc_dragon_tiger'].playQuotaStr}" data-value="${command['sfc_dragon_tiger'].playQuota}" name="quotaList[2].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -111,20 +111,20 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_single_double'].numQuota}" data-value="${command['sfc_single_double'].numQuota}"  name="quotaList[3].numQuota">
+                                       value="${command['sfc_single_double'].numQuotaStr}" data-value="${command['sfc_single_double'].numQuota}"  name="quotaList[3].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_single_double'].betQuota}" data-value="${command['sfc_single_double'].betQuota}" name="quotaList[3].betQuota">
+                                       value="${command['sfc_single_double'].betQuotaStr}" data-value="${command['sfc_single_double'].betQuota}" name="quotaList[3].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_single_double'].playQuota}" data-value="${command['sfc_single_double'].playQuota}" name="quotaList[3].playQuota">
+                                       value="${command['sfc_single_double'].playQuotaStr}" data-value="${command['sfc_single_double'].playQuota}" name="quotaList[3].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -140,7 +140,7 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_mantissa_big_small'].numQuota}"
+                                       value="${command['sfc_mantissa_big_small'].numQuotaStr}"
                                        data-value="${command['sfc_mantissa_big_small'].numQuota}"
                                        name="quotaList[4].numQuota">
 
@@ -149,7 +149,7 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_mantissa_big_small'].betQuota}"
+                                       value="${command['sfc_mantissa_big_small'].betQuotaStr}"
                                        data-value="${command['sfc_mantissa_big_small'].betQuota}"
                                        name="quotaList[4].betQuota">
                             </div>
@@ -157,7 +157,7 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_mantissa_big_small'].playQuota}"
+                                       value="${command['sfc_mantissa_big_small'].playQuotaStr}"
                                        data-value="${command['sfc_mantissa_big_small'].playQuota}"
                                        name="quotaList[4].playQuota">
                             </div>
@@ -175,7 +175,7 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_sum_single_double'].numQuota}"
+                                       value="${command['sfc_sum_single_double'].numQuotaStr}"
                                        data-value="${command['sfc_sum_single_double'].numQuota}"
                                        name="quotaList[5].numQuota">
 
@@ -184,7 +184,7 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_sum_single_double'].betQuota}"
+                                       value="${command['sfc_sum_single_double'].betQuotaStr}"
                                        data-value="${command['sfc_sum_single_double'].betQuota}"
                                        name="quotaList[5].betQuota">
                             </div>
@@ -192,7 +192,7 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_sum_single_double'].playQuota}"
+                                       value="${command['sfc_sum_single_double'].playQuotaStr}"
                                        data-value="${command['sfc_sum_single_double'].playQuota}"
                                        name="quotaList[5].playQuota">
                             </div>
@@ -211,20 +211,20 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_sum8_big_small'].numQuota}" data-value="${command['sfc_sum8_big_small'].numQuota}"  name="quotaList[13].numQuota">
+                                       value="${command['sfc_sum8_big_small'].numQuotaStr}" data-value="${command['sfc_sum8_big_small'].numQuota}"  name="quotaList[13].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_sum8_big_small'].betQuota}" data-value="${command['sfc_sum8_big_small'].betQuota}" name="quotaList[13].betQuota">
+                                       value="${command['sfc_sum8_big_small'].betQuotaStr}" data-value="${command['sfc_sum8_big_small'].betQuota}" name="quotaList[13].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_sum8_big_small'].playQuota}"
+                                       value="${command['sfc_sum8_big_small'].playQuotaStr}"
                                        data-value="${command['sfc_sum8_big_small'].playQuota}"
                                        name="quotaList[13].playQuota">
                             </div>
@@ -244,7 +244,7 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_sum8_single_double'].numQuota}"
+                                       value="${command['sfc_sum8_single_double'].numQuotaStr}"
                                        data-value="${command['sfc_sum8_single_double'].numQuota}"
                                        name="quotaList[6].numQuota">
 
@@ -253,7 +253,7 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_sum8_single_double'].betQuota}"
+                                       value="${command['sfc_sum8_single_double'].betQuotaStr}"
                                        data-value="${command['sfc_sum8_single_double'].betQuota}"
                                        name="quotaList[6].betQuota">
                             </div>
@@ -261,7 +261,7 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_sum8_single_double'].playQuota}"
+                                       value="${command['sfc_sum8_single_double'].playQuotaStr}"
                                        data-value="${command['sfc_sum8_single_double'].playQuota}"
                                        name="quotaList[6].playQuota">
                             </div>
@@ -282,7 +282,7 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_sum8_mantissa_big_small'].numQuota}"
+                                       value="${command['sfc_sum8_mantissa_big_small'].numQuotaStr}"
                                        data-value="${command['sfc_sum8_mantissa_big_small'].numQuota}"
                                        name="quotaList[7].numQuota">
 
@@ -291,7 +291,7 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_sum8_mantissa_big_small'].betQuota}"
+                                       value="${command['sfc_sum8_mantissa_big_small'].betQuotaStr}"
                                        data-value="${command['sfc_sum8_mantissa_big_small'].betQuota}"
                                        name="quotaList[7].betQuota">
                             </div>
@@ -299,7 +299,7 @@
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="text" class="form-control input-sm"
-                                       value="${command['sfc_sum8_mantissa_big_small'].playQuota}"
+                                       value="${command['sfc_sum8_mantissa_big_small'].playQuotaStr}"
                                        data-value="${command['sfc_sum8_mantissa_big_small'].playQuota}"
                                        name="quotaList[7].playQuota">
                             </div>
