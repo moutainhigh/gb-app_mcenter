@@ -21,7 +21,7 @@
 
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyMMdd</maven.build.timestamp.format>
-        <nexus.ip>192.168.0.82</nexus.ip>
+        <nexus.ip>192.168.0.88</nexus.ip>
         <repository.nexus.url>http://${nexus.ip}:8081/content/groups/public</repository.nexus.url>
         <repository.nexus.distribution.url>http://${nexus.ip}:8081/content/repositories/thirdparty</repository.nexus.distribution.url>
 
