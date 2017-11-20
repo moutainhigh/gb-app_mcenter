@@ -37,7 +37,7 @@
                               data-original-title="" title=""><i class="fa fa-user"></i></span>
                     </c:if>
                 </td>
-                <td>${soulFn:formatCurrency(p.payAmount)}</td>
+                <td>${soulFn:formatInteger(p.payAmount)}${soulFn:formatDecimals(p.payAmount)}</td>
                 <td>${dicts.credit.pay_type[p.payType]}</td>
                 <td>
                     <c:set value="" var="status_class"></c:set>
