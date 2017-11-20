@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.content.controller;
 
+import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
@@ -112,6 +113,9 @@ public class VSiteApiTypeController extends BaseCrudController<IVSiteApiTypeServ
         listVo.getSearch().setSiteId(vSiteApiType.getSiteId());
         listVo.setProperties(SiteApiTypeRelation.PROP_API_ID);
         List<Integer> apiIds = ServiceTool.siteApiTypeRelationService().searchProperty(listVo);
+        if(CollectionTool.isEmpty(apiIds)){
+            return 0;
+        }
         PlayerGameLogVo logVo = new PlayerGameLogVo();
         logVo.getSearch().setApiIds(apiIds);
         DateQuickPicker dp = SessionManager.getDate();
