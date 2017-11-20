@@ -239,8 +239,6 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
             siteLotteryOddVo.setEntities(updateOdds);
             int count = ServiceTool.siteLotteryOddService().batchUpdateOnly(siteLotteryOddVo);
             LOG.info("保存站点彩票赔率成功,更新条数{0},更新赔率值{1}", count, JsonTool.toJson(updateOdds));
-            Cache.getSiteLotteryOdds(SessionManager.getSiteId(),"cqssc");
-            Cache.refreshSiteLotteryOdds(SessionManager.getSiteId());
             Cache.refreshSiteLotteryOdds(SessionManager.getSiteId());
 
         }
