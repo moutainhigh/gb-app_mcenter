@@ -703,6 +703,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
                 ActivityMoneyDefaultWinPlayerListVo winPlayerListVo = new ActivityMoneyDefaultWinPlayerListVo();
                 winPlayerListVo.getSearch().setDefaultWinId(defaultWin.getId());
                 winPlayerListVo.getQuery().addOrder(ActivityMoneyDefaultWinPlayer.PROP_ID,Direction.ASC);
+                winPlayerListVo.setPaging(null);
                 winPlayerListVo = ServiceTool.activityMoneyDefaultWinPlayerService().search(winPlayerListVo);
                 playerMap.put(defaultWin.getId(),winPlayerListVo.getResult());
                 //xxxx-40天前 [username]内定玩家xxx,xxx,xxx,xxx,xx等玩家中奖x次，奖项为xxxx元。收起 取消内定

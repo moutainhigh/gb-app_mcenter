@@ -38,7 +38,7 @@
                     <div class="m-r-xs pull-left prog">
                         <input type="text" value="${playerApi.scale}" class="dial m-r-sm jdt" data-readOnly=true
                                 <c:choose>
-                                    <c:when test="${!playerApi.isTransaction&&empty i.money}">
+                                    <c:when test="${!playerApi.isTransaction&&empty playerApi.money}">
                                         data-fgcolor="#999"
                                     </c:when>
                                     <c:when test="${playerApi.synchronizationStatus=='abnormal'}">
@@ -53,7 +53,7 @@
                     <span class="con">${gbFn:getSiteApiName(playerApi.apiId.toString())}</span>
                 <span class="con">
                       <c:choose>
-                          <c:when test="${!playerApi.isTransaction&&empty i.money}">
+                          <c:when test="${!playerApi.isTransaction&&empty playerApi.money}">
                               0.00
                           </c:when>
                           <c:when test="${apis[playerApi.apiId.toString()].status=='maintain'}">
