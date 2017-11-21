@@ -21,6 +21,8 @@
             <th>${views.setting_auto['账户名称']}</th>
             <soul:orderColumn poType="${poType}" property="createTime" column="${views.setting_auto['支付时间']}"/>
             <th>${views.setting_auto['IP']}</th>
+            <th>回执单</th>
+            <th>${views.common['operate']}</th>
         </tr>
         </thead>
 
@@ -51,6 +53,14 @@
                 <td>${empty p.payName?"---":p.payName}</td>
                 <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
                 <td>${soulFn:formatIp(p.ip)}</td>
+                <td>
+                    <c:if test="${not empty p.path}">
+                        <a href="javascript:void(0)"><img data-src="${soulFn:getImagePath(domain,p.path)}" src="${soulFn:getThumbPath(domain,p.path,66,24)}"></a>
+                    </c:if>
+                </td>
+                <td>
+                    <soul:button target="${root}/creditRecord/uploadReceipt.html?search.id=${p.id}" text="上传回单" opType="dialog" callback="query">上传回单</soul:button>
+                </td>
             </tr>
         </c:forEach>
         </tbody>

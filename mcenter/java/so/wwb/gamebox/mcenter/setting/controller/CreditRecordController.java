@@ -15,10 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.iservice.company.credit.ICreditRecordService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordForm;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordSearchForm;
+import so.wwb.gamebox.mcenter.setting.form.VCreditRecordForm;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.company.credit.po.CreditRecord;
@@ -29,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +56,25 @@ public class CreditRecordController extends NoMappingCrudController<ICreditRecor
     }
 
     //region your codes 3
+    @RequestMapping(value = "uploadReceipt")
+    public String uploadReceipt(CreditRecordVo creditRecordVo,Model model){
+        if(creditRecordVo.getSearch().getId()==null){
+            return getViewBasePath() + "UploadReceipt";
+        }
+        creditRecordVo = getService().get(creditRecordVo);
+        creditRecordVo.setValidateRule(JsRuleCreator.create(VCreditRecordForm.class));
+        model.addAttribute("command",creditRecordVo);
+        return getViewBasePath() + "UploadReceipt";
+    }
 
+    @RequestMapping(value = "saveUploadReceipt")
+    @ResponseBody
+    public Map saveUploadReceipt(CreditRecordVo creditRecordVo){
+        creditRecordVo.setProperties(CreditRecord.PROP_PATH);
+        creditRecordVo = getService().updateOnly(creditRecordVo);
+        Map resMap = getVoMessage(creditRecordVo);
+        return resMap;
+    }
     //endregion your codes 3
 
 }
