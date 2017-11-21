@@ -6,7 +6,6 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.init.context.CommonContext;
-import org.soul.commons.init.context.Const;
 import org.soul.commons.lang.ArrayTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
@@ -46,6 +45,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.*;
 import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
@@ -333,30 +333,38 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     }
 
     private void setVerificationData(Model model) {
-        SysParam yzmValue = ParamTool.getSysParam(SiteParamEnum.SETTING_CAPTCHA_STYLE);
-        SysParam exclusions = ParamTool.getSysParam(SiteParamEnum.SETTING_CAPTCHA_EXCLUSIONS);
-        Collection<SysParam> list = ParamTool.getSysParams(SiteParamEnum.SETTING_CAPTCHA_STYLES);
+        SysParam captchaStyleParam = ParamTool.getSysParam(SiteParamEnum.SETTING_CAPTCHA_STYLE);
+        SysParam captchaExclusionsParam = ParamTool.getSysParam(SiteParamEnum.SETTING_CAPTCHA_EXCLUSIONS);
+        SysParam captchaGimpyParam = ParamTool.getSysParam(SiteParamEnum.SETTING_CAPTCHA_GIMPY);
+        Collection<SysParam> captchaStyles = ParamTool.getSysParams(SiteParamEnum.SETTING_CAPTCHA_STYLES);
 
-        model.addAttribute("list", list);
-        model.addAttribute("result", yzmValue);
-        model.addAttribute("exclusions", exclusions);
-        model.addAttribute("yzm", yzmValue);
+        model.addAttribute("captchaStyleParams", captchaStyles);
+        model.addAttribute("captchaStyleParam", captchaStyleParam);
+        model.addAttribute("captchaExclusionsParam", captchaExclusionsParam);
+        model.addAttribute("captchaGimpyParam", captchaGimpyParam);
+        model.addAttribute("captchaStyleParam", captchaStyleParam);
         findEnableImportPlayerParam(model);
     }
 
+
     /**
      * 保存验证码设置
-     *
-     * @param yzmId
-     * @param yzmValue
-     * @param exclusionsId
-     * @param exclusionsValue
+     * @param captchaStyleId
+     * @param captchaStyle
+     * @param captchaExclusionsId
+     * @param captchaExclusions
+     * @param captchaGimpyId
+     * @param captchaGimpy
+     * @param form
+     * @param result
      * @return
      */
-    @RequestMapping({"/saveYzm"})
+    @RequestMapping({"/saveCaptcha"})
     @ResponseBody
-    public Map saveYzm(Integer yzmId, String yzmValue,
-                       Integer exclusionsId, String exclusionsValue, @FormModel() @Valid CaptchaForm form, BindingResult result) {
+    public Map saveYzm(Integer captchaStyleId, String captchaStyle,
+                       Integer captchaExclusionsId, String captchaExclusions,
+                       Integer captchaGimpyId, String captchaGimpy,
+                       @FormModel() @Valid CaptchaForm form, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, Object> map = new HashMap<>(2);
             map.put("state", false);
@@ -366,13 +374,18 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
 
         List<SysParam> sysParamList = new ArrayList<>();
         SysParam sysParam = new SysParam();
-        sysParam.setId(yzmId);
-        sysParam.setParamValue(yzmValue);
+        sysParam.setId(captchaStyleId);
+        sysParam.setParamValue(captchaStyle);
         sysParamList.add(sysParam);
 
         sysParam = new SysParam();
-        sysParam.setId(exclusionsId);
-        sysParam.setParamValue(exclusionsValue);
+        sysParam.setId(captchaExclusionsId);
+        sysParam.setParamValue(captchaExclusions);
+        sysParamList.add(sysParam);
+
+        sysParam = new SysParam();
+        sysParam.setId(captchaGimpyId);
+        sysParam.setParamValue(captchaGimpy);
         sysParamList.add(sysParam);
 
         SysParamVo paramVo = new SysParamVo();
@@ -380,9 +393,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         paramVo.setEntities(sysParamList);
         paramVo.setProperties(SysParam.PROP_PARAM_VALUE);
         ServiceTool.getSysParamService().batchUpdateOnly(paramVo);
-
         ParamTool.refresh(SiteParamEnum.SETTING_CAPTCHA_STYLE);
-        Cache.refreshCurrentSitePageCache();
         return this.getVoMessage(paramVo);
 
     }
