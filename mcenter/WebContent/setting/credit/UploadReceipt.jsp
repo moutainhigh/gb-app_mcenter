@@ -18,7 +18,7 @@
     <div class="modal-body">
         <c:set value="${command.result}" var="p"></c:set>
         <div class="form-group">
-            <label><span class="co-red">*</span>上传回执单：</label><span class="m-l co-grayc2"></span>
+            <label><span class="co-red">*</span>${views.setting['credit.creditRecord.uploadReceipt']}：</label><span class="m-l co-grayc2"></span>
             <div class="form-group m-b-sm">
                 <div id="logoDiv">
                     <c:if test="${not empty p.path}">

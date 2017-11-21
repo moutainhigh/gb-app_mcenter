@@ -21,7 +21,7 @@
             <th>${views.setting_auto['账户名称']}</th>
             <soul:orderColumn poType="${poType}" property="createTime" column="${views.setting_auto['支付时间']}"/>
             <th>${views.setting_auto['IP']}</th>
-            <th>凭证</th>
+            <th>${views.setting['credit.creditRecord.receipt']}</th>
             <th>${views.common['operate']}</th>
         </tr>
         </thead>
@@ -59,7 +59,7 @@
                     </c:if>
                 </td>
                 <td>
-                    <soul:button target="${root}/creditRecord/uploadReceipt.html?search.id=${p.id}" text="上传凭证" opType="dialog" callback="query">上传凭证</soul:button>
+                    <soul:button target="${root}/creditRecord/uploadReceipt.html?search.id=${p.id}" text="${views.setting['credit.creditRecord.uploadReceipt']}" opType="dialog" callback="query">${views.setting['credit.creditRecord.uploadReceipt']}</soul:button>
                 </td>
             </tr>
         </c:forEach>
