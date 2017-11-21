@@ -5,7 +5,7 @@
 
 <!--//endregion your codes 1-->
 <form:form action="${root}/param/verification.html" method="post">
-            <!--//region your codes 2-->
+    <!--//region your codes 2-->
     <div class="row">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
