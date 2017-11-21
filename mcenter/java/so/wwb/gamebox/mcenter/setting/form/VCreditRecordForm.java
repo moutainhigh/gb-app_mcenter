@@ -15,14 +15,14 @@ public class VCreditRecordForm implements IForm {
 //endregion your codes 1
 
     //region your codes 2
-    private String reslut_path;
+    private String result_path;
     @NotBlank
-    public String getReslut_path() {
-        return reslut_path;
+    public String getResult_path() {
+        return result_path;
     }
 
-    public void setReslut_path(String reslut_path) {
-        this.reslut_path = reslut_path;
+    public void setResult_path(String result_path) {
+        this.result_path = result_path;
     }
     //endregion your codes 2
 

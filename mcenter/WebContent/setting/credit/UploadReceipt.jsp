@@ -13,6 +13,7 @@
 
 <form:form id="editForm" action="${root}/creditRecord/uploadReceipt.html" method="post">
     <form:hidden path="result.id" />
+    <gb:token></gb:token>
     <div id="validateRule" style="display: none">${command.validateRule}</div>
     <div class="modal-body">
         <c:set value="${command.result}" var="p"></c:set>

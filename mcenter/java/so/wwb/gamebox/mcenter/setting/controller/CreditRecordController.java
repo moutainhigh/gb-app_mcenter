@@ -1,13 +1,6 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
 
-
-import org.soul.commons.bean.Pair;
-import org.soul.commons.dict.DictTool;
-import org.soul.commons.locale.LocaleTool;
-import org.soul.commons.net.ServletTool;
-import org.soul.model.common.BaseListVo;
-import org.soul.web.controller.BaseCrudController;
 import org.soul.web.controller.NoMappingCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
@@ -17,22 +10,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.iservice.company.credit.ICreditRecordService;
-import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordForm;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordSearchForm;
 import so.wwb.gamebox.mcenter.setting.form.VCreditRecordForm;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
-import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.company.credit.po.CreditRecord;
 import so.wwb.gamebox.model.company.credit.vo.CreditRecordListVo;
 import so.wwb.gamebox.model.company.credit.vo.CreditRecordVo;
+import so.wwb.gamebox.web.common.token.Token;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -57,6 +44,7 @@ public class CreditRecordController extends NoMappingCrudController<ICreditRecor
 
     //region your codes 3
     @RequestMapping(value = "uploadReceipt")
+    @Token(generate = true)
     public String uploadReceipt(CreditRecordVo creditRecordVo,Model model){
         if(creditRecordVo.getSearch().getId()==null){
             return getViewBasePath() + "UploadReceipt";
@@ -69,10 +57,16 @@ public class CreditRecordController extends NoMappingCrudController<ICreditRecor
 
     @RequestMapping(value = "saveUploadReceipt")
     @ResponseBody
-    public Map saveUploadReceipt(CreditRecordVo creditRecordVo){
+    @Token(valid = true)
+    public Map saveUploadReceipt(CreditRecordVo creditRecordVo, @FormModel("result") @Valid VCreditRecordForm form, BindingResult result){
+        Map resMap = new HashMap();
+        if(result.hasErrors()){
+            resMap.put("state",false);
+            return resMap;
+        }
         creditRecordVo.setProperties(CreditRecord.PROP_PATH);
         creditRecordVo = getService().updateOnly(creditRecordVo);
-        Map resMap = getVoMessage(creditRecordVo);
+        resMap = getVoMessage(creditRecordVo);
         return resMap;
     }
     //endregion your codes 3
