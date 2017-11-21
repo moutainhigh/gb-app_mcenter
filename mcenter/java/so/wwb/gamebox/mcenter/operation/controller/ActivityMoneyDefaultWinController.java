@@ -5,6 +5,8 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.LogFactory;
 import org.soul.model.security.privilege.po.SysUser;
+import org.soul.model.security.privilege.po.SysUserStatus;
+import org.soul.model.security.privilege.vo.SysUserListVo;
 import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
@@ -124,8 +126,8 @@ public class ActivityMoneyDefaultWinController extends BaseCrudController<IActiv
     }
 
     private boolean isExistUsername(String username){
-        SysUser sysUserByUsername = getSysUserByUsername(username);
-        return sysUserByUsername!=null;
+        SysUser sysUser = getSysUserByUsernameForMoney(username);
+        return sysUser!=null;
     }
 
     private SysUser getSysUserByUsername(String username){
@@ -135,6 +137,16 @@ public class ActivityMoneyDefaultWinController extends BaseCrudController<IActiv
         sysUserVo.getSearch().setSubsysCode(SubSysCodeEnum.PCENTER.getCode());
         SysUser byUsername = ServiceTool.sysUserService().findByUsername(sysUserVo);
         return byUsername;
+    }
+
+    private SysUser getSysUserByUsernameForMoney(String username){
+        SysUserVo sysUserVo = new SysUserVo();
+        sysUserVo.getSearch().setUsername(username);
+        sysUserVo.getSearch().setSiteId(SessionManager.getSiteId());
+        sysUserVo.getSearch().setSubsysCode(SubSysCodeEnum.PCENTER.getCode());
+        sysUserVo.getSearch().setStatus(SysUserStatus.NORMAL.getCode());
+        SysUserListVo sysUserListVo = ServiceTool.userPlayerService().findByUsernameForMoney(sysUserVo);
+        return sysUserListVo.getResult().isEmpty()? null:sysUserListVo.getResult().get(0);
     }
 
     @RequestMapping(value = "/cancelDefaultWin")
