@@ -85,20 +85,28 @@
                                 <th scope="row" class="text-right" style="width: 150px;">${views.setting_auto['存款渠道']}：</th>
                                 <td>
                                     <div class="table-desc-right-t m-t-n-sm" style="width: 100%;min-width: 340px; max-width: 510px;">
-                                        <c:set var="banknames" value="${dicts.common.bankname}"/>
-                                        <c:forEach items="${accountMap}" var="i" varStatus="vs">
-                                            <label class="bank ${vs.index==0?'select':''}">
-                                                <span class="radio"><input name="result.bankName" type="radio" value="${i.key}" ${vs.index==0?'checked':''}/></span>
-                                                <span class="radio-bank" title="${banknames[i.key]}"><i class="pay-bank ${i.key}"></i></span>
-                                                <span class="bank-logo-name">${banknames[i.key]}</span>
-                                                <input name="min" type="hidden" value="${empty i.value.singleDepositMin?1:i.value.singleDepositMin}"/>
-                                                <input name="max" type="hidden" value="${empty i.value.singleDepositMax?99999999:i.value.singleDepositMax}"/>
-                                            </label>
-                                            <c:if test="${vs.index==0}">
-                                                <c:set var="singleMin" value="${empty i.value.singleDepositMin?1:i.value.singleDepositMin}"/>
-                                                <c:set var="singleMax" value="${empty i.value.singleDepositMax?99999999:i.value.singleDepositMax}"/>
-                                            </c:if>
-                                        </c:forEach>
+                                        <c:choose>
+                                            <c:when test="${not empty accountMap}">
+                                                <c:set var="banknames" value="${dicts.common.bankname}"/>
+                                                <c:forEach items="${accountMap}" var="i" varStatus="vs">
+                                                    <label class="bank ${vs.index==0?'select':''}">
+                                                        <span class="radio"><input name="result.bankName" type="radio" value="${i.key}" ${vs.index==0?'checked':''}/></span>
+                                                        <span class="radio-bank" title="${banknames[i.key]}"><i class="pay-bank ${i.key}"></i></span>
+                                                        <span class="bank-logo-name">${banknames[i.key]}</span>
+                                                        <input name="min" type="hidden" value="${empty i.value.singleDepositMin?1:i.value.singleDepositMin}"/>
+                                                        <input name="max" type="hidden" value="${empty i.value.singleDepositMax?99999999:i.value.singleDepositMax}"/>
+                                                    </label>
+                                                    <c:if test="${vs.index==0}">
+                                                        <c:set var="singleMin" value="${empty i.value.singleDepositMin?1:i.value.singleDepositMin}"/>
+                                                        <c:set var="singleMax" value="${empty i.value.singleDepositMax?99999999:i.value.singleDepositMax}"/>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input name="result.bankName" type="hidden"/>
+                                            </c:otherwise>
+                                        </c:choose>
+
                                     </div>
                                   <%--  <div class="m-t-xs"><a href="javascript:void(0)"> ${views.setting_auto['展开更多']}</a></div>--%>
                                 </td>
