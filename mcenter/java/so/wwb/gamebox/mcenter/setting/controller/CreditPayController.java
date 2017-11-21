@@ -107,7 +107,7 @@ public class CreditPayController {
         creditAccountVo.setCurrency(CurrencyEnum.CNY.getCode());
         model.addAttribute("accountMap", ServiceTool.creditAccountService().getBankAccount(creditAccountVo));
         model.addAttribute("validateRule", JsRuleCreator.create(CreditRecordForm.class));
-        model.addAttribute("useProfit", CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone()));
+        model.addAttribute("useProfit", sysSite.getHasUseProfit());//CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone()));
         model.addAttribute("disableTransfer", ParamTool.disableTransfer(SessionManager.getSiteId()));
         return CREDIT_PAY_URI;
     }
