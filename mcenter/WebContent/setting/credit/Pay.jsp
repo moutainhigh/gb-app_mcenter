@@ -13,7 +13,7 @@
         <div class="wrapper white-bg shadow">
             <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
                 <c:set var="rate" value="${useProfit<=0?0:useProfit*100/profit}"/>
-                <c:set var="transferRate" value="0"/>
+                <c:set var="transferRate" value="${0}"/>
                 <c:if test="${!empty currentTransferLimit && currentTransferLimit!=0}">
                     <c:set var="transferRate" value="${transferLimit<=0?0:transferLimit*100/currentTransferLimit}"/>
                 </c:if>
@@ -122,10 +122,14 @@
                                             ${fn:replace(fn:replace(views.setting_auto['请输入'],"{0}" ,singleMin),"{1}" , singleMax)}
                                             </c:if>
                                         </div>
-                                        <%--<div class="m-t-sm">
-                                            <soul:button target="quickAmount" data="50000" cssClass="btn btn-info dropdown-toggle m-r-sm" text="5万" opType="function"/>
-                                            <soul:button target="quickAmount" data="100000" cssClass="btn btn-info-hide dropdown-toggle m-r-sm" text="10万" opType="function"/>
-                                        </div>--%>
+                                        <div class="m-t-sm">
+                                            <c:if test="${singleMax>=50000}">
+                                                <soul:button target="quickAmount" data="50000" cssClass="btn btn-info dropdown-toggle m-r-sm" text="5万" opType="function"/>
+                                            </c:if>
+                                            <c:if test="${singleMax>=100000}">
+                                                <soul:button target="quickAmount" data="100000" cssClass="btn btn-info-hide dropdown-toggle m-r-sm" text="10万" opType="function"/>
+                                            </c:if>
+                                        </div>
                                        <%-- <div class="m-t-md fs16">${views.setting_auto['您将获得']} <span class="co-green">50万</span> ${views.setting_auto['额度']}</div>--%>
                                         <div class="m-t-md">
                                             <soul:button target="submit" precall="validateForm" text="${views.setting_auto['确认']}" cssClass="btn btn-filter btn-lg btn-block" opType="function"/>
