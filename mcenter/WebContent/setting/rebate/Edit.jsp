@@ -20,7 +20,11 @@
                         <div class="present_wrap"><b>${views.setting['rebate.edit.create']}</b></div>
                     </c:when>
                     <c:otherwise>
-                        <div class="present_wrap"><b>${views.setting['rebate.edit.edit']}</b></div>
+                        <div class="present_wrap">
+                            <b>${views.setting['rebate.edit.edit']}</b>
+                            <a href="/rebateSet/copyRebateSet.html?search.id=${command.result.id}" nav-target="mainFrame">复制本方案</a>
+                        </div>
+
                     </c:otherwise>
                 </c:choose>
                 <div class="form-group clearfix m-t">
@@ -65,6 +69,7 @@
                                         </td>
                                         <td rowspan="2"><h3>${views.setting['rebate.edit.validPlayerNum']}</h3></td>
                                         <td rowspan="2"><h3>${views.setting['rebate.edit.max']}</h3></td>
+                                        <td rowspan="2"><h3>${views.operation_auto["设置返佣分摊比例"]}</h3></td>
                                         <td colspan="${command.apiIds.size()}">
                                             <h3>${views.setting['rebate.edit.ratio']}
                                                 <i data-content="${views.setting['rebate.edit.rakeback']}" class="m-l-sm help-popover"
@@ -87,10 +92,54 @@
                                             <div class="ratio_area"></div>
                                             <button type="button" class="btn btn-danger disabled">${views.common['delete']}</button>
                                             <soul:button target="batchUpdateRatio" text="${views.setting_auto['批量调整比例']}" opType="function" cssClass="btn batch_ratio" tag="button"></soul:button>
+                                            <soul:button target="insertRow" text="插入" opType="function" cssClass="btn btn-info" tag="button"></soul:button>
                                         </td>
-                                        <td><input type="text" name="rebateGrads[0].totalProfit" data-name="rebateGrads[{n}].totalProfit" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.profit']}"></td>
+                                        <td>
+                                            <input type="hidden" name="rebateGrads[0].id" data-name="rebateGrads[{n}].id" value="">
+                                            <input type="text" name="rebateGrads[0].totalProfit" data-name="rebateGrads[{n}].totalProfit" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.profit']}"></td>
                                         <td><input type="text" name="rebateGrads[0].validPlayerNum" data-name="rebateGrads[{n}].validPlayerNum" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.validPlayer']}"></td>
                                         <td><input type="text" class="form-control content-width-limit-8" name="rebateGrads[0].maxRebate" data-name="rebateGrads[{n}].maxRebate" placeholder="${views.setting['rebate.edit.max']}${views.setting['rebate.edit.canBlank']}"></td>
+                                        <td>
+                                            <div class="_game input-group date content-width-limit-200 m-b-xs">
+                                                <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${views.operation_auto['返水费用']}</b></span>
+                                                <input type="number" class="form-control _ratio" name="rebateGrads[0].rakebackRatio" data-name="rebateGrads[{n}].rakebackRatio" value="">
+                                                <span class="input-group-addon border-left-n">%</span>
+                                                <span class="input-group-addon adjust">
+                                                    <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
+                                                        <i class="fa fa-angle-up"></i>
+                                                    </soul:button>
+                                                    <soul:button tag="a" target="changeRatio" post="sub" text="" cssClass="adjust down" opType="function">
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </soul:button>
+                                                </span>
+                                            </div>
+                                            <div class="_game input-group date content-width-limit-200 m-b-xs">
+                                                <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${views.operation_auto['优惠费用']}</b></span>
+                                                <input type="number" class="form-control _ratio" name="rebateGrads[0].favorableRatio" data-name="rebateGrads[{n}].favorableRatio" value="">
+                                                <span class="input-group-addon border-left-n">%</span>
+                                                <span class="input-group-addon adjust">
+                                                    <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
+                                                        <i class="fa fa-angle-up"></i>
+                                                    </soul:button>
+                                                    <soul:button tag="a" target="changeRatio" post="sub" text="" cssClass="adjust down" opType="function">
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </soul:button>
+                                                </span>
+                                            </div>
+                                            <div class="_game input-group date content-width-limit-200 m-b-xs">
+                                                <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${views.operation_auto['其它费用']}</b></span>
+                                                <input type="number" class="form-control _ratio" name="rebateGrads[0].otherRatio" data-name="rebateGrads[{n}].otherRatio" value="">
+                                                <span class="input-group-addon border-left-n">%</span>
+                                                <span class="input-group-addon adjust">
+                                                    <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
+                                                        <i class="fa fa-angle-up"></i>
+                                                    </soul:button>
+                                                    <soul:button tag="a" target="changeRatio" post="sub" text="" cssClass="adjust down" opType="function">
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </soul:button>
+                                                </span>
+                                            </div>
+                                        </td>
                                         <c:set var="game_status_index" value="0"/>
                                         <c:forEach items="${command.apiIds}" var="api">
                                             <td>
@@ -104,7 +153,7 @@
                                                             <input type="hidden" value="${game.apiTypeId}" name="rebateGrads[0].rebateGradsApis[${game_status_index}].apiTypeId" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiTypeId">
                                                             <input type="hidden" value="${api}" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiId" name="rebateGrads[0].rebateGradsApis[${game_status_index}].apiId">
                                                             <input type="hidden" value="${game['gameType']}" data-name="rebateGrads[0].rebateGradsApis[${game_status_index}].gameType" name="rebateGrads[0].rebateGradsApis[${game_status_index}].gameType">
-                                                            <input type="text" class="form-control _ratio" value="${rga.ratio}" name="rebateGrads[0].rebateGradsApis[${game_status_index}].ratio"  data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].ratio">
+                                                            <input type="text" class="form-control _ratio _batch_ratio" value="${rga.ratio}" name="rebateGrads[0].rebateGradsApis[${game_status_index}].ratio"  data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].ratio">
                                                             <span class="input-group-addon border-left-n">%</span>
                                                         <span class="input-group-addon adjust">
                                                             <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
@@ -141,6 +190,9 @@
                                         </td>
                                         <td rowspan="2"><h3>${views.setting['rebate.edit.validPlayerNum']}</h3></td>
                                         <td rowspan="2"><h3>${views.setting['rebate.edit.max']}</h3></td>
+                                        <td rowspan="2">
+                                            <h3>${views.operation_auto["设置返佣分摊比例"]}</h3>
+                                        </td>
                                         <td colspan="${command.apiIds.size()}">
                                             <h3>${views.setting['rebate.edit.ratio']}
                                                 <i data-content="${views.setting['rebate.edit.rakeback']}" class="m-l-sm help-popover"
@@ -162,6 +214,7 @@
                                         <tr class="bg-color apiGrad">
                                             <td>
                                                 <div class="ratio_area"></div>
+
                                                 <c:choose>
                                                     <c:when test="${command.showDeleteBtn}">
                                                         <soul:button target="deletePlan" text="" opType="function" cssClass="btn btn-danger${status.first ? ' disabled ui-button-disable':''}" tag="button">
@@ -173,12 +226,54 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <soul:button target="batchUpdateRatio" text="${views.setting_auto['批量调整比例']}" opType="function" cssClass="btn batch_ratio" tag="button"></soul:button>
+                                                <soul:button target="insertRow" text="插入" opType="function" cssClass="btn btn-info" tag="button"></soul:button>
                                             </td>
                                             <td>
-                                                <input type="hidden" name="rebateGrads[${status.index}].id" value="${rebateGrad.id}">
+                                                <input type="hidden" name="rebateGrads[${status.index}].id" data-name="rebateGrads[{n}].id" value="${rebateGrad.id}">
                                                 <input type="text"value="${rebateGrad.totalProfit}" name="rebateGrads[${status.index}].totalProfit" data-name="rebateGrads[{n}].totalProfit" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.profit']}"></td>
                                             <td><input type="text"value="${rebateGrad.validPlayerNum}" name="rebateGrads[${status.index}].validPlayerNum" data-name="rebateGrads[{n}].validPlayerNum" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.validPlayer']}"></td>
                                             <td><input type="text" value="${rebateGrad.maxRebate}" class="form-control content-width-limit-8" name="rebateGrads[${status.index}].maxRebate" data-name="rebateGrads[{n}].maxRebate" placeholder="${views.setting_auto['可为空']}"></td>
+                                            <td>
+                                                <div class="_game input-group date content-width-limit-200 m-b-xs">
+                                                    <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${views.operation_auto['返水费用']}</b></span>
+                                                    <input type="number" class="form-control _ratio" name="rebateGrads[${status.index}].rakebackRatio" data-name="rebateGrads[{n}].rakebackRatio" value="${rebateGrad.rakebackRatio}">
+                                                    <span class="input-group-addon border-left-n">%</span>
+                                                    <span class="input-group-addon adjust">
+                                                    <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
+                                                        <i class="fa fa-angle-up"></i>
+                                                    </soul:button>
+                                                    <soul:button tag="a" target="changeRatio" post="sub" text="" cssClass="adjust down" opType="function">
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </soul:button>
+                                                </span>
+                                                </div>
+                                                <div class="_game input-group date content-width-limit-200 m-b-xs">
+                                                    <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${views.operation_auto['优惠费用']}</b></span>
+                                                    <input type="number" class="form-control _ratio" name="rebateGrads[${status.index}].favorableRatio" data-name="rebateGrads[{n}].favorableRatio" value="${rebateGrad.favorableRatio}">
+                                                    <span class="input-group-addon border-left-n">%</span>
+                                                    <span class="input-group-addon adjust">
+                                                    <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
+                                                        <i class="fa fa-angle-up"></i>
+                                                    </soul:button>
+                                                    <soul:button tag="a" target="changeRatio" post="sub" text="" cssClass="adjust down" opType="function">
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </soul:button>
+                                                </span>
+                                                </div>
+                                                <div class="_game input-group date content-width-limit-200 m-b-xs">
+                                                    <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${views.operation_auto['其它费用']}</b></span>
+                                                    <input type="number" class="form-control _ratio" name="rebateGrads[${status.index}].otherRatio" data-name="rebateGrads[{n}].otherRatio" value="${rebateGrad.otherRatio}">
+                                                    <span class="input-group-addon border-left-n">%</span>
+                                                    <span class="input-group-addon adjust">
+                                                    <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
+                                                        <i class="fa fa-angle-up"></i>
+                                                    </soul:button>
+                                                    <soul:button tag="a" target="changeRatio" post="sub" text="" cssClass="adjust down" opType="function">
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </soul:button>
+                                                </span>
+                                                </div>
+                                            </td>
                                             <c:set var="game_status_index" value="0"/>
                                             <c:forEach items="${command.apiIds}" var="api">
                                                 <td>
@@ -193,7 +288,7 @@
                                                                         <input type="hidden" value="${api}" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiId" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].apiId">
                                                                         <input type="hidden" value="${game['gameType']}" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].gameType" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].gameType">
                                                                         <input type="hidden" value="${game['apiTypeId']}" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].apiTypeId" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiTypeId">
-                                                                        <input type="text" class="form-control _ratio" value="${rga.ratio}" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].ratio"  data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].ratio">
+                                                                        <input type="text" class="form-control _ratio _batch_ratio" value="${rga.ratio}" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].ratio"  data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].ratio">
                                                                         <span class="input-group-addon border-left-n">%</span>
                                                                         <span class="input-group-addon adjust">
                                                                             <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
@@ -211,7 +306,7 @@
                                                                     <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
                                                                     <input type="hidden" value="${api}" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiId" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].apiId">
                                                                     <input type="hidden" value="${game['gameType']}" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].gameType" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].gameType">
-                                                                    <input type="text" class="form-control _ratio" value="${rga.ratio}" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].ratio"  data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].ratio">
+                                                                    <input type="text" class="form-control _ratio _batch_ratio" value="${rga.ratio}" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].ratio"  data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].ratio">
                                                                     <input type="hidden" value="${game.apiTypeId}" name="rebateGrads[${status.index}].rebateGradsApis[${game_status_index}].apiTypeId" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiTypeId">
                                                                     <span class="input-group-addon border-left-n">%</span>
                                                                     <span class="input-group-addon adjust">
@@ -258,6 +353,7 @@
         <td rowspan="2"><h3>${views.setting['rebate.edit.totalProfit']} <i class="fa fa-question-circle m-l-sm"></i></h3></td>
         <td rowspan="2"><h3>${views.setting['rebate.edit.validPlayerNum']} <i class="fa fa-question-circle m-l-sm"></i></h3></td>
         <td rowspan="2"><h3>${views.setting['rebate.edit.max']}</h3></td>
+        <td></td>
         <td colspan="${command.apiIds.size()}"><h3>${views.setting['rebate.edit.ratio']} <i class="fa fa-question-circle m-l-sm"></i></h3></td>
 
 
@@ -274,10 +370,54 @@
                 ${views.common['delete']}
             </soul:button>
             <soul:button target="batchUpdateRatio" text="${views.setting['rebate.edit.batchRatio']}" opType="function" cssClass="btn batch_ratio" tag="button"></soul:button>
+            <soul:button target="insertRow" text="插入" opType="function" cssClass="btn btn-info" tag="button"></soul:button>
         </td>
-        <td><input type="text" name="rebateGrads[0].totalProfit" data-name="rebateGrads[{n}].totalProfit" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.profit']}"></td>
+        <td>
+            <input type="hidden" name="rebateGrads[0].id" data-name="rebateGrads[{n}].id" value="">
+            <input type="text" name="rebateGrads[0].totalProfit" data-name="rebateGrads[{n}].totalProfit" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.profit']}"></td>
         <td><input type="text" name="rebateGrads[0].validPlayerNum" data-name="rebateGrads[{n}].validPlayerNum" class="form-control content-width-limit-8" placeholder="${views.setting['rebate.edit.validPlayer']}"></td>
         <td><input type="text" class="form-control content-width-limit-8" name="rebateGrads[0].maxRebate" data-name="rebateGrads[{n}].maxRebate" placeholder="${views.setting_auto['可为空']}"></td>
+        <td>
+            <div class="_game input-group date content-width-limit-200 m-b-xs">
+                <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${views.operation_auto['返水费用']}</b></span>
+                <input type="number" class="form-control _ratio" name="rebateGrads[0].rakebackRatio" data-name="rebateGrads[{n}].rakebackRatio" value="">
+                <span class="input-group-addon border-left-n">%</span>
+                <span class="input-group-addon adjust">
+                    <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
+                        <i class="fa fa-angle-up"></i>
+                    </soul:button>
+                    <soul:button tag="a" target="changeRatio" post="sub" text="" cssClass="adjust down" opType="function">
+                        <i class="fa fa-angle-down"></i>
+                    </soul:button>
+                </span>
+            </div>
+            <div class="_game input-group date content-width-limit-200 m-b-xs">
+                <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${views.operation_auto['优惠费用']}</b></span>
+                <input type="number" class="form-control _ratio" name="rebateGrads[0].favorableRatio" data-name="rebateGrads[{n}].favorableRatio" value="">
+                <span class="input-group-addon border-left-n">%</span>
+                <span class="input-group-addon adjust">
+                    <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
+                        <i class="fa fa-angle-up"></i>
+                    </soul:button>
+                    <soul:button tag="a" target="changeRatio" post="sub" text="" cssClass="adjust down" opType="function">
+                        <i class="fa fa-angle-down"></i>
+                    </soul:button>
+                </span>
+            </div>
+            <div class="_game input-group date content-width-limit-200 m-b-xs">
+                <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${views.operation_auto['其它费用']}</b></span>
+                <input type="number" class="form-control _ratio" name="rebateGrads[0].otherRatio" data-name="rebateGrads[{n}].otherRatio" value="">
+                <span class="input-group-addon border-left-n">%</span>
+                <span class="input-group-addon adjust">
+                    <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
+                        <i class="fa fa-angle-up"></i>
+                    </soul:button>
+                    <soul:button tag="a" target="changeRatio" post="sub" text="" cssClass="adjust down" opType="function">
+                        <i class="fa fa-angle-down"></i>
+                    </soul:button>
+                </span>
+            </div>
+        </td>
         <c:set var="game_status_index" value="0"/>
         <c:forEach items="${command.apiIds}" var="api">
             <td>
@@ -295,7 +435,7 @@
                             <input type="hidden" value="${api}" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiId" name="rebateGrads[0].rebateGradsApis[${game_status_index}].apiId">
                             <input type="hidden" value="${game['gameType']}" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].gameType"  name="rebateGrads[0].rebateGradsApis[${game_status_index}].gameType">
                             <input type="hidden" value="${game.apiTypeId}"   data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiTypeId" name="rebateGrads[0].rebateGradsApis[${game_status_index}].apiTypeId">
-                            <input type="text" class="form-control _ratio" value="${rga.ratio}" name="rebateGrads[0].rebateGradsApis[${game_status_index}].ratio"  data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].ratio">
+                            <input type="text" class="form-control _ratio _batch_ratio" value="${rga.ratio}" name="rebateGrads[0].rebateGradsApis[${game_status_index}].ratio"  data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].ratio">
                             <span class="input-group-addon border-left-n">%</span>
                             <span class="input-group-addon adjust">
                                 <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">

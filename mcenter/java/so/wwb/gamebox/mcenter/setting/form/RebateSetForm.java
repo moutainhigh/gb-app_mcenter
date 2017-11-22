@@ -29,6 +29,12 @@ public class RebateSetForm implements IForm {
 
     //有效玩家 必填，仅支持数值在0—999（九百九十九）范围内的正整数；
     private Integer[] $rebateGrads$$_validPlayerNum;
+    private BigDecimal[] $rebateGrads$$_rakebackRatio;
+
+    private BigDecimal[] $rebateGrads$$_favorableRatio;
+
+    private BigDecimal[] $rebateGrads$$_otherRatio;
+
     private BigDecimal[] $rebateGrads$$_maxRebate;
 
     //有效玩家交易量
@@ -44,7 +50,7 @@ public class RebateSetForm implements IForm {
     private String result_remark;
 
     @NotNull(message = "setting.rebate.edit.totalProfitNotNull")
-    @Range(max = 9999999999999L,min = 0,message = "setting.rebate.edit.totalProfitRange")
+    @Range(max = 9999999999999L,min = -9999999999999L,message = "setting.rebate.edit.totalProfitRange")
     @Digits(integer = 13,fraction = 0,message = "setting.rebate.edit.totalProfitDigits")
     @Series(message = "setting.rebate.edit.totalProfitSeries",type = SeriesType.INC)
     public BigDecimal[] get$rebateGrads$$_totalProfit() {
@@ -119,6 +125,37 @@ public class RebateSetForm implements IForm {
         this.$rebateGrads$$_maxRebate = $rebateGrads$$_maxRebate;
     }
 
+
+    @NotNull()
+    @Range(max = 100,min = 0,message = "setting.rakeback.edit.ratioRange")
+    @Digits(integer = 3,fraction = 2,message = "setting.rakeback.edit.ratioDigits")
+    public BigDecimal[] get$rebateGrads$$_rakebackRatio() {
+        return $rebateGrads$$_rakebackRatio;
+    }
+
+    public void set$rebateGrads$$_rakebackRatio(BigDecimal[] $rebateGrads$$_rakebackRatio) {
+        this.$rebateGrads$$_rakebackRatio = $rebateGrads$$_rakebackRatio;
+    }
+    @NotNull()
+    @Range(max = 100,min = 0,message = "setting.rakeback.edit.ratioRange")
+    @Digits(integer = 3,fraction = 2,message = "setting.rakeback.edit.ratioDigits")
+    public BigDecimal[] get$rebateGrads$$_favorableRatio() {
+        return $rebateGrads$$_favorableRatio;
+    }
+
+    public void set$rebateGrads$$_favorableRatio(BigDecimal[] $rebateGrads$$_favorableRatio) {
+        this.$rebateGrads$$_favorableRatio = $rebateGrads$$_favorableRatio;
+    }
+    @NotNull()
+    @Range(max = 100,min = 0,message = "setting.rakeback.edit.ratioRange")
+    @Digits(integer = 3,fraction = 2,message = "setting.rakeback.edit.ratioDigits")
+    public BigDecimal[] get$rebateGrads$$_otherRatio() {
+        return $rebateGrads$$_otherRatio;
+    }
+
+    public void set$rebateGrads$$_otherRatio(BigDecimal[] $rebateGrads$$_otherRatio) {
+        this.$rebateGrads$$_otherRatio = $rebateGrads$$_otherRatio;
+    }
     //endregion your codes 2
 
 }

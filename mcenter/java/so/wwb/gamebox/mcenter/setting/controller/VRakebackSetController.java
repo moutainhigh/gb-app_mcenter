@@ -243,23 +243,10 @@ public class VRakebackSetController extends BaseCrudController<IVRakebackSetServ
 
     public VRakebackSetVo setGameType4rakeback(VRakebackSetVo objectVo) {
         VGameTypeListVo vGameTypeListVo = new VGameTypeListVo();
-        vGameTypeListVo.getQuery().setCriterions(new Criterion[]{new Criterion(VGameType.PROP_SITE_ID, Operator.EQ, SessionManager.getSiteId())});
-        vGameTypeListVo.setProperties(VGameType.PROP_GAME_TYPE, VGameType.PROP_API_ID);
-        List<Map<String, Object>> someGames = ServiceTool.vGameTypeService().searchProperties(vGameTypeListVo);
-        if (CollectionTool.isNotEmpty(someGames)) {
-            Map<String, Api> apiMap = Cache.getApi();
-            Map<String, SiteApi> siteApiMap = Cache.getSiteApi();
-            String disable = GameStatusEnum.DISABLE.getCode();
-            Iterator it = someGames.iterator();
-            while (it.hasNext()) {
-                Map<String, Object> game = (Map<String, Object>) it.next();
-                Api api = apiMap.get(MapTool.getString(game, VGameType.PROP_API_ID));
-                SiteApi siteApi = siteApiMap.get(MapTool.getString(game, VGameType.PROP_API_ID));
-                if (api == null || siteApi == null || disable.equals(api.getSystemStatus()) || disable.equals(siteApi.getSystemStatus())) {
-                    it.remove(); //移除该对象
-                }
-            }
-        }
+        vGameTypeListVo.getSearch().setSiteId(SessionManager.getSiteId());
+        vGameTypeListVo.setCahceApiMap(Cache.getApi());
+        vGameTypeListVo.setCahceSiteApiMap(Cache.getSiteApi());
+        List<Map<String, Object>> someGames = ServiceTool.rebateSetService().queryGameData(vGameTypeListVo);
         objectVo.setSomeGames(someGames);
         return objectVo;
     }
