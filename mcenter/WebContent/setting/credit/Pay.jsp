@@ -122,7 +122,7 @@
                                             ${fn:replace(fn:replace(views.setting_auto['请输入'],"{0}" ,singleMin),"{1}" , singleMax)}
                                             </c:if>
                                         </div>
-                                        <div class="m-t-sm">[${singleMax}]
+                                        <div class="m-t-sm">
                                             <c:if test="${singleMax>=50000}">
                                                 <soul:button target="quickAmount" data="50000" cssClass="btn btn-info dropdown-toggle m-r-sm" text="5万" opType="function"/>
                                             </c:if>
