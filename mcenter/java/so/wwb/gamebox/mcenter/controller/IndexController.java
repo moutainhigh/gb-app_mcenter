@@ -683,7 +683,8 @@ public class IndexController extends BaseIndexController {
         //站长账号显示盈利上限，非站长账号不显示
         if (isMaster) {
             map.put("profitLimit", getProfitLimit().getMaxProfit());//额度上限值
-            Double profit = CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone());
+            //统一一个地方
+            Double profit = fetchSiteHasUseProfit();//CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone());
             map.put("profit", profit);//本月使用额度值
             map.put("profitCur", CurrencyTool.formatCurrency(profit));
             map.put("transferLimit", getProfitLimit().getCurrentTransferLimit());//转账上限值
@@ -692,6 +693,20 @@ public class IndexController extends BaseIndexController {
             map.put("currentProfit", transferOutSum - transferIntoSum);
         }
         return map;
+    }
+
+    /**
+     * 已使用额度
+     * @return
+     */
+    private double fetchSiteHasUseProfit(){
+        SysSiteVo sysSiteVo = new SysSiteVo();
+        sysSiteVo.getSearch().setId(SessionManager.getSiteId());
+        sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
+        if(sysSiteVo.getResult()!=null){
+            sysSiteVo.getResult().getHasUseProfit();
+        }
+        return 0d;
     }
 
     /**

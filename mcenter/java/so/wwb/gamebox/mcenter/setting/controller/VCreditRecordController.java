@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.query.sort.Direction;
 import org.soul.web.controller.NoMappingCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.springframework.stereotype.Controller;
@@ -52,6 +53,7 @@ public class VCreditRecordController extends NoMappingCrudController<IVCreditRec
         Map type = DictTool.get(DictEnum.PAY_TYPE);
         model.addAttribute("payType",type);
         model.addAttribute("status", Status);
+        listVo.getQuery().addOrder(VCreditRecord.PROP_CREATE_TIME, Direction.DESC);
         return super.list(listVo, form, result, model, request, response);
     }
 

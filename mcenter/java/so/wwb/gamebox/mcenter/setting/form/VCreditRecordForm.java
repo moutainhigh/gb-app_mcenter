@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.setting.form;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.soul.web.support.IForm;
 
 
@@ -14,7 +15,15 @@ public class VCreditRecordForm implements IForm {
 //endregion your codes 1
 
     //region your codes 2
+    private String result_path;
+    @NotBlank
+    public String getResult_path() {
+        return result_path;
+    }
 
+    public void setResult_path(String result_path) {
+        this.result_path = result_path;
+    }
     //endregion your codes 2
 
 }

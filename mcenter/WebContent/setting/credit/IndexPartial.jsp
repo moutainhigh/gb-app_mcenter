@@ -21,6 +21,8 @@
             <th>${views.setting_auto['账户名称']}</th>
             <soul:orderColumn poType="${poType}" property="createTime" column="${views.setting_auto['支付时间']}"/>
             <th>${views.setting_auto['IP']}</th>
+            <th>${views.setting['credit.creditRecord.receipt']}</th>
+            <th>${views.common['operate']}</th>
         </tr>
         </thead>
 
@@ -37,7 +39,7 @@
                               data-original-title="" title=""><i class="fa fa-user"></i></span>
                     </c:if>
                 </td>
-                <td>${soulFn:formatCurrency(p.payAmount)}</td>
+                <td>${soulFn:formatInteger(p.payAmount)}${soulFn:formatDecimals(p.payAmount)}</td>
                 <td>${dicts.credit.pay_type[p.payType]}</td>
                 <td>
                     <c:set value="" var="status_class"></c:set>
@@ -51,6 +53,14 @@
                 <td>${empty p.payName?"---":p.payName}</td>
                 <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
                 <td>${soulFn:formatIp(p.ip)}</td>
+                <td>
+                    <c:if test="${not empty p.path}">
+                        <a href="javascript:void(0)"><img data-src="${soulFn:getImagePath(domain,p.path)}" src="${soulFn:getThumbPath(domain,p.path,66,24)}"></a>
+                    </c:if>
+                </td>
+                <td>
+                    <soul:button target="${root}/creditRecord/uploadReceipt.html?search.id=${p.id}" text="${views.setting['credit.creditRecord.uploadReceipt']}" opType="dialog" callback="query">${views.setting['credit.creditRecord.uploadReceipt']}</soul:button>
+                </td>
             </tr>
         </c:forEach>
         </tbody>

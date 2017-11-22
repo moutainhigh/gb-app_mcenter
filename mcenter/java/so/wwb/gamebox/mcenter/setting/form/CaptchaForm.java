@@ -13,16 +13,16 @@ import javax.validation.constraints.Pattern;
 @Comment("站点参数验证码表单验证")
 public class CaptchaForm implements IForm {
 
-    private String $exclusionsValue;
+    private String $captchaExclusions;
 
     @Pattern(message = "setting_auto.请输入英文字母和数字",regexp = FormValidRegExps.ENGLISH_NUMBER)
     @Length(max = 34,message = "setting_auto.请勿把所有的字母和数字都排除掉")
     @Comment("验证码")
-    public String get$exclusionsValue() {
-        return $exclusionsValue;
+    public String get$captchaExclusions() {
+        return $captchaExclusions;
     }
 
-    public void set$exclusionsValue(String $exclusionsValue) {
-        this.$exclusionsValue = $exclusionsValue;
+    public void set$captchaExclusions(String $captchaExclusions) {
+        this.$captchaExclusions = $captchaExclusions;
     }
 }
