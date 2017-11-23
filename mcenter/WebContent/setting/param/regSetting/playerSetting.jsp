@@ -23,16 +23,14 @@
 <form:hidden path="type"/>
 <div id="validateRule" style="display: none">${command.validateRule}</div>
 
-<div class="modal-body">
+    <div class="modal-body">
         <div class="panel blank-panel p-b-sm">
             <div class="">
                 <div class="panel-options">
                     <ul class="nav nav-tabs p-l-sm p-r-sm">
-                        <li class="active"><a data-toggle="tab" href="../#tab-1" aria-expanded="false">${views.setting['PlayerReg.regField']}</a>
+                        <li class="active">
+                            <a data-toggle="tab" href="../#tab-1" aria-expanded="false">${views.setting['PlayerReg.regField']}</a>
                         </li>
-                        <li class=""><a data-toggle="tab" href="../#tab-2"
-                                              aria-expanded="true">${views.setting['PlayerReg.required']}</a></li>
-
                     </ul>
                 </div>
             </div>
@@ -49,24 +47,63 @@
                         </c:forEach>
 
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel blank-panel p-b-sm">
+            <div class="">
+                <div class="panel-options">
+                    <ul class="nav nav-tabs p-l-sm p-r-sm">
+                        <li class="active">
+                            <a data-toggle="tab" href="../#tab-2" aria-expanded="true">${views.setting['PlayerReg.required']}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content">
+                    </div>
                     <div id="tab-2" class="tab-pane">
                         <c:forEach items="${command.fieldSortList}" var="p">
                             <c:if test="${p.name!='302'&&p.name!='303'&&p.name!='countryCity'&&p.name!='constellation'&&p.name!='nickName'}">
                                 <label style="display:${p.bulitIn?"none":""};" class="m-r-sm">
                                     <input name="isRequired" _name="${p.name}" _bulitIn="${p.bulitIn}"  _sort="${p.sort}" type="checkbox"
                                            class="i-checks" ${p.isRequired=="1"?"checked":""} value="1">
-                                           ${views.column[p.name]}
+                                        ${views.column[p.name]}
                                 </label>
                             </c:if>
                         </c:forEach>
                     </div>
+                </div>
+            </div>
 
-
-
+        <div class="panel blank-panel p-b-sm">
+            <div class="">
+                <div class="panel-options">
+                    <ul class="nav nav-tabs p-l-sm p-r-sm">
+                        <li class="active">
+                            <a data-toggle="tab" href="../#tab-3" aria-expanded="true">${views.setting['PlayerReg.only']}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content">
+                </div>
+                <div id="tab-3" class="tab-pane">
+                    <c:forEach items="${command.fieldSortList}" var="p" varStatus="s">
+                        <c:if test="${p.name!='302'&&p.name!='303'&&p.name!='countryCity'&&p.name!='constellation'&&p.name!='nickName'}">
+                            <label style="<c:if test="${p.name!='realName'&&p.name!='110'&&p.name!='201'&&p.name!='304'&&p.name!='301'}">display:none;</c:if>" class="m-r-sm">
+                                <input name="isOnly" id="only${s.index}" type="checkbox"
+                                       class="i-checks" ${p.isOnly=="1"?"checked":""} value="1">
+                                    ${views.column[p.name]}
+                            </label>
+                        </c:if>
+                    </c:forEach>
                 </div>
             </div>
         </div>
-
 
         <div class="panel blank-panel p-b-sm hide">
 
@@ -119,7 +156,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="panel blank-panel p-b-sm">
 
