@@ -31,7 +31,14 @@
             <tr class="tab-detail">
                 <td>${empty p.transactionNo?"---":p.transactionNo}</td>
                 <td>
-                        ${p.payUserName}
+                    <c:choose>
+                        <c:when test="${p.payType == '3'}">
+                            ${views.setting['credit.creditRecord.boss']}
+                        </c:when>
+                        <c:otherwise>
+                            ${p.payUserName}
+                        </c:otherwise>
+                    </c:choose>
                     <c:if test="${p.backgroundAdded == true}">
                         <span data-content="${views.setting_auto['后台操作人']}"
                               data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
