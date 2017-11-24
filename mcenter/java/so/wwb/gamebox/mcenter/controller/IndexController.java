@@ -704,7 +704,7 @@ public class IndexController extends BaseIndexController {
         sysSiteVo.getSearch().setId(SessionManager.getSiteId());
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
         if(sysSiteVo.getResult()!=null){
-            sysSiteVo.getResult().getHasUseProfit();
+            return sysSiteVo.getResult().getHasUseProfit()==null?0d:sysSiteVo.getResult().getHasUseProfit();
         }
         return 0d;
     }

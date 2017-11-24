@@ -141,13 +141,15 @@
                         </table>
                     </div>
                     <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 limit-tips">
-                        <ul>
-                            <li>1、${fn:replace(fn:replace(views.setting_auto['本系统额度上限默认可用'],"[0]" ,defaultProfit ),"[1]" ,defaultTransferLimit )}</li>
-                            <li>2、${views.setting_auto['如果充值出现问题']}</li>
-                            <li>3、${views.setting_auto['本页面充值仅用于提高额度上限和转账上限']}</li>
-                            <li>4、${views.setting_auto['如果维护时间已过']}</li>
-                            <li>5、${views.setting_auto['财务正常工作时间']}</li>
-                        </ul>
+                        ${views.setting['credit.creditPay.help']}
+                        <%--<ul>
+                            <li>1、系统默认每月赠送50万额度；</li>
+                            <li>2、当系统提示额度已使用完时，请在本页面自助充值，即可提升额度；</li>
+                            <li>3、充值过程中若出现任何问题，请及时联系本平台24小时在线技术支持；</li>
+                            <li>4、超额时，若24小时后仍未处理，则站点玩家将无法向API转账游戏；</li>
+                            <li>5、本页面充值仅用于提高额度上限，不支持缴纳月结账单；</li>
+                            <li>6、财务正常工作时间：09:00-21:00（北京时间）。</li>
+                        </ul>--%>
                     </div>
                 </div>
             </div>

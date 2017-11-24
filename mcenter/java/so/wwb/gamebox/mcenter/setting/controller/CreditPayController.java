@@ -80,7 +80,11 @@ public class CreditPayController {
         if (sysSite.getCreditLine()==null||"".equals(sysSite.getCreditLine())){
             sysSite.setCreditLine(0.0);
         }
-        model.addAttribute("profit", sysSite.getMaxProfit()+sysSite.getCreditLine());
+        if(sysSite.getCreditLine()!=null){
+            model.addAttribute("profit", sysSite.getMaxProfit()+sysSite.getCreditLine());
+        }else{
+            model.addAttribute("profit", sysSite.getMaxProfit());
+        }
         model.addAttribute("defaultProfit", sysSite.getDefaultProfit());
         double transferOutSum = sysSite.getTransferOutSum() == null ? 0 : sysSite.getTransferOutSum();
         double transferIntoSum = sysSite.getTransferIntoSum() == null ? 0 : sysSite.getTransferIntoSum();
@@ -107,7 +111,7 @@ public class CreditPayController {
         creditAccountVo.setCurrency(CurrencyEnum.CNY.getCode());
         model.addAttribute("accountMap", ServiceTool.creditAccountService().getBankAccount(creditAccountVo));
         model.addAttribute("validateRule", JsRuleCreator.create(CreditRecordForm.class));
-        model.addAttribute("useProfit", sysSite.getHasUseProfit());//CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone()));
+        model.addAttribute("useProfit", sysSite.getHasUseProfit()==null?0d:sysSite.getHasUseProfit());//CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone()));
         model.addAttribute("disableTransfer", ParamTool.disableTransfer(SessionManager.getSiteId()));
         return CREDIT_PAY_URI;
     }
