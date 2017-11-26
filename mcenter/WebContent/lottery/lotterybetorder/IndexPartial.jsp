@@ -133,10 +133,10 @@
     </div>
 </div>
 <div class="p-sm all-statistics">
-    <b>小计：  投注</b>&nbsp;&nbsp;<span class="co-red3">${soulFn:formatCurrency(allBetAmount)}</span> 元
-    <b class="m-l">返点</b>&nbsp;&nbsp;<span class="co-red3">${soulFn:formatCurrency(allRebateAmount)}</span>元
-    <b class="m-l">派彩</b>&nbsp;&nbsp;<span class="co-red3">${soulFn:formatCurrency(allPayout)}</span>元
-    <b class="m-l">损益</b>&nbsp;&nbsp;<span class="co-red3">${soulFn:formatCurrency(allBetAmount-allPayout-allRebateAmount)}</span>元
+    <b>小计：  投注</b>&nbsp;&nbsp;<span class="co-red3">${fn:replace(soulFn:formatCurrency(allBetAmount),",","")}</span> 元
+    <b class="m-l">返点</b>&nbsp;&nbsp;<span class="co-red3">${fn:replace(soulFn:formatCurrency(allRebateAmount),",","")}</span>元
+    <b class="m-l">派彩</b>&nbsp;&nbsp;<span class="co-red3">${fn:replace(soulFn:formatCurrency(allPayout),",","")}</span>元
+    <b class="m-l">损益</b>&nbsp;&nbsp;<span class="co-red3">${fn:replace(soulFn:formatCurrency(allBetAmount-allPayout-allRebateAmount),",","")}</span>元
 </div>
 <soul:pagination cssClass="bdtop3"/>
 <!--//endregion your codes 1-->

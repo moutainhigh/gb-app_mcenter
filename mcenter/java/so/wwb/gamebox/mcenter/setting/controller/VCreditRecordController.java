@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.iservice.company.credit.IVCreditRecordService;
+import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.VCreditRecordForm;
 import so.wwb.gamebox.mcenter.setting.form.VCreditRecordSearchForm;
 import so.wwb.gamebox.model.DictEnum;
@@ -54,6 +55,7 @@ public class VCreditRecordController extends NoMappingCrudController<IVCreditRec
         model.addAttribute("payType",type);
         model.addAttribute("status", Status);
         listVo.getQuery().addOrder(VCreditRecord.PROP_CREATE_TIME, Direction.DESC);
+        listVo.getSearch().setSiteId(SessionManager.getSiteId());
         return super.list(listVo, form, result, model, request, response);
     }
 

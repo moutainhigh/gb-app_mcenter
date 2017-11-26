@@ -24,18 +24,18 @@
                         <input type="hidden" value="${command['pl3_one_digital'].playCode}" name="quotaList[0].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_digital'].numQuota}" data-value="${command['pl3_one_digital'].numQuota}" name="quotaList[0].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_digital'].numQuotaStr}" data-value="${command['pl3_one_digital'].numQuota}" name="quotaList[0].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_digital'].betQuota}"  data-value="${command['pl3_one_digital'].betQuota}" name="quotaList[0].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_digital'].betQuotaStr}"  data-value="${command['pl3_one_digital'].betQuota}" name="quotaList[0].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_digital'].playQuota}" data-value="${command['pl3_one_digital'].playQuota}" name="quotaList[0].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_digital'].playQuotaStr}" data-value="${command['pl3_one_digital'].playQuota}" name="quotaList[0].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -48,18 +48,18 @@
                         <input type="hidden" value="${command['pl3_one_big_small'].playCode}" name="quotaList[1].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_big_small'].numQuota}" data-value="${command['pl3_one_big_small'].numQuota}" name="quotaList[1].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_big_small'].numQuotaStr}" data-value="${command['pl3_one_big_small'].numQuota}" name="quotaList[1].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_big_small'].betQuota}"  data-value="${command['pl3_one_big_small'].betQuota}" name="quotaList[1].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_big_small'].betQuotaStr}"  data-value="${command['pl3_one_big_small'].betQuota}" name="quotaList[1].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_big_small'].playQuota}" data-value="${command['pl3_one_big_small'].playQuota}" name="quotaList[1].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_big_small'].playQuotaStr}" data-value="${command['pl3_one_big_small'].playQuota}" name="quotaList[1].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -73,18 +73,18 @@
                         <input type="hidden" value="${command['pl3_one_single_double'].playCode}" name="quotaList[2].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_single_double'].numQuota}" data-value="${command['pl3_one_single_double'].numQuota}" name="quotaList[2].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_single_double'].numQuotaStr}" data-value="${command['pl3_one_single_double'].numQuota}" name="quotaList[2].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_single_double'].betQuota}"  data-value="${command['pl3_one_single_double'].betQuota}" name="quotaList[2].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_single_double'].betQuotaStr}"  data-value="${command['pl3_one_single_double'].betQuota}" name="quotaList[2].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_single_double'].playQuota}" data-value="${command['pl3_one_single_double'].playQuota}" name="quotaList[2].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_single_double'].playQuotaStr}" data-value="${command['pl3_one_single_double'].playQuota}" name="quotaList[2].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -98,18 +98,18 @@
                         <input type="hidden" value="${command['pl3_one_prime_combined'].playCode}" name="quotaList[3].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_prime_combined'].numQuota}" data-value="${command['pl3_one_prime_combined'].numQuota}" name="quotaList[3].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_prime_combined'].numQuotaStr}" data-value="${command['pl3_one_prime_combined'].numQuota}" name="quotaList[3].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_prime_combined'].betQuota}"  data-value="${command['pl3_one_prime_combined'].betQuota}" name="quotaList[3].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_prime_combined'].betQuotaStr}"  data-value="${command['pl3_one_prime_combined'].betQuota}" name="quotaList[3].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_prime_combined'].playQuota}" data-value="${command['pl3_one_prime_combined'].playQuota}" name="quotaList[3].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_prime_combined'].playQuotaStr}" data-value="${command['pl3_one_prime_combined'].playQuota}" name="quotaList[3].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -122,18 +122,18 @@
                         <input type="hidden" value="${command['pl3_two_digital'].playCode}" name="quotaList[4].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_two_digital'].numQuota}" data-value="${command['pl3_two_digital'].numQuota}" name="quotaList[4].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_two_digital'].numQuotaStr}" data-value="${command['pl3_two_digital'].numQuota}" name="quotaList[4].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_two_digital'].betQuota}"  data-value="${command['pl3_two_digital'].betQuota}" name="quotaList[4].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_two_digital'].betQuotaStr}"  data-value="${command['pl3_two_digital'].betQuota}" name="quotaList[4].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_two_digital'].playQuota}" data-value="${command['pl3_two_digital'].playQuota}" name="quotaList[4].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_two_digital'].playQuotaStr}" data-value="${command['pl3_two_digital'].playQuota}" name="quotaList[4].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -146,18 +146,18 @@
                         <input type="hidden" value="${command['pl3_three_digital'].playCode}" name="quotaList[5].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_three_digital'].numQuota}" data-value="${command['pl3_three_digital'].numQuota}" name="quotaList[5].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_three_digital'].numQuotaStr}" data-value="${command['pl3_three_digital'].numQuota}" name="quotaList[5].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_three_digital'].betQuota}"  data-value="${command['pl3_three_digital'].betQuota}" name="quotaList[5].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_three_digital'].betQuotaStr}"  data-value="${command['pl3_three_digital'].betQuota}" name="quotaList[5].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_three_digital'].playQuota}" data-value="${command['pl3_three_digital'].playQuota}" name="quotaList[5].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_three_digital'].playQuotaStr}" data-value="${command['pl3_three_digital'].playQuota}" name="quotaList[5].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -171,18 +171,18 @@
                         <input type="hidden" value="${command['pl3_one_combination'].playCode}" name="quotaList[22].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_combination'].numQuota}" data-value="${command['pl3_one_combination'].numQuota}" name="quotaList[22].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_combination'].numQuotaStr}" data-value="${command['pl3_one_combination'].numQuota}" name="quotaList[22].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_combination'].betQuota}"  data-value="${command['pl3_one_combination'].betQuota}" name="quotaList[22].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_combination'].betQuotaStr}"  data-value="${command['pl3_one_combination'].betQuota}" name="quotaList[22].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_one_combination'].playQuota}" data-value="${command['pl3_one_combination'].playQuota}" name="quotaList[22].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_one_combination'].playQuotaStr}" data-value="${command['pl3_one_combination'].playQuota}" name="quotaList[22].playQuota">
                             </div>
                         </td>
 
@@ -197,18 +197,18 @@
                         <input type="hidden" value="${command['pl3_two_combination'].playCode}" name="quotaList[6].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_two_combination'].numQuota}" data-value="${command['pl3_two_combination'].numQuota}" name="quotaList[6].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_two_combination'].numQuotaStr}" data-value="${command['pl3_two_combination'].numQuota}" name="quotaList[6].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_two_combination'].betQuota}"  data-value="${command['pl3_two_combination'].betQuota}" name="quotaList[6].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_two_combination'].betQuotaStr}"  data-value="${command['pl3_two_combination'].betQuota}" name="quotaList[6].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_two_combination'].playQuota}" data-value="${command['pl3_two_combination'].playQuota}" name="quotaList[6].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_two_combination'].playQuotaStr}" data-value="${command['pl3_two_combination'].playQuota}" name="quotaList[6].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -222,18 +222,18 @@
                         <input type="hidden" value="${command['pl3_three_combination'].playCode}" name="quotaList[7].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_three_combination'].numQuota}" data-value="${command['pl3_three_combination'].numQuota}" name="quotaList[7].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_three_combination'].numQuotaStr}" data-value="${command['pl3_three_combination'].numQuota}" name="quotaList[7].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_three_combination'].betQuota}"  data-value="${command['pl3_three_combination'].betQuota}" name="quotaList[7].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_three_combination'].betQuotaStr}"  data-value="${command['pl3_three_combination'].betQuota}" name="quotaList[7].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_three_combination'].playQuota}" data-value="${command['pl3_three_combination'].playQuota}" name="quotaList[7].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_three_combination'].playQuotaStr}" data-value="${command['pl3_three_combination'].playQuota}" name="quotaList[7].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -247,18 +247,18 @@
                         <input type="hidden" value="${command['pl3_sum2_digital'].playCode}" name="quotaList[8].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_digital'].numQuota}" data-value="${command['pl3_sum2_digital'].numQuota}" name="quotaList[8].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_digital'].numQuotaStr}" data-value="${command['pl3_sum2_digital'].numQuota}" name="quotaList[8].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_digital'].betQuota}"  data-value="${command['pl3_sum2_digital'].betQuota}" name="quotaList[8].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_digital'].betQuotaStr}"  data-value="${command['pl3_sum2_digital'].betQuota}" name="quotaList[8].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_digital'].playQuota}" data-value="${command['pl3_sum2_digital'].playQuota}" name="quotaList[8].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_digital'].playQuotaStr}" data-value="${command['pl3_sum2_digital'].playQuota}" name="quotaList[8].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -272,18 +272,18 @@
                         <input type="hidden" value="${command['pl3_sum2_single_double'].playCode}" name="quotaList[9].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_single_double'].numQuota}" data-value="${command['pl3_sum2_single_double'].numQuota}" name="quotaList[9].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_single_double'].numQuotaStr}" data-value="${command['pl3_sum2_single_double'].numQuota}" name="quotaList[9].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_single_double'].betQuota}"  data-value="${command['pl3_sum2_single_double'].betQuota}" name="quotaList[9].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_single_double'].betQuotaStr}"  data-value="${command['pl3_sum2_single_double'].betQuota}" name="quotaList[9].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_single_double'].playQuota}" data-value="${command['pl3_sum2_single_double'].playQuota}" name="quotaList[9].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_single_double'].playQuotaStr}" data-value="${command['pl3_sum2_single_double'].playQuota}" name="quotaList[9].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -298,18 +298,18 @@
                         <input type="hidden" value="${command['pl3_sum2_mantissa'].playCode}" name="quotaList[10].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa'].numQuota}" data-value="${command['pl3_sum2_mantissa'].numQuota}" name="quotaList[10].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa'].numQuotaStr}" data-value="${command['pl3_sum2_mantissa'].numQuota}" name="quotaList[10].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa'].betQuota}"  data-value="${command['pl3_sum2_mantissa'].betQuota}" name="quotaList[10].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa'].betQuotaStr}"  data-value="${command['pl3_sum2_mantissa'].betQuota}" name="quotaList[10].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa'].playQuota}" data-value="${command['pl3_sum2_mantissa'].playQuota}" name="quotaList[10].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa'].playQuotaStr}" data-value="${command['pl3_sum2_mantissa'].playQuota}" name="quotaList[10].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -323,18 +323,18 @@
                         <input type="hidden" value="${command['pl3_sum2_mantissa_big_small'].playCode}" name="quotaList[11].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa_big_small'].numQuota}" data-value="${command['pl3_sum2_mantissa_big_small'].numQuota}" name="quotaList[11].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa_big_small'].numQuotaStr}" data-value="${command['pl3_sum2_mantissa_big_small'].numQuota}" name="quotaList[11].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa_big_small'].betQuota}"  data-value="${command['pl3_sum2_mantissa_big_small'].betQuota}" name="quotaList[11].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa_big_small'].betQuotaStr}"  data-value="${command['pl3_sum2_mantissa_big_small'].betQuota}" name="quotaList[11].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa_big_small'].playQuota}" data-value="${command['pl3_sum2_mantissa_big_small'].playQuota}" name="quotaList[11].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa_big_small'].playQuotaStr}" data-value="${command['pl3_sum2_mantissa_big_small'].playQuota}" name="quotaList[11].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -348,18 +348,18 @@
                         <input type="hidden" value="${command['pl3_sum2_mantissa_prime_combined'].playCode}" name="quotaList[12].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa_prime_combined'].numQuota}" data-value="${command['pl3_sum2_mantissa_prime_combined'].numQuota}" name="quotaList[12].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa_prime_combined'].numQuotaStr}" data-value="${command['pl3_sum2_mantissa_prime_combined'].numQuota}" name="quotaList[12].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa_prime_combined'].betQuota}"  data-value="${command['pl3_sum2_mantissa_prime_combined'].betQuota}" name="quotaList[12].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa_prime_combined'].betQuotaStr}"  data-value="${command['pl3_sum2_mantissa_prime_combined'].betQuota}" name="quotaList[12].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa_prime_combined'].playQuota}" data-value="${command['pl3_sum2_mantissa_prime_combined'].playQuota}" name="quotaList[12].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum2_mantissa_prime_combined'].playQuotaStr}" data-value="${command['pl3_sum2_mantissa_prime_combined'].playQuota}" name="quotaList[12].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -372,18 +372,18 @@
                         <input type="hidden" value="${command['pl3_sum3_digital'].playCode}" name="quotaList[13].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_digital'].numQuota}" data-value="${command['pl3_sum3_digital'].numQuota}" name="quotaList[13].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_digital'].numQuotaStr}" data-value="${command['pl3_sum3_digital'].numQuota}" name="quotaList[13].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_digital'].betQuota}"  data-value="${command['pl3_sum3_digital'].betQuota}" name="quotaList[13].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_digital'].betQuotaStr}"  data-value="${command['pl3_sum3_digital'].betQuota}" name="quotaList[13].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_digital'].playQuota}" data-value="${command['pl3_sum3_digital'].playQuota}" name="quotaList[13].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_digital'].playQuotaStr}" data-value="${command['pl3_sum3_digital'].playQuota}" name="quotaList[13].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -396,18 +396,18 @@
                         <input type="hidden" value="${command['pl3_sum3_mantissa'].playCode}" name="quotaList[14].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa'].numQuota}" data-value="${command['pl3_sum3_mantissa'].numQuota}" name="quotaList[14].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa'].numQuotaStr}" data-value="${command['pl3_sum3_mantissa'].numQuota}" name="quotaList[14].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa'].betQuota}"  data-value="${command['pl3_sum3_mantissa'].betQuota}" name="quotaList[14].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa'].betQuotaStr}"  data-value="${command['pl3_sum3_mantissa'].betQuota}" name="quotaList[14].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa'].playQuota}" data-value="${command['pl3_sum3_mantissa'].playQuota}" name="quotaList[14].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa'].playQuotaStr}" data-value="${command['pl3_sum3_mantissa'].playQuota}" name="quotaList[14].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -420,18 +420,18 @@
                         <input type="hidden" value="${command['pl3_sum3_big_small'].playCode}" name="quotaList[15].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_big_small'].numQuota}" data-value="${command['pl3_sum3_big_small'].numQuota}" name="quotaList[15].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_big_small'].numQuotaStr}" data-value="${command['pl3_sum3_big_small'].numQuota}" name="quotaList[15].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_big_small'].betQuota}"  data-value="${command['pl3_sum3_big_small'].betQuota}" name="quotaList[15].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_big_small'].betQuotaStr}"  data-value="${command['pl3_sum3_big_small'].betQuota}" name="quotaList[15].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_big_small'].playQuota}" data-value="${command['pl3_sum3_big_small'].playQuota}" name="quotaList[15].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_big_small'].playQuotaStr}" data-value="${command['pl3_sum3_big_small'].playQuota}" name="quotaList[15].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -444,18 +444,18 @@
                         <input type="hidden" value="${command['pl3_sum3_single_double'].playCode}" name="quotaList[16].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_single_double'].numQuota}" data-value="${command['pl3_sum3_single_double'].numQuota}" name="quotaList[16].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_single_double'].numQuotaStr}" data-value="${command['pl3_sum3_single_double'].numQuota}" name="quotaList[16].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_single_double'].betQuota}"  data-value="${command['pl3_sum3_single_double'].betQuota}" name="quotaList[16].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_single_double'].betQuotaStr}"  data-value="${command['pl3_sum3_single_double'].betQuota}" name="quotaList[16].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_single_double'].playQuota}" data-value="${command['pl3_sum3_single_double'].playQuota}" name="quotaList[16].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_single_double'].playQuotaStr}" data-value="${command['pl3_sum3_single_double'].playQuota}" name="quotaList[16].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -468,18 +468,18 @@
                         <input type="hidden" value="${command['pl3_sum3_mantissa_big_small'].playCode}" name="quotaList[17].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa_big_small'].numQuota}" data-value="${command['pl3_sum3_mantissa_big_small'].numQuota}" name="quotaList[17].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa_big_small'].numQuotaStr}" data-value="${command['pl3_sum3_mantissa_big_small'].numQuota}" name="quotaList[17].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa_big_small'].betQuota}"  data-value="${command['pl3_sum3_mantissa_big_small'].betQuota}" name="quotaList[17].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa_big_small'].betQuotaStr}"  data-value="${command['pl3_sum3_mantissa_big_small'].betQuota}" name="quotaList[17].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa_big_small'].playQuota}" data-value="${command['pl3_sum3_mantissa_big_small'].playQuota}" name="quotaList[17].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa_big_small'].playQuotaStr}" data-value="${command['pl3_sum3_mantissa_big_small'].playQuota}" name="quotaList[17].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -492,18 +492,18 @@
                         <input type="hidden" value="${command['pl3_sum3_mantissa_prime_combined'].playCode}" name="quotaList[18].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa_prime_combined'].numQuota}" data-value="${command['pl3_sum3_mantissa_prime_combined'].numQuota}" name="quotaList[18].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa_prime_combined'].numQuotaStr}" data-value="${command['pl3_sum3_mantissa_prime_combined'].numQuota}" name="quotaList[18].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa_prime_combined'].betQuota}"  data-value="${command['pl3_sum3_mantissa_prime_combined'].betQuota}" name="quotaList[18].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa_prime_combined'].betQuotaStr}"  data-value="${command['pl3_sum3_mantissa_prime_combined'].betQuota}" name="quotaList[18].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa_prime_combined'].playQuota}" data-value="${command['pl3_sum3_mantissa_prime_combined'].playQuota}" name="quotaList[18].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_sum3_mantissa_prime_combined'].playQuotaStr}" data-value="${command['pl3_sum3_mantissa_prime_combined'].playQuota}" name="quotaList[18].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -516,18 +516,18 @@
                         <input type="hidden" value="${command['pl3_group_three'].playCode}" name="quotaList[19].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_group_three'].numQuota}" data-value="${command['pl3_group_three'].numQuota}" name="quotaList[19].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_group_three'].numQuotaStr}" data-value="${command['pl3_group_three'].numQuota}" name="quotaList[19].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_group_three'].betQuota}"  data-value="${command['pl3_group_three'].betQuota}" name="quotaList[19].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_group_three'].betQuotaStr}"  data-value="${command['pl3_group_three'].betQuota}" name="quotaList[19].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_group_three'].playQuota}" data-value="${command['pl3_group_three'].playQuota}" name="quotaList[19].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_group_three'].playQuotaStr}" data-value="${command['pl3_group_three'].playQuota}" name="quotaList[19].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -540,18 +540,18 @@
                         <input type="hidden" value="${command['pl3_group_six'].playCode}" name="quotaList[20].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_group_six'].numQuota}" data-value="${command['pl3_group_six'].numQuota}" name="quotaList[20].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_group_six'].numQuotaStr}" data-value="${command['pl3_group_six'].numQuota}" name="quotaList[20].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_group_six'].betQuota}"  data-value="${command['pl3_group_six'].betQuota}" name="quotaList[20].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_group_six'].betQuotaStr}"  data-value="${command['pl3_group_six'].betQuota}" name="quotaList[20].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_group_six'].playQuota}" data-value="${command['pl3_group_six'].playQuota}" name="quotaList[20].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_group_six'].playQuotaStr}" data-value="${command['pl3_group_six'].playQuota}" name="quotaList[20].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -564,18 +564,18 @@
                         <input type="hidden" value="${command['pl3_span'].playCode}" name="quotaList[21].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_span'].numQuota}" data-value="${command['pl3_span'].numQuota}" name="quotaList[21].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_span'].numQuotaStr}" data-value="${command['pl3_span'].numQuota}" name="quotaList[21].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_span'].betQuota}"  data-value="${command['pl3_span'].betQuota}" name="quotaList[21].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_span'].betQuotaStr}"  data-value="${command['pl3_span'].betQuota}" name="quotaList[21].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pl3_span'].playQuota}" data-value="${command['pl3_span'].playQuota}" name="quotaList[21].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pl3_span'].playQuotaStr}" data-value="${command['pl3_span'].playQuota}" name="quotaList[21].playQuota">
                             </div>
                         </td>
                     </tr>

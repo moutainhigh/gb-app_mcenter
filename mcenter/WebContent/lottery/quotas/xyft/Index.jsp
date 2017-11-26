@@ -24,18 +24,18 @@
                         <input type="hidden" value="${command['pk10_digital'].playCode}" name="quotaList[0].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pk10_digital'].numQuota}" data-value="${command['pk10_digital'].numQuota}" name="quotaList[0].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pk10_digital'].numQuotaStr}" data-value="${command['pk10_digital'].numQuota}" name="quotaList[0].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pk10_digital'].betQuota}"  data-value="${command['pk10_digital'].betQuota}" name="quotaList[0].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pk10_digital'].betQuotaStr}"  data-value="${command['pk10_digital'].betQuota}" name="quotaList[0].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pk10_digital'].playQuota}" data-value="${command['pk10_digital'].playQuota}" name="quotaList[0].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pk10_digital'].playQuotaStr}" data-value="${command['pk10_digital'].playQuota}" name="quotaList[0].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -48,18 +48,18 @@
                         <input type="hidden" value="${command['pk10_big_small'].playCode}" name="quotaList[1].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pk10_big_small'].numQuota}" data-value="${command['pk10_big_small'].numQuota}" name="quotaList[1].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pk10_big_small'].numQuotaStr}" data-value="${command['pk10_big_small'].numQuota}" name="quotaList[1].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pk10_big_small'].betQuota}"  data-value="${command['pk10_big_small'].betQuota}" name="quotaList[1].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pk10_big_small'].betQuotaStr}"  data-value="${command['pk10_big_small'].betQuota}" name="quotaList[1].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pk10_big_small'].playQuota}" data-value="${command['pk10_big_small'].playQuota}" name="quotaList[1].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pk10_big_small'].playQuotaStr}" data-value="${command['pk10_big_small'].playQuota}" name="quotaList[1].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -73,18 +73,18 @@
                         <input type="hidden" value="${command['pk10_single_double'].playCode}" name="quotaList[2].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pk10_single_double'].numQuota}" data-value="${command['pk10_single_double'].numQuota}" name="quotaList[2].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pk10_single_double'].numQuotaStr}" data-value="${command['pk10_single_double'].numQuota}" name="quotaList[2].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pk10_single_double'].betQuota}"  data-value="${command['pk10_single_double'].betQuota}" name="quotaList[2].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pk10_single_double'].betQuotaStr}"  data-value="${command['pk10_single_double'].betQuota}" name="quotaList[2].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pk10_single_double'].playQuota}" data-value="${command['pk10_single_double'].playQuota}" name="quotaList[2].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pk10_single_double'].playQuotaStr}" data-value="${command['pk10_single_double'].playQuota}" name="quotaList[2].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -98,18 +98,18 @@
                         <input type="hidden" value="${command['pk10_dragon_tiger'].playCode}" name="quotaList[3].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pk10_dragon_tiger'].numQuota}" data-value="${command['pk10_dragon_tiger'].numQuota}" name="quotaList[3].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pk10_dragon_tiger'].numQuotaStr}" data-value="${command['pk10_dragon_tiger'].numQuota}" name="quotaList[3].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pk10_dragon_tiger'].betQuota}"  data-value="${command['pk10_dragon_tiger'].betQuota}" name="quotaList[3].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pk10_dragon_tiger'].betQuotaStr}"  data-value="${command['pk10_dragon_tiger'].betQuota}" name="quotaList[3].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['pk10_dragon_tiger'].playQuota}" data-value="${command['pk10_dragon_tiger'].playQuota}" name="quotaList[3].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['pk10_dragon_tiger'].playQuotaStr}" data-value="${command['pk10_dragon_tiger'].playQuota}" name="quotaList[3].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -122,18 +122,18 @@
                         <input type="hidden" value="${command['champion_up_34'].playCode}" name="quotaList[4].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_34'].numQuota}" data-value="${command['champion_up_34'].numQuota}" name="quotaList[4].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_34'].numQuotaStr}" data-value="${command['champion_up_34'].numQuota}" name="quotaList[4].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_34'].betQuota}"  data-value="${command['champion_up_34'].betQuota}" name="quotaList[4].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_34'].betQuotaStr}"  data-value="${command['champion_up_34'].betQuota}" name="quotaList[4].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_34'].playQuota}" data-value="${command['champion_up_34'].playQuota}" name="quotaList[4].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_34'].playQuotaStr}" data-value="${command['champion_up_34'].playQuota}" name="quotaList[4].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -146,18 +146,18 @@
                         <input type="hidden" value="${command['champion_up_56'].playCode}" name="quotaList[5].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_56'].numQuota}" data-value="${command['champion_up_56'].numQuota}" name="quotaList[5].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_56'].numQuotaStr}" data-value="${command['champion_up_56'].numQuota}" name="quotaList[5].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_56'].betQuota}"  data-value="${command['champion_up_56'].betQuota}" name="quotaList[5].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_56'].betQuotaStr}"  data-value="${command['champion_up_56'].betQuota}" name="quotaList[5].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_56'].playQuota}" data-value="${command['champion_up_56'].playQuota}" name="quotaList[5].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_56'].playQuotaStr}" data-value="${command['champion_up_56'].playQuota}" name="quotaList[5].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -170,18 +170,18 @@
                         <input type="hidden" value="${command['champion_up_78'].playCode}" name="quotaList[6].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_78'].numQuota}" data-value="${command['champion_up_78'].numQuota}" name="quotaList[6].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_78'].numQuotaStr}" data-value="${command['champion_up_78'].numQuota}" name="quotaList[6].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_78'].betQuota}"  data-value="${command['champion_up_78'].betQuota}" name="quotaList[6].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_78'].betQuotaStr}"  data-value="${command['champion_up_78'].betQuota}" name="quotaList[6].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_78'].playQuota}" data-value="${command['champion_up_78'].playQuota}" name="quotaList[6].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_78'].playQuotaStr}" data-value="${command['champion_up_78'].playQuota}" name="quotaList[6].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -194,18 +194,18 @@
                         <input type="hidden" value="${command['champion_up_910'].playCode}" name="quotaList[7].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_910'].numQuota}" data-value="${command['champion_up_910'].numQuota}" name="quotaList[7].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_910'].numQuotaStr}" data-value="${command['champion_up_910'].numQuota}" name="quotaList[7].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_910'].betQuota}"  data-value="${command['champion_up_910'].betQuota}" name="quotaList[7].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_910'].betQuotaStr}"  data-value="${command['champion_up_910'].betQuota}" name="quotaList[7].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_910'].playQuota}" data-value="${command['champion_up_910'].playQuota}" name="quotaList[7].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_910'].playQuotaStr}" data-value="${command['champion_up_910'].playQuota}" name="quotaList[7].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -218,18 +218,18 @@
                         <input type="hidden" value="${command['champion_up_alone_11'].playCode}" name="quotaList[8].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_11'].numQuota}" data-value="${command['champion_up_alone_11'].numQuota}" name="quotaList[8].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_11'].numQuotaStr}" data-value="${command['champion_up_alone_11'].numQuota}" name="quotaList[8].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_11'].betQuota}"  data-value="${command['champion_up_alone_11'].betQuota}" name="quotaList[8].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_11'].betQuotaStr}"  data-value="${command['champion_up_alone_11'].betQuota}" name="quotaList[8].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_11'].playQuota}" data-value="${command['champion_up_alone_11'].playQuota}" name="quotaList[8].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_11'].playQuotaStr}" data-value="${command['champion_up_alone_11'].playQuota}" name="quotaList[8].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -242,18 +242,18 @@
                         <input type="hidden" value="${command['champion_up_alone_34'].playCode}" name="quotaList[9].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_34'].numQuota}" data-value="${command['champion_up_alone_34'].numQuota}" name="quotaList[9].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_34'].numQuotaStr}" data-value="${command['champion_up_alone_34'].numQuota}" name="quotaList[9].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_34'].betQuota}"  data-value="${command['champion_up_alone_34'].betQuota}" name="quotaList[9].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_34'].betQuotaStr}"  data-value="${command['champion_up_alone_34'].betQuota}" name="quotaList[9].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_34'].playQuota}" data-value="${command['champion_up_alone_34'].playQuota}" name="quotaList[9].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_34'].playQuotaStr}" data-value="${command['champion_up_alone_34'].playQuota}" name="quotaList[9].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -266,18 +266,18 @@
                         <input type="hidden" value="${command['champion_up_alone_56'].playCode}" name="quotaList[10].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_56'].numQuota}" data-value="${command['champion_up_alone_56'].numQuota}" name="quotaList[10].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_56'].numQuotaStr}" data-value="${command['champion_up_alone_56'].numQuota}" name="quotaList[10].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_56'].betQuota}"  data-value="${command['champion_up_alone_56'].betQuota}" name="quotaList[10].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_56'].betQuotaStr}"  data-value="${command['champion_up_alone_56'].betQuota}" name="quotaList[10].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_56'].playQuota}" data-value="${command['champion_up_alone_56'].playQuota}" name="quotaList[10].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_56'].playQuotaStr}" data-value="${command['champion_up_alone_56'].playQuota}" name="quotaList[10].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -290,18 +290,18 @@
                         <input type="hidden" value="${command['champion_up_alone_78'].playCode}" name="quotaList[11].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_78'].numQuota}" data-value="${command['champion_up_alone_78'].numQuota}" name="quotaList[11].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_78'].numQuotaStr}" data-value="${command['champion_up_alone_78'].numQuota}" name="quotaList[11].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_78'].betQuota}"  data-value="${command['champion_up_alone_78'].betQuota}" name="quotaList[11].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_78'].betQuotaStr}"  data-value="${command['champion_up_alone_78'].betQuota}" name="quotaList[11].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_78'].playQuota}" data-value="${command['champion_up_alone_78'].playQuota}" name="quotaList[11].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_78'].playQuotaStr}" data-value="${command['champion_up_alone_78'].playQuota}" name="quotaList[11].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -314,18 +314,18 @@
                         <input type="hidden" value="${command['champion_up_alone_910'].playCode}" name="quotaList[12].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_910'].numQuota}" data-value="${command['champion_up_alone_910'].numQuota}" name="quotaList[12].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_910'].numQuotaStr}" data-value="${command['champion_up_alone_910'].numQuota}" name="quotaList[12].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_910'].betQuota}"  data-value="${command['champion_up_alone_910'].betQuota}" name="quotaList[12].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_910'].betQuotaStr}"  data-value="${command['champion_up_alone_910'].betQuota}" name="quotaList[12].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_910'].playQuota}" data-value="${command['champion_up_alone_910'].playQuota}" name="quotaList[12].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_alone_910'].playQuotaStr}" data-value="${command['champion_up_alone_910'].playQuota}" name="quotaList[12].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -338,18 +338,18 @@
                         <input type="hidden" value="${command['champion_up_big_small'].playCode}" name="quotaList[13].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_big_small'].numQuota}" data-value="${command['champion_up_big_small'].numQuota}" name="quotaList[13].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_big_small'].numQuotaStr}" data-value="${command['champion_up_big_small'].numQuota}" name="quotaList[13].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_big_small'].betQuota}"  data-value="${command['champion_up_big_small'].betQuota}" name="quotaList[13].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_big_small'].betQuotaStr}"  data-value="${command['champion_up_big_small'].betQuota}" name="quotaList[13].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_big_small'].playQuota}" data-value="${command['champion_up_big_small'].playQuota}" name="quotaList[13].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_big_small'].playQuotaStr}" data-value="${command['champion_up_big_small'].playQuota}" name="quotaList[13].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -362,18 +362,18 @@
                         <input type="hidden" value="${command['champion_up_single_double'].playCode}" name="quotaList[14].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_single_double'].numQuota}" data-value="${command['champion_up_single_double'].numQuota}" name="quotaList[14].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_single_double'].numQuotaStr}" data-value="${command['champion_up_single_double'].numQuota}" name="quotaList[14].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_single_double'].betQuota}"  data-value="${command['champion_up_single_double'].betQuota}" name="quotaList[14].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_single_double'].betQuotaStr}"  data-value="${command['champion_up_single_double'].betQuota}" name="quotaList[14].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_single_double'].playQuota}" data-value="${command['champion_up_single_double'].playQuota}" name="quotaList[14].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_single_double'].playQuotaStr}" data-value="${command['champion_up_single_double'].playQuota}" name="quotaList[14].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -386,18 +386,18 @@
                         <input type="hidden" value="${command['champion_up_half'].playCode}" name="quotaList[15].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_half'].numQuota}" data-value="${command['champion_up_half'].numQuota}" name="quotaList[15].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_half'].numQuotaStr}" data-value="${command['champion_up_half'].numQuota}" name="quotaList[15].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_half'].betQuota}"  data-value="${command['champion_up_half'].betQuota}" name="quotaList[15].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_half'].betQuotaStr}"  data-value="${command['champion_up_half'].betQuota}" name="quotaList[15].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['champion_up_half'].playQuota}" data-value="${command['champion_up_half'].playQuota}" name="quotaList[15].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['champion_up_half'].playQuotaStr}" data-value="${command['champion_up_half'].playQuota}" name="quotaList[15].playQuota">
                             </div>
                         </td>
                     </tr>

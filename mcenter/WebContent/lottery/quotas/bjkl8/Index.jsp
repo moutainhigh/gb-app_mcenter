@@ -24,18 +24,18 @@
                         <input type="hidden" value="${command['keno_selection_one'].playCode}" name="quotaList[0].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_one'].numQuota}"  data-value="${command['keno_selection_one'].numQuota}" name="quotaList[0].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_one'].numQuotaStr}"  data-value="${command['keno_selection_one'].numQuota}" name="quotaList[0].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_one'].betQuota}"  data-value="${command['keno_selection_one'].betQuota}" name="quotaList[0].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_one'].betQuotaStr}"  data-value="${command['keno_selection_one'].betQuota}" name="quotaList[0].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_one'].playQuota}" data-value="${command['keno_selection_one'].playQuota}" name="quotaList[0].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_one'].playQuotaStr}" data-value="${command['keno_selection_one'].playQuota}" name="quotaList[0].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -48,18 +48,18 @@
                         <input type="hidden" value="${command['keno_selection_two'].playCode}" name="quotaList[1].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_two'].numQuota}"  data-value="${command['keno_selection_two'].numQuota}" name="quotaList[1].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_two'].numQuotaStr}"  data-value="${command['keno_selection_two'].numQuota}" name="quotaList[1].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_two'].betQuota}"  data-value="${command['keno_selection_two'].betQuota}" name="quotaList[1].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_two'].betQuotaStr}"  data-value="${command['keno_selection_two'].betQuota}" name="quotaList[1].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_two'].playQuota}" data-value="${command['keno_selection_two'].playQuota}" name="quotaList[1].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_two'].playQuotaStr}" data-value="${command['keno_selection_two'].playQuota}" name="quotaList[1].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -73,18 +73,18 @@
                         <input type="hidden" value="${command['keno_selection_three'].playCode}" name="quotaList[2].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_three'].numQuota}"  data-value="${command['keno_selection_three'].numQuota}" name="quotaList[2].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_three'].numQuotaStr}"  data-value="${command['keno_selection_three'].numQuota}" name="quotaList[2].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_three'].betQuota}"  data-value="${command['keno_selection_three'].betQuota}" name="quotaList[2].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_three'].betQuotaStr}"  data-value="${command['keno_selection_three'].betQuota}" name="quotaList[2].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_three'].playQuota}" data-value="${command['keno_selection_three'].playQuota}" name="quotaList[2].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_three'].playQuotaStr}" data-value="${command['keno_selection_three'].playQuota}" name="quotaList[2].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -98,18 +98,18 @@
                         <input type="hidden" value="${command['keno_selection_four'].playCode}" name="quotaList[3].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_four'].numQuota}"  data-value="${command['keno_selection_four'].numQuota}" name="quotaList[3].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_four'].numQuotaStr}"  data-value="${command['keno_selection_four'].numQuota}" name="quotaList[3].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_four'].betQuota}"  data-value="${command['keno_selection_four'].betQuota}" name="quotaList[3].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_four'].betQuotaStr}"  data-value="${command['keno_selection_four'].betQuota}" name="quotaList[3].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_four'].playQuota}" data-value="${command['keno_selection_four'].playQuota}" name="quotaList[3].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_four'].playQuotaStr}" data-value="${command['keno_selection_four'].playQuota}" name="quotaList[3].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -122,18 +122,18 @@
                         <input type="hidden" value="${command['keno_selection_five'].playCode}" name="quotaList[4].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_five'].numQuota}"  data-value="${command['keno_selection_five'].numQuota}" name="quotaList[4].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_five'].numQuotaStr}"  data-value="${command['keno_selection_five'].numQuota}" name="quotaList[4].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_five'].betQuota}"  data-value="${command['keno_selection_five'].betQuota}" name="quotaList[4].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_five'].betQuotaStr}"  data-value="${command['keno_selection_five'].betQuota}" name="quotaList[4].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_selection_five'].playQuota}" data-value="${command['keno_selection_five'].playQuota}" name="quotaList[4].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_selection_five'].playQuotaStr}" data-value="${command['keno_selection_five'].playQuota}" name="quotaList[4].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -146,18 +146,18 @@
                         <input type="hidden" value="${command['keno_sum20_big_small'].playCode}" name="quotaList[5].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_big_small'].numQuota}"  data-value="${command['keno_sum20_big_small'].numQuota}" name="quotaList[5].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_big_small'].numQuotaStr}"  data-value="${command['keno_sum20_big_small'].numQuota}" name="quotaList[5].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_big_small'].betQuota}"  data-value="${command['keno_sum20_big_small'].betQuota}" name="quotaList[5].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_big_small'].betQuotaStr}"  data-value="${command['keno_sum20_big_small'].betQuota}" name="quotaList[5].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_big_small'].playQuota}" data-value="${command['keno_sum20_big_small'].playQuota}" name="quotaList[5].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_big_small'].playQuotaStr}" data-value="${command['keno_sum20_big_small'].playQuota}" name="quotaList[5].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -171,18 +171,18 @@
                         <input type="hidden" value="${command['keno_sum20_single_double'].playCode}" name="quotaList[13].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_single_double'].numQuota}"  data-value="${command['keno_sum20_single_double'].numQuota}" name="quotaList[13].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_single_double'].numQuotaStr}"  data-value="${command['keno_sum20_single_double'].numQuota}" name="quotaList[13].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_single_double'].betQuota}"  data-value="${command['keno_sum20_single_double'].betQuota}" name="quotaList[13].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_single_double'].betQuotaStr}"  data-value="${command['keno_sum20_single_double'].betQuota}" name="quotaList[13].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_single_double'].playQuota}" data-value="${command['keno_sum20_single_double'].playQuota}" name="quotaList[13].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_single_double'].playQuotaStr}" data-value="${command['keno_sum20_single_double'].playQuota}" name="quotaList[13].playQuota">
                             </div>
                         </td>
 
@@ -197,18 +197,18 @@
                         <input type="hidden" value="${command['keno_sum20_elements'].playCode}" name="quotaList[6].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_elements'].numQuota}"  data-value="${command['keno_sum20_elements'].numQuota}" name="quotaList[6].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_elements'].numQuotaStr}"  data-value="${command['keno_sum20_elements'].numQuota}" name="quotaList[6].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_elements'].betQuota}"  data-value="${command['keno_sum20_elements'].betQuota}" name="quotaList[6].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_elements'].betQuotaStr}"  data-value="${command['keno_sum20_elements'].betQuota}" name="quotaList[6].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_elements'].playQuota}" data-value="${command['keno_sum20_elements'].playQuota}" name="quotaList[6].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_sum20_elements'].playQuotaStr}" data-value="${command['keno_sum20_elements'].playQuota}" name="quotaList[6].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -222,18 +222,18 @@
                         <input type="hidden" value="${command['keno_up_down'].playCode}" name="quotaList[7].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_up_down'].numQuota}"  data-value="${command['keno_up_down'].numQuota}" name="quotaList[7].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_up_down'].numQuotaStr}"  data-value="${command['keno_up_down'].numQuota}" name="quotaList[7].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_up_down'].betQuota}"  data-value="${command['keno_up_down'].betQuota}" name="quotaList[7].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_up_down'].betQuotaStr}"  data-value="${command['keno_up_down'].betQuota}" name="quotaList[7].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_up_down'].playQuota}" data-value="${command['keno_up_down'].playQuota}" name="quotaList[7].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_up_down'].playQuotaStr}" data-value="${command['keno_up_down'].playQuota}" name="quotaList[7].playQuota">
                             </div>
                         </td>
                     </tr>
@@ -246,18 +246,18 @@
                         <input type="hidden" value="${command['keno_odd_even'].playCode}" name="quotaList[8].playCode">
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_odd_even'].numQuota}"  data-value="${command['keno_odd_even'].numQuota}" name="quotaList[8].numQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_odd_even'].numQuotaStr}"  data-value="${command['keno_odd_even'].numQuota}" name="quotaList[8].numQuota">
 
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_odd_even'].betQuota}"  data-value="${command['keno_odd_even'].betQuota}" name="quotaList[8].betQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_odd_even'].betQuotaStr}"  data-value="${command['keno_odd_even'].betQuota}" name="quotaList[8].betQuota">
                             </div>
                         </td>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="text" class="form-control input-sm" value="${command['keno_odd_even'].playQuota}" data-value="${command['keno_odd_even'].playQuota}" name="quotaList[8].playQuota">
+                                <input type="text" class="form-control input-sm" value="${command['keno_odd_even'].playQuotaStr}" data-value="${command['keno_odd_even'].playQuota}" name="quotaList[8].playQuota">
                             </div>
                         </td>
                     </tr>
