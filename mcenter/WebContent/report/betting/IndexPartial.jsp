@@ -20,6 +20,10 @@
         <c:when test="${apiType=='3'}">
             <%@ include file="/report/betting/Sportsbook.jsp" %>
         </c:when>
+        <%--彩票--%>
+        <c:when test="${apiType=='4'}">
+            <%@ include file="/report/betting/LotteryTicket.jsp" %>
+        </c:when>
         <c:otherwise>
             <%@ include file="/report/betting/AllType.jsp" %>
         </c:otherwise>

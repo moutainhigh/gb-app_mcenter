@@ -55,6 +55,9 @@
                                                 </c:if>
                                                 <c:if test="${order.name=='201'}">
                                                     <span class="co-grayc2" ${command.mailParam.active?'':'hidden'}>  (${dicts.setting.PlayerReg[command.mailParam.paramValue]})</span>
+                                                </c:if>&nbsp;&nbsp;
+                                                <c:if test="${order.isOnly=='1'}">
+                                                    <span>${dicts.setting.isOnly[order.isOnly]}</span>
                                                 </c:if>
                                             </td>
                                         </tr>
