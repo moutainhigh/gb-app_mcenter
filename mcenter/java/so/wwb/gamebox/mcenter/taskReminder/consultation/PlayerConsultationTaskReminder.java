@@ -1,9 +1,9 @@
 package so.wwb.gamebox.mcenter.taskReminder.consultation;
 
 import org.soul.commons.lang.DateTool;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminder;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.master.player.enums.PlayerAdvisoryEnum;
 import so.wwb.gamebox.model.master.player.po.VPlayerAdvisory;
 import so.wwb.gamebox.model.master.player.vo.VPlayerAdvisoryListVo;

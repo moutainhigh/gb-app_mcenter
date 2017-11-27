@@ -3,7 +3,6 @@ package so.wwb.gamebox.mcenter.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
-import org.soul.commons.dubbo.DubboTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.DateQuickPicker;
 import org.soul.commons.locale.LocaleTool;
@@ -11,7 +10,6 @@ import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.support._Module;
 import org.soul.commons.tree.TreeNode;
-import org.soul.iservice.security.privilege.ISysResourceService;
 import org.soul.model.common.BaseVo;
 import org.soul.model.security.privilege.po.VSysUserResource;
 import org.soul.model.security.privilege.vo.SysResourceVo;
@@ -21,9 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerVo;
@@ -151,7 +149,7 @@ public class HomeController extends SiteHomeController{
         }
 
         o.getSearch().setSubsysCode(ConfigManager.getConfigration().getSubsysCode());
-        List<TreeNode<VSysUserResource>> menus = DubboTool.getService(ISysResourceService.class).getAllMenus(o);
+        List<TreeNode<VSysUserResource>> menus = ServiceTool.sysResourceService().getAllMenus(o);
         model.addAttribute("menus", menus);
         //左侧菜单栏
         VUserShortcutMenuListVo menuListVo = new VUserShortcutMenuListVo();

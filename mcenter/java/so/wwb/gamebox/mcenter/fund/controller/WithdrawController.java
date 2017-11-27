@@ -8,7 +8,6 @@ import org.soul.commons.collections.MapTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
-import org.soul.commons.dubbo.DubboTool;
 import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
@@ -48,7 +47,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import so.wwb.gamebox.iservice.currency.ICurrencyExchangeService;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.fund.IVPlayerWithdrawService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.PlayerWithdrawRemindForm;
@@ -57,7 +56,6 @@ import so.wwb.gamebox.mcenter.fund.form.VPlayerWithdrawSearchForm;
 import so.wwb.gamebox.mcenter.player.form.PlayerTransactionForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.share.form.SysListOperatorForm;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.common.Const;
@@ -1867,10 +1865,10 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         CurrencyExchangeRate currencyExchangeRate = rateVo.getResult();
         CurrencyRate rate = new CurrencyRate();
         if (currencyExchangeRate == null) {
-            rate = DubboTool.getService(ICurrencyExchangeService.class).currencyToUsd(currency);
+            rate = ServiceTool.currencyExchangeService().currencyToUsd(currency);
             saveOrUpdateRate(currencyExchangeRate, rate, currency);
         } else if (currencyExchangeRate.getUpdateTime().getTime() < SessionManager.getDate().getToday().getTime()) {
-            rate = DubboTool.getService(ICurrencyExchangeService.class).currencyToUsd(currency);
+            rate = ServiceTool.currencyExchangeService().currencyToUsd(currency);
             if (rate == null) {
                 LOG.info("更新汇率失败,用数据库原有汇率,{0}", playerWithdrawVo.getResult().getTransactionNo());
                 rate = new CurrencyRate();

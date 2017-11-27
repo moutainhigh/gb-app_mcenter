@@ -1,7 +1,7 @@
 package so.wwb.gamebox.mcenter.taskReminder.examine;
 
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminder;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentManageVo;
 import so.wwb.gamebox.model.master.tasknotify.po.UserTaskReminder;
 

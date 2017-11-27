@@ -1,14 +1,14 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
 import org.soul.web.controller.BaseCrudController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.iservice.master.setting.IRebateGradsSetService;
+import so.wwb.gamebox.mcenter.setting.form.RebateGradsSetForm;
+import so.wwb.gamebox.mcenter.setting.form.RebateGradsSetSearchForm;
 import so.wwb.gamebox.model.master.setting.po.RebateGradsSet;
 import so.wwb.gamebox.model.master.setting.vo.RebateGradsSetListVo;
 import so.wwb.gamebox.model.master.setting.vo.RebateGradsSetVo;
-import so.wwb.gamebox.mcenter.setting.form.RebateGradsSetSearchForm;
-import so.wwb.gamebox.mcenter.setting.form.RebateGradsSetForm;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 
 /**

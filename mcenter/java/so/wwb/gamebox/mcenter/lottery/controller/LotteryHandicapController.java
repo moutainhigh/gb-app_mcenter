@@ -1,14 +1,14 @@
 package so.wwb.gamebox.mcenter.lottery.controller;
 
 import org.soul.web.controller.BaseCrudController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.iservice.company.lottery.ILotteryHandicapService;
+import so.wwb.gamebox.mcenter.lottery.form.LotteryHandicapForm;
+import so.wwb.gamebox.mcenter.lottery.form.LotteryHandicapSearchForm;
 import so.wwb.gamebox.model.company.lottery.po.LotteryHandicap;
 import so.wwb.gamebox.model.company.lottery.vo.LotteryHandicapListVo;
 import so.wwb.gamebox.model.company.lottery.vo.LotteryHandicapVo;
-import so.wwb.gamebox.mcenter.lottery.form.LotteryHandicapSearchForm;
-import so.wwb.gamebox.mcenter.lottery.form.LotteryHandicapForm;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 
 /**

@@ -4,10 +4,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.web.support.IForm;
-import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
 import so.wwb.gamebox.mcenter.content.controller.CttCarouselController;
-
-import javax.validation.constraints.Pattern;
 
 
 /**

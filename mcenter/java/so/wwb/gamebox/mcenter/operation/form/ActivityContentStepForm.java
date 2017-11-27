@@ -2,7 +2,6 @@ package so.wwb.gamebox.mcenter.operation.form;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.validation.form.constraints.Depends;
 import org.soul.commons.validation.form.support.Comment;

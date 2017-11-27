@@ -10,7 +10,6 @@ import org.soul.commons.collections.MapTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
-import org.soul.commons.dubbo.DubboTool;
 import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
@@ -28,9 +27,9 @@ import org.soul.commons.query.sort.Order;
 import org.soul.commons.security.Base36;
 import org.soul.commons.security.CryptoTool;
 import org.soul.commons.security.key.CryptoKey;
-import org.soul.commons.spring.utils.CommonBeanFactory;
 import org.soul.commons.support._Module;
 import org.soul.commons.validation.form.PasswordRule;
+import org.soul.iservice.taskschedule.ITaskScheduleService;
 import org.soul.model.listop.po.SysListOperator;
 import org.soul.model.listop.vo.SysListOperatorListVo;
 import org.soul.model.log.audit.enums.OpMode;
@@ -67,6 +66,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import so.wwb.gamebox.common.dubbo.ServiceScheduleTool;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IUserPlayerService;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.iservice.master.report.IPlayerRecommendAwardService;
@@ -75,7 +76,6 @@ import so.wwb.gamebox.mcenter.player.form.*;
 import so.wwb.gamebox.mcenter.report.controller.AuditLogController;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.share.form.SysListOperatorForm;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.common.Audit;
@@ -93,7 +93,6 @@ import so.wwb.gamebox.model.listop.FilterRow;
 import so.wwb.gamebox.model.listop.FilterSelectConstant;
 import so.wwb.gamebox.model.listop.FreezeType;
 import so.wwb.gamebox.model.listop.TabTypeEnum;
-import so.wwb.gamebox.model.master.analyze.vo.VAnalyzePlayerListVo;
 import so.wwb.gamebox.model.master.enums.*;
 import so.wwb.gamebox.model.master.fund.po.PlayerWithdraw;
 import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawListVo;
@@ -115,7 +114,6 @@ import so.wwb.gamebox.model.master.setting.vo.RakebackSetListVo;
 import so.wwb.gamebox.model.master.setting.vo.RakebackSetVo;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderVo;
 import so.wwb.gamebox.model.report.vo.AddLogVo;
-import so.wwb.gamebox.web.ServiceToolBase;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.bank.BankHelper;
 import so.wwb.gamebox.web.cache.Cache;
@@ -722,7 +720,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         userBankcard.setType(UserBankcardTypeEnum.BITCOIN.getCode());
         userBankcard.setBankName(BITCOIN);
         LOG.info("管理{0}操作用户绑定比特币,用户{1},绑定地址{2}", SessionManagerBase.getUserName(), userBankcard.getBankcardNumber());
-        userBankcardVo = ServiceToolBase.userBankcardService().saveAndUpdateUserBankcard(userBankcardVo);
+        userBankcardVo = ServiceTool.userBankcardService().saveAndUpdateUserBankcard(userBankcardVo);
         return getVoMessage(userBankcardVo);
     }
 
@@ -842,7 +840,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         if (vUserPlayerVo.getSearch().getId() == null) {
             return null;
         }
-        IPlayerRecommendAwardService service = DubboTool.getService(IPlayerRecommendAwardService.class);
+        IPlayerRecommendAwardService service = ServiceTool.playerRecommendAwardService();
         PlayerRecommendAwardListVo listVo = new PlayerRecommendAwardListVo();
         listVo.getSearch().setStartTime(SessionManager.getDate().getYestoday());
         listVo.getSearch().setEndTime(SessionManager.getDate().getToday());
@@ -2787,12 +2785,12 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 result.put("state", false);
                 return result;
             }
-            vo = ServiceToolBase.sysExportService().doExport(vo);
+            vo = ServiceTool.sysExportService().doExport(vo);
             if (vo.isSuccess()) {
                 TaskScheduleVo taskScheduleVo = new TaskScheduleVo();
                 taskScheduleVo.setResult(new TaskSchedule(SysExportVo.EXPORT_SCHEDULE_CODE));
-                String dubboVersionSchedule = CommonBeanFactory.getCommonConf().getDubboVersionSchedule();
-                ServiceToolBase.taskScheduleService(dubboVersionSchedule).runOnceTask(taskScheduleVo, vo);
+                ITaskScheduleService taskScheduleService = ServiceScheduleTool.getTaskScheduleService();
+                taskScheduleService.runOnceTask(taskScheduleVo, vo);
             }
             result.put("state", vo.isSuccess());
         } catch (Exception ex) {

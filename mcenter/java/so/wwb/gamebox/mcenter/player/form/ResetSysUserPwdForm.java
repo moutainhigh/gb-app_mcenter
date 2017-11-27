@@ -1,6 +1,5 @@
 package so.wwb.gamebox.mcenter.player.form;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.constraints.Depends;

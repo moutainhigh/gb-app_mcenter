@@ -1,14 +1,14 @@
 package so.wwb.gamebox.mcenter.operation.controller;
 
 import org.soul.web.controller.BaseCrudController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.iservice.master.operation.IActivityMoneyAwardsRulesService;
+import so.wwb.gamebox.mcenter.operation.form.ActivityMoneyAwardsRulesForm;
+import so.wwb.gamebox.mcenter.operation.form.ActivityMoneyAwardsRulesSearchForm;
 import so.wwb.gamebox.model.master.operation.po.ActivityMoneyAwardsRules;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMoneyAwardsRulesListVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMoneyAwardsRulesVo;
-import so.wwb.gamebox.mcenter.operation.form.ActivityMoneyAwardsRulesSearchForm;
-import so.wwb.gamebox.mcenter.operation.form.ActivityMoneyAwardsRulesForm;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 
 /**

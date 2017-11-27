@@ -8,7 +8,6 @@ import so.wwb.gamebox.model.company.sys.po.VSysSiteUser;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.init.ExtBaseWebConf;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

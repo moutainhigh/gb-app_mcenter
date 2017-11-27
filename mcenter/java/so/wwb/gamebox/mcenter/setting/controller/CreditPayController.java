@@ -3,8 +3,6 @@ package so.wwb.gamebox.mcenter.setting.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
-import org.soul.commons.dubbo.DubboTool;
-import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
@@ -12,7 +10,6 @@ import org.soul.commons.log.LogFactory;
 import org.soul.commons.math.NumberTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.spring.utils.SpringTool;
-import org.soul.iservice.security.privilege.ISysUserRoleService;
 import org.soul.model.comet.vo.MessageVo;
 import org.soul.model.pay.enums.CommonFieldsConst;
 import org.soul.model.pay.enums.PayApiTypeConst;
@@ -26,9 +23,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordForm;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.BossParamEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.TerminalEnum;
@@ -44,11 +41,9 @@ import so.wwb.gamebox.model.company.sys.po.SysSite;
 import so.wwb.gamebox.model.company.sys.po.VSysSiteDomain;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.master.enums.CurrencyEnum;
-import so.wwb.gamebox.web.ServiceToolBase;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
-import so.wwb.gamebox.web.credit.CreditHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,7 +71,7 @@ public class CreditPayController {
         //站点信息
         SysSiteVo sysSiteVo = new SysSiteVo();
         sysSiteVo.getSearch().setId(SessionManager.getSiteId());
-        SysSite sysSite = ServiceToolBase.sysSiteService().get(sysSiteVo).getResult();
+        SysSite sysSite = ServiceTool.sysSiteService().get(sysSiteVo).getResult();
         if (sysSite.getCreditLine()==null||"".equals(sysSite.getCreditLine())){
             sysSite.setCreditLine(0.0);
         }
@@ -246,7 +241,7 @@ public class CreditPayController {
         SysUserRoleVo sysUserRoleVo = new SysUserRoleVo();
         sysUserRoleVo.setUrl(CREDIT_RECORD_URL);
         sysUserRoleVo._setDataSourceId(Const.BOSS_DATASOURCE_ID);
-        List<Integer> userIdList = DubboTool.getService(ISysUserRoleService.class).findUserIdByUrl(sysUserRoleVo);
+        List<Integer> userIdList = ServiceTool.sysUserRoleService().findUserIdByUrl(sysUserRoleVo);
         List<String> userIds = new ArrayList<>();
         for (Integer id : userIdList) {
             if (id != null) {

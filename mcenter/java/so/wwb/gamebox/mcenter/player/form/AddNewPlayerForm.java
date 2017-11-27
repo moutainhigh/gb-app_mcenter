@@ -1,14 +1,10 @@
 package so.wwb.gamebox.mcenter.player.form;
 
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.soul.commons.query.enums.Operator;
-import org.soul.commons.validation.form.constraints.Depends;
 import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
 import so.wwb.gamebox.mcenter.player.controller.PlayerController;
-import so.wwb.gamebox.web.validate.controller.ValidateController;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;

@@ -5,7 +5,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.Pattern;
 
 

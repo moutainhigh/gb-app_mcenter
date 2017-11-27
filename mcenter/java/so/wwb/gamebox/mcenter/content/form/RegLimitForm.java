@@ -4,8 +4,6 @@ import org.hibernate.validator.constraints.Range;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
 

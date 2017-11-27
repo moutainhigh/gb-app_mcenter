@@ -4,8 +4,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.soul.commons.validation.form.support.Comment;
 import org.soul.web.support.IForm;
 
-import javax.validation.constraints.Max;
-
 
 /**
  * 玩家备注表表单验证对象

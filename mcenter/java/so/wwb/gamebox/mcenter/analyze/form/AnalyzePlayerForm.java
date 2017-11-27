@@ -1,9 +1,9 @@
 package so.wwb.gamebox.mcenter.analyze.form;
 
-import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
-import javax.validation.constraints.Pattern;
-
 import org.soul.web.support.IForm;
+import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
+
+import javax.validation.constraints.Pattern;
 
 
 /**

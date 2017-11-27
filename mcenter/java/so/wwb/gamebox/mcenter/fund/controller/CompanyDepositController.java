@@ -2,7 +2,6 @@ package so.wwb.gamebox.mcenter.fund.controller;
 
 
 import org.soul.commons.data.json.JsonTool;
-import org.soul.commons.dubbo.DubboTool;
 import org.soul.commons.lang.ArrayTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
@@ -19,12 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.iservice.currency.ICurrencyExchangeService;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.fund.IPlayerRechargeService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.CacheBase;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
@@ -276,10 +274,10 @@ public class CompanyDepositController extends BaseDepositController {
         CurrencyExchangeRate currencyExchangeRate = rateVo.getResult();
         CurrencyRate rate = new CurrencyRate();
         if (currencyExchangeRate == null) {
-            rate = DubboTool.getService(ICurrencyExchangeService.class).usdToCurrency(depositCurrency);
+            rate = ServiceTool.currencyExchangeService().usdToCurrency(depositCurrency);
             saveRate(currencyExchangeRate, rate, depositCurrency);
         } else if (currencyExchangeRate.getUpdateTime().getTime() < SessionManager.getDate().getToday().getTime()) {
-            rate = DubboTool.getService(ICurrencyExchangeService.class).usdToCurrency(depositCurrency);
+            rate = ServiceTool.currencyExchangeService().usdToCurrency(depositCurrency);
             if (rate == null) {
                 LOG.info("更新汇率失败,用数据库原有汇率{0}", vo.getResult().getTransactionNo());
                 rate = new CurrencyRate();

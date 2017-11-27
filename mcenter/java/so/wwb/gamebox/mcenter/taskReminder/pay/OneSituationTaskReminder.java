@@ -1,7 +1,7 @@
 package so.wwb.gamebox.mcenter.taskReminder.pay;
 
 import org.soul.commons.data.json.JsonTool;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.model.master.content.po.PayAccount;
 import so.wwb.gamebox.model.master.content.vo.PayAccountListVo;
 import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;

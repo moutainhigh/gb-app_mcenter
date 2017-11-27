@@ -1,7 +1,6 @@
 package so.wwb.gamebox.mcenter.analyze.controller;
 
 
-import org.soul.commons.dubbo.DubboTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
@@ -14,13 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.analyze.IAnalyzePlayerService;
 import so.wwb.gamebox.iservice.master.analyze.IVAnalyzePlayerService;
 import so.wwb.gamebox.mcenter.analyze.form.AnalyzeParamForm;
 import so.wwb.gamebox.mcenter.analyze.form.AnalyzePlayerForm;
 import so.wwb.gamebox.mcenter.analyze.form.AnalyzePlayerSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.common.Const;
@@ -167,7 +166,7 @@ public class AnalyzePlayerController extends BaseCrudController<IAnalyzePlayerSe
                 vo.getSearch().setDay(day);
                 vo.getSearch().setDaySecondStart(start);
                 vo.getSearch().setDaySecondEnd(convertDate);
-                IVAnalyzePlayerService service = DubboTool.getService(IVAnalyzePlayerService.class);
+                IVAnalyzePlayerService service = ServiceTool.vAnalyzePlayerService();
                 log.debug("执行代理分析：站点ID:{0},日期：{1}，开始时间：{2},结束时间：{3},记录数:{4}",
                         siteVo.getResult().getId(),
                         DateTool.formatDate(vo.getSearch().getDay(), DateTool.yyyy_MM_dd),

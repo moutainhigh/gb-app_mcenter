@@ -1,20 +1,9 @@
 package so.wwb.gamebox.mcenter.content.form;
 
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
-import org.soul.commons.query.enums.Operator;
-import org.soul.commons.validation.form.constraints.Compare;
-import org.soul.commons.validation.form.constraints.Depends;
-import org.soul.commons.validation.form.constraints.Remote;
-import org.soul.commons.validation.form.support.Comment;
-import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
-import so.wwb.gamebox.mcenter.content.controller.PayAccountController;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Pattern;
 

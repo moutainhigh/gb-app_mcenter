@@ -13,11 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.site.IVSiteContactsService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.VSiteContactsForm;
 import so.wwb.gamebox.mcenter.setting.form.VSiteContactsSearchForm;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.VSiteContacts;
@@ -28,7 +28,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -177,7 +180,7 @@ public class VSiteContactsController extends BaseCrudController<IVSiteContactsSe
         siteContactsPositionListVo._setDataSourceId(SessionManager.getSiteParentId());
         siteContactsPositionListVo.getSearch().setSiteId(SessionManager.getSiteId());
         siteContactsPositionListVo.setPaging(null);
-        siteContactsPositionListVo=ServiceTool.siteContactsPositionService().search(siteContactsPositionListVo);
+        siteContactsPositionListVo= ServiceTool.siteContactsPositionService().search(siteContactsPositionListVo);
         return JsonTool.toJson(siteContactsPositionListVo.getResult());
     }
 

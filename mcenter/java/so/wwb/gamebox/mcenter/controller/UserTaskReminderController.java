@@ -1,37 +1,20 @@
 package so.wwb.gamebox.mcenter.controller;
 
-import org.soul.commons.dubbo.DubboTool;
-import org.soul.commons.locale.LocaleDateTool;
-import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.iservice.master.player.IVPayRankService;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.tasknotify.IUserTaskReminderService;
 import so.wwb.gamebox.mcenter.form.UserTaskReminderForm;
 import so.wwb.gamebox.mcenter.form.UserTaskReminderSearchForm;
-import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
-import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SiteParamEnum;
-import so.wwb.gamebox.model.master.content.po.PayAccount;
-import so.wwb.gamebox.model.master.content.vo.PayAccountVo;
 import so.wwb.gamebox.model.master.content.vo.WarningContentVo;
-import so.wwb.gamebox.model.master.enums.UserTaskEnum;
-import so.wwb.gamebox.model.master.fund.enums.RechargeTypeParentEnum;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.player.vo.VPayRankVo;
 import so.wwb.gamebox.model.master.tasknotify.po.UserTaskReminder;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderListVo;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderVo;
-import so.wwb.gamebox.web.cache.Cache;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -108,7 +91,7 @@ public class UserTaskReminderController extends BaseCrudController<IUserTaskRemi
         return "content/payaccount/payTask/rankInadequate";
     }
 //    private IVPayRankService getPayRankService() {
-//        return DubboTool.getService(IVPayRankService.class);
+//        return ServiceTool.getService(IVPayRankService.class);
 //    }
 
 //    /**

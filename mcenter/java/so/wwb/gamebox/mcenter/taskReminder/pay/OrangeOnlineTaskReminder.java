@@ -1,7 +1,7 @@
 package so.wwb.gamebox.mcenter.taskReminder.pay;
 
 import org.soul.commons.locale.DateQuickPicker;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.model.master.content.enums.WarningTypeEnumEnum;
 import so.wwb.gamebox.model.master.content.vo.PayWarningVo;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeParentEnum;

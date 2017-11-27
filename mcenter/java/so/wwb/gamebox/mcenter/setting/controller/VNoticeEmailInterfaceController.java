@@ -16,12 +16,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.setting.IVNoticeEmailInterfaceService;
-import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.NoticeEmailInterfaceForm;
 import so.wwb.gamebox.mcenter.setting.form.VNoticeEmailInterfaceForm;
 import so.wwb.gamebox.mcenter.setting.form.VNoticeEmailInterfaceSearchForm;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.master.player.po.PlayerRank;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
@@ -35,7 +34,6 @@ import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 
 /**
@@ -67,7 +65,7 @@ public class VNoticeEmailInterfaceController extends BaseCrudController<IVNotice
     }
     @RequestMapping({"/editEmail"})
     public String editEmail(Model model,VNoticeEmailRankVo vNoticeEmailRankVo){
-        vNoticeEmailRankVo=ServiceTool.vNoticeEmailRankService().search(vNoticeEmailRankVo);
+        vNoticeEmailRankVo= ServiceTool.vNoticeEmailRankService().search(vNoticeEmailRankVo);
         String password = CryptoTool.aesDecrypt(vNoticeEmailRankVo.getResult().getAccountPassword());
         vNoticeEmailRankVo.getResult().setAccountPassword(password);
         PlayerRankVo vo = new PlayerRankVo();

@@ -1,13 +1,6 @@
 package so.wwb.gamebox.mcenter.taskReminder;
 
 import org.soul.commons.spring.PropertiesLoader;
-import so.wwb.gamebox.mcenter.taskReminder.consultation.PlayerConsultationTaskReminder;
-import so.wwb.gamebox.mcenter.taskReminder.examine.*;
-import so.wwb.gamebox.mcenter.taskReminder.pay.FreezeOnlineTaskReminder;
-import so.wwb.gamebox.mcenter.taskReminder.pay.FreezeTaskReminder;
-import so.wwb.gamebox.mcenter.taskReminder.pay.PayTaskReminder;
-import so.wwb.gamebox.mcenter.taskReminder.pay.TwoSituationTaskReminder;
-import so.wwb.gamebox.model.master.enums.PayAccountType;
 
 import java.util.Collection;
 import java.util.HashMap;

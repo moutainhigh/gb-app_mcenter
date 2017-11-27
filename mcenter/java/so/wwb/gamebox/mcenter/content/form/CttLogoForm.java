@@ -2,9 +2,7 @@ package so.wwb.gamebox.mcenter.content.form;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.soul.commons.query.enums.Operator;
 import org.soul.commons.validation.form.constraints.Compare;
-import org.soul.commons.validation.form.constraints.Depends;
 import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;

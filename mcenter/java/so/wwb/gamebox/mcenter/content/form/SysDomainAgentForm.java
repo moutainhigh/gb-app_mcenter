@@ -7,8 +7,6 @@ import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.content.controller.SysDomainController;
 
-import javax.validation.constraints.Pattern;
-
 
 /**
  * 站长域名表-修改完会替换 sys_domain表单验证对象

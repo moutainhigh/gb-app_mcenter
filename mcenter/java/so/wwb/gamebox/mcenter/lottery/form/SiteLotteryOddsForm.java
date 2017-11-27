@@ -1,14 +1,11 @@
 package so.wwb.gamebox.mcenter.lottery.form;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.soul.commons.query.enums.Operator;
-import org.soul.commons.validation.form.constraints.Depends;
-import org.soul.commons.validation.form.constraints.Remote;
-import org.soul.commons.validation.form.support.Comment;
 import org.soul.web.support.IForm;
-import so.wwb.gamebox.mcenter.lottery.controller.SiteLotteryOddsController;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Pattern;
 
 /**
  * Created by fei on 17-4-7.

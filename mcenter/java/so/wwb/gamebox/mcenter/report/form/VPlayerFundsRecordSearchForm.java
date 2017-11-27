@@ -4,12 +4,9 @@ import org.hibernate.validator.constraints.Range;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
-import so.wwb.gamebox.mcenter.common.consts.FormValidMsgKeys;
 import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Pattern;
-import java.math.BigDecimal;
 
 
 /**

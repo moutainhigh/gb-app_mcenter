@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.tools;
 
 import org.soul.model.comet.vo.MessageVo;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.CompanyParamEnum;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;

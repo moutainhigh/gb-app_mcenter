@@ -5,7 +5,6 @@ import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionQueryTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
-import org.soul.commons.dubbo.DubboTool;
 import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.SystemTool;
@@ -17,7 +16,6 @@ import org.soul.commons.log.LogFactory;
 import org.soul.commons.math.NumberTool;
 import org.soul.commons.query.sort.Order;
 import org.soul.commons.tree.TreeNode;
-import org.soul.iservice.security.privilege.ISysResourceService;
 import org.soul.model.msg.notice.po.VNoticeReceivedText;
 import org.soul.model.msg.notice.vo.CometMsg;
 import org.soul.model.msg.notice.vo.NoticeVo;
@@ -34,12 +32,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.iservice.company.sys.ISysSiteService;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminder;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminderHelp;
-import so.wwb.gamebox.mcenter.tools.ServiceTool;
 import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.company.enums.DomainPageUrlEnum;
@@ -67,19 +64,12 @@ import so.wwb.gamebox.model.master.tasknotify.po.UserTaskReminder;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderListVo;
 import so.wwb.gamebox.model.report.vo.OperationProfileVo;
 import so.wwb.gamebox.web.cache.Cache;
-import so.wwb.gamebox.web.credit.CreditHelper;
-import so.wwb.gamebox.web.defense.biz.annotataion.Defense;
-import so.wwb.gamebox.web.defense.biz.enums.DefenseAction;
-import so.wwb.gamebox.web.defense.core.DefenseRs;
-import so.wwb.gamebox.web.defense.core.IDefenseRs;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static so.wwb.gamebox.mcenter.tools.ServiceTool.vPlayerDepositService;
-import static so.wwb.gamebox.mcenter.tools.ServiceTool.vPlayerWithdrawService;
 
 
 /**
@@ -115,7 +105,7 @@ public class IndexController extends BaseIndexController {
         }
         o.getSearch().setSubsysCode(ConfigManager.getConfigration().getSubsysCode());
         o.getSearch().setParentId(parentId);
-        List<TreeNode<VSysUserResource>> menuNodeList = DubboTool.getService(ISysResourceService.class).getSubMenus(o);
+        List<TreeNode<VSysUserResource>> menuNodeList = ServiceTool.sysResourceService().getSubMenus(o);
         SysResourceController.loadLocal(menuNodeList);
         model.addAttribute("command", menuNodeList);
         return INDEX_CONTENT_URI;
@@ -560,7 +550,7 @@ public class IndexController extends BaseIndexController {
                     List entityIds = ServiceTool.sysUserDataRightService().searchDataRightEntityId(sysUserDataRightVo);
                     if (entityIds != null && entityIds.size() > 0) {
                         vPlayerDepositVo.getSearch().setRankIds(entityIds);
-                        count = vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
+                        count = ServiceTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
                     } else {
                         count = ServiceTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
                     }
@@ -586,10 +576,10 @@ public class IndexController extends BaseIndexController {
                         vPlayerWithdrawListVo.getSearch().setRankIds(entityIds);
                         withdrawCount = ServiceTool.vPlayerWithdrawService().unlockPendingWithdraw(vPlayerWithdrawListVo);
                     } else {
-                        withdrawCount = vPlayerWithdrawService().unlockPendingWithdraw(vPlayerWithdrawListVo);
+                        withdrawCount = ServiceTool.vPlayerWithdrawService().unlockPendingWithdraw(vPlayerWithdrawListVo);
                     }
                 } else {
-                    withdrawCount = vPlayerWithdrawService().unlockPendingWithdraw(vPlayerWithdrawListVo);
+                    withdrawCount = ServiceTool.vPlayerWithdrawService().unlockPendingWithdraw(vPlayerWithdrawListVo);
                 }
 
                 result.put("playerWithdrawCount", withdrawCount);
