@@ -39,7 +39,10 @@
                         <tr>
                             <th scope="row" class="text-right">${views.fund_auto['玩家账号']}：</th>
                             <td>
-                                <a class="btn btn-link co-blue" nav-target="mainFrame" href="/player/playerView.html?search.id=${r.playerId}">${r.username}</a>
+                                <shiro:hasPermission name="role:player_detail">
+                                <a class="btn btn-link co-blue" nav-target="mainFrame" href="/player/playerView.html?search.id=${r.playerId}">
+                                </shiro:hasPermission>
+                                ${r.username}<shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                                 <soul:button target="${root}/fund/withdraw/detect.html?playerId=${r.playerId}" text="${views.fund_auto['检测']}" opType="dialog" cssClass="btn btn-info-hide">
                                     <i class="fa fa-search"></i>${views.fund_auto['检测']}
                                 </soul:button>

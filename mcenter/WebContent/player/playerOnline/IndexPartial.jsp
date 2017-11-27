@@ -25,7 +25,9 @@
                 <tr class="tab-detail">
                     <td>
                         <div>
-                            <a href="/player/playerView.html?search.id=${p.id}" nav-Target="mainFrame">${p.username }</a>
+                            <shiro:hasPermission name="role:player_detail"><a href="/player/playerView.html?search.id=${p.id}" nav-Target="mainFrame"></shiro:hasPermission>
+                            ${p.username }
+                            <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                         </div>
                     </td>
                     <td>${p.realName}</td>

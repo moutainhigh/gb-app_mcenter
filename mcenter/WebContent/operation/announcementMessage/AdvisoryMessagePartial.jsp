@@ -39,7 +39,10 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
-                <td><a href="/player/playerView.html?search.id=${s.playerId}" nav-target="mainFrame">${s.username}</a></td>
+                <td><shiro:hasPermission name="role:player_detail">
+                    <a href="/player/playerView.html?search.id=${s.playerId}" nav-target="mainFrame"></shiro:hasPermission>${s.username}
+                    <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
+                </td>
                 <td>
                     <c:choose>
                         <c:when test="${!s.read}">

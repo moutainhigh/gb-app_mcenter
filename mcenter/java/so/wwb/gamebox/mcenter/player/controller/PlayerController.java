@@ -658,8 +658,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     }
 
-    @RequestMapping("/playerDetail")
-    public String playerDetail(VUserPlayerVo vUserPlayerVo, Model model) {
+    private String playerDetail(VUserPlayerVo vUserPlayerVo, Model model) {
         vUserPlayerVo = queryDetail(vUserPlayerVo, model);
         //vUserPlayerVo = fetchTotalProfitLoss(vUserPlayerVo);
 //        vUserPlayerVo = fetchTotalTradeAmount(vUserPlayerVo);

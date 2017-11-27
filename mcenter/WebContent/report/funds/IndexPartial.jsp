@@ -119,7 +119,11 @@
 
             <tr class="tab-detail">
                 <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
-                <td class="co-blue"><a href="/player/playerView.html?search.id=${pt.playerId}" nav-target="mainFrame">${pt.username}</a></td>
+                <td class="co-blue">
+                    <shiro:hasPermission name="role:player_detail"><a href="/player/playerView.html?search.id=${pt.playerId}" nav-target="mainFrame"></shiro:hasPermission>
+                    ${pt.username}
+                    <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
+                </td>
                 <td>
                     <c:set value="${soulFn:formatDateTz(pt.completionTime, DateFormat.DAY_SECOND,timeZone)}" var="completionTime"></c:set>
                     <c:set value="${soulFn:formatDateTz(pt.createTime, DateFormat.DAY_SECOND,timeZone)}" var="createTime"></c:set>

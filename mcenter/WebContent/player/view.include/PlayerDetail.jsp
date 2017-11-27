@@ -4,7 +4,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <%--@elvariable id="command" type="so.wwb.gamebox.model.master.player.vo.VUserPlayerVo"--%>
-<form action="${root}/player/playerDetail.html?search.id=${command.result.id}" method="post">
+<form action="${root}/player/playerView.html?search.id=${command.result.id}" method="post">
     <div class="row" name="playerViewDiv">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont"></i> </a></h2>
@@ -49,17 +49,20 @@
                             <c:if test="${command.result.playerStatus eq '2'}">
                                 <c:set value="true" var="option_btn_disabled"></c:set>
                             </c:if>
+                            <shiro:hasPermission name="role:player_resetLoginPwd">
                             <soul:button title="${views.role['Player.detail.resetLoginPwd']}"
                                          target="${root}/player/resetPwd/index.html?resetType=loginPwd&userId=${command.result.id}"
                                          cssClass="${option_btn_disabled ?'disabled':''} btn btn-outline btn-filter btn-sm m-l" text="" opType="dialog" tag="button">
                                 ${views.role['Player.detail.resetLoginPwd']}
                             </soul:button>
-
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="role:player_resetpayPwd">
                             <soul:button title="${views.role['Player.detail.resetpayPwd']}"
                                          target="${root}/player/resetPwd/index.html?resetType=payPwd&userId=${command.result.id}"
                                          cssClass="${option_btn_disabled ?'disabled':''} ${command.result.accountfreeze?'disabled':''} btn btn-outline btn-filter btn-sm m-l" text="" opType="dialog" tag="button">
                                 ${views.role['Player.detail.resetpayPwd']}
                             </soul:button>
+                            </shiro:hasPermission>
                             <c:if test="${command.result.createChannel=='1' || command.result.createChannel=='4'}">
                                 <div style="font-size: 12px;margin-top: 10px;color: #9c9c9c;">
                                         ${fn:replace(fn:replace(fn:replace(views.player_auto['于通过'],"[0]",soulFn:formatDateTz(command.result.createTime, DateFormat.DAY_SECOND,timeZone)),"[1]",soulFn:formatTimeMemo(command.result.createTime,locale)),"[2]",dicts.player.create_channel[command.result.createChannel])}
@@ -298,6 +301,7 @@
                             <div class="p-b-sm hide" id="player-personal-detail">
                                 <table class="table table-bordered table-desc-list width-response" style="background: #fff;">
                                     <tbody>
+                                    <shiro:hasPermission name="role:player_personal_detail">
                                     <tr>
                                         <th scope="row" class="text-center active" style="width: 15%">${views.player_auto['手机']}</th>
                                         <td style="width: 35%">
@@ -387,17 +391,7 @@
                                                 </c:if>
                                             </c:if>
                                         </td>
-                                        <th scope="row" class="text-center active" style="width: 15%">${views.player_auto['性别']}</th>
-                                        <td style="width: 35%">
-                                            <c:if test="${empty command.result.sex}">
-                                                <span class="co-grayc2">${views.player_auto['未填写']}</span>
-                                            </c:if>
-                                            <c:if test="${not empty command.result.sex}">
-                                                <span class="co-black">${dicts.common.sex[command.result.sex]}</span>
-                                            </c:if>
-                                        </td>
-                                    </tr>
-                                    <tr>
+
                                         <th scope="row" class="text-center active">${views.player_auto['微信']}</th>
                                         <td>
                                             <c:if test="${empty command.result.weixin}">
@@ -423,6 +417,21 @@
                                                 </c:choose>
                                             </c:if>
                                         </td>
+
+                                    </tr>
+                                    </shiro:hasPermission>
+                                    <tr>
+
+                                        <th scope="row" class="text-center active" style="width: 15%">${views.player_auto['性别']}</th>
+                                        <td style="width: 35%">
+                                            <c:if test="${empty command.result.sex}">
+                                                <span class="co-grayc2">${views.player_auto['未填写']}</span>
+                                            </c:if>
+                                            <c:if test="${not empty command.result.sex}">
+                                                <span class="co-black">${dicts.common.sex[command.result.sex]}</span>
+                                            </c:if>
+                                        </td>
+
                                         <th scope="row" class="text-center active">${views.player_auto['生日']}</th>
                                         <td>
                                             <c:if test="${empty command.result.birthday}">

@@ -30,9 +30,11 @@
                                 <div class="al-left">
                                     <label class="">
                                         <b>${views.operation['backwater.settlement.view.playerUsername']}：</b>
+                                        <shiro:hasPermission name="role:player_detail">
                                         <a  href="/player/playerView.html?search.id=${rakebackPlayer.playerId}" nav-Target="mainFrame">
+                                        </shiro:hasPermission>
                                             ${rakebackPlayer.username}
-                                        </a>
+                                        <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                                     </label>
                                     <a class="btn btn-filter btn-outline btn-sm m-l-sm" href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.userTypes=username&search.usernames=${rakebackPlayer.username}&search.transactionWays=<%=TransactionWayEnum.BACK_WATER.getCode()%>&search.hasReturn=true" nav-target="mainFrame">${views.operation['backwater.settlement.view.queryAllBill']}</a>
                                 </div>

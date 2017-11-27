@@ -35,5 +35,7 @@
 <%--&lt;%&ndash;查看更多&ndash;%&gt;--%>
 <div class="clearfix p-xs">
     <%--<soul:button target="${root}/playerRemark/moreRemark.html?search.entityUserId=${command.search.entityUserId}&search.operatorId=${command.search.operatorId}" opType="dialog" cssClass="pull-right co-blue" text="查看全部 &gt;&gt;"/>--%>
-    <a href="/player/playerView.html?search.id=${command.search.entityUserId}&extendedLinks=yes" nav-target="mainFrame" class="pull-right co-blue">${views.fund['fund.playerDetect.index.showAll']} &gt;&gt;</a>
+<shiro:hasPermission name="role:player_detail">
+    <a href="/player/playerView.html?search.id=${command.search.entityUserId}&extendedLinks=yes" nav-target="mainFrame" class="pull-right co-blue"></shiro:hasPermission>
+    ${views.fund['fund.playerDetect.index.showAll']} &gt;&gt;<shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
 </div>
