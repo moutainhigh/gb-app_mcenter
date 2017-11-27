@@ -487,11 +487,11 @@
 
                             <soul:button target="reset" opType="function" text="${views.player_auto['重置']}"
                                          cssClass="btn btn-filter reset-condition-button"/>
-
+                            <shiro:hasPermission name="role:player_add">
                             <soul:button target="${root}/player/addNewPlayer.html" opType="dialog" permission="role:player_add"
                                          text="${views.player_auto['新增玩家']}" callback="query"
                                          cssClass="btn btn-filter pull-right m-r"/>
-
+                            </shiro:hasPermission>
                             <%--<a href="/player/list.html?search.version=old" nav-target="mainFrame"--%>
                                <%--style="right: 21%;position: absolute;z-index: 888; padding-top: 10px;">${views.player_auto['切换到旧版本']}</a>--%>
 

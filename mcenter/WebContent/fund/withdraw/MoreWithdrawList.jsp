@@ -5,9 +5,9 @@
         <tr class="tab-detail">
             <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
             <td>
-                <a  href="/player/playerView.html?search.id=${p.playerId}" nav-Target="mainFrame">
+                <shiro:hasPermission name="role:player_detail"><a  href="/player/playerView.html?search.id=${p.playerId}" nav-Target="mainFrame"></shiro:hasPermission>
                         ${p.username}
-                </a>
+                <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
 
                 <c:if test="${p.riskMarker == true}">
                     <span data-content="${views.fund_auto['危险层级']}"

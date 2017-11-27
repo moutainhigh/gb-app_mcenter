@@ -55,8 +55,11 @@
                     <a href="${url}" nav-target="mainFrame" class="co-blue">${r.transactionNo}</a></td>
                 <td>
                     <div class="al-cleft">
+                        <shiro:hasPermission name="role:player_detail">
                         <a href="/player/playerView.html?search.id=${r.playerId}" nav-target="mainFrame"
-                           title="${r.username}">${r.username}</a>
+                           title="${r.username}">
+                        </shiro:hasPermission>
+                        ${r.username}<shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                         <c:if test="${r.riskMarker}">
                             <a href="javascript:void(0)" class="ico-lock co-red3" tabindex="0" data-content="${views.fund_auto['危险层级']}"
                                data-placement="right" data-trigger="focus" data-toggle="popover" data-container="body"

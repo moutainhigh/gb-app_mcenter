@@ -29,8 +29,9 @@
             <td><input data-id="${s.playerRechargeId}" ${s.checkState ne '1'?'disabled="disabled"':''}  type="checkbox" value="${s.id}" class="i-checks"></td>
             <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
             <td>
-                <a href="/player/playerView.html?search.id=${s.playerId}"
-                   nav-Target="mainFrame">${s.playerName}</a>
+                <shiro:hasPermission name="role:player_detail"><a href="/player/playerView.html?search.id=${s.playerId}"
+                   nav-Target="mainFrame"></shiro:hasPermission>
+                   ${s.playerName}<shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                                 <span class="ico-lock co-red3">
                                     <c:if test="${s.riskMarker == true}"><i
                                             class="fa fa-warning"></i>

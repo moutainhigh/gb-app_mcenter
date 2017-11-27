@@ -31,7 +31,11 @@
                             ${i.apiId==9?'${views.report_auto[\'游戏方未提供\']}':gameName}
                         </td>
                         <td>${soulFn:formatDateTz(i.tipTime, DateFormat.DAY_SECOND,timeZone)}</td>
-                        <td><a href="/player/playerView.html?search.id=${i.playerId}" nav-target="mainFrame">${i.username}</a></td>
+                        <td>
+                            <shiro:hasPermission name="role:player_detail"><a href="/player/playerView.html?search.id=${i.playerId}" nav-target="mainFrame"></shiro:hasPermission>
+                            ${i.username}
+                            <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
+                        </td>
                         <td>${empty i.sandsName?'${views.report_auto[\'游戏方未提供\']}':i.sandsName}</td>
                         <td>${soulFn:formatCurrency(i.tipAmount)}</td>
                     </tr>

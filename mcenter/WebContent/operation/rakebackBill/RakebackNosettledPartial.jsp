@@ -39,7 +39,10 @@
             <tr>
                 <c:set var="rakeback" value="${rakeback+i.rakebackTotal}"/>
                 <td>
-                    <a href="/player/playerView.html?search.id=${i.playerId}" nav-target="mainFrame">${i.username}</a>
+                    <shiro:hasPermission name="role:player_detail">
+                        <a href="/player/playerView.html?search.id=${i.playerId}" nav-target="mainFrame">
+                    </shiro:hasPermission>${i.username}
+                    <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                     <c:if test="${i.riskMarker}">
                         <span class="ico-lock co-red3"><i class="fa fa-warning"></i></span>
                     </c:if>

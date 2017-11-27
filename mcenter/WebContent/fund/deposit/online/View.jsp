@@ -45,7 +45,10 @@
 					<tr>
 						<th scope="row" class="text-right">${views.fund['玩家账号：']}</th>
 						<td>
-							<a class="btn btn-link co-blue" nav-target="mainFrame" href="/player/playerView.html?search.id=${r.playerId}">${r.username}</a>
+							<shiro:hasPermission name="role:player_detail">
+							<a class="btn btn-link co-blue" nav-target="mainFrame" href="/player/playerView.html?search.id=${r.playerId}">
+							</shiro:hasPermission>${r.username}
+							<shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
 							<a class="btn btn-link" nav-Target="mainFrame" href="/fund/deposit/online/list.html?search.fundTypes=online_deposit&search.userNameEqual=true&search.username=${r.username}"><i class="iconfont icon-wanjiaguanli"></i>${views.fund['despoit.index.viewPlayerAllDespoit']}</a>
 						</td>
 					</tr>

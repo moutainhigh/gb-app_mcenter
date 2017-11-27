@@ -3,9 +3,9 @@
 
     <td>${rowIndex}</td>
     <td>
-        <a  href="/player/playerView.html?search.id=${withdraw.playerId}" nav-Target="mainFrame">
+        <shiro:hasPermission name="role:player_detail"><a  href="/player/playerView.html?search.id=${withdraw.playerId}" nav-Target="mainFrame"></shiro:hasPermission>
                 ${withdraw.username}
-        </a>
+            <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
 
         <c:if test="${withdraw.riskMarker == true}">
             <span data-content="${views.fund_auto['危险层级']}"

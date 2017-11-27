@@ -36,7 +36,10 @@
                         <tr>
                             <th scope="row" class="text-right">${views.fund['玩家账号：']}</th>
                             <td>
-                                <a class="btn btn-link co-blue" nav-target="mainFrame" href="/player/playerView.html?search.id=${r.playerId}">${username}</a>
+                                <shiro:hasPermission name="role:player_detail">
+                                    <a class="btn btn-link co-blue" nav-target="mainFrame" href="/player/playerView.html?search.id=${r.playerId}">
+                                </shiro:hasPermission>
+                                ${username}<shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                                 <a class="btn btn-link" nav-Target="mainFrame" href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${username}&search.userTypes=username&search.outer=-1&search.manualSaves=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_RAKEBACK.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>&search.hasReturn=true"><i class="iconfont icon-wanjiaguanli"></i>${views.fund['查看所有订单']}</a>
                             </td>
                         </tr>

@@ -46,7 +46,7 @@
                     <c:set var="url" value="/userAgent/agent/detail.html?search.id=${cmd.operatorId}" />
                 </c:when>
                 <c:when test="${command.search.roleType == 'player'}">
-                    <c:set var="url" value="/player/playerView.html?search.id=${cmd.operatorId}" />
+                    <shiro:hasPermission name="role:player_detail"><c:set var="url" value="/player/playerView.html?search.id=${cmd.operatorId}" /></shiro:hasPermission>
                 </c:when>
             </c:choose>
         <tr class="tab-detail">

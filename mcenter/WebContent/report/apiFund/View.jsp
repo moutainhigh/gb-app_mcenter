@@ -54,9 +54,12 @@
                         <tr>
                             <th scope="row" class="text-right">${views.report_auto['玩家账号']}：</th>
                             <td>
+                                <shiro:hasPermission name="role:player_detail">
                                 <a class="btn btn-link co-blue"
                                    href="/player/playerView.html?search.id=${command.result.playerId}"
-                                   nav-target="mainFrame">${command.result.username}</a>
+                                   nav-target="mainFrame"></shiro:hasPermission>
+                                   ${command.result.username}
+                                <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                                 <a type="button" class="btn btn-link"
                                    href="/report/fundsTrans/apiTrans.html?search.username=${command.result.username}&search.fundTypes=transfer_into&search.fundTypes=transfer_out&search.type=playerDetail"
                                    nav-target="mainFrame"><i class="iconfont icon-wanjiaguanli"></i>${views.report_auto['查看所有订单']}</a>

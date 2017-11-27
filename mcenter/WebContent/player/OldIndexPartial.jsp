@@ -154,8 +154,10 @@
 
                         <span class="dividing-line m-r-xs m-l-xs">|</span>
                     </shiro:hasPermission>
+                    <shiro:hasPermission name="role:player_detail">
                     <a href="/player/playerView.html?search.id=${item.id}"
                        nav-target="mainFrame">${views.common['detail']}</a>
+                    </shiro:hasPermission>
                 </td>
             </tr>
         </c:forEach>

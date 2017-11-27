@@ -42,9 +42,9 @@
                         <td><input type="hidden" name="id" value="${p.id}"/>
                             <a href="/fund/withdraw/withdrawAuditView.html?search.id=${p.id}&pageType=detail" nav-target="mainFrame" class="co-blue">${p.transactionNo}</a></td>
                         <td>
-                            <a  href="/player/playerView.html?search.id=${p.playerId}" nav-Target="mainFrame">
+                            <shiro:hasPermission name="role:player_detail"><a  href="/player/playerView.html?search.id=${p.playerId}" nav-Target="mainFrame"></shiro:hasPermission>
                                     ${p.username}
-                            </a>
+                                <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
 
                             <c:if test="${p.riskMarker == true}">
                                 <span data-content="${views.fund_auto['危险层级']}"

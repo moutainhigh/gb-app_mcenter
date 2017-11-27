@@ -65,7 +65,11 @@
                 <td><input type="checkbox" value="${item.id}"></td>
                 <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                 <td>
-                    <a href="/player/playerDetail.html?search.id=${item.id}" nav-target="mainFrame">${item.username}</a>
+
+                    <shiro:hasPermission name="role:player_detail">
+                    <a href="/player/playerView.html?search.id=${item.id}" nav-target="mainFrame">
+                    </shiro:hasPermission>${item.username}
+                    <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
 
                     <c:if test="${item.createChannel=='3'}">
                         <span data-content="${not empty item.importUsername && item.username!=fn:toLowerCase(item.importUsername)?'导入玩家，原账号'.concat(item.importUsername):'导入玩家'}"
@@ -178,8 +182,10 @@
 
                         <span class="dividing-line m-r-xs m-l-xs">|</span>
                     </shiro:hasPermission>
+                    <shiro:hasPermission name="role:player_detail">
                     <a href="/player/playerView.html?search.id=${item.id}"
                        nav-target="mainFrame">${views.common['detail']}</a>
+                    </shiro:hasPermission>
                 </td>
             </tr>
         </c:forEach>

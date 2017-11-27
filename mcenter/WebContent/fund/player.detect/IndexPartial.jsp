@@ -74,6 +74,7 @@
                 </c:choose>
                     ${views.fund['fund.playerDetect.index.position']})
             </div>
+            <shiro:hasPermission name="role:player_personal_detail">
             <div class="line-hi25 col-sm-12"><b>${views.fund['playerDetect.view.phone']}：</b>
                 <c:if test="${not empty command1.result.mobilePhone}">
                     <a href="/player/list.html?search.mobilePhone=${command1.result.mobilePhone}&search.hasReturn=true"
@@ -115,6 +116,7 @@
                 </c:choose>
                 ${views.fund['fund.playerDetect.index.individual']})
             </div>
+            </shiro:hasPermission>
         </div>
     </div>
     <div class="detect-wrap">

@@ -47,7 +47,11 @@
         <c:forEach items="${command.result}" var="p" varStatus="status">
             <tr>
                 <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
-                <td class="co-blue"><a href="/player/playerView.html?search.id=${p.playerId}" nav-target="mainFrame">${p.username}</a></td>
+                <td class="co-blue">
+                    <shiro:hasPermission name="role:player_detail"><a href="/player/playerView.html?search.id=${p.playerId}" nav-target="mainFrame"></shiro:hasPermission>
+                    ${p.username}
+                    <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
+                </td>
                 <td>
                     <c:choose>
                         <c:when test="${p.terminal eq '2'}">

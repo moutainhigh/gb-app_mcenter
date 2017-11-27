@@ -37,7 +37,9 @@
                 <td><a href="/fund/deposit/online/view.html?search.id=${r.id}" nav-target="mainFrame" class="co-blue">${r.transactionNo}</a></td>
                 <td>
                     <div class="al-cleft">
-                        <a href="/player/playerView.html?search.id=${r.playerId}" nav-target="mainFrame">${r.username}</a>
+                        <shiro:hasPermission name="role:player_detail">
+                        <a href="/player/playerView.html?search.id=${r.playerId}" nav-target="mainFrame">
+                        </shiro:hasPermission>${r.username}<shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                         <c:if test="${r.riskMarker}">
                             <a href="javascript:void(0)" class="ico-lock co-red3" tabindex="0" data-content="${views.fund_auto['危险层级']}" data-placement="right" data-trigger="focus" data-toggle="popover" data-container="body" role="button"><i class="fa fa-warning"></i></a>
                         </c:if>
