@@ -524,7 +524,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         }
         SysParam [] sysParams = rebateSetVo.getSysParam();
         //分摊比例已移到返佣梯度,这里的隐藏.后期删除
-        /*double sysParam2 = Double.parseDouble(sysParams[2].getParamValue());
+        double sysParam2 = Double.parseDouble(sysParams[2].getParamValue());
         double sysParam3 = Double.parseDouble(sysParams[3].getParamValue());
         double sysParam4 = Double.parseDouble(sysParams[4].getParamValue());
         double sysParam5 = Double.parseDouble(sysParams[5].getParamValue());
@@ -541,7 +541,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
             map.put("state", false);
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
-        }*/
+        }
         List<SysParam> sysParamList = new ArrayList<>();
         SysParam[] sysParamLimit = rebateSetVo.getSysParamLimit();
         for (SysParam sysParam : sysParams) {
