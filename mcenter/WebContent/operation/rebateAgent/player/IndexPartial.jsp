@@ -46,11 +46,11 @@
                 <td>${p.playerName}</td>
                 <td>${soulFn:formatCurrency(p.depositAmount)}</td>
                 <td>${soulFn:formatCurrency(p.withdrawAmount)}</td>
-                <td>${soulFn:formatCurrency(p.depositAmount * (a.depositRadio/100) + p.withdrawAmount * (a.withdrawRadio/100))}</td>
-                <td>${soulFn:formatCurrency(p.rakebackAmount*(a.rakebackRadio/100))}</td>
-                <td>${soulFn:formatCurrency(p.favorableAmount*(a.favorableRadio/100))}</td>
-                <td>${soulFn:formatCurrency(p.otherAmount*(a.otherRadio/100))}</td>
-                <td>${soulFn:formatCurrency((p.depositAmount * (a.depositRadio/100) + p.withdrawAmount * (a.withdrawRadio/100)) + p.rakebackAmount *(a.rakebackRadio/100) + p.favorableAmount*(a.favorableRadio/100) + p.otherAmount*(a.otherRadio/100))}</td>
+                <td>${soulFn:formatCurrency(p.depositAmount * (a.depositRatio/100) + p.withdrawAmount * (a.withdrawRatio/100))}</td>
+                <td>${soulFn:formatCurrency(p.rakebackAmount*(a.rakebackRatio/100))}</td>
+                <td>${soulFn:formatCurrency(p.favorableAmount*(a.favorableRatio/100))}</td>
+                <td>${soulFn:formatCurrency(p.otherAmount*(a.otherRatio/100))}</td>
+                <td>${soulFn:formatCurrency((p.depositAmount * (a.depositRatio/100) + p.withdrawAmount * (a.withdrawRatio/100)) + p.rakebackAmount *(a.rakebackRatio/100) + p.favorableAmount*(a.favorableRatio/100) + p.otherAmount*(a.otherRatio/100))}</td>
             </tr>
         </c:forEach>
         </tbody>
