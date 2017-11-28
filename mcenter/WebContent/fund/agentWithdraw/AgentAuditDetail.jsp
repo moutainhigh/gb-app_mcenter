@@ -184,6 +184,7 @@
                                 <td class="money">
                                     <strong>${dicts.common.currency_symbol[vo.result.currency]} ${soulFn:formatInteger(vo.result.withdrawAmount)}<i>${soulFn:formatDecimals(vo.result.withdrawAmount)}</i></strong>
                                     <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${soulFn:formatInteger(vo.result.withdrawAmount)}${soulFn:formatDecimals(vo.result.withdrawAmount)}" name="copy"><i class="fa fa-copy"></i></a>
+                                    <shiro:hasPermission name="fund:agentwithdraw_check">
                                     <c:choose>
                                         <c:when test="${vo.result.isLock == 1}">
                                             <c:if test="${vo.result.lockPersonId == vo.thisUserId}">
@@ -225,6 +226,7 @@
                                             </a>
                                         </c:otherwise>
                                     </c:choose>
+                                    </shiro:hasPermission>
                                     <span class="co-gray9 m-l-md">${views.fund['已成功取款']}<span class="co-yellow">${not empty vo.result.withdrawCount?vo.result.withdrawCount:'0'}</span>${views.fund_auto['次']}</span>
                                 </td>
                             </tr>
