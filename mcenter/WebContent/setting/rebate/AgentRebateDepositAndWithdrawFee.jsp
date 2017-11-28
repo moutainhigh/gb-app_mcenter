@@ -40,7 +40,8 @@
                 <input type="number" class="form-control" name="sysParamLimit[1].paramValue" value="${empty withdrawLimitMax.paramValue ? withdrawLimitMax.defaultValue : withdrawLimitMax.paramValue}">
             </div>
         </div>
-        <div class="m-b abroder-no p-x" style="margin-top: 20px;"><b>${views.operation_auto['设置费用分摊比例']}</b></div>
+        <%--分摊比例已移到返佣梯度,这里的隐藏.后期删除--%>
+        <%--<div class="m-b abroder-no p-x" style="margin-top: 20px;"><b>${views.operation_auto['设置费用分摊比例']}</b></div>
         <div class="m-t-xs">
             <table class="" width="100%">
                 <thead>
@@ -92,7 +93,7 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div>--%>
         <div class="m-b abroder-no p-x" style="margin-top: 20px;"><b>${views.operation_auto['设置返佣分摊比例']}</b></div>
         <div class="m-t-xs">
             <table class="" width="100%">
