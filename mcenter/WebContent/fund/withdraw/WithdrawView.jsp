@@ -76,7 +76,7 @@
                             <th scope="row" class="text-right">${views.fund['withdraw.edit.playerWithdraw.playerAccount']}：</th>
                             <td>
                                 <shiro:hasPermission name="role:player_detail">
-                                <a class="btn btn-link co-blue" id="showPlayerDetail" href="/player/playerView.html?search.id=${command.result.playerId}" nav-target="mainFrame">
+                                    <a class="btn btn-link co-blue" id="showPlayerDetail" href="/player/playerView.html?search.id=${command.result.playerId}" nav-target="mainFrame">
                                 </shiro:hasPermission>
                                  ${command.result.username}<shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                                 <c:if test="${command.result.withdrawStatus =='1'||command.result.withdrawStatus =='2'}">

@@ -39,12 +39,17 @@
             <c:set var="redisSessionDao" value='<%=redisSessionDao%>'/>
                 <c:forEach items="${command.result}" var="p" varStatus="status">
                     <tr class="tab-detail" id="record_id_${p.id}">
-                        <td><input type="hidden" name="id" value="${p.id}"/>
+                        <td>
+                            <input type="hidden" name="id" value="${p.id}"/>
                             <a href="/fund/withdraw/withdrawAuditView.html?search.id=${p.id}&pageType=detail" nav-target="mainFrame" class="co-blue">${p.transactionNo}</a></td>
                         <td>
-                            <shiro:hasPermission name="role:player_detail"><a  href="/player/playerView.html?search.id=${p.playerId}" nav-Target="mainFrame"></shiro:hasPermission>
+                            <shiro:hasPermission name="role:player_detail">
+                                <a  href="/player/playerView.html?search.id=${p.playerId}" nav-Target="mainFrame">
+                            </shiro:hasPermission>
                                     ${p.username}
-                                <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
+                            <shiro:hasPermission name="role:player_detail">
+                                </a>
+                            </shiro:hasPermission>
 
                             <c:if test="${p.riskMarker == true}">
                                 <span data-content="${views.fund_auto['危险层级']}"
@@ -145,7 +150,7 @@
                                 <span style="width:12.67px; display: inline-block"></span>
                             </c:if>
                             <c:if test="${p.withdrawStatus=='1'||p.withdrawStatus=='2'}">
-                                <soul:button permission="fund:playerwithdraw_check" dataId="${p.id}" target="withdrawAuditView"  callback="query"  size="auditLogCss" cssClass="label label-info p-x-md" text="${dicts.fund.withdraw_status[p.withdrawStatus]}" opType="function" />
+                                <soul:button  dataId="${p.id}" target="withdrawAuditView"  callback="query"  size="auditLogCss" cssClass="label label-info p-x-md" text="${dicts.fund.withdraw_status[p.withdrawStatus]}" opType="function" />
                             </c:if>
                             <c:if test="${p.withdrawStatus=='4'}">
                                 <soul:button target="withdrawAuditView" dataId="${p.id}" size="auditLogCss" cssClass="label label-success p-x-md" text="${dicts.fund.withdraw_status[p.withdrawStatus]}" opType="function" />
