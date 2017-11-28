@@ -42,6 +42,7 @@
 								<td rowspan="2"><h3>${views.setting['rebate.edit.totalProfit']}</h3></td>
 								<td rowspan="2"><h3>${views.setting['rebate.edit.validPlayerNum']}</h3></td>
 								<td rowspan="2"><h3>${views.setting['rebate.edit.max']}</h3></td>
+								<td rowspan="2"><h3>${views.operation_auto["设置返佣分摊比例"]}</h3></td>
 								<td colspan="${command.apiIds.size()}"><h3>${views.setting['rebate.edit.ratio']}</h3></td>
 							</tr>
 							<tr class="bg-color">
@@ -54,6 +55,26 @@
 								<td height="36">${rebateGrad.totalProfit}</td>
 								<td>${rebateGrad.validPlayerNum}</td>
 								<td>${soulFn:formatNumber(rebateGrad.maxRebate)}</td>
+
+								<td>
+									<div class="input-group m-b-xs">
+										<span class="" style="padding-left: 0;"><b>${views.operation_auto['返水费用']}</b></span>
+										<span  class="">${rebateGrad.rakebackRatio}</span>
+										<span class="">%</span>
+									</div>
+									<div class=" input-group m-b-xs">
+										<span class="" style="padding-left: 0;"><b>${views.operation_auto['优惠费用']}</b></span>
+										<span  class="">${rebateGrad.favorableRatio}</span>
+										<span class="">%</span>
+									</div>
+									<div class=" input-group m-b-xs">
+										<span class="" style="padding-left: 0;"><b>${views.operation_auto['其它费用']}</b></span>
+										<span  class="">${rebateGrad.otherRatio}</span>
+										<span class="">%</span>
+									</div>
+								</td>
+
+
 								<c:forEach items="${command.apiIds}" var="api">
 									<td>
 										<c:forEach items="${command.someGames}" var="game" varStatus="game_status">
