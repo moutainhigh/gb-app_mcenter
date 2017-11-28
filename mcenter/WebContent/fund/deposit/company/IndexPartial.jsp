@@ -203,6 +203,7 @@
                 <td align="center">
                     <c:choose>
                         <c:when test="${deal eq rs}">
+                            <shiro:hasPermission name="fund:companydeposit_check">
                             <soul:button permission="fund:companydeposit_check" deposit_id="${r.id}" target="confirmCheckPass" text="${views.fund_auto['通过']}" opType="function"
                                          cssClass="btn btn-sm btn-success-hide m-x-xs" tag="button">
                                 <i class="fa fa-check"></i>${views.fund['通过']}
@@ -211,6 +212,14 @@
                                          cssClass="btn btn-sm btn-danger-hide m-x-xs" tag="button">
                                 <i class="fa fa-close"></i>${views.fund['失败']}
                             </soul:button>
+                            </shiro:hasPermission>
+                            <shiro:lacksPermission name="fund:companydeposit_check">
+                                <a href="/fund/deposit/company/view.html?search.id=${r.id}" nav-target="mainFrame" class="co-blue">
+                                <span class="label ${r.statusCss} p-x-md">
+                                        ${dicts.fund.recharge_status[r.rechargeStatus]}
+                                </span>
+                                </a>
+                            </shiro:lacksPermission>
                         </c:when>
                         <c:when test="${exchange eq rs}">
                             <!--permission="fund:companydeposit_exchange" -->
