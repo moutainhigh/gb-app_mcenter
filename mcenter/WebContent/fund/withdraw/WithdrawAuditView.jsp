@@ -39,7 +39,7 @@
                         <div class="pull-left">
                             <c:choose>
                                 <c:when test="${command.result.isLock!=1}">
-                                    <soul:button target="lockOrder" text="" opType="function" callback="refreshBack" cssClass="lockRefresh btn btn-blueshow m-r-sm">
+                                    <soul:button target="lockOrder" text="" opType="function" callback="refreshBack" cssClass="lockRefresh btn btn-blueshow m-r-sm" permission="fund:playerwithdraw_check">
                                         <i class="fa fa-lock"></i>${views.fund['withdraw.edit.playerWithdraw.lockOrder']}
                                     </soul:button>${views.fund_auto['锁定后才可查看完整的收款账号']}
                                 </c:when>

@@ -187,16 +187,16 @@
                                     <c:choose>
                                         <c:when test="${vo.result.isLock == 1}">
                                             <c:if test="${vo.result.lockPersonId == vo.thisUserId}">
-                                                <soul:button target="${root}/fund/vAgentWithdrawOrder/putConfirmCheck.html?search.id=${vo.result.id}" opType="dialog"
+                                                <soul:button permission="fund:agentwithdraw_check" target="${root}/fund/vAgentWithdrawOrder/putConfirmCheck.html?search.id=${vo.result.id}" opType="dialog"
                                                              cssClass="btn btn-primary p-x-sm m-l-sm" precall="isAudit" callback="showNextRecord"
                                                              tag="button" text="${views.fund['withdraw.edit.playerWithdraw.okWithdrawAudit']}">
                                                     ${views.common['checkPass']}
                                                 </soul:button>
-                                                <soul:button target="${root}/fund/vAgentWithdrawOrder/putCheckFailure.html?search.id=${vo.result.id}" opType="dialog"
+                                                <soul:button permission="fund:agentwithdraw_check" target="${root}/fund/vAgentWithdrawOrder/putCheckFailure.html?search.id=${vo.result.id}" opType="dialog"
                                                              cssClass="btn btn-danger p-x-sm m-l-sm" precall="showErrorReason" post="getCurrentFormData"
                                                              text="${views.common['checkFailure']}" title="${views.fund['withdraw.edit.playerWithdraw.checkWithdrawFailReason']}"
                                                              callback="showNextRecord"/>
-                                                <soul:button target="${root}/fund/vAgentWithdrawOrder/putConfirmRefuses.html?search.id=${vo.result.id}" opType="dialog"
+                                                <soul:button permission="fund:agentwithdraw_check" target="${root}/fund/vAgentWithdrawOrder/putConfirmRefuses.html?search.id=${vo.result.id}" opType="dialog"
                                                              cssClass="btn btn-warning p-x-sm m-l-sm " precall="showRefuseReason"
                                                              text="${views.common['checkRefuses']}" title="${views.fund['withdraw.edit.playerWithdraw.checkRefusedWithdrawReason']}" callback="showNextRecord"/>
                                             </c:if>
