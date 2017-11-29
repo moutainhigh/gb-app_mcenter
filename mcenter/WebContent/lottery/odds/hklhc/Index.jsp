@@ -27,10 +27,16 @@
             //获取时时彩类别列表
             if("special"==type||"positiveNum"==type||"positiveB"==type
                 ||"sevensum"==type||"halfcolour"==type ||"onezodiac"==type){
-                var siteId=$("#search_id").val();
                 var page = $(this).attr("page");
                 var betCode = $(this).attr("betCode");
-                $("#editable_wrapper").load(root+'/lottery/odds/${code}/'+betCode+'/Index.html?page='+page+"&siteId="+siteId);
+                $.ajax({
+                    url:root + "/lottery/odds/code/betting/Index.html",
+                    type:"post",
+                    data:{"betting":betCode,"page":page,"code":"${code}"},
+                    success: function (data) {
+                        $("#editable_wrapper").html(data);
+                    }
+                })
                 $("#lot_three_menu").hide();
             }else{
                 $("#lot_three_menu").load(root+'/lottery/odds/${code}/'+type+'/categoryIndex.html');
