@@ -114,6 +114,15 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
     @RequestMapping("/agentList")
     public String agentList(VAgentWithdrawOrderListVo listVo, Model model, HttpServletRequest request) {
         VAgentWithdrawOrderSo search = listVo.getSearch();
+
+        //默认搜索7天内的数据
+        if (search.getCreateStart()==null&&search.getCreateEnd()==null){
+            Date now = new Date();
+            Date sevenDaysAgo = DateTool.addDays(now,-7);
+            search.setCreateEnd(now);
+            search.setCreateStart(sevenDaysAgo);
+        }
+
         if(StringTool.isNotBlank(search.getUsername())){
             String[] split = search.getUsername().split(",");
             if(split.length == 1){

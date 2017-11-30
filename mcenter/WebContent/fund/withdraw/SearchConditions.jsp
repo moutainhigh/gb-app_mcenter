@@ -54,17 +54,17 @@
             <div class="form-group clearfix pull-left col-md-7 col-sm-12 m-b-sm padding-r-none-sm senior hide checkTime">
                 <div class="input-group date time-select-a">
                     <span class="input-group-addon bg-gray">${views.fund_auto['审核时间']}</span>
-                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:38%;" useToday="true" btnClass="search" startName="search.checkTimeStart" endName="search.checkTimeEnd" startDate="${command.search.checkTimeStart}" endDate="${command.search.checkTimeEnd}"/>
+                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:44.5%;" useToday="true" btnClass="search" startName="search.checkTimeStart" endName="search.checkTimeEnd" startDate="${command.search.checkTimeStart}" endDate="${command.search.checkTimeEnd}"/>
                 </div>
             </div>
 
             <%--创建时间--%>
-            <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm  hide senior createTime">
+            <%--<div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm  hide senior createTime">
                 <div class="input-group">
                     <span class="input-group-addon bg-gray">${views.fund_auto['创建时间']}</span>
                     <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:38%;" useToday="true" btnClass="search" startName="search.createStart" endName="search.createEnd" startDate="${command.search.createStart}" endDate="${command.search.createEnd}"/>
                 </div>
-            </div>
+            </div>--%>
 
 
 
@@ -218,6 +218,15 @@
         </div>
 
         <div class="col-sm-9 clearfix  search_2 m-b-xs">
+
+            <%--创建时间--%>
+            <div class="form-group clearfix pull-left col-md-5 col-sm-12 m-b-sm padding-r-none-sm createTime">
+                <div class="input-group">
+                    <span class="input-group-addon bg-gray">${views.fund_auto['创建时间']}</span>
+                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:38%;" useToday="true" btnClass="search" startName="search.createStart" endName="search.createEnd" startDate="${command.search.createStart}" endDate="${command.search.createEnd}"/>
+                </div>
+            </div>
+
             <c:if test="${realActive}">
             <div class="btn-group pull-right">
                 <select class="btn-group chosen-select-no-single" app="btn btn-info-hide dropdown-toggle radius_3" name="toneSwitch" callback="toneSwitch">
@@ -231,7 +240,9 @@
             <%@include file="/fund/Refresh.jsp"%>
             <div class="pull-right line-hi34 m-r-sm" hidden>${views.fund_auto['共']}<span class="co-red3">${siteCurrencySign}<span id="totalSumTarget">${command.totalSum}</span></span></div>
             <div class="pull-right line-hi34 m-r-sm" hidden>${views.fund_auto['今日成功']}<span class="co-red3">${siteCurrencySign}<span id="todayTotal">0.00</span></span></div>
-            <soul:button target="query" opType="function" text="${views.fund_auto['搜索']}" cssClass="btn btn-filter search_btn pull-left m-r-sm playerWithdrawSearch"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.fund_auto['搜索']}</span></soul:button>
+            <div>
+                <soul:button target="query" opType="function" text="${views.fund_auto['搜索']}" cssClass="btn btn-filter search_btn pull-left m-r-sm playerWithdrawSearch"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.fund_auto['搜索']}</span></soul:button>
+            </div>
             <span class="btn btn-filter btn-outline pull-left show-demand-b m-r-sm" id="openSearch">
                 <i class="fa fa-chevron-down"></i>${views.common['advancedFilter']}
             </span>
