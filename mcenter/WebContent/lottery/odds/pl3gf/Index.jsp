@@ -16,10 +16,16 @@
             $(this).addClass('active');
             $(this).siblings().removeClass('active');
             var page = $(this).attr("page");
-            var siteId=$("#search_id").val();
             var betCode=$(this).attr("betCode");
             $("#lot_three_menu").hide();
-            $("#editable_wrapper").load(root+'/lottery/odds/${code}/'+betCode+'/Index.html?page='+page+"&siteId="+siteId);
+            $.ajax({
+                url:root + "/lottery/odds/code/betting/Index.html",
+                type:"post",
+                data:{"betting":betCode,"page":page,"code":"${code}"},
+                success: function (data) {
+                    $("#editable_wrapper").html(data);
+                }
+            })
         });
 
         if(!$(".lot_two_menu a").hasClass('active')){

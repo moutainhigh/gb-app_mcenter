@@ -70,8 +70,8 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
      * @param model
      * @return
      */
-    @RequestMapping("/{code}/{betting}/Index")
-    public String getCodeBettingIndex(@PathVariable String code, @PathVariable String betting, @RequestParam("page") String page, SiteLotteryOddVo oddVo, Model model) {
+    @RequestMapping("/code/betting/Index")
+    public String getCodeBettingIndex(String code,String betting,String page, SiteLotteryOddVo oddVo, Model model) {
         String[] betcodes = {};
         if (StringTool.isNotBlank(betting)) {
             betcodes = betting.split(",");
@@ -122,8 +122,8 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
      * @param model
      * @return
      */
-    @RequestMapping("/{code}/{category}/{betCode}/Index")
-    public String getSscPlayIndex(@PathVariable String code, @PathVariable String category, @PathVariable String betCode, @RequestParam("page") String page, SiteLotteryOddVo oddVo, Model model) {
+    @RequestMapping("/code/play/betCode/Index")
+    public String getSscPlayIndex(String code, String category, String betCode, String page, SiteLotteryOddVo oddVo, Model model) {
 
         String code1;
         if(code.contains("gf")){

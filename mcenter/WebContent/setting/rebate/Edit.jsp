@@ -152,7 +152,7 @@
                                                                 <%--TODO--%>
                                                             <input type="hidden" value="${game.apiTypeId}" name="rebateGrads[0].rebateGradsApis[${game_status_index}].apiTypeId" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiTypeId">
                                                             <input type="hidden" value="${api}" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].apiId" name="rebateGrads[0].rebateGradsApis[${game_status_index}].apiId">
-                                                            <input type="hidden" value="${game['gameType']}" data-name="rebateGrads[0].rebateGradsApis[${game_status_index}].gameType" name="rebateGrads[0].rebateGradsApis[${game_status_index}].gameType">
+                                                            <input type="hidden" value="${game['gameType']}" data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].gameType" name="rebateGrads[0].rebateGradsApis[${game_status_index}].gameType">
                                                             <input type="text" class="form-control _ratio _batch_ratio" value="${rga.ratio}" name="rebateGrads[0].rebateGradsApis[${game_status_index}].ratio"  data-name="rebateGrads[{n}].rebateGradsApis[${game_status_index}].ratio">
                                                             <span class="input-group-addon border-left-n">%</span>
                                                         <span class="input-group-addon adjust">

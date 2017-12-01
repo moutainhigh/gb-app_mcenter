@@ -23,12 +23,6 @@
             $(this).addClass('active');
             $(this).siblings().removeClass('active');
             var type = $(this).attr("type");
-            /*if(type=='two' || type=='three'){
-                $("#showbatchupdate").removeClass("hide");
-            }else{
-                $("#showbatchupdate").addClass("hide");
-            }*/
-            //获取时时彩类别列表
             $("#lot_three_menu").load(root+'/lottery/odds/${code}/'+type+'/categoryIndex.html');
             $("#lot_three_menu").show();
         });
