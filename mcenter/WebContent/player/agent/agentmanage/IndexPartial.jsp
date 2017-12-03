@@ -239,7 +239,7 @@
                         <c:when test="${f.key=='totalRebate'}">
                             <td>
                                 <c:choose>
-                                    <c:when test="${p.totalRebate != 0}">
+                                    <c:when test="${p.totalRebate > 0}">
                                         <a href="/rebateAgent/list.html?search.agentName=${p.username}" nav-target="mainFrame">
                                             <fmt:formatNumber value="${p.totalRebate}" pattern="#,###.##"></fmt:formatNumber>
                                         </a>
