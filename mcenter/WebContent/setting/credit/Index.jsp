@@ -45,6 +45,16 @@
 
         <div class="col-lg-12 m-t">
             <div class="wrapper white-bg shadow">
+                <div class="p-sm bet-total">
+                    <b class="m-l">总计：</b>
+                    <span id="total"><i class="fa fa-refresh fa-spin"></i></span>
+                    <b class="m-l">笔，共：</b>
+                    <span id="moneyTotal"><i class="fa fa-refresh fa-spin"></i></span>
+                    <b class="m-l">，清算额度：</b>
+                    <span id="liquidation"><i class="fa fa-refresh fa-spin"></i></span>
+                    <b class="m-l">，实际充值总额：</b>
+                    <span id="actualRecharge"><i class="fa fa-refresh fa-spin"></i></span>
+                </div>
                 <div class="dataTables_wrapper search-list-container">
                     <%@ include file="IndexPartial.jsp" %>
                 </div>

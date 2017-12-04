@@ -16,6 +16,7 @@ import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.company.credit.po.VCreditRecord;
 import so.wwb.gamebox.model.company.credit.vo.VCreditRecordListVo;
 import so.wwb.gamebox.model.company.credit.vo.VCreditRecordVo;
+import so.wwb.gamebox.model.company.enums.CreditAccountPayTypeEnum;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +53,7 @@ public class VCreditRecordController extends NoMappingCrudController<IVCreditRec
     public String list(VCreditRecordListVo listVo, @FormModel("search") @Valid VCreditRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
         Map Status = DictTool.get(DictEnum.CREDIT_STATUS);
         Map type = DictTool.get(DictEnum.PAY_TYPE);
+        type.remove(CreditAccountPayTypeEnum.STATION_BILL.getCode());
         model.addAttribute("payType",type);
         model.addAttribute("status", Status);
         listVo.getQuery().addOrder(VCreditRecord.PROP_CREATE_TIME, Direction.DESC);
