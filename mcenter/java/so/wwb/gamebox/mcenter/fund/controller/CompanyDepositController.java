@@ -92,6 +92,26 @@ public class CompanyDepositController extends BaseDepositController {
         return listVo;
     }
 
+    @RequestMapping("/count")
+    public String count(VPlayerDepositListVo listVo, Model model, String isCounter) {
+        // 初始化筛选条件
+        this.initQuery(listVo);
+        // 初始化ListVo
+        super.initListVo(listVo);
+        listVo = doCount(listVo, isCounter);
+        listVo.getPaging().cal();
+        model.addAttribute("command", listVo);
+        return getViewBasePath() + "IndexPagination";
+    }
+
+    public VPlayerDepositListVo doCount(VPlayerDepositListVo listVo, String isCounter) {
+        if (StringTool.isBlank(isCounter)) {
+            long count = ServiceTool.vPlayerDepositService().count(listVo);
+            listVo.getPaging().setTotalCount(count);
+        }
+        return listVo;
+    }
+
     /**
      * 获取货币形式
      *
