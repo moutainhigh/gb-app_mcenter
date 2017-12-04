@@ -33,12 +33,17 @@
                     <div class="m-b-none col-xs-6 col-sm-7-1">
                         <div class="limit-price-wrap al-center clearfix">
                             <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['当前额度上限']}">${views.setting_auto['当前额度上限']}</div>
-                            <div class="fs20 p-b-sm al-center">${soulFn:formatCurrency(profit)}</div>
+                            <div class="fs20 p-b-sm al-center" title="${views.setting_auto['授信额度']}${creditLine}">${soulFn:formatCurrency(profit)}</div>
                         </div>
                     </div>
                     <div class="m-b-none col-xs-6 col-sm-7-1">
                         <div class="limit-price-wrap al-center clearfix">
-                            <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用额度']}">${views.setting_auto['已使用额度']}</div>
+                            <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用额度']}">${views.setting_auto['已使用额度']}
+                                <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+                                      data-html="true" data-content="${views.setting_auto['站点玩家累计转入API的总额度']}">
+                                    <i class="fa fa-question-circle"></i>
+                                </span>
+                            </div>
                             <div class="fs20 p-b-sm al-center co-blue">${soulFn:formatCurrency(useProfit)}</div>
                         </div>
                     </div>
@@ -51,13 +56,23 @@
                     <c:if test="${!empty currentTransferLimit}">
                         <div class="m-b-none col-xs-6 col-sm-7-1">
                             <div class="limit-price-wrap al-center clearfix">
-                                <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['转账上限']}">${views.setting_auto['转账上限']}</div>
+                                <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['转账上限']}">${views.setting_auto['转账上限']}
+                                    <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+                                          data-html="true" data-content="${views.setting_auto['站点玩家累计转入API的额度上限']}">
+                                        <i class="fa fa-question-circle"></i>
+                                    </span>
+                                </div>
                                 <div class="fs20 p-b-sm al-center">${soulFn:formatCurrency(currentTransferLimit)}</div>
                             </div>
                         </div>
                         <div class="m-b-none col-xs-6 col-sm-7-1">
                             <div class="limit-price-wrap al-center clearfix">
-                                <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用额度']}">${views.setting_auto['已使用额度']}</div>
+                                <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['已使用额度']}">${views.setting_auto['已使用额度']}
+                                    <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+                                          data-html="true" data-content="${views.setting_auto['当玩家将额度从APi转回至钱包时']}">
+                                        <i class="fa fa-question-circle"></i>
+                                    </span>
+                                </div>
                                 <div class="fs20 p-b-sm al-center co-blue">${soulFn:formatCurrency(transferLimit)}</div>
                             </div>
                         </div>
