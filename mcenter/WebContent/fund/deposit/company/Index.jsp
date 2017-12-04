@@ -2,7 +2,7 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 
-<form:form action="${root}/fund/deposit/company/list.html" method="post">
+<form:form name="companyDepositForm" action="${root}/fund/deposit/company/list.html" method="post">
     <div class="row">
         <div id="validateRule" style="display: none">${command.validateRule}</div>
 
@@ -27,6 +27,7 @@
                 <div class="dataTables_wrapper search-list-container">
                     <%@ include file="IndexPartial.jsp" %>
                 </div>
+                <div id="companyDepositpageDiv"></div>
             </div>
         </div>
 

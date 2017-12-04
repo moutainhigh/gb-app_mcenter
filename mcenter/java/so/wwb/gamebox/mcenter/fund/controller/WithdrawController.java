@@ -85,11 +85,9 @@ import so.wwb.gamebox.model.master.fund.enums.*;
 import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
 import so.wwb.gamebox.model.master.fund.po.PlayerWithdraw;
 import so.wwb.gamebox.model.master.fund.po.VPlayerWithdraw;
+import so.wwb.gamebox.model.master.fund.so.VPlayerDepositSo;
 import so.wwb.gamebox.model.master.fund.so.VPlayerWithdrawSo;
-import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
-import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawVo;
-import so.wwb.gamebox.model.master.fund.vo.VPlayerWithdrawListVo;
-import so.wwb.gamebox.model.master.fund.vo.VPlayerWithdrawVo;
+import so.wwb.gamebox.model.master.fund.vo.*;
 import so.wwb.gamebox.model.master.player.po.PlayerRank;
 import so.wwb.gamebox.model.master.player.po.PlayerTransaction;
 import so.wwb.gamebox.model.master.player.po.Remark;
@@ -185,41 +183,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @RequestMapping({"/withdrawList"})
     protected String withdrawList(HttpServletRequest request, VPlayerWithdrawListVo vo, Model model) {
         vo.setValidateRule(JsRuleCreator.create(VPlayerWithdrawSearchForm.class, "search"));
-        VPlayerWithdrawSo search = vo.getSearch();
 
-        //默认搜索7天内的数据
-        if (search.getCreateStart()==null&&search.getCreateEnd()==null){
-            Date now = new Date();
-            Date sevenDaysAgo = DateTool.addDays(now,-7);
-            search.setCreateEnd(now);
-            search.setCreateStart(sevenDaysAgo);
-        }
-
-        if (StringTool.isNotBlank(search.getUsername())) {
-            String[] split = search.getUsername().split(",");
-            if (split.length == 1) {
-                search.setUsername(search.getUsername().replaceAll("_", "\\\\_"));
-            }
-        }
-        if (StringTool.isNotBlank(search.getPayeeName())) {
-            search.setPayeeName(search.getPayeeName().replaceAll("_", "\\\\_"));
-        }
-        if (StringTool.isNotBlank(search.getRealName())) {
-            search.setRealName(search.getRealName().replaceAll("_", "\\\\_"));
-        }
-        if (StringTool.isNotBlank(search.getCheckUserName())) {
-            search.setCheckUserName(search.getCheckUserName().replaceAll("_", "\\\\_"));
-        }
-        if (StringTool.isNotBlank(search.getNewUserName())) {
-            search.setNewUserName(search.getNewUserName().replaceAll("_", "\\\\_"));
-        }
-        if (StringTool.isNotBlank(search.getPayeeBankcard())) {
-            search.setPayeeBankcard(search.getPayeeBankcard().replaceAll("_", "\\\\_"));
-        }
-        vo.setSearch(search);
-        //ip转义
-        String ipStr = vo.getSearch().getIpStr();
-        vo.getSearch().setIpWithdraw(StringTool.isBlank(ipStr) ? null : IpTool.ipv4StringToLong(vo.getSearch().getIpStr()));
+        initListVo(vo);
         if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
             List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
             buildPlayerRankData(model, sysUserDataRights);
@@ -240,9 +205,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                     }
                 }
 
-                Paging paging = vo.getPaging();
-                paging.setTotalCount(ServiceTool.vPlayerWithdrawService().countPlayerWithdraw(vo));
-                paging.cal();
                 if (vo.getSearch().isTodaySales()) {
                     //今日成功统计--jerry
                     todayTotal(vo);
@@ -284,6 +246,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         model.addAttribute("command", vo);
 
         //把转义符合去掉
+        VPlayerWithdrawSo search = vo.getSearch();
         if (StringTool.isNotBlank(search.getUsername())) {
             search.setUsername(search.getUsername().replaceAll("\\\\", ""));
         }
@@ -304,6 +267,65 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         }
         vo.setSearch(search);
         return ServletTool.isAjaxSoulRequest(request) ? WITHDRAW_INDEX_PARIAL_URl : WITHDRAW_INDEX_URL;
+    }
+
+    /**
+     * 初始化ListVo
+     * @param vo
+     */
+    private void initListVo(VPlayerWithdrawListVo vo) {
+        VPlayerWithdrawSo search = vo.getSearch();
+        //默认搜索3天内的数据
+        if (search.getCreateStart()==null&&search.getCreateEnd()==null){
+            Date now = new Date();
+            Date sevenDaysAgo = DateTool.addDays(now,-3);
+            search.setCreateEnd(now);
+            search.setCreateStart(sevenDaysAgo);
+        }
+
+        if (StringTool.isNotBlank(search.getUsername())) {
+            String[] split = search.getUsername().split(",");
+            if (split.length == 1) {
+                search.setUsername(search.getUsername().replaceAll("_", "\\\\_"));
+            }
+        }
+        if (StringTool.isNotBlank(search.getPayeeName())) {
+            search.setPayeeName(search.getPayeeName().replaceAll("_", "\\\\_"));
+        }
+        if (StringTool.isNotBlank(search.getRealName())) {
+            search.setRealName(search.getRealName().replaceAll("_", "\\\\_"));
+        }
+        if (StringTool.isNotBlank(search.getCheckUserName())) {
+            search.setCheckUserName(search.getCheckUserName().replaceAll("_", "\\\\_"));
+        }
+        if (StringTool.isNotBlank(search.getNewUserName())) {
+            search.setNewUserName(search.getNewUserName().replaceAll("_", "\\\\_"));
+        }
+        if (StringTool.isNotBlank(search.getPayeeBankcard())) {
+            search.setPayeeBankcard(search.getPayeeBankcard().replaceAll("_", "\\\\_"));
+        }
+        vo.setSearch(search);
+        //ip转义
+        String ipStr = vo.getSearch().getIpStr();
+        vo.getSearch().setIpWithdraw(StringTool.isBlank(ipStr) ? null : IpTool.ipv4StringToLong(vo.getSearch().getIpStr()));
+    }
+
+    @RequestMapping("/count")
+    public String count(VPlayerWithdrawListVo listVo, Model model, String isCounter) {
+        // 初始化ListVo
+        initListVo(listVo);
+        listVo = doCount(listVo, isCounter);
+        listVo.getPaging().cal();
+        model.addAttribute("command", listVo);
+        return getViewBasePath() + "IndexPagination";
+    }
+
+    public VPlayerWithdrawListVo doCount(VPlayerWithdrawListVo listVo, String isCounter) {
+        if (StringTool.isBlank(isCounter)) {
+            long count = ServiceTool.vPlayerWithdrawService().count(listVo);
+            listVo.getPaging().setTotalCount(count);
+        }
+        return listVo;
     }
 
     /**

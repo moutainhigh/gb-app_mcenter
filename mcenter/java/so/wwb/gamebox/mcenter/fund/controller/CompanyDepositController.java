@@ -98,10 +98,9 @@ public class CompanyDepositController extends BaseDepositController {
      * @param model
      * @return
      */
-    private String getCurrencySign(Model model) {
+    private void getCurrencySign(Model model) {
         Map<String, SysCurrency> sysCurrency1 = Cache.getSysCurrency();
         model.addAttribute("sysCurrency", sysCurrency1);
-        return null;
     }
 
     @Override
