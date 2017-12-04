@@ -23,8 +23,10 @@ import org.soul.web.controller.BaseCrudController;
 import org.soul.web.listop.ListOpTool;
 import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.js.JsRuleCreator;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.fund.IVPlayerDepositService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
@@ -74,7 +76,8 @@ import java.util.*;
  *         2016-7-8 11:36:16
  */
 @SuppressWarnings("all")
-abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositService, VPlayerDepositListVo, VPlayerDepositVo, VPlayerDepositSearchForm, VPlayerDepositForm, VPlayerDeposit, Integer> {
+@Controller
+public abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositService, VPlayerDepositListVo, VPlayerDepositVo, VPlayerDepositSearchForm, VPlayerDepositForm, VPlayerDeposit, Integer> {
 
     static final String FILTER_URL = "/share/ListFilters";
 
@@ -85,6 +88,26 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
      */
     protected abstract void initQuery(VPlayerDepositListVo listVo);
 
+    @RequestMapping("/count")
+    public String count(VPlayerDepositListVo listVo, Model model, String isCounter) {
+        // 初始化筛选条件
+        initQuery(listVo);
+        // 初始化ListVo
+        initListVo(listVo);
+        listVo = doCount(listVo, isCounter);
+        listVo.getPaging().cal();
+        model.addAttribute("command", listVo);
+        return getViewBasePath() + "IndexPagination";
+    }
+
+    public VPlayerDepositListVo doCount(VPlayerDepositListVo listVo, String isCounter) {
+        if (StringTool.isBlank(isCounter)) {
+            long count = ServiceTool.vPlayerDepositService().count(listVo);
+            listVo.getPaging().setTotalCount(count);
+        }
+        return listVo;
+    }
+
     /**
      * 初始化ListVo
      */
@@ -93,10 +116,10 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
         //转义搜索条件中的_
         VPlayerDepositSo search = listVo.getSearch();
 
-        //默认搜索7天内的数据
+        //默认搜索3天内的数据
         if (search.getCreateStart()==null&&search.getCreateEnd()==null){
             Date now = new Date();
-            Date sevenDaysAgo = DateTool.addDays(now,-7);
+            Date sevenDaysAgo = DateTool.addDays(now,-3);
             search.setCreateEnd(now);
             search.setCreateStart(sevenDaysAgo);
         }

@@ -92,36 +92,15 @@ public class CompanyDepositController extends BaseDepositController {
         return listVo;
     }
 
-    @RequestMapping("/count")
-    public String count(VPlayerDepositListVo listVo, Model model, String isCounter) {
-        // 初始化筛选条件
-        this.initQuery(listVo);
-        // 初始化ListVo
-        super.initListVo(listVo);
-        listVo = doCount(listVo, isCounter);
-        listVo.getPaging().cal();
-        model.addAttribute("command", listVo);
-        return getViewBasePath() + "IndexPagination";
-    }
-
-    public VPlayerDepositListVo doCount(VPlayerDepositListVo listVo, String isCounter) {
-        if (StringTool.isBlank(isCounter)) {
-            long count = ServiceTool.vPlayerDepositService().count(listVo);
-            listVo.getPaging().setTotalCount(count);
-        }
-        return listVo;
-    }
-
     /**
      * 获取货币形式
      *
      * @param model
      * @return
      */
-    private String getCurrencySign(Model model) {
+    private void getCurrencySign(Model model) {
         Map<String, SysCurrency> sysCurrency1 = Cache.getSysCurrency();
         model.addAttribute("sysCurrency", sysCurrency1);
-        return null;
     }
 
     @Override

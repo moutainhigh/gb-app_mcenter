@@ -245,4 +245,3 @@
         <input type="hidden" name="paging.pageSize" value="${command.paging.pageSize}">
         <soul:button target="loadMoreRecord" text="${views.fund_auto['加载更多']}" opType="function" cssClass="btn btn-outline btn-filter btn-sm m-l-sm show-more-record"></soul:button>
     </div>--%>
-<soul:pagination/>
