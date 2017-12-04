@@ -306,5 +306,3 @@
         </tbody>
     </table>
 </div>
-
-<soul:pagination/>

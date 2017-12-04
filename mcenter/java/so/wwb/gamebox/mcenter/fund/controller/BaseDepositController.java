@@ -419,9 +419,9 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
         rankVo.getSearch().setIds(rankIds);
         model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(rankVo));
     }
+
     protected VPlayerDepositListVo getPlayerDeposit(VPlayerDepositListVo listVo, String moduleType,
                                                     VPlayerDepositSearchForm form, BindingResult result, Model model) {
-
         if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
             SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
             sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
@@ -443,11 +443,11 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
                 if (listVo.getSearch().isTodaySales()) {
                     //今日成功统计--jerry
                     VPlayerDepositListVo vPlayerDepositListVo = new VPlayerDepositListVo();
-                    vPlayerDepositListVo._setContextParam(listVo._getContextParam());
                     Date today = SessionManager.getDate().getToday();
                     Date todayEnd = DateTool.addDays(SessionManager.getDate().getToday(), 1);
                     vPlayerDepositListVo.getSearch().setCheckTimeStart(today);
                     vPlayerDepositListVo.getSearch().setCheckTimeEnd(todayEnd);
+                    vPlayerDepositListVo._setContextParam(listVo._getContextParam());
                     if (listVo.getSearch().getRechargeTypeParent().equals(RechargeTypeParentEnum.COMPANY_DEPOSIT.getCode())) {
                         vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.SUCCESS.getCode());
                     } else {
@@ -462,9 +462,9 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
                     Double sum = ServiceTool.vPlayerDepositService().sumPlayerDeposit(listVo);
                     listVo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
                 }
-                Paging paging = listVo.getPaging();
-                paging.setTotalCount(ServiceTool.vPlayerDepositService().countPlayerDeposit(listVo));
-                paging.cal();
+//                Paging paging = listVo.getPaging();
+//                paging.setTotalCount(ServiceTool.vPlayerDepositService().countPlayerDeposit(listVo));
+//                paging.cal();
                 listVo = ServiceTool.vPlayerDepositService().searchPlayerDeposit(listVo);
             } else {
                 listVo = getTotalDeposit(listVo, form, result, model);
