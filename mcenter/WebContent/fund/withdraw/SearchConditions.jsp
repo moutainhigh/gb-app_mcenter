@@ -54,7 +54,7 @@
             <div class="form-group clearfix pull-left col-md-7 col-sm-12 m-b-sm padding-r-none-sm senior hide checkTime">
                 <div class="input-group date time-select-a">
                     <span class="input-group-addon bg-gray">${views.fund_auto['审核时间']}</span>
-                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:38%;" useToday="true" btnClass="search" startName="search.checkTimeStart" endName="search.checkTimeEnd" startDate="${command.search.checkTimeStart}" endDate="${command.search.checkTimeEnd}"/>
+                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:44%;" useToday="true" btnClass="search" startName="search.checkTimeStart" endName="search.checkTimeEnd" startDate="${command.search.checkTimeStart}" endDate="${command.search.checkTimeEnd}"/>
                 </div>
             </div>
 
