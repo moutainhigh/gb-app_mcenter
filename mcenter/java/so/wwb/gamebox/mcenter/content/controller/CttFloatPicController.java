@@ -100,6 +100,10 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
     protected CttFloatPicVo doCreate(CttFloatPicVo objectVo, Model model) {
         setBaseData(model);
         getCustomerService(model);
+        Map map =new HashMap(2,1f);
+        map.put("http://","http://");
+        map.put("https://","https://");
+        model.addAttribute("protocol",map);
         objectVo.setFloatPicItem(new CttFloatPicItem());
         objectVo.setItemList(new ArrayList<CttFloatPicItem>());
 
@@ -265,6 +269,10 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
     protected CttFloatPicVo doEdit(CttFloatPicVo objectVo, Model model) {
         setBaseData(model);
         getCustomerService(model);
+        Map map =new HashMap(2,1f);
+        map.put("http://","http://");
+        map.put("https://","https://");
+        model.addAttribute("protocol",map);
         CttFloatPicVo floatPicVo = super.doEdit(objectVo, model);
 
         floatPicVo = getItemList(floatPicVo);
