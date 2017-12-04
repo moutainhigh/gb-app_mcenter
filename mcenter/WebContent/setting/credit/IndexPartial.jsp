@@ -32,19 +32,13 @@
                 <td>${empty p.transactionNo?"---":p.transactionNo}</td>
                 <td>
                     <c:choose>
-                        <c:when test="${p.payType == '3'}">
+                        <c:when test="${p.backgroundAdded == true}">
                             ${views.setting['credit.creditRecord.boss']}
                         </c:when>
                         <c:otherwise>
                             ${p.payUserName}
                         </c:otherwise>
                     </c:choose>
-                    <c:if test="${p.backgroundAdded == true}">
-                        <span data-content="${views.setting_auto['后台操作人']}"
-                              data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
-                              role="button" class="ico-lock" tabindex="0"
-                              data-original-title="" title=""><i class="fa fa-user"></i></span>
-                    </c:if>
                 </td>
                 <td>${soulFn:formatInteger(p.payAmount)}${soulFn:formatDecimals(p.payAmount)}</td>
                 <td>${dicts.credit.pay_type[p.payType]}</td>
@@ -66,7 +60,17 @@
                     </c:if>
                 </td>
                 <td>
-                    <soul:button target="${root}/creditRecord/uploadReceipt.html?search.id=${p.id}" text="${views.setting['credit.creditRecord.uploadReceipt']}" opType="dialog" callback="query">${views.setting['credit.creditRecord.uploadReceipt']}</soul:button>
+                    <c:choose>
+                        <c:when test="${!p.backgroundAdded}">
+                            <soul:button target="${root}/creditRecord/uploadReceipt.html?search.id=${p.id}"
+                                         text="${views.setting['credit.creditRecord.uploadReceipt']}" opType="dialog"
+                                         callback="query">${views.setting['credit.creditRecord.uploadReceipt']}</soul:button>
+                        </c:when>
+                        <c:otherwise>
+                            ---
+                        </c:otherwise>
+                    </c:choose>
+
                 </td>
             </tr>
         </c:forEach>
