@@ -157,7 +157,7 @@
                                     </div>
 
                                     <%--开启/禁用查看资金记录--%>
-                                    <%--<div class="form-group clearfix m-b-sm">
+                                    <div class="form-group clearfix m-b-sm">
                                         <label class="col-sm-3 al-right line-hi34 ft-bold">
                                             <span class="co-red m-r-sm">*</span>查看资金记录 :
                                         </label>
@@ -166,7 +166,7 @@
                                             <input type="hidden" name="result.viewCapitalRecord" value="${not empty command.result.viewCapitalRecord && command.result.viewCapitalRecord?'true':'false'}">
                                             <span>开启后，该代理可查看旗下玩家的资金记录</span>
                                         </div>
-                                    </div>--%>
+                                    </div>
 
                                     <c:if test="${not empty command.sysUser.id}">
                                         <input class="hide" name="sysUser.defaultTimezone" value="${command.sysUser.defaultTimezone}">
