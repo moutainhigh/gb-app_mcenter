@@ -104,7 +104,7 @@
                         </tr>
                         <tr>
                             <th scope="row" class="text-right">
-                                ${views.fund_auto['操作人']}
+                                ${views.fund_auto['操作人']}：
                             </th>
                             <td>${r.checkUserName}</td>
                         </tr>
