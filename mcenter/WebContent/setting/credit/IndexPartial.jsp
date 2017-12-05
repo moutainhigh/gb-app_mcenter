@@ -19,7 +19,7 @@
                            list="${status}" listKey="key" listValue="value" callback="query"/>
             </th>
             <th>${views.setting_auto['账户名称']}</th>
-            <soul:orderColumn poType="${poType}" property="createTime" column="${views.setting_auto['支付时间']}"/>
+            <th>${views.setting_auto['支付时间']}</th>
             <th>${views.setting_auto['IP']}</th>
             <th>${views.setting['credit.creditRecord.receipt']}</th>
             <th>${views.common['operate']}</th>
