@@ -92,6 +92,12 @@ public class CompanyDepositController extends BaseDepositController {
         return listVo;
     }
 
+    @RequestMapping("/count")
+    public String count(VPlayerDepositListVo listVo,Model model, String isCounter) {
+        String moduleType = DataRightModuleType.COMPANYDEPOSIT.getCode();
+        return super.count(listVo, moduleType, model, isCounter);
+    }
+
     /**
      * 获取货币形式
      *

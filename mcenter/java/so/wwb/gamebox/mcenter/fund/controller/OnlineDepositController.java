@@ -72,6 +72,12 @@ public class OnlineDepositController extends BaseDepositController {
         return listVo;
     }
 
+    @RequestMapping("/count")
+    public String count(VPlayerDepositListVo listVo,Model model, String isCounter) {
+        String moduleType = DataRightModuleType.ONLINEDEPOSIT.getCode();
+        return super.count(listVo, moduleType, model, isCounter);
+    }
+
     @Override
     protected void initQuery(VPlayerDepositListVo listVo) {
         listVo.getSearch().setRechargeTypeParent(RechargeTypeParentEnum.ONLINE_DEPOSIT.getCode());
