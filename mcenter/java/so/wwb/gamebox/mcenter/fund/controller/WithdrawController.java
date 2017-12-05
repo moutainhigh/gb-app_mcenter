@@ -188,23 +188,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
             List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
             buildPlayerRankData(model, sysUserDataRights);
-            if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
-                vo.getSearch().setCheckStatus(CheckStatusEnum.WITHOUT_REVIEW.getCode());
-                vo.getSearch().setWithdrawSta(new String[]{WithdrawStatusEnum.PENDING_SUB.getCode(),
-                        WithdrawStatusEnum.CANCELLATION_OF_ORDERS.getCode()});
-                vo.getSearch().setDataRightUserId(SessionManager.getUserId());
-                vo.getSearch().setModuleType(DataRightModuleType.PLAYERWITHDRAW.getCode());
-
-                if (StringTool.isNotEmpty(vo.getSearch().getUsername())) {
-                    String username = vo.getSearch().getUsername().toLowerCase();
-                    String[] names = username.split(",");
-                    if (names.length == 1) {
-                        vo.getSearch().setNewUserName(names[0]);
-                    } else {
-                        vo.getSearch().setAccountNames(names);
-                    }
-                }
-
+            if (CollectionTool.isNotEmpty(sysUserDataRights)) {
+                masterSubSearch(vo,sysUserDataRights);
                 if (vo.getSearch().isTodaySales()) {
                     //今日成功统计--jerry
                     todayTotal(vo);
@@ -270,6 +255,32 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     }
 
     /**
+     * 获取子账号的查询条件
+     * @param vo
+     * @param sysUserDataRights
+     */
+    private void masterSubSearch(VPlayerWithdrawListVo vo,List<SysUserDataRight> sysUserDataRights) {
+        if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
+            if (CollectionTool.isNotEmpty(sysUserDataRights)) {
+                vo.getSearch().setCheckStatus(CheckStatusEnum.WITHOUT_REVIEW.getCode());
+                vo.getSearch().setWithdrawSta(new String[]{WithdrawStatusEnum.PENDING_SUB.getCode(),
+                        WithdrawStatusEnum.CANCELLATION_OF_ORDERS.getCode()});
+                vo.getSearch().setDataRightUserId(SessionManager.getUserId());
+                vo.getSearch().setModuleType(DataRightModuleType.PLAYERWITHDRAW.getCode());
+                if (StringTool.isNotEmpty(vo.getSearch().getUsername())) {
+                    String username = vo.getSearch().getUsername().toLowerCase();
+                    String[] names = username.split(",");
+                    if (names.length == 1) {
+                        vo.getSearch().setNewUserName(names[0]);
+                    } else {
+                        vo.getSearch().setAccountNames(names);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * 初始化ListVo
      * @param vo
      */
@@ -314,6 +325,9 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     public String count(VPlayerWithdrawListVo listVo, Model model, String isCounter) {
         // 初始化ListVo
         initListVo(listVo);
+        //子账号查询条件
+        List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
+        masterSubSearch(listVo,sysUserDataRights);
         listVo = doCount(listVo, isCounter);
         listVo.getPaging().cal();
         model.addAttribute("command", listVo);
