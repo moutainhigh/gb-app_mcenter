@@ -26,7 +26,7 @@
                 <th>${views.column["VPlayerWithdraw.withdrawActualAmount"]}</th>
                 <th class="inline" style="padding-left: 30px;">
                     <div>
-                        <gb:select name="search.withdrawStatus" cssClass="btn-group chosen-select-no-single" prompt="${views.fund['withdraw.index.playerWithdraw.all']}" list="${siteWithdrawStatus}" value="${command.search.withdrawStatus}" callback="queryByCondition" />
+                        <gb:select name="search.withdrawStatus" cssClass="btn-group chosen-select-no-single" prompt="${views.fund['withdraw.index.playerWithdraw.all']}" list="${siteWithdrawStatus}" value="${command.search.withdrawStatus}" callback="query" />
                     </div>
                 </th>
                 <th>${views.fund_auto['审核人']}</th>
@@ -150,7 +150,7 @@
                                 <span style="width:12.67px; display: inline-block"></span>
                             </c:if>
                             <c:if test="${p.withdrawStatus=='1'||p.withdrawStatus=='2'}">
-                                <soul:button  dataId="${p.id}" target="withdrawAuditView"  callback="queryByCondition"  size="auditLogCss" cssClass="label label-info p-x-md" text="${dicts.fund.withdraw_status[p.withdrawStatus]}" opType="function" />
+                                <soul:button  dataId="${p.id}" target="withdrawAuditView"  callback="query"  size="auditLogCss" cssClass="label label-info p-x-md" text="${dicts.fund.withdraw_status[p.withdrawStatus]}" opType="function" />
                             </c:if>
                             <c:if test="${p.withdrawStatus=='4'}">
                                 <soul:button target="withdrawAuditView" dataId="${p.id}" size="auditLogCss" cssClass="label label-success p-x-md" text="${dicts.fund.withdraw_status[p.withdrawStatus]}" opType="function" />
