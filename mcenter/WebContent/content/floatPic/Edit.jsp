@@ -234,7 +234,7 @@
                                                         ${views.operation['MassInformation.step3.website']}<span>{website}</span>
                                                 </a>
                                             </span>
-                                            <input type="hidden" name="floatPicItem.imgLinkValue" value="${command.floatPicItem.imgLinkType == 'link' ? '' : (empty command.floatPicItem.imgLinkType ? SiteCustomerService[0].id : command.floatPicItem.imgLinkValue)}"/>
+                                            <input type="hidden" name="floatPicItem.imgLinkValue" class="float_pic_list_item_link_type_value" value="${command.floatPicItem.imgLinkType == 'link' ? (empty command.floatPicItem.imgLinkType ? SiteCustomerService[0].id : command.floatPicItem.imgLinkValue) : ''}"/>
                                             <span class="input-group-addon bdn ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? 'hide' : '' }" id="content_float_pic_type_custom_service_setting_link">
                                                 <a href="/param/siteParam.html?hasReturn=true&index=li_top_1" nav-target="mainFrame" class="m-l-sm">${views.column['CttFloatPic.image.setting']}</a>
                                             </span>
@@ -295,7 +295,7 @@
                                                         </c:if>
                                                     </select>
                                                     <span class="input-group-btn float_pic_list_item_http ${not empty item.imgLinkType && (item.imgLinkType == 'link') ? '' : 'hide'}" id="content_float_pic_type_http${vs.index+1}">
-                                                        <gb:select name="itemList[0].imgLinkProtocol" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                                                        <gb:select name="itemList[0].imgLinkProtocol" value="${item.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
                                                     </span>
                                                     <input type="text" name="imgLinkTypeValue${vs.index+1}" class="form-control float_pic_list_item_link_value ${not empty item.imgLinkType && (item.imgLinkType == 'link') ? '' : 'hide'}" value="${item.imgLinkType == 'link' ? item.imgLinkValue : ''}">
                                                     <span class="input-group-addon ${command.result.singleMode ?'hide':''} bdn _editTags">
@@ -458,7 +458,7 @@
                     </c:if>
                 </select>
                 <span class="input-group-btn hide float_pic_list_item_http" id="content_float_pic_type_http1">
-                    <gb:select name="itemList[0].imgLinkProtocol" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                    <gb:select name="itemList[0].imgLinkProtocol" list="${protocol}" listKey="key" listValue="value"></gb:select>
                 </span>
                 <input type="text" name="imgLinkTypeValue1" class="form-control hide float_pic_list_item_link_value" value="">
                 <span class="input-group-addon bdn _editTags">
