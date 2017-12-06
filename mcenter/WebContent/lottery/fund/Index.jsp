@@ -33,9 +33,11 @@
                                   startDate="${command.search.queryStartDate}" endDate="${command.search.queryEndDate}"/>
                 </div>
             </div>
-            <div class="input-group date time-select-a">
-                <span class="input-group-addon bg-gray">${views.fund['玩家账号']}</span>
-                <input name="search.username" style="width: 200px;" class="form-control" id="search_username">
+            <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
+                <div class="input-group">
+                    <span class="input-group-addon bg-gray">${views.fund['玩家账号']}</span>
+                    <input name="search.username" class="form-control account_input list-search-input-text" id="search_username">
+                </div>
             </div>
         </div>
         <div class="col-lg-2">
