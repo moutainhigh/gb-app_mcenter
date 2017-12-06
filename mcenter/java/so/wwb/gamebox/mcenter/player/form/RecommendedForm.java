@@ -63,7 +63,7 @@ public class RecommendedForm implements IForm {
     @NotNull(message = "common.不能为空")
     @Digits(integer = 3,fraction = 4,message = "setting.recommended.isinteger")
     @Range(max = 100,min = 0,message = "setting.recommended.max100")
-    @Series(message = "setting.recommended.bonusGt",type = SeriesType.INC)
+    @Series(message = "setting.recommended.必须大于上一梯度",type = SeriesType.INC)
     public BigDecimal[] getGradientTempList$$_proportion() {
         return gradientTempList$$_proportion;
     }
@@ -72,7 +72,7 @@ public class RecommendedForm implements IForm {
     @NotNull(message = "common.不能为空")
     @Range(max = 999,min = 1,message = "setting.recommended.playerNum.POSITIVE_INTEGER")
     @Digits(integer = 3,fraction = 0,message = "setting.rebate.edit.validPlayerNumDigits")
-    @Series(message = "setting.recommended.bonusGt",type = SeriesType.INC)
+    @Series(message = "setting.recommended.必须大于上一梯度",type = SeriesType.INC)
     public Integer[] getGradientTempList$$_playerNum() {
         return gradientTempList$$_playerNum;
     }
