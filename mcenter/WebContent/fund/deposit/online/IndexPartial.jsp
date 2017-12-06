@@ -21,7 +21,7 @@
             <th>${views.fund['创建时间']}</th>
             <th>${views.column['VPlayerDeposit.rechargeAmount']}</th>
             <th class="inline" style="padding-left: 30px;">
-                <gb:select name="search.rechargeStatus" value="${command.search.rechargeStatus}" cssClass="btn-group chosen-select-no-single" callback="query"
+                <gb:select name="search.rechargeStatus" value="${command.search.rechargeStatus}" cssClass="btn-group chosen-select-no-single" callback="queryByCondition"
                            prompt="${views.fund['desposit.index.allStatus']}" list="${command.rechargeStatus}" listKey="key" listValue="${dicts.fund.recharge_status[key]}" />
             </th>
             <th>${views.column['VPlayerDeposit.payName']}</th>
