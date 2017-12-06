@@ -175,7 +175,7 @@
                     <span class="input-group-addon bg-gray">${views.player_auto['层级']}</span>
                     <span class="bdn right-btn-down">
                         <div class="btn-group table-desc-right-t-dropdown" initprompt="10条"
-                             callback="query">
+                             callback="queryByCondition">
                             <button type="button" class="btn btn btn-default right-radius rank-btn">
                                 <span class="rankText" prompt="prompt">${views.player_auto['请选择']}</span>
                                 <span class="caret-a pull-right"></span>
