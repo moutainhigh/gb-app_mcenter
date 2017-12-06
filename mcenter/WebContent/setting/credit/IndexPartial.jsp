@@ -18,7 +18,7 @@
                 <gb:select name="search.status" value="${command.search.status}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
                            list="${status}" listKey="key" listValue="value" callback="query"/>
             </th>
-            <th>${views.setting_auto['账户名称']}</th>
+            <th>${views.setting_auto['存款渠道']}</th>
             <th>${views.setting_auto['支付时间']}</th>
             <th>${views.setting_auto['IP']}</th>
             <th>${views.setting['credit.creditRecord.receipt']}</th>
@@ -51,7 +51,7 @@
                     </c:choose>
                     <span class="${status_class}">${dicts.credit.credit_status[p.status]}</span>
                 </td>
-                <td>${empty p.payName?"---":p.payName}</td>
+                <td>${empty dicts.common.bankname[p.bankName]?"---":dicts.common.bankname[p.bankName]}</td>
                 <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
                 <td>${soulFn:formatIp(p.ip)}</td>
                 <td>
