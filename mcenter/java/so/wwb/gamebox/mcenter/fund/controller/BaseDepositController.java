@@ -13,7 +13,6 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.net.IpTool;
-import org.soul.commons.query.Paging;
 import org.soul.commons.support._Module;
 import org.soul.model.listop.po.SysListOperator;
 import org.soul.model.sys.po.SysDict;
@@ -85,12 +84,44 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
      */
     protected abstract void initQuery(VPlayerDepositListVo listVo);
 
+    public String count(VPlayerDepositListVo listVo,String moduleType, Model model, String isCounter) {
+        // 初始化筛选条件
+        initQuery(listVo);
+        // 初始化ListVo
+        initListVo(listVo);
+        //获取子账号查询条件
+        List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
+        masterSubSearch(listVo,moduleType,sysUserDataRights);
+        listVo = doCount(listVo, isCounter);
+        listVo.getPaging().cal();
+        model.addAttribute("command", listVo);
+        return getViewBasePath() + "IndexPagination";
+    }
+
+    public VPlayerDepositListVo doCount(VPlayerDepositListVo listVo, String isCounter) {
+        if (StringTool.isBlank(isCounter)) {
+            long count = ServiceTool.vPlayerDepositService().count(listVo);
+            listVo.getPaging().setTotalCount(count);
+        }
+        return listVo;
+    }
+
     /**
      * 初始化ListVo
      */
     void initListVo(VPlayerDepositListVo listVo) {
+
         //转义搜索条件中的_
         VPlayerDepositSo search = listVo.getSearch();
+
+        //默认搜索3天内的数据
+        if (search.getCreateStart()==null&&search.getCreateEnd()==null){
+            Date now = new Date();
+            Date sevenDaysAgo = DateTool.addDays(now,-3);
+            search.setCreateEnd(now);
+            search.setCreateStart(sevenDaysAgo);
+        }
+
         if (StringTool.isNotBlank(search.getUsername())) {
             String[] split = search.getUsername().split(",");
             if (split.length == 1) {
@@ -423,23 +454,10 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
     protected VPlayerDepositListVo getPlayerDeposit(VPlayerDepositListVo listVo, String moduleType,
                                                     VPlayerDepositSearchForm form, BindingResult result, Model model) {
         if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
-            SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
-            sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
-            sysUserDataRightVo.getSearch().setModuleType(moduleType);
-            List<SysUserDataRight> sysUserDataRights = ServiceTool.sysUserDataRightService().searchDataRightsByUserId(sysUserDataRightVo);
+            List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
             if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
+                masterSubSearch(listVo, moduleType,sysUserDataRights);
                 buildPlayerRankData(model,sysUserDataRights);
-                listVo.getSearch().setDataRightUserId(SessionManager.getUserId());
-                listVo.getSearch().setModuleType(moduleType);
-                if (StringTool.isNotEmpty(listVo.getSearch().getUsername())) {
-                    String username = listVo.getSearch().getUsername().toLowerCase();
-                    String[] names = username.split(",");
-                    if (names.length == 1) {
-                        listVo.getSearch().setNewUserName(names[0]);
-                    } else {
-                        listVo.getSearch().setAccountNames(names);
-                    }
-                }
                 if (listVo.getSearch().isTodaySales()) {
                     //今日成功统计--jerry
                     VPlayerDepositListVo vPlayerDepositListVo = new VPlayerDepositListVo();
@@ -462,9 +480,6 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
                     Double sum = ServiceTool.vPlayerDepositService().sumPlayerDeposit(listVo);
                     listVo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
                 }
-//                Paging paging = listVo.getPaging();
-//                paging.setTotalCount(ServiceTool.vPlayerDepositService().countPlayerDeposit(listVo));
-//                paging.cal();
                 listVo = ServiceTool.vPlayerDepositService().searchPlayerDeposit(listVo);
             } else {
                 listVo = getTotalDeposit(listVo, form, result, model);
@@ -493,6 +508,41 @@ abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositS
         }
         listVo.setSearch(search);
         return listVo;
+    }
+
+    /**
+     * 根据模块以及用户获取对应菜单权限
+     * @param moduleType
+     * @return
+     */
+    private List<SysUserDataRight> getSysUserDataRights(String moduleType) {
+        SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
+        sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
+        sysUserDataRightVo.getSearch().setModuleType(moduleType);
+        return ServiceTool.sysUserDataRightService().searchDataRightsByUserId(sysUserDataRightVo);
+    }
+
+    /**
+     * 获取子账号的查询条件
+     * @param listVo
+     * @param moduleType
+     */
+    private void masterSubSearch(VPlayerDepositListVo listVo, String moduleType, List<SysUserDataRight> sysUserDataRights) {
+        if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
+            if (CollectionTool.isNotEmpty(sysUserDataRights)) {
+                listVo.getSearch().setDataRightUserId(SessionManager.getUserId());
+                listVo.getSearch().setModuleType(moduleType);
+                if (StringTool.isNotEmpty(listVo.getSearch().getUsername())) {
+                    String username = listVo.getSearch().getUsername().toLowerCase();
+                    String[] names = username.split(",");
+                    if (names.length == 1) {
+                        listVo.getSearch().setNewUserName(names[0]);
+                    } else {
+                        listVo.getSearch().setAccountNames(names);
+                    }
+                }
+            }
+        }
     }
 
     //总额计算
