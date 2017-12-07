@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerVo;
@@ -148,7 +149,7 @@ public class HomeController extends SiteHomeController{
                 break;
         }
 
-        o.getSearch().setSubsysCode(ConfigManager.getConfigration().getSubsysCode());
+        o.getSearch().setSubsysCode(SubSysCodeEnum.MCENTER.getCode());
         List<TreeNode<VSysUserResource>> menus = ServiceTool.sysResourceService().getAllMenus(o);
         model.addAttribute("menus", menus);
         //左侧菜单栏

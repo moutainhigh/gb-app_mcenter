@@ -256,7 +256,7 @@ public class VUserAgentManageController extends AbstractExportController<IVUserA
         userStatus.add(new Pair(SysUserStatus.DISABLED.getCode(), LocaleTool.tranView("common", "SysUserStatus." + SysUserStatus.DISABLED.getCode())));
         userStatus.add(new Pair(SysUserStatus.LOCKED.getCode(), LocaleTool.tranView("common", "SysUserStatus." + SysUserStatus.LOCKED.getCode())));
         filterRowList.add(new FilterRow(VUserAgentManage.PROP_STATUS, LocaleTool.tranView("column", vUserAgentManager + "." + VUserAgentManage.PROP_STATUS),
-                FilterSelectConstant.contain, TabTypeEnum.CHECKBOX, userStatus));
+                FilterSelectConstant.contain, TabTypeEnum.CHECKBOX, FilterSelectConstant.status));
 
         model.addAttribute("validateRule", JsRuleCreator.create(SysListOperatorForm.class, ""));
         model.addAttribute("filterList", filterRowList);

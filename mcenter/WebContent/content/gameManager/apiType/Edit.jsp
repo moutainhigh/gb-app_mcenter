@@ -32,7 +32,11 @@
                 <label class="m-l-sm">
                     <input type="radio" id="statusDisable" class="i-checks statusRadio" name="apiTypeStatus" ${command.apiTypeStatus=="disable"?"checked":""} value="disable"> ${views.content_auto['停用']}
                 </label>
-                <span class="m-l co-grayc2">${views.content['gameManage.apiType.disableMessage']}</span>
+            <div>
+                <span class="co-grayc2">
+                ${views.content['gameManage.apiType.disableMessage']}
+                </span>
+            </div>
                 <input type="hidden" name="tempStatusVal" id="tempStatusVal" value="${command.apiTypeStatus}">
 
         </div>
