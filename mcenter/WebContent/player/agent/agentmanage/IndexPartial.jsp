@@ -240,7 +240,7 @@
                             <td>
                                 <c:choose>
                                     <c:when test="${p.totalRebate > 0}">
-                                        <a href="/report/rebate/rebateIndex.html?search.agentName=${p.username}" nav-target="mainFrame">
+                                        <a href="/rebateAgent/list.html?search.agentName=${p.username}" nav-target="mainFrame">
                                             <fmt:formatNumber value="${p.totalRebate}" pattern="#,###.##"></fmt:formatNumber>
                                         </a>
                                     </c:when>

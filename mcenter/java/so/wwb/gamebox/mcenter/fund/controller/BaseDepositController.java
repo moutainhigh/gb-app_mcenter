@@ -73,7 +73,7 @@ import java.util.*;
  *         2016-7-8 11:36:16
  */
 @SuppressWarnings("all")
-abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositService, VPlayerDepositListVo, VPlayerDepositVo, VPlayerDepositSearchForm, VPlayerDepositForm, VPlayerDeposit, Integer> {
+public abstract class BaseDepositController extends BaseCrudController<IVPlayerDepositService, VPlayerDepositListVo, VPlayerDepositVo, VPlayerDepositSearchForm, VPlayerDepositForm, VPlayerDeposit, Integer> {
 
     static final String FILTER_URL = "/share/ListFilters";
 

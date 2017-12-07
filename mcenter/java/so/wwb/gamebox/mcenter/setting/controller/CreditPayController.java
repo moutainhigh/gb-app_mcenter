@@ -80,6 +80,7 @@ public class CreditPayController {
         }else{
             model.addAttribute("profit", sysSite.getMaxProfit());
         }
+        model.addAttribute("creditLine",sysSite.getCreditLine());
         model.addAttribute("defaultProfit", sysSite.getDefaultProfit());
         double transferOutSum = sysSite.getTransferOutSum() == null ? 0 : sysSite.getTransferOutSum();
         double transferIntoSum = sysSite.getTransferIntoSum() == null ? 0 : sysSite.getTransferIntoSum();
