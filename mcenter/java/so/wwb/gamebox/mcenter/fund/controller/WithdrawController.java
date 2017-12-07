@@ -290,7 +290,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (search.getCreateStart()==null&&search.getCreateEnd()==null){
             Date now = new Date();
             Date sevenDaysAgo = DateTool.addDays(now,-3);
-            search.setCreateEnd(now);
             search.setCreateStart(sevenDaysAgo);
         }
 
