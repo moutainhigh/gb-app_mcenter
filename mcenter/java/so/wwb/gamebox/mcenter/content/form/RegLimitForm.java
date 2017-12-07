@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.content.form;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
@@ -26,12 +27,13 @@ public class RegLimitForm implements IForm {
     private String $regAddress;
 
     @Pattern(regexp = FormValidRegExps.ZERO_POSITIVE,message = "common.ZERO_POSITIVE")
+    @Length(max=4)
     @Range(max = 24,min = 0,message = "setting.playerSetting.0-24")
     public String get$ipRegIntervalParam_paramValue() {
         return $ipRegIntervalParam_paramValue;
     }
-    @Pattern(regexp = FormValidRegExps.ZERO_POSITIVE,message = "common.ZERO_POSITIVE")
-    @Range(min = 1,max = 99999999)
+    @Pattern(regexp = FormValidRegExps.ZERO_POSITIVE_INTEGER,message = "common.ZERO_POSITIVE_INTEGER")
+    @Range(min = 0,max = 99999999)
     public String get$ipDayMaxRegNumParam_paramValue() {
         return $ipDayMaxRegNumParam_paramValue;
     }
