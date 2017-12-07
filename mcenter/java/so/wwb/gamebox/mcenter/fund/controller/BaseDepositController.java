@@ -118,7 +118,6 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         if (search.getCreateStart()==null&&search.getCreateEnd()==null){
             Date now = new Date();
             Date sevenDaysAgo = DateTool.addDays(now,-3);
-            search.setCreateEnd(now);
             search.setCreateStart(sevenDaysAgo);
         }
 
@@ -139,13 +138,6 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         }
         if (StringTool.isNotBlank(search.getFullName())) {
             search.setFullName(search.getFullName().replaceAll("_", "\\\\_"));
-        }
-        //结束时间加1秒
-        if (search.getCreateEnd() != null) {
-            search.setCreateEnd(DateTool.addSeconds(search.getCreateEnd(), 1));
-        }
-        if (search.getCheckTimeEnd() != null) {
-            search.setCheckTimeEnd(DateTool.addSeconds(search.getCheckTimeEnd(), 1));
         }
         listVo.setSearch(search);
         String typeParent = listVo.getSearch().getRechargeTypeParent();
