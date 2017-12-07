@@ -685,6 +685,21 @@ public class IndexController extends BaseIndexController {
         return map;
     }
 
+    @RequestMapping("/index/profitLimitDialog")
+    @ResponseBody
+    public Map<String, Object> profitLimitDialog() {
+        Map<String, Object> map = new HashMap<>(2, 1f);
+        Double profit = fetchSiteHasUseProfit();
+        map.put("profit", profit);//本月使用额度值
+        map.put("profitLimit", getProfitLimit().getMaxProfit());//额度上限值
+        Date profitTime = getProfitLimit().getProfitTime();
+        if (profitTime != null) {
+            Date time = new Date();
+            map.put("leftTime", DateTool.minutesBetween(time, SessionManager.getDate().getNow()));//倒计时
+        }
+        return map;
+    }
+
     /**
      * 已使用额度
      * @return

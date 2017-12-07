@@ -117,7 +117,8 @@
                                       class="help-popover" tabindex="0">${r.payerBankcard}</span>
                             </c:if>
                             <c:if test="${!empty r.bankOrder && rt != 'bitcoin_fast'}">
-                                <c:if test="${rt eq 'wechatpay_fast'||rt eq 'alipay_fast'||rt eq 'other_fast'}">
+                                <c:if test="${rt eq 'wechatpay_fast'||rt eq 'alipay_fast'||rt eq 'qqwallet_fast'||rt eq 'jdwallet_fast'
+                                ||rt eq 'bdwallet_fast'||rt eq 'onecodepay_fast'||rt eq 'other_fast'}">
                                     <c:set value="${views.fund_auto['订单尾号']}" var="data"/>
                                 </c:if>
                                 <span data-content="${data}" data-placement="bottom" data-trigger="focus"
