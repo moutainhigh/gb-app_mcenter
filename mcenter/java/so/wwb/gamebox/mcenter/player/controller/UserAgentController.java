@@ -132,9 +132,9 @@ public class UserAgentController extends BaseUserAgentController {
             userAgentVo.setTopAgents(ServiceTool.sysUserService().searchProperties(sysUserListVo));
             userAgentVo.setAgentUserId(userAgentVo.getSearch().getParentId());
 
-            if(userAgentVo.getSearch().getParentId()!=null){
+            if(userAgentVo.getResult().getParentId()!=null){
                 UserAgentVo parentAgent = new UserAgentVo();
-                parentAgent.getSearch().setId(userAgentVo.getSearch().getParentId());
+                parentAgent.getSearch().setId(userAgentVo.getResult().getParentId());
                 parentAgent = ServiceTool.userAgentService().get(parentAgent);
                 if(parentAgent.getResult()!=null&&parentAgent.getResult().getPlayerRankId()!=null){
                     PlayerRankVo playerRankVo = new PlayerRankVo();
