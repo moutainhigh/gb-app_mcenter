@@ -25,7 +25,7 @@
                     </c:when>
                     <c:when test="${(!empty leftTime && leftTime<=0)&&(rate>=100 || transferRate>=100) || rate>=120 || transferRate>=120 || disableTransfer}">
                         <div class="sys_tab_wrap p-xs">
-                            <b class="fs16">${views.setting_auto['离后台维护还剩']}：</b><span class="fs20 ft-bold co-red">0小时0分</span>
+                            <b class="fs16 co-red">${views.setting_auto['系统已关闭转账']}</b>
                         </div>
                     </c:when>
                 </c:choose>

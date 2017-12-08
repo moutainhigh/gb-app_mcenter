@@ -118,8 +118,8 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         //默认搜索7天内的数据
         if (search.getCreateStart()==null&&search.getCreateEnd()==null){
             Date now = new Date();
-            Date sevenDaysAgo = DateTool.addDays(now,-7);
-            search.setCreateEnd(now);
+            Date sevenDaysAgo = DateTool.addDays(now,-3);
+//            search.setCreateEnd(now);
             search.setCreateStart(sevenDaysAgo);
         }
 
