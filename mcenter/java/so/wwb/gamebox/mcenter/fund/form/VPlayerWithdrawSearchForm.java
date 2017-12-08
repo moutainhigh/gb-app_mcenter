@@ -34,7 +34,6 @@ public class VPlayerWithdrawSearchForm implements IForm {
     }
 
     @Range(min = 0,max =99999999 )
-    @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin",logic = CompareLogic.GE,anotherProperty = "search_beginAmount")
     public Double getSearch_endAmount() {
         return search_endAmount;
     }
@@ -51,7 +50,6 @@ public class VPlayerWithdrawSearchForm implements IForm {
         this.search_deductBeginAmount = search_deductBeginAmount;
     }
     @Range(min = 0,max =99999999 )
-    @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin",logic = CompareLogic.GE,anotherProperty = "search_deductBeginAmount")
     public Double getSearch_deductEndAmount() {
         return search_deductEndAmount;
     }

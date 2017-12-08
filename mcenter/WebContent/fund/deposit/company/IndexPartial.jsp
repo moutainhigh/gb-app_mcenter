@@ -36,7 +36,7 @@
             <th>${views.column['VPlayerDeposit.checkUsername']}</th>
             <th>${views.column['VPlayerDeposit.checkTime']}</th>
             <%--<th>${views.common['operate']}</th>--%>
-            <th>${views.fund['备注']}</th>
+            <th>${views.column['VPlayerDeposit.ipStr']}</th>
         </tr>
         </thead>
         <tbody>
