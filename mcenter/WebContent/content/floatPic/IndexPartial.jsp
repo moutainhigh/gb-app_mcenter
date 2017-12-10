@@ -68,7 +68,7 @@
                 </td>
                 <td>${soulFn:formatDateTz(p.publishTime, DateFormat.DAY_SECOND, timeZone)}</td>
                 <td><span class="label label-${(not empty p.status && p.status) ? 'success' : 'danger'}">${views.content['floatPic.status.'.concat(p.status)]}</span></td>
-                <td><input type="checkbox" name="my-checkbox" data-size="mini" ${p.status ? 'checked' : ''} st="${p.status}"></td>
+                <td><input type="checkbox" name="my-checkbox" data-size="mini" ${p.status ? 'checked' : ''} st="${p.status}" picType="${p.picType}"></td>
                 <td>
                     <div class="joy-list-row-operations">
                         <a href="/cttFloatPic/edit.html?id=${p.id}&editType=2" nav-target="mainFrame">${views.common['edit']}</a>
