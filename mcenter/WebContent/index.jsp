@@ -350,7 +350,7 @@
                             <li data-toggle="tooltip" title="${views.sysResource[menu.resourceName]}">
                                 <a class="shortcut-class" nav-target="mainFrame" href="javascript:void(0);" data="/${menu.url}">
                                     <i class="iconfont ${menu.icon}"></i>
-                                    <span class="nav-label">${views.sysResource[menu.resourceName]}</span>
+                                    <span class="nav-label">${views.menu[menu.resourceName]}</span>
                                 </a>
                             </li>
                         </c:if>
