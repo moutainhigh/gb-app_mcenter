@@ -26,6 +26,7 @@ import so.wwb.gamebox.model.master.player.vo.VPlayerOnlineVo;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +55,7 @@ public class VPlayerOnlineController extends BaseCrudController<IVPlayerOnlineSe
     @Override
     protected VPlayerOnlineListVo doList(VPlayerOnlineListVo listVo, VPlayerOnlineSearchForm form, BindingResult result, Model model) {
         //调用接口的getplayersOnline方法
+        Map map = new HashMap(2,1f);
         String ip = listVo.getSearch().getIp();
         if (StringTool.isNotBlank(ip)) {
             listVo.getSearch().setLoginIp(IpTool.ipv4StringToLong(ip));
@@ -65,6 +67,9 @@ public class VPlayerOnlineController extends BaseCrudController<IVPlayerOnlineSe
         List<VPlayerOnline> list = listVo.getResult();
 
         Map<String, Serializable> terminal = DictTool.get(DictEnum.PLAYER_CHANNEL_TERMINAL);
+        map.put("search.username","账号");
+        map.put("search.ip","IP");
+        model.addAttribute("userType",map);
         model.addAttribute("channelTerminal", terminal);
         model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
 

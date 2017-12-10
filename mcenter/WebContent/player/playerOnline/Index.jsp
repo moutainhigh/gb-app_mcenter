@@ -16,13 +16,23 @@
                 <div class="clearfix filter-wraper border-b-1">
                     <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group">
-                            <div class="input-group-btn">
-                                <select tabindex="-1" data-placeholder="${views.common['pleaseSelect']}" class="btn-group chosen-select-no-single" id="searchlist" >
-                                    <option value="search.username" selected>${views.column['VPlayerOnline.username']}</option>
-                                    <option value="search.ip">${views.column['VPlayerOnline.ip']}</option>
-                                </select>
-                            </div>
-                            <form:input path="search.username" type="text" class="form-control list-search-input-text" id="searchtext"/>
+                            <span class="bg-gray input-group-addon bdn">
+                                <gb:selectPure name="command.search.username" list="${userType}"
+                                               listKey="key"
+                                               value="${command.search.username}" listValue="value"
+                                               callback="changeKey"
+                                               prompt="" cssClass="chosen-select-no-single"/>
+                            </span>
+                            <c:if test="${not empty conmand.search.username||empty command.search.username&&empty command.search.ip}">
+                                <input type="text" class="form-control account_input list-search-input-text"
+                                       name="search.username" id="searchtext" value="${command.search.username}"
+                                       placeholder="">
+                            </c:if>
+                            <c:if test="${not empty command.search.ip}">
+                                <input type="text" class="form-control account_input list-search-input-text"
+                                       name="search.ip" id="searchtext" value="${command.search.ip}"
+                                       placeholder="">
+                            </c:if>
                         </div>
                     </div>
                         <%--层级--%>
@@ -101,7 +111,7 @@
                         </div>
                     </div>
                     <span class="input-group-btn">
-                        <soul:button target="query" precall="checksearch" opType="function" cssClass="btn btn-filter btn-query-css" tag="button" text="">
+                        <soul:button target="query" precall="" opType="function" cssClass="btn btn-filter btn-query-css" tag="button" text="">
                             <i class="fa fa-search"></i>
                             <span class="hd">&nbsp;${views.common['search']}</span>
                         </soul:button>
