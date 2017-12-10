@@ -15,7 +15,7 @@
     <table class="table table-striped table-hover dataTable" id="editable" aria-describedby="editable_info">
         <thead>
         <tr role="row" class="bg-gray">
-            <th>${views.common['orderNum']}</th>
+            <th>${views.fund['交易号']}</th>
             <th>${views.column['VPlayerDeposit.username']}</th>
             <th>${views.column['VPlayerDeposit.rankName']}</th>
             <th>${views.fund_auto['创建时间']}</th>

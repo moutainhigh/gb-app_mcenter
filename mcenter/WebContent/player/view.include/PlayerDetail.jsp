@@ -687,7 +687,7 @@
                                     <soul:button target="${root}/player/editLabel.html?search.id=${command.result.id}"  callback="queryView"
                                                  text="${dicts.log.op_type['create']}" opType="dialog" cssClass="btn btn-link co-blue"/>
                                 </c:if>
-                                <soul:button target="${root}/vPlayerTag/list.html" callback="playerTag.playerTagSaveCallBack" size="open-dialog-70"
+                                <soul:button target="${root}/vPlayerTag/list.html" callback="playerTag.playerTagSaveCallBack" size="open-dialog-95p"
                                              cssClass="btn btn-link co-blue" tag="a" opType="dialog" text="${views.role['Player.list.tagManager']}">
                                     ${views.common['manage']}
                                 </soul:button>

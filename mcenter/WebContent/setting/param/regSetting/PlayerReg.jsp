@@ -50,14 +50,14 @@
                                             <td class="${order.bulitIn?"":"td-handle1"}" val="${order.name}">${views.column[order.name]}</td>
                                             <td class="${order.isRequired=="1"?"co-green ":""} ${order.bulitIn?"":"td-handle1"}" val="${order.isRequired}">${dicts.setting.isRequired[order.isRequired]}</td>
                                             <td class="${order.isRegField=="1"?"co-green ":""} ${order.bulitIn?"":"td-handle1"}" val="${order.isRegField}">${dicts.setting.isRegField[order.isRegField]}
+                                                <c:if test="${order.isOnly=='1'}">
+                                                    <span val="${empty order.isOnly ? '2' : order.isOnly}" id="isOnly" style="padding-left: 10px;">${dicts.setting.isOnly[order.isOnly]}</span>
+                                                </c:if>
                                                 <c:if test="${order.name=='110'}">
-                                                    <span class="co-grayc2" ${command.phoneParam.active?'':'hidden'}> (${dicts.setting.PlayerReg[command.phoneParam.paramValue]})</span>
+                                                    <span class="co-grayc2" ${command.phoneParam.active?'':'hidden'}>(${dicts.setting.PlayerReg[command.phoneParam.paramValue]})</span>
                                                 </c:if>
                                                 <c:if test="${order.name=='201'}">
-                                                    <span class="co-grayc2" ${command.mailParam.active?'':'hidden'}>  (${dicts.setting.PlayerReg[command.mailParam.paramValue]})</span>
-                                                </c:if>&nbsp;&nbsp;
-                                                <c:if test="${order.isOnly=='1'}">
-                                                    <span val="${empty order.isOnly ? '2' : order.isOnly}" id="isOnly">${dicts.setting.isOnly[order.isOnly]}</span>
+                                                    <span class="co-grayc2" ${command.mailParam.active?'':'hidden'}>(${dicts.setting.PlayerReg[command.mailParam.paramValue]})</span>
                                                 </c:if>
                                             </td>
                                         </tr>
