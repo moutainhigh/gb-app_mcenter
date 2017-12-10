@@ -1,11 +1,18 @@
 package so.wwb.gamebox.mcenter.fund.controller;
 
 
+import org.soul.commons.collections.CollectionTool;
+import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
+import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.ArrayTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.locale.DateFormat;
+import org.soul.commons.locale.LocaleDateTool;
+import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.net.IpTool;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
@@ -24,6 +31,7 @@ import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.CacheBase;
+import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
@@ -41,11 +49,13 @@ import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositListVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerTransactionVo;
+import so.wwb.gamebox.web.IpRegionTool;
+import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -64,8 +74,9 @@ public class CompanyDepositController extends BaseDepositController {
         return "/fund/deposit/company/";
     }
 
-    @Override
-    protected VPlayerDepositListVo doList(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
+    @RequestMapping("/doData")
+    @ResponseBody
+    protected VPlayerDepositListVo doData(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
         // 初始化筛选条件
         this.initQuery(listVo);
         // 初始化ListVo
@@ -89,7 +100,52 @@ public class CompanyDepositController extends BaseDepositController {
 
         String moduleType = DataRightModuleType.COMPANYDEPOSIT.getCode();
         listVo = getPlayerDeposit(listVo, moduleType, form, result, model);
+        handleTempleData(listVo);
         return listVo;
+    }
+
+    /**
+     * 处理页面模板化数据
+     * @param listVo
+     */
+    private void handleTempleData(VPlayerDepositListVo listVo) {
+        if (CollectionTool.isNotEmpty(listVo.getResult())) {
+            List<VPlayerDeposit> result = listVo.getResult();
+            DateFormat dateFormat = new DateFormat();
+            TimeZone timeZone = SessionManagerCommon.getTimeZone();
+            Locale locale = SessionManagerCommon.getLocale();
+            for (VPlayerDeposit deposit : result) {
+                String url = RechargeStatusEnum.DEAL.getCode().equals(deposit.getRechargeStatus()) ?
+                        "/fund/deposit/company/check.html?search.id=" + deposit.getId() : "/fund/deposit/company/view.html?search.id=" + deposit.getId();
+                deposit.set_url(url);
+                deposit.set_soulFn_formatDateTz_createTime(LocaleDateTool.formatDate(deposit.getCreateTime(), dateFormat.getDAY_SECOND(),timeZone));
+                deposit.set_soulFn_formatTimeMemo_createTime(LocaleDateTool.formatTimeMemo(deposit.getCreateTime(), locale));
+                deposit.set_soulFn_formatDateTz_checkTime(LocaleDateTool.formatDate(deposit.getCheckTime(), dateFormat.getDAY_SECOND(),timeZone));
+                deposit.set_soulFn_formatTimeMemo_checkTime(LocaleDateTool.formatTimeMemo(deposit.getCheckTime(), locale));
+                Map<String, Serializable> dict = DictTool.getDict("", deposit.getRechargeType());
+                deposit.set_dicts_common_bankname_bankCode("_dicts_common_bankname_bankCode");
+                deposit.set_payerBankcard_data(LocaleTool.tranView("fund_auto","微信账号"));
+                deposit.set_recharge_type_dict("_recharge_type_dict");
+                deposit.set_fund_auto_view("_fund_auto_view");
+                deposit.set_fund_auto_data("_fund_auto_data");
+                deposit.set_currencySign("_currencySign");
+                deposit.set_soulFn_formatInteger_favorableTotalAmount(CurrencyTool.formatInteger(deposit.getFavorableTotalAmount()));
+                deposit.set_soulFn_formatDecimals_favorableTotalAmount(CurrencyTool.formatDecimals(deposit.getFavorableTotalAmount()));
+                deposit.set_soulFn_formatInteger_counterFee(CurrencyTool.formatInteger(deposit.getCounterFee()));
+                deposit.set_soulFn_formatDecimals_counterFee(CurrencyTool.formatDecimals(deposit.getCounterFee()));
+                deposit.set_soulFn_formatInteger_rechargeAmount(CurrencyTool.formatInteger(deposit.getRechargeAmount()));
+                deposit.set_soulFn_formatDecimals_rechargeAmount(CurrencyTool.formatDecimals(deposit.getRechargeAmount()));
+                deposit.set_bitAmount_formatNumber("_bitAmount_formatNumber");
+                deposit.set_recharge_status_dicts("_recharge_status_dicts");
+                deposit.set_ipDeposit_ipv4LongToString(IpTool.ipv4LongToString(deposit.getIpDeposit()));
+                deposit.set_gbFn_getIpRegion_ipDictCode(IpRegionTool.getIpRegion(deposit.getIpDictCode()));
+                String checkRemark = deposit.getCheckRemark();
+                if(StringTool.isNotBlank(checkRemark)){
+                    deposit.set_checkRemark_length(StringTool.length(checkRemark));
+                    deposit.set_checkRemark_sub(checkRemark.substring(0,20));
+                }
+            }
+        }
     }
 
     @RequestMapping("/count")
