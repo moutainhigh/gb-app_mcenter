@@ -205,7 +205,6 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
         }
         Boolean success = getService().changeFloatPicStatus(objectVo);
         refreshFloatPicCache();
-        Cache.refreshCurrentSitePageCache();
         map.put("state", success);
         return map;
     }
