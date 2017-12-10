@@ -17,7 +17,7 @@
         <table class="table table-striped table-hover dataTable m-b-sm" aria-describedby="editable_info">
             <thead>
             <tr role="row" class="bg-gray">
-                <th>${views.common['orderNum']}</th>
+                <th>${views.fund['交易号']}</th>
                 <th>${views.column["VPlayerWithdraw.username"]}</th>
                 <th>${views.fund_auto['玩家层级']}</th>
                 <th>${views.column["VPlayerWithdraw.createTime"]}</th>
