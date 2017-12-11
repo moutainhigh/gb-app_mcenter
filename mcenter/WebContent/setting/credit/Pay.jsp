@@ -20,7 +20,7 @@
                 <c:choose>
                     <c:when test="${!empty leftTime && leftTime>0 && (rate<120 && rate>=100||transferRate<120&&transferRate>=100) && !disableTransfer}">
                         <div class="sys_tab_wrap p-xs">
-                            <b class="fs16">${views.setting_auto['离后台维护还剩']}：</b><span class="fs20 ft-bold co-red" id="leftTime" data-time="${leftTime}"><span id="hour">00</span>${views.setting_auto['小时']}<span id="minute">00</span>${views.setting_auto['分']}</span>
+                            <b class="fs16">${views.setting_auto['离后台维护还剩']}：</b><span class="fs20 ft-bold co-red" id="leftTime" data-time="${leftTime}"><span id="hour">00</span>:<span id="minute">00</span>:<span id="second"></span></span>
                         </div>
                     </c:when>
                     <c:when test="${(!empty leftTime && leftTime<0)&&(rate>=100 || transferRate>=100) || rate>=120 || transferRate>=120 || disableTransfer}">

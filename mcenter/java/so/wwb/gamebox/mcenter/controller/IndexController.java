@@ -685,6 +685,10 @@ public class IndexController extends BaseIndexController {
         return map;
     }
 
+    /**
+     * 查询额度
+     * @return
+     */
     @RequestMapping("/index/profitLimitDialog")
     @ResponseBody
     public Map<String, Object> profitLimitDialog() {
@@ -695,7 +699,7 @@ public class IndexController extends BaseIndexController {
         Date profitTime = getProfitLimit().getProfitTime();
         if (profitTime != null) {
             Date time = new Date();
-            map.put("leftTime", DateTool.minutesBetween(time, SessionManager.getDate().getNow()));//倒计时
+            map.put("leftTime", DateTool.secondsBetween(time, SessionManager.getDate().getNow()));//倒计时
         }
         return map;
     }

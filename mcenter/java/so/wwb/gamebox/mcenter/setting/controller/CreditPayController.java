@@ -98,7 +98,7 @@ public class CreditPayController {
                 time = profitTime;
             }
             //倒计时
-            model.addAttribute("leftTime", DateTool.minutesBetween(time, SessionManager.getDate().getNow()));
+            model.addAttribute("leftTime", DateTool.secondsBetween(time, SessionManager.getDate().getNow()));
         }
         SysParam scaleParam = ParamTool.getSysParam(BossParamEnum.SETTING_CREDIT_SCALE);
         model.addAttribute("scaleParam", scaleParam);
