@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.collections.map.HashedMap;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.lang.DateTool;
@@ -28,6 +29,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordForm;
 import so.wwb.gamebox.model.BossParamEnum;
 import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.TerminalEnum;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
@@ -288,5 +290,25 @@ public class CreditPayController {
             return false;
         }
         return true;
+    }
+    @RequestMapping(value = "disableTransfer")
+    @ResponseBody
+    public Map disableTransfer(SysSiteVo sysSiteVo){
+        Map resMap = new HashedMap(2,1f);
+        try{
+            Integer siteId = SessionManager.getSiteId();
+            sysSiteVo.getSearch().setId(siteId);
+            sysSiteVo = ServiceTool.sysSiteService().openDisableTransfer(sysSiteVo);
+            resMap.put("state",sysSiteVo.isSuccess());
+            if(!sysSiteVo.isSuccess()){
+                resMap.put("msg","开启禁用转账功能失败");
+            }
+        }catch (Exception ex){
+            resMap.put("state",false);
+            resMap.put("msg","开启禁用转账功能异常");
+            LOG.error(ex,"开启禁用转账功能异常");
+        }
+
+        return resMap;
     }
 }
