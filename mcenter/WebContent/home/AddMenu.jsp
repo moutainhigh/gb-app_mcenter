@@ -32,7 +32,7 @@
                                         </c:if>
                                     </c:forEach>
                                     <soul:button target="selectMenu" text="" opType="function" cssClass="${isSelect?'selected':''}" data="${j.object.id}">
-                                        ${views.sysResource[j.object.resourceName]}<i class="fa fa-check"></i>
+                                        ${views.menu[j.object.resourceName]}<i class="fa fa-check"></i>
                                     </soul:button>
                                 </c:if>
                             </c:forEach>
