@@ -32,46 +32,11 @@ public class GameOrderController extends BaseGameOrderController<IVPlayerGameOrd
     private static final Log LOG = LogFactory.getLog(GameOrderController.class);
     @Override
     protected void doInit(VPlayerGameOrderListVo listVo, Model model) {
-       /* checkSysCode(listVo);
-        setDataSource(listVo);*/
         super.doInit(listVo, model);
     }
 
     @Override
     protected VPlayerGameOrderListVo doList(VPlayerGameOrderListVo listVo, VPlayerGameOrderSearchForm form, BindingResult result, Model model) {
-       /* checkSysCode(listVo);
-        setDataSource(listVo);*/
         return super.doList(listVo, form, result, model);
-    }
-
-    /**
-     * 站长账号获取该站长下站点
-     *
-     * @param listVo
-     */
-    private void checkSysCode(VPlayerGameOrderListVo listVo) {
-        boolean isMaster = SessionManager.isCurrentSiteMaster();
-        listVo.setIsMaster(isMaster);
-        if (isMaster) {
-            listVo.setSites(getSites());
-        }
-    }
-
-    /**
-     * 获取站点
-     *
-     * @return
-     */
-    private List<VSysSiteUser> getSites() {
-        Map<String, VSysSiteUser> map = Cache.getSysSiteUser();
-        List<VSysSiteUser> sites = new ArrayList<>();
-        for (VSysSiteUser site : map.values()) {
-            if ((ConfigManager.getConfigration().getSubsysCode()).equals(site.getSubsysCode())
-                    && SessionManager.getMasterUserId().intValue() == site.getSysUserId().intValue()
-                    && SiteStatusEnum.NORMAL.getCode().equals(site.getStatus())) {
-                sites.add(site);
-            }
-        }
-        return sites;
     }
 }

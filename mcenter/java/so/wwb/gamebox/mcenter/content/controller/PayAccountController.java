@@ -388,6 +388,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         sysDomainListVo.getSearch().setSiteId(SessionManager.getSiteId());
         sysDomainListVo.getSearch().setPageUrl(sysParam.getParamValue());
         sysDomainListVo.getSearch().setType(null);
+        sysDomainListVo.setPaging(null);
         sysDomainListVo.getSearch().setResolveStatus(ResolveStatusEnum.SUCCESS.getCode());
         sysDomainListVo = ServiceTool.sysDomainService().search(sysDomainListVo);
         return sysDomainListVo.getResult();
