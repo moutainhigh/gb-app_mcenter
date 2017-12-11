@@ -1,11 +1,18 @@
 package so.wwb.gamebox.mcenter.fund.controller;
 
 
+import org.soul.commons.collections.CollectionTool;
+import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.lang.ArrayTool;
+import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.locale.DateFormat;
+import org.soul.commons.locale.LocaleDateTool;
+import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.net.IpTool;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
@@ -41,11 +48,13 @@ import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositListVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerTransactionVo;
+import so.wwb.gamebox.web.IpRegionTool;
+import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.DecimalFormat;
+import java.util.*;
 
 
 /**
@@ -64,12 +73,11 @@ public class CompanyDepositController extends BaseDepositController {
         return "/fund/deposit/company/";
     }
 
-    @Override
-    protected VPlayerDepositListVo doList(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
+    @RequestMapping("/doData")
+    @ResponseBody
+    protected VPlayerDepositListVo doData(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
         // 初始化筛选条件
         this.initQuery(listVo);
-        // 初始化ListVo
-        super.initListVo(listVo);
         // 公司入款声音参数
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DEPOSIT);
         if(sysParam!=null){
@@ -89,7 +97,104 @@ public class CompanyDepositController extends BaseDepositController {
 
         String moduleType = DataRightModuleType.COMPANYDEPOSIT.getCode();
         listVo = getPlayerDeposit(listVo, moduleType, form, result, model);
+        handleTempleData(listVo);
         return listVo;
+    }
+
+    /**
+     * 处理页面模板化数据
+     * @param listVo
+     */
+    private void handleTempleData(VPlayerDepositListVo listVo) {
+        if (CollectionTool.isNotEmpty(listVo.getResult())) {
+            List<VPlayerDeposit> result = listVo.getResult();
+            DateFormat dateFormat = new DateFormat();
+            TimeZone timeZone = SessionManagerCommon.getTimeZone();
+            Locale locale = SessionManagerCommon.getLocale();
+            Map<String, Map<String, String>> views = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views");
+            Map<String, Map<String, Map<String, String>>> dictsMap = I18nTool.getDictsMap(SessionManagerCommon.getLocale().toString());
+            Map<String, SysCurrency> sysCurrencys = Cache.getSysCurrency();
+            for (VPlayerDeposit deposit : result) {
+                String url = RechargeStatusEnum.DEAL.getCode().equals(deposit.getRechargeStatus()) ?
+                        "/fund/deposit/company/check.html?search.id=" + deposit.getId() : "/fund/deposit/company/view.html?search.id=" + deposit.getId();
+                deposit.set_url(url);
+                deposit.set_soulFn_formatDateTz_createTime(LocaleDateTool.formatDate(deposit.getCreateTime(), dateFormat.getDAY_SECOND(),timeZone));
+                deposit.set_soulFn_formatTimeMemo_createTime(LocaleDateTool.formatTimeMemo(deposit.getCreateTime(), locale));
+                deposit.set_soulFn_formatDateTz_checkTime(LocaleDateTool.formatDate(deposit.getCheckTime(), dateFormat.getDAY_SECOND(),timeZone));
+                deposit.set_soulFn_formatTimeMemo_checkTime(LocaleDateTool.formatTimeMemo(deposit.getCheckTime(), locale));
+                deposit.set_dicts_common_bankname_bankCode(dictsMap.get("common").get("bankname").get(deposit.getBankCode()));
+                deposit.set_recharge_type_dict(dictsMap.get("fund").get("recharge_type").get(deposit.getRechargeType()));
+                String fundAutoDate = getFundAutoData(deposit,views);
+                deposit.set_fund_auto_data(fundAutoDate);
+                SysCurrency sysCurrency = sysCurrencys.get(deposit.getDefaultCurrency());
+                String currencySign = (sysCurrency!=null)?sysCurrency.getCurrencySign():"";
+                deposit.set_currencySign(currencySign);
+                deposit.set_soulFn_formatInteger_favorableTotalAmount(CurrencyTool.formatInteger(deposit.getFavorableTotalAmount()));
+                deposit.set_soulFn_formatDecimals_favorableTotalAmount(CurrencyTool.formatDecimals(deposit.getFavorableTotalAmount()));
+                deposit.set_soulFn_formatInteger_counterFee(CurrencyTool.formatInteger(deposit.getCounterFee()));
+                deposit.set_soulFn_formatDecimals_counterFee(CurrencyTool.formatDecimals(deposit.getCounterFee()));
+                deposit.set_soulFn_formatInteger_rechargeAmount(CurrencyTool.formatInteger(deposit.getRechargeAmount()));
+                deposit.set_soulFn_formatDecimals_rechargeAmount(CurrencyTool.formatDecimals(deposit.getRechargeAmount()));
+                deposit.set_bitAmount_formatNumber(getBitFormat(deposit));
+                deposit.set_recharge_status_dicts(dictsMap.get("fund").get("recharge_status").get(deposit.getRechargeStatus()));
+                deposit.set_ipDeposit_ipv4LongToString(IpTool.ipv4LongToString(deposit.getIpDeposit()));
+                deposit.set_gbFn_getIpRegion_ipDictCode(IpRegionTool.getIpRegion(deposit.getIpDictCode()));
+                String checkRemark = deposit.getCheckRemark();
+                if(StringTool.isNotBlank(checkRemark)){
+                    deposit.set_checkRemark_length(StringTool.length(checkRemark));
+                    if(checkRemark.length()>20){
+                        deposit.set_checkRemark_sub(checkRemark.substring(0,20));
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取bition的格式
+     * @param deposit
+     * @return
+     */
+    private String getBitFormat(VPlayerDeposit deposit) {
+        DecimalFormat BONUS = new DecimalFormat("#.########");
+        Double bitAmount = deposit.getBitAmount();
+        String format ="0.0";
+        if(bitAmount!=null){
+            BigDecimal bd = new BigDecimal(String.valueOf(bitAmount));
+            format= BONUS.format(bd.setScale(8, BigDecimal.ROUND_DOWN));
+        }
+        return format;
+    }
+
+    /**
+     * 获取资金类型翻译
+     * @param deposit
+     * @param views
+     * @return
+     */
+    private String getFundAutoData(VPlayerDeposit deposit, Map<String, Map<String, String>> views) {
+        String rechargeType = deposit.getRechargeType();
+        Map<String, String> fund_auto = views.get("fund_auto");
+        switch (rechargeType){
+            case "wechatpay_fast":
+                return fund_auto.get("微信账号");
+            case "alipay_fast":
+                return fund_auto.get("支付宝账号");
+            case "qqwallet_fast":
+                return fund_auto.get("QQ钱包账号");
+            case "jdwallet_fast":
+                return fund_auto.get("京东钱包账号");
+            case "bdwallet_fast":
+                return fund_auto.get("百度钱包账号");
+            case "onecodepay_fast":
+                return fund_auto.get("一码付账号");
+            case "other_fast":
+                return fund_auto.get("其他电子账号");
+            case "bitcoin_fast":
+                return fund_auto.get("比特币地址");
+        }
+
+        return rechargeType;
     }
 
     @RequestMapping("/count")
