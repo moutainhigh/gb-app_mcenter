@@ -58,8 +58,8 @@
                         <shiro:hasPermission name="role:player_detail">
                         <a href="/player/playerView.html?search.id=${r.playerId}" nav-target="mainFrame"
                            title="${r.username}">
-                        </shiro:hasPermission>
-                        ${r.username}<shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
+                            </shiro:hasPermission>
+                                ${r.username}<shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                         <c:if test="${r.riskMarker}">
                             <a href="javascript:void(0)" class="ico-lock co-red3" tabindex="0" data-content="${views.fund_auto['危险层级']}"
                                data-placement="right" data-trigger="focus" data-toggle="popover" data-container="body"
@@ -154,9 +154,9 @@
                     <c:if test="${r.favorableTotalAmount > 0}">
                         <c:set var="poundage"
                                value="${views.fund_auto['优惠金额']}<span class='co-blue'>${sysCurrency[r.defaultCurrency].currencySign}&nbsp;${soulFn:formatInteger(r.favorableTotalAmount)}${soulFn:formatDecimals(r.favorableTotalAmount)}</span>"/>
-                            <span data-content="${poundage }" data-placement="top" data-trigger="focus"
-                                  data-toggle="popover" data-html="true"
-                                  data-container="body" role="button" class="help-popover" tabindex="0">
+                        <span data-content="${poundage }" data-placement="top" data-trigger="focus"
+                              data-toggle="popover" data-html="true"
+                              data-container="body" role="button" class="help-popover" tabindex="0">
                                 <span class="fee blue"></span>
                             </span>
                     </c:if>
@@ -169,18 +169,18 @@
                     <c:if test="${r.counterFee < 0}">
                         <c:set var="poundage"
                                value="${views.fund_auto['手续费']}<span class='co-red'>${sysCurrency[r.defaultCurrency].currencySign}&nbsp;${soulFn:formatInteger(r.counterFee)}${soulFn:formatDecimals(r.counterFee)}</span>"/>
-                            <span data-content="${poundage }" data-placement="top" data-trigger="focus"
-                                  data-toggle="popover" data-html="true"
-                                  data-container="body" role="button" class="help-popover" tabindex="0">
+                        <span data-content="${poundage }" data-placement="top" data-trigger="focus"
+                              data-toggle="popover" data-html="true"
+                              data-container="body" role="button" class="help-popover" tabindex="0">
                                 <span class="fee negative"></span>
                             </span>
                     </c:if>
                     <c:if test="${r.counterFee > 0}">
                         <c:set var="poundage"
                                value="${views.fund_auto['返还手续费']}<span class='co-green'>${sysCurrency[r.defaultCurrency].currencySign}&nbsp;${soulFn:formatInteger(r.counterFee)}${soulFn:formatDecimals(r.counterFee)}</span>"/>
-                            <span data-content="${poundage }" data-placement="top" data-trigger="focus"
-                                  data-toggle="popover" data-html="true"
-                                  data-container="body" role="button" class="help-popover" tabindex="0">
+                        <span data-content="${poundage }" data-placement="top" data-trigger="focus"
+                              data-toggle="popover" data-html="true"
+                              data-container="body" role="button" class="help-popover" tabindex="0">
                                 <span class="fee positive"></span>
                             </span>
                     </c:if>
@@ -204,14 +204,14 @@
                     <c:choose>
                         <c:when test="${deal eq rs}">
                             <shiro:hasPermission name="fund:companydeposit_check">
-                            <soul:button permission="fund:companydeposit_check" deposit_id="${r.id}" target="confirmCheckPass" text="${views.fund_auto['通过']}" opType="function"
-                                         cssClass="btn btn-sm btn-success-hide m-x-xs" tag="button">
-                                <i class="fa fa-check"></i>${views.fund['通过']}
-                            </soul:button>
-                            <soul:button permission="fund:companydeposit_check" deposit_id="${r.id}" target="checkFailure" text="${views.fund_auto['失败']}" opType="function"
-                                         cssClass="btn btn-sm btn-danger-hide m-x-xs" tag="button">
-                                <i class="fa fa-close"></i>${views.fund['失败']}
-                            </soul:button>
+                                <soul:button permission="fund:companydeposit_check" deposit_id="${r.id}" target="confirmCheckPass" text="${views.fund_auto['通过']}" opType="function"
+                                             cssClass="btn btn-sm btn-success-hide m-x-xs" tag="button">
+                                    <i class="fa fa-check"></i>${views.fund['通过']}
+                                </soul:button>
+                                <soul:button permission="fund:companydeposit_check" deposit_id="${r.id}" target="checkFailure" text="${views.fund_auto['失败']}" opType="function"
+                                             cssClass="btn btn-sm btn-danger-hide m-x-xs" tag="button">
+                                    <i class="fa fa-close"></i>${views.fund['失败']}
+                                </soul:button>
                             </shiro:hasPermission>
                             <shiro:lacksPermission name="fund:companydeposit_check">
                                 <a href="/fund/deposit/company/view.html?search.id=${r.id}" nav-target="mainFrame" class="co-blue">
@@ -224,7 +224,7 @@
                         <c:when test="${exchange eq rs}">
                             <!--permission="fund:companydeposit_exchange" -->
                             <soul:button  target="${root}/fund/deposit/company/exchange.html?search.id=${r.id}" text="${views.fund_auto['兑换']}" opType="dialog"
-                                         cssClass="btn btn-sm btn-success-hide m-x-xs" tag="button" callback="callBackQuery">
+                                          cssClass="btn btn-sm btn-success-hide m-x-xs" tag="button" callback="callBackQuery">
                                 <i class="fa fa-check"></i>${views.fund_auto['兑现']}
                             </soul:button>
                             <soul:button permission="fund:companydeposit_check" deposit_id="${r.id}" target="checkFailure" text="${views.fund_auto['失败']}" opType="function"
@@ -275,9 +275,9 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
-                <%--<td>
-                    <a href="${url}" nav-target="mainFrame" class="co-blue">${views.common['detail']}</a>
-                </td>--%>
+                    <%--<td>
+                        <a href="${url}" nav-target="mainFrame" class="co-blue">${views.common['detail']}</a>
+                    </td>--%>
                 <td>
                     <c:if test="${not empty r.ipDeposit}">
                         IP:
