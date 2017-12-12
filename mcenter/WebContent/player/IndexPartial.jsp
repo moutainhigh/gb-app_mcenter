@@ -60,7 +60,144 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="item" items="${command.result}" varStatus="status">
+        </tbody>
+            <script id="VUserPlayerListVo" type="text/x-jsrender">
+
+            {{for data}}
+                 <tr class="tab-detail">
+                    <td>
+                        <input type="checkbox" value="{{:id}}">
+                    </td>
+
+                    <%--序号--%>
+                    <td>
+                        {{:_paging_orderNumber}}
+                    </td>
+
+                    <%--账号--%>
+                    <td>
+                    <shiro:hasPermission name="role:player_detail">
+                    <a href="/player/playerView.html?search.id={{:id}}" nav-target="mainFrame">
+                    </shiro:hasPermission>{{:username}}
+                    <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
+                    {{if createChannel==3}}
+                        <span data-content="{{if importUsername =='' && username!=importUsername}} 导入玩家，原账号{{:importUsername}} {{else}} 导入玩家 {{/if}}"
+                        data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                        role="button" class="ico-lock" tabindex="0"
+                        data-original-title="" title=""><i class="fa fa-download"></i></span>
+                    {{/if}}
+                    </td>
+
+                    <%--真实姓名--%>
+                    <td>{{:realName}}</td>
+
+                    <%--所属代理--%>
+                    <td>
+                        <a href="/vUserAgentManage/list.html?search.id={{:agentId}}" nav-target="mainFrame">
+                        {{if agentName=='defaultagent'}}
+                            {{:_views_player_auto_defaultagent}}
+                        {{else}}
+                            {{:agentName}}
+                        {{/if}}
+                        </a>
+                    </td>
+
+                    <%--注册时间--%>
+                    <td>
+                        <span data-content="{{:_soulFn_formatDateTz_createTime}}"
+                          data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                          role="button" class="ico-lock" tabindex="0" data-original-title="" title="">
+                          {{if rigistLessThanAMonth !='' && rigistLessThanAMonth}}
+                            <span class="co-yellow">
+                                {{:_soulFn_formatDateTz_createTimeDay}}
+                            </span>
+                           {{else}}
+                           <span >
+                                {{:_soulFn_formatDateTz_createTimeDay}}
+                            </span>
+                           {{/if}}
+                        </span>
+                    </td>
+
+                    <%--层级--%>
+                    <td>
+                        <a href="/vPlayerRankStatistics/view.html?id={{:rankId}}" nav-target="mainFrame">
+                            <span class="label label-info">{{:rankName}}</span>
+                        </a>
+                    </td>
+
+                    <%--钱包余额--%>
+                    <td class="money">
+                        {{:_dicts_common_currency_symbol}}&nbsp;
+                        {{:_soulFn_formatInteger_walletBalance}}<i>{{:_soulFn_formatDecimals_walletBalance}}</i>
+                    </td>
+                    <%--总资产--%>
+                    <td class="money">
+                            {{:_dicts_common_currency_symbol}}&nbsp;
+                            {{:_soulFn_formatInteger_totalAssets}}<i>{{:_soulFn_formatDecimals_totalAssets}}</i>
+                    </td>
+                    <%--存款总额--%>
+                    <td class="money">
+                            {{:_dicts_common_currency_symbol}}&nbsp;
+                            {{:_soulFn_formatInteger_rechargeTotal}}<i>{{:_soulFn_formatDecimals_rechargeTotal}}</i>
+                    </td>
+                    <%--取款总额--%>
+                    <td class="money">
+                            {{:_dicts_common_currency_symbol}}&nbsp;
+                            {{:_soulFn_formatInteger_txTotal}}<i>{{:_soulFn_formatDecimals_txTotal}}</i>
+                    </td>
+                    <%--最后登录时间--%>
+                    <td>
+                        {{:_soulFn_formatDateTz_loginTime}}
+                    </td>
+
+                    <%--状态--%>
+                    <td>
+                        {{if playerStatus=='1'}}
+                            <span class="label label-success">
+                            {{:_dicts_player_player_status}}
+                            </span>
+                        {{/if}}
+                        {{if playerStatus=='2'}}
+                            <span class="label label-danger">
+                            {{:_dicts_player_player_status}}
+                            </span>
+                        {{/if}}
+                        {{if playerStatus=='3'}}
+                            <span class="label label-info">
+                            {{:_dicts_player_player_status}}
+                            </span>
+                        {{/if}}
+                        {{if playerStatus=='4'}}
+                            <span class="label label-warning">
+                            {{:_dicts_player_player_status}}
+                            </span>
+                        {{/if}}
+                    </td>
+
+                    <%--操作--%>
+                    <td>
+                        <shiro:hasPermission name="role:player_edit">
+                        {{if playerStatus!=2}}
+                            <a href="/player/getVUserPlayer.html?search.id={{:id}}"
+                            nav-target="mainFrame">{{:_views_common_edit}}</a>
+                        {{/if}}
+                        {{if playerStatus==2}}
+                            <span CLASS="co-gray">{{:_views_common_edit}}</span>
+                        {{/if}}
+                            <span class="dividing-line m-r-xs m-l-xs">|</span>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="role:player_detail">
+                            <a href="/player/playerView.html?search.id={{:id}}"
+                            nav-target="mainFrame">{{:_views_common_detail}}</a>
+                        </shiro:hasPermission>
+                    </td>
+                </tr>
+            {{/for}}
+
+        </script>
+
+       <%-- <c:forEach var="item" items="${command.result}" varStatus="status">
             <tr class="tab-detail">
                 <td><input type="checkbox" value="${item.id}"></td>
                 <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
@@ -83,7 +220,7 @@
                               role="button" class="ico-lock" tabindex="0"
                               data-original-title="" title=""><i class="fa fa-flash"></i></span>
                     </c:if>
-                        <%--<c:if test="${not empty item.remarkcount && item.remarkcount > 0}"><span class="ico-lock"><i class="fa fa-flag" title="${views.role['player.list.icon.remark']}"></i></span></c:if>--%>
+                        &lt;%&ndash;<c:if test="${not empty item.remarkcount && item.remarkcount > 0}"><span class="ico-lock"><i class="fa fa-flag" title="${views.role['player.list.icon.remark']}"></i></span></c:if>&ndash;%&gt;
                     <c:if test="${item.riskMarker == true}">
                         <span data-content="${views.player_auto['危险层级']}"
                               data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
@@ -99,10 +236,10 @@
                 </td>
                 <td>${item.realName}</td>
                 <td>
-                        <%--<a href="/vUserTopAgentManage/list.html?search.username=${item.generalAgentName}" nav-target="mainFrame">
+                        &lt;%&ndash;<a href="/vUserTopAgentManage/list.html?search.username=${item.generalAgentName}" nav-target="mainFrame">
                                 ${item.generalAgentName}
                         </a>
-                        >--%>
+                        >&ndash;%&gt;
                     <a href="/vUserAgentManage/list.html?search.id=${item.agentId}" nav-target="mainFrame">
                         <c:choose>
                             <c:when test="${item.agentName.equals('defaultagent')}">
@@ -114,9 +251,9 @@
                         </c:choose>
                     </a>
                 </td>
-                    <%--<td>
+                    &lt;%&ndash;<td>
                             ${soulFn:formatDateTz(item.createTime, DateFormat.DAY,timeZone)}
-                    </td>--%>
+                    </td>&ndash;%&gt;
                 <td>
                     <span data-content="${soulFn:formatDateTz(item.createTime, DateFormat.DAY_SECOND,timeZone)}"
                           data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
@@ -188,10 +325,9 @@
                     </shiro:hasPermission>
                 </td>
             </tr>
-        </c:forEach>
-        </tbody>
+        </c:forEach>--%>
 
     </table>
 </div>
 
-<soul:pagination/>
+<%--<soul:pagination/>--%>

@@ -628,6 +628,7 @@
                 <div id="editable_wrapper" class="search-list-container dataTables_wrapper" role="grid">
                     <%@ include file="IndexPartial.jsp" %>
                 </div>
+                <div id="playerPage"></div>
             </div>
         </div>
         <a href="/exports/exportHistoryList.html?search.hasReturn=true" nav-target="mainFrame" class="hide"

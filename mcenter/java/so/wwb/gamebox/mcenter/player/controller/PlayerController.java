@@ -14,6 +14,7 @@ import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.locale.DateFormat;
 import org.soul.commons.locale.DateQuickPicker;
 import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
@@ -193,35 +194,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         this.root = root;
     }
 
-    /**
-     * 玩家列表
-     */
+
+
     @Override
     protected VUserPlayerListVo doList(VUserPlayerListVo listVo, VUserPlayerSearchForm form, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            LOG.info("站点ID{0}玩家列表查询验证有误", SessionManager.getSiteId());
-        }
-        // 玩家检测页面IP登录记录,筛选玩家
-        playerDetection(listVo, model);
-        // 初始化外部链接时间
-        initDate(listVo);
-
-        hadlePlayerRanks(listVo);
-
-        //标签管理,筛选有该标签的玩家
-        getPlayerByTagId(listVo, model);
-
-        initRemarkContent(listVo);
-
-        // 不同的链接得到不同的玩家列表
-        VUserPlayerListVo list = getListVo(listVo);
-
-
-        for (VUserPlayer player : list.getResult()) {
-            player.setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), player.getId()).size());
-        }
-        // 玩家筛选
-        playeFilter(model, list);
 
         Map<String, Serializable> status = DictTool.get(DictEnum.PLAYER_STATUS);
         status.remove(PlayerStatusEnum.ACCOUNTEXPIRED.getCode());
@@ -248,8 +224,101 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         } else {
             setRoot("/player/");
         }
+        return listVo;
+    }
+
+    /**
+     * 玩家列表
+     */
+    @RequestMapping("/doData")
+    @ResponseBody
+    protected VUserPlayerListVo doData(VUserPlayerListVo listVo, VUserPlayerSearchForm form, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            LOG.info("站点ID{0}玩家列表查询验证有误", SessionManager.getSiteId());
+        }
+        // 玩家检测页面IP登录记录,筛选玩家
+        playerDetection(listVo, model);
+        // 初始化外部链接时间
+        initDate(listVo);
+
+        hadlePlayerRanks(listVo);
+
+        //标签管理,筛选有该标签的玩家
+        getPlayerByTagId(listVo, model);
+
+        initRemarkContent(listVo);
+
+        // 不同的链接得到不同的玩家列表
+        VUserPlayerListVo list = getListVo(listVo);
+
+        for (VUserPlayer player : list.getResult()) {
+            player.setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), player.getId()).size());
+        }
+        // 玩家筛选
+        playeFilter(model, list);
+
+        handlePageData(list);
         return list;
     }
+
+    /**
+     * 处理页面模板化数据
+     * @param listVo
+     */
+    private void handlePageData(VUserPlayerListVo listVo) {
+        Integer orderNumber = (listVo.getPaging().getPageNumber()-1)*listVo.getPaging().getPageSize();
+        Map<String, Map<String, String>> views = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views");
+        Map<String, Map<String, Map<String, String>>> dictsMap = I18nTool.getDictsMap(SessionManagerCommon.getLocale().toString());
+        DateFormat dateFormat = new DateFormat();
+        TimeZone timeZone = SessionManagerCommon.getTimeZone();
+        if (CollectionTool.isNotEmpty(listVo.getResult())) {
+            List<VUserPlayer> result = listVo.getResult();
+            for (VUserPlayer player : result) {
+                player.set_views_player_auto_defaultagent(views.get("player_auto").get("默认代理"));
+                player.set_dicts_player_player_status(dictsMap.get("player").get("player_status").get(player.getStatus()));
+                player.set_dicts_common_currency_symbol(dictsMap.get("common").get("currency_symbol").get(player.getDefaultCurrency()));
+                player.set_views_common_edit(views.get("common").get("edit"));
+                player.set_views_common_detail(views.get("common").get("detail"));
+
+                player.set_soulFn_formatInteger_walletBalance(CurrencyTool.formatInteger(player.getWalletBalance()));
+                player.set_soulFn_formatDecimals_walletBalance(CurrencyTool.formatDecimals(player.getWalletBalance()));
+
+                player.set_soulFn_formatInteger_totalAssets(CurrencyTool.formatInteger(player.getTotalAssets()));
+                player.set_soulFn_formatDecimals_totalAssets(CurrencyTool.formatDecimals(player.getTotalAssets()));
+
+                player.set_soulFn_formatInteger_rechargeTotal(CurrencyTool.formatInteger(player.getRechargeTotal()));
+                player.set_soulFn_formatDecimals_rechargeTotal(CurrencyTool.formatDecimals(player.getRechargeTotal()));
+
+                player.set_soulFn_formatInteger_txTotal(CurrencyTool.formatInteger(player.getTxTotal()));
+                player.set_soulFn_formatDecimals_txTotal(CurrencyTool.formatDecimals(player.getTxTotal()));
+
+                player.set_soulFn_formatDateTz_loginTime(LocaleDateTool.formatDate(player.getLoginTime(), dateFormat.getDAY_SECOND(),timeZone));
+                player.set_soulFn_formatDateTz_createTime(LocaleDateTool.formatDate(player.getCreateTime(), dateFormat.getDAY_SECOND(),timeZone));
+                player.set_soulFn_formatDateTz_createTimeDay(LocaleDateTool.formatDate(player.getCreateTime(), dateFormat.getDAY(),timeZone));
+
+                orderNumber++;
+                player.set_paging_orderNumber(orderNumber);
+            }
+        }
+    }
+
+    @RequestMapping("/count")
+    public String count(VUserPlayerListVo listVo, Model model, String isCounter) {
+        initDate(listVo);
+        listVo = doCount(listVo, isCounter);
+        listVo.getPaging().cal();
+        model.addAttribute("command", listVo);
+        return getViewBasePath() + "IndexPagination";
+    }
+
+    public VUserPlayerListVo doCount(VUserPlayerListVo listVo, String isCounter) {
+        if (StringTool.isBlank(isCounter)) {
+            long count = ServiceTool.vUserPlayerService().count(listVo);
+            listVo.getPaging().setTotalCount(count);
+        }
+        return listVo;
+    }
+
 
     public SysParam getExportParam() {
         SysParamVo sysParamVo = new SysParamVo();
