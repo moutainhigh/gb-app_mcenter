@@ -91,8 +91,12 @@
                                 </div>
                                 <div class="clearfix m-t m-b fzcs">
                                     <b class="pull-left col-sm-3 al-right line-hi34">${views.role['paylimit.fee.max']}${siteCurrency}</b>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-5 input-group">
                                         <input value='<fmt:formatNumber value='${command.result.maxFee}' pattern="#.0"/>' class="form-control  feeStatus" name="result.maxFee"  tt="div1"  id="maxFee" maxlength="10"/>
+                                        <span data-content="${views.role['paylimit.setting.tips.5']}"
+                                              data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                                              role="button" class="input-group-addon help-popover" tabindex="0"
+                                              data-original-title="" title=""><i class="fa fa-question-circle"></i></span>
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
