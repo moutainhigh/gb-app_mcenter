@@ -84,11 +84,17 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
      */
     protected abstract void initQuery(VPlayerDepositListVo listVo);
 
+    @Override
+    protected VPlayerDepositListVo doList(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
+        this.initQuery(listVo);
+        // 初始化ListVo
+        initListVo(listVo);
+        return listVo;
+    }
+
     public String count(VPlayerDepositListVo listVo,String moduleType, Model model, String isCounter) {
         // 初始化筛选条件
         initQuery(listVo);
-        // 初始化ListVo
-        initListVo(listVo);
         //获取子账号查询条件
         List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
         masterSubSearch(listVo,moduleType,sysUserDataRights);
@@ -138,6 +144,13 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         }
         if (StringTool.isNotBlank(search.getFullName())) {
             search.setFullName(search.getFullName().replaceAll("_", "\\\\_"));
+        }
+        //结束时间加1秒
+        if (search.getCreateEnd() != null) {
+            search.setCreateEnd(DateTool.addSeconds(search.getCreateEnd(), 1));
+        }
+        if (search.getCheckTimeEnd() != null) {
+            search.setCheckTimeEnd(DateTool.addSeconds(search.getCheckTimeEnd(), 1));
         }
         listVo.setSearch(search);
         String typeParent = listVo.getSearch().getRechargeTypeParent();

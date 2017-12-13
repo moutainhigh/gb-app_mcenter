@@ -16,7 +16,7 @@
 			<div class="wrapper white-bg shadow">
 				<div class="present_wrap">
 					<b>${views.setting['rebate.edit.view']}</b>
-					<a href="/rebateSet/copyRebateSet.html?search.id=${command.result.id}" nav-target="mainFrame">复制本方案</a>
+					<a href="/rebateSet/copyRebateSet.html?search.id=${command.result.id}" nav-target="mainFrame">${views.setting_auto['复制本方案']}</a>
 				</div>
 				<div class="form-group clearfix m-t-sm m-b-sm line-hi25">
 					<label class="ft-bold al-right content-width-limit-10">${views.setting['rebate.view.scheduleName']}：</label>${command.result.name}

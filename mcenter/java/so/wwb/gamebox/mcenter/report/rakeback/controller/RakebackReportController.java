@@ -108,8 +108,7 @@ public class RakebackReportController extends BaseCrudController<IRakebackBillSe
         Map<String, VSysSiteUser> map = Cache.getSysSiteUser();
         List<VSysSiteUser> sites = new ArrayList<>();
         for (VSysSiteUser site : map.values()) {
-            if ((ConfigManager.getConfigration().getSubsysCode()).equals(site.getSubsysCode())
-                    && SessionManager.getMasterUserId().intValue() == site.getSysUserId().intValue()
+            if (SessionManager.getMasterUserId().intValue() == site.getSysUserId().intValue()
                     && SiteStatusEnum.NORMAL.getCode().equals(site.getStatus())) {
                 sites.add(site);
             }
