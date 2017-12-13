@@ -4,6 +4,9 @@ import org.hibernate.validator.constraints.Range;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
+import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
+
+import javax.validation.constraints.Pattern;
 
 
 /**
@@ -20,6 +23,11 @@ public class VAgentWithdrawOrderSearchForm implements IForm {
     //交易金额
     private Double search_beginAmount;
     private Double search_endAmount;
+
+    /*IP*/
+    private String search_ipStr;
+    /*交易号*/
+    private String search_transactionNo;
 
 
     @Range(min = 0,max =99999999 )
@@ -39,6 +47,24 @@ public class VAgentWithdrawOrderSearchForm implements IForm {
 
     public void setSearch_endAmount(Double search_endAmount) {
         this.search_endAmount = search_endAmount;
+    }
+
+    @Pattern(regexp = FormValidRegExps.IP)
+    public String getSearch_ipStr() {
+        return search_ipStr;
+    }
+
+    public void setSearch_ipStr(String search_ipStr) {
+        this.search_ipStr = search_ipStr;
+    }
+
+    @Pattern(regexp = FormValidRegExps.ENGLISH_NUMBER)
+    public String getSearch_transactionNo() {
+        return search_transactionNo;
+    }
+
+    public void setSearch_transactionNo(String search_transactionNo) {
+        this.search_transactionNo = search_transactionNo;
     }
     //endregion your codes 2
 
