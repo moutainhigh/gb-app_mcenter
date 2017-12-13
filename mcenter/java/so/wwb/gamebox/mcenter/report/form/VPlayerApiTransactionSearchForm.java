@@ -4,7 +4,9 @@ import org.hibernate.validator.constraints.Range;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
+import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
 
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 
 
@@ -23,6 +25,8 @@ public class VPlayerApiTransactionSearchForm implements IForm {
 
     private BigDecimal search_endMoney;
 
+    //交易号
+    private  String search_transactionNo;
 
     @Range(min = 0,max =99999999 )
     public BigDecimal getSearch_startMoney() {
@@ -33,6 +37,15 @@ public class VPlayerApiTransactionSearchForm implements IForm {
     @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin",logic = CompareLogic.GE,anotherProperty = "search_startMoney")
     public BigDecimal getSearch_endMoney() {
         return search_endMoney;
+    }
+
+    @Pattern(regexp = FormValidRegExps.ENGLISH_NUMBER)
+    public String getSearch_transactionNo() {
+        return search_transactionNo;
+    }
+
+    public void setSearch_transactionNo(String search_transactionNo) {
+        this.search_transactionNo = search_transactionNo;
     }
     //endregion your codes 2
 
