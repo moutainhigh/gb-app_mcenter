@@ -46,7 +46,7 @@
         <div class="col-lg-12 m-t">
             <div class="wrapper white-bg shadow">
                 <div class="p-sm bet-total">
-                    <b class="m-l">总计：</b>
+                    <b class="m-l">${views.setting_auto['总计']}：</b>
                     <span id="total"><i class="fa fa-refresh fa-spin"></i></span>
                     <b class="m-l">笔，共：</b>
                     <span id="moneyTotal"><i class="fa fa-refresh fa-spin"></i></span>
