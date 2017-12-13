@@ -1,6 +1,8 @@
 package so.wwb.gamebox.mcenter.fund.form;
 
 import org.hibernate.validator.constraints.Range;
+import org.soul.commons.validation.form.constraints.Compare;
+import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
 
@@ -33,6 +35,7 @@ public class VPlayerDepositSearchForm implements IForm {
         this.search_beginAmount = search_beginAmount;
     }
     @Range(min = 0,max =99999999 )
+    @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin", logic = CompareLogic.GE, anotherProperty = "search_beginAmount")
     public Double getSearch_endAmount() {
         return search_endAmount;
     }
