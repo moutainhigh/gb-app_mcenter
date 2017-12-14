@@ -91,11 +91,6 @@ public class CompanyDepositController extends BaseDepositController {
 
         }
         getCurrencySign(model);
-
-        String templateCode = TemplateCodeEnum.fund_deposit_company_check.getCode();
-        model.addAttribute("searchTempCode", templateCode);
-        model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.fund_deposit_company_check.getCode()));
-
         String moduleType = DataRightModuleType.COMPANYDEPOSIT.getCode();
         listVo = getPlayerDeposit(listVo, moduleType, form, result, model);
         handleTempleData(listVo);

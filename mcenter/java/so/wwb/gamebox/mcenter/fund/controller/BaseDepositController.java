@@ -31,11 +31,9 @@ import so.wwb.gamebox.mcenter.fund.form.DepositRemarkForm;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositForm;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.Module;
-import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.bitcoin.vo.PoloniexOrderResult;
+import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.company.setting.po.SysCurrency;
 import so.wwb.gamebox.model.company.site.po.SiteCurrency;
 import so.wwb.gamebox.model.currency.po.CurrencyRate;
@@ -88,6 +86,10 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         initQuery(listVo);
         // 初始化ListVo
         initListVo(listVo);
+        //用于查询模板
+        String templateCode = TemplateCodeEnum.fund_deposit_company_check.getCode();
+        model.addAttribute("searchTempCode", templateCode);
+        model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.fund_deposit_company_check.getCode()));
         List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
         masterSubSearch(listVo,moduleType,sysUserDataRights);
         buildPlayerRankData(model,sysUserDataRights);
