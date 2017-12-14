@@ -84,11 +84,13 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
      */
     protected abstract void initQuery(VPlayerDepositListVo listVo);
 
-    @Override
-    protected VPlayerDepositListVo doList(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
-        this.initQuery(listVo);
+    protected VPlayerDepositListVo doList(VPlayerDepositListVo listVo,String moduleType,  VPlayerDepositSearchForm form, BindingResult result, Model model) {
+        initQuery(listVo);
         // 初始化ListVo
         initListVo(listVo);
+        List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
+        masterSubSearch(listVo,moduleType,sysUserDataRights);
+        buildPlayerRankData(model,sysUserDataRights);
         return listVo;
     }
 

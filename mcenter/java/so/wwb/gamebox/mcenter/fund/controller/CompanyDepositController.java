@@ -40,6 +40,7 @@ import so.wwb.gamebox.model.company.setting.vo.CurrencyExchangeRateVo;
 import so.wwb.gamebox.model.currency.po.CurrencyRate;
 import so.wwb.gamebox.model.master.dataRight.DataRightModuleType;
 import so.wwb.gamebox.model.master.enums.CurrencyEnum;
+import so.wwb.gamebox.model.master.enums.DepositWayEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeStatusEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeParentEnum;
@@ -101,6 +102,11 @@ public class CompanyDepositController extends BaseDepositController {
         return listVo;
     }
 
+    protected VPlayerDepositListVo doList(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
+        String moduleType = DataRightModuleType.COMPANYDEPOSIT.getCode();
+        return super.doList(listVo, moduleType, form, result, model);
+    }
+
     /**
      * 处理页面模板化数据
      * @param listVo
@@ -123,9 +129,18 @@ public class CompanyDepositController extends BaseDepositController {
                 deposit.set_soulFn_formatDateTz_checkTime(LocaleDateTool.formatDate(deposit.getCheckTime(), dateFormat.getDAY_SECOND(),timeZone));
                 deposit.set_soulFn_formatTimeMemo_checkTime(LocaleDateTool.formatTimeMemo(deposit.getCheckTime(), locale));
                 deposit.set_dicts_common_bankname_bankCode(dictsMap.get("common").get("bankname").get(deposit.getBankCode()));
-                deposit.set_recharge_type_dict(dictsMap.get("fund").get("recharge_type").get(deposit.getRechargeType()));
-                String fundAutoDate = getFundAutoData(deposit,views);
-                deposit.set_fund_auto_data(fundAutoDate);
+                String rechargeType = deposit.getRechargeType();
+                deposit.set_recharge_type_dict(dictsMap.get("fund").get("recharge_type").get(rechargeType));
+                String fundAutoData = getFundAutoData(deposit,views);
+                if(StringTool.isNotBlank(deposit.getBankOrder())&& !DepositWayEnum.BITCOIN_FAST.getCode().equals(rechargeType)){
+                    if(DepositWayEnum.WECHATPAY_FAST.getCode().equals(rechargeType)||DepositWayEnum.QQWALLET_FAST.getCode().equals(rechargeType)||
+                            DepositWayEnum.JDWALLET_FAST.getCode().equals(rechargeType)||DepositWayEnum.BDWALLET_FAST.getCode().equals(rechargeType)||
+                            DepositWayEnum.ONECODEPAY_FAST.getCode().equals(rechargeType)||DepositWayEnum.OTHER_FAST.getCode().equals(rechargeType)){
+                        String data = views.get("fund_auto").get("订单尾号");
+                        deposit.set_bankOrder_data(data);
+                    }
+                }
+                deposit.set_fund_auto_data(fundAutoData);
                 SysCurrency sysCurrency = sysCurrencys.get(deposit.getDefaultCurrency());
                 String currencySign = (sysCurrency!=null)?sysCurrency.getCurrencySign():"";
                 deposit.set_currencySign(currencySign);
