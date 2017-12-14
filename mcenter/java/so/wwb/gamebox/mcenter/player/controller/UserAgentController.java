@@ -109,13 +109,6 @@ public class UserAgentController extends BaseUserAgentController {
         userAgentVo.setContact(DictTool.get(DictEnum.COMMON_CONTACT_WAY_TYPE));
 
         /*查出所有总代*/
-
-
-        SysUserListVo sysUserListVo = new SysUserListVo();
-        sysUserListVo.setSearch(new SysUserSo());
-        sysUserListVo.setProperties(SysUser.PROP_ID, SysUser.PROP_USERNAME);
-
-
         if(userAgentVo.getResult().getParentId()!=null){
             SysUserVo sysUserVo = new SysUserVo();
             sysUserVo.getSearch().setId(userAgentVo.getResult().getParentId());
@@ -128,22 +121,17 @@ public class UserAgentController extends BaseUserAgentController {
         }
         userAgentVo.setDictConstellation(DictTool.get(DictEnum.COMMON_CONSTELLATION));
         if(UserAgentEnum.EDIT_TYPE_SUB_AGENT.getCode().equals(userAgentVo.getEditType())){
-            sysUserListVo.getQuery().setCriterions(new Criterion[]{new Criterion(SysUser.PROP_ID, Operator.EQ, userAgentVo.getSearch().getParentId())});
-            userAgentVo.setTopAgents(ServiceTool.sysUserService().searchProperties(sysUserListVo));
-            userAgentVo.setAgentUserId(userAgentVo.getSearch().getParentId());
-
-            if(userAgentVo.getResult().getParentId()!=null){
-                UserAgentVo parentAgent = new UserAgentVo();
-                parentAgent.getSearch().setId(userAgentVo.getResult().getParentId());
-                parentAgent = ServiceTool.userAgentService().get(parentAgent);
-                if(parentAgent.getResult()!=null&&parentAgent.getResult().getPlayerRankId()!=null){
-                    PlayerRankVo playerRankVo = new PlayerRankVo();
-                    playerRankVo.getSearch().setId(parentAgent.getResult().getPlayerRankId());
-                    userAgentVo.setSomePlayerRanks(ServiceTool.playerRankService().queryUsableRankList(playerRankVo));
-                }
+            //新增
+            if(userAgentVo.getSearch().getParentId()!=null){
+                buildAgentRank(userAgentVo,userAgentVo.getSearch().getParentId());
+            }else if(userAgentVo.getResult().getParentId()!=null){//修改
+                buildAgentRank(userAgentVo,userAgentVo.getResult().getParentId());
             }
 
         }else{
+            SysUserListVo sysUserListVo = new SysUserListVo();
+            sysUserListVo.setSearch(new SysUserSo());
+            sysUserListVo.setProperties(SysUser.PROP_ID, SysUser.PROP_USERNAME);
             sysUserListVo.getQuery().setCriterions(new Criterion[]{new Criterion(SysUser.PROP_USER_TYPE, Operator.EQ, UserTypeEnum.TOP_AGENT.getCode()),
                     new Criterion(SysUser.PROP_STATUS,Operator.EQ,SysUserStatus.NORMAL.getCode())});
             userAgentVo.setTopAgents(ServiceTool.sysUserService().searchProperties(sysUserListVo));
@@ -153,6 +141,31 @@ public class UserAgentController extends BaseUserAgentController {
 
         }
         getAnswer(userAgentVo);
+    }
+
+    /**
+     * 获取组装层级
+     * @param userAgentVo
+     * @param parentId
+     */
+    private void buildAgentRank(UserAgentVo userAgentVo,Integer parentId) {
+        SysUserListVo sysUserListVo = new SysUserListVo();
+        sysUserListVo.setSearch(new SysUserSo());
+        sysUserListVo.setProperties(SysUser.PROP_ID, SysUser.PROP_USERNAME);
+        sysUserListVo.getQuery().setCriterions(new Criterion[]{new Criterion(SysUser.PROP_ID, Operator.EQ, parentId)});
+        userAgentVo.setTopAgents(ServiceTool.sysUserService().searchProperties(sysUserListVo));
+        userAgentVo.setAgentUserId(parentId);
+
+        if(parentId!=null){
+            UserAgentVo parentAgent = new UserAgentVo();
+            parentAgent.getSearch().setId(parentId);
+            parentAgent = ServiceTool.userAgentService().get(parentAgent);
+            if(parentAgent.getResult()!=null&&parentAgent.getResult().getPlayerRankId()!=null){
+                PlayerRankVo playerRankVo = new PlayerRankVo();
+                playerRankVo.getSearch().setId(parentAgent.getResult().getPlayerRankId());
+                userAgentVo.setSomePlayerRanks(ServiceTool.playerRankService().queryUsableRankList(playerRankVo));
+            }
+        }
     }
     //endregion your codes 3
 
