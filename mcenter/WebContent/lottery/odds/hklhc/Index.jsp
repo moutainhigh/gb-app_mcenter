@@ -12,6 +12,7 @@
     <a href="javascript:void(0)" type="sevensum" betCode="seven_sum" page="sevensum">总和</a>&nbsp;&nbsp;-&nbsp;&nbsp;
     <a href="javascript:void(0)" type="halfcolour" betCode="lhc_half_colour" page="halfcolour">半波</a>&nbsp;&nbsp;-&nbsp;&nbsp;
     <a href="javascript:void(0)" type="onezodiac" betCode="lhc_one_zodiac" page="onezodiac">一肖</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+    <a href="javascript:void(0)" type="mantissa" betCode="mantissa" page="mantissa">尾</a>&nbsp;&nbsp;-&nbsp;&nbsp;
     <a href="javascript:void(0)" type="linkcode" betCode="lhc_link_code" page="linkcode">连码</a>&nbsp;&nbsp;-&nbsp;&nbsp;
     <a href="javascript:void(0)" type="linkzodiac" betCode="lhc_link_zodiac" page="linkzodiac">连肖</a>&nbsp;&nbsp;-&nbsp;&nbsp;
     <a href="javascript:void(0)" type="allzodiac" betCode="lhc_all_zodiac" page="allzodiac">合肖</a>&nbsp;&nbsp;-&nbsp;&nbsp;
@@ -26,7 +27,7 @@
             var type = $(this).attr("type");
             //获取时时彩类别列表
             if("special"==type||"positiveNum"==type||"positiveB"==type
-                ||"sevensum"==type||"halfcolour"==type ||"onezodiac"==type){
+                ||"sevensum"==type||"halfcolour"==type ||"onezodiac"==type ||"mantissa"==type){
                 var page = $(this).attr("page");
                 var betCode = $(this).attr("betCode");
                 $.ajax({
