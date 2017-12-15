@@ -324,9 +324,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     public String count(VPlayerWithdrawListVo listVo, Model model, String isCounter) {
         // 初始化ListVo
         initListVo(listVo);
-        //子账号查询条件
-        List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
-        masterSubSearch(listVo,sysUserDataRights);
         listVo = doCount(listVo, isCounter);
         model.addAttribute("command", listVo);
         return getViewBasePath() + "IndexPagination";
@@ -337,6 +334,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
                 List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
                 if (CollectionTool.isNotEmpty(sysUserDataRights)) {
+                    //子账号查询条件
                     masterSubSearch(listVo,sysUserDataRights);
                     Paging paging = listVo.getPaging();
                     paging.setTotalCount(ServiceTool.vPlayerWithdrawService().countPlayerWithdraw(listVo));
