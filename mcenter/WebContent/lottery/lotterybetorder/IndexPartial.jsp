@@ -124,10 +124,9 @@
                     </td>
                     <td>
                         <c:if test="${p.status=='1'}">
-                            <soul:button text="${views.lottery_auto['撤dan']}" opType="ajax" target="${root}/lotteryBetOrder/cancelOrder.html?search.id=${p.id}"
-                                         confirm="${views.lottery_auto['撤销注单将会扣除派彩金额,返回投注金额,有可能导致玩家余额为负数,请谨慎操作！']}" callback="query"></soul:button>
+                            <soul:button text="${views.lottery_auto['撤单']}" opType="ajax" target="${root}/lotteryBetOrder/revokeOrder.html?search.id=${p.id}"
+                                         confirm="${views.lottery_auto['撤单将会返回投注金额,请谨慎操作！']}" callback="query"></soul:button>
                         </c:if>
-                        <c:if test="${p.status!='1'}"><span class="co-gray">${views.lottery_auto['撤销']}</span></c:if>
                     </td>
                 </tr>
             </c:forEach>
