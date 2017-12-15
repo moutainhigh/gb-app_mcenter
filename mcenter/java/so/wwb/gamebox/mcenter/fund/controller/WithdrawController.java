@@ -328,15 +328,26 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
         masterSubSearch(listVo,sysUserDataRights);
         listVo = doCount(listVo, isCounter);
-        listVo.getPaging().cal();
         model.addAttribute("command", listVo);
         return getViewBasePath() + "IndexPagination";
     }
 
-    public VPlayerWithdrawListVo doCount(VPlayerWithdrawListVo listVo, String isCounter) {
+    public VPlayerWithdrawListVo doCount(VPlayerWithdrawListVo listVo,String isCounter) {
         if (StringTool.isBlank(isCounter)) {
-            long count = ServiceTool.vPlayerWithdrawService().count(listVo);
-            listVo.getPaging().setTotalCount(count);
+            if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
+                List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
+                if (CollectionTool.isNotEmpty(sysUserDataRights)) {
+                    masterSubSearch(listVo,sysUserDataRights);
+                    Paging paging = listVo.getPaging();
+                    paging.setTotalCount(ServiceTool.vPlayerWithdrawService().countPlayerWithdraw(listVo));
+                    paging.cal();
+                    listVo = ServiceTool.vPlayerWithdrawService().searchPlayerWithdraw(listVo);
+                } else {
+                    listVo = ServiceTool.getVPlayerWithdrawService().searchWithdraw(listVo);
+                }
+            } else {
+                listVo = ServiceTool.getVPlayerWithdrawService().searchWithdraw(listVo);
+            }
         }
         return listVo;
     }
