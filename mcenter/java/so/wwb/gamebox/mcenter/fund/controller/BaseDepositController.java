@@ -560,7 +560,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
                     String[] names = username.split(",");
                     if (names.length == 1) {
                         listVo.getSearch().setNewUserName(names[0]);
-                    } else {
+                    } else if (names.length>1) {
                         listVo.getSearch().setAccountNames(names);
                     }
                 }
