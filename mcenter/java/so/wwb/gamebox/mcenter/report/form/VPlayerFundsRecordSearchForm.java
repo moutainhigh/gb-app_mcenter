@@ -25,6 +25,8 @@ public class VPlayerFundsRecordSearchForm implements IForm {
     private Double search_endMoney;
     //用户名
     private String search_usernames;
+    //交易号
+    private  String search_transactionNo;
 
     @Range(min = -99999999, max = 99999999)
     public Double getSearch_startMoney() {
@@ -42,6 +44,14 @@ public class VPlayerFundsRecordSearchForm implements IForm {
         return search_usernames;
     }
 
-    //endregion your codes 2
+    @Pattern(regexp = FormValidRegExps.ENGLISH_NUMBER)
+    public String getSearch_transactionNo() {
+        return search_transactionNo;
+    }
+
+    public void setSearch_transactionNo(String search_transactionNo) {
+        this.search_transactionNo = search_transactionNo;
+    }
+//endregion your codes 2
 
 }

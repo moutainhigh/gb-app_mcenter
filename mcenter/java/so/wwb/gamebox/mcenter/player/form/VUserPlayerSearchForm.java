@@ -1,11 +1,13 @@
 package so.wwb.gamebox.mcenter.player.form;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Pattern;
 
@@ -38,6 +40,37 @@ public class VUserPlayerSearchForm implements IForm {
     /** 钱包余额 */
     private  Double search_walletBalanceBegin;
     private  Double search_walletBalanceEnd;
+
+    /** 存款次数 */
+    private  Integer search_rechargeCountBegin;
+    private  Integer search_rechargeCountEnd;
+
+    /** 取款次数 */
+    private  Integer search_txCountBegin;
+    private  Integer search_txCountEnd;
+
+    /*登录IP*/
+    private  String search_lastLoginIpv4;
+    /*注册IP*/
+    private  String search_registerIpv4;
+    /*注册URL*/
+    private  String search_registerSite;
+    /*银行卡*/
+    private  String search_bankcardNumber;
+
+    @Pattern(message = "passport.edit.info.bank.card.format.error",regexp = FormValidRegExps.BANK)
+    @Length(min = 10,max = 25)
+    public String getSearch_bankcardNumber(){return search_bankcardNumber;}
+
+    @Pattern(regexp = FormValidRegExps.IP)
+    public String getSearch_lastLoginIpv4(){return search_lastLoginIpv4;}
+
+    @Pattern(regexp = FormValidRegExps.IP)
+    public String getSearch_registerIpv4(){return search_registerIpv4;}
+
+    @Pattern(regexp = FormValidRegExps.PREFIX_LINK)
+    public String getSearch_registerSite(){return search_registerSite;}
+
 
     @Pattern(regexp = FormValidRegExps.ZERO_POSITIVE_INTEGER,message = "common.ZERO_POSITIVE_INTEGER")
     @Max(9999)
@@ -89,7 +122,31 @@ public class VUserPlayerSearchForm implements IForm {
         return search_walletBalanceEnd;
     }
 
+    @Range(min = 0, max = 99999999)
+    @Digits(integer = 8, fraction = 0,message = "请输入0或正整数")
+    public Integer getSearch_rechargeCountBegin() {
+        return search_rechargeCountBegin;
+    }
 
+    @Range(min = 0, max = 99999999)
+    @Digits(integer = 8, fraction = 0,message = "请输入0或正整数")
+    @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin", logic = CompareLogic.GE, anotherProperty = "search_rechargeCountBegin")
+    public Integer getSearch_rechargeCountEnd() {
+        return search_rechargeCountEnd;
+    }
+
+    @Range(min = 0, max = 99999999)
+    @Digits(integer = 8, fraction = 0,message = "请输入0或正整数")
+    public Integer getSearch_txCountBegin() {
+        return search_txCountBegin;
+    }
+
+    @Range(min = 0, max = 99999999)
+    @Digits(integer = 8, fraction = 0,message = "请输入0或正整数")
+    @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin", logic = CompareLogic.GE, anotherProperty = "search_txCountBegin")
+    public Integer getSearch_txCountEnd() {
+        return search_txCountEnd;
+    }
     //endregion your codes 2
 
 }

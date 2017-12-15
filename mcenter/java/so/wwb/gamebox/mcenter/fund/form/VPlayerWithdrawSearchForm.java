@@ -4,6 +4,9 @@ import org.hibernate.validator.constraints.Range;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
+import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
+
+import javax.validation.constraints.Pattern;
 
 
 /**
@@ -24,6 +27,11 @@ public class VPlayerWithdrawSearchForm implements IForm {
     private Double search_deductBeginAmount;
     private Double search_deductEndAmount;
 
+    /*IP*/
+    private String search_ipStr;
+    /*交易号*/
+    private String search_transactionNo;
+
     @Range(min = 0,max =99999999 )
     public Double getSearch_beginAmount() {
         return search_beginAmount;
@@ -34,6 +42,7 @@ public class VPlayerWithdrawSearchForm implements IForm {
     }
 
     @Range(min = 0,max =99999999 )
+    @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin", logic = CompareLogic.GE, anotherProperty = "search_beginAmount")
     public Double getSearch_endAmount() {
         return search_endAmount;
     }
@@ -50,6 +59,7 @@ public class VPlayerWithdrawSearchForm implements IForm {
         this.search_deductBeginAmount = search_deductBeginAmount;
     }
     @Range(min = 0,max =99999999 )
+    @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin", logic = CompareLogic.GE, anotherProperty = "search_deductBeginAmount")
     public Double getSearch_deductEndAmount() {
         return search_deductEndAmount;
     }
@@ -58,6 +68,23 @@ public class VPlayerWithdrawSearchForm implements IForm {
         this.search_deductEndAmount = search_deductEndAmount;
     }
 
+    @Pattern(regexp = FormValidRegExps.IP)
+    public String getSearch_ipStr() {
+        return search_ipStr;
+    }
+
+    public void setSearch_ipStr(String search_ipStr) {
+        this.search_ipStr = search_ipStr;
+    }
+
+    @Pattern(regexp = FormValidRegExps.ENGLISH_NUMBER)
+    public String getSearch_transactionNo() {
+        return search_transactionNo;
+    }
+
+    public void setSearch_transactionNo(String search_transactionNo) {
+        this.search_transactionNo = search_transactionNo;
+    }
     //endregion your codes 2
 
 }

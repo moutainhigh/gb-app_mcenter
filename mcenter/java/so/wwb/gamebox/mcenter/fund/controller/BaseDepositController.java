@@ -31,11 +31,9 @@ import so.wwb.gamebox.mcenter.fund.form.DepositRemarkForm;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositForm;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.Module;
-import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.bitcoin.vo.PoloniexOrderResult;
+import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.company.setting.po.SysCurrency;
 import so.wwb.gamebox.model.company.site.po.SiteCurrency;
 import so.wwb.gamebox.model.currency.po.CurrencyRate;
@@ -84,11 +82,23 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
      */
     protected abstract void initQuery(VPlayerDepositListVo listVo);
 
-    public String count(VPlayerDepositListVo listVo,String moduleType, Model model, String isCounter) {
-        // 初始化筛选条件
+    protected VPlayerDepositListVo doList(VPlayerDepositListVo listVo,String moduleType,  VPlayerDepositSearchForm form, BindingResult result, Model model) {
         initQuery(listVo);
         // 初始化ListVo
         initListVo(listVo);
+        //用于查询模板
+        String templateCode = TemplateCodeEnum.fund_deposit_company_check.getCode();
+        model.addAttribute("searchTempCode", templateCode);
+        model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.fund_deposit_company_check.getCode()));
+        List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
+        masterSubSearch(listVo,moduleType,sysUserDataRights);
+        buildPlayerRankData(model,sysUserDataRights);
+        return listVo;
+    }
+
+    public String count(VPlayerDepositListVo listVo,String moduleType, Model model, String isCounter) {
+        // 初始化筛选条件
+        initQuery(listVo);
         //获取子账号查询条件
         List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
         masterSubSearch(listVo,moduleType,sysUserDataRights);
@@ -138,6 +148,13 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         }
         if (StringTool.isNotBlank(search.getFullName())) {
             search.setFullName(search.getFullName().replaceAll("_", "\\\\_"));
+        }
+        //结束时间加1秒
+        if (search.getCreateEnd() != null) {
+            search.setCreateEnd(DateTool.addSeconds(search.getCreateEnd(), 1));
+        }
+        if (search.getCheckTimeEnd() != null) {
+            search.setCheckTimeEnd(DateTool.addSeconds(search.getCheckTimeEnd(), 1));
         }
         listVo.setSearch(search);
         String typeParent = listVo.getSearch().getRechargeTypeParent();
