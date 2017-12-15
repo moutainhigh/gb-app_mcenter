@@ -241,8 +241,10 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
                 updateOdds.add(lotteryOdd);
                 ids.add(lotteryOdd.getId());
                 String i18nCode = I18nTool.getLocalStr("lottery."+lotteryOdd.getCode(),"lottery","dicts", CommonContext.get().getLocale());
-                String i18nbetCode = I18nTool.getLocalStr("lottery_betting."+lotteryOdd.getBetCode(),"lottery","dicts", CommonContext.get().getLocale());
-                changeOdd.add("</br>"+i18nCode+"-"+i18nbetCode+"-"+lotteryOdd.getBetNum()+":"+"oldLotteryOdd="+lotteryOdd.getOldOdd()+";newLotteryOld="+lotteryOdd.getOdd());
+                String i18nBetCode = I18nTool.getLocalStr("lottery_betting."+lotteryOdd.getBetCode(),"lottery","dicts", CommonContext.get().getLocale());
+                changeOdd.add("</br>"+i18nCode+"-"+i18nBetCode+"-"+lotteryOdd.getBetNum()+":"+
+                        "oldLotteryOdd="+lotteryOdd.getOldOdd()+";newLotteryOdd="+lotteryOdd.getOdd()+
+                        "oldLotteryRebate="+lotteryOdd.getOldRebate()+";newLotteryRebate="+lotteryOdd.getRebate());
             }
         }
         if (!checkOdd(ids, updateOdds)) {

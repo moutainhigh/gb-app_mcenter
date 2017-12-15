@@ -4,9 +4,15 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.enums.EnumTool;
+import org.soul.commons.init.context.CommonContext;
+import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.model.log.audit.enums.OpType;
+import org.soul.model.log.audit.vo.BaseLog;
+import org.soul.model.log.audit.vo.LogVo;
+import org.soul.model.sys.po.SysAuditLog;
 import org.soul.web.controller.NoMappingCrudController;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -18,6 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceCpTool;
 import so.wwb.gamebox.mcenter.lottery.form.SiteLotteryQuotaSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.ModuleType;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.company.lottery.po.SiteLotteryQuota;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryQuotaListVo;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryQuotaVo;
@@ -25,6 +34,7 @@ import so.wwb.gamebox.model.enums.lottery.LotteryEnum;
 import so.wwb.gamebox.model.enums.lottery.LotteryPlayEnum;
 import so.wwb.gamebox.web.cache.Cache;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -42,6 +52,8 @@ import java.util.Map;
 @RequestMapping("/lottery/quotas")
 public class SiteLotteryQuotaController extends NoMappingCrudController {
     private static final Log LOG = LogFactory.getLog(SiteLotteryQuotaController.class);
+
+    private static final String AUDIT_LOTTERY_QUOTA ="lottery.lotteryquota";
 //endregion your codes 1
 
     @Override
@@ -81,9 +93,10 @@ public class SiteLotteryQuotaController extends NoMappingCrudController {
         return url;
     }
 
+    @Audit(module = Module.LOTTERY, moduleType = ModuleType.LOTTERY_QUOTA, opType = OpType.UPDATE)
     @RequestMapping(value = "/updateQuotas", method = RequestMethod.POST)
     @ResponseBody
-    public Map updateQuotas(SiteLotteryQuotaVo quotaVo) {
+    public Map updateQuotas(HttpServletRequest request, SiteLotteryQuotaVo quotaVo) {
         if (StringTool.isBlank(quotaVo.getLotteryQuotaJson())) {
             return getVoMessage(quotaVo);
         }
@@ -100,11 +113,18 @@ public class SiteLotteryQuotaController extends NoMappingCrudController {
             return getVoMessage(quotaVo);
         }
         List<SiteLotteryQuota> updateQuotas = new ArrayList<>();
+        List<String> changeQuotas = new ArrayList<>();
         List<Integer> ids = new ArrayList<>();
         for (SiteLotteryQuota lotteryQuota : lotteryQuotas) {
             if (lotteryQuota.getId() != null) {
                 updateQuotas.add(lotteryQuota);
                 ids.add(lotteryQuota.getId());
+                String i18nCode = I18nTool.getLocalStr("lottery."+lotteryQuota.getCode(),"lottery","dicts", CommonContext.get().getLocale());
+                String i18nPlayCode = I18nTool.getLocalStr("lottery_play."+lotteryQuota.getPlayCode(),"lottery","dicts", CommonContext.get().getLocale());
+                String i18nNumQuota = I18nTool.getLocalStr("单项（号）限额","lottery_auto","views",CommonContext.get().getLocale());
+                String i18nBetQuota = I18nTool.getLocalStr("单注限额","lottery_auto","views",CommonContext.get().getLocale());
+                String i18nPlayQuota = I18nTool.getLocalStr("单类别单项（号）限额","lottery_auto","views",CommonContext.get().getLocale());
+                changeQuotas.add("</br>"+i18nCode+"-"+i18nPlayCode+"-"+i18nNumQuota+":"+lotteryQuota.getNumQuotaStr()+";"+i18nBetQuota+":"+lotteryQuota.getBetQuotaStr()+";"+i18nPlayQuota+":"+lotteryQuota.getPlayQuotaStr());
             }
         }
         if (!checkOdd(ids, updateQuotas)) {
@@ -118,9 +138,37 @@ public class SiteLotteryQuotaController extends NoMappingCrudController {
             int count = ServiceCpTool.siteLotteryQuotaService().batchUpdateOnly(quotaVo);
             LOG.info("保存站点彩票限额成功,更新条数{0},更新赔率值{1}", count, JsonTool.toJson(updateQuotas));
             Cache.refreshSiteLotteryQuotas(SessionManager.getSiteId());
+
+            //审计日志添加
+            List<String> params = new ArrayList<>();
+            params.add(SessionManager.getUserName());
+            params.add(changeQuotas.toString());
+            if(changeQuotas.toString().length()<2048) {
+                addLog(request, AUDIT_LOTTERY_QUOTA, params);
+            }
         }
         return getVoMessage(quotaVo);
     }
+
+    /**
+     * 日志
+     *
+     * @param request
+     * @param description 日志描述
+     */
+    private void addLog(HttpServletRequest request, String description, List<String> paramList) {
+        LogVo logVo = new LogVo();
+        BaseLog baseLog = logVo.addBussLog();
+        baseLog.setDescription(description);
+        if(CollectionTool.isNotEmpty(paramList)){
+            for(String param : paramList){
+                baseLog.addParam(param);
+            }
+        }
+        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+    }
+
+
     private Map<Integer, SiteLotteryQuota> getSiteLotteryQuotaMap(List<Integer> ids) {
         SiteLotteryQuotaListVo listVo = new SiteLotteryQuotaListVo();
         listVo.getSearch().setIds(ids);
