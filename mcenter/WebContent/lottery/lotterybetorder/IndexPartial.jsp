@@ -49,16 +49,16 @@
                     <td>${p.username}</td>
                     <td>${dicts.lottery.lottery[p.code]}</td>
                     <td>
-                        <c:choose>
-                            <c:when test="${p.terminal eq '2'}">
+                        ${p.id}
+                            <c:choose>
+                                <c:when test="${p.terminal eq '2'}">
                             <span class="fa fa-mobile mobile" data-content="手机投注" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
                             </span>
-                            </c:when>
-                            <c:otherwise>
-                                <span style="width:8px; display: inline-block"></span>
-                            </c:otherwise>
-                        </c:choose>&nbsp;
-                        ${p.id}
+                                </c:when>
+                                <c:otherwise>
+                                    <span style="width:8px; display: inline-block"></span>
+                                </c:otherwise>
+                            </c:choose>&nbsp;
                     </td>
                     <td>${p.expect}</td>
                     <td class="td-width-150" title="${dicts.lottery.lottery_betting[p.betCode]}-${dicts.lottery.lottery_play[p.playCode]}">${dicts.lottery.lottery_betting[p.betCode]}-${dicts.lottery.lottery_play[p.playCode]}</td>
@@ -118,10 +118,13 @@
                         <c:if test="${p.status=='3'}">
                             <span class="label label-danger">${dicts.lottery.order_status[p.status]}</span>
                         </c:if>
+                        <c:if test="${p.status=='4'}">
+                            <span class="label label-danger">${dicts.lottery.order_status[p.status]}</span>
+                        </c:if>
                     </td>
                     <td>
                         <c:if test="${p.status=='1'}">
-                            <soul:button text="${views.lottery_auto['撤销']}" opType="ajax" target="${root}/lotteryBetOrder/cancelOrder.html?search.id=${p.id}"
+                            <soul:button text="${views.lottery_auto['撤dan']}" opType="ajax" target="${root}/lotteryBetOrder/cancelOrder.html?search.id=${p.id}"
                                          confirm="${views.lottery_auto['撤销注单将会扣除派彩金额,返回投注金额,有可能导致玩家余额为负数,请谨慎操作！']}" callback="query"></soul:button>
                         </c:if>
                         <c:if test="${p.status!='1'}"><span class="co-gray">${views.lottery_auto['撤销']}</span></c:if>
