@@ -58,6 +58,9 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
 
     @Override
     protected CttAnnouncementListVo doList(CttAnnouncementListVo listVo, CttAnnouncementSearchForm form, BindingResult result, Model model) {
+        if(StringTool.isBlank(listVo.getSearch().getAnnouncementType())){
+            listVo.getSearch().setAnnouncementType(CttAnnouncementTypeEnum.SITE_ANNOUNCEMENT.getCode());
+        }
         String s = SessionManager.getLocale().toString();
         listVo.getSearch().setLocalLanguage(s);
         Map<String, SysDict> types = DictTool.get(DictEnum.CONTENT_CTTANNOUNCEMENT_TYPE);

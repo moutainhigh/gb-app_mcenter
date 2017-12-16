@@ -16,10 +16,11 @@
     <input type="hidden" name="uuid" value="${command.uuid}">
     <div id="resource">
         <div class="modal-body">
-            <div class="clearfix save lgg-version">
+            <input type="hidden" name="announcementType" value="${command.announcementType}" title="${dicts.content.ctt_announcement_type[command.announcementType]}">
+            <%--<div class="clearfix save lgg-version">
                 <label>${views.content['类型']}：</label>
                 <gb:select name="announcementType" notUseDefaultPrompt="true" value="${command.announcementType}"  list="${types}"></gb:select>
-            </div>
+            </div>--%>
             <div class="clearfix save lgg-version">
                 <c:forEach items="${languageList}" var="p" varStatus="status">
                     <a id="tag${status.index+1}" aria-expanded="${index.index==0?'true':'false'}" name="tag" tagIndex="${status.index+1}" class="${status.index=='0'?'current':''} a_${p.language} tag${status.index+1}"
