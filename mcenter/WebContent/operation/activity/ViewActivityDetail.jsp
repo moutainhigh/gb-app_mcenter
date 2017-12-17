@@ -15,6 +15,7 @@
         <div class="wrapper">
             <div class="wrapper shadow  white-bg" role="grid">
                 <c:set value="${command.result}" var="p"></c:set>
+                <input type="hidden" id="activityMessageId" value="${p.id}">
                 <div class="m-sm">
                     <div class="clearfix">
                         <div class="clearfix m-l-lg line-hi34">
@@ -419,7 +420,7 @@
                                                                     <td>${rule.quantity}${views.operation_auto['个']}</td>
                                                                     <td>${rule.audit}${views.operation_auto['倍']}</td>
                                                                     <td>${rule.probability}%</td>
-                                                                    <td><%--${rule.remainCount}--%>${views.operation_auto['个']}</td>
+                                                                    <td><span id="award_remain_count_${rule.id}">${rule.quantity}</span>${views.operation_auto['个']}</td>
                                                                 </tr>
                                                             </c:forEach>
                                                         </c:if>
