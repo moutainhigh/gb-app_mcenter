@@ -60,14 +60,15 @@
           </ul>
           <div class="clearfix filter-wraper border-b-1">
             <soul:button target="${root}/cttAnnouncement/addAnnouncement.html?announcementType=${command.search.announcementType}" title="${views.content['cttAnnouncement.create']}" tag="button" opType="dialog" text="${views.common['create']}" cssClass="btn btn-info btn-addon" callback="callBackQuery"><i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span></soul:button>
-
-            <div class="pull-left m-t-n-xxs">
-              <a class="btn btn-outline btn-filter" nav-target="mainFrame"
-                 href="/cttAnnouncement/orderCttAnnouncement.html?search.announcementType=${command.search.announcementType}">
-                <i class="fa fa-sort-amount-desc m-r-xs"></i>${views.common['order']}
-              </a>
-              <a href="" id="tot" nav-target="mainFrame" style="display: none"></a>
-            </div>
+            <c:if test="${command.search.announcementType == '1' || command.search.announcementType == '2'}">
+              <div class="pull-left m-t-n-xxs">
+                <a class="btn btn-outline btn-filter" nav-target="mainFrame"
+                   href="/cttAnnouncement/orderCttAnnouncement.html?search.announcementType=${command.search.announcementType}">
+                  <i class="fa fa-sort-amount-desc m-r-xs"></i>${views.common['order']}
+                </a>
+                <a href="" id="tot" nav-target="mainFrame" style="display: none"></a>
+              </div>
+            </c:if>
             <div class="function-menu-show hide">
                 <soul:button tag="button" target="${root}/cttAnnouncement/batchDeleteAnn.html" precall="" opType="ajax" text="${views.common['delete']}" post="getSelectIds" cssClass="btn btn-danger-hide _delete" callback="query" confirm="${views.content_auto['确认删除']}?"><i class="fa fa-trash-o"></i><span class="hd">${views.common['delete']}</span></soul:button>
             </div>
