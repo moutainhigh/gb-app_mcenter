@@ -72,7 +72,7 @@
                     </td>
                     <td>${p.betAmount}</td>
                     <td>${p.rebateAmount}</td>
-                    <c:if test="${p.status !=3}">
+                    <c:if test="${p.status ==1 || p.status==2}">
                         <c:set var="allRebateAmount" value="${allRebateAmount+p.rebateAmount}"/>
                         <c:set var="allBetAmount" value="${allBetAmount+p.betAmount}"/>
                         <c:set var="allPayout" value="${allPayout+p.payout}"></c:set>
