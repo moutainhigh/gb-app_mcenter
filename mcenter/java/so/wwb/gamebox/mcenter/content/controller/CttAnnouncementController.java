@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.content.controller;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.commons.query.sort.Direction;
 import org.soul.commons.support._Module;
 import org.soul.model.sys.po.SysDict;
 import org.soul.web.controller.BaseCrudController;
@@ -10,9 +11,7 @@ import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttAnnouncementService;
 import so.wwb.gamebox.mcenter.content.form.CttAnnouncementForm;
@@ -22,6 +21,8 @@ import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
+import so.wwb.gamebox.model.company.site.vo.VSiteApiTypeRelationListVo;
+import so.wwb.gamebox.model.company.site.vo.VSiteApiTypeRelationVo;
 import so.wwb.gamebox.model.master.content.enums.CttAnnouncementTypeEnum;
 import so.wwb.gamebox.model.master.content.po.CttAnnouncement;
 import so.wwb.gamebox.model.master.content.vo.CttAnnouncementListVo;
@@ -56,10 +57,16 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
     //region your codes 3
     private static final String EDIT = "/content/announcement/Edit";
 
+    private final static String ORDER_URL = "/content/announcement/OrderAnnouncement";
+
     @Override
     protected CttAnnouncementListVo doList(CttAnnouncementListVo listVo, CttAnnouncementSearchForm form, BindingResult result, Model model) {
+        if(StringTool.isBlank(listVo.getSearch().getAnnouncementType())){
+            listVo.getSearch().setAnnouncementType(CttAnnouncementTypeEnum.SITE_ANNOUNCEMENT.getCode());
+        }
         String s = SessionManager.getLocale().toString();
         listVo.getSearch().setLocalLanguage(s);
+        listVo.getQuery().addOrder(CttAnnouncement.PROP_ORDER_NUM, Direction.ASC);
         Map<String, SysDict> types = DictTool.get(DictEnum.CONTENT_CTTANNOUNCEMENT_TYPE);
         model.addAttribute("types", types);
         return this.getService().search(listVo);
@@ -236,6 +243,26 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         Cache.refreshSiteAnnouncement();
         Cache.refreshCurrentSitePageCache();
         return getVoMessage(vo);
+    }
+
+    @RequestMapping("/orderCttAnnouncement")
+    public String orderCttAnnouncement(CttAnnouncementListVo cttAnnouncementListVo, Model model){
+        cttAnnouncementListVo.setPaging(null);
+        String s = SessionManager.getLocale().toString();
+        cttAnnouncementListVo.getSearch().setLocalLanguage(s);
+        cttAnnouncementListVo.getQuery().addOrder(CttAnnouncement.PROP_ORDER_NUM, Direction.ASC);
+        cttAnnouncementListVo = this.getService().search(cttAnnouncementListVo);
+        model.addAttribute("command",cttAnnouncementListVo);
+        return ORDER_URL;
+    }
+
+    @RequestMapping(value = "/saveCttAnnouncementOrder",method = RequestMethod.POST ,headers = {"Content-type=application/json"})
+    @ResponseBody
+    public boolean saveCttAnnouncementOrder(@RequestBody CttAnnouncementVo cttAnnouncementVo, Model model){
+        this.getService().saveCttAnnouncementOrder(cttAnnouncementVo);
+        Cache.refreshSiteAnnouncement();
+        Cache.refreshCurrentSitePageCache();
+        return true;
     }
     //endregion your codes 3
 

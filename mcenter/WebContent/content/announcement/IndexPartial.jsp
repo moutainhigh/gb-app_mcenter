@@ -13,11 +13,7 @@
         <tr role="row" class="bg-gray">
             <th width="40"><input type="checkbox" class="i-checks "></th>
             <th width="80">${views.common['number']}</th>
-            <th class="inline">
-                <gb:select name="search.announcementType" value="${command.search.announcementType}" callback="query"
-                           prompt="${views.common['all']}" list="${types}"></gb:select>
-
-            </th>
+            <th width="80">类型</th>
             <th>${views.column['CttAnnouncement.content']}</th>
             <soul:orderColumn poType="${poType}" property="publishTime" column="${views.column['CttAnnouncement.publishTime']}"/>
             <th>${views.content['前端展示']}</th>
