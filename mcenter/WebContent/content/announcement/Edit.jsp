@@ -17,6 +17,10 @@
     <div id="resource">
         <div class="modal-body">
             <input type="hidden" name="announcementType" value="${command.announcementType}" title="${dicts.content.ctt_announcement_type[command.announcementType]}">
+            <div class="clearfix save lgg-version">
+                <label>${views.content['类型']}：</label>
+                <label>${dicts.content.ctt_announcement_type[command.announcementType]}</label>
+            </div>
             <%--<div class="clearfix save lgg-version">
                 <label>${views.content['类型']}：</label>
                 <gb:select name="announcementType" notUseDefaultPrompt="true" value="${command.announcementType}"  list="${types}"></gb:select>
