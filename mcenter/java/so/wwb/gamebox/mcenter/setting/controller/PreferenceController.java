@@ -5,6 +5,7 @@ import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.support._Module;
+import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.support.BaseWebConf;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +47,10 @@ public class PreferenceController {
      * @return
      */
     @RequestMapping("/index")
-    public String index(Model model) {
+    public String index(PreferenceVo preferenceVo,Model model) {
         refreshSysParam();
         // 权限密码设置时间
+        model.addAttribute("popUp", ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_OPENPLAYER_STATISTICS));
         model.addAttribute("privilagePassTime", ParamTool.getSysParam(SiteParamEnum.SETTING_PRIVILAGE_PASS_TIME));
         model.addAttribute("privilagePassMap",DictTool.get(DictEnum.PRIVILAGE_PASS_TIME));
         // 提示音设置
@@ -60,23 +62,8 @@ public class PreferenceController {
         model.addAttribute("toneAudit",ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_AUDIT));
         model.addAttribute("toneWarm",ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_WARM));
         model.addAttribute("toneNotice", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_NOTICE));
-        findEnableImportPlayerParam(model);
         model.addAttribute("webtype", "2");
         return "/setting/preferences/Index";
-    }
-    /**
-     * 查询是否可转站参数
-     * @param model
-     * @return
-     */
-    private void findEnableImportPlayerParam(Model model){
-        SysSiteVo sysSiteVo = new SysSiteVo();
-        sysSiteVo.getSearch().setId(SessionManager.getSiteId());
-        SysSite sysSite = ServiceTool.sysSiteService().getSiteImport(sysSiteVo);
-        if(sysSite!=null){
-            model.addAttribute("isEnableImport","1");
-            model.addAttribute("endImportTime",sysSite.getImportPlayersTime());
-        }
     }
 
     /**
@@ -186,6 +173,7 @@ public class PreferenceController {
     private void refreshSysParam() {
         ParamTool.refresh( SiteParamEnum.SETTING_PRIVILAGE_PASS_TIME);
         ParamTool.refresh( SiteParamEnum.WARMING_TONE_DEPOSIT);
+        //ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_OPENPLAYER_STATISTICS);
     }
 
 }
