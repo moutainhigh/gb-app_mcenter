@@ -13,11 +13,7 @@
         <tr role="row" class="bg-gray">
             <th width="40"><input type="checkbox" class="i-checks "></th>
             <th width="80">${views.common['number']}</th>
-            <th class="inline">
-                <gb:select name="search.announcementType" value="${command.search.announcementType}" callback="query"
-                           prompt="${views.common['all']}" list="${types}"></gb:select>
-
-            </th>
+            <th width="80">类型</th>
             <th>${views.column['CttAnnouncement.content']}</th>
             <soul:orderColumn poType="${poType}" property="publishTime" column="${views.column['CttAnnouncement.publishTime']}"/>
             <th>${views.content['前端展示']}</th>
@@ -62,7 +58,7 @@
                         ${soulFn:formatDateTz(p.publishTime, DateFormat.DAY_SECOND,timeZone)}
                     </c:if>
                 </td>
-                <td><input type="checkbox" name="my-checkbox" data-size="mini" ${p.display?'checked':''} value="${p.id}"></td>
+                <td><input type="checkbox" name="my-checkbox" data-size="mini" ${p.display?'checked':''} value="${p.id}" announcementType="${p.announcementType}"></td>
                 <td>
                     <div class="joy-list-row-operations">
                         <soul:button target="${root}/cttAnnouncement/editByCode.html?search.uuidCodes=${p.code}" title="${views.content['cttAnnouncement.create']}" text="${views.common['edit']}" opType="dialog" callback="callBackQuery"/>
