@@ -272,7 +272,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                     String[] names = username.split(",");
                     if (names.length == 1) {
                         vo.getSearch().setNewUserName(names[0]);
-                    } else {
+                    } else if(names.length>1){
                         vo.getSearch().setAccountNames(names);
                     }
                 }
