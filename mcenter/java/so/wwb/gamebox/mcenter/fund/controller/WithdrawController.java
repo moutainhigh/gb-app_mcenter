@@ -287,7 +287,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     private void initListVo(VPlayerWithdrawListVo vo) {
         VPlayerWithdrawSo search = vo.getSearch();
         //默认搜索3天内的数据
-        if (search.getCreateStart()==null&&search.getCreateEnd()==null){
+        if (search.getCreateStart()==null&&search.getCreateEnd()==null&&search.getCheckTimeStart()==null&&search.getCheckTimeEnd()==null){
             Date now = new Date();
             Date sevenDaysAgo = DateTool.addDays(now,-3);
             search.setCreateStart(sevenDaysAgo);
