@@ -164,7 +164,12 @@
 </div>
 <div class="clearfix m-t-md">
     <label class="ft-bold col-sm-3 al-right line-hi34">
-        ${views.operation_auto['奖项设置']}：</label>
+        ${views.operation_auto['奖项设置']}：
+            <br>
+            总时段数：<span id="totalPeriods"></span>
+    </label>
+
+
     <div class="col-sm-9">
         <%--先到先得，抢完为止：
         <label class="ft-bold al-left line-hi34">
@@ -176,14 +181,16 @@
                    <c:if test="${empty activityRule.awardsRulesType || activityRule.awardsRulesType=='0'}">checked</c:if> >${views.operation_auto['否']}
         </label>--%>
         <div class="tab-content table-responsive">
-            <table class="table border" style="width: 720px" id="awards_rules">
+            <table class="table border" style="width: 980px" id="awards_rules">
                 <tr>
-                    <td class="bg-gray ft-bold" style="width: 150px">${views.operation_auto['金额']}</td>
-                    <td class="bg-gray ft-bold" style="width: 160px;">${views.operation_auto['优惠稽核']}</td>
-                    <td class="bg-gray ft-bold" style="width: 150px">${views.operation_auto['名额']}</td>
-                    <td class="bg-gray ft-bold" style="width: 160px">${views.operation_auto['中奖概率']}</td>
+                    <td class="bg-gray ft-bold" style="width: 150px">红包${views.operation_auto['金额']}</td>
+                    <td class="bg-gray ft-bold" style="width: 120px">每个时段${views.operation_auto['名额']}</td>
+                    <td class="bg-gray ft-bold" style="width: 120px;">总名额</td>
+                    <td class="bg-gray ft-bold" style="width: 150px;">红包总金额</td>
+                    <td class="bg-gray ft-bold" style="width: 120px;">${views.operation_auto['优惠稽核']}</td>
+                    <td class="bg-gray ft-bold" style="width: 120px">${views.operation_auto['中奖概率']}</td>
                     <c:if test="${not empty rulesListVo.result}">
-                        <td class="bg-gray ft-bold" style="width: 150px">${messages.operation_auto['剩余名额']}</td>
+                    <td class="bg-gray ft-bold" style="width: 120px">时段剩余名额</td>
                     </c:if>
                     <td class="bg-gray ft-bold">${views.common['operate']}</td>
                 </tr>
@@ -191,19 +198,18 @@
                     <c:forEach var="rule" items="${rulesListVo.result}" varStatus="vs">
                         <tr>
 
-                            <td>${siteCurrencySign}<input type="number" onmousewheel="return false" class="input-text award_rule_amount" name="moneyAwardsRules[${vs.index}].amount" value="<fmt:formatNumber value='${rule.amount}' pattern='#.##' minFractionDigits='2'></fmt:formatNumber>" style="width: 80px"></td>
-                            <td><input type="number" onmousewheel="return false" class="input-text" name="moneyAwardsRules[${vs.index}].audit" value="${rule.audit}" style="width: 80px">${views.operation_auto['倍']}</td>
+                            <td>${siteCurrencySign}<input type="number" onmousewheel="return false" class="input-text award_amount" name="moneyAwardsRules[${vs.index}].amount" value="<fmt:formatNumber value='${rule.amount}' pattern='#.##' minFractionDigits='2'></fmt:formatNumber>" style="width: 80px"></td>
                             <td>
-                                <span name="moneyAwardsRules[${vs.index}].showQuantity">${rule.quantity}</span>
-                                <input type="hidden" class="input-text readonly1" name="moneyAwardsRules[${vs.index}].quantity" value="${rule.quantity}" style="width: 80px;" readonly="true">${views.operation_auto['个']}
-                                <input type="hidden" name="moneyAwardsRules[${vs.index}].oldQuantity" value="${rule.quantity}">
+                                <input type="number" class="input-text award_count" name="moneyAwardsRules[${vs.index}].quantity" value="${rule.quantity}" style="width: 80px;">${views.operation_auto['个']}
                                 <input type="hidden" name="moneyAwardsRules[${vs.index}].id" value="${rule.id}">
                             </td>
+                            <td><span class="award_total_count"></span></td>
+                            <td><span class="award_total_amount"></span></td>
+                            <td><input type="number" onmousewheel="return false" class="input-text" name="moneyAwardsRules[${vs.index}].audit" value="${rule.audit}" style="width: 80px">${views.operation_auto['倍']}</td>
+
+
                             <td><input type="number" onmousewheel="return false" class="input-text awards-rules-input-pro" name="moneyAwardsRules[${vs.index}].probability" value="${rule.probability}" style="width: 80px">%</td>
-                            <td>
-                                <input type="number" onmousewheel="return false" class="input-text remain-count-txt" name="moneyAwardsRules[${vs.index}].remainCount" value="${rule.remainCount}" style="width: 80px">
-                                <input type="hidden" name="moneyAwardsRules[${vs.index}].oldRemainCount" value="${rule.remainCount}">
-                            </td>
+                            <td><span></span></td>
                             <td>
                                 <soul:button target="deleteTableRow" text="" opType="function" cssClass="btn pull-left">
                                     <span class="hd">${views.common['delete']}</span>
@@ -216,10 +222,12 @@
                     <c:forEach var="rules" begin="0" end="2" varStatus="vs">
                         <tr>
                             <td>
-                                    ${siteCurrencySign}<input type="number" onmousewheel="return false" class="input-text award_rule_amount" name="moneyAwardsRules[${vs.index}].amount" style="width: 80px">
+                                    ${siteCurrencySign}<input type="number" onmousewheel="return false" class="input-text award_amount" name="moneyAwardsRules[${vs.index}].amount" style="width: 80px">
                             </td>
+                            <td><input type="number" onmousewheel="return false" class="input-text award_count" name="moneyAwardsRules[${vs.index}].quantity" style="width: 80px">${views.operation_auto['个']}</td>
+                            <td><span class="award_total_count"></span></td>
+                            <td><span class="award_total_amount"></span></td>
                             <td><input type="number" onmousewheel="return false" class="input-text" name="moneyAwardsRules[${vs.index}].audit" style="width: 80px">${views.operation_auto['倍']}</td>
-                            <td><input type="number" onmousewheel="return false" class="input-text" name="moneyAwardsRules[${vs.index}].quantity" style="width: 80px">${views.operation_auto['个']}</td>
                             <td><input type="number" onmousewheel="return false" class="input-text awards-rules-input-pro" name="moneyAwardsRules[${vs.index}].probability" style="width: 80px">%</td>
                             <td>
                                 <soul:button target="deleteTableRow" text="" opType="function" cssClass="btn pull-left">
@@ -232,7 +240,27 @@
 
                 </c:if>
             </table>
-            <table style="width: 720px"><tr><td>
+            <table style="width: 980px" id="total_count_table">
+                <tr>
+                    <td style="width: 150px;">
+                        总计：<span></span>
+                    </td>
+                    <td style="width: 120px;">
+                        总计：<span></span>
+                    </td>
+
+                    <td style="width: 120px;">
+                        总计：<span></span>
+                    </td>
+                    <td style="width: 150px;">
+                        总计：<span></span>
+                    </td>
+                    <td style="width: 120px;"></td>
+                    <td style="width: 120px;"></td>
+                    <td style="width: 120px;"></td>
+                    <td></td>
+                </tr>
+                <tr><td colspan="8">
                 <soul:button target="addAwardsRule" text="" opType="function" cssClass="btn btn-info btn-addon pull-right">
                     <span class="hd">${views.common['create']}</span>
                 </soul:button>
