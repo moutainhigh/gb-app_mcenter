@@ -1,14 +1,20 @@
 package so.wwb.gamebox.mcenter.operation.controller;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.iservice.master.operation.IActivityMoneyAwardsRulesService;
 import so.wwb.gamebox.mcenter.operation.form.ActivityMoneyAwardsRulesForm;
 import so.wwb.gamebox.mcenter.operation.form.ActivityMoneyAwardsRulesSearchForm;
 import so.wwb.gamebox.model.master.operation.po.ActivityMoneyAwardsRules;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMoneyAwardsRulesListVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMoneyAwardsRulesVo;
+import so.wwb.gamebox.model.master.operation.vo.VActivityMessageVo;
+
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -31,7 +37,19 @@ public class ActivityMoneyAwardsRulesController extends BaseCrudController<IActi
     }
 
     //region your codes 3
+    @RequestMapping(value = "/queryAwardRemainCount")
+    @ResponseBody
+    public List<ActivityMoneyAwardsRules> queryAwardRemainCount(ActivityMoneyAwardsRulesListVo listVo){
 
+        Integer id = listVo.getSearch().getActivityMessageId();
+        if(id==null){
+            return null;
+        }
+        listVo = getService().queryAwardRemainCount(listVo);
+
+        return listVo.getResult();
+
+    }
     //endregion your codes 3
 
 }

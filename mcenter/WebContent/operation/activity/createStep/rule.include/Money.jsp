@@ -209,7 +209,7 @@
 
 
                             <td><input type="number" onmousewheel="return false" class="input-text awards-rules-input-pro" name="moneyAwardsRules[${vs.index}].probability" value="${rule.probability}" style="width: 80px">%</td>
-                            <td><span></span></td>
+                            <td><span id="award_remain_count_${rule.id}">${rule.quantity}</span></td>
                             <td>
                                 <soul:button target="deleteTableRow" text="" opType="function" cssClass="btn pull-left">
                                     <span class="hd">${views.common['delete']}</span>
