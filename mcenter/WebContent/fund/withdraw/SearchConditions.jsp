@@ -4,9 +4,9 @@
 
 <div class="m-t-md">
     <div class="m-b-xs clearfix">
-        <div class="col-sm-3 clearfix search_1" style="padding-left: 0;">
+        <div class="col-sm-6 clearfix search_1" style="padding-left: 0;">
 
-            <div class="search-wrapper form-group clearfix pull-left col-md-12 col-sm-12 m-b-sm padding-r-none-sm searchType defaultSelect">
+            <div class="search-wrapper form-group clearfix pull-left col-md-5 col-sm-12 m-b-sm padding-r-none-sm searchType defaultSelect">
                 <div class="input-group">
                     <div class="input-group-btn">
 
@@ -50,21 +50,15 @@
 
 
 
-            <%--审核时间--%>
-            <div class="form-group clearfix pull-left col-md-7 col-sm-12 m-b-sm padding-r-none-sm senior hide checkTime">
-                <div class="input-group date time-select-a">
-                    <span class="input-group-addon bg-gray">${views.fund_auto['审核时间']}</span>
-                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:44%;" useToday="true" btnClass="search" startName="search.checkTimeStart" endName="search.checkTimeEnd" startDate="${command.search.checkTimeStart}" endDate="${command.search.checkTimeEnd}"/>
+
+            <%--创建时间--%>
+            <div class="form-group clearfix pull-left col-md-7 col-sm-12 m-b-sm padding-r-none-sm createTime">
+                <div class="input-group">
+                    <span class="input-group-addon bg-gray">${views.fund_auto['创建时间']}</span>
+                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:42%;" useToday="true" btnClass="search" startName="search.createStart" endName="search.createEnd" startDate="${command.search.createStart}" endDate="${command.search.createEnd}"/>
                 </div>
             </div>
 
-            <%--创建时间--%>
-            <%--<div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm  hide senior createTime">
-                <div class="input-group">
-                    <span class="input-group-addon bg-gray">${views.fund_auto['创建时间']}</span>
-                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:38%;" useToday="true" btnClass="search" startName="search.createStart" endName="search.createEnd" startDate="${command.search.createStart}" endDate="${command.search.createEnd}"/>
-                </div>
-            </div>--%>
 
 
 
@@ -126,7 +120,7 @@
             <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm h-line-a senior hide origin">
                 <div class="input-group">
                     <span class="input-group-addon bg-gray">${views.fund_auto['来源终端']}</span>
-                            <span class=" input-group-addon bdn  right-btn-down">
+                    <span class=" input-group-addon bdn  right-btn-down">
                             <div class="btn-group table-desc-right-t-dropdown">
                                 <ul role="menu">
                                     <li role="presentation">
@@ -217,25 +211,23 @@
 
         </div>
 
-        <div class="col-sm-9 clearfix  search_2 m-b-xs">
-
-            <%--创建时间--%>
-            <div class="form-group clearfix pull-left col-md-5 col-sm-12 m-b-sm padding-r-none-sm createTime">
-                <div class="input-group">
-                    <span class="input-group-addon bg-gray">${views.fund_auto['创建时间']}</span>
-                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:38%;" useToday="true" btnClass="search" startName="search.createStart" endName="search.createEnd" startDate="${command.search.createStart}" endDate="${command.search.createEnd}"/>
+        <div class="col-sm-6 clearfix  search_2 m-b-xs">
+            <%--审核时间--%>
+            <div class="form-group clearfix pull-left col-md-7 col-sm-12 m-b-sm padding-r-none-sm senior hide checkTime">
+                <div class="input-group date time-select-a">
+                    <span class="input-group-addon bg-gray">${views.fund_auto['审核时间']}</span>
+                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:44%;" useToday="true" btnClass="search" startName="search.checkTimeStart" endName="search.checkTimeEnd" startDate="${command.search.checkTimeStart}" endDate="${command.search.checkTimeEnd}"/>
                 </div>
             </div>
-
             <c:if test="${realActive}">
-            <div class="btn-group pull-right">
-                <select class="btn-group chosen-select-no-single" app="btn btn-info-hide dropdown-toggle radius_3" name="toneSwitch" callback="toneSwitch">
-                    <option value="0" ${command.tone.active ? 'selected' : ''}>${views.fund_auto['启用声音']}</option>
-                    <option value="1" ${command.tone.active ? '' : 'selected'}>${views.fund_auto['禁用声音']}</option>
-                </select>
-                <input type="hidden" name="switchVal" value="${command.tone.active ? 0 : 1}" />
-                <span class="switchTip hide"></span>
-            </div>
+                <div class="btn-group pull-right">
+                    <select class="btn-group chosen-select-no-single" app="btn btn-info-hide dropdown-toggle radius_3" name="toneSwitch" callback="toneSwitch">
+                        <option value="0" ${command.tone.active ? 'selected' : ''}>${views.fund_auto['启用声音']}</option>
+                        <option value="1" ${command.tone.active ? '' : 'selected'}>${views.fund_auto['禁用声音']}</option>
+                    </select>
+                    <input type="hidden" name="switchVal" value="${command.tone.active ? 0 : 1}" />
+                    <span class="switchTip hide"></span>
+                </div>
             </c:if>
             <%@include file="/fund/Refresh.jsp"%>
             <div class="pull-right line-hi34 m-r-sm" hidden>${views.fund_auto['共']}<span class="co-red3">${siteCurrencySign}<span id="totalSumTarget">${command.totalSum}</span></span></div>
