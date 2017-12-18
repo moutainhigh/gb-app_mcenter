@@ -79,6 +79,7 @@ public class CompanyDepositController extends BaseDepositController {
     protected VPlayerDepositListVo doData(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
         // 初始化筛选条件
         this.initQuery(listVo);
+        this.initListVo(listVo);
         // 公司入款声音参数
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DEPOSIT);
         if(sysParam!=null){
@@ -128,7 +129,8 @@ public class CompanyDepositController extends BaseDepositController {
                 deposit.set_recharge_type_dict(dictsMap.get("fund").get("recharge_type").get(rechargeType));
                 String fundAutoData = getFundAutoData(deposit,views);
                 if(StringTool.isNotBlank(deposit.getBankOrder())&& !DepositWayEnum.BITCOIN_FAST.getCode().equals(rechargeType)){
-                    if(DepositWayEnum.WECHATPAY_FAST.getCode().equals(rechargeType)||DepositWayEnum.QQWALLET_FAST.getCode().equals(rechargeType)||
+                    if(DepositWayEnum.ALIPAY_FAST.getCode().equals(rechargeType)||DepositWayEnum.WECHATPAY_FAST.getCode().equals(rechargeType)||
+                            DepositWayEnum.QQWALLET_FAST.getCode().equals(rechargeType)||
                             DepositWayEnum.JDWALLET_FAST.getCode().equals(rechargeType)||DepositWayEnum.BDWALLET_FAST.getCode().equals(rechargeType)||
                             DepositWayEnum.ONECODEPAY_FAST.getCode().equals(rechargeType)||DepositWayEnum.OTHER_FAST.getCode().equals(rechargeType)){
                         String data = views.get("fund_auto").get("订单尾号");
