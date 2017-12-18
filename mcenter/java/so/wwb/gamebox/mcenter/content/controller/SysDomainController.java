@@ -90,7 +90,6 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     protected SysDomainListVo doList(SysDomainListVo listVo, SysDomainSearchForm form, BindingResult result, Model model) {
         listVo.setSearch(createSearchObj(listVo.getSearch()));
         listVo = super.doList(listVo, form, result, model);
-        ParamTool.refresh(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX);
         listVo.setDomainTypes(ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX));
         return listVo;
     }
