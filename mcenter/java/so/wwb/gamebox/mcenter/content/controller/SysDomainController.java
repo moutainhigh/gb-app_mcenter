@@ -28,10 +28,7 @@ import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.sys.ISysDomainService;
 import so.wwb.gamebox.mcenter.content.form.*;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.BossParamEnum;
-import so.wwb.gamebox.model.CacheBase;
-import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SubSysCodeEnum;
+import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.enums.DomainCheckStatusEnum;
 import so.wwb.gamebox.model.company.enums.DomainPageUrlEnum;
@@ -186,11 +183,34 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         return sysDomainVo;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     @Token(generate = true)
     public String create(SysDomainVo objectVo, Model model, HttpServletRequest request, HttpServletResponse response) {
         return super.create(objectVo, model, request, response);
     }
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     protected SysDomainVo doCreate(SysDomainVo sysDomainVo, Model model) {

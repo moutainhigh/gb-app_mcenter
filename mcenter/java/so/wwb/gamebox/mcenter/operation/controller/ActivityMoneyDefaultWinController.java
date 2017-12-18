@@ -4,6 +4,7 @@ import org.soul.commons.collections.MapTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.math.NumberTool;
 import org.soul.model.security.privilege.po.SysUser;
 import org.soul.model.security.privilege.po.SysUserStatus;
 import org.soul.model.security.privilege.vo.SysUserListVo;
@@ -174,11 +175,24 @@ public class ActivityMoneyDefaultWinController extends BaseCrudController<IActiv
         awardsRulesVo.getSearch().setId(id);
         awardsRulesVo = ServiceTool.activityMoneyAwardsRulesService().get(awardsRulesVo);
         if(awardsRulesVo.getResult()!=null){
+
+            Long totalPeriod = queryTotalCount(awardsRulesVo);
+
+            long totalCount = totalPeriod * awardsRulesVo.getResult().getQuantity();
+            awardsRulesVo.getResult().setSingleRemainCount(NumberTool.toInt(totalCount+""));
             return awardsRulesVo.getResult();
         }
         return null;
 
     }
+
+    private Long queryTotalCount(ActivityMoneyAwardsRulesVo awardsRulesVo) {
+        ActivityMoneyDefaultWinVo objectVo = new ActivityMoneyDefaultWinVo();
+        objectVo.setResult(new ActivityMoneyDefaultWin());
+        objectVo.getResult().setActivityMessageId(awardsRulesVo.getResult().getActivityMessageId());
+        return getService().countTotalPeriod(objectVo);
+    }
+
     @RequestMapping(value = "/hasUseDefaultWinPlayer")
     @ResponseBody
     public String hasUseDefaultWinPlayer(ActivityMoneyDefaultWinVo defaultWinVo){

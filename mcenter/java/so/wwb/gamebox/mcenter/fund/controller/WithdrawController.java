@@ -12,6 +12,7 @@ import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.locale.DateFormat;
 import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
@@ -25,6 +26,7 @@ import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
 import org.soul.commons.security.CryptoTool;
 import org.soul.commons.security.key.CryptoKey;
+import org.soul.commons.spring.utils.SpringTool;
 import org.soul.commons.support._Module;
 import org.soul.model.comet.vo.MessageVo;
 import org.soul.model.listop.po.SysListOperator;
@@ -40,11 +42,13 @@ import org.soul.model.sys.so.SysDictSo;
 import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.controller.NoMappingCrudController;
 import org.soul.web.listop.ListOpTool;
+import org.soul.web.session.RedisSessionDao;
 import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
@@ -95,6 +99,7 @@ import so.wwb.gamebox.model.master.player.po.VUserPlayer;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.model.master.report.so.VPlayerTransactionSo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionVo;
+import so.wwb.gamebox.web.IpRegionTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
 
@@ -190,24 +195,43 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             buildPlayerRankData(model, sysUserDataRights);
             if (CollectionTool.isNotEmpty(sysUserDataRights)) {
                 masterSubSearch(vo,sysUserDataRights);
-                if (vo.getSearch().isTodaySales()) {
-                    //今日成功统计--jerry
-                    todayTotal(vo);
-                } else {
-                    Double sum = ServiceTool.vPlayerWithdrawService().sumPlayerWithdraw(vo);
-                    vo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
-                }
-                vo = ServiceTool.vPlayerWithdrawService().searchPlayerWithdraw(vo);
-            } else {
-                vo = getTotalWithdraw(vo);
             }
-
         } else {
-            vo = getTotalWithdraw(vo);
             model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
         }
 
-        // 公司入款声音参数
+        handleVoice(vo, model);// 公司入款声音参数
+        handleWithdrawStatus(model);//处理取款状态
+        Map<String, Serializable> bankName = getBankList();//DictTool.get(DictEnum.BANKNAME);
+        model.addAttribute("bankName", bankName);
+
+        handleTemple(model);//筛选模板
+        vo.setThisUserId(SessionManager.getAuditUserId());
+        model.addAttribute("command", vo);
+
+        VPlayerWithdrawSo search = vo.getSearch();
+        //把转义符合去掉
+        handleEscape(search);
+        vo.setSearch(search);
+        return ServletTool.isAjaxSoulRequest(request) ? WITHDRAW_INDEX_PARIAL_URl : WITHDRAW_INDEX_URL;
+    }
+
+    /**
+     * 筛选模板
+     * @param model
+     */
+    private void handleTemple(Model model) {
+        String templateCode = TemplateCodeEnum.fund_withdraw_player_check.getCode();
+        model.addAttribute("searchTempCode", templateCode);
+        model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.fund_withdraw_player_check.getCode()));
+    }
+
+    /**
+     * 公司入款声音参数
+     * @param vo
+     * @param model
+     */
+    private void handleVoice(VPlayerWithdrawListVo vo, Model model) {
         SysParam systemParam = ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DRAW);
         model.addAttribute("realActive", systemParam.getActive());
         model.addAttribute("systemParam", systemParam);
@@ -215,23 +239,13 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             systemParam.setActive(SessionManager.getWithdrawNotice());
         }
         vo.setTone(systemParam);
-        Map<String, Serializable> siteWithdrawStatus = DictTool.get(DictEnum.WITHDRAW_STATUS);
-        siteWithdrawStatus.remove(WithdrawStatusEnum.PENDING_SUB.getCode());
-        siteWithdrawStatus.remove(WithdrawStatusEnum.CANCELLATION_OF_ORDERS.getCode());
-        siteWithdrawStatus.remove(WithdrawStatusEnum.DEALAUDITFAIL.getCode());
-        model.addAttribute("siteWithdrawStatus", siteWithdrawStatus);
-        Map<String, Serializable> bankName = getBankList();//DictTool.get(DictEnum.BANKNAME);
-        model.addAttribute("bankName", bankName);
+    }
 
-        //筛选模板
-        String templateCode = TemplateCodeEnum.fund_withdraw_player_check.getCode();
-        model.addAttribute("searchTempCode", templateCode);
-        model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.fund_withdraw_player_check.getCode()));
-        vo.setThisUserId(SessionManager.getAuditUserId());
-        model.addAttribute("command", vo);
-
-        //把转义符合去掉
-        VPlayerWithdrawSo search = vo.getSearch();
+    /**
+     * 处理转义符
+     * @param search
+     */
+    private void handleEscape(VPlayerWithdrawSo search) {
         if (StringTool.isNotBlank(search.getUsername())) {
             search.setUsername(search.getUsername().replaceAll("\\\\", ""));
         }
@@ -250,8 +264,163 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (StringTool.isNotBlank(search.getPayeeBankcard())) {
             search.setPayeeBankcard(search.getPayeeBankcard().replaceAll("\\\\", ""));
         }
+    }
+
+    @Override
+    protected VPlayerWithdrawListVo doList(VPlayerWithdrawListVo listVo, VPlayerWithdrawSearchForm form, BindingResult result, Model model) {
+        return super.doList(listVo, form, result, model);
+    }
+
+    /**
+     * 查询提现列表
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping({"/withdrawData"})
+    @ResponseBody
+    protected VPlayerWithdrawListVo withdrawData(HttpServletRequest request, VPlayerWithdrawListVo vo, Model model) {
+        vo.setValidateRule(JsRuleCreator.create(VPlayerWithdrawSearchForm.class, "search"));
+        initListVo(vo);
+        if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
+            List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
+            buildPlayerRankData(model, sysUserDataRights);
+            if (CollectionTool.isNotEmpty(sysUserDataRights)) {
+                masterSubSearch(vo,sysUserDataRights);
+                vo = ServiceTool.vPlayerWithdrawService().searchPlayerWithdraw(vo);
+            } else {
+                vo = getTotalWithdraw(vo);
+            }
+
+        } else {
+            vo = getTotalWithdraw(vo);
+        }
+        vo.setThisUserId(SessionManager.getAuditUserId());
+        model.addAttribute("command", vo);
+        //把转义符合去掉
+        VPlayerWithdrawSo search = vo.getSearch();
         vo.setSearch(search);
-        return ServletTool.isAjaxSoulRequest(request) ? WITHDRAW_INDEX_PARIAL_URl : WITHDRAW_INDEX_URL;
+        handleTempleData(vo);
+        return vo;
+    }
+
+    @RequestMapping({"/withdrawStatistics"})
+    @ResponseBody
+    protected VPlayerWithdrawListVo withdrawStatistics(HttpServletRequest request, VPlayerWithdrawListVo vo, Model model) {
+        initListVo(vo);
+        if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
+            List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
+            if (CollectionTool.isNotEmpty(sysUserDataRights)) {
+                masterSubSearch(vo,sysUserDataRights);
+                if (vo.getSearch().isTodaySales()) {
+                    //今日成功统计--jerry
+                    todayTotal(vo);
+                } else {
+                    Double sum = ServiceTool.vPlayerWithdrawService().sumPlayerWithdraw(vo);
+                    vo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
+                }
+            } else {
+                getStatistics(vo);
+            }
+
+        } else {
+            getStatistics(vo);
+        }
+        return vo;
+    }
+
+    /**
+     * 获取统计数据
+     * @param vo
+     */
+    private void getStatistics(VPlayerWithdrawListVo vo) {
+        if (vo.getSearch().isTodaySales()) {
+            //今日成功统计--jerry
+            todayTotal(vo);
+        } else {
+            vo.setPropertyName(VPlayerWithdraw.PROP_WITHDRAW_ACTUAL_AMOUNT);
+            Number sum = this.getService().sum(vo);
+            vo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum.doubleValue()));
+        }
+    }
+
+    /**
+     * 处理模板渲染数据
+     * @param vo
+     */
+    private void handleTempleData(VPlayerWithdrawListVo vo) {
+        if(CollectionTool.isNotEmpty(vo.getResult())){
+            RedisSessionDao redisSessionDao =  (RedisSessionDao) SpringTool.getBean("redisSessionDao");
+            DateFormat dateFormat = new DateFormat();
+            TimeZone timeZone = SessionManagerCommon.getTimeZone();
+            Map<String, Map<String, Map<String, String>>> dictsMap = I18nTool.getDictsMap(SessionManagerCommon.getLocale().toString());
+            Map<String, Map<String, String>> views = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views");
+            List<VPlayerWithdraw> result = vo.getResult();
+            for (VPlayerWithdraw vPlayerWithdraw : result) {
+                boolean userActive = redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), vPlayerWithdraw.getPlayerId()).size() > 0;
+                vPlayerWithdraw.set_userActiveSession(userActive);
+                vPlayerWithdraw.set_formatDateTz_createTime(LocaleDateTool.formatDate(vPlayerWithdraw.getCreateTime(), dateFormat.getDAY_SECOND(), timeZone));
+                Double counterFee = vPlayerWithdraw.getCounterFee();
+                String _counterFee_pre = counterFee > 0 ? "-" :"";
+                String _counterFee = _counterFee_pre+CurrencyTool.formatInteger(counterFee)+CurrencyTool.formatDecimals(counterFee);
+                vPlayerWithdraw.set_counterFee(_counterFee);
+                Double administrativeFee = vPlayerWithdraw.getAdministrativeFee();
+                String _administrativeFee_pre = administrativeFee > 0 ? "-" :"";
+                String _administrativeFee = _administrativeFee_pre+CurrencyTool.formatInteger(administrativeFee)+CurrencyTool.formatDecimals(administrativeFee);
+                vPlayerWithdraw.set_administrativeFee(_administrativeFee);
+                Double deductFavorable = vPlayerWithdraw.getDeductFavorable();
+                String _deductFavorable_pre = deductFavorable > 0 ? "-" :"";
+                String _deductFavorable = _deductFavorable_pre+CurrencyTool.formatInteger(deductFavorable)+CurrencyTool.formatDecimals(deductFavorable);
+                vPlayerWithdraw.set_deductFavorable(_deductFavorable);
+                String currenct_symbol = dictsMap.get("common").get("currency_symbol").get(vPlayerWithdraw.getWithdrawMonetary());
+                vPlayerWithdraw.set_currency_symbol_withdrawMonetary(currenct_symbol);
+                vPlayerWithdraw.set_withdrawActualAmount_formatInteger(CurrencyTool.formatInteger(vPlayerWithdraw.getWithdrawActualAmount()));
+                vPlayerWithdraw.set_withdrawActualAmount_formatDecimals(CurrencyTool.formatDecimals(vPlayerWithdraw.getWithdrawActualAmount()));
+                vPlayerWithdraw.set_bitAmount_formatNumber(getBitFormat(vPlayerWithdraw));
+                if(StringTool.isNotBlank(vPlayerWithdraw.getLockPersonName())){
+                    String lockPersonName_replace = views.get("fund_auto").get("当前").replace("[0]",vPlayerWithdraw.getLockPersonName());
+                    vPlayerWithdraw.set_lockPersonName_replace(lockPersonName_replace);
+                }
+                vPlayerWithdraw.set_dicts_fund_withdraw_status(dictsMap.get("fund").get("withdraw_status").get(vPlayerWithdraw.getWithdrawStatus()));
+                if(StringTool.isNotBlank(vPlayerWithdraw.getCheckRemark())){
+                    String checkRemark = vPlayerWithdraw.getCheckRemark();
+                    vPlayerWithdraw.set_checkRemark_length(checkRemark.length());
+                    String remark_substring = (checkRemark.length()>20)?checkRemark.substring(0, 20):checkRemark;
+                    vPlayerWithdraw.set_checkRemark_substring(remark_substring);
+                }
+                vPlayerWithdraw.set_getIpRegion_ipDictCode(IpRegionTool.getIpRegion(vPlayerWithdraw.getIpDictCode()));
+                vPlayerWithdraw.set_ipWithdraw_ipv4LongToString(IpTool.ipv4LongToString(vPlayerWithdraw.getIpWithdraw()));
+                vPlayerWithdraw.set_islockPersonId(SessionManager.getAuditUserId().equals(vPlayerWithdraw.getLockPersonId()));
+            }
+        }
+    }
+
+    /**
+     * 获取bition的格式
+     * @param vPlayerWithdraw
+     * @return
+     */
+    private String getBitFormat(VPlayerWithdraw vPlayerWithdraw) {
+        DecimalFormat BONUS = new DecimalFormat("#.########");
+        Double bitAmount = vPlayerWithdraw.getBitAmount();
+        String format ="0.0";
+        if(bitAmount!=null){
+            BigDecimal bd = new BigDecimal(String.valueOf(bitAmount));
+            format= BONUS.format(bd.setScale(8, BigDecimal.ROUND_DOWN));
+        }
+        return format;
+    }
+
+    /**
+     * 处理取款状态
+     * @param model
+     */
+    private void handleWithdrawStatus(Model model) {
+        Map<String, Serializable> siteWithdrawStatus = DictTool.get(DictEnum.WITHDRAW_STATUS);
+        siteWithdrawStatus.remove(WithdrawStatusEnum.PENDING_SUB.getCode());
+        siteWithdrawStatus.remove(WithdrawStatusEnum.CANCELLATION_OF_ORDERS.getCode());
+        siteWithdrawStatus.remove(WithdrawStatusEnum.DEALAUDITFAIL.getCode());
+        model.addAttribute("siteWithdrawStatus", siteWithdrawStatus);
     }
 
     /**
@@ -272,7 +441,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                     String[] names = username.split(",");
                     if (names.length == 1) {
                         vo.getSearch().setNewUserName(names[0]);
-                    } else {
+                    } else if(names.length>1){
                         vo.getSearch().setAccountNames(names);
                     }
                 }
@@ -393,14 +562,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     //总额计算
     private VPlayerWithdrawListVo getTotalWithdraw(VPlayerWithdrawListVo vo) {
-        if (vo.getSearch().isTodaySales()) {
-            //今日成功统计--jerry
-            todayTotal(vo);
-        } else {
-            vo.setPropertyName(VPlayerWithdraw.PROP_WITHDRAW_ACTUAL_AMOUNT);
-            Number sum = this.getService().sum(vo);
-            vo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum.doubleValue()));
-        }
         vo = ServiceTool.getVPlayerWithdrawService().searchWithdraw(vo);
         return vo;
     }
