@@ -108,12 +108,12 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
         model.addAttribute("validateRule", JsRuleCreator.create(VPlayerFundsRecordSearchForm.class));
 
         Map<String, SiteApi> siteApiMaps = Cache.getSiteApi(SessionManager.getSiteId());
-        model.addAttribute("siteApiMaps",siteApiMaps);
+        model.addAttribute("siteApiMaps", siteApiMaps);
         //默认搜索成功订单:列表页面
         if (listVo.getSearch().getStatus() == null) {
             listVo.getSearch().setStatus(CommonStatusEnum.SUCCESS.getCode());
         }
-        if(listVo.isAnalyzeNewAgent()){
+        if (listVo.isAnalyzeNewAgent()) {
             listVo.getSearch().setOrigin("all");
         }
         //判断进入统计页面或资金列表页面
@@ -144,31 +144,31 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                 listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionOutLink(listVo);
             } else {
                 //查询列表
-                if(listVo.isAnalyzeNewAgent()){
+                if (listVo.isAnalyzeNewAgent()) {
                     listVo.getSearch().setOrigin("");
-                    Integer searchType=listVo.getSearchType();
-                    if (searchType!=null){
-                        if (searchType==1){
+                    Integer searchType = listVo.getSearchType();
+                    if (searchType != null) {
+                        if (searchType == 1) {
                             listVo.getSearch().setTransactionType("deposit");
                             listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionOrder(listVo);
-                        }else if (searchType==2){
+                        } else if (searchType == 2) {
                             listVo.getSearch().setTransactionType("withdrawals");
                             listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionOrder(listVo);
-                        }else if (searchType==3){
+                        } else if (searchType == 3) {
                             listVo.getSearch().setTransactionType("deposit");
                             listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrder(listVo);
-                        }else if(searchType==4){
+                        } else if (searchType == 4) {
                             listVo.getSearch().setTransactionType("withdrawals");
                             listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrder(listVo);
-                        }else if (searchType==5){
+                        } else if (searchType == 5) {
                             listVo.getSearch().setTransactionType("deposit");
                             listVo = ServiceTool.vPlayerFundsRecordService().queryTotalTransactionOrder(listVo);
-                        }else {
+                        } else {
                             listVo.getSearch().setTransactionType("withdrawals");
                             listVo = ServiceTool.vPlayerFundsRecordService().queryTotalTransactionOrder(listVo);
                         }
                     }
-                }else {
+                } else {
                     listVo = super.doList(listVo, form, result, model);
                 }
             }
@@ -297,18 +297,11 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             }
         } else {
             //默认检索完成时间:最近7天
-            if (listVo.getSearch().getStartTime() == null && listVo.getSearch().getEndTime() == null) {
+            if (listVo.getSearch().getStartTime() == null && listVo.getSearch().getEndTime() == null && listVo.getSearch().getStartCreateTime() == null && listVo.getSearch().getEndCreateTime() == null) {
                 listVo.getSearch().setStartTime(SessionManager.getDate().getToday());
                 listVo.getSearch().setEndTime(SessionManager.getDate().getTomorrow());
             }
         }
-    }
-
-    /**
-     * 减去1秒
-     */
-    private Date subtract1second(Date date) {
-        return DateTool.addSeconds(date, -1);
     }
 
     /**
@@ -352,18 +345,18 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             sumMoney = ServiceTool.vPlayerFundsRecordService().playerTransactionOutLinkSum(listVo);
 
         }
-        if (listVo.isAnalyzeNewAgent()){
-            Integer searchType=listVo.getSearchType();
-            if (searchType!=null){
-                if (searchType==1||searchType==2){
+        if (listVo.isAnalyzeNewAgent()) {
+            Integer searchType = listVo.getSearchType();
+            if (searchType != null) {
+                if (searchType == 1 || searchType == 2) {
                     sumMoney = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionOrderSum(listVo);
-                } else if (searchType==3||searchType==4){
+                } else if (searchType == 3 || searchType == 4) {
                     sumMoney = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrderSum(listVo);
                 } else {
                     sumMoney = ServiceTool.vPlayerFundsRecordService().queryTotalTransactionOrderSum(listVo);
                 }
             }
-        }else {
+        } else {
             sumMoney = ServiceTool.vPlayerFundsRecordService().AmountSum(listVo);
         }
         return CurrencyTool.formatCurrency(sumMoney == null ? 0 : sumMoney);
