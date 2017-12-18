@@ -103,6 +103,19 @@ public class CompanyDepositController extends BaseDepositController {
         return super.doList(listVo, moduleType, form, result, model);
     }
 
+    @RequestMapping("/doStatistics")
+    @ResponseBody
+    protected VPlayerDepositListVo doStatistics(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
+        // 初始化筛选条件
+        this.initQuery(listVo);
+        this.initListVo(listVo);
+        getCurrencySign(model);
+        String moduleType = DataRightModuleType.COMPANYDEPOSIT.getCode();
+        listVo = getStatistics(listVo, moduleType, form, result, model);
+        return listVo;
+    }
+
+
     /**
      * 处理页面模板化数据
      * @param listVo
