@@ -61,15 +61,14 @@
     <table id="hidden_awards_rules" style="display: none;">
         <tr>
             <td>
-                ${siteCurrencySign}<input type="number" class="input-text award_rule_amount" name="moneyAwardsRules[{n}].amount" style="width: 80px">
+                ${siteCurrencySign}<input type="number" class="input-text award_amount" name="moneyAwardsRules[{n}].amount" style="width: 80px">
             </td>
+            <td><input type="number" class="input-text award_count" name="moneyAwardsRules[{n}].quantity" style="width: 80px">${views.operation_auto['个']}</td>
+            <td><span class="award_total_count"></span></td>
+            <td><span class="award_total_amount"></span></td>
             <td><input type="number" class="input-text" name="moneyAwardsRules[{n}].audit" style="width: 80px">${views.operation_auto['倍']}</td>
-            <td><input type="number" class="input-text" name="moneyAwardsRules[{n}].quantity" style="width: 80px">${views.operation_auto['个']}</td>
-
             <td><input type="number" class="input-text awards-rules-input-pro" name="moneyAwardsRules[{n}].probability" style="width: 80px">%</td>
-            <c:if test="${not empty rulesListVo.result}">
-                <td></td>
-            </c:if>
+            <td><span></span></td>
             <td>
                 <soul:button target="deleteTableRow" text="" opType="function" cssClass="btn pull-left">
                     <span class="hd">${views.common['delete']}</span>

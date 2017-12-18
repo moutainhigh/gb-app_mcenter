@@ -13,6 +13,7 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.net.IpTool;
+import org.soul.commons.query.Paging;
 import org.soul.commons.support._Module;
 import org.soul.model.listop.po.SysListOperator;
 import org.soul.model.sys.po.SysDict;
@@ -99,19 +100,32 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
     public String count(VPlayerDepositListVo listVo,String moduleType, Model model, String isCounter) {
         // 初始化筛选条件
         initQuery(listVo);
-        //获取子账号查询条件
-        List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
-        masterSubSearch(listVo,moduleType,sysUserDataRights);
-        listVo = doCount(listVo, isCounter);
+        initListVo(listVo);
+        listVo = doCount(listVo, moduleType, isCounter);
         listVo.getPaging().cal();
         model.addAttribute("command", listVo);
         return getViewBasePath() + "IndexPagination";
     }
 
-    public VPlayerDepositListVo doCount(VPlayerDepositListVo listVo, String isCounter) {
+    public VPlayerDepositListVo doCount(VPlayerDepositListVo listVo, String moduleType,String isCounter) {
         if (StringTool.isBlank(isCounter)) {
-            long count = ServiceTool.vPlayerDepositService().count(listVo);
-            listVo.getPaging().setTotalCount(count);
+            if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
+                //获取子账号查询条件
+                List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
+                if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
+                    masterSubSearch(listVo,moduleType,sysUserDataRights);
+                    Paging paging = listVo.getPaging();
+                    paging.setTotalCount(ServiceTool.vPlayerDepositService().countPlayerDeposit(listVo));
+                    paging.cal();
+                    listVo = ServiceTool.vPlayerDepositService().searchPlayerDeposit(listVo);
+                } else {
+                    long count = ServiceTool.vPlayerDepositService().count(listVo);
+                    listVo.getPaging().setTotalCount(count);
+                }
+            } else {
+                long count = ServiceTool.vPlayerDepositService().count(listVo);
+                listVo.getPaging().setTotalCount(count);
+            }
         }
         return listVo;
     }
@@ -125,7 +139,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         VPlayerDepositSo search = listVo.getSearch();
 
         //默认搜索3天内的数据
-        if (search.getCreateStart()==null&&search.getCreateEnd()==null){
+        if (search.getCreateStart()==null&&search.getCreateEnd()==null&&search.getCheckTimeStart()==null&&search.getCheckTimeEnd()==null){
             Date now = new Date();
             Date sevenDaysAgo = DateTool.addDays(now,-3);
             search.setCreateStart(sevenDaysAgo);
@@ -148,13 +162,6 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         }
         if (StringTool.isNotBlank(search.getFullName())) {
             search.setFullName(search.getFullName().replaceAll("_", "\\\\_"));
-        }
-        //结束时间加1秒
-        if (search.getCreateEnd() != null) {
-            search.setCreateEnd(DateTool.addSeconds(search.getCreateEnd(), 1));
-        }
-        if (search.getCheckTimeEnd() != null) {
-            search.setCheckTimeEnd(DateTool.addSeconds(search.getCheckTimeEnd(), 1));
         }
         listVo.setSearch(search);
         String typeParent = listVo.getSearch().getRechargeTypeParent();
@@ -467,35 +474,13 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
             if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
                 masterSubSearch(listVo, moduleType,sysUserDataRights);
                 buildPlayerRankData(model,sysUserDataRights);
-                if (listVo.getSearch().isTodaySales()) {
-                    //今日成功统计--jerry
-                    VPlayerDepositListVo vPlayerDepositListVo = new VPlayerDepositListVo();
-                    Date today = SessionManager.getDate().getToday();
-                    Date todayEnd = DateTool.addDays(SessionManager.getDate().getToday(), 1);
-                    vPlayerDepositListVo.getSearch().setCheckTimeStart(today);
-                    vPlayerDepositListVo.getSearch().setCheckTimeEnd(todayEnd);
-                    vPlayerDepositListVo._setContextParam(listVo._getContextParam());
-                    if (listVo.getSearch().getRechargeTypeParent().equals(RechargeTypeParentEnum.COMPANY_DEPOSIT.getCode())) {
-                        vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.SUCCESS.getCode());
-                    } else {
-                        vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.ONLINE_SUCCESS.getCode());
-                    }
-                    vPlayerDepositListVo.getSearch().setRechargeTypeParent(listVo.getSearch().getRechargeTypeParent());
-                    vPlayerDepositListVo.getSearch().setModuleType(listVo.getSearch().getModuleType());
-                    vPlayerDepositListVo.getSearch().setDataRightUserId(SessionManager.getUserId());
-                    Double sum = ServiceTool.vPlayerDepositService().sumPlayerDeposit(vPlayerDepositListVo);
-                    listVo.setTodayTotal(CurrencyTool.formatCurrency(sum == null ? 0 : sum));
-                } else {
-                    Double sum = ServiceTool.vPlayerDepositService().sumPlayerDeposit(listVo);
-                    listVo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
-                }
                 listVo = ServiceTool.vPlayerDepositService().searchPlayerDeposit(listVo);
             } else {
-                listVo = getTotalDeposit(listVo, form, result, model);
+                listVo = getDeposit(listVo, form, result, model);
                 buildPlayerRankData(model,sysUserDataRights);
             }
         } else {
-            listVo = getTotalDeposit(listVo, form, result, model);
+            listVo = getDeposit(listVo, form, result, model);
             buildPlayerRankData(model,null);
         }
         //转义搜索条件中的_
@@ -517,6 +502,80 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         }
         listVo.setSearch(search);
         return listVo;
+    }
+
+    /**
+     * 获取统计数据
+     * @param listVo
+     * @param moduleType
+     * @param form
+     * @param result
+     * @param model
+     * @return
+     */
+    protected VPlayerDepositListVo getStatistics(VPlayerDepositListVo listVo, String moduleType,
+                                                    VPlayerDepositSearchForm form, BindingResult result, Model model) {
+        if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
+            List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
+            if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
+                masterSubSearch(listVo, moduleType,sysUserDataRights);
+                if (listVo.getSearch().isTodaySales()) {
+                    //今日成功统计--jerry
+                    VPlayerDepositListVo vPlayerDepositListVo = isTodayBaseSearch(listVo);
+                    vPlayerDepositListVo.getSearch().setModuleType(listVo.getSearch().getModuleType());
+                    vPlayerDepositListVo.getSearch().setDataRightUserId(SessionManager.getUserId());
+                    Double sum = ServiceTool.vPlayerDepositService().sumPlayerDeposit(vPlayerDepositListVo);
+                    listVo.setTodayTotal(CurrencyTool.formatCurrency(sum == null ? 0 : sum));
+                } else {
+                    Double sum = ServiceTool.vPlayerDepositService().sumPlayerDeposit(listVo);
+                    listVo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
+                }
+            } else {
+                getStatistics(listVo);
+            }
+        } else {
+            getStatistics(listVo);
+        }
+        return listVo;
+    }
+
+    /**
+     * 统计数据
+     * @param listVo
+     */
+    private void getStatistics(VPlayerDepositListVo listVo) {
+        if (listVo.getSearch().isTodaySales()) {
+            //今日成功统计--jerry
+            VPlayerDepositListVo vPlayerDepositListVo = isTodayBaseSearch(listVo);
+            vPlayerDepositListVo.setPropertyName(VPlayerDeposit.PROP_RECHARGE_AMOUNT);
+            Number sum = this.getService().sum(vPlayerDepositListVo);
+            listVo.setTodayTotal(CurrencyTool.formatCurrency(sum == null ? 0 : sum));
+        } else {
+            listVo.setPropertyName(VPlayerDeposit.PROP_RECHARGE_AMOUNT);
+            Number sum = this.getService().sum(listVo);
+            listVo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum.doubleValue()));
+        }
+    }
+
+    /**
+     * 今日统计条件
+     * @param listVo
+     * @return
+     */
+    private VPlayerDepositListVo isTodayBaseSearch(VPlayerDepositListVo listVo) {
+        VPlayerDepositListVo vPlayerDepositListVo = new VPlayerDepositListVo();
+        vPlayerDepositListVo._setContextParam(listVo._getContextParam());
+        Date today = SessionManager.getDate().getToday();
+        Date todayEnd = DateTool.addDays(SessionManager.getDate().getToday(), 1);
+        vPlayerDepositListVo.getSearch().setCheckTimeStart(today);
+        vPlayerDepositListVo.getSearch().setCheckTimeEnd(todayEnd);
+        if (listVo.getSearch().getRechargeTypeParent().equals(RechargeTypeParentEnum.COMPANY_DEPOSIT.getCode())) {
+            vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.SUCCESS.getCode());
+        } else {
+            vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.ONLINE_SUCCESS.getCode());
+        }
+        vPlayerDepositListVo.getSearch().setRechargeTypeParent(listVo.getSearch().getRechargeTypeParent());
+        return vPlayerDepositListVo;
     }
 
     /**
@@ -546,7 +605,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
                     String[] names = username.split(",");
                     if (names.length == 1) {
                         listVo.getSearch().setNewUserName(names[0]);
-                    } else {
+                    } else if (names.length>1) {
                         listVo.getSearch().setAccountNames(names);
                     }
                 }
@@ -554,31 +613,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         }
     }
 
-    //总额计算
-    private VPlayerDepositListVo getTotalDeposit(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
-        if (listVo.getSearch().isTodaySales()) {
-            //今日成功统计--jerry
-            VPlayerDepositListVo vPlayerDepositListVo = new VPlayerDepositListVo();
-            vPlayerDepositListVo._setContextParam(listVo._getContextParam());
-            Date today = SessionManager.getDate().getToday();
-            Date todayEnd = DateTool.addDays(SessionManager.getDate().getToday(), 1);
-            vPlayerDepositListVo.getSearch().setCheckTimeStart(today);
-            vPlayerDepositListVo.getSearch().setCheckTimeEnd(todayEnd);
-            //公司和在线支付的审核状态不同
-            if (listVo.getSearch().getRechargeTypeParent().equals(RechargeTypeParentEnum.COMPANY_DEPOSIT.getCode())) {
-                vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.SUCCESS.getCode());
-            } else {
-                vPlayerDepositListVo.getSearch().setRechargeStatus(RechargeStatusEnum.ONLINE_SUCCESS.getCode());
-            }
-            vPlayerDepositListVo.getSearch().setRechargeTypeParent(listVo.getSearch().getRechargeTypeParent());
-            vPlayerDepositListVo.setPropertyName(VPlayerDeposit.PROP_RECHARGE_AMOUNT);
-            Number sum = this.getService().sum(vPlayerDepositListVo);
-            listVo.setTodayTotal(CurrencyTool.formatCurrency(sum == null ? 0 : sum));
-        } else {
-            listVo.setPropertyName(VPlayerDeposit.PROP_RECHARGE_AMOUNT);
-            Number sum = this.getService().sum(listVo);
-            listVo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum.doubleValue()));
-        }
+    private VPlayerDepositListVo getDeposit(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
         listVo = super.doList(listVo, form, result, model);
         return listVo;
     }

@@ -37,6 +37,7 @@ import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
@@ -1058,13 +1059,54 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         }
         ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
         if(sysParamVo.isSuccess()){
-            map.put("msg",LocaleTool.tranMessage("setting_auto","成功"));
+            map.put("ms" +
+                    "g",LocaleTool.tranMessage("setting_auto","成功"));
             map.put("state",true);
         }else {
             map.put("msg",LocaleTool.tranMessage("setting_auto","失败"));
             map.put("state",false);
         }
         return map;
+    }
+    /*
+    * 玩家中心弹窗开关
+    *
+    * */
+    @RequestMapping("/updatesysParam")
+    @ResponseBody
+    public  Map updatesysParam(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        /*ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_OPENPLAYER_STATISTICS);*/
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_OPENPLAYER_STATISTICS);
+        if (sysParam!=null) {
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_OPENPLAYER_STATISTICS);
+        }
+        return  map;
+    }
+
+
+    /*
+    * 提示音设置开关
+    *
+    * */
+    @RequestMapping("/updateTonesysParam")
+    @ResponseBody
+    public  Map updateTonesysParam(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        if(sysParamVo.getResult()==null){
+            return  null;
+        }
+        sysParamVo.setProperties(SysParam.PROP_ACTIVE);
+        ServiceTool.getSysParamService().updateOnly(sysParamVo);
+        ParamTool.refresh(SiteParamEnum.WARMING_TONE_ONLINEPAY);
+        ParamTool.refresh(SiteParamEnum.WARMING_TONE_DRAW);
+        ParamTool.refresh(SiteParamEnum.WARMING_TONE_AUDIT);
+        ParamTool.refresh(SiteParamEnum.WARMING_TONE_WARM);
+        ParamTool.refresh(SiteParamEnum.WARMING_TONE_NOTICE);
+        return  map;
     }
     //endregion your codes 3
 }
