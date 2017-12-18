@@ -58,7 +58,7 @@
                         ${soulFn:formatDateTz(p.publishTime, DateFormat.DAY_SECOND,timeZone)}
                     </c:if>
                 </td>
-                <td><input type="checkbox" name="my-checkbox" data-size="mini" ${p.display?'checked':''} value="${p.id}"></td>
+                <td><input type="checkbox" name="my-checkbox" data-size="mini" ${p.display?'checked':''} value="${p.id}" announcementType="${p.announcementType}"></td>
                 <td>
                     <div class="joy-list-row-operations">
                         <soul:button target="${root}/cttAnnouncement/editByCode.html?search.uuidCodes=${p.code}" title="${views.content['cttAnnouncement.create']}" text="${views.common['edit']}" opType="dialog" callback="callBackQuery"/>

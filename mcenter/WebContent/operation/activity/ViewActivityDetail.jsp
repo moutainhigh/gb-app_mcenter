@@ -15,6 +15,7 @@
         <div class="wrapper">
             <div class="wrapper shadow  white-bg" role="grid">
                 <c:set value="${command.result}" var="p"></c:set>
+                <input type="hidden" id="activityMessageId" value="${p.id}">
                 <div class="m-sm">
                     <div class="clearfix">
                         <div class="clearfix m-l-lg line-hi34">
@@ -406,9 +407,9 @@
                                                 <div class="tab-content table-responsive">
                                                     <table class="table border" id="preview_awards_rules">
                                                         <tr>
-                                                            <td class="bg-gray ft-bold">${views.operation_auto['金额']}</td>
+                                                            <td class="bg-gray ft-bold">红包${views.operation_auto['金额']}</td>
+                                                            <td class="bg-gray ft-bold">每个时段${views.operation_auto['名额']}</td>
                                                             <td class="bg-gray ft-bold" >${views.operation_auto['优惠稽核']}</td>
-                                                            <td class="bg-gray ft-bold">${views.operation_auto['名额']}</td>
                                                             <td class="bg-gray ft-bold">${views.operation_auto['中奖概率']}</td>
                                                             <td class="bg-gray ft-bold">${messages.operation_auto['剩余名额']}</td>
                                                         </tr>
@@ -416,10 +417,10 @@
                                                             <c:forEach var="rule" items="${rulesListVo.result}" varStatus="vs">
                                                                 <tr>
                                                                     <td>${siteCurrencySign}${rule.amount}</td>
-                                                                    <td>${rule.audit}${views.operation_auto['倍']}</td>
                                                                     <td>${rule.quantity}${views.operation_auto['个']}</td>
+                                                                    <td>${rule.audit}${views.operation_auto['倍']}</td>
                                                                     <td>${rule.probability}%</td>
-                                                                    <td>${rule.remainCount}${views.operation_auto['个']}</td>
+                                                                    <td><span id="award_remain_count_${rule.id}">${rule.quantity}</span>${views.operation_auto['个']}</td>
                                                                 </tr>
                                                             </c:forEach>
                                                         </c:if>

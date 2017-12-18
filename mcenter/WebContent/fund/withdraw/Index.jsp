@@ -3,7 +3,7 @@
 <%@ include file="/include/include.inc.jsp" %>
 
 <div class="row">
-    <form:form name="withdrawForm" action="${root}/fund/withdraw/withdrawList.html" method="post">
+    <form:form name="withdrawForm" action="${root}/fund/withdraw/withdrawData.html" method="post">
         <div id="validateRule" style="display: none">${command.validateRule}</div>
         <span id="open" hidden>${command.open}</span>
         <div class="position-wrap clearfix">

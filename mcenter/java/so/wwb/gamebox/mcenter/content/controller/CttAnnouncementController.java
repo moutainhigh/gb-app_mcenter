@@ -136,12 +136,19 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
                 cttAnnouncement.setUpdateUser(SessionManager.getUserId());
                 cttAnnouncement.setUpdateTime(new Date());
             }
+            String announcementType = listVo.getAnnouncementType();
             cttAnnouncement.setPublishTime(publishTime);
             cttAnnouncement.setCreateUser(SessionManager.getUserId());
             cttAnnouncement.setCreateTime(new Date());
             cttAnnouncement.setIsTask(isTask);
             cttAnnouncement.setDisplay(true);
-            cttAnnouncement.setAnnouncementType(listVo.getAnnouncementType());
+            cttAnnouncement.setAnnouncementType(announcementType);
+            if(CttAnnouncementTypeEnum.REGISTER_ANNOUNCEMENT.getCode().equals(announcementType) || CttAnnouncementTypeEnum.LOGIN_ANNOUNCEMENT.getCode().equals(announcementType)){
+                CttAnnouncementVo vo = new CttAnnouncementVo();
+                vo.setResult(cttAnnouncement);
+               getService().changeOtherAnnouncementStatus(vo);
+            }
+
         }
 
         listVo = getService().batchSave(listVo);
@@ -239,7 +246,7 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
     @ResponseBody
     public Map changeStatus(CttAnnouncementVo vo){
         vo.setProperties(CttAnnouncement.PROP_DISPLAY);
-        vo = getService().updateOnly(vo);
+        vo = getService().changeAnnouncementStatus(vo);
         Cache.refreshSiteAnnouncement();
         Cache.refreshCurrentSitePageCache();
         return getVoMessage(vo);
