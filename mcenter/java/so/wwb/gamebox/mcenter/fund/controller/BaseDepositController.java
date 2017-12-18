@@ -13,6 +13,7 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.net.IpTool;
+import org.soul.commons.query.Paging;
 import org.soul.commons.support._Module;
 import org.soul.model.listop.po.SysListOperator;
 import org.soul.model.sys.po.SysDict;
@@ -31,11 +32,9 @@ import so.wwb.gamebox.mcenter.fund.form.DepositRemarkForm;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositForm;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.Module;
-import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.bitcoin.vo.PoloniexOrderResult;
+import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.company.setting.po.SysCurrency;
 import so.wwb.gamebox.model.company.site.po.SiteCurrency;
 import so.wwb.gamebox.model.currency.po.CurrencyRate;
@@ -84,30 +83,49 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
      */
     protected abstract void initQuery(VPlayerDepositListVo listVo);
 
-    @Override
-    protected VPlayerDepositListVo doList(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
-        this.initQuery(listVo);
+    protected VPlayerDepositListVo doList(VPlayerDepositListVo listVo,String moduleType,  VPlayerDepositSearchForm form, BindingResult result, Model model) {
+        initQuery(listVo);
         // 初始化ListVo
         initListVo(listVo);
+        //用于查询模板
+        String templateCode = TemplateCodeEnum.fund_deposit_company_check.getCode();
+        model.addAttribute("searchTempCode", templateCode);
+        model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.fund_deposit_company_check.getCode()));
+        List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
+        masterSubSearch(listVo,moduleType,sysUserDataRights);
+        buildPlayerRankData(model,sysUserDataRights);
         return listVo;
     }
 
     public String count(VPlayerDepositListVo listVo,String moduleType, Model model, String isCounter) {
         // 初始化筛选条件
         initQuery(listVo);
-        //获取子账号查询条件
-        List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
-        masterSubSearch(listVo,moduleType,sysUserDataRights);
-        listVo = doCount(listVo, isCounter);
+        initListVo(listVo);
+        listVo = doCount(listVo, moduleType, isCounter);
         listVo.getPaging().cal();
         model.addAttribute("command", listVo);
         return getViewBasePath() + "IndexPagination";
     }
 
-    public VPlayerDepositListVo doCount(VPlayerDepositListVo listVo, String isCounter) {
+    public VPlayerDepositListVo doCount(VPlayerDepositListVo listVo, String moduleType,String isCounter) {
         if (StringTool.isBlank(isCounter)) {
-            long count = ServiceTool.vPlayerDepositService().count(listVo);
-            listVo.getPaging().setTotalCount(count);
+            if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
+                //获取子账号查询条件
+                List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
+                if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
+                    masterSubSearch(listVo,moduleType,sysUserDataRights);
+                    Paging paging = listVo.getPaging();
+                    paging.setTotalCount(ServiceTool.vPlayerDepositService().countPlayerDeposit(listVo));
+                    paging.cal();
+                    listVo = ServiceTool.vPlayerDepositService().searchPlayerDeposit(listVo);
+                } else {
+                    long count = ServiceTool.vPlayerDepositService().count(listVo);
+                    listVo.getPaging().setTotalCount(count);
+                }
+            } else {
+                long count = ServiceTool.vPlayerDepositService().count(listVo);
+                listVo.getPaging().setTotalCount(count);
+            }
         }
         return listVo;
     }
@@ -542,7 +560,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
                     String[] names = username.split(",");
                     if (names.length == 1) {
                         listVo.getSearch().setNewUserName(names[0]);
-                    } else {
+                    } else if (names.length>1) {
                         listVo.getSearch().setAccountNames(names);
                     }
                 }
