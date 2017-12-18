@@ -23,6 +23,7 @@ import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
+import so.wwb.gamebox.model.master.player.po.VUserAgentManage;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.player.vo.UserAgentVo;
 import so.wwb.gamebox.model.master.setting.po.FieldSort;

@@ -115,6 +115,7 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
+                                        <%--存款总额--%>
                                     <td class="t-a-r money">
                                         <c:set var="deposit" value="${v.depositTotal}" />
                                         <c:choose>
@@ -122,7 +123,7 @@
                                                 ${sign}0
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${vs.count}&search.transactionWays=<%=TransactionWayEnum.ONLINE_DEPOSIT.getCode()%>,<%=TransactionWayEnum.ONLINE_BANK.getCode()%>,<%=TransactionWayEnum.WECHATPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ALIPAY_SCAN.getCode()%>,<%=TransactionWayEnum.WECHATPAY_FAST.getCode()%>,<%=TransactionWayEnum.ALIPAY_FAST.getCode()%>,<%=TransactionWayEnum.OTHER_FAST.getCode()%>,<%=TransactionWayEnum.ATM_COUNTER.getCode()%>,<%=TransactionWayEnum.ATM_MONEY.getCode()%>,<%=TransactionWayEnum.ATM_RECHARGE.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>" nav-target="mainFrame">
+                                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${vs.count}&search.transactionWays=<%=TransactionWayEnum.ONLINE_DEPOSIT.getCode()%>,<%=TransactionWayEnum.ONLINE_BANK.getCode()%>,<%=TransactionWayEnum.WECHATPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ALIPAY_SCAN.getCode()%>,<%=TransactionWayEnum.WECHATPAY_FAST.getCode()%>,<%=TransactionWayEnum.ALIPAY_FAST.getCode()%>,<%=TransactionWayEnum.OTHER_FAST.getCode()%>,<%=TransactionWayEnum.ATM_COUNTER.getCode()%>,<%=TransactionWayEnum.ATM_MONEY.getCode()%>,<%=TransactionWayEnum.ATM_RECHARGE.getCode()%>,<%=TransactionWayEnum.QQWALLET_SCAN.getCode()%>,<%=TransactionWayEnum.UNION_PAY_SCAN.getCode()%>,<%=TransactionWayEnum.BDWALLET_SAN.getCode()%>,<%=TransactionWayEnum.JDPAY_SCAN.getCode()%>,<%=TransactionWayEnum.BITCOIN_FAST.getCode()%>,<%=TransactionWayEnum.DIGICCY_SCAN.getCode()%>,<%=TransactionWayEnum.ONECODEPAY_FAST.getCode()%>,<%=TransactionWayEnum.BDWALLET_FAST.getCode()%>,<%=TransactionWayEnum.JDWALLET_FAST.getCode()%>,<%=TransactionWayEnum.QQWALLET_FAST.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame">
                                                         ${sign}${soulFn:formatInteger(deposit)}<i>${soulFn:formatDecimals(deposit)}</i>
                                                 </a>
                                             </c:otherwise>
