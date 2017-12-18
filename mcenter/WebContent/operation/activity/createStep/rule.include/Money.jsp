@@ -166,7 +166,7 @@
     <label class="ft-bold col-sm-3 al-right line-hi34">
         ${views.operation_auto['奖项设置']}：
             <br>
-            总时段数：<span id="totalPeriods"></span>
+            剩余总时段数：<span id="totalPeriods"></span>
     </label>
 
 
