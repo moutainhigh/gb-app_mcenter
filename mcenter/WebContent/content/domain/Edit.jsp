@@ -41,15 +41,15 @@
                 <label class="col-xs-3 al-right line-hi34">${views.content['domain.typeTitle']}：</label>
                 <div class="col-xs-8">
                     <div class="input-group date">
-                    <select class="chosen-select-no-single input-group-btn" callback="isShowRank" name="result.pageUrl">
+                    <select class="chosen-select-no-single input-group-btn"  callback="isShowRank" name="result.pageUrl">
                         <c:if test="${command.result.id eq null}">
-                            <option value="">${views.common['pleaseSelect']}</option>
+                            <option style="width: 111px" value="">${views.common['pleaseSelect']}</option>
                         </c:if>
                         <c:forEach items="${command.domainTypes}" var="type">
                             <c:choose>
                                 <%--主页或者线路检测--%>
                                 <c:when test="${command.result.id ne null}">
-                                    <c:if test="${type.paramCode == 'index' || type.paramCode == 'detection'}">
+                                    <c:if test="${type.paramCode == 'index' || type.paramCode == 'indexcname'}">
                                         <option value="${type.defaultValue}" ${type.defaultValue eq command.result.pageUrl?'selected':''}> ${views.content[type.resourceKey]}</option>
                                     </c:if>
                                 </c:when>
@@ -82,7 +82,7 @@
                     <label><input type="checkbox" id="isDefault">${views.content['domain.setDefault']}</label>
                 </div>
             </div>
-            <div class="form-group clearfix" id="user_for_agent" style="display: ${(command.result.pageUrl=='/' || command.result.pageUrl=='/netLine/findLines.html')?'':'none'};">
+            <div class="form-group clearfix" id="user_for_agent" style="dispay: ${(command.result.pageUrl=='/' || command.result.pageUrl=='/netLine/findLines.html')?'':'none'};">
                 <label class="col-xs-3 al-right" >${views.content['代理']}：</label>
                 <div class="col-xs-9">
                     <label><input type="checkbox" name="result.forAgent" id="forAgent" ${command.result.forAgent?'checked':''} >${views.content['用该域名生成总代及代理推广链接']}</label>

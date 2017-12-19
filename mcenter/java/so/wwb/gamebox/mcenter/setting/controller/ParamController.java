@@ -1077,12 +1077,12 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     public  Map updatesysParam(SysParamVo sysParamVo){
         HashMap map = new HashMap(2,1f);
         /*ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_OPENPLAYER_STATISTICS);*/
-        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_OPENPLAYER_STATISTICS);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_POPUP_SWITCH);
         if (sysParam!=null) {
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
             ServiceTool.getSysParamService().updateOnly(sysParamVo);
-            ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_OPENPLAYER_STATISTICS);
+            ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_POPUP_SWITCH);
         }
         return  map;
     }

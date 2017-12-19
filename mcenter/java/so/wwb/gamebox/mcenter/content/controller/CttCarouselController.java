@@ -30,6 +30,7 @@ import so.wwb.gamebox.model.master.content.po.CttCarouselI18n;
 import so.wwb.gamebox.model.master.content.vo.CttCarouselListVo;
 import so.wwb.gamebox.model.master.content.vo.CttCarouselVo;
 import so.wwb.gamebox.model.master.enums.CarouselTypeEnum;
+import so.wwb.gamebox.model.master.enums.CttCarouselTypeEnum;
 import so.wwb.gamebox.web.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
@@ -172,16 +173,17 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
 
     /**
      * 轮播图 停用启用
-     * @param cttCarouselListVo
+     * @param cttCarouselVo
      * @return
      */
     @RequestMapping(value = "changeStatus",method = RequestMethod.POST)
     @ResponseBody
-    public Boolean changeStopStatus(CttCarouselListVo cttCarouselListVo){
-        Boolean success = ServiceTool.cttCarouselService().changeStopStatus(cttCarouselListVo);
+    public Map changeStopStatus(CttCarouselVo cttCarouselVo){
+        cttCarouselVo.setProperties(CttCarousel.PROP_STATUS);
+        cttCarouselVo = ServiceTool.cttCarouselService().changeStopStatus(cttCarouselVo);
         Cache.refreshSiteCarousel();
         Cache.refreshCurrentSitePageCache();
-        return success;
+        return getVoMessage(cttCarouselVo);
     }
 
     /**
@@ -289,6 +291,121 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
                 cttCarouselI18n.add(i18n);
             }
         }
+    }
+
+    @RequestMapping("/dialogEdit")
+    public String dialogEdit(CttCarouselVo cttCarouselVo, Model model){
+        cttCarouselVo = super.doEdit(cttCarouselVo,model);
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselForm.class));
+        cttCarouselVo =  setCarouselData(cttCarouselVo);
+        buildCarouselData(cttCarouselVo);
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_AD_DIALOG.getCode());
+        Map<Object, CttCarouselI18n> typeI18nMap= CollectionTool.toEntityMap(cttCarouselVo.getCttCarouselI18n(), CttCarouselI18n.PROP_LANGUAGE);
+        model.addAttribute("typeI18nMap", typeI18nMap);
+        model.addAttribute("command",cttCarouselVo);
+        return getViewBasePath() + "msiteDialog/Edit";
+    }
+
+    @RequestMapping("/mobileEdit")
+    public String mobileEdit(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo = super.doEdit(cttCarouselVo,model);
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselForm.class));
+        cttCarouselVo =  setCarouselData(cttCarouselVo);
+        buildCarouselData(cttCarouselVo);
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_PHONE_DIALOG.getCode());
+        Map<Object, CttCarouselI18n> typeI18nMap= CollectionTool.toEntityMap(cttCarouselVo.getCttCarouselI18n(), CttCarouselI18n.PROP_LANGUAGE);
+        model.addAttribute("typeI18nMap", typeI18nMap);
+        model.addAttribute("command",cttCarouselVo);
+        return getViewBasePath() + "mobileDialog/Edit";
+    }
+
+    @RequestMapping("/msiteCarousel/edit")
+    public String msiteDialogEdit(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo = super.doEdit(cttCarouselVo,model);
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselForm.class));
+        cttCarouselVo =  setCarouselData(cttCarouselVo);
+        buildCarouselData(cttCarouselVo);
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_INDEX.getCode());
+        Map<Object, CttCarouselI18n> typeI18nMap= CollectionTool.toEntityMap(cttCarouselVo.getCttCarouselI18n(), CttCarouselI18n.PROP_LANGUAGE);
+        model.addAttribute("typeI18nMap", typeI18nMap);
+        model.addAttribute("command",cttCarouselVo);
+        return getViewBasePath() + "msiteCarousel/Edit";
+    }
+
+    @RequestMapping("/mobileCarousel/edit")
+    public String mobileDialogEdit(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo = super.doEdit(cttCarouselVo,model);
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselForm.class));
+        cttCarouselVo =  setCarouselData(cttCarouselVo);
+        buildCarouselData(cttCarouselVo);
+        Map<Object, CttCarouselI18n> typeI18nMap= CollectionTool.toEntityMap(cttCarouselVo.getCttCarouselI18n(), CttCarouselI18n.PROP_LANGUAGE);
+        model.addAttribute("typeI18nMap", typeI18nMap);
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_PHONE.getCode());
+        model.addAttribute("command",cttCarouselVo);
+        return getViewBasePath() + "mobileCarousel/Edit";
+    }
+
+    @RequestMapping("/pcenterAd/edit")
+    public String pcenterAdEdit(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo = super.doEdit(cttCarouselVo,model);
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselForm.class));
+        cttCarouselVo =  setCarouselData(cttCarouselVo);
+        buildCarouselData(cttCarouselVo);
+        Map<Object, CttCarouselI18n> typeI18nMap= CollectionTool.toEntityMap(cttCarouselVo.getCttCarouselI18n(), CttCarouselI18n.PROP_LANGUAGE);
+        model.addAttribute("typeI18nMap", typeI18nMap);
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_PLAYER_INDEX.getCode());
+        String link = cttCarouselVo.getResult().getLink();
+        if(StringTool.isNotBlank(link)){
+            Map jsonMap = JsonTool.fromJson(link, Map.class);
+            model.addAttribute("apiMap",jsonMap);
+        }
+        model.addAttribute("command",cttCarouselVo);
+        return getViewBasePath() + "pcenterAd/Edit";
+    }
+
+    @RequestMapping("/msiteDialog/create")
+    public String msiteDialogCreate(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_AD_DIALOG.getCode());
+        commonCreate(cttCarouselVo, model);
+        return getViewBasePath() + "msiteDialog/Edit";
+    }
+
+    @RequestMapping("/mobileDialog/create")
+    public String mobileDialogCreate(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_PHONE_DIALOG.getCode());
+        commonCreate(cttCarouselVo, model);
+        return getViewBasePath() + "mobileDialog/Edit";
+    }
+
+    @RequestMapping("/msiteCarousel/create")
+    public String msiteCarouselCreate(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_INDEX.getCode());
+        commonCreate(cttCarouselVo, model);
+        return getViewBasePath() + "msiteCarousel/Edit";
+    }
+
+    @RequestMapping("/mobileCarousel/create")
+    public String mobileCarouselCreate(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_PHONE.getCode());
+        commonCreate(cttCarouselVo, model);
+        return getViewBasePath() + "mobileCarousel/Edit";
+    }
+
+    @RequestMapping("/pcenterAd/create")
+    public String pcenterAdCreate(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_PLAYER_INDEX.getCode());
+        commonCreate(cttCarouselVo, model);
+        return getViewBasePath() + "pcenterAd/Edit";
+    }
+
+    private void commonCreate(CttCarouselVo cttCarouselVo, Model model) {
+        cttCarouselVo.getSearch().setId(this.getService().getNextVal(cttCarouselVo));
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselForm.class));
+        cttCarouselVo =  setCarouselData(cttCarouselVo);
+        cttCarouselVo = loadCarouselI18nData(cttCarouselVo);
+        Map<Object, CttCarouselI18n> typeI18nMap= CollectionTool.toEntityMap(cttCarouselVo.getCttCarouselI18n(), CttCarouselI18n.PROP_LANGUAGE);
+        model.addAttribute("typeI18nMap", typeI18nMap);
+        model.addAttribute("command",cttCarouselVo);
     }
     //endregion your codes 3
 
