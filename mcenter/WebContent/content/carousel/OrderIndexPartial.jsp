@@ -17,11 +17,12 @@
         </div>
         <div class="col-lg-12">
             <div class="wrapper white-bg shadow">
-                <%@include file="../CarouselTop.jsp"%>
+                <%@include file="CarouselTop.jsp"%>
                 <div class="clearfix filter-wraper border-b-1">
-                    <div class="col-xs-10">
+                    <div class="col-xs-10 line-hi34">
                         <i class="fa fa-exclamation-circle"></i><span class="co-yellow m-l-sm">${views.common['DynamicLie.draggingSort']}</span>
                     </div>
+                    <c:if test="${type eq 'carousel_type_index'}">
                     <c:forEach items="${command.intervalTimes}" var="its" varStatus="status">
                         <div class="times clearfix it_${its.paramCode}">
                             <label class="pull-left line-hi34">${views.content['carousel.playTimesInterval']}</label>
@@ -36,6 +37,7 @@
                             </div>
                         </div>
                     </c:forEach>
+                    </c:if>
                 </div>
                 <div id="editable_wrapper" class="dataTables_wrapper search-list-container" role="grid">
                     <div class="table-responsive table-min-h">
@@ -125,4 +127,4 @@
     </div>
 </form:form>
 <!--//endregion your codes 1-->
-<soul:import res="site/content/carousel/msiteCarousel/OrderIndexPartial"/>
+<soul:import res="site/content/carousel/OrderIndexPartial"/>

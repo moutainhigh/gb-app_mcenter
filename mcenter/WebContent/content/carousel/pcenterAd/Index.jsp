@@ -22,12 +22,10 @@
                 <soul:button target="${root}/content/cttCarousel/pcenterAd/create.html" callback="query" cssClass="btn btn-info btn-addon" text="${views.common['create']}" opType="dialog" tag="button">
                     <i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span>
                 </soul:button>
-                <%--<soul:button target="${root}/content/vCttCarousel/setting.html" callback="query" text="${views.common['order']}" size="open-dialog-50"
-                             opType="dialog" cssClass="btn btn-primary-hide" tag="button">
-                    <i class="fa fa-sort-amount-desc"></i><span class="hd">${views.common['order']}</span>
-                </soul:button>--%>
-
-
+                <a class="btn btn-outline btn-filter" nav-target="mainFrame"
+                   href="/content/vCttCarousel/setting.html?search.type=${type}">
+                    <i class="fa fa-sort-amount-desc m-r-xs"></i>${views.common['order']}
+                </a>
                 <div class="function-menu-show hide">
                     <soul:button target="${root}/content/cttCarousel/deleteByBatch.html" precall="deleteBatch" text="${views.common['delete']}"
                                  post="getSelectIds" opType="ajax" tag="button" cssClass="btn btn-danger-hide" callback="query">
