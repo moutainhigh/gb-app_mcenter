@@ -217,9 +217,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         VUserPlayerListVo list = getListVo(listVo);
 
 
-        for (VUserPlayer player : list.getResult()) {
-            player.setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), player.getId()).size());
-        }
+        //TODO:water note it
+//        for (VUserPlayer player : list.getResult()) {
+//            player.setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), player.getId()).size());
+//        }
         // 玩家筛选
         playeFilter(model, list);
 
