@@ -76,9 +76,9 @@ public class HomeController extends SiteHomeController{
     @RequestMapping("/homeIndex")
     public String home(Model model) {
         // 在线玩家数
-        model.addAttribute("onlinePlayerNum", calcOnlinePlayerNum());
+        model.addAttribute("onlinePlayerNum", 0);
         // 今日活跃玩家
-        model.addAttribute("activePlayerNum", calcActivePlayerNum());
+        model.addAttribute("activePlayerNum", 0);
         // 总资产
         model.addAttribute("assets", getAssets());
         // 更新时间
