@@ -17,26 +17,32 @@
         </div>
         <div class="col-lg-12">
             <div class="wrapper white-bg shadow">
-                <%@include file="CarouselTop.jsp"%>
+                <ul class="clearfix sys_tab_wrap">
+                    <li><a>PC端首页弹窗广告</a></li>
+                    <li class="${type eq 'carousel_type_index'?'active':''}"><a>PC端首页轮播图</a></li>
+                    <li class="${type eq 'carousel_type_phone'?'active':''}"><a>手机轮播图</a></li>
+                    <li><a>手机弹窗广告</a></li>
+                    <li class="${type eq 'carousel_type_player_index'?'active':''}"><a>玩家中心首页广告</a></li>
+                </ul>
                 <div class="clearfix filter-wraper border-b-1">
                     <div class="col-xs-10 line-hi34">
                         <i class="fa fa-exclamation-circle"></i><span class="co-yellow m-l-sm">${views.common['DynamicLie.draggingSort']}</span>
                     </div>
                     <c:if test="${type eq 'carousel_type_index'}">
-                    <c:forEach items="${command.intervalTimes}" var="its" varStatus="status">
-                        <div class="times clearfix it_${its.paramCode}">
-                            <label class="pull-left line-hi34">${views.content['carousel.playTimesInterval']}</label>
-                            <div class="col-xs-1">
-                                    <%--得到当前的间隔时间--%>
-                                <input type="hidden" value="${its.id}" name="id" class="params_data">
-                                <select  class="chosen-select-no-single params_data" name="paramValue" data-value="${its.paramValue}">
-                                    <c:forEach items="${intervalTime}" var="it">
-                                        <option <c:if test="${it.time eq its.paramValue}"> selected </c:if> value="${it.time}">${it.content}</option>
-                                    </c:forEach>
-                                </select>
+                        <c:forEach items="${command.intervalTimes}" var="its" varStatus="status">
+                            <div class="times clearfix it_${its.paramCode}">
+                                <label class="pull-left line-hi34">${views.content['carousel.playTimesInterval']}</label>
+                                <div class="col-xs-1">
+                                        <%--得到当前的间隔时间--%>
+                                    <input type="hidden" value="${its.id}" name="id" class="params_data">
+                                            <select  class="chosen-select-no-single params_data" name="paramValue" data-value="${its.paramValue}">
+                                                <c:forEach items="${intervalTime}" var="it">
+                                                    <option <c:if test="${it.time eq its.paramValue}"> selected </c:if> value="${it.time}">${it.content}</option>
+                                                </c:forEach>
+                                            </select>
+                                </div>
                             </div>
-                        </div>
-                    </c:forEach>
+                        </c:forEach>
                     </c:if>
                 </div>
                 <div id="editable_wrapper" class="dataTables_wrapper search-list-container" role="grid">
