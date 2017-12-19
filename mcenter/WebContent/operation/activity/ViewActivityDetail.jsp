@@ -1,4 +1,6 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%--@elvariable id="command" type="so.wwb.gamebox.model.master.operation.vo.ActivityMessageVo"--%>
+<%--@elvariable id="rulesListVo" type="so.wwb.gamebox.model.master.operation.vo.ActivityMoneyAwardsRulesListVo"--%>
 <%@ include file="/include/include.inc.jsp" %>
 
 <form:form>
@@ -82,7 +84,7 @@
                                         </div>
                                     </div>
                                 </c:if>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     <!--    盈亏送-->
                                     <c:if test="${p.activityTypeCode eq 'profit_loss'}">
                                         <table class="table table-bordered">
@@ -404,25 +406,59 @@
                                             <div class="col-sm-9">
                                                 <label class="ft-bold al-right line-hi34">
                                                     ${views.operation_auto['奖项设置']}：</label>
+                                                <br>
+                                                    ${views.operation_auto['剩余总时段数']}：${command.totalPeriods}
                                                 <div class="tab-content table-responsive">
                                                     <table class="table border" id="preview_awards_rules">
                                                         <tr>
-                                                            <td class="bg-gray ft-bold">红包${views.operation_auto['金额']}</td>
-                                                            <td class="bg-gray ft-bold">每个时段${views.operation_auto['名额']}</td>
+                                                            <td class="bg-gray ft-bold">${views.operation_auto['金额']}</td>
+                                                            <td class="bg-gray ft-bold">${views.operation_auto['名额']}</td>
+                                                            <td class="bg-gray ft-bold">${views.operation_auto['总名额']}</td>
+                                                            <td class="bg-gray ft-bold" style="width: 150px;">${views.operation_auto['红包总金额']}</td>
                                                             <td class="bg-gray ft-bold" >${views.operation_auto['优惠稽核']}</td>
                                                             <td class="bg-gray ft-bold">${views.operation_auto['中奖概率']}</td>
-                                                            <td class="bg-gray ft-bold">${messages.operation_auto['剩余名额']}</td>
+                                                            <td class="bg-gray ft-bold">${views.operation_auto['时段剩余名额']}</td>
                                                         </tr>
                                                         <c:if test="${not empty rulesListVo.result}">
+                                                            <c:set var="totalAmount" value="${0}"></c:set>
+                                                            <c:set var="totalCount" value="${0}"></c:set>
+                                                            <c:set var="allTotalAmount" value="${0}"></c:set>
+                                                            <c:set var="allTotalCount" value="${0}"></c:set>
+                                                            <c:set var="totalRemain" value="${0}"></c:set>
                                                             <c:forEach var="rule" items="${rulesListVo.result}" varStatus="vs">
                                                                 <tr>
+                                                                    <c:set var="totalAmount" value="${totalAmount + rule.amount}"></c:set>
+                                                                    <c:set var="totalCount" value="${totalCount + rule.quantity}"></c:set>
+                                                                    <c:set var="allTotalAmount" value="${allTotalAmount + rule.quantity * command.totalPeriods * rule.amount}"></c:set>
+                                                                    <c:set var="allTotalCount" value="${allTotalCount + rule.quantity * command.totalPeriods}"></c:set>
+                                                                    <c:set var="totalRemain" value="${totalRemain + rule.quantity}"></c:set>
                                                                     <td>${siteCurrencySign}${rule.amount}</td>
                                                                     <td>${rule.quantity}${views.operation_auto['个']}</td>
+                                                                    <td>${rule.quantity * command.totalPeriods}${views.operation_auto['个']}</td>
+                                                                    <td>${siteCurrencySign}${rule.quantity * command.totalPeriods * rule.amount}</td>
                                                                     <td>${rule.audit}${views.operation_auto['倍']}</td>
                                                                     <td>${rule.probability}%</td>
                                                                     <td><span id="award_remain_count_${rule.id}">${rule.quantity}</span>${views.operation_auto['个']}</td>
                                                                 </tr>
                                                             </c:forEach>
+                                                            <tr>
+                                                                <td style="width: 150px;">
+                                                                    ${views.report_auto['总计']}：${siteCurrencySign}<span>${totalAmount}</span>
+                                                                </td>
+                                                                <td style="width: 120px;">
+                                                                        ${views.report_auto['总计']}：<span>${totalCount}</span>${views.operation_auto['个']}
+                                                                </td>
+
+                                                                <td style="width: 120px;">
+                                                                        ${views.report_auto['总计']}：<span>${allTotalCount}</span>${views.operation_auto['个']}
+                                                                </td>
+                                                                <td style="width: 150px;">
+                                                                        ${views.report_auto['总计']}：${siteCurrencySign}<span>${allTotalAmount}</span>
+                                                                </td>
+                                                                <td style="width: 120px;"></td>
+                                                                <td style="width: 120px;"></td>
+                                                                <td style="width: 120px;"><span id="allRemainCount">${totalRemain}</span>${views.operation_auto['个']}</td>
+                                                            </tr>
                                                         </c:if>
                                                         <c:if test="${empty rulesListVo.result}">
                                                             <tr>
@@ -431,8 +467,11 @@
                                                                 <td></td>
                                                                 <td></td>
                                                                 <td></td>
+                                                                <td></td>
+                                                                <td></td>
                                                             </tr>
                                                         </c:if>
+
 
                                                     </table>
                                                 </div>
