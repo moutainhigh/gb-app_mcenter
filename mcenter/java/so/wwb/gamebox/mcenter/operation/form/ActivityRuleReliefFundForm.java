@@ -32,7 +32,7 @@ public class ActivityRuleReliefFundForm extends ActivityRuleForm {
 
     @Depends(property = "placesNumber",operator = Operator.EQ,value = {"false"},jsValueExp ="$(\"[name=\'placesNumber\']\").val()=='true'",message = "common.不能为空")
     @Range(min = 1,max = 99999,message = "operation_auto.请输入1-99999")
-//    @Digits(integer = 5,fraction = 0,message = "请输入1-99999的正整数数字")
+    @Digits(integer = 5,fraction = 0)
 //    @Pattern(message = "请输入1-99999的正整数数字",regexp = FormValidRegExps.DIGITS)
     @Comment("优惠名额数量")
     public Integer getActivityRule_placesNumber() {
