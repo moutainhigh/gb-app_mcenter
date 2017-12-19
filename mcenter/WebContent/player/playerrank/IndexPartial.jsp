@@ -83,7 +83,21 @@
                     </c:if>
                     <c:if test="${empty p.isFee&&not empty p.isReturnFee}">
                         <c:if test="${p.isReturnFee}">
-                            <span class="co-red">-${p.returnMoney}${p.returnType=='1'?'%':''}</span>
+                            <c:set var="restr" value="${views.player_auto['存满']}"></c:set>
+                            <c:set var="reachMoney" value="${soulFn:formatInteger(p.reachMoney)}${soulFn:formatDecimals(p.reachMoney)}"></c:set>
+                            <c:if test="${p.returnType=='1'}">
+                                <c:set var="returnMoney" value="${p.returnMoney}%"></c:set>
+                            </c:if>
+                            <c:if test="${p.returnType!='1'}">
+                                <c:set var="returnMoney" value="${soulFn:formatInteger(p.returnMoney)}${soulFn:formatDecimals(p.returnMoney)}"></c:set>
+                            </c:if>
+                            <c:set var="maxReturnFee" value="${soulFn:formatInteger(p.maxReturnFee)}${soulFn:formatDecimals(p.maxReturnFee)}"></c:set>
+                            <c:set var="depositFee" value='${fn:replace(fn:replace(fn:replace(restr,"{0}", reachMoney),"{1}",returnMoney),"{2}",maxReturnFee)}'/>
+                            ${fn:substringBefore(depositFee,"," )}
+                            <c:set var="indexof" value="${fn:indexOf(depositFee,',' )}"/>
+                            <c:set var="depositFeeLength" value="${fn:length(depositFee)}"/>
+                            <div class="co-grayc2">${fn:substring(depositFee,indexof+1,depositFeeLength)}</div>
+                            <%--<span class="co-red">-${p.returnMoney}${p.returnType=='1'?'%':''}</span>--%>
                         </c:if>
                         <c:if test="${!p.isReturnFee}">${views.role['PlayerRank.list.none']}</c:if>
                     </c:if>
