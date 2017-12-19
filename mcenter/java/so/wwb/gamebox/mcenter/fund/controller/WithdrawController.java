@@ -325,6 +325,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         // 初始化ListVo
         initListVo(listVo);
         listVo = doCount(listVo, isCounter);
+        listVo.getPaging().cal();
         model.addAttribute("command", listVo);
         return getViewBasePath() + "IndexPagination";
     }
@@ -339,7 +340,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                     Paging paging = listVo.getPaging();
                     paging.setTotalCount(ServiceTool.vPlayerWithdrawService().countPlayerWithdraw(listVo));
                     paging.cal();
-                    listVo = ServiceTool.vPlayerWithdrawService().searchPlayerWithdraw(listVo);
                 } else {
                     listVo = ServiceTool.getVPlayerWithdrawService().searchWithdraw(listVo);
                 }
