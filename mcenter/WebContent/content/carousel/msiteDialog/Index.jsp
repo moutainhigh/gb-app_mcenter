@@ -16,7 +16,8 @@
             <div class="wrapper white-bg shadow">
                 <%@include file="../CarouselTop.jsp"%>
                 <div class="clearfix filter-wraper border-b-1 wrapper">
-                    <soul:button target="${root}/content/cttCarousel/msiteDialog/create.html" callback="query" cssClass="btn btn-info btn-addon" text="新增PC端首页弹窗广告" size="open-dialog-800" opType="dialog" tag="button">
+                    <soul:button target="${root}/content/cttCarousel/msiteDialog/create.html" callback="query"
+                                 cssClass="btn btn-info btn-addon" text="新增PC端首页弹窗广告" opType="dialog" tag="button">
                         <i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span>
                     </soul:button>
                     <div class="function-menu-show hide">
