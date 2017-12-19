@@ -22,15 +22,20 @@
                     <div class="col-xs-10">
                         <i class="fa fa-exclamation-circle"></i><span class="co-yellow m-l-sm">${views.common['DynamicLie.draggingSort']}</span>
                     </div>
-                    <label class="pull-left line-hi34">${views.content['carousel.playTimesInterval']}：</label>
-                    <div class="col-xs-1">
-                            <%--得到当前的间隔时间--%>
-                        <select  class="chosen-select-no-single params_data" name="paramValue" data-value="${its.paramValue}">
-                            <c:forEach items="${intervalTime}" var="it">
-                                <option <c:if test="${it.time eq its.paramValue}"> selected </c:if> value="${it.time}">${it.content}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
+                    <c:forEach items="${command.intervalTimes}" var="its" varStatus="status">
+                        <div class="times clearfix it_${its.paramCode}">
+                            <label class="pull-left line-hi34">${views.content['carousel.playTimesInterval']}</label>
+                            <div class="col-xs-1">
+                                    <%--得到当前的间隔时间--%>
+                                <input type="hidden" value="${its.id}" name="id" class="params_data">
+                                <select  class="chosen-select-no-single params_data" name="paramValue" data-value="${its.paramValue}">
+                                    <c:forEach items="${intervalTime}" var="it">
+                                        <option <c:if test="${it.time eq its.paramValue}"> selected </c:if> value="${it.time}">${it.content}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                    </c:forEach>
                 </div>
                 <div id="editable_wrapper" class="dataTables_wrapper search-list-container" role="grid">
                     <div class="table-responsive table-min-h">
@@ -61,8 +66,8 @@
                             </thead>
                             <tbody class="dd-list1">
                             <c:forEach items="${command.result}" var="p" varStatus="status">
-                                <tr class="tab-detail  dd-item1">
-                                    <td class="td-handle1">${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
+                                <tr class="tab-detail  dd-item1" data-id="${p.id}">
+                                    <td class="td-handle1">${status.index+1}</td>
                                     <td class="td-handle1">
                                             ${command.currentLang.get(p.id).name}
                                     </td>
