@@ -5,19 +5,9 @@
 <!--//endregion your codes 1-->
 
 <form:form action="${root}/content/vCttCarousel/list.html" method="post">
-    <div id="validateRule" style="display: none">${command.validateRule}</div>
 
     <!--//region your codes 2-->
-    <div class="row">
-        <div class="position-wrap clearfix">
-            <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
-            <span>${views.sysResource['内容']}</span><span>/</span><span>${views.sysResource['轮播广告']}</span>
-            <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
-        </div>
-        <div class="col-lg-12">
-            <div class="wrapper white-bg shadow">
-                <div class="panel blank-panel">
-                    <div class="panel-options">
+
                         <ul class="clearfix sys_tab_wrap">
                             <li class="active">
                                 <a data-toggle="tab" index="1" data-href="/content/vCttCarousel/viewMsiteDialog.html?partial=true" aria-expanded="false">
@@ -45,25 +35,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </div>
-                    <div class="panel-body">
-                        <input type="hidden" value="${siteId}" name="siteId"/>
-                        <div class="tab-content" id="tab-content1">
-                            <%@include file="msiteDialog/IndexPartial.jsp"%>
-                        </div>
-                        <div class="tab-content hide" id="tab-content2">
-                        </div>
-                        <div class="tab-content hide" id="tab-content3">
-                        </div>
-                        <div class="tab-content hide" id="tab-content4">
-                        </div>
-                        <div class="tab-content hide" id="tab-content5">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </form:form>
 <!--//endregion your codes 2-->
 

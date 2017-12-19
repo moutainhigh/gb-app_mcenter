@@ -101,6 +101,12 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
         listVo.setCurrentLang(i18nMap);
     }
 
+    /**
+     * 排序
+     * @param model
+     * @param vCttCarouselListVo
+     * @return
+     */
     @RequestMapping("/setting")
     public String setting(Model model,VCttCarouselListVo vCttCarouselListVo){
         vCttCarouselListVo.getSearch().setUseStatus("using");
@@ -135,7 +141,7 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
      * @return
      */
     @RequestMapping("/viewMsiteDialog")
-    public String viewMsiteDialog(VCttCarouselListVo vCttCarouselListVo,Model model,String partial,HttpServletRequest request){
+    public String viewMsiteDialog(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
         vCttCarouselListVo = searchByName(vCttCarouselListVo);
         vCttCarouselListVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_AD_DIALOG.getCode());
         commonViewCarousel(vCttCarouselListVo, model);
