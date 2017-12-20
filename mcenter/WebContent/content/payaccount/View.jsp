@@ -182,7 +182,7 @@
                                             </c:forEach>
                                         </td>
                                         <th class="bg-tbcolor">${views.column['VPayAccount.payRankNum']}：</th>
-                                        <td colspan="3">
+                                        <td colspan="3" style="width:40%">
                                             <c:choose>
                                                 <c:when test="${command.result.fullRank}">
                                                     ${views.content['payAccount.View.allRank']}
@@ -262,7 +262,7 @@
                                             ${command.result.singleDepositMax}
                                     </td>--%>
                                     <th class="bg-tbcolor">${views.column['VPayAccount.payRankNum']}：</th>
-                                    <td colspan="3" class="al-left">
+                                    <td colspan="3"　style="width:40%" class="al-left">
                                         <c:choose>
                                             <c:when test="${command.result.fullRank}">
                                                 ${views.content['payAccount.View.allRank']}
