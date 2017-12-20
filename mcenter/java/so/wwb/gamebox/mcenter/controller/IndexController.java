@@ -672,7 +672,12 @@ public class IndexController extends BaseIndexController {
         map.put("isMaster", isMaster);
         //站长账号显示盈利上限，非站长账号不显示
         if (isMaster) {
-            map.put("profitLimit", getProfitLimit().getMaxProfit());//额度上限值
+            Double creditLine = getProfitLimit().getCreditLine();
+            if (creditLine!=null){
+                map.put("profitLimit", getProfitLimit().getMaxProfit()+getProfitLimit().getCreditLine());//额度上限值
+            }else {
+                map.put("profitLimit", getProfitLimit().getMaxProfit());
+            }
             //统一一个地方
             Double profit = fetchSiteHasUseProfit();//CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone());
             map.put("profit", profit);//本月使用额度值
