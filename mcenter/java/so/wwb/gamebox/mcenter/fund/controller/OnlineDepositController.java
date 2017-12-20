@@ -167,10 +167,29 @@ public class OnlineDepositController extends BaseDepositController {
         return format;
     }
 
+    /*
+    * 计算分页
+    *
+    * */
     @RequestMapping("/count")
     public String count(VPlayerDepositListVo listVo,Model model, String isCounter) {
         String moduleType = DataRightModuleType.ONLINEDEPOSIT.getCode();
         return super.count(listVo, moduleType, model, isCounter);
+    }
+
+    /*
+    * 统计金额
+    *
+    * */
+    @RequestMapping("/doStatistics")
+    @ResponseBody
+    protected VPlayerDepositListVo doStatistics(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
+        // 初始化筛选条件
+        this.initQuery(listVo);
+        initListVo(listVo);
+        String moduleType = DataRightModuleType.ONLINEDEPOSIT.getCode();
+        listVo = getStatistics(listVo, moduleType, form, result, model);
+        return listVo;
     }
 
     @Override

@@ -328,6 +328,7 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
 
         //获取活动基本信息
         activityMessageVo = ServiceTool.activityMessageService().get(activityMessageVo);
+        activityMessageVo.setTotalPeriods(queryTotalCount(activityMessageVo.getResult().getId()));
         model.addAttribute("command", activityMessageVo);
 
         Integer activityMessageId = activityMessageVo.getSearch().getId();
@@ -369,6 +370,13 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
 
         }
         return OPERATION_ACTIVITY_VIEW_ACTIVITY_DETAIL;
+    }
+
+    private Long queryTotalCount(Integer activityMessageId) {
+        ActivityMoneyDefaultWinVo objectVo = new ActivityMoneyDefaultWinVo();
+        objectVo.setResult(new ActivityMoneyDefaultWin());
+        objectVo.getResult().setActivityMessageId(activityMessageId);
+        return ServiceTool.activityMoneyDefaultWinService().countTotalPeriod(objectVo);
     }
 
     private void getActivityMoneyDetail(Model model, Integer activityMessageId) {

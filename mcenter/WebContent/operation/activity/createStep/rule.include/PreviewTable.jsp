@@ -147,14 +147,18 @@
                 <table class="table border" id="preview_awards_rules">
                     <tr>
                         <td class="bg-gray ft-bold">${views.operation_auto['金额']}</td>
-                        <td class="bg-gray ft-bold" >${views.operation_auto['优惠稽核']}</td>
                         <td class="bg-gray ft-bold">${views.operation_auto['名额']}</td>
+                        <td class="bg-gray ft-bold">${views.operation_auto['总名额']}</td>
+                        <td class="bg-gray ft-bold">${views.operation_auto['红包总金额']}</td>
+                        <td class="bg-gray ft-bold" >${views.operation_auto['优惠稽核']}</td>
                         <td class="bg-gray ft-bold">${views.operation_auto['中奖概率']}</td>
                         <c:if test="${not empty activityMessageVo.result.id}">
-                            <td class="bg-gray ft-bold">${messages.operation_auto['剩余名额']}</td>
+                            <td class="bg-gray ft-bold">${views.operation_auto['时段剩余名额']}</td>
                         </c:if>
                     </tr>
                     <tr>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>

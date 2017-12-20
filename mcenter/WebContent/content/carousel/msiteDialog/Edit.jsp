@@ -148,7 +148,7 @@
                                     </div>
                                     <input id="activityContentFile" class="file " type="file" accept="image/*" name="carouselCoverFile"
                                            target="cttCarouselI18n[${index.index}].cover" value="${carousel.cover}">
-                                    <input type="hidden" class="carouselCoverVal${p.language} _edit" bbb="${index.index}" tt="${p.language}"
+                                    <input type="hidden" class="carouselCoverVal${p.language} _edit cover" bbb="${index.index}" tt="${p.language}"
                                            name="cttCarouselI18n[${index.index}].cover" id="carouselCover${index.index}" value="${carousel.cover}">
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                                 <div class="clearfix">
                                     <label>弹窗内容：</label>
                                     <div>
-                                        <textarea class="_editArea${index.index} contents_textarea" bbb="${index.index}" id="editContent${index.index}"
+                                        <textarea class="_editArea${index.index} contents_textarea word_content" bbb="${index.index}" id="editContent${index.index}"
                                                   ueditorId="editContent${index.index}" name="cttCarouselI18n[${index.index}].content">
                                                 ${carousel.content}
                                         </textarea>

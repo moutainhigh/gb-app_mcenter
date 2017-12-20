@@ -26,6 +26,7 @@ import so.wwb.gamebox.model.master.content.po.CttCarousel;
 import so.wwb.gamebox.model.master.content.po.CttCarouselI18n;
 import so.wwb.gamebox.model.master.content.po.VCttCarousel;
 import so.wwb.gamebox.model.master.content.vo.CttCarouselI18nListVo;
+import so.wwb.gamebox.model.master.content.vo.CttCarouselListVo;
 import so.wwb.gamebox.model.master.content.vo.VCttCarouselListVo;
 import so.wwb.gamebox.model.master.content.vo.VCttCarouselVo;
 import so.wwb.gamebox.model.master.enums.CarouselTypeEnum;
@@ -55,7 +56,7 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
     }
 
     //region your codes 3
-    private static final String CAROUSEL_SET = "/content/carousel/msiteCarousel/OrderIndexPartial";
+    private static final String CAROUSEL_SET = "/content/carousel/OrderIndexPartial";
 
     @Override
     protected VCttCarouselListVo doList(VCttCarouselListVo listVo, VCttCarouselSearchForm form, BindingResult result, Model model) {
@@ -100,20 +101,23 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
         listVo.setCurrentLang(i18nMap);
     }
 
+    /**
+     * 排序
+     * @param model
+     * @param vCttCarouselListVo
+     * @return
+     */
     @RequestMapping("/setting")
     public String setting(Model model,VCttCarouselListVo vCttCarouselListVo){
-        vCttCarouselListVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_INDEX.getCode());
         vCttCarouselListVo.getSearch().setUseStatus("using");
         vCttCarouselListVo.setPaging(null);
         vCttCarouselListVo = getService().search(vCttCarouselListVo);
         getCurrentLangCarousel(vCttCarouselListVo);
-        Collection<SysParam> c2 = ParamTool.getSysParams(SiteParamEnum.CONTENT_CAROUSEL_INTERVAL_TIME);
-        Iterator<SysParam> ie = c2.iterator();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.CONTENT_CAROUSEL_TYPE_INDEX);
         List<SysParam> list2 = new ArrayList();
-        do{
-          list2.add(ie.next());
-        }while (ie.hasNext());
+        list2.add(sysParam);
         vCttCarouselListVo.setIntervalTimes(list2);
+        model.addAttribute("type",vCttCarouselListVo.getSearch().getType());
         model.addAttribute("intervalTime", EnumTool.getEnumList(IntervalTimeEnum.class));
         model.addAttribute("command",vCttCarouselListVo);
         return CAROUSEL_SET;
@@ -137,7 +141,7 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
      * @return
      */
     @RequestMapping("/viewMsiteDialog")
-    public String viewMsiteDialog(VCttCarouselListVo vCttCarouselListVo,Model model,String partial,HttpServletRequest request){
+    public String viewMsiteDialog(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
         vCttCarouselListVo = searchByName(vCttCarouselListVo);
         vCttCarouselListVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_AD_DIALOG.getCode());
         commonViewCarousel(vCttCarouselListVo, model);
@@ -227,6 +231,7 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
         vCttCarouselListVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_PLAYER_INDEX.getCode());
         commonViewCarousel(vCttCarouselListVo, model);
         model.addAttribute("webType", "5");
+        model.addAttribute("type",vCttCarouselListVo.getSearch().getType());
         if (ServletTool.isAjaxSoulRequest(request)) {
             return getViewBasePath() + "pcenterAd/IndexPartial";
         }else {

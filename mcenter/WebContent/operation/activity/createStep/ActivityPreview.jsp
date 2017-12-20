@@ -56,7 +56,7 @@
                     <c:if test="${activityType.result.code eq 'back_water'}">
                         <div class="col-sm-5" id="activityBackWaterTable"></div>
                     </c:if>
-                    <div class="col-sm-5" id="activityTable">
+                    <div class="col-sm-8" id="activityTable">
                         <%@include file="rule.include/PreviewTable.jsp"%>
                     </div>
                 </div>

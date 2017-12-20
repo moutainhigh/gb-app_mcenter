@@ -193,7 +193,7 @@
                             <input type="text" class="form-control" placeholder="" name="activityRule.placesNumber" value="${activityRule.placesNumber}">
                             <span class="input-group-addon">${views.operation['Activity.step.name']}</span>
                         </div>
-                        <span class="m-l co-grayc2">${views.operation['Activity.step.message8']}</span>
+                        <span class="m-l co-grayc2" id="placesNumber_tips" style="${activityRule.placesNumber gt 0?'':'display:none'}">${views.operation['Activity.step.message8']}</span>
                     </div>
                 </div>
             </c:if>
