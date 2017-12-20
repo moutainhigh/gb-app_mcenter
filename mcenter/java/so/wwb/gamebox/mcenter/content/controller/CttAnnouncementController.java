@@ -146,11 +146,12 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
             if(CttAnnouncementTypeEnum.REGISTER_ANNOUNCEMENT.getCode().equals(announcementType) || CttAnnouncementTypeEnum.LOGIN_ANNOUNCEMENT.getCode().equals(announcementType)){
                 CttAnnouncementVo vo = new CttAnnouncementVo();
                 vo.setResult(cttAnnouncement);
+                //典型错误，两次service
                getService().changeOtherAnnouncementStatus(vo);
             }
 
         }
-
+        //TODO:kobe 典型错误，两次service,如果这里异常。。。。
         listVo = getService().batchSave(listVo);
         //
         Cache.refreshSiteAnnouncement();
