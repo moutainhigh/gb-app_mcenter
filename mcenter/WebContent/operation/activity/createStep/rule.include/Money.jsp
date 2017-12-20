@@ -166,7 +166,7 @@
     <label class="ft-bold col-sm-3 al-right line-hi34">
         ${views.operation_auto['奖项设置']}：
             <br>
-            剩余总时段数：<span id="totalPeriods"></span>
+            ${views.operation_auto['剩余总时段数']}：<span id="totalPeriods"></span>
     </label>
 
 
@@ -183,14 +183,14 @@
         <div class="tab-content table-responsive">
             <table class="table border" style="width: 980px" id="awards_rules">
                 <tr>
-                    <td class="bg-gray ft-bold" style="width: 150px">红包${views.operation_auto['金额']}</td>
-                    <td class="bg-gray ft-bold" style="width: 120px">每个时段${views.operation_auto['名额']}</td>
-                    <td class="bg-gray ft-bold" style="width: 120px;">总名额</td>
-                    <td class="bg-gray ft-bold" style="width: 150px;">红包总金额</td>
+                    <td class="bg-gray ft-bold" style="width: 150px">${views.operation_auto['金额']}</td>
+                    <td class="bg-gray ft-bold" style="width: 120px">${views.operation_auto['名额']}</td>
+                    <td class="bg-gray ft-bold" style="width: 120px;">${views.operation_auto['总名额']}</td>
+                    <td class="bg-gray ft-bold" style="width: 150px;">${views.operation_auto['红包总金额']}</td>
                     <td class="bg-gray ft-bold" style="width: 120px;">${views.operation_auto['优惠稽核']}</td>
                     <td class="bg-gray ft-bold" style="width: 120px">${views.operation_auto['中奖概率']}</td>
                     <c:if test="${not empty rulesListVo.result}">
-                    <td class="bg-gray ft-bold" style="width: 120px">时段剩余名额</td>
+                    <td class="bg-gray ft-bold" style="width: 120px">${views.operation_auto['时段剩余名额']}</td>
                     </c:if>
                     <td class="bg-gray ft-bold">${views.common['operate']}</td>
                 </tr>
@@ -203,8 +203,8 @@
                                 <input type="number" class="input-text award_count" name="moneyAwardsRules[${vs.index}].quantity" value="${rule.quantity}" style="width: 80px;">${views.operation_auto['个']}
                                 <input type="hidden" name="moneyAwardsRules[${vs.index}].id" value="${rule.id}">
                             </td>
-                            <td><span class="award_total_count"></span></td>
-                            <td><span class="award_total_amount"></span></td>
+                            <td><span class="award_total_count"></span>${views.operation_auto['个']}</td>
+                            <td>${siteCurrencySign}<span class="award_total_amount"></span></td>
                             <td><input type="number" onmousewheel="return false" class="input-text" name="moneyAwardsRules[${vs.index}].audit" value="${rule.audit}" style="width: 80px">${views.operation_auto['倍']}</td>
 
 
@@ -225,8 +225,8 @@
                                     ${siteCurrencySign}<input type="number" onmousewheel="return false" class="input-text award_amount" name="moneyAwardsRules[${vs.index}].amount" style="width: 80px">
                             </td>
                             <td><input type="number" onmousewheel="return false" class="input-text award_count" name="moneyAwardsRules[${vs.index}].quantity" style="width: 80px">${views.operation_auto['个']}</td>
-                            <td><span class="award_total_count"></span></td>
-                            <td><span class="award_total_amount"></span></td>
+                            <td><span class="award_total_count"></span>${views.operation_auto['个']}</td>
+                            <td>${siteCurrencySign}<span class="award_total_amount"></span></td>
                             <td><input type="number" onmousewheel="return false" class="input-text" name="moneyAwardsRules[${vs.index}].audit" style="width: 80px">${views.operation_auto['倍']}</td>
                             <td><input type="number" onmousewheel="return false" class="input-text awards-rules-input-pro" name="moneyAwardsRules[${vs.index}].probability" style="width: 80px">%</td>
                             <td>
@@ -243,17 +243,17 @@
             <table style="width: 980px" id="total_count_table">
                 <tr>
                     <td style="width: 150px;">
-                        总计：<span></span>
+                        ${views.report_auto['总计']}：${siteCurrencySign}<span></span>
                     </td>
                     <td style="width: 120px;">
-                        总计：<span></span>
+                        ${views.report_auto['总计']}：<span></span>${views.operation_auto['个']}
                     </td>
 
                     <td style="width: 120px;">
-                        总计：<span></span>
+                        ${views.report_auto['总计']}：<span></span>${views.operation_auto['个']}
                     </td>
                     <td style="width: 150px;">
-                        总计：<span></span>
+                        ${views.report_auto['总计']}：${siteCurrencySign}<span></span>
                     </td>
                     <td style="width: 120px;"></td>
                     <td style="width: 120px;"></td>
