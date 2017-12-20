@@ -35,8 +35,8 @@
             </tr>
             </thead>
             <tbody class="table-tbody withdraw-tbody-record">
-            <% RedisSessionDao redisSessionDao = (RedisSessionDao) SpringTool.getBean("redisSessionDao"); %>
-            <c:set var="redisSessionDao" value='<%=redisSessionDao%>'/>
+            <%--<% RedisSessionDao redisSessionDao = (RedisSessionDao) SpringTool.getBean("redisSessionDao"); %>
+            <c:set var="redisSessionDao" value='<%=redisSessionDao%>'/>--%>
                 <c:forEach items="${command.result}" var="p" varStatus="status">
                     <tr class="tab-detail" id="record_id_${p.id}">
                         <td>
@@ -57,12 +57,12 @@
                                       role="button" class="ico-lock co-red3 help-popover" tabindex="0"
                                       data-original-title="" title=""><i class="fa fa-warning"></i>&nbsp;</span>
                             </c:if>
-                            <c:if test="${redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), playerId).size()>0}">
+                            <%--<c:if test="${redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), playerId).size()>0}">
                                 <span data-content="${views.role['player.list.icon.online']}"
                                       data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
                                       role="button" class="ico-lock help-popover" tabindex="0"
                                       data-original-title="" title=""><i class="fa fa-flash"></i></span>
-                            </c:if>
+                            </c:if>--%>
                         </td>
                         <td>
                             <a href="/vPlayerRankStatistics/view.html?id=${p.rankId}" nav-target="mainFrame">

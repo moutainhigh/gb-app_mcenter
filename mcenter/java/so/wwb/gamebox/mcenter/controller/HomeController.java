@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.iservice.master.player.IVPlayerOnlineService;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.SubSysCodeEnum;
@@ -75,9 +76,9 @@ public class HomeController extends SiteHomeController{
     @RequestMapping("/homeIndex")
     public String home(Model model) {
         // 在线玩家数
-        model.addAttribute("onlinePlayerNum", calcOnlinePlayerNum());
+        model.addAttribute("onlinePlayerNum", 0);
         // 今日活跃玩家
-        model.addAttribute("activePlayerNum", calcActivePlayerNum());
+        model.addAttribute("activePlayerNum", 0);
         // 总资产
         model.addAttribute("assets", getAssets());
         // 更新时间
@@ -93,21 +94,30 @@ public class HomeController extends SiteHomeController{
      */
     private Long calcOnlinePlayerNum() {
         VPlayerOnlineListVo listVo = new VPlayerOnlineListVo();
-        List<Integer> userIds = listVo.getSearch().getUserIds();
-        List<String> keys = redisSessionDao.getUserTypeActiveSessions(UserTypeEnum.PLAYER.getCode());
-
-        if (CollectionTool.isNotEmpty(keys)) {
-            for (String key : keys) {
-                String[] str = key.split(",");
-                if (str.length == 3 && !userIds.contains(Integer.valueOf(str[1]))) {
-                    userIds.add(Integer.valueOf(str[1]));
-                    listVo.getSearch().getSessionKeys().add(str[2]);
-                }
-            }
-            return ServiceTool.vPlayerOnlineService().count(listVo);
-        }
-        return 0L;
+        IVPlayerOnlineService ivPlayerOnlineService = ServiceTool.vPlayerOnlineService();
+        return ivPlayerOnlineService.count(listVo);
     }
+
+//    /**
+//     * 计算在线玩家数
+//     */
+//    private Long calcOnlinePlayerNum() {
+//        VPlayerOnlineListVo listVo = new VPlayerOnlineListVo();
+//        List<Integer> userIds = listVo.getSearch().getUserIds();
+//        List<String> keys = redisSessionDao.getUserTypeActiveSessions(UserTypeEnum.PLAYER.getCode());
+//
+//        if (CollectionTool.isNotEmpty(keys)) {
+//            for (String key : keys) {
+//                String[] str = key.split(",");
+//                if (str.length == 3 && !userIds.contains(Integer.valueOf(str[1]))) {
+//                    userIds.add(Integer.valueOf(str[1]));
+//                    listVo.getSearch().getSessionKeys().add(str[2]);
+//                }
+//            }
+//            return ServiceTool.vPlayerOnlineService().count(listVo);
+//        }
+//        return 0L;
+//    }
 
     /**
      * 今日活跃玩家
