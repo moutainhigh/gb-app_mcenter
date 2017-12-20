@@ -1035,7 +1035,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
         model.addAttribute("remarkCount", remarkCount);
         model.addAttribute("vPlayerTagAllListVo", vPlayerTagAllListVo);
-        objectVo.getResult().setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), objectVo.getResult().getId()).size());
+        //objectVo.getResult().setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), objectVo.getResult().getId()).size());
         String registCode = Base36.encryptIgnoreCase(objectVo.getResult().getRegistCode() + objectVo.getResult().getId());
         objectVo.getResult().setRegistCode(registCode);
         return objectVo;
