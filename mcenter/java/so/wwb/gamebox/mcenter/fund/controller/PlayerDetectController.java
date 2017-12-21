@@ -133,7 +133,6 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
         }
         if (objVo.getResult() != null) {
             objVo = fetchRakebackWithManual(objVo);
-            objVo.getResult().setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), objVo.getResult().getId()).size());
         }
         model.addAttribute("command1", objVo);
         if (objVo.getResult() != null) {

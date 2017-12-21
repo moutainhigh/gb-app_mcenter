@@ -55,10 +55,7 @@
                                 <th>${views.content['carousel.previewPicture']}</th>
                                 <th>${views.column['VCttCarousel.orderNum']}</th>
                                 <th class="sorting">${views.content['carousel.showTime']}</th>
-                                <th class="inline">
-                                    <gb:select name="search.useStatus" value="${command.search.useStatus}" callback="query"
-                                               prompt="${views.role['player.list.title.status']}" list="${command.useStatus}"></gb:select>
-                                </th>
+                                <th class="inline">状态</th>
                                 <th>${views.content['domain.setting']}</th>
                                 <th>${views.column['VCttCarousel.publishTime']}</th>
                                     <%--<th>${views.content_auto['是否启用']}</th>--%>

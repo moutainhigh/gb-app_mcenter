@@ -11,10 +11,10 @@
         <tr role="row" class="bg-gray">
             <th width="40"><input type="checkbox" class="i-checks"></th>
             <th width="60">${views.common['number']}</th>
-            <th>${views.column['VCttCarousel.name']}</th>
+            <th>${views.column['VCttCarousel.AdName']}</th>
             <th>${views.content['carousel.previewPicture']}</th>
             <th>${views.column['VCttCarousel.orderNum']}</th>
-            <th class="sorting">${views.content['carousel.showTime']}</th>
+            <th>${views.content['carousel.showTime']}</th>
             <th class="inline">
                 <gb:select name="search.useStatus" value="${command.search.useStatus}" callback="query"
                            prompt="${views.role['player.list.title.status']}" list="${command.useStatus}"></gb:select>
