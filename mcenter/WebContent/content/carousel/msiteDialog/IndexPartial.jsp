@@ -12,7 +12,8 @@
             <tr role="row" class="bg-gray">
                 <th width="40"><input type="checkbox" class="i-checks"></th>
                 <th width="60">${views.common['number']}</th>
-                <th>${views.column['VCttCarousel.name']}</th>
+                <th>${views.column['VCttCarousel.AdName']}</th>
+                <th>${views.column['VCttCarousel.type']}</th>
                 <th>${views.content['carousel.previewPicture']}</th>
                 <th>${views.content['carousel.showTime']}</th>
                 <th class="inline">
@@ -47,6 +48,16 @@
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                     <td>
                             ${command.currentLang.get(p.id).name}
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${p.contentType != 1}">
+                                ${views.column['VCttCarousel.word']}
+                            </c:when>
+                            <c:otherwise>
+                                ${views.column['VCttCarousel.picture']}
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                     <td>
                         <c:choose>
