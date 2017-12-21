@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.content.controller;
 
+import org.omg.CORBA.COMM_FAILURE;
 import org.soul.commons.collections.CollectionQueryTool;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.MapTool;
@@ -63,11 +64,13 @@ import so.wwb.gamebox.model.company.sys.vo.SysDomainListVo;
 import so.wwb.gamebox.model.company.vo.BankExtendVo;
 import so.wwb.gamebox.model.company.vo.BankListVo;
 import so.wwb.gamebox.model.company.vo.BankSupportCurrencyListVo;
+import so.wwb.gamebox.model.company.vo.BankVo;
 import so.wwb.gamebox.model.master.content.enums.PayAccountStatusEnum;
 import so.wwb.gamebox.model.master.content.po.PayAccount;
 import so.wwb.gamebox.model.master.content.po.VPayAccount;
 import so.wwb.gamebox.model.master.content.vo.*;
 import so.wwb.gamebox.model.master.digiccy.po.DigiccyAccountInfo;
+import so.wwb.gamebox.model.master.enums.CommonStatusEnum;
 import so.wwb.gamebox.model.master.enums.PayAccountAccountType;
 import so.wwb.gamebox.model.master.enums.PayAccountType;
 import so.wwb.gamebox.model.master.enums.UserTaskEnum;
@@ -355,14 +358,34 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         return "/content/payaccount/company/Add";
     }
 
-    private List<Bank> getOnlineBank() {
+    /**
+     * 异步加载支付渠道
+     */
+    @RequestMapping("/loadPayType")
+    @ResponseBody
+    public PayAccountVo loadPayType(String paytype,PayAccountVo objectVo) {
+        //国际化
+        List<Bank> list = new ArrayList();
+        for(Bank bank : getOnlineBank(paytype)){
+            String s = LocaleTool.tranDict(DictEnum.BANKNAME, bank.getBankName());
+            if (s != null && s != "")
+                bank.setBankShortName(s);
+//           objectVo.getBankList().add(bank);
+           list.add(bank);
+        }
+        objectVo.setBankList(list);
+        return objectVo;
+    }
+
+    private List<Bank> getOnlineBank(String paytype) {
         BankListVo bankListVo = new BankListVo();
-        bankListVo.getSearch().setType(BankEnum.TYPE_ONLINE.getCode());    // 在线支付
+        bankListVo.getSearch().setType(BankEnum.TYPE_ONLINE.getCode());
         bankListVo.getSearch().setIsUse(true);
         bankListVo.setPaging(null);
+        bankListVo.getSearch().setPayType(paytype);
         bankListVo.getQuery().addOrder(Bank.PROP_ORDER_NUM, Direction.ASC).addOrder(Bank.PROP_BANK_NAME, Direction.ASC);
-        List<Bank> result = ServiceTool.bankService().search(bankListVo).getResult();
-        return result;
+        bankListVo = ServiceTool.bankService().queryBankByPayType(bankListVo);
+        return bankListVo.getResult();
     }
 
     @RequestMapping({"/onLineCreate"})
@@ -371,11 +394,12 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         objectVo = this.doCreate(objectVo, model);
         objectVo.getSearch().setType(PayAccountType.ONLINE_ACCOUNT.getCode());
         objectVo = getPayAccountVo(objectVo);
-        objectVo.setBankList(getOnlineBank());
+//        objectVo.setBankList(getOnlineBank("0"));
         objectVo.setSysDomains(getSysDomainList(sysDomainListVo));
 
         model.addAttribute("command", objectVo);
         objectVo.setValidateRule(JsRuleCreator.create(PayAccountOnlineForm.class, "result"));
+        model.addAttribute("bankPayTypes", BankPayTypeEnum.values());
         return "/content/payaccount/onLine/Add";
     }
 
@@ -406,7 +430,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         objectVo.getSearch().setType(PayAccountType.ONLINE_ACCOUNT.getCode());
         objectVo = this.doEdit(objectVo, model);
         objectVo = getPayAccountVo(objectVo);
-        objectVo.setBankList(getOnlineBank());
+        objectVo.setBankList(getOnlineBank(""));
         objectVo.setValidateRule(JsRuleCreator.create(PayAccountOnlineForm.class, "result"));
         this.getPayCurrencyAndRank(objectVo);
         List<Map<String, String>> channelJson = JsonTool.fromJson(objectVo.getResult().getChannelJson(), List.class);
@@ -419,10 +443,15 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
                 }
             }
         }
+        BankVo bankVo = new BankVo();
+        bankVo.getSearch().setBankName(objectVo.getResult().getBankCode());
+        bankVo = ServiceTool.bankService().search(bankVo);
         SysDomainListVo sysDomainListVo = new SysDomainListVo();
         objectVo.setSysDomains(getSysDomainList(sysDomainListVo));
+        model.addAttribute("currentBank",bankVo);
         model.addAttribute("channelJson", channelJson);
         model.addAttribute("command", objectVo);
+        model.addAttribute("bankPayTypes", BankPayTypeEnum.values());
         return "/content/payaccount/onLine/Add";
     }
 

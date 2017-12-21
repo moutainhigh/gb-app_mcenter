@@ -1103,7 +1103,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
         model.addAttribute("remarkCount", remarkCount);
         model.addAttribute("vPlayerTagAllListVo", vPlayerTagAllListVo);
-        objectVo.getResult().setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), objectVo.getResult().getId()).size());
         String registCode = Base36.encryptIgnoreCase(objectVo.getResult().getRegistCode() + objectVo.getResult().getId());
         objectVo.getResult().setRegistCode(registCode);
         return objectVo;
@@ -1695,7 +1694,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         VUserPlayerVo vo = new VUserPlayerVo();
         vo.getSearch().setId(userId);
         VUserPlayer user = this.getService().findOnLineUser(vo);
-        user.setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), userId).size());
         model.addAttribute("vo", user);
         if (StringTool.isNotEmpty(user.getStatus()) && user.getStatus().equals(SysUserStatus.DISABLED.getCode())) {
 
@@ -1832,7 +1830,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         NoticeVo noticeVo = new NoticeVo();
         noticeVo.setEventType(ManualNoticeEvent.FORCE_KICK_OUT);
         List<NoticeLocaleTmpl> noticeLocaleTmpls = ServiceTool.noticeService().fetchLocaleTmpls(noticeVo);
-        user.setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), userId).size());
         model.addAttribute("vo", user);
         model.addAttribute("noticeLocaleTmpls", noticeLocaleTmpls);
         return OFFLINE_FORCED;
@@ -2208,7 +2205,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         protection = ServiceTool.sysUserProtectionService().get(protection);
         objectVo.setSysUserProtection(protection.getResult());
         //获取在线状态
-        objectVo.getResult().setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), objectVo.getResult().getId()).size());
         model.addAttribute("command", objectVo);
         return VUSER_PLAYER_VIEW;
     }
