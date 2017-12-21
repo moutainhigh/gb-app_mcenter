@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.content.controller;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.soul.commons.collections.CollectionQueryTool;
 import org.soul.commons.collections.ListTool;
 import org.soul.commons.data.json.JsonTool;
@@ -90,7 +91,14 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     protected SysDomainListVo doList(SysDomainListVo listVo, SysDomainSearchForm form, BindingResult result, Model model) {
         listVo.setSearch(createSearchObj(listVo.getSearch()));
         listVo = super.doList(listVo, form, result, model);
-        listVo.setDomainTypes(ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX));
+        Collection<SysParam> sysParams = ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX);
+        Collection<SysParam> sysParams1 = new ArrayList<>();
+        for (SysParam sysParam : sysParams) {
+            if (!"creditPay".equals(sysParam.getParamCode())){
+                sysParams1.add(sysParam);
+            }
+        }
+        listVo.setDomainTypes(sysParams1);
         return listVo;
     }
 
@@ -198,6 +206,8 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     @Override
     @Token(generate = true)
     public String create(SysDomainVo objectVo, Model model, HttpServletRequest request, HttpServletResponse response) {
+
+
         return super.create(objectVo, model, request, response);
     }
 
@@ -254,7 +264,14 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     }
 
     public SysDomainVo createOrEdit(SysDomainVo sysDomainVo) {
-        sysDomainVo.setDomainTypes(ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX));
+        Collection<SysParam> sysParams = ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX);
+        Collection<SysParam> sysParams1 = new ArrayList<>();
+        for (SysParam sysParam : sysParams) {
+            if (!"creditPay".equals(sysParam.getParamCode())){
+                 sysParams1.add(sysParam);
+            }
+        }
+        sysDomainVo.setDomainTypes(sysParams1);
 //        sysDomainVo = ServiceTool.cttDomainRankService().getDomainRank(sysDomainVo);
 //        sysDomainVo.setPlayerRanks(ServiceTool.playerRankService().queryUsableRankList(new PlayerRankVo()));
         LOG.debug("域名类型：{0}", JsonTool.toJson(sysDomainVo.getDomainTypes()));
