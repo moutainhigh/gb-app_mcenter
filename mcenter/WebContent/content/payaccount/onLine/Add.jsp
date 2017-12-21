@@ -63,24 +63,31 @@
                     </div>
                     <%-- 存款渠道 --%>
                     <div class="form-group clearfix third">
-                        <label class="ft-bold col-sm-3 al-right line-hi34">
-                            <span class="co-red m-r-sm">*</span>${views.column['PayAccount.bankCode']}：
-                        </label>
-                        <div class="col-sm-5" id="thirdError">
-                            <div class="input-group date">
-                               <%-- <form:select path="result.bankCode" callback="bankChannel" cssClass="btn-group chosen-select-no-single">
-                                    <option value="">${views.common['pleaseSelect']}</option>
-                                    <c:forEach items="${command.bankList}" var="p">
-                                        <option value="${p.bankName}" ${command.result.bankCode==p.bankName?'selected':''}>${(dicts.common.bankname[p.bankName]==null)?p.bankShortName:dicts.common.bankname[p.bankName]}</option>
-                                    </c:forEach>
-                                </form:select>--%>
-                                   <select name="result.bankCode">
-                                       <option value="">${views.common['pleaseSelect']}</option>
-                                       <c:forEach items="${command.bankList}" var="p">
-                                           <option value="${p.bankName}" ${command.result.bankCode==p.bankName?'selected':''}>${(dicts.common.bankname[p.bankName]==null)?p.bankShortName:dicts.common.bankname[p.bankName]}</option>
-                                       </c:forEach>
-                                   </select>
-                                <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
+                        <div class="form-group clearfix">
+                            <label class="ft-bold col-sm-3 al-right line-hi34">
+                                <span class="co-red m-r-sm">*</span>${views.column['PayAccount.bankCode']}：
+                            </label>
+                            <div class="col-sm-5">
+                                <div class="input-group date">
+                                    <select name="result.payType" id="SelectPayment">
+                                        <option value="0">${views.common['pleaseSelectPayment']}</option>
+                                        <c:forEach items="${bankPayTypes}" var="p">
+                                            <option value="${p.code}" ${currentBank.result.payType == p.code?'selected':''}>${dicts.common.paytype[p.name()]}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span class="input-group-addon bg-gray">&emsp14;</span>
+                                        <%--<span class="input-group-addon bdn">&nbsp;&nbsp;</span>--%>
+                                    <select name="result.bankCode" id="selectDeposit">
+                                        <option value="">${views.common['pleaseSelectDeposit']}</option>
+                                        <c:if test="${command.result != null}">
+                                            <c:forEach items="${command.bankList}" var="p">
+                                                <c:if test="${currentBank.result.payType == p.payType}">
+                                                    <option value="${p.bankName}" ${command.result.bankCode==p.bankName?'selected':''}>${(dicts.common.bankname[p.bankName]==null)?p.bankShortName:dicts.common.bankname[p.bankName]}</option>
+                                                </c:if>
+                                            </c:forEach>
+                                        </c:if>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>

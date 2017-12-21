@@ -137,7 +137,7 @@
                                     </span>
                                 </td>
                                 <td class="hide" id="depositDefaultTotalTD2">
-                                    <input type="text" value="${soulFn:formatCurrency(result.depositDefaultTotal)}" id="depositDefaultTotal" name="result.depositDefaultTotal"/>
+                                    <input type="text" value="${empty result.depositDefaultTotal?0:result.depositDefaultTotal}" id="depositDefaultTotal" name="result.depositDefaultTotal"/>
                                     <span>
                                         <soul:button cssClass="m-l-sm"
                                                      target="saveDepositDefault" text="${views.content_auto['保存']}" opType="function"
