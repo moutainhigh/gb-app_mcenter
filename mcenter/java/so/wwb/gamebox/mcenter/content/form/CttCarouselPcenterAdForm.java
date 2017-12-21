@@ -2,8 +2,6 @@ package so.wwb.gamebox.mcenter.content.form;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.soul.commons.query.enums.Operator;
-import org.soul.commons.validation.form.constraints.Depends;
 import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.content.controller.CttCarouselController;
@@ -17,7 +15,7 @@ import so.wwb.gamebox.mcenter.content.controller.CttCarouselController;
  */
 //region your codes 1
 //@Compare(message = "",property = "result_startTime",logic = CompareLogic.GT,anotherProperty = "result_endTime")
-public class CttCarouselForm implements IForm {
+public class CttCarouselPcenterAdForm implements IForm {
 //endregion your codes 1
 
     //region your codes 2
@@ -25,6 +23,8 @@ public class CttCarouselForm implements IForm {
     private String result_endTime;
     private String result_link;
     private String result_url;
+    private String apiId;
+    private String apiTypeId;
     private String[] cttCarouselI18n$$_name;
     private String[] cttCarouselI18n$$_cover;
     @NotBlank(message = "carousel.startTimeNotBlank")
@@ -82,6 +82,24 @@ public class CttCarouselForm implements IForm {
 
     public void setResult_url(String result_url) {
         this.result_url = result_url;
+    }
+
+    @NotBlank
+    public String getApiId() {
+        return apiId;
+    }
+
+    public void setApiId(String apiId) {
+        this.apiId = apiId;
+    }
+
+    @NotBlank
+    public String getApiTypeId() {
+        return apiTypeId;
+    }
+
+    public void setApiTypeId(String apiTypeId) {
+        this.apiTypeId = apiTypeId;
     }
     //endregion your codes 2
 

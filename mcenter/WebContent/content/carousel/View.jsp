@@ -47,7 +47,6 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <input type="hidden" value="${siteId}" name="siteId"/>
                         <div class="tab-content" id="tab-content1">
                             <%@include file="msiteDialog/IndexPartial.jsp"%>
                         </div>
