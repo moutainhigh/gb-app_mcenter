@@ -8,9 +8,11 @@ import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.model.sys.po.SysDict;
 import org.soul.web.controller.BaseCrudController;
+import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttCarouselService;
@@ -36,6 +38,7 @@ import so.wwb.gamebox.model.master.enums.CttCarouselTypeEnum;
 import so.wwb.gamebox.web.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.*;
 
 
@@ -48,7 +51,7 @@ import java.util.*;
 @Controller
 //region your codes 1
 @RequestMapping("/content/cttCarousel")
-public class CttCarouselController extends BaseCrudController<ICttCarouselService, CttCarouselListVo, CttCarouselVo, CttCarouselSearchForm, CttCarouselDialogForm, CttCarousel, Integer> {
+public class CttCarouselController extends BaseCrudController<ICttCarouselService, CttCarouselListVo, CttCarouselVo, CttCarouselSearchForm, CttCarouselForm, CttCarousel, Integer> {
 
     private static final Log LOG = LogFactory.getLog(CttCarouselController.class);
 //endregion your codes 1
@@ -220,18 +223,41 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
     @Override
     protected CttCarouselVo doPersist(CttCarouselVo objectVo) {
         objectVo.getResult().setPublishTime(new Date());
-        String type = objectVo.getResult().getType();
-        //排除自己
-        if (objectVo.getResult().getId()==null && (CttCarouselTypeEnum.CAROUSEL_TYPE_AD_DIALOG.getCode().equals(type) ||
-                CttCarouselTypeEnum.CAROUSEL_TYPE_PHONE_DIALOG.getCode().equals(type))) {
-            CttCarouselVo cttCarouselVo = new CttCarouselVo();
-            cttCarouselVo.setResult(objectVo.getResult());
-            getService().changeOtherTypes(cttCarouselVo);//启用唯一性
-        }
         objectVo = super.doPersist(objectVo);
         Cache.refreshSiteCarousel();
         Cache.refreshCurrentSitePageCache();
         return objectVo;
+    }
+
+    /**
+     * 弹窗类保存（因验证不同，分类保存）
+     * @param objectVo
+     * @param form
+     * @param result
+     * @return
+     */
+    @RequestMapping({"dialog/persist"})
+    @ResponseBody
+    public Map dialogPersist(CttCarouselVo objectVo, @FormModel("result") @Valid CttCarouselDialogForm form, BindingResult result) {
+        if(!result.hasErrors()) {
+            objectVo = this.doPersist(objectVo);
+        } else {
+            objectVo.setSuccess(false);
+        }
+
+        return this.getVoMessage(objectVo);
+    }
+
+    @RequestMapping({"pcenterAD/persist"})
+    @ResponseBody
+    public Map pcenterPersist(CttCarouselVo objectVo, @FormModel("result") @Valid CttCarouselPcenterAdForm form, BindingResult result) {
+        if(!result.hasErrors()) {
+            objectVo = this.doPersist(objectVo);
+        } else {
+            objectVo.setSuccess(false);
+        }
+
+        return this.getVoMessage(objectVo);
     }
 
     @Override
