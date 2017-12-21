@@ -219,8 +219,9 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
     protected CttCarouselVo doPersist(CttCarouselVo objectVo) {
         objectVo.getResult().setPublishTime(new Date());
         String type = objectVo.getResult().getType();
-        if (CttCarouselTypeEnum.CAROUSEL_TYPE_AD_DIALOG.getCode().equals(type) ||
-                CttCarouselTypeEnum.CAROUSEL_TYPE_PHONE_DIALOG.getCode().equals(type)) {
+        //排除自己
+        if (objectVo.getResult().getId()==null && (CttCarouselTypeEnum.CAROUSEL_TYPE_AD_DIALOG.getCode().equals(type) ||
+                CttCarouselTypeEnum.CAROUSEL_TYPE_PHONE_DIALOG.getCode().equals(type))) {
             CttCarouselVo cttCarouselVo = new CttCarouselVo();
             cttCarouselVo.setResult(objectVo.getResult());
             getService().changeOtherTypes(cttCarouselVo);//启用唯一性
