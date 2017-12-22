@@ -89,14 +89,6 @@ public class HomeController extends SiteHomeController{
         return INDEX_URL;
     }
 
-    /**
-     * 计算在线玩家数
-     */
-    private Long calcOnlinePlayerNum() {
-        VPlayerOnlineListVo listVo = new VPlayerOnlineListVo();
-        IVPlayerOnlineService ivPlayerOnlineService = ServiceTool.vPlayerOnlineService();
-        return ivPlayerOnlineService.count(listVo);
-    }
 
 //    /**
 //     * 计算在线玩家数
@@ -122,12 +114,14 @@ public class HomeController extends SiteHomeController{
     /**
      * 今日活跃玩家
      */
-    private Long calcActivePlayerNum() {
+    private Map calcActivePlayerNum() {
         Date day = DateQuickPicker.getInstance().getDay(SessionManager.getTimeZone());
         UserPlayerVo userPlayerVo = new UserPlayerVo();
         userPlayerVo.setStartTime(day);
         userPlayerVo.setEndTime(DateQuickPicker.getInstance().getNow());
-        return ServiceTool.userPlayerService().queryActivePlayer(userPlayerVo);
+        Map statusCountMap = ServiceTool.userPlayerService().queryPlayerStatus(userPlayerVo);
+
+        return statusCountMap;
     }
 
     /**
@@ -236,11 +230,11 @@ public class HomeController extends SiteHomeController{
     @RequestMapping("/playerNum")
     @ResponseBody
     public Map playerNum() {
-        Map<String, Long> objectObjectHashMap = new HashMap<>();
+        Map objectObjectHashMap = calcActivePlayerNum();
         // 在线玩家数
-        objectObjectHashMap.put("onlinePlayerNum", calcOnlinePlayerNum());
+        //objectObjectHashMap.put("onlinePlayerNum", calcOnlinePlayerNum());
         // 今日活跃玩家
-        objectObjectHashMap.put("activePlayerNum", calcActivePlayerNum());
+        //objectObjectHashMap.put("activePlayerNum", calcActivePlayerNum());
         return objectObjectHashMap;
     }
 
