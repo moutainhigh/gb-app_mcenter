@@ -149,6 +149,10 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
                 //典型错误，两次service
                getService().changeOtherAnnouncementStatus(vo);
             }
+            //新增银行公告默认排序设置为0
+            if (CttAnnouncementTypeEnum.BANK_ANNOOUNCEMENT.getCode().equals(announcementType)&&cttAnnouncement.getOrderNum()==null){
+                cttAnnouncement.setOrderNum(0);
+            }
 
         }
         //TODO:kobe 典型错误，两次service,如果这里异常。。。。
