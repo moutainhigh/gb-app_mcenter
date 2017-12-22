@@ -85,7 +85,7 @@ public class CttCarouselDialogForm implements IForm {
         this.result_url = result_url;
     }
 
-    @NotBlank
+    @Depends(property = {"result.contentType"}, operator = {Operator.EQ}, value = {"2"}, jsValueExp = {"$(\"input[name='result.contentType']:checked\").val()"})
     public String[] getCttCarouselI18n$$_content() {
         return cttCarouselI18n$$_content;
     }
