@@ -107,14 +107,6 @@ public class ManualController {
 
     private Log LOG = LogFactory.getLog(ManualController.class);
 
-    @RequestMapping("/fromPlayer")
-    @Token(generate = true)
-    public String fromPlayer(String username, String type, Model model, HttpServletRequest request) {
-        String index = index(model, type, username, request);
-        model.addAttribute("hasReturn", true);
-        return index;
-    }
-
     @RequestMapping("/index")
     @Token(generate = true)
     public String index(Model model, String type, String username, HttpServletRequest request) {
