@@ -66,7 +66,11 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         }
         String s = SessionManager.getLocale().toString();
         listVo.getSearch().setLocalLanguage(s);
-        listVo.getQuery().addOrder(CttAnnouncement.PROP_ORDER_NUM, Direction.ASC);
+        String announcementType = listVo.getSearch().getAnnouncementType();
+        if (CttAnnouncementTypeEnum.SITE_ANNOUNCEMENT.getCode().equals(announcementType) ||
+                CttAnnouncementTypeEnum.BANK_ANNOOUNCEMENT.getCode().equals(announcementType)){
+            listVo.getQuery().addOrder(CttAnnouncement.PROP_ORDER_NUM, Direction.ASC);
+        }
         Map<String, SysDict> types = DictTool.get(DictEnum.CONTENT_CTTANNOUNCEMENT_TYPE);
         model.addAttribute("types", types);
         return this.getService().search(listVo);
