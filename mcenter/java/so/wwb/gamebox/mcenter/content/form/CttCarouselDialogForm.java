@@ -7,6 +7,7 @@ import org.soul.commons.validation.form.constraints.Depends;
 import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.content.controller.CttCarouselController;
+import so.wwb.gamebox.model.master.enums.CttCarouselContentTypeEnum;
 
 
 /**
@@ -17,7 +18,7 @@ import so.wwb.gamebox.mcenter.content.controller.CttCarouselController;
  */
 //region your codes 1
 //@Compare(message = "",property = "result_startTime",logic = CompareLogic.GT,anotherProperty = "result_endTime")
-public class CttCarouselForm implements IForm {
+public class CttCarouselDialogForm implements IForm {
 //endregion your codes 1
 
     //region your codes 2
@@ -27,6 +28,7 @@ public class CttCarouselForm implements IForm {
     private String result_url;
     private String[] cttCarouselI18n$$_name;
     private String[] cttCarouselI18n$$_cover;
+    private String[] cttCarouselI18n$$_content;
     @NotBlank(message = "carousel.startTimeNotBlank")
     public String getResult_startTime() {
         return result_startTime;
@@ -48,7 +50,6 @@ public class CttCarouselForm implements IForm {
 
 
     //    @Max(value = 50L)
-    @NotBlank
     public String getResult_link() {
         return result_link;
     }
@@ -67,7 +68,7 @@ public class CttCarouselForm implements IForm {
     public void setCttCarouselI18n$$_name(String[] cttCarouselI18n$$_name) {
         this.cttCarouselI18n$$_name = cttCarouselI18n$$_name;
     }
-    @NotBlank
+    @Depends(property = {"result.contentType"}, operator = {Operator.EQ}, value = {"1"}, jsValueExp = {"$(\"input[name='result.contentType']:checked\").val()"})
     public String[] getCttCarouselI18n$$_cover() {
         return cttCarouselI18n$$_cover;
     }
@@ -82,6 +83,15 @@ public class CttCarouselForm implements IForm {
 
     public void setResult_url(String result_url) {
         this.result_url = result_url;
+    }
+
+    @Depends(property = {"result.contentType"}, operator = {Operator.EQ}, value = {"2"}, jsValueExp = {"$(\"input[name='result.contentType']:checked\").val()"})
+    public String[] getCttCarouselI18n$$_content() {
+        return cttCarouselI18n$$_content;
+    }
+
+    public void setCttCarouselI18n$$_content(String[] cttCarouselI18n$$_content) {
+        this.cttCarouselI18n$$_content = cttCarouselI18n$$_content;
     }
     //endregion your codes 2
 

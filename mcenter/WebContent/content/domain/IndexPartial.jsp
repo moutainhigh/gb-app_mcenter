@@ -11,11 +11,11 @@
             <th>${views.common['number']}</th>
             <th>${views.content['domain.name']}</th>
             <%--<th>${views.content['domain.zxym']}</th>--%>
-            <th>
-                <select class="chosen-select-no-single input-group-btn" callback="query" name="search.pageUrl">
+            <th class="inline">
+                <select  class="chosen-select-no-single btn-group" callback="query" name="search.pageUrl">
                     <option value="">${views.content['全部']}</option>
-                    <c:forEach items="${command.domainTypes}" var="type">
-                        <option value="${type.paramValue}" ${type.paramValue eq command.search.pageUrl?'selected':''}>${views.content[type.resourceKey]}</option>
+                    <c:forEach items="${command.domainTypes}" var="type" >
+                        <option style="width: 50px" value="${type.paramValue}" ${type.paramValue eq command.search.pageUrl?'selected':''}>${views.content[type.resourceKey]}</option>
                     </c:forEach>
                 </select>
             </th>
@@ -39,7 +39,8 @@
         </thead>
         <tbody>
         <c:if test="${empty command.result}">
-            <td colspan="7" class="no-content_wrap">
+            <td colspan="7" class="no-content_wrap" style="margin-right: 48px">
+
                 <div>
                     <i class="fa fa-exclamation-circle"></i> ${views.common['noResult']}
                 </div>

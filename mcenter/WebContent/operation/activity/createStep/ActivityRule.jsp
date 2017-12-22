@@ -140,9 +140,9 @@
                             class="fa fa-question-circle"></i></span> ${views.operation['Activity.step.depositWay']}</label>
                     <div class="col-sm-5 input-group">
                         <c:forEach items="${activityDepositWays}" var="dw">
-                            <label class="m-r-sm">
+                            <%--<label class="m-r-sm">--%>
                                 <input type="checkbox" class="i-checks" name="activityRule.depositWay" value="${dw.code}" ${fn:contains(activityRule.depositWay,dw.code) ? "checked":""}/>${views.operation['Activity.step.depositWay.'.concat(dw.code)]}
-                            </label>
+                            <%--</label>--%>
                         </c:forEach>
                     </div>
                 </div>
