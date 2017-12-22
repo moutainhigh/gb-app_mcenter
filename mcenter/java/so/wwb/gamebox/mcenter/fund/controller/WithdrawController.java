@@ -388,7 +388,10 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                     String remark_substring = (checkRemark.length()>20)?checkRemark.substring(0, 20):checkRemark;
                     vPlayerWithdraw.set_checkRemark_substring(remark_substring);
                 }
-                vPlayerWithdraw.set_getIpRegion_ipDictCode(IpRegionTool.getIpRegion(vPlayerWithdraw.getIpDictCode()));
+                String ipDictCode = vPlayerWithdraw.getIpDictCode();
+                if(StringTool.isNotBlank(ipDictCode)){
+                    vPlayerWithdraw.set_getIpRegion_ipDictCode(IpRegionTool.getIpRegion(ipDictCode));
+                }
                 vPlayerWithdraw.set_ipWithdraw_ipv4LongToString(IpTool.ipv4LongToString(vPlayerWithdraw.getIpWithdraw()));
                 vPlayerWithdraw.set_islockPersonId(SessionManager.getAuditUserId().equals(vPlayerWithdraw.getLockPersonId()));
             }
