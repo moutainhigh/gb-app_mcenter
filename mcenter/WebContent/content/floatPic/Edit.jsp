@@ -106,14 +106,14 @@
                                 <%-- 鼠标移入效果开关 --%>
                             <div class="form-group clearfix" id="content_float_pic_mouseInEffect_div">
                                 <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.mouseInEffect']}</label>
-                                <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="mouseInEffect" value="true" data-size="mini" ${empty command.result.id || command.result.mouseInEffect ? 'checked' : ''}></div>
-                                <form:hidden path="result.mouseInEffect" value="${empty command.result.mouseInEffect?true:command.result.mouseInEffect}"/>
+                                <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="mouseInEffect" value="${empty command.result.mouseInEffect?false:command.result.mouseInEffect}" data-size="mini" ${empty command.result.id || command.result.mouseInEffect ? 'checked' : ''}></div>
+                                <form:hidden path="result.mouseInEffect" value="${empty command.result.mouseInEffect?false:command.result.mouseInEffect}"/>
                             </div>
                                 <%-- 关闭按钮开关 --%>
                             <div class="form-group clearfix">
                                 <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.hideCloseButton']}</label>
-                                <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="hideCloseButton" value="true" data-size="mini" ${empty command.result.id || command.result.hideCloseButton ? 'checked' : ''}></div>
-                                <form:hidden path="result.hideCloseButton" value="${empty command.result.hideCloseButton?true:command.result.hideCloseButton}"/>
+                                <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="hideCloseButton" value="${empty command.result.hideCloseButton?false:command.result.hideCloseButton}" data-size="mini" ${empty command.result.id || command.result.hideCloseButton ? 'checked' : ''}></div>
+                                <form:hidden path="result.hideCloseButton" value="${empty command.result.hideCloseButton?false:command.result.hideCloseButton}"/>
                             </div>
 
 
@@ -267,7 +267,7 @@
                                                     <input type="hidden" name="itemList[${vs.index}].imgWidth" value="${item.imgWidth}">
                                                     <input type="hidden" name="itemList[${vs.index}].imgHeight" value="${item.imgHeight}">
                                                 </div>
-                                                <div class="form-group date m-b-sm mouseInEffectDiv">
+                                                <div class="form-group date m-b-sm mouseInEffectDiv ${not empty item.mouseInEffect?'':'hide'}">
                                                     <span class=""><b>${views.content['float.mouseInEffect']}</b></span>
                                                     <div id="mouseInEffectImgDiv${vs.index+1}">
                                                         <c:if test="${not empty item.mouseInEffect}">
@@ -325,7 +325,7 @@
                                                         <input type="hidden" name="itemList[0].imgHeight">
                                                     </div>
                                                 </div>
-                                                <div class="form-group date m-b-sm mouseInEffectDiv">
+                                                <div class="form-group date m-b-sm mouseInEffectDiv hide">
                                                     <span class=""><b>${views.content['float.mouseInEffect']}</b></span>
                                                     <div>
                                                         <input class="file" type="file" accept="image/*" target="itemList[0].mouseInEffect">

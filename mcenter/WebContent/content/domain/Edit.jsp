@@ -47,7 +47,7 @@
                         </c:if>
                         <c:forEach items="${command.domainTypes}" var="type">
                             <c:choose>
-                                <%--主页或者线路检测--%>
+                                <%--主页或者主页cname--%>
                                 <c:when test="${command.result.id ne null}">
                                     <c:if test="${type.paramCode == 'index' || type.paramCode == 'indexcname'}">
                                         <option style="width: 105px"  value="${type.defaultValue}" ${type.defaultValue eq command.result.pageUrl?'selected':''}> ${views.content[type.resourceKey]}</option>
@@ -76,7 +76,7 @@
                 </div>
             </div>
 
-            <div class="form-group clearfix isDefault" style="display: ${command.result.pageUrl=='/'&&command.result.resolveStatus=='5'&&command.result.isEnable?'':'none'};">
+            <div class="form-group clearfix isDefault" style="display: ${command.result.pageUrl=='/'&&command.result.resolveStatus=='5'&&command.result.isEnable?'':'none' ||command.result.pageUrl=='/index.'};">
                 <label class="col-xs-3 al-right" >${views.content['domain.defaultDomain']}：</label>
                 <div class="col-xs-9">
                     <label><input type="checkbox" id="isDefault">${views.content['domain.setDefault']}</label>
