@@ -15,7 +15,7 @@
             <th>
                 ${views.column['PlayerRank.rankCode']}
             </th>
-            <th>${views.column['VPayAccount.accountName']}</th>
+            <soul:orderColumn poType="${poType}" property="payName" column="${views.column['VPayAccount.accountName']}"/>
             <th>${views.column['VPayAccount.account']}</th>
             <th class="inline">${views.column['PayAccount.bankCode']}
                     <%--<select name="search.bankCode" data-placeholder="${views.column['PayAccount.bankCode']}" value="${command.search.bankCode}"  class="btn-group chosen-select-no-single" tabindex="-1" callback="query">
