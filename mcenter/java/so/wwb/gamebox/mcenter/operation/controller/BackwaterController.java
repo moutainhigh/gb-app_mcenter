@@ -724,6 +724,7 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
         rakebackBatchSettlement.setOperator(SessionManager.getUserName());
         rakebackBatchSettlement.setTimeZone(SessionManager.getTimeZone());
         rakebackBatchSettlement.setRakebackBillId(rakebackBillVo.getSearch().getId());
+        rakebackBatchSettlement.setSiteCode(CommonContext.get().getSiteCode());
         try {
             TaskScheduleVo taskScheduleVo = new TaskScheduleVo();
             taskScheduleVo.setResult(new TaskSchedule(TaskScheduleEnum.BATCH_SETTLE_RAKEBACK.getCode()));
