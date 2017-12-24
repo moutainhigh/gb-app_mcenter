@@ -54,15 +54,28 @@
 
         <div class="form-group clearfix">
             <label class="col-xs-3 al-right " >${views.column['CttDomain.domainLinkAddress']}：</label>
-            <div class="col-xs-9">
-                ${command.result.domain}
-            </div>
+           <c:if test="${command.result.pageUrl=='/index/cname.html'}">
+               <div class="form-group clearfix">
+                   <div class="col-xs-9">
+                       <div class="input-group">
+                           <form:textarea path="result.domain" cssClass="form-control m-b-xs resize-vertical text-lowercase" readonly="${command.result.id ne null?true:''}"></form:textarea>
+                           <span  class="input-group-addon abroder-no"><i id="isCorrect" class="fa fa-check-circle co-green" style="display: none;"></i></span>
+                       </div>
+                       <div class="co-grayc2"> ${views.content['domain.edit.urlTitle']}</div>
+                   </div>
+               </div>
+           </c:if>
+            <c:if test="${command.result.pageUrl!='/index/cname.html'}">
+                <div class="col-xs-9">
+                        ${command.result.domain}
+                </div>
+            </c:if>
         </div>
         <c:if test="${command.result.pageUrl=='/index.html'}">
             <div class="form-group clearfix">
                 <label class="col-xs-3 al-right " >${views.content['domain.useRankTitle']}：</label>
                 <div class="col-xs-9">
-                        ${views.column['CttDomainRank.isForAllRank']}
+                       ${views.column['CttDomainRank.isForAllRank']}
                 </div>
             </div>
         </c:if>
@@ -77,8 +90,9 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <c:if test="${command.result.pageUrl == '/mcenter/passport/login.html'&&command.result.resolveStatus=='5'&&command.result.isEnable}">
-                    <div class="form-group clearfix isDefault">
+                <c:if test="${command.result.pageUrl == '/mcenter/passport/login.html'&&command.result.resolveStatus=='5'&&command.result.isEnable ||command.result.pageUrl=='/index/cname.html'}">
+                  <%-- <c:if test="${command.result.pageUrl=='/pay/cname.html'}">--%>
+                <div class="form-group clearfix isDefault">
                         <label class="col-xs-3 al-right" >${views.content['domain.defaultDomain']}：</label>
                         <div class="col-xs-9">
                             <label><input type="checkbox" id="isDefault">${views.content['domain.setDefault']}</label>
@@ -87,7 +101,7 @@
                 </c:if>
             </c:otherwise>
         </c:choose>
-        <c:if test="${command.result.pageUrl=='/' || command.result.pageUrl == '/netLine/findLines.html'}">
+        <c:if test="${command.result.pageUrl=='/' || command.result.pageUrl == '/index/cname.html'}">
             <div class="form-group clearfix " id="user_for_agent">
                 <label class="col-xs-3 al-right" >${views.content['代理']}：</label>
                 <div class="col-xs-9">

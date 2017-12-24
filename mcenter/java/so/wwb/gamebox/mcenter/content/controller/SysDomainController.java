@@ -855,7 +855,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     public Map updateMainManager(SysDomainVo sysDomainVo, @FormModel("result") @Valid SysDomainMainManagerEditForm form, BindingResult result) {
         Map map = new HashMap();
         if (!result.hasErrors()) {
-            if(DomainPageUrlEnum.INDEX.getCode().equals(sysDomainVo.getResult().getPageUrl()) || DomainPageUrlEnum.DETECTION.getCode().equals(sysDomainVo.getResult().getPageUrl())){
+            if(DomainPageUrlEnum.INDEX.getCode().equals(sysDomainVo.getResult().getPageUrl()) || DomainPageUrlEnum.INDEXCNAME.getCode().equals(sysDomainVo.getResult().getPageUrl())){
                 sysDomainVo.setProperties(SysDomain.PROP_NAME,SysDomain.PROP_FOR_AGENT,SysDomain.PROP_UPDATE_USER,SysDomain.PROP_IS_DEFAULT);
             }else {
                 sysDomainVo.setProperties(SysDomain.PROP_NAME,SysDomain.PROP_UPDATE_USER,SysDomain.PROP_IS_DEFAULT);
