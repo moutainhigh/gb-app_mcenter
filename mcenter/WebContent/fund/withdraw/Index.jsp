@@ -3,6 +3,8 @@
 <%@ include file="/include/include.inc.jsp" %>
 
 <div class="row">
+    <form:form name="withdrawPageForm" action="${root}/fund/withdraw/withdrawList.html" method="post">
+    </form:form>
     <form:form name="withdrawForm" action="${root}/fund/withdraw/withdrawData.html" method="post">
         <div id="validateRule" style="display: none">${command.validateRule}</div>
         <span id="open" hidden>${command.open}</span>
@@ -32,7 +34,7 @@
     </form:form>
 </div>
 <script type="text/javascript">
-    curl(["site/fund/withdraw/Withdraw",'gb/sysSearchTemplate/SysSearchTemplate','site/fund/FundSearch'], function(Page,SysSearchTemplate,FundSearch) {
+    curl(["site/fund/withdraw/Withdraw",'gb/sysSearchTemplate/SysSearchTemplateExtend','site/fund/FundSearch'], function(Page,SysSearchTemplate,FundSearch) {
         page =new Page();
         page.fundSearch = new FundSearch();
         page.bindButtonEvents();

@@ -18,6 +18,7 @@ import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.Criteria;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.support._Module;
+import org.soul.iservice.taskschedule.ITaskScheduleService;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.log.audit.enums.ParamType;
 import org.soul.model.log.audit.vo.BaseLog;
@@ -27,6 +28,8 @@ import org.soul.model.msg.notice.vo.NoticeLocaleTmpl;
 import org.soul.model.msg.notice.vo.NoticeVo;
 import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.model.sys.po.SysAuditLog;
+import org.soul.model.taskschedule.po.TaskSchedule;
+import org.soul.model.taskschedule.vo.TaskScheduleVo;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.annotation.FormModel;
@@ -37,6 +40,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceScheduleTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.operation.IRakebackBillService;
 import so.wwb.gamebox.mcenter.operation.form.BackwaterActualForm;
@@ -48,6 +52,7 @@ import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ModuleType;
 import so.wwb.gamebox.model.TerminalEnum;
+import so.wwb.gamebox.model.boss.enums.TaskScheduleEnum;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
@@ -707,6 +712,29 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
         }
 
         return resultMap;
+    }
+
+    @RequestMapping("batchSettleRakeBack")
+    @ResponseBody
+    public Map<String, Object> batchSettleRakeBack(RakebackBillVo rakebackBillVo) {
+        RakebackBatchSettlement rakebackBatchSettlement = new RakebackBatchSettlement();
+        rakebackBatchSettlement.setSiteId(SessionManager.getSiteId());
+        rakebackBatchSettlement.setLocale(SessionManager.getLocale());
+        rakebackBatchSettlement.setOperateId(SessionManager.getUserId());
+        rakebackBatchSettlement.setOperator(SessionManager.getUserName());
+        rakebackBatchSettlement.setTimeZone(SessionManager.getTimeZone());
+        rakebackBatchSettlement.setRakebackBillId(rakebackBillVo.getSearch().getId());
+        try {
+            TaskScheduleVo taskScheduleVo = new TaskScheduleVo();
+            taskScheduleVo.setResult(new TaskSchedule(TaskScheduleEnum.BATCH_SETTLE_RAKEBACK.getCode()));
+            ITaskScheduleService taskScheduleService = ServiceScheduleTool.getTaskScheduleService();
+            taskScheduleService.runOnceTask(taskScheduleVo, rakebackBatchSettlement);
+        } catch (Exception e) {
+            LOG.error(e);
+            rakebackBillVo.setSuccess(false);
+        }
+
+        return getVoMessage(rakebackBillVo);
     }
 
 }
