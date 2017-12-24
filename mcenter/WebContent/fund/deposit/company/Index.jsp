@@ -2,6 +2,8 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 
+<form:form name="companyDepositPageForm" action="${root}/fund/deposit/company/list.html" method="post">
+    </form:form>
 <form:form name="companyDepositForm" action="${root}/fund/deposit/company/doData.html" method="post">
     <div class="row">
         <div id="validateRule" style="display: none">${command.validateRule}</div>
@@ -35,7 +37,7 @@
 </form:form>
 
 <script type="text/javascript">
-    curl(["site/fund/deposit/company/Index",'gb/sysSearchTemplate/SysSearchTemplate','site/fund/FundSearch'], function(Page,SysSearchTemplate,FundSearch) {
+    curl(["site/fund/deposit/company/Index",'gb/sysSearchTemplate/SysSearchTemplateExtend','site/fund/FundSearch'], function(Page,SysSearchTemplate,FundSearch) {
         page =new Page();
         page.fundSearch = new FundSearch();
         page.bindButtonEvents();
