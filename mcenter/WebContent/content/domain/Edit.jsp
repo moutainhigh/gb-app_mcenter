@@ -50,7 +50,7 @@
                                 <%--主页或者线路检测--%>
                                 <c:when test="${command.result.id ne null}">
                                     <c:if test="${type.paramCode == 'index' || type.paramCode == 'indexcname'}">
-                                        <option value="${type.defaultValue}" ${type.defaultValue eq command.result.pageUrl?'selected':''}> ${views.content[type.resourceKey]}</option>
+                                        <option style="width: 105px"  value="${type.defaultValue}" ${type.defaultValue eq command.result.pageUrl?'selected':''}> ${views.content[type.resourceKey]}</option>
                                     </c:if>
                                 </c:when>
                                 <c:otherwise>

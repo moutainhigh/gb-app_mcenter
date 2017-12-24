@@ -29,7 +29,7 @@
         <input input type="hidden" name="result.type" value="${command.search.type}">
         <div class="modal-body">
             <div class="form-group">
-                <label>${views.content['carousel.showTime']}<span class="co-red m-l-sm">*</span>
+                <label>${views.content['carousel.showTime']}：<span class="co-red m-l-sm">*</span>
                     <c:if test="${not empty command.result.id}">
                         <%--<span class="co-yellow">(待使用)</span>--%>
                         <c:choose>
@@ -59,22 +59,33 @@
                 </div>
             </div>
             <div class="form-group">
-                <label>${views.column['VCttCarousel.link']}</label>
+                <label>${views.column['VCttCarousel.link']}：</label>
                 <div class="clearfix col-sm-4">
                     <div>
                         <div class="col-xs-3 p-x" id="api-div">
-                            <gb:select name="apiId" value="${apiMap.apiId}" prompt="${views.common['pleaseSelect']}"
+                            <gb:select name="apiId" value="${apiMap.apiId}" prompt="${views.common['pleaseSelect']}"  callback="showLink"
                                        ajaxListPath="${root}/content/cttCarousel/searchApiList.html" listValue="apiName" listKey="id"
                                        relSelect="apiTypeId" cssClass="chosen-select-no-single"/>
                         </div>
-                        <div class="col-xs-8">
-                            <div id="apiTypeId-div" class="">
+                        <div class="col-xs-6">
+                            <div id="apiTypeId-div" class="${not empty apiMap.apiTypeId?'':'hide'}">
                                 <gb:select name="apiTypeId" prompt="${views.common['pleaseSelect']}" value="${apiMap.apiTypeId}"
                                            ajaxListPath="${root}/content/cttCarousel/searchApiTypeList/${apiMap.apiId}.html"
                                            relSelectPath="${root}/content/cttCarousel/searchApiTypeList/#apiId#.html" listValue="apiTypeName"
                                            listKey="id" cssClass="chosen-select-no-single"/>
                             </div>
-                            <input name="result.link" type="hidden" value="${command.result.link}">
+                            <div id="url-div" class="${apiMap.apiId=='link'?'':'hide'} row">
+                                <input type="text" class="form-control col-sm-3 _edit " style="width: 250px; display: inline-block;"
+                                       id="url" name="result.url" value="${command.result.type=='carousel_type_player_index'?apiMap.url:command.result.link}"
+                                       placeholder="${views.content['carousel.pictureLinkTips']}" />
+                                <span class="input-group-addon bdn _editTags" style="display: inline-block;">
+                                    <a href="javascript:void(0)" name="float_pic_list_item_placeholder"
+                                       class="variable">
+                                            ${views.operation['MassInformation.step3.website']}<span>{website}</span>
+                                    </a>
+                                </span>
+                                <input name="result.link" type="hidden" value="${command.result.link}">
+                            </div>
                         </div>
                     </div>
                 </div>

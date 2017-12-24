@@ -143,11 +143,7 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
     @RequestMapping("/viewMsiteDialog")
     public String viewMsiteDialog(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
         String code = CttCarouselTypeEnum.CAROUSEL_TYPE_AD_DIALOG.getCode();
-        vCttCarouselListVo = searchByName(vCttCarouselListVo);
-        vCttCarouselListVo.getSearch().setType(code);
-        commonViewCarousel(vCttCarouselListVo, model);
-        model.addAttribute("webType", code);
-        model.addAttribute("type",vCttCarouselListVo.getSearch().getType());
+        commonViewCarousel(vCttCarouselListVo, model, code);
         if (ServletTool.isAjaxSoulRequest(request)) {
             return getViewBasePath() + "msiteDialog/IndexPartial";
         }else {
@@ -166,11 +162,7 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
     @RequestMapping("/viewMsiteCarousel")
     public String viewMsiteCarousel(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
         String code = CttCarouselTypeEnum.CAROUSEL_TYPE_INDEX.getCode();
-        vCttCarouselListVo = searchByName(vCttCarouselListVo);
-        vCttCarouselListVo.getSearch().setType(code);
-        commonViewCarousel(vCttCarouselListVo, model);
-        model.addAttribute("webType", code);
-        model.addAttribute("type",vCttCarouselListVo.getSearch().getType());
+        commonViewCarousel(vCttCarouselListVo, model, code);
         if (ServletTool.isAjaxSoulRequest(request)) {
             return getViewBasePath() + "msiteCarousel/IndexPartial";
         }else {
@@ -188,11 +180,7 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
     @RequestMapping("/viewMobileCarousel")
     public String viewMobileCarousel(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
         String code = CttCarouselTypeEnum.CAROUSEL_TYPE_PHONE.getCode();
-        vCttCarouselListVo = searchByName(vCttCarouselListVo);
-        vCttCarouselListVo.getSearch().setType(code);
-        commonViewCarousel(vCttCarouselListVo, model);
-        model.addAttribute("webType", code);
-        model.addAttribute("type",vCttCarouselListVo.getSearch().getType());
+        commonViewCarousel(vCttCarouselListVo, model, code);
         if (ServletTool.isAjaxSoulRequest(request)) {
             return getViewBasePath() + "mobileCarousel/IndexPartial";
         }else {
@@ -210,11 +198,7 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
     @RequestMapping("/viewMobileDialog")
     public String viewMobileDialog(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
         String code = CttCarouselTypeEnum.CAROUSEL_TYPE_PHONE_DIALOG.getCode();
-        vCttCarouselListVo = searchByName(vCttCarouselListVo);
-        vCttCarouselListVo.getSearch().setType(code);
-        commonViewCarousel(vCttCarouselListVo, model);
-        model.addAttribute("webType", code);
-        model.addAttribute("type",vCttCarouselListVo.getSearch().getType());
+        commonViewCarousel(vCttCarouselListVo, model, code);
         if (ServletTool.isAjaxSoulRequest(request)) {
             return getViewBasePath() + "mobileDialog/IndexPartial";
         }else {
@@ -232,11 +216,7 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
     @RequestMapping("/viewPcenterAd")
     public String viewPcenterAd(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
         String code = CttCarouselTypeEnum.CAROUSEL_TYPE_PLAYER_INDEX.getCode();
-        vCttCarouselListVo = searchByName(vCttCarouselListVo);
-        vCttCarouselListVo.getSearch().setType(code);
-        commonViewCarousel(vCttCarouselListVo, model);
-        model.addAttribute("webType", code);
-        model.addAttribute("type",vCttCarouselListVo.getSearch().getType());
+        commonViewCarousel(vCttCarouselListVo, model, code);
         if (ServletTool.isAjaxSoulRequest(request)) {
             return getViewBasePath() + "pcenterAd/IndexPartial";
         }else {
@@ -244,12 +224,16 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
         }
     }
 
-    private void commonViewCarousel(VCttCarouselListVo vCttCarouselListVo, Model model) {
+    private void commonViewCarousel(VCttCarouselListVo vCttCarouselListVo, Model model, String code) {
+        vCttCarouselListVo = searchByName(vCttCarouselListVo);
+        vCttCarouselListVo.getSearch().setType(code);
         Map<String, SysDict> useStatus = DictTool.get(DictEnum.CAROUSEL_STATE);
         vCttCarouselListVo.setUseStatus(useStatus);
         getCurrentLangCarousel(vCttCarouselListVo);
         vCttCarouselListVo = ServiceTool.vCttCarouselService().search(vCttCarouselListVo);
         model.addAttribute("command",vCttCarouselListVo);
+        model.addAttribute("webType", code);
+        model.addAttribute("type",vCttCarouselListVo.getSearch().getType());
     }
     //endregion your codes 3
 
