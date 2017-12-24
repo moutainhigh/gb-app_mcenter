@@ -8,41 +8,9 @@
 
             <div class="search-wrapper form-group clearfix pull-left col-md-5 col-sm-12 m-b-sm padding-r-none-sm searchType defaultSelect" >
                 <div class="input-group">
-                    <div class="input-group-btn bg-gray">
-
-                        <c:choose>
-                            <c:when test="${!empty command.search.transactionNo}">
-                                <c:set var="searchVal" value="${command.search.transactionNo}"/>
-                                <c:set var="searchkey" value="search.transactionNo"/>
-                            </c:when>
-                            <c:when test="${!empty command.search.payName}">
-                                <c:set var="searchVal" value="${command.search.payName}"/>
-                                <c:set var="searchkey" value="search.payName"/>
-                            </c:when>
-                            <c:when test="${!empty command.search.account}">
-                                <c:set var="searchVal" value="${command.search.account}"/>
-                                <c:set var="searchkey" value="search.account"/>
-                            </c:when>
-                            <c:when test="${!empty command.search.fullName}">
-                                <c:set var="searchVal" value="${command.search.fullName}"/>
-                                <c:set var="searchkey" value="search.fullName"/>
-                            </c:when>
-
-                            <c:when test="${!empty command.search.checkRemark}">
-                                <c:set var="searchVal" value="${command.search.checkRemark}"/>
-                                <c:set var="searchkey" value="search.checkRemark"/>
-                            </c:when>
-                            <c:otherwise>
-                                <c:set var="searchVal" value="${command.search.username}"/>
-                                <c:set var="searchkey" value="search.username"/>
-                            </c:otherwise>
-                        </c:choose>
-
-                        <gb:select name="stSel" list="${command.searchType}" listKey="key" listValue="value" value="${searchkey}" callback="changePlaceholder" prompt="" cssClass="chosen-select-no-single"/>
-                    </div>
-                    <input type="text" class="form-control list-search-input-text searchKey" name="${searchkey}" value="${searchVal}" placeholder="${views.fund_auto['多个账号，用半角逗号隔开']}"/>
+                    <span class="input-group-addon bg-gray">&nbsp;&nbsp;${views.fund['玩家账号']}&nbsp;</span>
+                    <input type="text" class="form-control list-search-input-text searchKey" name="search.username" value="${command.search.username}" placeholder="${views.fund_auto['多个账号，用半角逗号隔开']}"/>
                 </div>
-
             </div>
 
             <%--玩家账号--%>

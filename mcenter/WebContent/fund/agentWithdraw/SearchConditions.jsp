@@ -8,35 +8,8 @@
 
             <div class="search-wrapper form-group clearfix pull-left col-md-5 col-sm-12 m-b-sm padding-r-none-sm searchType defaultSelect">
                 <div class="input-group">
-                    <div class="input-group-btn">
-
-                        <c:choose>
-                            <c:when test="${!empty command.search.transactionNo}">
-                                <c:set var="searchVal" value="${command.search.transactionNo}"/>
-                                <c:set var="searchkey" value="search.transactionNo"/>
-                            </c:when>
-                            <c:when test="${!empty command.search.realName}">
-                                <c:set var="searchVal" value="${command.search.realName}"/>
-                                <c:set var="searchkey" value="search.realName"/>
-                            </c:when>
-                            <c:when test="${!empty command.search.agentBankcard}">
-                                <c:set var="searchVal" value="${command.search.payeeName}"/>
-                                <c:set var="searchkey" value="search.payeeName"/>
-                            </c:when>
-
-                            <c:when test="${!empty command.search.remark}">
-                                <c:set var="searchVal" value="${command.search.remark}"/>
-                                <c:set var="searchkey" value="search.remark"/>
-                            </c:when>
-                            <c:otherwise>
-                                <c:set var="searchVal" value="${command.search.username}"/>
-                                <c:set var="searchkey" value="search.username"/>
-                            </c:otherwise>
-                        </c:choose>
-
-                        <gb:select name="stSel" list="${command.searchType}" listKey="key" listValue="value" value="${searchkey}" callback="selectListChange" prompt="" cssClass="chosen-select-no-single"/>
-                    </div>
-                    <input type="text" class="form-control list-search-input-text searchKey" name="${searchkey}" value="${searchVal}" placeholder="${views.fund_auto['多个账号，用半角逗号隔开']}">
+                    <span class="input-group-addon bg-gray">${views.fund['代理账号']}</span>
+                    <input type="text" class="form-control list-search-input-text searchKey" name="search.username" value="${command.search.username}" placeholder="${views.fund_auto['多个账号，用半角逗号隔开']}">
                 </div>
             </div>
             <%--玩家账号--%>
