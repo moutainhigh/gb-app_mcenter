@@ -225,7 +225,7 @@
                                                 </c:if>
                                             </select>
                                             <span class="input-group-btn ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}" id="content_float_pic_type_http">
-                                                <gb:select name="floatPicItem.imgLinkProtocol" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                                                <gb:select name="floatPicItem.imgLinkProtocol" prompt="" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
                                             </span>
                                             <input type="text" name="imgLinkTypeValue" class="form-control ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}" value="${command.floatPicItem.imgLinkType == 'link' ? command.floatPicItem.imgLinkValue : ''}">
                                             <span class="input-group-addon bdn _editTags">
@@ -295,7 +295,7 @@
                                                         </c:if>
                                                     </select>
                                                     <span class="input-group-btn float_pic_list_item_http ${not empty item.imgLinkType && (item.imgLinkType == 'link') ? '' : 'hide'}" id="content_float_pic_type_http${vs.index+1}">
-                                                        <gb:select name="itemList[${vs.index}].imgLinkProtocol" value="${item.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                                                        <gb:select name="itemList[${vs.index}].imgLinkProtocol" prompt="" value="${item.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
                                                     </span>
                                                     <input type="text" name="imgLinkTypeValue${vs.index+1}" class="form-control float_pic_list_item_link_value ${not empty item.imgLinkType && (item.imgLinkType == 'link') ? '' : 'hide'}" value="${item.imgLinkType == 'link' ? item.imgLinkValue : ''}">
                                                     <span class="input-group-addon ${command.result.singleMode ?'hide':''} bdn _editTags">
@@ -350,7 +350,7 @@
                                                         </c:if>
                                                     </select>
                                                     <span class="input-group-btn hide float_pic_list_item_http" id="content_float_pic_type_http0">
-                                                        <gb:select name="itemList[0].imgLinkProtocol" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                                                        <gb:select name="itemList[0].imgLinkProtocol" prompt="" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
                                                         <%--<select name="itemList[0].imgLinkProtocol" >
                                                             <option value="">请选择</option>
                                                             <option class="imgLinkProtocolValue" value="http://" ${command.floatPicItem.imgLinkProtocol=='http://'?'select':''}>http://</option>
@@ -458,7 +458,7 @@
                     </c:if>
                 </select>
                 <span class="input-group-btn hide float_pic_list_item_http" id="content_float_pic_type_http1">
-                    <gb:select name="itemList[1].imgLinkProtocol" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                    <gb:select name="itemList[1].imgLinkProtocol" value="${command.floatPicItem.imgLinkProtocol}" prompt="" list="${protocol}" listKey="key" listValue="value"></gb:select>
                 </span>
                 <input type="text" name="imgLinkTypeValue1" class="form-control hide float_pic_list_item_link_value" value="">
                 <span class="input-group-addon bdn _editTags">
