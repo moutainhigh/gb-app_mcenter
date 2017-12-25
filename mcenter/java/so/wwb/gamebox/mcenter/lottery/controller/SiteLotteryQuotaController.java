@@ -124,7 +124,14 @@ public class SiteLotteryQuotaController extends NoMappingCrudController {
                 String i18nNumQuota = I18nTool.getLocalStr("单项（号）限额","lottery_auto","views",CommonContext.get().getLocale());
                 String i18nBetQuota = I18nTool.getLocalStr("单注限额","lottery_auto","views",CommonContext.get().getLocale());
                 String i18nPlayQuota = I18nTool.getLocalStr("单类别单项（号）限额","lottery_auto","views",CommonContext.get().getLocale());
-                changeQuotas.add("</br>"+i18nCode+"-"+i18nPlayCode+"-"+i18nNumQuota+":"+lotteryQuota.getNumQuotaStr()+";"+i18nBetQuota+":"+lotteryQuota.getBetQuotaStr()+";"+i18nPlayQuota+":"+lotteryQuota.getPlayQuotaStr());
+                if(!"hklhc".equals(lotteryQuota.getCode())){
+                changeQuotas.add("</br>"+i18nCode+"-"+i18nPlayCode+"-"+i18nNumQuota+":"+lotteryQuota.getNumQuotaStr()+";"+
+                        i18nBetQuota+":"+lotteryQuota.getBetQuotaStr()+";"+i18nPlayQuota+":"+lotteryQuota.getPlayQuotaStr());
+
+            }else {
+                    changeQuotas.add("</br>"+i18nCode+"-"+i18nPlayCode+"-"+i18nNumQuota+":"+lotteryQuota.getNumQuotaStr()+";"+
+                            i18nBetQuota+":"+lotteryQuota.getBetQuotaStr());
+                }
             }
         }
         if (!checkOdd(ids, updateQuotas)) {
