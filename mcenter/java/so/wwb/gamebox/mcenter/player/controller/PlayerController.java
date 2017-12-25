@@ -1830,6 +1830,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         NoticeVo noticeVo = new NoticeVo();
         noticeVo.setEventType(ManualNoticeEvent.FORCE_KICK_OUT);
         List<NoticeLocaleTmpl> noticeLocaleTmpls = ServiceTool.noticeService().fetchLocaleTmpls(noticeVo);
+        int onLineId = redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), user.getId()).size();
+        model.addAttribute("onLineId", onLineId);
         model.addAttribute("vo", user);
         model.addAttribute("noticeLocaleTmpls", noticeLocaleTmpls);
         return OFFLINE_FORCED;
