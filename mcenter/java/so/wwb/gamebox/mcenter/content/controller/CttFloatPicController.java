@@ -110,6 +110,9 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
         objectVo = super.doCreate(objectVo, model);
         objectVo.getResult().setId(this.getService().getCttFloatPicId(objectVo));
         refreshFloatPicCache();
+        if (objectVo.getFloatPicItem().getImgLinkProtocol()==null){
+            objectVo.getFloatPicItem().setImgLinkProtocol("http://");
+        }
         return objectVo;
     }
 
