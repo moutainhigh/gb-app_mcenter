@@ -28,7 +28,7 @@
 				<soul:button target="returnEdit" text="${views.content_auto['返回修改']}" opType="function" cssClass="btn btn-filter btn-lg m-r"></soul:button>
 				<soul:button cssClass="btn btn-filter btn-lg m-r" text="${views.content_auto['发布']}"
 							 opType="ajax" dataType="json" target="${root}/cttFloatPic/persist.html"
-							 precall="valiDateFormAndUploadFile" post="getCurrentFormData" callback="goToLastPage" refresh="true"/>
+							 precall="valiDateFormAndSubmit" post="getCurrentFormData" callback="goToLastPage" refresh="true"/>
 			</td>
 		</tr>
 	</table>
