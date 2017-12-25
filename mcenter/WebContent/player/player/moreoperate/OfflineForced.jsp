@@ -15,7 +15,7 @@
             <label class="col-xs-3 al-right">${messages["playerTag"]["account"]}：</label>
             <div class="col-xs-9 p-x">${vo.username}
                 <c:choose>
-                    <c:when test="${vo.onLineId>0}"><span class="m-l-sm co-green">${messages["playerTag"]["online"]}</span></c:when>
+                    <c:when test="${onLineId>0}"><span class="m-l-sm co-green">${messages["playerTag"]["online"]}</span></c:when>
                     <c:otherwise><span class="m-l-sm co-grayc2">${messages["playerTag"]["notOnline"]}</span></c:otherwise>
                 </c:choose>
             </div>
@@ -61,7 +61,7 @@
         <input type="hidden" id="title" name="title" value="">
         <input type="hidden" id="groupCode" name="groupCode" value=""/>
         <input type="hidden" id="type" value="2"/>
-        <soul:button target="savePreview" precall="myValidate" callback="saveOffline" title="${messages['playerTag']['compulsoryKickOut']}" text="${messages['common']['previewAndSubmit']}" cssClass="btn btn-filter ${vo.onLineId>0?'':'ui-button-disable disabled'}" opType="function"/>
+        <soul:button target="savePreview" precall="myValidate" callback="saveOffline" title="${messages['playerTag']['compulsoryKickOut']}" text="${messages['common']['previewAndSubmit']}" cssClass="btn btn-filter ${onLineId>0?'':'ui-button-disable disabled'}" opType="function"/>
         <soul:button target="closePage" text="${messages['common']['cancel']}" cssClass="btn btn-outline btn-filter" opType="function"/>
     </div>
     <div class="modal-footer preview" style="display: none">
