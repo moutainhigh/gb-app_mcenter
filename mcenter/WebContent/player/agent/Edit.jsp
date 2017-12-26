@@ -48,7 +48,7 @@
                                                         <input type="hidden" value="${command._defaultAgent}" id="_defaultAgent">
                                                     </c:when>
                                                     <c:otherwise>
-                                                        ${command.topAgentName}
+                                                        <span class="line-hi34">${command.topAgentName}</span>
                                                     </c:otherwise>
                                                 </c:choose>
 
@@ -67,7 +67,7 @@
                                                        </c:when>
                                                         <c:otherwise>
                                                              <%--<input name="sysUser.username" value="${command.sysUser.username}" autocomplete="off" class="form-control m-b" id="sysUser.username"/>--%>
-                                                            ${command.sysUser.username}
+                                                            <span class="line-hi34">${command.sysUser.username}</span>
                                                         </c:otherwise>
                                                 </c:choose>
                                             </div>

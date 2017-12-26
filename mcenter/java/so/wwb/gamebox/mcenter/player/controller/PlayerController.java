@@ -275,7 +275,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             List<VUserPlayer> result = listVo.getResult();
             for (VUserPlayer player : result) {
                 player.set_views_player_auto_defaultagent(views.get("player_auto").get("默认代理"));
-                player.set_dicts_player_player_status(dictsMap.get("player").get("player_status").get(player.getStatus()));
+                player.set_dicts_player_player_status(dictsMap.get("player").get("player_status").get(player.getPlayerStatus()));
                 player.set_dicts_common_currency_symbol(dictsMap.get("common").get("currency_symbol").get(player.getDefaultCurrency()));
                 player.set_views_common_edit(views.get("common").get("edit"));
                 player.set_views_common_detail(views.get("common").get("detail"));
@@ -1103,7 +1103,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
         model.addAttribute("remarkCount", remarkCount);
         model.addAttribute("vPlayerTagAllListVo", vPlayerTagAllListVo);
-        objectVo.getResult().setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), objectVo.getResult().getId()).size());
         String registCode = Base36.encryptIgnoreCase(objectVo.getResult().getRegistCode() + objectVo.getResult().getId());
         objectVo.getResult().setRegistCode(registCode);
         return objectVo;
@@ -1695,7 +1694,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         VUserPlayerVo vo = new VUserPlayerVo();
         vo.getSearch().setId(userId);
         VUserPlayer user = this.getService().findOnLineUser(vo);
-        user.setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), userId).size());
         model.addAttribute("vo", user);
         if (StringTool.isNotEmpty(user.getStatus()) && user.getStatus().equals(SysUserStatus.DISABLED.getCode())) {
 
@@ -1832,7 +1830,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         NoticeVo noticeVo = new NoticeVo();
         noticeVo.setEventType(ManualNoticeEvent.FORCE_KICK_OUT);
         List<NoticeLocaleTmpl> noticeLocaleTmpls = ServiceTool.noticeService().fetchLocaleTmpls(noticeVo);
-        user.setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), userId).size());
+        int onLineId = redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), user.getId()).size();
+        model.addAttribute("onLineId", onLineId);
         model.addAttribute("vo", user);
         model.addAttribute("noticeLocaleTmpls", noticeLocaleTmpls);
         return OFFLINE_FORCED;
@@ -2208,7 +2207,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         protection = ServiceTool.sysUserProtectionService().get(protection);
         objectVo.setSysUserProtection(protection.getResult());
         //获取在线状态
-        objectVo.getResult().setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), objectVo.getResult().getId()).size());
         model.addAttribute("command", objectVo);
         return VUSER_PLAYER_VIEW;
     }

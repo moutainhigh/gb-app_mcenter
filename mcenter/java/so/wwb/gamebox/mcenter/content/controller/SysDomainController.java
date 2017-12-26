@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.content.controller;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.soul.commons.collections.CollectionQueryTool;
 import org.soul.commons.collections.ListTool;
 import org.soul.commons.data.json.JsonTool;
@@ -28,10 +29,7 @@ import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.sys.ISysDomainService;
 import so.wwb.gamebox.mcenter.content.form.*;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.BossParamEnum;
-import so.wwb.gamebox.model.CacheBase;
-import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SubSysCodeEnum;
+import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.enums.DomainCheckStatusEnum;
 import so.wwb.gamebox.model.company.enums.DomainPageUrlEnum;
@@ -93,7 +91,14 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     protected SysDomainListVo doList(SysDomainListVo listVo, SysDomainSearchForm form, BindingResult result, Model model) {
         listVo.setSearch(createSearchObj(listVo.getSearch()));
         listVo = super.doList(listVo, form, result, model);
-        listVo.setDomainTypes(ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX));
+        Collection<SysParam> sysParams = ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX);
+        Collection<SysParam> sysParams1 = new ArrayList<>();
+        for (SysParam sysParam : sysParams) {
+            if (!"creditPay".equals(sysParam.getParamCode())){
+                sysParams1.add(sysParam);
+            }
+        }
+        listVo.setDomainTypes(sysParams1);
         return listVo;
     }
 
@@ -186,11 +191,36 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         return sysDomainVo;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     @Token(generate = true)
     public String create(SysDomainVo objectVo, Model model, HttpServletRequest request, HttpServletResponse response) {
+
+
         return super.create(objectVo, model, request, response);
     }
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     protected SysDomainVo doCreate(SysDomainVo sysDomainVo, Model model) {
@@ -234,7 +264,14 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     }
 
     public SysDomainVo createOrEdit(SysDomainVo sysDomainVo) {
-        sysDomainVo.setDomainTypes(ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX));
+        Collection<SysParam> sysParams = ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX);
+        Collection<SysParam> sysParams1 = new ArrayList<>();
+        for (SysParam sysParam : sysParams) {
+            if (!"creditPay".equals(sysParam.getParamCode())){
+                 sysParams1.add(sysParam);
+            }
+        }
+        sysDomainVo.setDomainTypes(sysParams1);
 //        sysDomainVo = ServiceTool.cttDomainRankService().getDomainRank(sysDomainVo);
 //        sysDomainVo.setPlayerRanks(ServiceTool.playerRankService().queryUsableRankList(new PlayerRankVo()));
         LOG.debug("域名类型：{0}", JsonTool.toJson(sysDomainVo.getDomainTypes()));
@@ -818,7 +855,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     public Map updateMainManager(SysDomainVo sysDomainVo, @FormModel("result") @Valid SysDomainMainManagerEditForm form, BindingResult result) {
         Map map = new HashMap();
         if (!result.hasErrors()) {
-            if(DomainPageUrlEnum.INDEX.getCode().equals(sysDomainVo.getResult().getPageUrl()) || DomainPageUrlEnum.DETECTION.getCode().equals(sysDomainVo.getResult().getPageUrl())){
+            if(DomainPageUrlEnum.INDEX.getCode().equals(sysDomainVo.getResult().getPageUrl()) || DomainPageUrlEnum.INDEXCNAME.getCode().equals(sysDomainVo.getResult().getPageUrl())){
                 sysDomainVo.setProperties(SysDomain.PROP_NAME,SysDomain.PROP_FOR_AGENT,SysDomain.PROP_UPDATE_USER,SysDomain.PROP_IS_DEFAULT);
             }else {
                 sysDomainVo.setProperties(SysDomain.PROP_NAME,SysDomain.PROP_UPDATE_USER,SysDomain.PROP_IS_DEFAULT);

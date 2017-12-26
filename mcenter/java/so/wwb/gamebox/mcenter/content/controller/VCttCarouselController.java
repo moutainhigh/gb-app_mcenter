@@ -5,6 +5,7 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.enums.EnumTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.net.ServletTool;
 import org.soul.model.sys.po.SysDict;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
@@ -21,13 +22,17 @@ import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.master.content.enums.IntervalTimeEnum;
+import so.wwb.gamebox.model.master.content.po.CttCarousel;
 import so.wwb.gamebox.model.master.content.po.CttCarouselI18n;
 import so.wwb.gamebox.model.master.content.po.VCttCarousel;
 import so.wwb.gamebox.model.master.content.vo.CttCarouselI18nListVo;
+import so.wwb.gamebox.model.master.content.vo.CttCarouselListVo;
 import so.wwb.gamebox.model.master.content.vo.VCttCarouselListVo;
 import so.wwb.gamebox.model.master.content.vo.VCttCarouselVo;
 import so.wwb.gamebox.model.master.enums.CarouselTypeEnum;
+import so.wwb.gamebox.model.master.enums.CttCarouselTypeEnum;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 
@@ -51,7 +56,7 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
     }
 
     //region your codes 3
-    private static final String CAROUSEL_SET = "/content/carousel/Setting";
+    private static final String CAROUSEL_SET = "/content/carousel/OrderIndexPartial";
 
     @Override
     protected VCttCarouselListVo doList(VCttCarouselListVo listVo, VCttCarouselSearchForm form, BindingResult result, Model model) {
@@ -96,40 +101,25 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
         listVo.setCurrentLang(i18nMap);
     }
 
+    /**
+     * 排序
+     * @param model
+     * @param vCttCarouselListVo
+     * @return
+     */
     @RequestMapping("/setting")
     public String setting(Model model,VCttCarouselListVo vCttCarouselListVo){
-        /*广告管理类别*/
-        Map<String, SysDict> types = DictTool.get(DictEnum.CONTENT_CAROUSEL_TYPE);
-        types.remove(CarouselTypeEnum.CAROUSEL_TYPE_REGISTER.getCode());
-        types.remove(CarouselTypeEnum.CAROUSEL_TYPE_AD_DIALOG.getCode());
-        vCttCarouselListVo.setTypes(types);
-
-        Iterator<String> iter = types.keySet().iterator();
-        if(iter.hasNext()){
-            String type = iter.next();
-            vCttCarouselListVo.getSearch().setType(type);
-        }
-
         vCttCarouselListVo.getSearch().setUseStatus("using");
         vCttCarouselListVo.setPaging(null);
         vCttCarouselListVo = getService().search(vCttCarouselListVo);
-        List<VCttCarousel> vCttCarousels = vCttCarouselListVo.getResult();
-        vCttCarouselListVo.setResult(vCttCarousels);
         getCurrentLangCarousel(vCttCarouselListVo);
-
-
-
-        Collection<SysParam> c2 = ParamTool.getSysParams(SiteParamEnum.CONTENT_CAROUSEL_INTERVAL_TIME);
-        Iterator<SysParam> ie = c2.iterator();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.CONTENT_CAROUSEL_TYPE_INDEX);
         List<SysParam> list2 = new ArrayList();
-        do{
-          list2.add(ie.next());
-        }while (ie.hasNext());
+        list2.add(sysParam);
         vCttCarouselListVo.setIntervalTimes(list2);
-
-
+        model.addAttribute("type",vCttCarouselListVo.getSearch().getType());
         model.addAttribute("intervalTime", EnumTool.getEnumList(IntervalTimeEnum.class));
-        model.addAttribute("vCttCarouselListVo",vCttCarouselListVo);
+        model.addAttribute("command",vCttCarouselListVo);
         return CAROUSEL_SET;
     }
     @RequestMapping("/queryCarouselByType")
@@ -144,6 +134,107 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
         return getViewBasePath() + "/CarouselSettingList";
     }
 
+    /**
+     * PC端首页弹窗广告
+     * @param vCttCarouselListVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/viewMsiteDialog")
+    public String viewMsiteDialog(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
+        String code = CttCarouselTypeEnum.CAROUSEL_TYPE_AD_DIALOG.getCode();
+        commonViewCarousel(vCttCarouselListVo, model, code);
+        if (ServletTool.isAjaxSoulRequest(request)) {
+            return getViewBasePath() + "msiteDialog/IndexPartial";
+        }else {
+            return getViewBasePath() + "msiteDialog/Index";
+        }
+
+
+    }
+
+    /**
+     * PC端首页轮播图
+     * @param vCttCarouselListVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/viewMsiteCarousel")
+    public String viewMsiteCarousel(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
+        String code = CttCarouselTypeEnum.CAROUSEL_TYPE_INDEX.getCode();
+        commonViewCarousel(vCttCarouselListVo, model, code);
+        if (ServletTool.isAjaxSoulRequest(request)) {
+            return getViewBasePath() + "msiteCarousel/IndexPartial";
+        }else {
+            return getViewBasePath() + "msiteCarousel/Index";
+        }
+
+    }
+
+    /**
+     * 手机轮播图
+     * @param vCttCarouselListVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/viewMobileCarousel")
+    public String viewMobileCarousel(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
+        String code = CttCarouselTypeEnum.CAROUSEL_TYPE_PHONE.getCode();
+        commonViewCarousel(vCttCarouselListVo, model, code);
+        if (ServletTool.isAjaxSoulRequest(request)) {
+            return getViewBasePath() + "mobileCarousel/IndexPartial";
+        }else {
+            return getViewBasePath() + "mobileCarousel/Index";
+        }
+
+    }
+
+    /**
+     * 手机弹窗广告
+     * @param vCttCarouselListVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/viewMobileDialog")
+    public String viewMobileDialog(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
+        String code = CttCarouselTypeEnum.CAROUSEL_TYPE_PHONE_DIALOG.getCode();
+        commonViewCarousel(vCttCarouselListVo, model, code);
+        if (ServletTool.isAjaxSoulRequest(request)) {
+            return getViewBasePath() + "mobileDialog/IndexPartial";
+        }else {
+            return getViewBasePath() + "mobileDialog/Index";
+        }
+
+    }
+
+    /**
+     * 玩家中心首页广告
+     * @param vCttCarouselListVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/viewPcenterAd")
+    public String viewPcenterAd(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
+        String code = CttCarouselTypeEnum.CAROUSEL_TYPE_PLAYER_INDEX.getCode();
+        commonViewCarousel(vCttCarouselListVo, model, code);
+        if (ServletTool.isAjaxSoulRequest(request)) {
+            return getViewBasePath() + "pcenterAd/IndexPartial";
+        }else {
+            return getViewBasePath() + "pcenterAd/Index";
+        }
+    }
+
+    private void commonViewCarousel(VCttCarouselListVo vCttCarouselListVo, Model model, String code) {
+        vCttCarouselListVo = searchByName(vCttCarouselListVo);
+        vCttCarouselListVo.getSearch().setType(code);
+        Map<String, SysDict> useStatus = DictTool.get(DictEnum.CAROUSEL_STATE);
+        vCttCarouselListVo.setUseStatus(useStatus);
+        getCurrentLangCarousel(vCttCarouselListVo);
+        vCttCarouselListVo = ServiceTool.vCttCarouselService().search(vCttCarouselListVo);
+        model.addAttribute("command",vCttCarouselListVo);
+        model.addAttribute("webType", code);
+        model.addAttribute("type",vCttCarouselListVo.getSearch().getType());
+    }
     //endregion your codes 3
 
 }

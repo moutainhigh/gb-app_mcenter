@@ -144,9 +144,9 @@
                                 <input type="checkbox" class="i-checks" name="activityRule.depositWay" value="${dw.code}" ${fn:contains(activityRule.depositWay,dw.code) ? "checked":""}/>${views.operation['Activity.step.depositWay.'.concat(dw.code)]}
                             </label>
                         </c:forEach>
+                        <p tipsName="activityRule.depositWay-tips"></p>
                     </div>
                 </div>
-
             </c:if>
             <c:if test="${activityType.result.code ne 'back_water'}">
                 <input type="hidden" name="isAllRank" value="${isAllRank}">
@@ -193,7 +193,7 @@
                             <input type="text" class="form-control" placeholder="" name="activityRule.placesNumber" value="${activityRule.placesNumber}">
                             <span class="input-group-addon">${views.operation['Activity.step.name']}</span>
                         </div>
-                        <span class="m-l co-grayc2">${views.operation['Activity.step.message8']}</span>
+                        <span class="m-l co-grayc2" id="placesNumber_tips" style="${activityRule.placesNumber gt 0?'':'display:none'}">${views.operation['Activity.step.message8']}</span>
                     </div>
                 </div>
             </c:if>

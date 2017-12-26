@@ -162,8 +162,14 @@ public class CompanyDepositController extends BaseDepositController {
                 deposit.set_soulFn_formatDecimals_rechargeAmount(CurrencyTool.formatDecimals(deposit.getRechargeAmount()));
                 deposit.set_bitAmount_formatNumber(getBitFormat(deposit));
                 deposit.set_recharge_status_dicts(dictsMap.get("fund").get("recharge_status").get(deposit.getRechargeStatus()));
-                deposit.set_ipDeposit_ipv4LongToString(IpTool.ipv4LongToString(deposit.getIpDeposit()));
-                deposit.set_gbFn_getIpRegion_ipDictCode(IpRegionTool.getIpRegion(deposit.getIpDictCode()));
+                Long ipDeposit = deposit.getIpDeposit();
+                if(ipDeposit!=null){
+                    deposit.set_ipDeposit_ipv4LongToString(IpTool.ipv4LongToString(ipDeposit));
+                }
+                String ipDictCode = deposit.getIpDictCode();
+                if(StringTool.isNotBlank(ipDictCode)){
+                    deposit.set_gbFn_getIpRegion_ipDictCode(IpRegionTool.getIpRegion(ipDictCode));
+                }
                 String checkRemark = deposit.getCheckRemark();
                 if(StringTool.isNotBlank(checkRemark)){
                     deposit.set_checkRemark_length(StringTool.length(checkRemark));

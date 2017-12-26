@@ -2,6 +2,7 @@ package so.wwb.gamebox.mcenter.content.form;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.validation.form.constraints.Depends;
 import org.soul.commons.validation.form.support.Comment;
@@ -60,6 +61,7 @@ public class CttFloatPicForm implements IForm {
     }
 
     @NotBlank
+    @Range(min = 0,max = 500)
     @Pattern(regexp = FormValidRegExps.POSITIVE_INTEGER, message = "content.floatPic.validate.POSITIVE_INTEGER")
     @Comment("浮动图标距离浏览器左侧或右侧的距离；必填；仅支持输入正整数；")
     public String getDistanceSide() {
@@ -170,6 +172,7 @@ public class CttFloatPicForm implements IForm {
     }
 
     @NotBlank
+    @Range(min = 0,max = 500)
     @Pattern(regexp = FormValidRegExps.ALL_NUMBER, message = "content.floatPic.validate.POSITIVE_INTEGER")
     @Comment("必填；仅支持输入正整数；")
     public String getDistanceValue() {

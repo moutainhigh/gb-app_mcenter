@@ -66,7 +66,11 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         }
         String s = SessionManager.getLocale().toString();
         listVo.getSearch().setLocalLanguage(s);
-        listVo.getQuery().addOrder(CttAnnouncement.PROP_ORDER_NUM, Direction.ASC);
+        String announcementType = listVo.getSearch().getAnnouncementType();
+        if (CttAnnouncementTypeEnum.SITE_ANNOUNCEMENT.getCode().equals(announcementType) ||
+                CttAnnouncementTypeEnum.BANK_ANNOOUNCEMENT.getCode().equals(announcementType)){
+            listVo.getQuery().addOrder(CttAnnouncement.PROP_ORDER_NUM, Direction.ASC);
+        }
         Map<String, SysDict> types = DictTool.get(DictEnum.CONTENT_CTTANNOUNCEMENT_TYPE);
         model.addAttribute("types", types);
         return this.getService().search(listVo);
@@ -146,11 +150,16 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
             if(CttAnnouncementTypeEnum.REGISTER_ANNOUNCEMENT.getCode().equals(announcementType) || CttAnnouncementTypeEnum.LOGIN_ANNOUNCEMENT.getCode().equals(announcementType)){
                 CttAnnouncementVo vo = new CttAnnouncementVo();
                 vo.setResult(cttAnnouncement);
+                //典型错误，两次service
                getService().changeOtherAnnouncementStatus(vo);
+            }
+            //新增银行公告默认排序设置为0
+            if (CttAnnouncementTypeEnum.BANK_ANNOOUNCEMENT.getCode().equals(announcementType)&&cttAnnouncement.getOrderNum()==null){
+                cttAnnouncement.setOrderNum(0);
             }
 
         }
-
+        //TODO:kobe 典型错误，两次service,如果这里异常。。。。
         listVo = getService().batchSave(listVo);
         //
         Cache.refreshSiteAnnouncement();

@@ -49,8 +49,9 @@ public class PreferenceController {
     @RequestMapping("/index")
     public String index(PreferenceVo preferenceVo,Model model) {
         refreshSysParam();
+        //玩家中心弹框开关
+        model.addAttribute("popUp", ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_POPUP_SWITCH));
         // 权限密码设置时间
-        model.addAttribute("popUp", ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_OPENPLAYER_STATISTICS));
         model.addAttribute("privilagePassTime", ParamTool.getSysParam(SiteParamEnum.SETTING_PRIVILAGE_PASS_TIME));
         model.addAttribute("privilagePassMap",DictTool.get(DictEnum.PRIVILAGE_PASS_TIME));
         // 提示音设置

@@ -106,14 +106,14 @@
                                 <%-- 鼠标移入效果开关 --%>
                             <div class="form-group clearfix" id="content_float_pic_mouseInEffect_div">
                                 <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.mouseInEffect']}</label>
-                                <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="mouseInEffect" value="true" data-size="mini" ${empty command.result.id || command.result.mouseInEffect ? 'checked' : ''}></div>
-                                <form:hidden path="result.mouseInEffect" value="${empty command.result.mouseInEffect?true:command.result.mouseInEffect}"/>
+                                <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="mouseInEffect" value="${empty command.result.mouseInEffect?false:command.result.mouseInEffect}" data-size="mini" ${empty command.result.id || command.result.mouseInEffect ? 'checked' : ''}></div>
+                                <form:hidden path="result.mouseInEffect" value="${empty command.result.mouseInEffect?false:command.result.mouseInEffect}"/>
                             </div>
                                 <%-- 关闭按钮开关 --%>
                             <div class="form-group clearfix">
                                 <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.hideCloseButton']}</label>
-                                <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="hideCloseButton" value="true" data-size="mini" ${empty command.result.id || command.result.hideCloseButton ? 'checked' : ''}></div>
-                                <form:hidden path="result.hideCloseButton" value="${empty command.result.hideCloseButton?true:command.result.hideCloseButton}"/>
+                                <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="hideCloseButton" value="${empty command.result.hideCloseButton?false:command.result.hideCloseButton}" data-size="mini" ${empty command.result.id || command.result.hideCloseButton ? 'checked' : ''}></div>
+                                <form:hidden path="result.hideCloseButton" value="${empty command.result.hideCloseButton?false:command.result.hideCloseButton}"/>
                             </div>
 
 
@@ -225,7 +225,7 @@
                                                 </c:if>
                                             </select>
                                             <span class="input-group-btn ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}" id="content_float_pic_type_http">
-                                                <gb:select name="floatPicItem.imgLinkProtocol" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                                                <gb:select name="floatPicItem.imgLinkProtocol" prompt="" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
                                             </span>
                                             <input type="text" name="imgLinkTypeValue" class="form-control ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}" value="${command.floatPicItem.imgLinkType == 'link' ? command.floatPicItem.imgLinkValue : ''}">
                                             <span class="input-group-addon bdn _editTags">
@@ -267,7 +267,7 @@
                                                     <input type="hidden" name="itemList[${vs.index}].imgWidth" value="${item.imgWidth}">
                                                     <input type="hidden" name="itemList[${vs.index}].imgHeight" value="${item.imgHeight}">
                                                 </div>
-                                                <div class="form-group date m-b-sm mouseInEffectDiv">
+                                                <div class="form-group date m-b-sm mouseInEffectDiv ${not empty item.mouseInEffect?'':'hide'}">
                                                     <span class=""><b>${views.content['float.mouseInEffect']}</b></span>
                                                     <div id="mouseInEffectImgDiv${vs.index+1}">
                                                         <c:if test="${not empty item.mouseInEffect}">
@@ -295,7 +295,7 @@
                                                         </c:if>
                                                     </select>
                                                     <span class="input-group-btn float_pic_list_item_http ${not empty item.imgLinkType && (item.imgLinkType == 'link') ? '' : 'hide'}" id="content_float_pic_type_http${vs.index+1}">
-                                                        <gb:select name="itemList[${vs.index}].imgLinkProtocol" value="${item.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                                                        <gb:select name="itemList[${vs.index}].imgLinkProtocol" prompt="" value="${item.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
                                                     </span>
                                                     <input type="text" name="imgLinkTypeValue${vs.index+1}" class="form-control float_pic_list_item_link_value ${not empty item.imgLinkType && (item.imgLinkType == 'link') ? '' : 'hide'}" value="${item.imgLinkType == 'link' ? item.imgLinkValue : ''}">
                                                     <span class="input-group-addon ${command.result.singleMode ?'hide':''} bdn _editTags">
@@ -325,7 +325,7 @@
                                                         <input type="hidden" name="itemList[0].imgHeight">
                                                     </div>
                                                 </div>
-                                                <div class="form-group date m-b-sm mouseInEffectDiv">
+                                                <div class="form-group date m-b-sm mouseInEffectDiv hide">
                                                     <span class=""><b>${views.content['float.mouseInEffect']}</b></span>
                                                     <div>
                                                         <input class="file" type="file" accept="image/*" target="itemList[0].mouseInEffect">
@@ -350,7 +350,7 @@
                                                         </c:if>
                                                     </select>
                                                     <span class="input-group-btn hide float_pic_list_item_http" id="content_float_pic_type_http0">
-                                                        <gb:select name="itemList[0].imgLinkProtocol" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                                                        <gb:select name="itemList[0].imgLinkProtocol" prompt="" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
                                                         <%--<select name="itemList[0].imgLinkProtocol" >
                                                             <option value="">请选择</option>
                                                             <option class="imgLinkProtocolValue" value="http://" ${command.floatPicItem.imgLinkProtocol=='http://'?'select':''}>http://</option>
@@ -385,8 +385,8 @@
                                 <label class="ft-bold col-sm-3 al-right"><span class="co-red m-r-sm">*</span>${views.column['CttFloatPic.showEffect']}</label>
                                 <div class="col-sm-5">
                                     <div>
-                                        <input type="radio" class="i-checks" name="result.showEffect" value="false" ${command.result.showEffect==true || empty command.result.showEffect ? 'checked' : ''}>${views.column['CttFloatPic.showEffect.hidden']}
-                                        <input type="radio" class="i-checks" name="result.showEffect" value="true" ${command.result.showEffect==false ? 'checked' : ''}>${views.column['CttFloatPic.showEffect.show.after.refresh']}
+                                        <input type="radio" class="i-checks" name="result.showEffect" value="true" ${command.result.showEffect==true || empty command.result.showEffect? 'checked' : ''}>${views.column['CttFloatPic.showEffect.hidden']}
+                                        <input type="radio" class="i-checks" name="result.showEffect" value="false" ${command.result.showEffect==false ? 'checked' : ''}>${views.column['CttFloatPic.showEffect.show.after.refresh']}
                                     </div>
                                 </div>
                             </div>
@@ -458,7 +458,7 @@
                     </c:if>
                 </select>
                 <span class="input-group-btn hide float_pic_list_item_http" id="content_float_pic_type_http1">
-                    <gb:select name="itemList[1].imgLinkProtocol" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                    <gb:select name="itemList[1].imgLinkProtocol" value="${command.floatPicItem.imgLinkProtocol}" prompt="" list="${protocol}" listKey="key" listValue="value"></gb:select>
                 </span>
                 <input type="text" name="imgLinkTypeValue1" class="form-control hide float_pic_list_item_link_value" value="">
                 <span class="input-group-addon bdn _editTags">

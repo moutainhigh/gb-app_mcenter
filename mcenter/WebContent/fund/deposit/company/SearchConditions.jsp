@@ -4,45 +4,13 @@
 
 <div class="m-t-md">
     <div class="m-b-xs clearfix">
-        <div class="col-sm-3 clearfix search_1" style="padding-left: 0;">
+        <div class="col-sm-6 clearfix search_1" style="padding-left: 0;">
 
-            <div class="search-wrapper form-group clearfix pull-left col-md-12 col-sm-12 m-b-sm padding-r-none-sm searchType defaultSelect" >
+            <div class="search-wrapper form-group clearfix pull-left col-md-5 col-sm-12 m-b-sm padding-r-none-sm searchType defaultSelect" >
                 <div class="input-group">
-                    <div class="input-group-btn bg-gray">
-
-                        <c:choose>
-                            <c:when test="${!empty command.search.transactionNo}">
-                                <c:set var="searchVal" value="${command.search.transactionNo}"/>
-                                <c:set var="searchkey" value="search.transactionNo"/>
-                            </c:when>
-                            <c:when test="${!empty command.search.payName}">
-                                <c:set var="searchVal" value="${command.search.payName}"/>
-                                <c:set var="searchkey" value="search.payName"/>
-                            </c:when>
-                            <c:when test="${!empty command.search.account}">
-                                <c:set var="searchVal" value="${command.search.account}"/>
-                                <c:set var="searchkey" value="search.account"/>
-                            </c:when>
-                            <c:when test="${!empty command.search.fullName}">
-                                <c:set var="searchVal" value="${command.search.fullName}"/>
-                                <c:set var="searchkey" value="search.fullName"/>
-                            </c:when>
-
-                            <c:when test="${!empty command.search.checkRemark}">
-                                <c:set var="searchVal" value="${command.search.checkRemark}"/>
-                                <c:set var="searchkey" value="search.checkRemark"/>
-                            </c:when>
-                            <c:otherwise>
-                                <c:set var="searchVal" value="${command.search.username}"/>
-                                <c:set var="searchkey" value="search.username"/>
-                            </c:otherwise>
-                        </c:choose>
-
-                        <gb:select name="stSel" list="${command.searchType}" listKey="key" listValue="value" value="${searchkey}" callback="changePlaceholder" prompt="" cssClass="chosen-select-no-single"/>
-                    </div>
-                    <input type="text" class="form-control list-search-input-text searchKey" name="${searchkey}" value="${searchVal}" placeholder="${views.fund_auto['多个账号，用半角逗号隔开']}"/>
+                    <span class="input-group-addon bg-gray">&nbsp;&nbsp;${views.fund['玩家账号']}&nbsp;</span>
+                    <input type="text" class="form-control list-search-input-text searchKey" name="search.username" value="${command.search.username}" placeholder="${views.fund_auto['多个账号，用半角逗号隔开']}"/>
                 </div>
-
             </div>
 
             <%--玩家账号--%>
@@ -53,15 +21,16 @@
                 </div>
             </div>
 
-
-
-            <%--审核时间--%>
-            <div class="form-group clearfix pull-left col-md-7 col-sm-12 m-b-sm padding-r-none-sm senior hide checkTime" >
-                <div class="input-group date time-select-a">
-                    <span class="input-group-addon bg-gray">${views.fund['审核时间']}</span>
-                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:44%;" useToday="true" btnClass="search" startName="search.checkTimeStart" endName="search.checkTimeEnd" startDate="${command.search.checkTimeStart}" endDate="${command.search.checkTimeEnd}"/>
+            <%--创建时间--%>
+            <div class="form-group clearfix pull-left col-md-7 col-sm-12 m-b-sm padding-r-none-sm createTime" >
+                <div class="input-group">
+                    <span class="input-group-addon bg-gray">${views.fund['创建时间']}</span>
+                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:42%;" useToday="true" btnClass="search" startName="search.createStart" endName="search.createEnd" startDate="${command.search.createStart}" endDate="${command.search.createEnd}"/>
                 </div>
             </div>
+
+
+
 
             <%--创建时间--%>
             <%--<div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm senior hide createTime" >
@@ -210,16 +179,15 @@
 
         </div>
 
-        <div class="col-sm-9 clearfix  search_2 m-b-xs">
+        <div class="col-sm-6 clearfix  search_2 m-b-xs">
 
-            <%--创建时间--%>
-            <div class="form-group clearfix pull-left col-md-5 col-sm-12 m-b-sm padding-r-none-sm createTime" >
-                <div class="input-group">
-                    <span class="input-group-addon bg-gray">${views.fund['创建时间']}</span>
-                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:38%;" useToday="true" btnClass="search" startName="search.createStart" endName="search.createEnd" startDate="${command.search.createStart}" endDate="${command.search.createEnd}"/>
+            <%--审核时间--%>
+            <div class="form-group clearfix pull-left col-md-7 col-sm-12 m-b-sm padding-r-none-sm senior hide checkTime" >
+                <div class="input-group date time-select-a">
+                    <span class="input-group-addon bg-gray">${views.fund['审核时间']}</span>
+                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:44%;" useToday="true" btnClass="search" startName="search.checkTimeStart" endName="search.checkTimeEnd" startDate="${command.search.checkTimeStart}" endDate="${command.search.checkTimeEnd}"/>
                 </div>
             </div>
-
             <c:if test="${realActive}">
             <div class="btn-group pull-right">
                 <select class="btn-group chosen-select-no-single" app="btn btn-info-hide dropdown-toggle radius_3" name="toneSwitch" callback="toneSwitch">

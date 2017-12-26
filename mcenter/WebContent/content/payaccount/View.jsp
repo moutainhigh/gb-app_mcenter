@@ -137,7 +137,7 @@
                                     </span>
                                 </td>
                                 <td class="hide" id="depositDefaultTotalTD2">
-                                    <input type="text" value="${soulFn:formatCurrency(result.depositDefaultTotal)}" id="depositDefaultTotal" name="result.depositDefaultTotal"/>
+                                    <input type="text" value="${empty result.depositDefaultTotal?0:result.depositDefaultTotal}" id="depositDefaultTotal" name="result.depositDefaultTotal"/>
                                     <span>
                                         <soul:button cssClass="m-l-sm"
                                                      target="saveDepositDefault" text="${views.content_auto['保存']}" opType="function"
@@ -182,7 +182,7 @@
                                             </c:forEach>
                                         </td>
                                         <th class="bg-tbcolor">${views.column['VPayAccount.payRankNum']}：</th>
-                                        <td colspan="3">
+                                        <td colspan="3" style="width:40%">
                                             <c:choose>
                                                 <c:when test="${command.result.fullRank}">
                                                     ${views.content['payAccount.View.allRank']}
@@ -262,7 +262,7 @@
                                             ${command.result.singleDepositMax}
                                     </td>--%>
                                     <th class="bg-tbcolor">${views.column['VPayAccount.payRankNum']}：</th>
-                                    <td colspan="3" class="al-left">
+                                    <td colspan="3"　style="width:40%" class="al-left">
                                         <c:choose>
                                             <c:when test="${command.result.fullRank}">
                                                 ${views.content['payAccount.View.allRank']}

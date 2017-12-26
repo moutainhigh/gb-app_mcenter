@@ -2,6 +2,8 @@ package so.wwb.gamebox.mcenter.content.form;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.soul.commons.query.enums.Operator;
+import org.soul.commons.validation.form.constraints.Depends;
 import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.content.controller.CttCarouselController;
@@ -22,7 +24,6 @@ public class CttCarouselForm implements IForm {
     private String result_startTime;
     private String result_endTime;
     private String result_link;
-    private String result_type;
     private String result_url;
     private String[] cttCarouselI18n$$_name;
     private String[] cttCarouselI18n$$_cover;
@@ -47,6 +48,7 @@ public class CttCarouselForm implements IForm {
 
 
     //    @Max(value = 50L)
+    @NotBlank
     public String getResult_link() {
         return result_link;
     }
@@ -55,8 +57,9 @@ public class CttCarouselForm implements IForm {
         this.result_link = result_link;
     }
 
-    @NotBlank()
+
     @Length(max = 40,min = 0)
+    @NotBlank
     public String[] getCttCarouselI18n$$_name() {
         return cttCarouselI18n$$_name;
     }
@@ -64,16 +67,7 @@ public class CttCarouselForm implements IForm {
     public void setCttCarouselI18n$$_name(String[] cttCarouselI18n$$_name) {
         this.cttCarouselI18n$$_name = cttCarouselI18n$$_name;
     }
-
-    @NotBlank()
-    public String getResult_type() {
-        return result_type;
-    }
-
-    public void setResult_type(String result_type) {
-        this.result_type = result_type;
-    }
-    @NotBlank()
+    @NotBlank
     public String[] getCttCarouselI18n$$_cover() {
         return cttCarouselI18n$$_cover;
     }

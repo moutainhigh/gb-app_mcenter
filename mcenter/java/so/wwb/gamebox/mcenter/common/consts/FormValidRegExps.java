@@ -51,7 +51,7 @@ public interface FormValidRegExps extends RegExpConstants {
     //玩家多账号半角逗号隔开
     String ACCOUNT_COMMA="^[a-zA-Z0-9_]*(\\,[a-zA-Z0-9_]*)*$";
 
-    String ENGLISH_NUMBER = "^[a-zA-Z1-9]+$";
+    String ENGLISH_NUMBER = "^[a-zA-Z0-9]+$";
     //ｕrl链接验证含前缀验证或只验证域名
     String PREFIX_LINK = "^((http|ftp|https):\\/\\/)?[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
 }

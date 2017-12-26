@@ -26,7 +26,16 @@
         </tbody>
     </table>
 </div>
-<div class="clearfix p-xs"><a href="/report/log/logList.html?search.roleType=player&hasReturn=true&search.operator=${username}" class="pull-right" nav-target="mainFrame">${views.fund['fund.playerDetect.index.showAll']}</a></div>
+<div class="clearfix p-xs ">
+    <div class="pull-right">
+    <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+          data-html="true" data-content="${views.fund['跳转查看全部时间定为在账号注册开始时的全部登录记录']}" >
+            <i class="fa fa-question-circle "></i>
+    </span>
+    <a href="/report/log/logList.html?search.roleType=player&hasReturn=true&search.operator=${username}"  nav-target="mainFrame">${views.fund['fund.playerDetect.index.showAll']}
+    </a>
+    </div>
+</div>
 <!--展示异常信息-->
 <div class="modal inmodal in" id="loginIpException" tabindex="-1" role="dialog" aria-hidden="false">
     <div class="modal-dialog">
@@ -64,3 +73,4 @@
         </div>
     </div>
 </div>
+<soul:import res="site/fund/player.detect/LoginIpList"/>
