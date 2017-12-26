@@ -89,6 +89,17 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         initListVo(listVo);
         //用于查询模板
         String templateCode = TemplateCodeEnum.fund_deposit_company_check.getCode();
+        // 公司入款声音参数
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DEPOSIT);
+        if(sysParam!=null){
+            model.addAttribute("realActive", sysParam.getActive());
+            model.addAttribute("sysParam", sysParam);
+            if (SessionManager.getCompanyVoiceNotice() != null) {
+                sysParam.setActive(SessionManager.getCompanyVoiceNotice());
+            }
+            listVo.setTone(sysParam);
+
+        }
         model.addAttribute("searchTempCode", templateCode);
         model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.fund_deposit_company_check.getCode()));
         List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
