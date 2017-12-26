@@ -37,7 +37,7 @@
                         <button class="btn btn-link dropdown-toggle fzyx" data-toggle="dropdown">${views.setting['serviceTrems.copy']}&nbsp;&nbsp;<span class="caret"></span></button>
                         <ul class="dropdown-menu pull-right">
                             <c:forEach items="${languageList}" var="p" varStatus="status">
-                                <li ${empty typeI18nMap.get(p.language).name||status.index==0?"hidden":""} id="option${p.language}" class="temp"><a class="co-gray copy" href="javascript:void(0)" local="${p.language}">${dicts.common.local[p.language]}</a></li>
+                                <li id="option${p.language}" class="temp"><a class="co-gray copy" href="javascript:void(0)" local="${p.language}">${dicts.common.local[p.language]}</a></li>
                             </c:forEach>
                         </ul>
                     </div>
