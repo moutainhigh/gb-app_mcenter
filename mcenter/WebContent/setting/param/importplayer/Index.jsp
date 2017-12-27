@@ -46,7 +46,7 @@
                         </dd>
                         <dd class="m-b-sm m-t-md"><b>${views.setting_auto['玩家真实姓名验证']}</b>
                             <input type="checkbox" name="my-checkbox" data-size="mini" ${nameVerification?'checked':''}>
-                            <input type="hidden" name="" value="${not empty nameVerification&&nameVerification?true:false}">
+                            <input type="hidden" name="" value="${not empty nameVerification && nameVerification?true:false}">
                             <span class="m-l co-grayc2">${views.setting_auto['关闭后']}</span>
                         </dd>
                     </div>
