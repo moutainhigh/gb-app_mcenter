@@ -37,7 +37,7 @@
                     <span class="bg-gray input-group-addon bdn" style="width: 70px">
                     <gb:select name="roleName" list="${command.roles}" listKey="key" listValue="value" value="${command.roleName}" callback="changeRole" prompt="" cssClass="chosen-select-no-single"/>
                     </span>
-                    <input type="text" class="form-control list-search-input-text role" name="search.agentName" placeholder="${views.report['operate.search.account.hint']}">
+                    <input type="text" class="form-control list-search-input-text role" name="search.agentName" value="${command.search.topagentName}" placeholder="${views.report['operate.search.account.hint']}">
                 </div>
             </div>
         </div>
