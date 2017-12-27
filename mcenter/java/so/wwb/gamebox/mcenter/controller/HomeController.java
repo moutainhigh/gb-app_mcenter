@@ -119,9 +119,10 @@ public class HomeController extends SiteHomeController{
         UserPlayerVo userPlayerVo = new UserPlayerVo();
         userPlayerVo.setStartTime(day);
         userPlayerVo.setEndTime(DateQuickPicker.getInstance().getNow());
-        Map statusCountMap = ServiceTool.userPlayerService().queryPlayerStatus(userPlayerVo);
+//        Map statusCountMap = ServiceTool.userPlayerService().queryPlayerStatus(userPlayerVo);
 
-        return statusCountMap;
+//        return statusCountMap;
+        return null;
     }
 
     /**
