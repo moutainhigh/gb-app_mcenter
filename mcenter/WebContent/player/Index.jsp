@@ -587,10 +587,10 @@
                         </div>
 
                         <div class="btn-group" style="padding-right: 10px">
-                            <soul:button target="getPlayerIds" text="${views.player_auto['人工存入']}" opType="function"  tag="button"
+                            <soul:button target="getPlayerIds" permission="fund:artificial" text="${views.player_auto['人工存入']}" opType="function"  tag="button"
                                          cssClass="btn btn-primary-hide dropdown-toggle player_tag_dropdown_btn">
                                 <i class="fa fa-eject"></i>${views.player_auto['人工存入']}</soul:button>
-                            <a href="/fund/manual/fromPlayer.html?username={username}" id="toDepoist" nav-target="mainFrame"></a>
+                            <a href="/fund/manual/index.html?hasReturn=true&username={username}" id="toDepoist" nav-target="mainFrame"></a>
                         </div>
 
                         <div class="btn-group" style="padding-right: 10px">
