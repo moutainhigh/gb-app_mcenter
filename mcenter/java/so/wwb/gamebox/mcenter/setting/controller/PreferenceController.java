@@ -64,7 +64,23 @@ public class PreferenceController {
         model.addAttribute("toneWarm",ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_WARM));
         model.addAttribute("toneNotice", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_NOTICE));
         model.addAttribute("webtype", "2");
+        findEnableImportPlayerParam(model);
         return "/setting/preferences/Index";
+    }
+
+    /**
+     * 查询是否可转站参数
+     * @param model
+     * @return
+     */
+    private void findEnableImportPlayerParam(Model model){
+        SysSiteVo sysSiteVo = new SysSiteVo();
+        sysSiteVo.getSearch().setId(SessionManager.getSiteId());
+        SysSite sysSite = ServiceTool.sysSiteService().getSiteImport(sysSiteVo);
+        if(sysSite!=null){
+            model.addAttribute("isEnableImport","1");
+            model.addAttribute("endImportTime",sysSite.getImportPlayersTime());
+        }
     }
 
     /**
