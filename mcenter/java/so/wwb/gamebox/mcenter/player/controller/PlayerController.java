@@ -218,6 +218,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //查自己站点sys_param表的param_value值
         SysParam sysParam = getExportParam();
         model.addAttribute("queryparamValue", sysParam);
+        listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
 
         if (("old").equals(listVo.getSearch().getVersion())) {
             setRoot("/player/Old");
@@ -250,10 +251,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
         // 不同的链接得到不同的玩家列表
         VUserPlayerListVo list = getListVo(listVo);
-
-        for (VUserPlayer player : list.getResult()) {
-            player.setOnLineId(redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), player.getId()).size());
-        }
         // 玩家筛选
         playeFilter(model, list);
 
@@ -536,7 +533,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             }
                 listVo = ServiceTool.vUserPlayerService().searchByCustom(listVo);
         }
-        listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
+//        listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
         return listVo;
     }
 
