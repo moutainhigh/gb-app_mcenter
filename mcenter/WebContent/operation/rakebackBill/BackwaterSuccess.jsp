@@ -20,7 +20,7 @@
                 <label class="col-xs-4 al-right">${views.operation['backwater.settlement.backwaterPlayer']}：</label>
                 <div class="col-xs-8">
                     <c:if test="${ fn:length(ids) == 0}">
-                        ${views.operation['backwater.settlement.thisSettlement']}${command.result.playerCount - command.result.playerLssuingCount}${views.operation['backwater.settlement.people']}<span class="co-grayc2">(${views.operation['backwater.settlement.total']}${command.result.playerCount}${views.operation['backwater.settlement.people']})</span>
+                        ${views.operation['backwater.settlement.thisSettlement']}${command.result.playerCount - command.result.playerLssuingCount - command.result.playerRejectCount }${views.operation['backwater.settlement.people']}<span class="co-grayc2">(${views.operation['backwater.settlement.total']}${command.result.playerCount}${views.operation['backwater.settlement.people']})</span>
                     </c:if>
                     <c:if test="${ fn:length(ids) > 0}">
                         ${views.operation['backwater.settlement.thisSettlement']}${fn:length(ids)}${views.operation['backwater.settlement.people']}<span class="co-grayc2">(${views.operation['backwater.settlement.total']}${command.result.playerCount}${views.operation['backwater.settlement.people']})</span>
