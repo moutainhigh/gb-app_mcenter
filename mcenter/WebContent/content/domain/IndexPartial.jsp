@@ -12,7 +12,7 @@
             <th>${views.content['domain.name']}</th>
             <%--<th>${views.content['domain.zxym']}</th>--%>
             <th class="inline">
-                <select style="width: 70%" btnStyle="width: 80%" ulStyle="width: 80%" class="chosen-select-no-single btn-group" callback="query" name="search.pageUrl">
+                <select btnStyle="width: 100%" ulStyle="width: 100%" class="chosen-select-no-single btn-group days" callback="query" name="search.pageUrl">
                     <option value="">${views.content['全部']}</option>
                     <c:forEach items="${command.domainTypes}" var="type" >
                         <option value="${type.paramValue}" ${type.paramValue eq command.search.pageUrl?'selected':''}>${views.content[type.resourceKey]}</option>
