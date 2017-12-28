@@ -73,7 +73,6 @@ import so.wwb.gamebox.model.master.player.vo.PlayerTransactionVo;
 import so.wwb.gamebox.model.master.player.vo.RemarkVo;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerVo;
 import so.wwb.gamebox.model.master.player.vo.VUserPlayerVo;
-import so.wwb.gamebox.model.report.vo.AddLogVo;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
@@ -329,10 +328,15 @@ public class ManualController {
         HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         LogVo logVo=new LogVo();
         List<String> params = new ArrayList<>();
+        PlayerWithdraw result = playerWithdrawVo.getResult();
         params.add(playerWithdrawVo.getUsername());
-        params.add(playerWithdrawVo.getResult().getWithdrawAmount().toString());
-        params.add(playerWithdrawVo.getResult().getWithdrawType());
-        params.add(playerWithdrawVo.getResult().getIsClearAudit().toString());
+        params.add(result.getWithdrawAmount().toString());
+        params.add(result.getWithdrawType());
+        if (result.getIsClearAudit()!= null){
+            params.add(result.getIsClearAudit().toString());
+        }else {
+            params.add("false");
+        }
         BaseLog baseLog = logVo.addBussLog();
         for (String param : params){
             baseLog.addParam(param);
