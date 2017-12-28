@@ -272,6 +272,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             List<VUserPlayer> result = listVo.getResult();
             for (VUserPlayer player : result) {
                 player.set_views_player_auto_defaultagent(views.get("player_auto").get("默认代理"));
+                player.set_views_player_auto_dangerousRank(views.get("player_auto").get("危险层级"));
+                player.set_views_player_auto_backgroundCreatePlayer(views.get("player_auto").get("后台新增玩家"));
+                player.set_views_role_playerOnline(views.get("role").get("player.list.icon.online"));
                 player.set_dicts_player_player_status(dictsMap.get("player").get("player_status").get(player.getPlayerStatus()));
                 player.set_dicts_common_currency_symbol(dictsMap.get("common").get("currency_symbol").get(player.getDefaultCurrency()));
                 player.set_views_common_edit(views.get("common").get("edit"));
