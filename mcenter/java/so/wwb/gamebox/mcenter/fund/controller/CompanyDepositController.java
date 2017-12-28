@@ -80,17 +80,6 @@ public class CompanyDepositController extends BaseDepositController {
         // 初始化筛选条件
         this.initQuery(listVo);
         this.initListVo(listVo);
-        // 公司入款声音参数
-        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DEPOSIT);
-        if(sysParam!=null){
-            model.addAttribute("realActive", sysParam.getActive());
-            model.addAttribute("sysParam", sysParam);
-            if (SessionManager.getCompanyVoiceNotice() != null) {
-                sysParam.setActive(SessionManager.getCompanyVoiceNotice());
-            }
-            listVo.setTone(sysParam);
-
-        }
         getCurrencySign(model);
         String moduleType = DataRightModuleType.COMPANYDEPOSIT.getCode();
         listVo = getPlayerDeposit(listVo, moduleType, form, result, model);
