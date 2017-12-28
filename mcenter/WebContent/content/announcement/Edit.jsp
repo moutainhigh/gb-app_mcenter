@@ -21,7 +21,7 @@
                 <label>${views.content['类型']}：</label>
                 <label>${dicts.content.ctt_announcement_type[command.announcementType]}</label>
             </div>
-            <%--<div class="clearfix save lgg-version">
+                <%--<div class="clearfix save lgg-version">
                 <label>${views.content['类型']}：</label>
                 <gb:select name="announcementType" notUseDefaultPrompt="true" value="${command.announcementType}"  list="${types}"></gb:select>
             </div>--%>
@@ -30,42 +30,52 @@
                     <a id="tag${status.index+1}" aria-expanded="${index.index==0?'true':'false'}" name="tag" tagIndex="${status.index+1}" class="${status.index=='0'?'current':''} a_${p.language} tag${status.index+1}"
                        tagIndex="${status.index+1}" siteSize="${command.cttAnnouncementMap.size()}"
                        href="javascript:void(0)" local="${p.language}">${dicts.common.local[p.language]}
-                        <span id="span${p.language}">${status.index=='0'?views.setting['switch.CloseReminder.editing']:command.cttAnnouncementMap.get(p.language).title.length()>0?views.setting['switch.CloseReminder.edited']:views.setting['switch.CloseReminder.unedited']}</span></a>
+                        <span id="span${p.language}">
+                                ${status.index=='0'?views.setting['switch.CloseReminder.editing']:command.cttAnnouncementMap.get(p.language).title.length()>0?views.setting['switch.CloseReminder.edited']:views.setting['switch.CloseReminder.unedited']}
+                        </span>
+                    </a>
                 </c:forEach>
                 <div class="pull-right inline">
                     <div class="btn-group">
                         <button class="btn btn-link dropdown-toggle fzyx" data-toggle="dropdown">${views.setting['serviceTrems.copy']}&nbsp;&nbsp;<span class="caret"></span></button>
                         <ul class="dropdown-menu pull-right">
                             <c:forEach items="${languageList}" var="p" varStatus="status">
-                                <li ${empty typeI18nMap.get(p.language).name||status.index==0?"hidden":""} id="option${p.language}" class="temp"><a class="co-gray copy" href="javascript:void(0)" local="${p.language}">${dicts.common.local[p.language]}</a></li>
+                                <li ${empty cttAnnouncementMap.get(p.language)||status.index==0?"hidden":""} id="option${p.language}" class="temp">
+                                    <a class="co-gray copy" href="javascript:void(0)" local="${p.language}">${dicts.common.local[p.language]}</a>
+                                </li>
                             </c:forEach>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="hfsj-wrap">
-                <%--标题--%>
+                    <%--标题--%>
                 <c:forEach items="${languageList}" var="p" varStatus="status">
 
                     <input type="hidden"  name="result[${status.index}].id" value="${command.cttAnnouncementMap[p.language].id}">
                     <input type="hidden"  name="result[${status.index}].language" value="${p.language}">
                     <input type="hidden"  name="result[${status.index}].code" value="${command.cttAnnouncementMap[p.language].code}">
-
-                    <%--<input maxlength="100" tt="${p.language}" style="display: ${status.index=='0'?'':'none'}" placeholder="${views.content['announcement.titleTips']}" name="result[${status.index}].title" class="form-control titleSource ann title m-b content${p.language} titleVal${p.language}" type="text" value="${command.cttAnnouncementMap[p.language].title}">--%>
-                    <textarea maxlength="2000" tt="${p.language}" style="display: ${status.index=='0'?'':'none'}" placeholder="${views.content['announcement.contentTips']}" name="result[${status.index}].content" class="form-control contentSource ann m-b content${status.index} content${p.language} contentVal${p.language}" value="${command.cttAnnouncementMap[p.language].content}">${command.cttAnnouncementMap[p.language].content}</textarea>
-                </c:forEach>
-
-                <%--定时发送--%>
-                <div class="clearfix form-group m-b-xxs">
-                    <div class="dsfb"><label><input type="checkbox" id="task" class="i-checks">${views.content['announcement.inTheTime']}</label></div>
-                    <input type="hidden" name="task" value="${command.task}"/>
-                    <div class="dsfb-data">
-                        <div class="input-group date hide">
-                            <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:160px"  position="up"
-                                          minDate="${dateQPicker.now}" name="timing" value="${command.timing}" ></gb:dateRange>
-                        </div>
+                    <div class="content${p.language} ann tab-pane" lang="${p.language}">
+                        <textarea maxlength="2000" tt="${p.language}" style="display: ${status.index=='0'?'':'none'}" placeholder="${views.content['announcement.contentTips']}"
+                                  name="result[${status.index}].content" class="form-control contentSource ann m-b content${status.index} content${p.language} contentVal${p.language}"
+                                  value="${command.cttAnnouncementMap[p.language].content}">${command.cttAnnouncementMap[p.language].content}</textarea>
                     </div>
-                </div>
+                </c:forEach>
+                            <%--定时发送--%>
+                        <div class="clearfix form-group m-b-xxs">
+                            <div class="dsfb">
+                                <label>
+                                    <input type="checkbox" id="task" class="i-checks">${views.content['announcement.inTheTime']}
+                                </label>
+                            </div>
+                            <input type="hidden" name="task" value="${command.task}"/>
+                            <div class="dsfb-data">
+                                <div class="input-group date hide">
+                                    <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:160px"  position="up"
+                                                  minDate="${dateQPicker.now}" name="timing" value="${command.timing}" ></gb:dateRange>
+                                </div>
+                            </div>
+                        </div>
             </div>
         </div>
 
@@ -81,10 +91,9 @@
                 <soul:button target="next" opType="function" cssClass="btn btn-filter next_step next_lang" text="${views.common['next']}"></soul:button>
             </c:if>
 
-            <soul:button target="Preview" cssClass="btn btn-filter preview hide" opType="function" text="${views.common['previewAndSave']}" post="getCurrentFormData" precall="saveValid" callback="saveCallbak"></soul:button>
-                <%--<soul:button target="${root}/cttAnnouncement/preview.html"  cssClass="btn btn-filter preview hide" opType="dialog" text="${views.content_auto['预览并发布']}" precall="validateForm" post="getCurrentFormData" callback="saveCallbak"></soul:button>--%>
+                    <soul:button target="Preview" cssClass="btn btn-filter preview hide" opType="function" text="${views.common['previewAndSave']}" post="getCurrentFormData" precall="saveValid" callback="saveCallbak"></soul:button>
 
-            <soul:button target="closePage" opType="function" cssClass="btn btn-outline btn-filter" text="${views.common['cancel']}"></soul:button>
+                    <soul:button target="closePage" opType="function" cssClass="btn btn-outline btn-filter" text="${views.common['cancel']}"></soul:button>
         </div>
     </div>
 
@@ -101,19 +110,22 @@
             <div class="hfsj-wrap">
                     <%--标题--%>
                 <c:forEach items="${languageList}" var="p" varStatus="status">
-                   <%-- <input   style="display: ${status.index=='0'?'':'none'}" readonly="readonly"   class="form-control ann_target  m-b content${p.language} targetTitleVal${p.language}" type="text"/>--%>
-                    <textarea   style="display: ${status.index=='0'?'':'none'}" readonly="readonly" class="form-control ann_target m-b content${status.index} content${p.language} targetContent${p.language}"></textarea>
+                    <div class="content${p.language} ann tab-pane" style="display: ${index.index=='0'?'':'none'}" lang="${p.language}">
+                            <%-- <input   style="display: ${status.index=='0'?'':'none'}" readonly="readonly"   class="form-control ann_target  m-b content${p.language} targetTitleVal${p.language}" type="text"/>--%>
+                        <textarea   style="display: ${status.index=='0'?'':'none'}" readonly="readonly" class="form-control field ann_target m-b content${status.index} content${p.language} targetContent${p.language}"></textarea>
+                    </div>
                 </c:forEach>
-                <div class="clearfix form-group m-b-xxs">
-                    <div class="dsfb"><label>${views.content['announcement.inTheTime']}：<span id="showTime"></span> </label></div>
-                    <input type="hidden" name="task" value="${command.task}"/>
-                </div>
+                        <div class="clearfix form-group m-b-xxs">
+                            <div class="dsfb"><label>${views.content['announcement.inTheTime']}：<span id="showTime"></span> </label></div>
+                            <input type="hidden" name="task" value="${command.task}"/>
+                        </div>
             </div>
         </div>
         <c:set var="siteLang" value="${languageList}" />
         <input type="hidden" placeholder="" class="form-control m-b" name="langSize" value="${siteLang.size()}">
         <div class="modal-footer">
-                    <soul:button target="${root}/cttAnnouncement/batchSave.html" dataType="json" cssClass="btn btn-filter preview hide" opType="ajax" text="${views.common['release']}" precall="saveValid" post="getCurrentFormData" callback="saveCallbak"></soul:button>
+            <soul:button target="${root}/cttAnnouncement/batchSave.html" dataType="json" cssClass="btn btn-filter preview hide"
+                         opType="ajax" text="${views.common['release']}" precall="saveValid" post="getCurrentFormData" callback="saveCallbak"></soul:button>
             <soul:button target="returnEdit" opType="function" cssClass="btn btn-outline btn-filter" text="${views.content['announcement.returnEdit']}"></soul:button>
         </div>
     </div>

@@ -8,14 +8,6 @@
     <form:form id="editForm" action="${root}/payAccount/edit.html" method="post">
     <form:hidden path="result.id" id="resultId" />
     <div id="validateRule" style="display: none">${command.validateRule}</div>
-    <form:hidden path="currencyStr" id="currencyStr" />
-    <form:hidden path="rankStr" id="rankStr" />
-    <form:hidden path="result.channelJson" id="channelJson" />
-    <form:hidden path="result.accountType" id="accountType" />
-    <gb:token/>
-    <input type="hidden" value="2" name="result.type" />
-    <input name="result.fullRank" value="${empty command.result.fullRank?false:command.result.fullRank}" hidden="hidden" />
-    <input id="code" name="result.payChannelCode" hidden="hidden" />
     <div id="old-currency-div" class="hide">
         <c:forEach var="cu" items="${command.payAccountCurrencyList}">
             ${cu.currencyCode},
@@ -69,7 +61,7 @@
                             </label>
                             <div class="col-sm-5">
                                 <div class="input-group date">
-                                    <select name="result.payType" id="SelectPayment">
+                                    <select name="payType" id="payType">
                                         <option value="0">${views.common['pleaseSelectPayment']}</option>
                                         <c:forEach items="${bankPayTypes}" var="p">
                                             <option value="${p.code}" ${currentBank.result.payType == p.code?'selected':''}>${dicts.common.paytype[p.name()]}</option>
@@ -77,7 +69,7 @@
                                     </select>
                                     <span class="input-group-addon bg-gray">&emsp14;</span>
                                         <%--<span class="input-group-addon bdn">&nbsp;&nbsp;</span>--%>
-                                    <select name="result.bankCode" id="selectDeposit">
+                                    <select name="result.bankCode" id="bankCode">
                                         <option value="">${views.common['pleaseSelectDeposit']}</option>
                                         <c:if test="${command.result != null}">
                                             <c:forEach items="${command.bankList}" var="p">
@@ -126,7 +118,7 @@
                             </div>
                         <%--</c:otherwise>--%>
                     <%--</c:choose>--%>
-                    <%-- 账户名称 --%>
+                    <%-- 支付域名 --%>
                     <div class="form-group clearfix hide payDomain">
                         <label class="ft-bold col-sm-3 al-right line-hi34">
                             <span class="co-red m-r-sm">*</span>${messages.content['pay_channel.payDomain']}：
@@ -251,6 +243,14 @@
                         </div>
                     </div>
                     <hr class="m-t-sm m-b">
+                    <form:hidden path="currencyStr" id="currencyStr" />
+                    <form:hidden path="rankStr" id="rankStr" />
+                    <form:hidden path="result.channelJson" id="channelJson" />
+                    <form:hidden path="result.accountType" id="accountType" />
+                    <gb:token/>
+                    <input type="hidden" value="2" name="result.type" />
+                    <input name="result.fullRank" value="${empty command.result.fullRank?false:command.result.fullRank}" hidden="hidden" />
+                    <input id="code" name="result.payChannelCode" hidden="hidden" />
                     <%-- 提交 --%>
                     <div class="operate-btn">
                         <soul:button cssClass="btn btn-outline btn-filter btn-lg m-r" text="${views.common['commit']}" opType="ajax" dataType="json"
@@ -259,6 +259,7 @@
                                      target="${root}/payAccount/saveOnLine.html" precall="savePlayer" post="getCurrentFormData" callback="savePayAccountAndFlowOrder"/>
                         <a id="savePlsyer" href="/vPayAccount/cashFlowOrder.html" nav-target="mainFrame"></a>
                     </div>
+
                 </form>
             </div>
         </div>

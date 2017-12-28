@@ -363,15 +363,21 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
      */
     @RequestMapping("/loadPayType")
     @ResponseBody
-    public PayAccountVo loadPayType(String paytype,PayAccountVo objectVo) {
-        //国际化
+    public PayAccountVo loadPayType(String payType) {
+        PayAccountVo objectVo = new PayAccountVo();
         List<Bank> list = new ArrayList();
-        for(Bank bank : getOnlineBank(paytype)){
-            String s = LocaleTool.tranDict(DictEnum.BANKNAME, bank.getBankName());
-            if (s != null && s != "")
-                bank.setBankShortName(s);
-//           objectVo.getBankList().add(bank);
-           list.add(bank);
+        List<Bank> onlineBank = getOnlineBank(payType);
+        if(onlineBank != null && onlineBank.size() > 0) {
+            for (Bank bank : onlineBank) {
+                //bankName国际化处理
+                String interlingua = LocaleTool.tranDict(DictEnum.BANKNAME, bank.getBankName());
+                if(StringTool.isNotEmpty(interlingua)){
+                    bank.setInterlinguaBankName(interlingua);
+                }else{
+                    bank.setInterlinguaBankName(bank.getBankShortName());
+                }
+                list.add(bank);
+            }
         }
         objectVo.setBankList(list);
         return objectVo;

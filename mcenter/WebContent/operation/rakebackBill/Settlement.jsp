@@ -67,7 +67,11 @@
                         </soul:button>
                     </span>
                 </div>
-                <%--<soul:button target="${root}/operation/rakebackBill/batchSettleRakeBack.html?searchId=${command.getSearchId(command.search.rakebackBillId)}" text="一键结算" opType="ajax" cssClass="btn btn-filter" callback="callBackQuery"/>--%>
+                <c:if test="${rakebackBillVo.result.playerCount-rakebackBillVo.result.playerLssuingCount-rakebackBillVo.result.playerRejectCount != 0}">
+                    <div id="div_batchSettleRakeBack" class="input-group col-md-3 m-l pull-left">
+                        <soul:button target="${root}/operation/rakebackBill/backwaterSuccess.html?search.id=${command.search.rakebackBillId}" text="${views.operation['backwater.settlement.backwaterSuccess']}" opType="dialog" cssClass="btn btn-filter" title="${views.operation['backwater.settlement.backwaterSuccess']}" precall="getIds" callback="callBackQuery"/>
+                    </div>
+                </c:if>
                 <div class="function-menu-show hide p-l-sm">
                     <soul:button target="${root}/operation/rakebackBill/backwaterSuccess.html?search.id=${command.search.rakebackBillId}&ids={ids}" text="${views.operation['backwater.settlement.confirmSettlement']}" opType="dialog" cssClass="btn btn-filter" title="${views.operation['backwater.settlement.confirmSettlementBackwater']}" precall="getIds" callback="callBackQuery"/>
                     <soul:button target="${root}/operation/rakebackBill/backwaterFailure.html?search.id=${command.search.rakebackBillId}&ids={ids}" text="${views.operation['backwater.settlement.rejectSettlement']}" opType="dialog" cssClass="btn btn-filter" precall="hasReason" callback="callBackQuery"/>
