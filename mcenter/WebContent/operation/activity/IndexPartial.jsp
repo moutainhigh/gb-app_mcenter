@@ -6,25 +6,27 @@
 <div class="table-responsive table-min-h">
     <table class="table table-striped table-hover dataTable m-b-none" aria-describedby="editable_info">
         <thead>
-            <tr role="row" class="bg-gray">
-                <th>${views.common['number']}</th>
-                <th>${views.column['VActivityMessage.activityName']}</th>
-                <th class="inline">
-                    <gb:select name="search.code" value="${command.search.code}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['Activity.list.allType']}" list="${activityType}"></gb:select>
-                </th>
-                <th class="inline">
-                    <gb:select name="search.activityClassifyKey" value="${command.search.activityClassifyKey}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['Activity.list.allCategory']}" list="${siteI18ns}" listKey="key" listValue="value"></gb:select>
-                </th>
-                <th>${views.column['VActivityMessage.startAndEndTime']}</th>
-                <%--<th>${views.column['VActivityMessage.checkStatus']}</th>--%>
-                <th class="inline">
-                    <gb:select name="search.states" value="${command.search.states}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.common['all']}" list="${activityState}"></gb:select>
-                </th>
-                <th>${views.column['VActivityMessage.isDisplay']}</th>
-                <th>${views.column['VActivityMessage.acount']}</th>
+        <tr role="row" class="bg-gray">
+            <th>${views.common['number']}</th>
+            <th>${views.column['VActivityMessage.activityName']}</th>
+            <th class="inline">
+                <gb:select name="search.code" value="${command.search.code}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['Activity.list.allType']}" list="${activityType}"></gb:select>
+            </th>
+            <th class="inline">
+                <gb:select name="search.activityClassifyKey" value="${command.search.activityClassifyKey}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['Activity.list.allCategory']}" list="${siteI18ns}" listKey="key" listValue="value"></gb:select>
+            </th>
+            <th>${views.column['VActivityMessage.startAndEndTime']}</th>
+            <%--<th>${views.column['VActivityMessage.checkStatus']}</th>--%>
+            <th class="inline">
+                <gb:select name="search.states" value="${command.search.states}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.common['all']}" list="${activityState}"></gb:select>
+            </th>
+            <th>${views.column['VActivityMessage.isDisplay']}</th>
+            <th>${views.column['VActivityMessage.acount']}</th>
+            <shiro:hasPermission name="operate:activity_defaultSet">
                 <th>${views.column['VActivityMessage.defaultSet']}</th>
-                <th>${views.common['operate']}</th>
-            </tr>
+            </shiro:hasPermission>
+            <th>${views.common['operate']}</th>
+        </tr>
         </thead>
         <tbody>
         <c:forEach items="${command.result}" var="p" varStatus="status">
@@ -33,10 +35,10 @@
                 <td><a href="/operation/activityType/viewActivityDetail.html?search.id=${p.id}" nav-target="mainFrame">${p.activityName}</a></td>
                 <td>${views.operation[p.code]}</td>
                 <td>
-                   ${siteI18nMap[p.activityClassifyKey].value}
+                        ${siteI18nMap[p.activityClassifyKey].value}
                 </td>
                 <td>${soulFn:formatDateTz(p.startTime,DateFormat.DAY_SECOND,timeZone)}${views.common['TO']}${soulFn:formatDateTz(p.endTime,DateFormat.DAY_SECOND,timeZone)}</td>
-                <%--<td>${views.operation[p.approvalStatus]}</td>--%>
+                    <%--<td>${views.operation[p.approvalStatus]}</td>--%>
                 <td>
                     <span class="${p.activityStatesShow.cssClass}">${views.operation[p.activityStatesShow.activityState]}</span>
                 </td>
@@ -67,6 +69,7 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
+                <shiro:hasPermission name="operate:activity_defaultSet">
                 <th>
                     <c:if test="${p.code eq 'money'}">
                         <soul:button target="${root}/operation/activity/setDefaultWin.html?search.id=${p.id}" title="${views.operation_auto['内定玩家设置']}"
@@ -76,6 +79,7 @@
                         <span class="co-gray">----</span>
                     </c:if>
                 </th>
+                </shiro:hasPermission>
                 <td>
 
                     <shiro:hasPermission name="operate:activity_edit">
@@ -90,8 +94,8 @@
                         </c:choose>
                     </shiro:hasPermission>
 
-                    <%--大于0且需要审核的才可以审核--%>
-                    <%--<c:choose>
+                        <%--大于0且需要审核的才可以审核--%>
+                        <%--<c:choose>
                         <c:when test="${!p.isAudit}">
                             <span class="disabled">${views.common['audit']}</span>
                         </c:when>
@@ -101,7 +105,7 @@
                             </shiro:hasPermission>
                         </c:otherwise>
                     </c:choose>--%>
-                    <%--改成全部可以查看审核--%>
+                        <%--改成全部可以查看审核--%>
                     <shiro:hasPermission name="operate:activity_checkapply">
                         <a href="/operation/vActivityPlayerApply/activityPlayerApply.html?search.id=${p.id}" nav-target="mainFrame" name="returnView">${views.common['audit']}</a>
                     </shiro:hasPermission>

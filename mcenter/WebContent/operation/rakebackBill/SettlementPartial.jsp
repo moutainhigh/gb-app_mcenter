@@ -9,7 +9,7 @@
     <table class="table table-striped table-hover dataTable m-b-none" aria-describedby="editable_info">
         <thead>
         <tr role="row" class="bg-gray">
-            <th><c:if test="${fn:length(command.result)>0}"><input type="checkbox" class="i-checks"></c:if></th>
+            <th><c:if test="${fn:length(command.result)>0}"><input type="checkbox" class="i-checks" id="ichecks_0"></c:if></th>
             <th>${views.operation['backwater.settlement.username']}</th>
             <th>
                 <gb:select name="search.rankId" prompt="${views.operation['backwater.settlement.allRank']}" cssClass="btn-group chosen-select-no-single" list="${ranks}" value="${command.search.rankId}" listKey="id" listValue="rankName" callback="query"/>
@@ -67,7 +67,7 @@
             <c:set var="rakebackPaid" value="${rakebackPaid+i.rakebackPaid}"/>
             <c:set var="rakebackPending" value="${rakebackPending+i.rakebackPending}"/>
             <tr>
-                <td><input type="checkbox" class="i-checks" value="${i.id}"></td>
+                <td><input type="checkbox" id="ichecks_item_${i.id}" class="i-checks" value="${i.id}"></td>
                 <td>
                     <shiro:hasPermission name="role:player_detail">
                     <a href="/player/playerView.html?search.id=${i.playerId}" nav-target="mainFrame">

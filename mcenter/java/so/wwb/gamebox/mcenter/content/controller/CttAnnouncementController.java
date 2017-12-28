@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.content.controller;
 
+import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
@@ -104,6 +105,8 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         }
         model.addAttribute("types", types);
         List<SiteLanguage> languageList = ServiceTool.siteLanguageService().availableLanguage(siteLanguageVo);//TODO 站长语言
+        Map<Object, CttAnnouncement> cttAnnouncementMap = CollectionTool.toEntityMap(listVo.getResult(), CttAnnouncement.PROP_LANGUAGE);
+        model.addAttribute("cttAnnouncementMap",cttAnnouncementMap);
         model.addAttribute("languageList", languageList);
         model.addAttribute("command", listVo);
         return EDIT;
@@ -232,6 +235,8 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         cttAnnouncementListVo.setAnnouncementType(cttAnnouncementListVo.getResult().get(0).getAnnouncementType());
         Map<String, SysDict> types = DictTool.get(DictEnum.CONTENT_CTTANNOUNCEMENT_TYPE);
         model.addAttribute("types", types);
+        Map<Object, CttAnnouncement> cttAnnouncementMap = CollectionTool.toEntityMap(cttAnnouncementListVo.getResult(), CttAnnouncement.PROP_LANGUAGE);
+        model.addAttribute("cttAnnouncementMap",cttAnnouncementMap);
         return EDIT;
     }
 

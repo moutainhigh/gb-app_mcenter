@@ -357,8 +357,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             Map<String, Map<String, String>> views = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views");
             List<VPlayerWithdraw> result = vo.getResult();
             for (VPlayerWithdraw vPlayerWithdraw : result) {
-                boolean userActive = redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), vPlayerWithdraw.getPlayerId()).size() > 0;
-                vPlayerWithdraw.set_userActiveSession(userActive);
                 vPlayerWithdraw.set_formatDateTz_createTime(LocaleDateTool.formatDate(vPlayerWithdraw.getCreateTime(), dateFormat.getDAY_SECOND(), timeZone));
                 Double counterFee = vPlayerWithdraw.getCounterFee();
                 String _counterFee_pre = counterFee > 0 ? "-" :"";
