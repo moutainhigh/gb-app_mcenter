@@ -164,6 +164,10 @@
 </div>
 <div class="clearfix m-t-md">
     <label class="ft-bold col-sm-3 al-right line-hi34">
+        <span data-content="${views.operation_auto['奖项提示']}"
+              data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+              role="button" class="help-popover" tabindex="0"
+              data-original-title="" title=""><i class="fa fa-question-circle"></i></span>
         ${views.operation_auto['奖项设置']}：
             <br>
             ${views.operation_auto['剩余总时段数']}：<span id="totalPeriods"></span>
