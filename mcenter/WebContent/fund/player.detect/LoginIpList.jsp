@@ -73,4 +73,3 @@
         </div>
     </div>
 </div>
-<soul:import res="site/fund/player.detect/LoginIpList"/>
