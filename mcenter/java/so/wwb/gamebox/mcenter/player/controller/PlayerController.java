@@ -225,7 +225,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             listVo.getSearch().setRegisterIpv4(registerIp);
         }
         /*玩家检测登录IP*/
-        if(listVo.getSearch().getIp()!=null){
+        if(StringTool.isNotBlank(listVo.getSearch().getIp())){
             String lastLoginIp = IpTool.ipv4LongToString(Long.parseLong(listVo.getSearch().getIp()));
             listVo.getSearch().setLastLoginIpv4(lastLoginIp);
         }
