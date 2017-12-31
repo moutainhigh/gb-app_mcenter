@@ -219,7 +219,26 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         SysParam sysParam = getExportParam();
         model.addAttribute("queryparamValue", sysParam);
         listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
-
+        /*玩家检测注册IP*/
+        if(listVo.getSearch().getRegisterIp()!=null){
+            String registerIp = IpTool.ipv4LongToString(listVo.getSearch().getRegisterIp());
+            listVo.getSearch().setRegisterIpv4(registerIp);
+        }
+        /*玩家检测登录IP*/
+        if(StringTool.isNotBlank(listVo.getSearch().getIp())){
+            String lastLoginIp = IpTool.ipv4LongToString(Long.parseLong(listVo.getSearch().getIp()));
+            listVo.getSearch().setLastLoginIpv4(lastLoginIp);
+        }
+        model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
+        /*玩家检测真是姓名*/
+        if (listVo.getSearch().isHasReturn() && StringTool.isNotBlank(listVo.getSearch().getRealName())) {
+            try {
+                String realName = URLDecoder.decode(listVo.getSearch().getRealName(), Const.DEFAULT_CHARACTER);
+                listVo.getSearch().setRealName(realName);
+            } catch (UnsupportedEncodingException e) {
+                LOG.error(e, "玩家检测页面--解码真实姓名");
+            }
+        }
         if (("old").equals(listVo.getSearch().getVersion())) {
             setRoot("/player/Old");
         } else {
