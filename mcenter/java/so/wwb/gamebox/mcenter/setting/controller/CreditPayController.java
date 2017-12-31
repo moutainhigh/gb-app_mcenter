@@ -37,6 +37,7 @@ import so.wwb.gamebox.model.company.credit.po.CreditAccount;
 import so.wwb.gamebox.model.company.credit.po.CreditRecord;
 import so.wwb.gamebox.model.company.credit.vo.CreditAccountVo;
 import so.wwb.gamebox.model.company.credit.vo.CreditRecordVo;
+import so.wwb.gamebox.model.company.credit.vo.VSysCreditVo;
 import so.wwb.gamebox.model.company.enums.CreditAccountPayTypeEnum;
 import so.wwb.gamebox.model.company.enums.CreditRecordStatusEnum;
 import so.wwb.gamebox.model.company.sys.po.SysSite;
@@ -107,11 +108,20 @@ public class CreditPayController {
 
         CreditAccountVo creditAccountVo = new CreditAccountVo();
         creditAccountVo.setCurrency(CurrencyEnum.CNY.getCode());
+        creditAccountVo.getSearch().setUseSites(SessionManager.getSiteId().toString());
+        getAuthorizeStatus(model);//获取授权状态
         model.addAttribute("accountMap", ServiceTool.creditAccountService().getBankAccount(creditAccountVo));
         model.addAttribute("validateRule", JsRuleCreator.create(CreditRecordForm.class));
         model.addAttribute("useProfit", sysSite.getHasUseProfit() == null ? 0d : sysSite.getHasUseProfit());//CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone()));
         model.addAttribute("disableTransfer", ParamTool.disableTransfer(SessionManager.getSiteId()));
         return CREDIT_PAY_URI;
+    }
+
+    private void getAuthorizeStatus(Model model) {
+        VSysCreditVo vSysCreditVo = new VSysCreditVo();
+        vSysCreditVo.getSearch().setId(SessionManager.getSiteId());
+        vSysCreditVo = ServiceTool.vSysCreditService().get(vSysCreditVo);
+        model.addAttribute("authorizeStatus",vSysCreditVo.getResult().getAuthorizeStatus());
     }
 
     @RequestMapping("/submit")
