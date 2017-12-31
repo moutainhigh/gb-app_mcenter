@@ -108,6 +108,7 @@ public class CreditPayController {
 
         CreditAccountVo creditAccountVo = new CreditAccountVo();
         creditAccountVo.setCurrency(CurrencyEnum.CNY.getCode());
+        creditAccountVo.getSearch().setUseSites(SessionManager.getSiteId().toString());
         getAuthorizeStatus(model);//获取授权状态
         model.addAttribute("accountMap", ServiceTool.creditAccountService().getBankAccount(creditAccountVo));
         model.addAttribute("validateRule", JsRuleCreator.create(CreditRecordForm.class));
