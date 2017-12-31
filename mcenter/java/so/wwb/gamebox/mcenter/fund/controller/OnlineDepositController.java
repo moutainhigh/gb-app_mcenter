@@ -22,6 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -36,6 +37,7 @@ import so.wwb.gamebox.model.master.fund.po.VPlayerDeposit;
 import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositListVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositVo;
+import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.web.IpRegionTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
@@ -77,13 +79,15 @@ public class OnlineDepositController extends BaseDepositController {
         }
         listVo.setTone(sysParam);
         listVo.setRechargeType(onlineRechargeType());
-
+        //层级
+        model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
         return listVo;
     }
 
     @RequestMapping("/doData")
     @ResponseBody
     protected VPlayerDepositListVo doData(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
+
         // 初始化筛选条件
         this.initQuery(listVo);
         // 初始化ListVo
