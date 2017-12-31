@@ -147,7 +147,7 @@
                                         </div>
                                        <%-- <div class="m-t-md fs16">${views.setting_auto['您将获得']} <span class="co-green">50万</span> ${views.setting_auto['额度']}</div>--%>
                                         <div class="m-t-md">
-                                            <soul:button target="submit" precall="validateForm" text="${views.setting_auto['确认']}" cssClass="btn btn-filter btn-lg btn-block" opType="function"/>
+                                            <soul:button target="submit" precall="validateForm" text="${views.setting_auto['确认']}" cssClass="btn btn-filter btn-lg btn-block ${rate < 80 && authorizeStatus!=true?'':'disabled'}" opType="function"/>
                                         </div>
                                     </div>
                                 </td>
