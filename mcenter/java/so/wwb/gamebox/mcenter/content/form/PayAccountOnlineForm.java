@@ -39,6 +39,12 @@ public class PayAccountOnlineForm implements IForm {
      * 账号
      */
     private String result_account;
+    /**
+     * 渠道(bank表的bank_name）
+     */
+    private String result_bankCode;
+
+
 //    /**
 //     * 停用金额
 //     */
@@ -47,10 +53,6 @@ public class PayAccountOnlineForm implements IForm {
      * 账户类型（1银行账户；2第三方账户）(字典表pay_account_account_type)
      */
     private String result_accountType;
-    /**
-     * 渠道(bank表的bank_name）
-     */
-    private String result_bankCode;
     /**
      * 累计入款次数
      */
@@ -121,7 +123,7 @@ public class PayAccountOnlineForm implements IForm {
     }
 
 
-    @NotBlank
+    @NotBlank(message = "content.payAccount.selectOne")
     public String getResult_bankCode() {
         return result_bankCode;
     }

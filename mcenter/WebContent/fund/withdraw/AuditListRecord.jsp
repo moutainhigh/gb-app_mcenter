@@ -23,8 +23,8 @@
         <li class="line-hi25">
             <span class="m-r">
                 ${views.fund['withdraw.edit.playerWithdraw.despoitAudit']}
-                <c:if test="${map.depositFailCount==0}"><span>${views.fund['withdraw.edit.playerWithdraw.allPassThrough']}</span></c:if>
-                <c:if test="${map.depositFailCount!=0}">${views.fund['withdraw.edit.playerWithdraw.have']}
+                <c:if test="${map.depositFailCount==0||map.depositFailCount==null}"><span>${views.fund['withdraw.edit.playerWithdraw.allPassThrough']}</span></c:if>
+                <c:if test="${map.depositFailCount!=0&&map.depositFailCount!=null}">${views.fund['withdraw.edit.playerWithdraw.have']}
                     <span style="padding: 0 3px">${map.depositFailCount}</span>${views.fund['withdraw.edit.playerWithdraw.noPassThrough']}</c:if>
                 ,
                     ${views.fund['withdraw.edit.playerWithdraw.needDeductedForAdministrationCost']}<span
@@ -34,8 +34,8 @@
         <li class="line-hi25">
             <span class="m-r">
                 ${views.fund['withdraw.edit.playerWithdraw.favourableAudit']}
-                <c:if test="${map.favorableFailCount==0}"><span>${views.fund['withdraw.edit.playerWithdraw.allPassThrough']}</span></c:if>
-                <c:if test="${map.favorableFailCount!=0}">${views.fund['withdraw.edit.playerWithdraw.have']}<span style="padding: 0 3px">${map.favorableFailCount}</span>${views.fund['withdraw.edit.playerWithdraw.noPassThrough']}</c:if>
+                <c:if test="${map.favorableFailCount==0||map.favorableFailCount==null}"><span>${views.fund['withdraw.edit.playerWithdraw.allPassThrough']}</span></c:if>
+                <c:if test="${map.favorableFailCount!=0&&map.favorableFailCount!=null}">${views.fund['withdraw.edit.playerWithdraw.have']}<span style="padding: 0 3px">${map.favorableFailCount}</span>${views.fund['withdraw.edit.playerWithdraw.noPassThrough']}</c:if>
                 ,
                     ${views.fund['withdraw.edit.playerWithdraw.needDeductedFavourable']}
                     <span class="co-red">${dicts.common.currency_symbol[user.defaultCurrency]} ${map.favorableSum==null?0:soulFn:formatInteger(map.favorableSum).concat(soulFn:formatDecimals(map.favorableSum))}</span>

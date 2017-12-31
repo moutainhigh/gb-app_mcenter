@@ -5,7 +5,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <c:set var="poType" value="<%= VUserPlayer.class %>"></c:set>
-<input type="hidden" name="queryParamsJson" value='${queryParamsJson}'>
+<%--<input type="hidden" name="queryParamsJson" value='${queryParamsJson}'>--%>
 <div class="table-responsive table-min-h">
     <input type="hidden" name="search.rankId" value="${command.search.rankId}">
     <table class="table table-striped table-hover dataTable" id="editable" aria-describedby="editable_info">
@@ -85,6 +85,29 @@
                         data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
                         role="button" class="ico-lock" tabindex="0"
                         data-original-title="" title=""><i class="fa fa-download"></i></span>
+                    {{/if}}
+                    {{if onLineId>0}}
+                        <span data-content="${views.role['player.list.icon.online']}"
+                        data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                        role="button" class="ico-lock" tabindex="0"
+                        data-original-title="" title=""><i class="fa fa-flash"></i></span>
+                    {{/if}}
+                    <%--
+                    {{if remarkcount!='' && remarkcount >0}}
+                        <span class="ico-lock"><i class="fa fa-flag" title="${views.role['player.list.icon.remark']}"></i></span>
+                    {{/if}}
+                    --%>
+                    {{if riskMarker == true}}
+                        <span data-content="${views.player_auto['危险层级']}"
+                        data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                        role="button" class="ico-lock co-red3" tabindex="0"
+                        data-original-title="" title=""><i class="fa fa-warning"></i></span>
+                    {{/if}}
+                    {{if createChannel == '2'}}
+                        <span data-content="${views.player_auto['后台新增玩家']}"
+                        data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                        role="button" class="ico-lock" tabindex="0"
+                        data-original-title="" title=""><i class="fa icon-houtaixinzengwanjia iconfont"></i></span>
                     {{/if}}
                     </td>
 
