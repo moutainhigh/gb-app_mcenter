@@ -375,6 +375,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 vPlayerWithdraw.set_withdrawActualAmount_formatInteger(CurrencyTool.formatInteger(vPlayerWithdraw.getWithdrawActualAmount()));
                 vPlayerWithdraw.set_withdrawActualAmount_formatDecimals(CurrencyTool.formatDecimals(vPlayerWithdraw.getWithdrawActualAmount()));
                 vPlayerWithdraw.set_bitAmount_formatNumber(getBitFormat(vPlayerWithdraw));
+                vPlayerWithdraw.set_formatDateTz_checkTime(LocaleDateTool.formatDate(vPlayerWithdraw.getCheckTime(), dateFormat.getDAY_SECOND(), timeZone));
                 if(StringTool.isNotBlank(vPlayerWithdraw.getLockPersonName())){
                     String lockPersonName_replace = views.get("fund_auto").get("当前").replace("[0]",vPlayerWithdraw.getLockPersonName());
                     vPlayerWithdraw.set_lockPersonName_replace(lockPersonName_replace);

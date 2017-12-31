@@ -5,7 +5,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <c:set var="poType" value="<%= VUserPlayer.class %>"></c:set>
-<input type="hidden" name="queryParamsJson" value='${queryParamsJson}'>
+<%--<input type="hidden" name="queryParamsJson" value='${queryParamsJson}'>--%>
 <div class="table-responsive table-min-h">
     <input type="hidden" name="search.rankId" value="${command.search.rankId}">
     <table class="table table-striped table-hover dataTable" id="editable" aria-describedby="editable_info">
