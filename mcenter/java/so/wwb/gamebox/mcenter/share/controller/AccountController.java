@@ -5,6 +5,7 @@ import org.soul.commons.bean.Pair;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.enums.EnumTool;
 import org.soul.commons.init.context.CommonContext;
+import org.soul.commons.lang.BooleanTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleDateTool;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
@@ -42,10 +44,8 @@ import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.listop.FreezeTime;
 import so.wwb.gamebox.model.listop.FreezeType;
 import so.wwb.gamebox.model.master.player.po.UserPlayer;
-import so.wwb.gamebox.model.master.player.vo.AccountVo;
-import so.wwb.gamebox.model.master.player.vo.PlayerApiAccountListVo;
-import so.wwb.gamebox.model.master.player.vo.UserPlayerVo;
-import so.wwb.gamebox.model.master.player.vo.VSysUserPlayerFrozenVo;
+import so.wwb.gamebox.model.master.player.po.VUserPlayer;
+import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
@@ -276,13 +276,19 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         return getViewBasePath() + "CancelFreezeAccount";
     }
 
+    //TODO: water on line is need modify
     private void isUserOnline(SysUserVo sysUserVo, Model model) {
-        Set<String> userActiveSessions = redisSessionDao.getUserActiveSessions(sysUserVo.getResult().getUserType(), sysUserVo.getResult().getId());
-        if(userActiveSessions!=null&&userActiveSessions.size()>0){
+        IVUserPlayerService vUserPlayerService = ServiceTool.vUserPlayerService();
+        VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
+        vUserPlayerVo.getSearch().setId(sysUserVo.getResult().getId());
+        vUserPlayerVo = vUserPlayerService.get(vUserPlayerVo);
+        if (vUserPlayerVo.getResult() != null
+                && BooleanTool.isTrue(vUserPlayerVo.getResult().getOnLine())) {
             model.addAttribute("isOnline",true);
-        }else{
+        } else {
             model.addAttribute("isOnline",false);
         }
+
     }
 
     /***
