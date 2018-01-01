@@ -195,7 +195,8 @@
                     </span>
                     </span>
                     <br/>
-                {{else _checkRemark_length>20}}
+                {{/if}}
+                {{if _checkRemark_length>20}}
                     <span data-content="{{:checkRemark}}" data-placement="bottom" data-trigger="focus" data-toggle="popover"
                     data-container="body" role="button" class="help-popover" tabindex="0">
                     {{:_checkRemark_substring}}..

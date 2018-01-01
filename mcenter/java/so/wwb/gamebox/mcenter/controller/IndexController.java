@@ -685,7 +685,9 @@ public class IndexController extends BaseIndexController {
             map.put("transferLimit", getProfitLimit().getCurrentTransferLimit());//转账上限值
             double transferOutSum = getProfitLimit().getTransferOutSum() == null ? 0 : getProfitLimit().getTransferOutSum();
             double transferIntoSum = getProfitLimit().getTransferIntoSum() == null ? 0 : getProfitLimit().getTransferIntoSum();
-            map.put("currentProfit", CurrencyTool.formatCurrency(transferOutSum - transferIntoSum));
+            double currentProfit = transferOutSum - transferIntoSum;
+            map.put("currentProfit", CurrencyTool.formatCurrency(currentProfit));
+            map.put("currentProfitNumber",currentProfit);
         }
         return map;
     }

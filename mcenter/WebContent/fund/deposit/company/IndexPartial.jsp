@@ -66,7 +66,7 @@
                         </a>
                     </td>
                     <td>
-                        <span data-content="({{:_soulFn_formatDateTz_createTime}}"
+                        <span data-content="{{:_soulFn_formatDateTz_createTime}}"
                               data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
                               role="button" class="ico-lock" tabindex="0" data-original-title="" title="">
                             <apan class="co-grayc2">{{:_soulFn_formatTimeMemo_createTime}}</apan>

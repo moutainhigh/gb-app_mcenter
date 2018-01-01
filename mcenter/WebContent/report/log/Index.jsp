@@ -17,7 +17,7 @@
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
             <span>${views.sysResource['统计']}</span>
             <span>/</span><span>${views.sysResource['日志查询']}</span>
-            <c:if test="${hasReturn}">
+            <c:if test="${hasReturnhasReturn}">
                 <soul:button tag="a" target="goToLastPage" text="" opType="function" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn">
                     <em class="fa fa-caret-left"></em>${views.common['return']}
                 </soul:button>

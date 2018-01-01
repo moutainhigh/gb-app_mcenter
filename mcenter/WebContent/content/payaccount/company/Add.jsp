@@ -179,7 +179,7 @@
                             <div class="${bankCode=='other_bank'?'input-group-btn':''}">
                                 <div selectdiv="result.bankCode1" class="btn-group" listkey="bankName" listvalue="bankShortName" value="${bankCode}" initprompt="${views.content_auto['请选择']}" callback="thirdChange" id="bankError">
                                     <input type="hidden" name="bankCode1" id="selectdivBank" value="${bankCode}">
-                                    <button type="button" class="btn btn-group btn-default dropdown-toggle" style="overflow: hidden;padding-right: 10px;height: 34px;padding-top: 2px;" data-toggle="dropdown" aria-expanded="false">
+                                    <button id="button" type="button" class="btn btn-group btn-default dropdown-toggle" style="overflow: hidden;padding-right: 10px;height: 34px;padding-top: 2px;" data-toggle="dropdown" aria-expanded="false">
                                         <span prompt="prompt">
                                             <span class="pay-bank ${bankCode}"></span>
                                             ${dicts.common.bankname[bankCode]}

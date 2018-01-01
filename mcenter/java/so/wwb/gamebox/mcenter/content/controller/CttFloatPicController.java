@@ -281,6 +281,11 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
         floatPicVo = getItemList(floatPicVo);
         floatPicVo.setEditType(objectVo.getEditType());
         floatPicVo = setDistance(floatPicVo);
+        if (floatPicVo.getFloatPicItem()==null){//协议选择限制
+            CttFloatPicItem cttFloatPicItem = new CttFloatPicItem();
+            cttFloatPicItem.setImgLinkProtocol("http://");
+            floatPicVo.setFloatPicItem(cttFloatPicItem);
+        }
         model.addAttribute("command",floatPicVo);
         return floatPicVo;
     }
