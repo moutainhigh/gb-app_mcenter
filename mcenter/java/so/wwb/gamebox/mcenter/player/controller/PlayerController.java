@@ -70,6 +70,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import so.wwb.gamebox.common.dubbo.ServiceScheduleTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IUserPlayerService;
+import so.wwb.gamebox.iservice.master.player.IVPlayerTagService;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.iservice.master.report.IPlayerRecommendAwardService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
@@ -195,14 +196,15 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     }
 
 
-
     @Override
     protected VUserPlayerListVo doList(VUserPlayerListVo listVo, VUserPlayerSearchForm form, BindingResult result, Model model) {
 
         Map<String, Serializable> status = DictTool.get(DictEnum.PLAYER_STATUS);
         status.remove(PlayerStatusEnum.ACCOUNTEXPIRED.getCode());
         model.addAttribute("playerStatus", status);
-
+        VPlayerTagListVo vPlayerTagListVo = new VPlayerTagListVo();
+        long count = ServiceTool.vPlayerTagService().count(vPlayerTagListVo);
+        vPlayerTagListVo.getPaging().setPageSize((int) count);
         //新增的语句
         String templateCode = TemplateCodeEnum.PLAYER.getCode();
         model.addAttribute("searchTempCode", templateCode);
@@ -210,6 +212,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         List<Pair> userTypeSearchKeys = initUserTypeSearchKeys();
         model.addAttribute("userTypeSearchKeys", userTypeSearchKeys);
         model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
+        model.addAttribute("playerTag", ServiceTool.vPlayerTagService().search(vPlayerTagListVo));
         model.addAttribute("rakebackSet", getService().getRakebackSet(new UserPlayerVo()).getRakebackSet());
         model.addAttribute("tagSet", ServiceTool.playerTagService().search(new PlayerTagListVo()).getResult());
         String queryParamsJson = JsonTool.toJson(listVo.getSearch());
@@ -240,14 +243,14 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         playerDetection(listVo, model);
         // 初始化外部链接时间
         initDate(listVo);
-
+        //层级筛选
         hadlePlayerRanks(listVo);
 
         //标签管理,筛选有该标签的玩家
         getPlayerByTagId(listVo, model);
-
         initRemarkContent(listVo);
-
+        //条件查询根据标签查询玩家
+        getTagIdByPlayer(listVo, model);
         // 不同的链接得到不同的玩家列表
         VUserPlayerListVo list = getListVo(listVo);
 
@@ -263,10 +266,11 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     /**
      * 处理页面模板化数据
+     *
      * @param listVo
      */
     private void handlePageData(VUserPlayerListVo listVo) {
-        Integer orderNumber = (listVo.getPaging().getPageNumber()-1)*listVo.getPaging().getPageSize();
+        Integer orderNumber = (listVo.getPaging().getPageNumber() - 1) * listVo.getPaging().getPageSize();
         Map<String, Map<String, String>> views = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views");
         Map<String, Map<String, Map<String, String>>> dictsMap = I18nTool.getDictsMap(SessionManagerCommon.getLocale().toString());
         DateFormat dateFormat = new DateFormat();
@@ -292,9 +296,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 player.set_soulFn_formatInteger_txTotal(CurrencyTool.formatInteger(player.getTxTotal()));
                 player.set_soulFn_formatDecimals_txTotal(CurrencyTool.formatDecimals(player.getTxTotal()));
 
-                player.set_soulFn_formatDateTz_loginTime(LocaleDateTool.formatDate(player.getLoginTime(), dateFormat.getDAY_SECOND(),timeZone));
-                player.set_soulFn_formatDateTz_createTime(LocaleDateTool.formatDate(player.getCreateTime(), dateFormat.getDAY_SECOND(),timeZone));
-                player.set_soulFn_formatDateTz_createTimeDay(LocaleDateTool.formatDate(player.getCreateTime(), dateFormat.getDAY(),timeZone));
+                player.set_soulFn_formatDateTz_loginTime(LocaleDateTool.formatDate(player.getLoginTime(), dateFormat.getDAY_SECOND(), timeZone));
+                player.set_soulFn_formatDateTz_createTime(LocaleDateTool.formatDate(player.getCreateTime(), dateFormat.getDAY_SECOND(), timeZone));
+                player.set_soulFn_formatDateTz_createTimeDay(LocaleDateTool.formatDate(player.getCreateTime(), dateFormat.getDAY(), timeZone));
 
                 orderNumber++;
                 player.set_paging_orderNumber(orderNumber);
@@ -393,9 +397,16 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             PlayerTagListVo playerTagListVo = new PlayerTagListVo();
             playerTagListVo.getSearch().setTagId(Integer.valueOf(listVo.getSearch().getTagId()));
             List playerIds = ServiceTool.playerTagService().searchPlayerIdByTagId(playerTagListVo);
+
             listVo.getSearch().setIds(playerIds);
         }
         model.addAttribute("tagIds", listVo.getSearch().getTagId());
+    }
+
+    //条件查询查询有该标签的玩家
+    private void getTagIdByPlayer(VUserPlayerListVo listVo, Model model) {
+        List userPlayerId = ServiceTool.playerTagService().searchTagIdByPlayerId(listVo);
+        listVo.getSearch().setUserTagIds(userPlayerId);
     }
 
     /**
@@ -509,24 +520,23 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 listVo = ServiceTool.vUserPlayerService().queryOutLinkBetPlayer(listVo);
             }
         } else {
-            if (listVo.isAnalyzeNewAgent()){
-                Integer searchType=listVo.getSearchType();
-                if (searchType!=null){
-                    if (searchType==1){
+            if (listVo.isAnalyzeNewAgent()) {
+                Integer searchType = listVo.getSearchType();
+                if (searchType != null) {
+                    if (searchType == 1) {
                         listVo = ServiceTool.vUserPlayerService().queryTotalDepositPlayer(listVo);
-                    }
-                    else if (searchType==2){
+                    } else if (searchType == 2) {
                         resetFormatTime(listVo);
                         List<Integer> player = ServiceTool.vUserPlayerService().queryEffectivePlayer(listVo);
                         //玩家id不能为空
-                        if (CollectionTool.isEmpty(player)){
+                        if (CollectionTool.isEmpty(player)) {
                             player.add(-1);
                         }
                         listVo.getSearch().setIds(player);
-                    }else {
+                    } else {
                         resetFormatTime(listVo);
                         List<Integer> player = ServiceTool.vUserPlayerService().queryDepositPlayer(listVo);
-                        if (CollectionTool.isEmpty(player)){
+                        if (CollectionTool.isEmpty(player)) {
                             player.add(-1);
                         }
                         listVo.getSearch().setIds(player);
@@ -534,7 +544,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 }
 
             }
-                listVo = ServiceTool.vUserPlayerService().searchByCustom(listVo);
+            listVo = ServiceTool.vUserPlayerService().searchByCustom(listVo);
         }
         listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
         return listVo;
@@ -735,7 +745,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         sysAuditLogListVo.getSearch().setModuleType(ModuleType.PLAYER_UPDATEAGENTLINE_SUCCESS.getCode());
         sysAuditLogListVo = ServiceTool.auditLogService().queryLogs(sysAuditLogListVo);
         List logList = sysAuditLogListVo.getResult();
-        if(logList!=null && logList.size()>0){
+        if (logList != null && logList.size() > 0) {
             model.addAttribute("sysAuditLog", logList.get(0));
         }
 
@@ -767,11 +777,11 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //playerListVo.getSearch().setRemarkType(RemarkEnum.PLAYER_REMARK.getType());
         RemarkListVo remarkListVo = queryUserRemark(playerListVo);
         model.addAttribute("remarkListVo", remarkListVo);
-        model.addAttribute("isLotterySite",ParamTool.isLotterySite());
-        SysUserProtectionVo sysUserProtectionVo=new SysUserProtectionVo();
+        model.addAttribute("isLotterySite", ParamTool.isLotterySite());
+        SysUserProtectionVo sysUserProtectionVo = new SysUserProtectionVo();
         sysUserProtectionVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
         SysUserProtectionVo protectionVo = ServiceTool.sysUserProtectionService().get(sysUserProtectionVo);
-        model.addAttribute("saferQuestion",protectionVo);
+        model.addAttribute("saferQuestion", protectionVo);
         return "/player/view.include/PlayerDetail";
     }
 
@@ -1236,12 +1246,12 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     public Map bankCardSave(UserBankcardVo objVo, @FormModel @Valid UserBankcardForm form, BindingResult result) {
         Map map = new HashMap();
         map.put("state", true);
-        HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        LogVo logVo=new LogVo();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        LogVo logVo = new LogVo();
         List<String> params = new ArrayList<>();
         BaseLog baseLog = logVo.addBussLog();
-        UserBankcardVo vo=new UserBankcardVo();
-        VUserPlayerVo vUserPlayerVo=new VUserPlayerVo();
+        UserBankcardVo vo = new UserBankcardVo();
+        VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
         addLog(objVo, request, logVo, params, baseLog, vo, vUserPlayerVo);
         UserBankcard userBankcard;
         if (result.hasErrors()) {
@@ -1266,47 +1276,48 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         return map;
     }
 
-    /**日志
+    /**
+     * 日志
      *
      * @param vUserPlayerVo
      */
     private void addLog(UserBankcardVo objVo, HttpServletRequest request, LogVo logVo, List<String> params, BaseLog baseLog, UserBankcardVo vo, VUserPlayerVo vUserPlayerVo) {
-        UserBankcard userBankcard=null;
-        if (objVo.getResult().getId()!=null) {
+        UserBankcard userBankcard = null;
+        if (objVo.getResult().getId() != null) {
             vo.getSearch().setId(objVo.getResult().getId());
             vo = ServiceTool.userBankcardService().get(vo);
             userBankcard = vo.getResult();
             baseLog.setDescription("setting.bankCard.edit");
             baseLog.setOpType(OpType.UPDATE);
-        }else {
+        } else {
             baseLog.setDescription("setting.bankCard.add");
         }
-        if (userBankcard!=null){
+        if (userBankcard != null) {
             vUserPlayerVo.getSearch().setId(userBankcard.getUserId());
             vUserPlayerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
             params.add(vUserPlayerVo.getResult().getUsername());
             params.add(userBankcard.getBankcardNumber());
-            params.add(LocaleTool.tranDict(DictEnum.BANKNAME,userBankcard.getBankName()));
-            if (userBankcard.getBankDeposit()!=null && !userBankcard.getBankDeposit().equals("")){
+            params.add(LocaleTool.tranDict(DictEnum.BANKNAME, userBankcard.getBankName()));
+            if (userBankcard.getBankDeposit() != null && !userBankcard.getBankDeposit().equals("")) {
                 params.add(userBankcard.getBankDeposit());
-            }else {
-                params.add(LocaleTool.tranView("player_auto","未设置"));
+            } else {
+                params.add(LocaleTool.tranView("player_auto", "未设置"));
             }
         }
         vUserPlayerVo.getSearch().setId(objVo.getResult().getUserId());
-        vUserPlayerVo=ServiceTool.vUserPlayerService().get(vUserPlayerVo);
+        vUserPlayerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
         params.add(vUserPlayerVo.getResult().getUsername());
         params.add(objVo.getResult().getBankcardNumber());
-        params.add(LocaleTool.tranDict(DictEnum.BANKNAME,objVo.getResult().getBankName()));
-        if (objVo.getResult().getBankDeposit()!=null && !objVo.getResult().getBankDeposit().equals("")){
+        params.add(LocaleTool.tranDict(DictEnum.BANKNAME, objVo.getResult().getBankName()));
+        if (objVo.getResult().getBankDeposit() != null && !objVo.getResult().getBankDeposit().equals("")) {
             params.add(objVo.getResult().getBankDeposit());
-        }else {
-            params.add(LocaleTool.tranView("player_auto","未设置"));
+        } else {
+            params.add(LocaleTool.tranView("player_auto", "未设置"));
         }
         AddLogVo addLogVo = new AddLogVo();
         addLogVo.setResult(new SysAuditLog());
         addLogVo.setList(params);
-        for (String param : params){
+        for (String param : params) {
             baseLog.addParam(param);
         }
         request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
@@ -2087,7 +2098,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      * Created by kobe on 17-9-10.
      */
     @RequestMapping("/addNewPlayer")
-    public String addNewPlayer(VUserPlayerVo objectVo, Model model){
+    public String addNewPlayer(VUserPlayerVo objectVo, Model model) {
         VUserPlayer vUserPlayer = new VUserPlayer();
         vUserPlayer.setDefaultCurrency(SessionManager.getUser().getDefaultCurrency());
         vUserPlayer.setDefaultLocale(SessionManager.getUser().getDefaultLocale());
@@ -2106,8 +2117,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/saveNewPlayer")
     @ResponseBody
-    public Map saveNewPlayer(VUserPlayerVo objectVo, HttpServletRequest request, @FormModel("result") @Valid AddNewPlayerForm form, BindingResult result){
-        Map resultMap = new HashMap(2,1f);
+    public Map saveNewPlayer(VUserPlayerVo objectVo, HttpServletRequest request, @FormModel("result") @Valid AddNewPlayerForm form, BindingResult result) {
+        Map resultMap = new HashMap(2, 1f);
         SysUser sysUser = new SysUser();
         sysUser.setOwnerId(objectVo.getResult().getAgentId());
         sysUser.setUsername(objectVo.getResult().getUsername());
@@ -2151,7 +2162,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         sysAuditLogListVo.getSearch().setModuleType(ModuleType.PLAYER_UPDATEAGENTLINE_SUCCESS.getCode());
         sysAuditLogListVo = ServiceTool.auditLogService().queryLogs(sysAuditLogListVo);
         List logList = sysAuditLogListVo.getResult();
-        if(logList!=null && logList.size()>0){
+        if (logList != null && logList.size() > 0) {
             model.addAttribute("sysAuditLog", logList.get(0));
         }
 
@@ -2498,7 +2509,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     @RequestMapping("/updateAgentLine")
     @ResponseBody
     @Audit(module = Module.PLAYER, moduleType = ModuleType.PLAYER_UPDATEAGENTLINE_SUCCESS, opType = OpType.UPDATE)
-    public Map updateAgentLine(HttpServletRequest request, UserPlayerVo userPlayerVo, Integer oldagentId, String username){
+    public Map updateAgentLine(HttpServletRequest request, UserPlayerVo userPlayerVo, Integer oldagentId, String username) {
         Map map = new HashMap(2, 1f);
         if (userPlayerVo.getResult() == null || userPlayerVo.getResult().getId() == null || userPlayerVo.getResult().getUserAgentId() == null) {
             map.put("state", false);
@@ -2516,7 +2527,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             //组装操作日志的数据
             getLogData(request, oldagentId, userPlayer);
             map.put("state", userPlayerVo.isSuccess());
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             map.put("state", false);
         }
@@ -2538,17 +2549,17 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         AuditLogController.addLog(request, "player.updateAgentLine.success", addLogVo);
     }
 
-    private String getAgentLine(Integer agentId){
+    private String getAgentLine(Integer agentId) {
         UserAgentVo userAgentVo = new UserAgentVo();
         userAgentVo.getSearch().setId(agentId);
         Map map = ServiceTool.userAgentService().queryAgentLine(userAgentVo);
         String agentName = this.getAgentNameByAgentId(agentId);
-        StringBuilder agentLine = new StringBuilder(MapTool.getString(map,"parent_name_array")==null?"":MapTool.getString(map,"parent_name_array"));
-        agentLine.append(" > "+agentName);
+        StringBuilder agentLine = new StringBuilder(MapTool.getString(map, "parent_name_array") == null ? "" : MapTool.getString(map, "parent_name_array"));
+        agentLine.append(" > " + agentName);
         return agentLine.toString();
     }
 
-    private String getAgentNameByAgentId(Integer agentId){
+    private String getAgentNameByAgentId(Integer agentId) {
         VUserAgentVo vo = new VUserAgentVo();
         vo.getSearch().setId(agentId);
         vo = ServiceTool.vUserAgentService().search(vo);
@@ -2682,17 +2693,17 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         vo.getSearch().setBankcardNumber(userBankcardForm.getResult_bankcardNumber());
         vo.getSearch().setUserType(UserTypeEnum.PLAYER.getCode());
         UserBankcard isExists = ServiceTool.userBankcardService().cardIsExists(vo);
-        if(isExists==null){
+        if (isExists == null) {
             return true;
         }
         String userId = userBankcardForm.getResult_userId();
         String parameter = request.getParameter("result.id");
-        if(StringTool.isNotBlank(parameter)){
+        if (StringTool.isNotBlank(parameter)) {
             Integer id = Integer.valueOf(parameter);
-            if(!id.equals(isExists.getId())                                                                                                                                                                                                                                                                     ){
+            if (!id.equals(isExists.getId())) {
                 return false;
             }
-        }else{
+        } else {
             if (!isExists.getUserId().equals(Integer.valueOf(userId))) {
                 return false;
             }
@@ -2719,21 +2730,21 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             map.put("balance", balance);
 
             Integer userAgentRank = getUserAgentRank(result.getAgentId());
-            map.put("agentId",result.getAgentId());
-            map.put("agentRank",userAgentRank);
-            map.put("agentName",result.getAgentName());
+            map.put("agentId", result.getAgentId());
+            map.put("agentRank", userAgentRank);
+            map.put("agentName", result.getAgentName());
         }
         return map;
     }
 
-    private Integer getUserAgentRank(Integer agentId){
-        if(agentId == null){
+    private Integer getUserAgentRank(Integer agentId) {
+        if (agentId == null) {
             return null;
         }
         UserAgentVo userAgentVo = new UserAgentVo();
         userAgentVo.getSearch().setId(agentId);
         userAgentVo = ServiceTool.userAgentService().get(userAgentVo);
-        if(userAgentVo.getResult()!=null){
+        if (userAgentVo.getResult() != null) {
             return userAgentVo.getResult().getAgentRank();
         }
         return null;
@@ -2868,7 +2879,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     @RequestMapping("/getRank/{agentRank}")
     @ResponseBody
-    public String getRank(@PathVariable("agentRank") Integer agentRank){
+    public String getRank(@PathVariable("agentRank") Integer agentRank) {
         VUserAgentManageListVo listVo = new VUserAgentManageListVo();
         listVo.getSearch().setAgentRank(agentRank);
         List<VUserAgentManage> result = ServiceTool.vUserAgentManageService().queryAgentByAgentRank(listVo);
@@ -2877,7 +2888,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     @RequestMapping("/queryAgentLine")
     @ResponseBody
-    public Map queryAgentLine(Integer agentId){
+    public Map queryAgentLine(Integer agentId) {
         UserAgentVo userAgentVo = new UserAgentVo();
         userAgentVo.getSearch().setId(agentId);
         Map map = ServiceTool.userAgentService().queryAgentLine(userAgentVo);
@@ -2898,13 +2909,13 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     @RequestMapping("/passwordNotWeak")
     @ResponseBody
-    public String passwordNotWeak(@RequestParam("result.password")String password,@RequestParam("result.username") String username){
-        if(StringTool.isBlank(password))
+    public String passwordNotWeak(@RequestParam("result.password") String password, @RequestParam("result.username") String username) {
+        if (StringTool.isBlank(password))
             return "false";
-        if(password.equals(username)){
+        if (password.equals(username)) {
             return "false";
         }
-        if(PasswordRule.isWeak(password)){
+        if (PasswordRule.isWeak(password)) {
             return "false";
         }
 
@@ -2920,22 +2931,22 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     @RequestMapping("/changeStatus")
     @ResponseBody
     public Map changeStatus(Integer[] ids) {
-        VUserPlayerListVo listVo=new VUserPlayerListVo();
+        VUserPlayerListVo listVo = new VUserPlayerListVo();
         listVo.setMasterName(SessionManager.getUserName());
         listVo.getSearch().setIds(Arrays.asList(ids));
-        Map map=new HashMap(2,1f);
+        Map map = new HashMap(2, 1f);
         try {
             VUserPlayerListVo vUserPlayerListVo = ServiceTool.userPlayerService().batchFreezenAccount(listVo);
-            if (vUserPlayerListVo.isSuccess()){
-                for (Integer id:ids){
-                    KickoutFilter.loginKickoutAll(id,OpMode.MANUAL,"站长中心冻结玩家强制踢出");
+            if (vUserPlayerListVo.isSuccess()) {
+                for (Integer id : ids) {
+                    KickoutFilter.loginKickoutAll(id, OpMode.MANUAL, "站长中心冻结玩家强制踢出");
                 }
                 map = getVoMessage(listVo);
             }
-        }catch (Exception ex){
-            map.put("state",false);
-            map.put("msg","操作失败");
-            LOG.error(ex,"批量冻结账户失败！");
+        } catch (Exception ex) {
+            map.put("state", false);
+            map.put("msg", "操作失败");
+            LOG.error(ex, "批量冻结账户失败！");
         }
 
         return map;
@@ -2943,18 +2954,19 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     /**
      * 时间格式更改
+     *
      * @param listVo
      * @return
      */
     private VUserPlayerListVo resetFormatTime(VUserPlayerListVo listVo) {
         Date startStaticTime = listVo.getStartTime();
-        if(startStaticTime!=null){
+        if (startStaticTime != null) {
             Date date = DateTool.addHours(startStaticTime, listVo.getSearch().getTimeZoneInterval());
             listVo.setStartTime(date);
         }
 
         Date endStaticTime = listVo.getEndTime();
-        if(endStaticTime!=null){
+        if (endStaticTime != null) {
             Date date = DateTool.addHours(endStaticTime, listVo.getSearch().getTimeZoneInterval());
             listVo.setEndTime(date);
         }
