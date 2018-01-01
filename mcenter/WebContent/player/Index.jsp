@@ -29,8 +29,10 @@
         <input name="search.timeZoneInterval" value="${command.search.timeZoneInterval}" type="hidden">
         <input name="analyzeNewAgent" value="${command.analyzeNewAgent}" type="hidden">
         <input name="searchType" value="${command.searchType}" type="hidden">
-        <input name="startTime" value="${soulFn:formatDateTz(command.startTime,DateFormat.DAY_SECOND,timeZone)}" type="hidden">
-        <input name="endTime" value="${soulFn:formatDateTz(command.endTime,DateFormat.DAY_SECOND ,timeZone )}" type="hidden">
+        <input name="startTime" value="${soulFn:formatDateTz(command.startTime,DateFormat.DAY_SECOND,timeZone)}"
+               type="hidden">
+        <input name="endTime" value="${soulFn:formatDateTz(command.endTime,DateFormat.DAY_SECOND ,timeZone )}"
+               type="hidden">
 
         <%--<input name="search.registerIp" value="${command.search.registerIp}" type="hidden"/>--%>
         <%--<input name="search.lastLoginIp" value="${command.search.lastLoginIp}" type="hidden"/>--%>
@@ -179,11 +181,13 @@
                                     <div class="input-group time-select-a">
                                         <span class="input-group-addon bg-gray">${views.player_auto['存款总额']}</span>
                                         <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
-                                        <input type="type" class="form-control border-left-none" name="" id="rechargeTotalBegin"
+                                        <input type="type" class="form-control border-left-none" name=""
+                                               id="rechargeTotalBegin"
                                                value="${command.search.rechargeTotalBegin}">
                                         <span class="input-group-addon time-select-t">~</span>
                                         <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
-                                        <input type="type" class="form-control border-left-none" name="" id="rechargeTotalEnd"
+                                        <input type="type" class="form-control border-left-none" name=""
+                                               id="rechargeTotalEnd"
                                                value="${command.search.rechargeTotalEnd}">
                                     </div>
                                 </div>
@@ -221,7 +225,8 @@
                                     <div class="input-group time-select-a">
                                         <span class="input-group-addon bg-gray">${views.player_auto['取款总额']}</span>
                                         <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
-                                        <input type="type" class="form-control border-left-none" name="" id="txTotalBegin"
+                                        <input type="type" class="form-control border-left-none" name=""
+                                               id="txTotalBegin"
                                                value="${command.search.txTotalBegin}">
                                         <span class="input-group-addon time-select-t">~</span>
                                         <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
@@ -237,7 +242,8 @@
                                                        listKey="id"
                                                        value="${command.search.rakebackId}" listValue="name"
                                                        callback=""
-                                                       prompt="${views.player_auto['全部']}" cssClass="chosen-select-no-single"/>
+                                                       prompt="${views.player_auto['全部']}"
+                                                       cssClass="chosen-select-no-single"/>
                                     </div>
                                 </div>
 
@@ -314,23 +320,27 @@
                                         <input value="${command.search.fundTypes}" type="hidden" id="fundType">
                                         <c:if test="${not empty command.search.walletBalanceBegin||(empty command.search.walletBalanceBegin&&empty command.search.totalAssetsBegin)}">
                                             <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
-                                            <input type="type" class="form-control border-left-none" name="search.walletBalanceBegin"
+                                            <input type="type" class="form-control border-left-none"
+                                                   name="search.walletBalanceBegin"
                                                    value="${command.search.walletBalanceBegin}"
                                                    id="operator3">
                                             <span class="input-group-addon time-select-t">~</span>
                                             <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
-                                            <input type="type" class="form-control border-left-none" name="search.walletBalanceEnd"
+                                            <input type="type" class="form-control border-left-none"
+                                                   name="search.walletBalanceEnd"
                                                    value="${command.search.walletBalanceEnd}"
                                                    id="operator4">
                                         </c:if>
                                         <c:if test="${not empty command.search.totalAssetsBegin}">
                                             <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
-                                            <input type="type" class="form-control border-left-none" name="search.totalAssetsBegin"
+                                            <input type="type" class="form-control border-left-none"
+                                                   name="search.totalAssetsBegin"
                                                    value="${command.search.totalAssetsBegin}"
                                                    id="operator3">
                                             <span class="input-group-addon time-select-t">~</span>
                                             <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
-                                            <input type="type" class="form-control border-left-none" name="search.totalAssetsEnd"
+                                            <input type="type" class="form-control border-left-none"
+                                                   name="search.totalAssetsEnd"
                                                    value="${command.search.totalAssetsEnd}"
                                                    id="operator4">
                                         </c:if>
@@ -345,7 +355,8 @@
                                             <div class="btn-group table-desc-right-t-dropdown" initprompt="10条"
                                                  callback="query">
                                                 <button type="button" class="btn btn btn-default right-radius rank-btn">
-                                                    <span class="rankText" prompt="prompt">${views.player_auto['请选择']}</span>
+                                                    <span class="rankText"
+                                                          prompt="prompt">${views.player_auto['请选择']}</span>
                                                     <span class="caret-a pull-right"></span>
                                                 </button>
                                                 <c:forEach items="${command.search.playerRanks}" var="p">
@@ -366,9 +377,55 @@
                                                                     <c:forEach items="${playerRanks}" var="pr"
                                                                                varStatus="i">
                                                                         <label class="m-r-sm">
-                                                                            <input type="checkbox" name="search.playerRanks"
+                                                                            <input type="checkbox"
+                                                                                   name="search.playerRanks"
                                                                                    class="i-checks" value="${pr.id}">
                                                                             <span class="m-l-xs">${pr.rankName}</span>
+                                                                        </label>
+                                                                    </c:forEach>
+                                                                </th>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+                                    <%--标签--%>
+                                <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                                    <div class="input-group">
+                                        <span class="input-group-addon bg-gray">${views.player_auto['标签']}</span>
+                                        <span class="bdn right-btn-down">
+                                            <div class="btn-group table-desc-right-t-dropdown" initprompt="10条"
+                                                 callback="query">
+                                                <button type="button" class="btn btn btn-default right-radius rank-btn">
+                                                    <span class="rankText"
+                                                          prompt="prompt">${views.player_auto['请选择']}</span>
+                                                    <span class="caret-a pull-right"></span>
+                                                </button>
+                                                <c:forEach items="${playerTag.result}" var="p">
+                                                    <input type="hidden" class="playerRanks" data-value="${p}"/>
+                                                </c:forEach>
+                                                <div class="dropdown-menu playerRank">
+                                                    <div class="search-top-menu"
+                                                         style="margin-top: 10px;margin-left: 10px;">
+                                                        <button type="button" data-type-tag="all"
+                                                                class="btn btn-filter btn-xs">${views.operation['backwater.settlement.choose.allChoose']}</button>
+                                                        <button type="button" data-type-tag="clear"
+                                                                class="btn btn-outline btn-filter btn-xs">${views.operation['backwater.settlement.choose.clear']}</button>
+                                                    </div>
+                                                    <div class="m-t">
+                                                        <table class="table table-bordered m-b-xxs">
+                                                            <tr>
+                                                                <th class="al-left">
+                                                                    <c:forEach items="${playerTag.result}" var="pl"
+                                                                               varStatus="i">
+                                                                        <label class="m-r-sm">
+                                                                            <input type="checkbox" name="search.tagIds"
+                                                                                   class="i-checks" value="${pl.id}">
+                                                                            <span class="m-l-xs">${pl.tagName}</span>
                                                                         </label>
                                                                     </c:forEach>
                                                                 </th>
@@ -385,11 +442,13 @@
                                     <div class="input-group time-select-a">
                                         <span class="input-group-addon bg-gray">${views.player_auto['存款次数']}</span>
                                         <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
-                                        <input type="type" class="form-control border-left-none" name="" id="rechargeCountBegin"
+                                        <input type="type" class="form-control border-left-none" name=""
+                                               id="rechargeCountBegin"
                                                value="${command.search.rechargeCountBegin}">
                                         <span class="input-group-addon time-select-t">~</span>
                                         <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
-                                        <input type="type" class="form-control border-left-none" name="" id="rechargeCountEnd"
+                                        <input type="type" class="form-control border-left-none" name=""
+                                               id="rechargeCountEnd"
                                                value="${command.search.rechargeCountEnd}">
                                     </div>
                                 </div>
@@ -397,7 +456,8 @@
                                     <div class="input-group time-select-a">
                                         <span class="input-group-addon bg-gray">${views.player_auto['取款次数']}</span>
                                         <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
-                                        <input type="type" class="form-control border-left-none" name="" id="txCountBegin"
+                                        <input type="type" class="form-control border-left-none" name=""
+                                               id="txCountBegin"
                                                value="${command.search.txCountBegin}">
                                         <span class="input-group-addon time-select-t">~</span>
                                         <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
@@ -419,34 +479,40 @@
                                                id="favorableType">
                                         <c:if test="${not empty command.search.rakebackBegin||(empty command.search.rakebackBegin&&empty command.search.favorableTotalBegin&&empty command.search.totalProfitLossBegin)}">
                                             <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
-                                            <input type="number" class="form-control border-left-none" name="search.rakebackBegin"
+                                            <input type="number" class="form-control border-left-none"
+                                                   name="search.rakebackBegin"
                                                    value="${command.search.rakebackBegin}"
                                                    id="operator7">
                                             <span class="input-group-addon time-select-t">~</span>
                                             <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
-                                            <input type="number" class="form-control border-left-none" name="search.rakebackEnd"
+                                            <input type="number" class="form-control border-left-none"
+                                                   name="search.rakebackEnd"
                                                    value="${command.search.rakebackEnd}"
                                                    id="operator8">
                                         </c:if>
                                         <c:if test="${not empty command.search.favorableTotalBegin}">
                                             <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
-                                            <input type="number" class="form-control border-left-none" name="search.favorableTotalBegin"
+                                            <input type="number" class="form-control border-left-none"
+                                                   name="search.favorableTotalBegin"
                                                    value="${command.search.favorableTotalBegin}"
                                                    id="operator7">
                                             <span class="input-group-addon time-select-t">~</span>
                                             <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
-                                            <input type="number" class="form-control border-left-none" name="search.favorableTotalEnd"
+                                            <input type="number" class="form-control border-left-none"
+                                                   name="search.favorableTotalEnd"
                                                    value="${command.search.favorableTotalEnd}"
                                                    id="operator8">
                                         </c:if>
                                         <c:if test="${not empty command.search.totalProfitLossBegin}">
                                             <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
-                                            <input type="number" class="form-control border-left-none" name="search.totalProfitLossBegin"
+                                            <input type="number" class="form-control border-left-none"
+                                                   name="search.totalProfitLossBegin"
                                                    value="${command.search.totalProfitLossBegin}"
                                                    id="operator7">
                                             <span class="input-group-addon time-select-t">~</span>
                                             <span class="input-group-addon border-right-none">${views.player_auto['止']}</span>
-                                            <input type="number" class="form-control border-left-none" name="search.totalProfitLossEnd"
+                                            <input type="number" class="form-control border-left-none"
+                                                   name="search.totalProfitLossEnd"
                                                    value="${command.search.totalProfitLossEnd}"
                                                    id="operator8">
                                         </c:if>
@@ -474,7 +540,6 @@
                         </c:if>
 
 
-
                         <div class="col-sm-12 clearfix template-menu m-b-xs">
                             <button type="button" class="btn btn-filter btn-outline pull-right  show-demand-b"><i
                                     class="fa fa-chevron-down"></i> ${views.player_auto['高级搜索']}
@@ -488,12 +553,13 @@
                             <soul:button target="reset" opType="function" text="${views.player_auto['重置']}"
                                          cssClass="btn btn-filter reset-condition-button"/>
                             <shiro:hasPermission name="role:player_add">
-                            <soul:button target="${root}/player/addNewPlayer.html" opType="dialog" permission="role:player_add"
-                                         text="${views.player_auto['新增玩家']}" callback="query"
-                                         cssClass="btn btn-filter pull-right m-r"/>
+                                <soul:button target="${root}/player/addNewPlayer.html" opType="dialog"
+                                             permission="role:player_add"
+                                             text="${views.player_auto['新增玩家']}" callback="query"
+                                             cssClass="btn btn-filter pull-right m-r"/>
                             </shiro:hasPermission>
-                            <%--<a href="/player/list.html?search.version=old" nav-target="mainFrame"--%>
-                               <%--style="right: 21%;position: absolute;z-index: 888; padding-top: 10px;">${views.player_auto['切换到旧版本']}</a>--%>
+                                <%--<a href="/player/list.html?search.version=old" nav-target="mainFrame"--%>
+                                <%--style="right: 21%;position: absolute;z-index: 888; padding-top: 10px;">${views.player_auto['切换到旧版本']}</a>--%>
 
                             <div class="input-group-btn pull-left" style="padding-right: 200px">
                                 <%@include file="/sysSearchTemplate/SearchTemplate.jsp" %>
@@ -587,16 +653,20 @@
                         </div>
 
                         <div class="btn-group" style="padding-right: 10px">
-                            <soul:button target="getPlayerIds" permission="fund:artificial" text="${views.player_auto['人工存入']}" opType="function"  tag="button"
+                            <soul:button target="getPlayerIds" permission="fund:artificial"
+                                         text="${views.player_auto['人工存入']}" opType="function" tag="button"
                                          cssClass="btn btn-primary-hide dropdown-toggle player_tag_dropdown_btn">
                                 <i class="fa fa-eject"></i>${views.player_auto['人工存入']}</soul:button>
-                            <a href="/fund/manual/index.html?hasReturn=true&username={username}" id="toDepoist" nav-target="mainFrame"></a>
+                            <a href="/fund/manual/index.html?hasReturn=true&username={username}" id="toDepoist"
+                               nav-target="mainFrame"></a>
                         </div>
 
                         <div class="btn-group" style="padding-right: 10px">
-                            <soul:button permission="role:player_cleanup" precall="" target="${root}/userPlayer/export.html" tag="button"
+                            <soul:button permission="role:player_cleanup" precall=""
+                                         target="${root}/userPlayer/export.html" tag="button"
                                          text="${views.role['Player.clearcontact.Export.clearcontact']}"
-                                         callback="toExportHistory" opType="dialog" cssClass="btn btn-primary-hide dropdown-toggle player_tag_dropdown_btn"><i
+                                         callback="toExportHistory" opType="dialog"
+                                         cssClass="btn btn-primary-hide dropdown-toggle player_tag_dropdown_btn"><i
                                     class="fa fa-eraser"></i>${views.role['Player.clearcontact.ClearContactInfo.index']}</soul:button>
                             <a href="/vNoticeEmailRank/list.html" class="interfaceSet" nav-target="mainFrame"></a>
                         </div>
@@ -611,7 +681,8 @@
                         </div>
 
                         <div class="btn-group" style="padding-right: 10px">
-                            <soul:button tag="button" target="freezenAccount" opType="function" text="${views.player_auto['账号冻结']}"
+                            <soul:button tag="button" target="freezenAccount" opType="function"
+                                         text="${views.player_auto['账号冻结']}"
                                          cssClass="btn btn-danger-hide _delete" callback="query"
                                          confirm="${views.player_auto['确认冻结']}"><i class="fa fa-road"></i>
                                 <span class="hd">${views.player_auto['账号冻结']}</span></soul:button>
