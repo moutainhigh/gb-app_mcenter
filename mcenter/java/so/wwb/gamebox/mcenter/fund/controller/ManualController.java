@@ -265,9 +265,13 @@ public class ManualController {
                     "dicts", CommonContext.get().getLocale());
             params.add(result.getRechargeAmount().toString());//存款金额
             params.add(localStr);//存款类型
-            params.add(isAuditRecharge.toString());
+            params.add(isAuditRecharge.toString());//是否稽核
             if (isAuditRecharge){
-                params.add(playerRechargeVo.getAuditMultiple().toString());
+                params.add("是");
+                params.add(playerRechargeVo.getAuditMultiple().toString());//稽核倍数
+            }else {
+                params.add("否");
+                params.add("0");
             }
         }
         if (playerRechargeVo.getActivityName()!=null){
@@ -331,11 +335,14 @@ public class ManualController {
         PlayerWithdraw result = playerWithdrawVo.getResult();
         params.add(playerWithdrawVo.getUsername());
         params.add(result.getWithdrawAmount().toString());
-        params.add(result.getWithdrawType());
+        String withdrawType = "withdraw_type." + result.getWithdrawType();
+        String localStr = I18nTool.getLocalStr(withdrawType, DictEnum.WITHDRAW_TYPE.getModule().getCode(),
+                "dicts", CommonContext.get().getLocale());
+        params.add(localStr);//取款类型
         if (result.getIsClearAudit()!= null){
-            params.add(result.getIsClearAudit().toString());
+            params.add("是");//清除稽核点
         }else {
-            params.add("false");
+            params.add("否");
         }
         BaseLog baseLog = logVo.addBussLog();
         for (String param : params){
