@@ -92,7 +92,7 @@
                                             <div class="ratio_area"></div>
                                             <button type="button" class="btn btn-danger disabled">${views.common['delete']}</button>
                                             <soul:button target="batchUpdateRatio" text="${views.setting_auto['批量调整比例']}" opType="function" cssClass="btn batch_ratio" tag="button"></soul:button>
-                                            <soul:button target="createPlan" text="${views.setting_auto['插入']}" opType="function" cssClass="btn btn-info" tag="button"></soul:button>
+                                            <soul:button target="insertRow" text="${views.setting_auto['插入']}" opType="function" cssClass="btn btn-info" tag="button"></soul:button>
                                         </td>
                                         <td>
                                             <input type="hidden" name="rebateGrads[0].id" data-name="rebateGrads[{n}].id" value="">
@@ -226,7 +226,7 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <soul:button target="batchUpdateRatio" text="${views.setting_auto['批量调整比例']}" opType="function" cssClass="btn batch_ratio" tag="button"></soul:button>
-                                                <soul:button target="createPlan" text="${views.setting_auto['插入']}" opType="function" cssClass="btn btn-info" tag="button"></soul:button>
+                                                <soul:button target="insertRow" text="${views.setting_auto['插入']}" opType="function" cssClass="btn btn-info" tag="button"></soul:button>
                                             </td>
                                             <td>
                                                 <input type="hidden" name="rebateGrads[${status.index}].id" data-name="rebateGrads[{n}].id" value="${rebateGrad.id}">
@@ -370,7 +370,7 @@
                 ${views.common['delete']}
             </soul:button>
             <soul:button target="batchUpdateRatio" text="${views.setting['rebate.edit.batchRatio']}" opType="function" cssClass="btn batch_ratio" tag="button"></soul:button>
-            <soul:button target="createPlan" text="${views.setting_auto['插入']}" opType="function" cssClass="btn btn-info" tag="button"></soul:button>
+            <soul:button target="insertRow" text="${views.setting_auto['插入']}" opType="function" cssClass="btn btn-info" tag="button"></soul:button>
         </td>
         <td>
             <input type="hidden" name="rebateGrads[0].id" data-name="rebateGrads[{n}].id" value="">
