@@ -357,8 +357,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             Map<String, Map<String, String>> views = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views");
             List<VPlayerWithdraw> result = vo.getResult();
             for (VPlayerWithdraw vPlayerWithdraw : result) {
-                boolean userActive = redisSessionDao.getUserActiveSessions(UserTypeEnum.PLAYER.getCode(), vPlayerWithdraw.getPlayerId()).size() > 0;
-                vPlayerWithdraw.set_userActiveSession(userActive);
                 vPlayerWithdraw.set_formatDateTz_createTime(LocaleDateTool.formatDate(vPlayerWithdraw.getCreateTime(), dateFormat.getDAY_SECOND(), timeZone));
                 Double counterFee = vPlayerWithdraw.getCounterFee();
                 String _counterFee_pre = counterFee > 0 ? "-" :"";
@@ -377,6 +375,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 vPlayerWithdraw.set_withdrawActualAmount_formatInteger(CurrencyTool.formatInteger(vPlayerWithdraw.getWithdrawActualAmount()));
                 vPlayerWithdraw.set_withdrawActualAmount_formatDecimals(CurrencyTool.formatDecimals(vPlayerWithdraw.getWithdrawActualAmount()));
                 vPlayerWithdraw.set_bitAmount_formatNumber(getBitFormat(vPlayerWithdraw));
+                vPlayerWithdraw.set_formatDateTz_checkTime(LocaleDateTool.formatDate(vPlayerWithdraw.getCheckTime(), dateFormat.getDAY_SECOND(), timeZone));
                 if(StringTool.isNotBlank(vPlayerWithdraw.getLockPersonName())){
                     String lockPersonName_replace = views.get("fund_auto").get("当前").replace("[0]",vPlayerWithdraw.getLockPersonName());
                     vPlayerWithdraw.set_lockPersonName_replace(lockPersonName_replace);

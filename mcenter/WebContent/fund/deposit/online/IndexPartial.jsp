@@ -118,7 +118,8 @@
                                         {{:_recharge_status_dicts}}
                                 </span>
                             </a>
-                            {{if origin=='MOBILE'}}
+
+                            {{if origin=='MOBILE'}}&nbsp;&nbsp;
                                 <span class="fa fa-mobile mobile" data-content="${views.fund_auto['手机存款']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
                                 </span>
                             {{else}}

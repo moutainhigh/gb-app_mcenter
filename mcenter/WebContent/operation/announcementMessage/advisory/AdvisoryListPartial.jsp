@@ -100,7 +100,7 @@
                 <td>
                     <soul:button cssClass="btn a-lit"
                                  target="${root}/player/view/playerAdvisory.html?id=${s.id}&continueQuizId=${s.continueQuizId}"
-                                 text="${views.operation['SystemAnnouncement.playersAdvisory.reply']}" opType="dialog" callback="queryCallBack"/>
+                                 text="${views.operation['SystemAnnouncement.playersAdvisory.reply']}" opType="dialog" callback="callBackQuery"/>
                 </td>
             </tr>
             </c:if>

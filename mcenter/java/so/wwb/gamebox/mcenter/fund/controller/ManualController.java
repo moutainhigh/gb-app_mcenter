@@ -8,6 +8,7 @@ import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.string.EncodeTool;
+import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
@@ -18,10 +19,14 @@ import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
 import org.soul.commons.support._Module;
+import org.soul.model.log.audit.enums.OpType;
+import org.soul.model.log.audit.vo.BaseLog;
+import org.soul.model.log.audit.vo.LogVo;
 import org.soul.model.msg.notice.vo.NoticeVo;
 import org.soul.model.security.privilege.po.SysUser;
 import org.soul.model.security.privilege.vo.SysUserListVo;
 import org.soul.model.security.privilege.vo.SysUserVo;
+import org.soul.model.sys.po.SysAuditLog;
 import org.soul.model.sys.po.SysDict;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
@@ -31,10 +36,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.fund.form.ManualDepositForm;
 import so.wwb.gamebox.mcenter.fund.form.ManualWithdrawForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.ModuleType;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.AutoCompleter;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.NoticeParamEnum;
@@ -200,7 +211,9 @@ public class ManualController {
     @RequestMapping("/manualDeposit")
     @ResponseBody
     @Token(valid = true)
+    @Audit(module = Module.FUND, moduleType = ModuleType.FUND_MANUAL, opType = OpType.RECHARGE)
     public Map<String, Object> manualDeposit(PlayerRechargeVo playerRechargeVo, @FormModel @Valid ManualDepositForm form, BindingResult result) {
+        addDepositLog(playerRechargeVo, form);//添加日志
         Map<String, Object> map = new HashMap<>(5, 1f);
         if (result.hasErrors()) {
             return errorMsg(map);
@@ -230,6 +243,56 @@ public class ManualController {
     }
 
     /**
+     * 人工存入日志
+     * @param playerRechargeVo
+     * @param form
+     */
+    private void addDepositLog(PlayerRechargeVo playerRechargeVo, @FormModel @Valid ManualDepositForm form) {
+        HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        LogVo logVo=new LogVo();
+        List<String> params = new ArrayList<>();
+        Boolean isAuditRecharge = playerRechargeVo.getResult().getIsAuditRecharge();//存款稽核
+        PlayerFavorable playerFavorable = playerRechargeVo.getPlayerFavorable();
+        params.add(form.get$userNames());
+        if (playerFavorable.getFavorable()!=null){
+            String favorableType = "recharge_type." + playerRechargeVo.getFavorableType();
+            String localStr = I18nTool.getLocalStr(favorableType, DictEnum.FUND_RECHARGE_TYPE.getModule().getCode(),
+                    "dicts", CommonContext.get().getLocale());
+            Boolean isAuditFavorable = playerFavorable.getIsAuditFavorable();
+            params.add(playerFavorable.getFavorable().toString());
+            params.add(localStr);
+            params.add(isAuditFavorable.toString());
+            if (isAuditFavorable){
+                params.add(playerFavorable.getAuditFavorableMultiple().toString());
+            }
+        }else {
+            PlayerRecharge result = playerRechargeVo.getResult();
+            String rechargeType = "recharge_type." + result.getRechargeType();
+            String localStr = I18nTool.getLocalStr(rechargeType, DictEnum.FUND_RECHARGE_TYPE.getModule().getCode(),
+                    "dicts", CommonContext.get().getLocale());
+            params.add(result.getRechargeAmount().toString());//存款金额
+            params.add(localStr);//存款类型
+            params.add(isAuditRecharge.toString());//是否稽核
+            if (isAuditRecharge){
+                params.add("是");
+                params.add(playerRechargeVo.getAuditMultiple().toString());//稽核倍数
+            }else {
+                params.add("否");
+                params.add("0");
+            }
+        }
+        if (playerRechargeVo.getActivityName()!=null){
+            params.add(playerRechargeVo.getActivityName());
+        }
+        BaseLog baseLog = logVo.addBussLog();
+        for (String param : params){
+            baseLog.addParam(param);
+        }
+        baseLog.setDescription("fund.manual.deposit");
+        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+    }
+
+    /**
      * 人工取款
      *
      * @param playerWithdrawVo
@@ -240,8 +303,10 @@ public class ManualController {
     @RequestMapping("/manualWithdraw")
     @ResponseBody
     @Token(valid = true)
+    @Audit(module = Module.FUND, moduleType = ModuleType.FUND_MANUAL, opType = OpType.WITHDRAW)
     public Map<String, Object> manualWithdraw(PlayerWithdrawVo playerWithdrawVo, @FormModel @Valid ManualWithdrawForm form, BindingResult result) {
         Map<String, Object> map = new HashMap<>(3, 1f);
+        addWithdrawLog(playerWithdrawVo);//添加日志
         if (result.hasErrors()) {
             return errorMsg(map);
         }
@@ -264,6 +329,34 @@ public class ManualController {
             LogFactory.getLog(this.getClass()).error(ex, "人工取出出错");
         }
         return resultMsg(playerWithdrawVo.isSuccess(), map);
+    }
+
+    /**
+     * 人工取出日志
+     * @param playerWithdrawVo
+     */
+    private void addWithdrawLog(PlayerWithdrawVo playerWithdrawVo) {
+        HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        LogVo logVo=new LogVo();
+        List<String> params = new ArrayList<>();
+        PlayerWithdraw result = playerWithdrawVo.getResult();
+        params.add(playerWithdrawVo.getUsername());
+        params.add(result.getWithdrawAmount().toString());
+        String withdrawType = "withdraw_type." + result.getWithdrawType();
+        String localStr = I18nTool.getLocalStr(withdrawType, DictEnum.WITHDRAW_TYPE.getModule().getCode(),
+                "dicts", CommonContext.get().getLocale());
+        params.add(localStr);//取款类型
+        if (result.getIsClearAudit()!= null){
+            params.add("是");//清除稽核点
+        }else {
+            params.add("否");
+        }
+        BaseLog baseLog = logVo.addBussLog();
+        for (String param : params){
+            baseLog.addParam(param);
+        }
+        baseLog.setDescription("fund.manual.withdraw");
+        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
     }
 
     private void sendNotice(AutoNoticeEvent autoNoticeEvent, Integer[] userIds, Double amount, Date createTime) {

@@ -63,17 +63,17 @@
         <div class="form-group">
             <label class="al-right">广告类型：</label>
             <div class="col-sm-3">
-                <input type="radio" class="i-checks" name="result.contentType" value="1"
-                    ${command.result.contentType=='1' || empty command.result.contentType ? 'checked' : ''}>图片
+                <%--<input type="radio" class="i-checks" name="result.contentType" value="1"
+                    ${command.result.contentType=='1' || empty command.result.contentType ? 'checked' : ''}>图片--%>
                 <input type="radio" class="i-checks" name="result.contentType" value="2"
-                    ${command.result.contentType=='2' ? 'checked' : ''}>文字
+                    ${command.result.contentType=='2' || empty command.result.contentType ? 'checked' : ''}>文字
             </div>
         </div>
         <div class="form-group">
-            <div class="clearfix ${command.result.contentType=='2'?'hide':''} content_picture_title">
+            <div class="clearfix hide content_picture_title">
                 <label>${views.column['VCttCarousel.link']}：</label>
             </div>
-            <div class="clearfix ${command.result.contentType=='2'?'':'hide'} content_word_title">
+            <div class="clearfix content_word_title">
                 <label>按钮链接：</label>
             </div>
             <div class="clearfix col-sm-8">
@@ -128,10 +128,10 @@
                         <input type="hidden" name="cttCarouselI18n[${index.index}].language" value="${carousel.language}">
                         <div class="content${p.language} ann tab-pane" style="display: ${index.index=='0'?'':'none'}" lang="${p.language}">
                             <div class="form-group">
-                                <div class="clearfix ${command.result.contentType=='2'?'hide':''} content_picture_title">
+                                <div class="clearfix hide content_picture_title">
                                     <label>${views.column['CttCarouselI18n.name']}：</label>
                                 </div>
-                                <div class="clearfix ${command.result.contentType=='2'?'':'hide'} content_word_title">
+                                <div class="clearfix content_word_title">
                                     <label>弹窗标题：</label>
                                 </div>
                                 <div>
@@ -140,7 +140,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group ${command.result.contentType=='2'?'hide':''} content_picture">
+                            <div class="form-group hide content_picture">
                                 <label>${views.content['carousel.uploadPicture']}：</label>
                                 <span class="m-l co-grayc2">${views.content['carousel.uploadPictureTips']}</span>
                                 <div class="form-group m-b-sm">
@@ -155,7 +155,7 @@
                                            name="cttCarouselI18n[${index.index}].cover" id="carouselCover${index.index}" value="${carousel.cover}">
                                 </div>
                             </div>
-                            <div class="form-group ${command.result.contentType=='2'?'':'hide'} content_word_title">
+                            <div class="form-group content_word_title">
                                 <div class="clearfix">
                                     <label>弹窗内容：</label>
                                     <div>

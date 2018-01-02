@@ -28,12 +28,12 @@ public class VPlayerApiTransactionSearchForm implements IForm {
     //交易号
     private  String search_transactionNo;
 
-    @Range(min = 0,max =99999999 )
+    @Range(min = -99999999,max =99999999 )
     public BigDecimal getSearch_startMoney() {
         return search_startMoney;
     }
 
-    @Range(min = 0,max =99999999 )
+    @Range(min = -99999999,max =99999999 )
     @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin",logic = CompareLogic.GE,anotherProperty = "search_startMoney")
     public BigDecimal getSearch_endMoney() {
         return search_endMoney;
