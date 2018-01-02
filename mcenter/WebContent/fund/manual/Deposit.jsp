@@ -97,6 +97,15 @@
                                         </c:if>
                                     </c:forEach>
                                 </select>
+                                <%--优惠活动类型--%>
+                                <span id="activityType">
+                                <select btnStyle="" name="activityType" class="btn-group chosen-select-no-single">
+                                    <option value="">${views.fund['请选择']}</option>
+                                    <c:forEach items="${activityType}" var="at">
+                                        <option value="${at.code}">${at.trans}</option>
+                                    </c:forEach>
+                                </select>
+                                </span>
                                 <span class="right-flo co-grayc2" style="display: none" id="spanTips3">${views.fund['总代和代理将按分摊比例共同承担']}</span>
                                 <span class="right-flo co-grayc2" style="display: none" id="spanTips4">${views.fund['该笔资金记录不对玩家展示']}</span>
                             </div>
@@ -124,9 +133,9 @@
                                 <div class="table-desc-right-t" style="background: white;">
                                     <select name="activityId">
                                         <option value="">${views.fund['请选择']}</option>
-                                        <c:forEach items="${sales}" var="i">
-                                            <option value="${i.id}">${i.activityName}</option>
-                                        </c:forEach>
+                                        <%--<c:forEach items="${sales}" var="i">--%>
+                                            <%--<option value="${i.id}">${i.activityName}</option>--%>
+                                        <%--</c:forEach>--%>
                                     </select>
                                     <span class="right-flo">
                                         <input type="text" name="activityName" class="form-control" style="width: 100%;">
