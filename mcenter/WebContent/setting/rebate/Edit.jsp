@@ -217,7 +217,7 @@
 
                                                 <c:choose>
                                                     <c:when test="${command.showDeleteBtn}">
-                                                        <soul:button target="deletePlan" confirm="您确定要删除该条记录吗？" text="" opType="function" cssClass="btn btn-danger${status.first ? ' disabled ui-button-disable':''}" tag="button">
+                                                        <soul:button target="deletePlan" confirm="${views.common['confirm.delete']}" text="" opType="function" cssClass="btn btn-danger${status.first ? ' disabled ui-button-disable':''}" tag="button">
                                                             ${views.common['delete']}
                                                         </soul:button>
                                                     </c:when>
@@ -366,7 +366,7 @@
     <tr class="bg-color apiGrad">
         <td>
             <div class="ratio_area"></div>
-            <soul:button target="deletePlan" confirm="${views.common['confirm.delete']}？" text="" opType="function" cssClass="btn btn-danger" tag="button">
+            <soul:button target="deletePlan" confirm="${views.common['confirm.delete']}" text="" opType="function" cssClass="btn btn-danger" tag="button">
                 ${views.common['delete']}
             </soul:button>
             <soul:button target="batchUpdateRatio" text="${views.setting['rebate.edit.batchRatio']}" opType="function" cssClass="btn batch_ratio" tag="button"></soul:button>
