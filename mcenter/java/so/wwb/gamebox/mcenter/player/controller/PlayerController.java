@@ -219,16 +219,17 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         SysParam sysParam = getExportParam();
         model.addAttribute("queryparamValue", sysParam);
         listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
-        /*玩家检测注册IP*/
+        /*玩家检测注册IP*//*
         if(listVo.getSearch().getRegisterIp()!=null){
             String registerIp = IpTool.ipv4LongToString(listVo.getSearch().getRegisterIp());
             listVo.getSearch().setRegisterIpv4(registerIp);
         }
-        /*玩家检测登录IP*/
+        *//*玩家检测登录IP*//*
         if(StringTool.isNotBlank(listVo.getSearch().getIp())){
             String lastLoginIp = IpTool.ipv4LongToString(Long.parseLong(listVo.getSearch().getIp()));
             listVo.getSearch().setLastLoginIpv4(lastLoginIp);
-        }
+        }*/
+        model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
         /*玩家检测真是姓名*/
         if (listVo.getSearch().isHasReturn() && StringTool.isNotBlank(listVo.getSearch().getRealName())) {
@@ -323,6 +324,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     @RequestMapping("/count")
     public String count(VUserPlayerListVo listVo, Model model, String isCounter) {
+        // 玩家检测页面IP登录记录,筛选玩家
+        playerDetection(listVo, model);
         initDate(listVo);
         listVo = doCount(listVo, isCounter);
         listVo.getPaging().cal();
@@ -431,9 +434,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             sysAuditLogSo.setOperatorUserType(UserTypeEnum.PLAYER.getCode());
             List<Integer> playerIds = ServiceTool.customSysAuditLogService().searchOperatorIdByIp(sysAuditLogSo);
             vuserPlayerSo.setIds(playerIds);
-            model.addAttribute("operateIp", vuserPlayerSo.getIp());
+
         }
-        model.addAttribute("hasReturn", vuserPlayerSo.isHasReturn());
+
         if (vuserPlayerSo.isHasReturn() && StringTool.isNotBlank(vuserPlayerSo.getRealName())) {
             try {
                 String realName = URLDecoder.decode(vuserPlayerSo.getRealName(), Const.DEFAULT_CHARACTER);
