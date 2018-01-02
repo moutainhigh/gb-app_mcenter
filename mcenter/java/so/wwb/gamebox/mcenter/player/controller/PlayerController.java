@@ -332,6 +332,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     public VUserPlayerListVo doCount(VUserPlayerListVo listVo, String isCounter) {
         if (StringTool.isBlank(isCounter)) {
+            hadlePlayerRanks(listVo);
             long count = ServiceTool.vUserPlayerService().count(listVo);
             listVo.getPaging().setTotalCount(count);
         }
