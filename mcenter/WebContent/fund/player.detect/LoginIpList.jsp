@@ -20,7 +20,7 @@
                 <td>${soulFn:formatDateTz(loginIp.operateTime, DateFormat.DAY_SECOND,timeZone)}</td>
                 <td>IP:${soulFn:formatIp(loginIp.operateIp)}<br/>${gbFn:getShortIpRegion(loginIp.operateIpDictCode)}</td>
                 <td>${views.fund['fund.playerDetect.index.system']}:${loginIp.clientOs}<br/>${views.fund['fund.playerDetect.index.browser']}:${loginIp.clientBrowser}</td>
-                <td><a href="/report/log/logList.html?search.roleType=player&keys=search.ip&search.ip=${soulFn:formatIp(loginIp.operateIp)}&hasReturn=true" nav-target="mainFrame">${loginIp.otherUserLoginCount}</a></td>
+                <td><a href="/player/list.html?search.ip=${loginIp.operateIp}&search.hasReturn=true" nav-target="mainFrame">${loginIp.otherUserLoginCount}</a></td>
             </tr>
         </c:forEach>
         </tbody>
