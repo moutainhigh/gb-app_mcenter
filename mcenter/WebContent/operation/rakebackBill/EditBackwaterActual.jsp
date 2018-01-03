@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="form-group clearfix line-hi34 m-b-xxs">
-                <label class="col-xs-3 al-right"><span class="co-red3">*</span>${views.operation['backwater.settlement.remark']}：</label>
+                <label class="col-xs-3 al-right"><span class="co-red3"></span>${views.operation['backwater.settlement.remark']}：</label>
                 <div class="col-xs-8 p-x">
                     <textarea class="form-control" placeholder="${views.operation['backwater.actual']}" name="result.remark">${command.result.remark}</textarea>
                 </div>
