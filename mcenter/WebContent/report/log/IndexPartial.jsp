@@ -64,7 +64,17 @@
             <td>${soulFn:formatDateTz(cmd.operateTime, DateFormat.DAY_SECOND, timeZone)}</td>
             <td>${soulFn:formatIp(cmd.operateIp)}<br>${gbFn:getIpRegion(cmd.operateIpDictCode)}</td>
             <td>${views.report['log.label.os']}${cmd.clientOs}&nbsp;&nbsp;${views.report['log.label.browser']}${cmd.clientBrowser}</td>
-            <td>${soulFn:formatLogDesc(cmd)}</td>
+            <c:choose>
+                <c:when test="${'39'.equals(cmd.moduleType) || '40'.equals(cmd.moduleType)}">
+                    <td >
+                        <c:set var="id" value="${cmd.id}"/>
+                        <soul:button target="${root}/report/log/descDetail.html?id=${id}" text="详情" opType="dialog"></soul:button>
+                    </td>
+                </c:when>
+                <c:otherwise>
+                    <td>${soulFn:formatLogDesc(cmd)}</td>
+                </c:otherwise>
+            </c:choose>
         </tr>
         </c:forEach>
         </tbody>

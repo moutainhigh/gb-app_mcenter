@@ -111,7 +111,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>蓝大</th>lan
+                        <th>蓝大</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['蓝大'].id}" name="lotteryOdds[76].id">

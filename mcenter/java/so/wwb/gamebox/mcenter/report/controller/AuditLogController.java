@@ -159,4 +159,13 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
         }
         request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
     }
+
+    @RequestMapping("/descDetail")
+    public String getLogById(String id, Model model){
+        SysAuditLogVo vo = new SysAuditLogVo();
+        vo.getSearch().setId(id);
+        SysAuditLogVo resultVo = getService().get(vo);
+        model.addAttribute("result",resultVo.getResult());
+        return this.getViewBasePath() + "detail";
+    }
 }
