@@ -3,10 +3,16 @@ package so.wwb.gamebox.mcenter.lottery.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
+import org.soul.commons.init.context.CommonContext;
+import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.query.sort.Direction;
+import org.soul.model.log.audit.enums.OpType;
+import org.soul.model.log.audit.vo.BaseLog;
+import org.soul.model.log.audit.vo.LogVo;
+import org.soul.model.sys.po.SysAuditLog;
 import org.soul.web.controller.NoMappingCrudController;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -15,6 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.common.dubbo.ServiceCpTool;
 import so.wwb.gamebox.mcenter.lottery.form.SiteLotteryOddsForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.ModuleType;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.company.lottery.po.LotteryOdd;
 import so.wwb.gamebox.model.company.lottery.po.SiteLotteryOdd;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryOddListVo;
@@ -22,6 +31,7 @@ import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryOddVo;
 import so.wwb.gamebox.model.enums.lottery.LotteryTypeEnum;
 import so.wwb.gamebox.web.cache.Cache;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +44,7 @@ import java.util.Map;
 @RequestMapping("/lottery/odds")
 public class SiteLotteryOddsController extends NoMappingCrudController {
     private static final Log LOG = LogFactory.getLog(SiteLotteryOddsController.class);
+    private static final String AUDIT_LOTTERY_ODD ="lottery.lotteryodd";
 
     @Override
     protected String getViewBasePath() {
@@ -199,9 +210,10 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
         return stringListMap;
     }
 
+    @Audit(module = Module.LOTTERY, moduleType = ModuleType.LOTTERY_ODD, opType = OpType.UPDATE)
     @RequestMapping(value = "/saveSiteLotteryOdds", method = RequestMethod.POST)
     @ResponseBody
-    public Map saveSiteLotteryOdds(SiteLotteryOddVo siteLotteryOddVo) {
+    public Map saveSiteLotteryOdds(HttpServletRequest request,SiteLotteryOddVo siteLotteryOddVo) {
         LOG.info("form传入的参数:{0}", siteLotteryOddVo!= null? JsonTool.toJson(siteLotteryOddVo):"");
 
         if (StringTool.isBlank(siteLotteryOddVo.getLotteryOddJson())) {
@@ -221,13 +233,18 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
             return getVoMessage(siteLotteryOddVo);
         }
         siteLotteryOddVo.setProperties(SiteLotteryOdd.PROP_ODD,SiteLotteryOdd.PROP_REBATE);
-
+        List<String> changeOdd = new ArrayList<>();
         List<SiteLotteryOdd> updateOdds = new ArrayList<>();
         List<Integer> ids = new ArrayList<>();
         for (SiteLotteryOdd lotteryOdd : lotteryOdds) {
             if (lotteryOdd.getId() != null) {
                 updateOdds.add(lotteryOdd);
                 ids.add(lotteryOdd.getId());
+                String i18nCode = I18nTool.getLocalStr("lottery."+lotteryOdd.getCode(),"lottery","dicts", CommonContext.get().getLocale());
+                String i18nBetCode = I18nTool.getLocalStr("lottery_betting."+lotteryOdd.getBetCode(),"lottery","dicts", CommonContext.get().getLocale());
+                changeOdd.add("</br>"+i18nCode+"-"+i18nBetCode+"-"+lotteryOdd.getBetNum()+":"+
+                        "oldLotteryOdd="+lotteryOdd.getOldOdd()+";newLotteryOdd="+lotteryOdd.getOdd()+
+                        "oldLotteryRebate="+lotteryOdd.getOldRebate()+";newLotteryRebate="+lotteryOdd.getRebate());
             }
         }
         if (!checkOdd(ids, updateOdds)) {
@@ -241,9 +258,35 @@ public class SiteLotteryOddsController extends NoMappingCrudController {
             LOG.info("保存站点彩票赔率成功,更新条数{0},更新赔率值{1}", count, JsonTool.toJson(updateOdds));
             Cache.refreshSiteLotteryOdds(SessionManager.getSiteId());
 
+            //审计日志添加
+            List<String> params = new ArrayList<>();
+            params.add(SessionManager.getUserName());
+            params.add(changeOdd.toString());
+            if(changeOdd.toString().length()<2048) {
+                addLog(request, AUDIT_LOTTERY_ODD, params);
+            }
         }
         return getVoMessage(siteLotteryOddVo);
     }
+
+        /**
+         * 日志
+         *
+         * @param request
+         * @param description 日志描述
+         */
+    private void addLog(HttpServletRequest request, String description, List<String> paramList) {
+        LogVo logVo = new LogVo();
+        BaseLog baseLog = logVo.addBussLog();
+        baseLog.setDescription(description);
+        if(CollectionTool.isNotEmpty(paramList)){
+            for(String param : paramList){
+                baseLog.addParam(param);
+            }
+        }
+        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+    }
+
 
     private Map<Integer, SiteLotteryOdd> getSiteLotteryOddMap(List<Integer> ids) {
         SiteLotteryOddListVo listVo = new SiteLotteryOddListVo();
