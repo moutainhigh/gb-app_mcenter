@@ -66,8 +66,6 @@ public class CreditPayController {
 
     private static final String CREDIT_RECORD_URL = "creditRecord/index.html";
 
-    private static final Integer CurrencyExchangeRateId = 6;//人民币兑换日元汇率
-
     private static final Log LOG = LogFactory.getLog(CreditPayController.class);
 
     @RequestMapping("/pay")
@@ -170,8 +168,9 @@ public class CreditPayController {
         //如果是日语站的话,设置汇率
         if (CurrencyEnum.JPY.getCode().equals(mainCurrency)){
             CurrencyExchangeRateVo currencyExchangeRateVo = new CurrencyExchangeRateVo();
-            currencyExchangeRateVo.getSearch().setId(CurrencyExchangeRateId);
-            currencyExchangeRateVo = ServiceTool.getCurrencyExchangeRateService().get(currencyExchangeRateVo);
+            currencyExchangeRateVo.getSearch().setIfromCurrency(CurrencyEnum.CNY.getCode());
+            currencyExchangeRateVo.getSearch().setItoCurrency(CurrencyEnum.JPY.getCode());
+            currencyExchangeRateVo = ServiceTool.getCurrencyExchangeRateService().getExchangeRate(currencyExchangeRateVo);
             creditRecord.setExchangeRate(currencyExchangeRateVo.getResult().getRate());
         }
         return;
