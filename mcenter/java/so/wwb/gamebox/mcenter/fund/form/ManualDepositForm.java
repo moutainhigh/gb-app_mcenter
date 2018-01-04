@@ -24,6 +24,7 @@ public class ManualDepositForm implements IForm {
     private String result_checkRemark;
     private String playerFavorable_favorable;
     private String playerFavorable_auditFavorableMultiple;
+    private String activityType;
 
     @NotBlank(message = "fund.ManualDepositForm.userNames.notBlank")
     @Pattern(message = "fund.ManualDepositForm.userNames.Pattern", regexp = FormValidRegExps.ENGLISH_NUMBER_COMMA)
@@ -86,6 +87,15 @@ public class ManualDepositForm implements IForm {
 
     public void setPlayerFavorable_auditFavorableMultiple(String playerFavorable_auditFavorableMultiple) {
         this.playerFavorable_auditFavorableMultiple = playerFavorable_auditFavorableMultiple;
+    }
+
+    @NotBlank
+    public String getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(String activityType) {
+        this.activityType = activityType;
     }
 
     interface rechargeFavorableAtLeast {
