@@ -151,6 +151,9 @@
                                                     <c:when test="${rate < 80 && authorizeStatus!=true}">
                                                         <soul:button target="submit" precall="validateForm" text="${views.setting_auto['确认']}" cssClass="btn btn-filter btn-lg btn-block" opType="function"/>
                                                     </c:when>
+                                                    <c:when test="${rate >= 80}">
+                                                        <soul:button target="submit" precall="validateForm" text="${views.setting_auto['确认']}" cssClass="btn btn-filter btn-lg btn-block" opType="function"/>
+                                                    </c:when>
                                                     <c:otherwise>
                                                         <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
                                                               data-html="true" data-content="${views.setting_auto['站点当前已使用的额度上限未达到80']}">
