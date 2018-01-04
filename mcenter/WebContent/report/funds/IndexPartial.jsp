@@ -55,6 +55,7 @@
                     </c:if>
                     <c:if test="${pt.fundType eq 'artificial_deposit'}">
                         <%--手动存款--%>
+                        <c:set value="${_desc}-${dicts.common.activity_type[pt._describe['activityType'].toString()]}" var="_desc"/>
                         <c:set value="/fund/manual/depositView.html?search.id=${pt.id}" var="view_url"></c:set>
                     </c:if>
                 </c:when>
