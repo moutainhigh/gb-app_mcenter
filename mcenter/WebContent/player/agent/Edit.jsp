@@ -128,7 +128,7 @@
                                                     <input type="hidden" value="${command.userAgentRebate.rebateId}" name="oldRebateId" id="oldRebateId">
                                                     <form:hidden path="userAgentRebate.id"></form:hidden>
                                                     <form:hidden path="userAgentRebate.userId"></form:hidden>
-                                                    <gb:select name="userAgentRebate.rebateId" prompt="${views.role['agent.chooseAgentRebate']}"
+                                                    <gb:select name="userAgentRebate.rebateId"  prompt="${views.role['agent.chooseAgentRebate']}"
                                                                value="${command.userAgentRebate.rebateId}" list="${command.vPrograms['rebate']}" listKey="programId"
                                                                listValue="name" cssClass="btn-group chosen-select-no-single input-sm forAgentSelect"></gb:select><%--TODO--%>
                                                 <span tabindex="0" class=" help-popover input-group-addon" role="button" data-container="body" data-toggle="popover"  data-trigger="focus" data-placement="top" data-html="true"  data-content="${views.role['Agent.edit.agentRabateTip']}<br>${views.role['Agent.edit.agentChangeRabateTip']}<br><a href='/rebateSet/list.html' nav-target='mainFrame'>${views.role['Agent.edit.setRebate']}</a>"><i class="fa fa-question-circle"></i></span>
