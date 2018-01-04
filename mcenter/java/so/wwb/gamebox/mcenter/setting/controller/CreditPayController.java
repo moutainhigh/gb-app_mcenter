@@ -29,7 +29,6 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordForm;
 import so.wwb.gamebox.model.BossParamEnum;
 import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.TerminalEnum;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
@@ -40,6 +39,7 @@ import so.wwb.gamebox.model.company.credit.vo.CreditRecordVo;
 import so.wwb.gamebox.model.company.credit.vo.VSysCreditVo;
 import so.wwb.gamebox.model.company.enums.CreditAccountPayTypeEnum;
 import so.wwb.gamebox.model.company.enums.CreditRecordStatusEnum;
+import so.wwb.gamebox.model.company.setting.vo.CurrencyExchangeRateVo;
 import so.wwb.gamebox.model.company.sys.po.SysSite;
 import so.wwb.gamebox.model.company.sys.po.VSysSiteDomain;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
@@ -65,6 +65,8 @@ public class CreditPayController {
     private static final double DEFAULT_SCALE = 10d;
 
     private static final String CREDIT_RECORD_URL = "creditRecord/index.html";
+
+    private static final Integer CurrencyExchangeRateId = 6;//人民币兑换日元汇率
 
     private static final Log LOG = LogFactory.getLog(CreditPayController.class);
 
@@ -143,6 +145,7 @@ public class CreditPayController {
         creditRecord.setSiteId(SessionManager.getSiteId());
         creditRecord.setPayUserName(SessionManager.getUserName());
         creditRecord.setPayType(CreditAccountPayTypeEnum.CASH_PLEDGE.getCode());
+        setExchangeRate(creditRecord);
         creditRecordVo = ServiceTool.creditRecordService().saveCreditRecord(creditRecordVo);
         Map<String, Object> map = new HashMap<>(3, 1l);
         if (!creditRecordVo.isSuccess()) {
@@ -154,6 +157,24 @@ public class CreditPayController {
         map.put("state", creditRecordVo.isSuccess());
         map.put("transactionNo", creditRecordVo.getResult().getTransactionNo());
         return map;
+    }
+    /**
+     *设置汇率
+     *
+     */
+    private void setExchangeRate(CreditRecord creditRecord) {
+        SysSiteVo sysSiteVo=new SysSiteVo();
+        sysSiteVo.getSearch().setId(creditRecord.getSiteId());
+        sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
+        String mainCurrency = sysSiteVo.getResult().getMainCurrency();
+        //如果是日语站的话,设置汇率
+        if (CurrencyEnum.JPY.getCode().equals(mainCurrency)){
+            CurrencyExchangeRateVo currencyExchangeRateVo = new CurrencyExchangeRateVo();
+            currencyExchangeRateVo.getSearch().setId(CurrencyExchangeRateId);
+            currencyExchangeRateVo = ServiceTool.getCurrencyExchangeRateService().get(currencyExchangeRateVo);
+            creditRecord.setExchangeRate(currencyExchangeRateVo.getResult().getRate());
+        }
+        return;
     }
 
     /**
