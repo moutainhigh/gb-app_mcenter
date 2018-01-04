@@ -62,7 +62,12 @@
                             <td>
                                 <c:choose>
                                     <c:when test="${activityId==''||activityId==null}">
-                                        ${activityName}
+                                        <c:if test="${not empty activityName}">
+                                            ${activityName}
+                                        </c:if>
+                                        <c:if test="${empty activityName}">
+                                             -  -
+                                        </c:if>
                                     </c:when>
                                     <c:otherwise>
                                         <a href="/operation/activityType/viewActivityDetail.html?search.id=${activityId}" nav-target="mainFrame">${activityName}</a>
