@@ -133,12 +133,12 @@
                                 <div class="table-desc-right-t" style="background: white;">
                                     <select name="activityId">
                                         <option value="">${views.fund['请选择']}</option>
-                                        <%--<c:forEach items="${sales}" var="i">--%>
-                                            <%--<option value="${i.id}">${i.activityName}</option>--%>
-                                        <%--</c:forEach>--%>
+                                            <c:forEach items="${sales}" var="i">
+                                                <option value="${i.id}">${i.activityName}</option>
+                                            </c:forEach>
                                     </select>
                                     <span class="right-flo">
-                                        <input type="text" name="activityName" class="form-control" style="width: 100%;">
+                                        <input type="text" name="activityName" placeholder="${views.operation['Activity.step.message1']}" maxlength="50" class="form-control" style="width: 100%;">
                                     </span>
                                 </div>
                                 <div class="right-flo co-grayc2 line-hi34">${views.fund['非必填；选择后，活动名称将在玩家中心-优惠记录页面显示']}</div>
