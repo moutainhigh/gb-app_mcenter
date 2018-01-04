@@ -72,11 +72,26 @@
                                                         <td>${r.name}</td>
                                                         <td>${soulFn:formatDateTz(r.createTime,DateFormat.DAY_SECOND,timeZone)}</td>
                                                         <td>
-                                                            <span class="label label-danger">
+                                                            <c:if test="${r.status eq 0}">
+                                                                <span class="label">
+                                                                        ${views.common['disabled']}
+                                                                </span>
+                                                            </c:if>
+                                                            <c:if test="${r.status eq 1}">
+                                                                <span class="label label-success">
+                                                                    ${views.common['normal']}
+                                                                </span>
+                                                            </c:if>
+                                                            <c:if test="${r.status eq 2}">
+                                                                <span class="label label-danger">
+                                                                        ${views.common['delete']}
+                                                                </span>
+                                                            </c:if>
+                                                            <%--<span class="label label-label-success">
                                                                 <c:if test="${r.status eq 0}">${views.common['disabled']}</c:if>
                                                                 <c:if test="${r.status eq 1}">${views.common['normal']}</c:if>
                                                                 <c:if test="${r.status eq 2}">${views.common['delete']}</c:if>
-                                                            </span>
+                                                            </span>--%>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
