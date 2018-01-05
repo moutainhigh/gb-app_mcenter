@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.fund.rebate.IAgentRebatePlayerService;
 import so.wwb.gamebox.mcenter.fund.rebate.form.AgentRebatePlayerForm;
 import so.wwb.gamebox.mcenter.fund.rebate.form.AgentRebatePlayerSearchForm;
@@ -43,7 +43,7 @@ public class AgentRebatePlayerController extends BaseCrudController<IAgentRebate
         agentRebateVo.getSearch().setAgentId(listVo.getSearch().getAgentId());
         agentRebateVo.getSearch().setRebateYear(listVo.getSearch().getRebateYear());
         agentRebateVo.getSearch().setRebateMonth(listVo.getSearch().getRebateMonth());
-        agentRebateVo = ServiceTool.agentRebateService().search(agentRebateVo);
+        agentRebateVo = ServiceSiteTool.agentRebateService().search(agentRebateVo);
         model.addAttribute("agentRebateVo", agentRebateVo);
         return super.doList(listVo, form, result, model);
     }

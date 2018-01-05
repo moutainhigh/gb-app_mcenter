@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IVSysUserPlayerFrozenService;
 import so.wwb.gamebox.mcenter.player.form.VSysUserPlayerFrozenForm;
@@ -141,7 +142,7 @@ public class SysUserFrozenController extends BaseCrudController<IVSysUserPlayerF
         vSysUserPlayerFrozenVo.getSearch().setId(id);
         vSysUserPlayerFrozenVo.getSearch().setLocale(SessionManager.getLocale().toString());
         vSysUserPlayerFrozenVo.getSearch().setCode(freezeCode);
-        VSysUserPlayerFrozenVo sysUserPlayerFrozenVo = ServiceTool.sysUserPlayerFrozenService().previewPlayerFrozen(vSysUserPlayerFrozenVo);
+        VSysUserPlayerFrozenVo sysUserPlayerFrozenVo = ServiceSiteTool.sysUserPlayerFrozenService().previewPlayerFrozen(vSysUserPlayerFrozenVo);
         sysUserPlayerFrozenVo.setSysUser(SessionManager.getUser());
         sysUserPlayerFrozenVo.setFrozeTimeType(frozeTimeType);
         calFreezeEndTime(sysUserPlayerFrozenVo,flag);
@@ -290,7 +291,7 @@ public class SysUserFrozenController extends BaseCrudController<IVSysUserPlayerF
     private VSysUserPlayerFrozenVo getSysUserPlayerFrozen(Integer userId) {
         VSysUserPlayerFrozenVo vo = new VSysUserPlayerFrozenVo();
         vo.getSearch().setId(userId);
-        return ServiceTool.sysUserPlayerFrozenService().getSysUserPlayerFrozen(vo);
+        return ServiceSiteTool.sysUserPlayerFrozenService().getSysUserPlayerFrozen(vo);
     }
 
 

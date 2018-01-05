@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttCarouselService;
 import so.wwb.gamebox.mcenter.content.form.CttCarouselDialogForm;
@@ -185,7 +186,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
     @ResponseBody
     public Map changeStopStatus(CttCarouselVo cttCarouselVo){
         cttCarouselVo.setProperties(CttCarousel.PROP_STATUS);
-        cttCarouselVo = ServiceTool.cttCarouselService().changeStopStatus(cttCarouselVo);
+        cttCarouselVo = ServiceSiteTool.cttCarouselService().changeStopStatus(cttCarouselVo);
         Cache.refreshSiteCarousel();
         Cache.refreshCurrentSitePageCache();
         return getVoMessage(cttCarouselVo);
@@ -199,7 +200,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
     @RequestMapping(value = "deleteByBatch")
     @ResponseBody
     public Boolean deleteByBatch(CttCarouselListVo cttCarouselListVo){
-        Boolean success = ServiceTool.cttCarouselService().deleteBatch(cttCarouselListVo);
+        Boolean success = ServiceSiteTool.cttCarouselService().deleteBatch(cttCarouselListVo);
         Cache.refreshSiteCarousel();
         Cache.refreshCurrentSitePageCache();
         return success;

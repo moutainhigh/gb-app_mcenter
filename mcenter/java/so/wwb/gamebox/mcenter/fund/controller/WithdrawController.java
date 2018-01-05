@@ -51,6 +51,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.fund.IVPlayerWithdrawService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
@@ -89,9 +90,11 @@ import so.wwb.gamebox.model.master.fund.enums.*;
 import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
 import so.wwb.gamebox.model.master.fund.po.PlayerWithdraw;
 import so.wwb.gamebox.model.master.fund.po.VPlayerWithdraw;
-import so.wwb.gamebox.model.master.fund.so.VPlayerDepositSo;
 import so.wwb.gamebox.model.master.fund.so.VPlayerWithdrawSo;
-import so.wwb.gamebox.model.master.fund.vo.*;
+import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
+import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawVo;
+import so.wwb.gamebox.model.master.fund.vo.VPlayerWithdrawListVo;
+import so.wwb.gamebox.model.master.fund.vo.VPlayerWithdrawVo;
 import so.wwb.gamebox.model.master.player.po.PlayerRank;
 import so.wwb.gamebox.model.master.player.po.PlayerTransaction;
 import so.wwb.gamebox.model.master.player.po.Remark;
@@ -162,7 +165,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     //修改审核页面提醒
     @RequestMapping("/remind")
     private String remind(Model model) {
-        List<SysParam> sysParamList = ServiceTool.playerWithdrawService().searchSysParam(new SysParamVo());//系统参数表
+        List<SysParam> sysParamList = ServiceSiteTool.playerWithdrawService().searchSysParam(new SysParamVo());//系统参数表
         model.addAttribute("validateRule", JsRuleCreator.create(PlayerWithdrawRemindForm.class));
         model.addAttribute("sysParam", sysParamList.get(0));
         return REMIND_URI;
@@ -197,7 +200,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 masterSubSearch(vo,sysUserDataRights);
             }
         } else {
-            model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
+            model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         }
 
         handleVoice(vo, model);// 公司入款声音参数
@@ -287,7 +290,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             buildPlayerRankData(model, sysUserDataRights);
             if (CollectionTool.isNotEmpty(sysUserDataRights)) {
                 masterSubSearch(vo,sysUserDataRights);
-                vo = ServiceTool.vPlayerWithdrawService().searchPlayerWithdraw(vo);
+                vo = ServiceSiteTool.vPlayerWithdrawService().searchPlayerWithdraw(vo);
             } else {
                 vo = getTotalWithdraw(vo);
             }
@@ -316,7 +319,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                     //今日成功统计--jerry
                     todayTotal(vo);
                 } else {
-                    Double sum = ServiceTool.vPlayerWithdrawService().sumPlayerWithdraw(vo);
+                    Double sum = ServiceSiteTool.vPlayerWithdrawService().sumPlayerWithdraw(vo);
                     vo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
                 }
             } else {
@@ -512,13 +515,13 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                     //子账号查询条件
                     masterSubSearch(listVo,sysUserDataRights);
                     Paging paging = listVo.getPaging();
-                    paging.setTotalCount(ServiceTool.vPlayerWithdrawService().countPlayerWithdraw(listVo));
+                    paging.setTotalCount(ServiceSiteTool.vPlayerWithdrawService().countPlayerWithdraw(listVo));
                     paging.cal();
                 } else {
-                    listVo = ServiceTool.getVPlayerWithdrawService().searchWithdraw(listVo);
+                    listVo = ServiceSiteTool.getVPlayerWithdrawService().searchWithdraw(listVo);
                 }
             } else {
-                listVo = ServiceTool.getVPlayerWithdrawService().searchWithdraw(listVo);
+                listVo = ServiceSiteTool.getVPlayerWithdrawService().searchWithdraw(listVo);
             }
         }
         return listVo;
@@ -534,7 +537,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         List<Integer> rankIds = CollectionTool.extractToList(sysUserDataRights, SysUserDataRight.PROP_ENTITY_ID);
         PlayerRankVo rankVo = new PlayerRankVo();
         rankVo.getSearch().setIds(rankIds);
-        model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(rankVo));
+        model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(rankVo));
     }
 
     /**
@@ -546,7 +549,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
         sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
         sysUserDataRightVo.getSearch().setModuleType(DataRightModuleType.PLAYERWITHDRAW.getCode());
-        return ServiceTool.sysUserDataRightService().searchDataRightsByUserId(sysUserDataRightVo);
+        return ServiceSiteTool.sysUserDataRightService().searchDataRightsByUserId(sysUserDataRightVo);
     }
 
 
@@ -567,7 +570,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     //总额计算
     private VPlayerWithdrawListVo getTotalWithdraw(VPlayerWithdrawListVo vo) {
-        vo = ServiceTool.getVPlayerWithdrawService().searchWithdraw(vo);
+        vo = ServiceSiteTool.getVPlayerWithdrawService().searchWithdraw(vo);
         return vo;
     }
 
@@ -633,7 +636,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         SysParamVo vo = new SysParamVo();
         vo.setResult(param);
         vo.setProperties(SysParam.PROP_ACTIVE);
-        ServiceTool.siteSysParamService().updateOnly(vo);
+        ServiceSiteTool.siteSysParamService().updateOnly(vo);
     }
 
     /**
@@ -693,7 +696,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     }
 
     private List<Pair> getSiteRankList() {
-        Map<String, List<Pair>> masterFilter = ServiceTool.vUserPlayerService().searchMstFilter(new PlayerRankVo());
+        Map<String, List<Pair>> masterFilter = ServiceSiteTool.vUserPlayerService().searchMstFilter(new PlayerRankVo());
 
         List<Pair> rankList = new ArrayList<>();
         // 层级
@@ -714,7 +717,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     protected String isAuditPerson(VPlayerWithdrawVo vo) {
         Integer id = SessionManager.getAuditUserId();
         String json = null;
-        vo = ServiceTool.getVPlayerWithdrawService().search(vo);//取款视图表
+        vo = ServiceSiteTool.getVPlayerWithdrawService().search(vo);//取款视图表
         Integer lockPersonId = vo.getResult().getLockPersonId();
         String withdrawStatus = vo.getResult().getWithdrawStatus();
         if (WithdrawStatusEnum.DEAL.getCode().equals(withdrawStatus) && lockPersonId != null && lockPersonId.intValue() != id.intValue()) {
@@ -737,7 +740,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      */
     @RequestMapping({"/withdrawAuditView"})
     public String withdrawAuditView(VPlayerWithdrawVo vo, PlayerTransactionListVo listVo, Model model, HttpServletRequest request) {
-        vo = ServiceTool.getVPlayerWithdrawService().get(vo);
+        vo = ServiceSiteTool.getVPlayerWithdrawService().get(vo);
         if (vo.getResult() == null) {
             return null;
         }
@@ -777,7 +780,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     private PlayerTransaction getPlayerTransaction(Integer id) {
         PlayerTransactionVo playerTransactionVo = new PlayerTransactionVo();
         playerTransactionVo.getSearch().setId(id);
-        playerTransactionVo = ServiceTool.getPlayerTransactionService().get(playerTransactionVo);
+        playerTransactionVo = ServiceSiteTool.getPlayerTransactionService().get(playerTransactionVo);
         return playerTransactionVo.getResult();
     }
 
@@ -807,7 +810,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         PlayerTransactionListVo playerTransactionListVo = new PlayerTransactionListVo();
         playerTransactionListVo.getSearch().setPlayerId(playerWithdraw.getPlayerId());
         playerTransactionListVo.getSearch().setCreateTime(playerWithdraw.getCreateTime());
-        return ServiceTool.getPlayerTransactionService().searchAuditLog(playerTransactionListVo);
+        return ServiceSiteTool.getPlayerTransactionService().searchAuditLog(playerTransactionListVo);
     }
 
     /**
@@ -831,7 +834,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     private void getMultiple(VPlayerWithdraw playerWithdraw, Model model) {
         PlayerRechargeVo playerRechargeVo = new PlayerRechargeVo();
         playerRechargeVo.getSearch().setPlayerId(playerWithdraw.getPlayerId());
-        PlayerRecharge playerRecharge = ServiceTool.playerRechargeService().searchDescPlayerRecharge(playerRechargeVo);
+        PlayerRecharge playerRecharge = ServiceSiteTool.playerRechargeService().searchDescPlayerRecharge(playerRechargeVo);
         Double dd = 0.0d;
         Double rechargeAmount = 0d;
         if (playerRecharge != null && playerRecharge.getRechargeAmount() > 0) {
@@ -854,8 +857,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         playerTransactionVo.getResult().setTransactionNo(vo.getResult().getTransactionNo());
         playerTransactionVo.getResult().setTransactionMoney(vo.getResult().getWithdrawAmount());
         playerTransactionVo.getSearch().setCreateTime(vo.getResult().getCreateTime());
-//        return ServiceTool.getPlayerTransactionService().getTransactionMap(playerTransactionVo);
-        return ServiceTool.getPlayerTransactionService().getAuditMap(playerTransactionVo, vo.getResult());
+//        return ServiceSiteTool.getPlayerTransactionService().getTransactionMap(playerTransactionVo);
+        return ServiceSiteTool.getPlayerTransactionService().getAuditMap(playerTransactionVo, vo.getResult());
     }
 
     private Map<String, Object> getAuditPassList(List<PlayerTransaction> playerTransactions) {
@@ -937,7 +940,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         userBankcardVo.getSearch().setUserId(vo.getResult().getPlayerId());
         userBankcardVo.getSearch().setBankcardNumber(vo.getResult().getPayeeBankcard());
         userBankcardVo.getSearch().setBankName(vo.getResult().getPayeeBank());
-        userBankcardVo = ServiceTool.userBankcardService().search(userBankcardVo);
+        userBankcardVo = ServiceSiteTool.userBankcardService().search(userBankcardVo);
         model.addAttribute("userBankcard", userBankcardVo.getResult());
     }
 
@@ -967,7 +970,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         PlayerWithdrawVo withdrawVo = new PlayerWithdrawVo();
         withdrawVo.getSearch().setPlayerId(withdrawRecord.getPlayerId());
         withdrawVo.getSearch().setCreateTime(withdrawRecord.getCreateTime());
-        List<PlayerWithdraw> playerWithdraws = ServiceTool.playerWithdrawService().getPlayerWithdraws(withdrawVo);
+        List<PlayerWithdraw> playerWithdraws = ServiceSiteTool.playerWithdrawService().getPlayerWithdraws(withdrawVo);
         listVo.getSearch().setPlayerId(withdrawRecord.getPlayerId());
         listVo.getSearch().setEndCreateTime(withdrawRecord.getCreateTime());
         if (playerWithdraws != null && playerWithdraws.size() > 0) {
@@ -977,10 +980,10 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 listVo.getSearch().setBeginCreateTime(startDate);
 
             }
-            List<PlayerTransaction> playerTransactions = ServiceTool.getPlayerTransactionService().queryAuditPassList(listVo);
+            List<PlayerTransaction> playerTransactions = ServiceSiteTool.getPlayerTransactionService().queryAuditPassList(listVo);
             return playerTransactions;
         } else {
-            List<PlayerTransaction> playerTransactions = ServiceTool.getPlayerTransactionService().queryAuditPassList(listVo);
+            List<PlayerTransaction> playerTransactions = ServiceSiteTool.getPlayerTransactionService().queryAuditPassList(listVo);
             return playerTransactions;
         }
     }
@@ -1026,7 +1029,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             model.addAttribute("user", getSysUser(playerId));
             listVo.getSearch().setPlayerId(playerId);
             listVo.getSearch().setCreateTime(new Date());
-            List<PlayerTransaction> playerTransactions = ServiceTool.getPlayerTransactionService().searchAuditLog(listVo);
+            List<PlayerTransaction> playerTransactions = ServiceSiteTool.getPlayerTransactionService().searchAuditLog(listVo);
             initAuditData(playerId, playerTransactions);
             model.addAttribute("totalEffTrade", fetchEffTrade(playerTransactions));
             model.addAttribute("listVo", playerTransactions);
@@ -1082,7 +1085,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         PlayerWithdrawVo withdrawVo = new PlayerWithdrawVo();
         withdrawVo.getSearch().setPlayerId(playerId);
         withdrawVo.getSearch().setWithdrawStatus(WithdrawStatusEnum.DEAL.getCode());
-        withdrawVo = ServiceTool.playerWithdrawService().search(withdrawVo);
+        withdrawVo = ServiceSiteTool.playerWithdrawService().search(withdrawVo);
         PlayerWithdraw result = withdrawVo.getResult();
         if (result == null) {
             return;
@@ -1105,7 +1108,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         result.setCounterFee(poundage);
         withdrawVo.setResult(result);
         withdrawVo.setProperties(PlayerWithdraw.PROP_ADMINISTRATIVE_FEE, PlayerWithdraw.PROP_DEDUCT_FAVORABLE, PlayerWithdraw.PROP_WITHDRAW_ACTUAL_AMOUNT, PlayerWithdraw.PROP_COUNTER_FEE);
-        ServiceTool.playerWithdrawService().updateOnly(withdrawVo);
+        ServiceSiteTool.playerWithdrawService().updateOnly(withdrawVo);
     }
 
     /**
@@ -1157,7 +1160,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         withdrawVo.getSearch().setPlayerId(playerId);
         withdrawVo.setStartTime(lastTime);
         withdrawVo.setEndTime(date);
-        Long count = ServiceTool.playerWithdrawService().searchTwoHoursPlayerWithdrawCount(withdrawVo);
+        Long count = ServiceSiteTool.playerWithdrawService().searchTwoHoursPlayerWithdrawCount(withdrawVo);
         return count.intValue();
     }
 
@@ -1187,7 +1190,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         transactionVo.setPlayerId(playerId);
         transactionVo.setAuditDate(new Date());
         transactionVo.getSearch().setCreateTime(searchDate);
-        return ServiceTool.getPlayerTransactionService().getTransactionMap(transactionVo);
+        return ServiceSiteTool.getPlayerTransactionService().getTransactionMap(transactionVo);
     }
 
     @RequestMapping("/updateAuditFee")
@@ -1208,7 +1211,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         }
         List<PlayerTransaction> feeList = JSONArray.parseArray(JSONArray.toJSONString(feeArray), PlayerTransaction.class);
         objVo.setFeeList(feeList);
-        if (ServiceTool.getPlayerTransactionService().checkFeeList(objVo)) {
+        if (ServiceSiteTool.getPlayerTransactionService().checkFeeList(objVo)) {
             result.put("state", false);
             return result;
         }
@@ -1216,7 +1219,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 //        PlayerTransactionVo transactionVo = new PlayerTransactionVo();
 //        transactionVo.setEntities(feeList);
 //        transactionVo.setProperties(PlayerTransaction.PROP_DEDUCT_FAVORABLE, PlayerTransaction.PROP_ADMINISTRATIVE_FEE);
-        //int count = ServiceTool.getPlayerTransactionService().batchUpdateOnly(transactionVo);
+        //int count = ServiceSiteTool.getPlayerTransactionService().batchUpdateOnly(transactionVo);
         result.put("state", true);
         return result;
     }
@@ -1246,7 +1249,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             PlayerTransactionVo transactionVo = new PlayerTransactionVo();
             transactionVo.setEntities(feeList);
             transactionVo.setProperties(PlayerTransaction.PROP_RECHARGE_AUDIT_POINTS, PlayerTransaction.PROP_FAVORABLE_AUDIT_POINTS);
-            ServiceTool.getPlayerTransactionService().batchUpdateOnly(transactionVo);
+            ServiceSiteTool.getPlayerTransactionService().batchUpdateOnly(transactionVo);
             result.put("state", true);
             Map map = reAuditTransaction(objVo.getSearch().getPlayerId(),new Date());
             updateWithdrawRecord(objVo.getSearch().getPlayerId(), map);
@@ -1273,14 +1276,14 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         }
         listVo.getSearch().setPlayerId(userId);
         listVo.getSearch().setCreateTime(searchDate);
-        return ServiceTool.getPlayerTransactionService().searchAuditLog(listVo);
+        return ServiceSiteTool.getPlayerTransactionService().searchAuditLog(listVo);
     }
 
     private VPlayerWithdraw getWithdrawRecord(PlayerTransactionListVo listVo) {
         if (listVo.getSearch().getId() != null) {
             VPlayerWithdrawVo playerWithdrawVo = new VPlayerWithdrawVo();
             playerWithdrawVo.getSearch().setId(listVo.getSearch().getId());
-            playerWithdrawVo = ServiceTool.vPlayerWithdrawService().get(playerWithdrawVo);
+            playerWithdrawVo = ServiceSiteTool.vPlayerWithdrawService().get(playerWithdrawVo);
             if (playerWithdrawVo.getResult() != null) {
                 return playerWithdrawVo.getResult();
             }
@@ -1299,7 +1302,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @RequestMapping("/putConfirmCheck")
     public String putConfirmCheck(VPlayerWithdrawVo objVo, Model model) {
         Double fee = objVo.getAllFee();
-        objVo = ServiceTool.getVPlayerWithdrawService().search(objVo);
+        objVo = ServiceSiteTool.getVPlayerWithdrawService().search(objVo);
         objVo.setAllFee(fee);
         if (objVo.getResult().getWithdrawAmount() != null) {
             Double actualAmount = objVo.getResult().getWithdrawAmount() - fee;
@@ -1322,7 +1325,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         message.setMasterId(SessionManager.getSiteUserId());
         SysResourceListVo sysResourceListVo = new SysResourceListVo();
         sysResourceListVo.getSearch().setUrl("/fund/withdraw/withdrawList.html");
-        List<Integer> userIdByUrl = ServiceTool.playerRechargeService().findUserIdByUrl(sysResourceListVo);
+        List<Integer> userIdByUrl = ServiceSiteTool.playerRechargeService().findUserIdByUrl(sysResourceListVo);
         userIdByUrl.add(Const.MASTER_BUILT_IN_ID);
 
         //判断账号是否可以查看该层级的记录 add by Bruce.QQ
@@ -1333,7 +1336,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     }
 
     private List<PlayerTransaction> updateTransaction(VPlayerTransactionVo vo) {
-        if (ServiceTool.getPlayerTransactionService().checkFeeList(vo)) {
+        if (ServiceSiteTool.getPlayerTransactionService().checkFeeList(vo)) {
             throw new RuntimeException("修改稽核值失败");
         }
         List<PlayerTransaction> tempList = new ArrayList<>();
@@ -1344,7 +1347,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             for (PlayerTransaction transaction : vo.getFeeList()) {
                 PlayerTransactionVo transactionVo = new PlayerTransactionVo();
                 transactionVo.getSearch().setId(transaction.getId());
-                transactionVo = ServiceTool.getPlayerTransactionService().get(transactionVo);
+                transactionVo = ServiceSiteTool.getPlayerTransactionService().get(transactionVo);
                 if (transactionVo.getResult() == null) {
                     continue;
                 }
@@ -1366,7 +1369,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             PlayerTransactionVo listVo = new PlayerTransactionVo();
             listVo.setEntities(tempList);
             listVo.setProperties(properties);
-            ServiceTool.getPlayerTransactionService().batchUpdateOnly(listVo);
+            ServiceSiteTool.getPlayerTransactionService().batchUpdateOnly(listVo);
         }
         return tempList;
     }
@@ -1431,7 +1434,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      */
     @RequestMapping("/putCheckFailure")
     public String putCheckFailure(VPlayerWithdrawVo objVo, Remark remark, Model model) {
-        objVo = ServiceTool.getVPlayerWithdrawService().get(objVo);
+        objVo = ServiceSiteTool.getVPlayerWithdrawService().get(objVo);
         //查询审核失败原因
         NoticeVo noticeVo = new NoticeVo();
         noticeVo.setEventType(ManualNoticeEvent.PLAYER_WITHDRAWAL_AUDIT_FAIL);
@@ -1452,7 +1455,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      */
     @RequestMapping("/putConfirmRefuses")
     public String putConfirmRefuses(VPlayerWithdrawVo objVo, Model model) {
-        objVo = ServiceTool.getVPlayerWithdrawService().get(objVo);
+        objVo = ServiceSiteTool.getVPlayerWithdrawService().get(objVo);
 
         //查询拒绝原因模板
         NoticeVo noticeVo = new NoticeVo();
@@ -1475,7 +1478,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     public String noAudit(VPlayerWithdrawVo objVo, Remark remark, Model model) {
         //表单校验
         objVo.setValidateRule(JsRuleCreator.create(VPlayerWithdrawForm.class, "result"));
-        objVo = ServiceTool.getVPlayerWithdrawService().get(objVo);
+        objVo = ServiceSiteTool.getVPlayerWithdrawService().get(objVo);
         model.addAttribute("command", objVo);
         model.addAttribute("remark", remark);
         return WITHDRAW_NOSUDIT_URI;
@@ -1515,7 +1518,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             playerTransactionVo.getSearch().setTransactionNo(vo.getResult().getTransactionNo());
             playerTransactionVo.setPlayerWithdraw(vo.getResult());
             playerTransactionVo.setRemark(remark);
-            playerTransactionVo = ServiceTool.getPlayerTransactionService().updatePlayerTransaction(playerTransactionVo);
+            playerTransactionVo = ServiceSiteTool.getPlayerTransactionService().updatePlayerTransaction(playerTransactionVo);
             if (playerTransactionVo.isSuccess()) {
                 vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
             } else {
@@ -1543,7 +1546,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     public boolean lockOrder(PlayerWithdrawVo vo) {
         vo.getSearch().setLockPersonId(SessionManager.getAuditUserId());
         vo.setProperties(PlayerWithdraw.PROP_IS_LOCK, PlayerWithdraw.PROP_LOCK_PERSON_ID);
-        vo = ServiceTool.playerWithdrawService().lockOrder(vo);
+        vo = ServiceSiteTool.playerWithdrawService().lockOrder(vo);
         updateWithdrawStatus(vo);
         return vo.isSuccess();
     }
@@ -1557,7 +1560,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @ResponseBody
     public boolean cancelLockOrder(PlayerWithdrawVo vo) {
         vo.getSearch().setLockPersonId(SessionManager.getAuditUserId());
-        vo = ServiceTool.playerWithdrawService().cancelLockOrder(vo);
+        vo = ServiceSiteTool.playerWithdrawService().cancelLockOrder(vo);
         updateWithdrawStatus(vo);
         return vo.isSuccess();
     }
@@ -1627,7 +1630,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         }
         vo.setTimeZone(SessionManager.getTimeZone());
         try {
-            vo = ServiceTool.playerWithdrawService().checkWithdraw(vo);
+            vo = ServiceSiteTool.playerWithdrawService().checkWithdraw(vo);
             if (vo.isSuccess()) {
                 updateWithdrawStatus(vo);
             } else {
@@ -1654,7 +1657,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         message.setMasterId(SessionManager.getSiteUserId());
         SysResourceListVo sysResourceListVo = new SysResourceListVo();
         sysResourceListVo.getSearch().setUrl("fund/withdraw/withdrawList.html");
-        List<Integer> userIdByUrl = ServiceTool.playerRechargeService().findUserIdByUrl(sysResourceListVo);
+        List<Integer> userIdByUrl = ServiceSiteTool.playerRechargeService().findUserIdByUrl(sysResourceListVo);
         userIdByUrl.add(Const.MASTER_BUILT_IN_ID);
 
         //判断账号是否可以查看该层级的记录 add by Bruce.QQ
@@ -1701,7 +1704,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (vo == null || vo.getSearch().getId() == null) {
             return;
         }
-        vo = ServiceTool.playerWithdrawService().get(vo);
+        vo = ServiceSiteTool.playerWithdrawService().get(vo);
         if (vo.getResult() == null || vo.getResult().getPlayerId() == null) {
             return;
         }
@@ -1719,7 +1722,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     private PlayerRank getPlayerRank(Integer rankId) {
         PlayerRankVo playerRankVo = new PlayerRankVo();
         playerRankVo.getSearch().setId(rankId);
-        playerRankVo = ServiceTool.playerRankService().get(playerRankVo);
+        playerRankVo = ServiceSiteTool.playerRankService().get(playerRankVo);
         if (playerRankVo.getResult() == null) {
             return null;
         }
@@ -1782,7 +1785,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         vo.getSearch().setId(id);
         vo = ServiceTool.sysUserService().get(vo);
         listVo.getSearch().setPlayerId(id);
-        List<PlayerTransaction> list = ServiceTool.getPlayerTransactionService().searchAuditWithdrawLog(listVo);//交易表-稽核
+        List<PlayerTransaction> list = ServiceSiteTool.getPlayerTransactionService().searchAuditWithdrawLog(listVo);//交易表-稽核
         model.addAttribute("listVo", list);
         model.addAttribute("command", vo);
         return WITHDRAW_EDIT_AUDIT_URI;
@@ -1808,13 +1811,13 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 tran.setRechargeAuditPoints(val);//充值稽核点
                 vo.setResult(tran);
                 vo.setProperties(PlayerTransaction.PROP_RECHARGE_AUDIT_POINTS);
-                ServiceTool.getPlayerTransactionService().updateOnly(vo);
+                ServiceSiteTool.getPlayerTransactionService().updateOnly(vo);
             }
             if ("favorableAuditPoints".equals(name)) {
                 tran.setFavorableAuditPoints(val);//优惠稽核点
                 vo.setResult(tran);
                 vo.setProperties(PlayerTransaction.PROP_FAVORABLE_AUDIT_POINTS);
-                ServiceTool.getPlayerTransactionService().updateOnly(vo);
+                ServiceSiteTool.getPlayerTransactionService().updateOnly(vo);
             }
 
         }
@@ -1828,7 +1831,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (StringTool.isNotBlank(id)) {
             PlayerTransactionVo withdrawVo = new PlayerTransactionVo();
             withdrawVo.getSearch().setId(Integer.valueOf(id));
-            withdrawVo = ServiceTool.getPlayerTransactionService().get(withdrawVo);
+            withdrawVo = ServiceSiteTool.getPlayerTransactionService().get(withdrawVo);
             if (withdrawVo.getResult() == null) {
                 return true;
             }
@@ -1864,7 +1867,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     private void baseInfoRepeatNum(Model model, VUserPlayer player, SysUser sysUser) {
         UserPlayerVo userPlayerVo = new UserPlayerVo();
         userPlayerVo.setPropertiesMap(userInfoQueryMap(player, sysUser));
-        model.addAttribute("repeatNum", ServiceTool.userPlayerService().queryRepeatNum(userPlayerVo));
+        model.addAttribute("repeatNum", ServiceSiteTool.userPlayerService().queryRepeatNum(userPlayerVo));
     }
 
     private Map userInfoQueryMap(VUserPlayer player, SysUser sysUser) {
@@ -1889,7 +1892,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     private VUserPlayer getVUserPlayer(Integer playerId) {
         VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
         vUserPlayerVo.getSearch().setId(playerId);
-        vUserPlayerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
+        vUserPlayerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
         return vUserPlayerVo.getResult();
     }
 
@@ -1915,7 +1918,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         playerWithdrawVo.getSearch().setCheckRemark(remarkContent);
         playerWithdrawVo.getSearch().setCheckUserId(SessionManager.getUserId());
         playerWithdrawVo.setCheckUserName(SessionManager.getAuditUserName());
-        ServiceTool.playerWithdrawService().updateWithdrawRemark(playerWithdrawVo);
+        ServiceSiteTool.playerWithdrawService().updateWithdrawRemark(playerWithdrawVo);
         map.put("state", playerWithdrawVo.isSuccess());
         return map;
     }
@@ -1998,7 +2001,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         }
         model.addAttribute("command", vo);
         //查询比特币账户
-        model.addAttribute("accounts", ServiceTool.payAccountService().searchBitPayAccount(new PayAccountListVo()));
+        model.addAttribute("accounts", ServiceSiteTool.payAccountService().searchBitPayAccount(new PayAccountListVo()));
         return WITHDRAW_EXCHANGE_BIT;
     }
 
@@ -2021,7 +2024,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 LOG.info("取款{0}兑换交易选择收款帐号为空", playerWithdrawVo.getSearch().getId());
                 return map;
             }
-            playerWithdrawVo = ServiceTool.playerWithdrawService().get(playerWithdrawVo);
+            playerWithdrawVo = ServiceSiteTool.playerWithdrawService().get(playerWithdrawVo);
             PlayerWithdraw playerWithdraw = playerWithdrawVo.getResult();
             if (playerWithdraw == null) {
                 map.put("status", false);
@@ -2046,7 +2049,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             playerWithdrawVo.setRate(rate);
             playerWithdrawVo.setOperator(SessionManager.getUserName());
             playerWithdrawVo.setUserId(SessionManager.getUserId());
-            return ServiceTool.playerWithdrawService().exchangeBtc(playerWithdrawVo);
+            return ServiceSiteTool.playerWithdrawService().exchangeBtc(playerWithdrawVo);
         } catch (Exception e) {
             Map<String, Object> map = new HashMap<>(1, 1f);
             map.put("state", false);
@@ -2067,7 +2070,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         try {
             playerWithdrawVo.setOperator(SessionManager.getUserName());
             playerWithdrawVo.setUserId(SessionManager.getUserId());
-            playerWithdrawVo = ServiceTool.playerWithdrawService().automaticPay(playerWithdrawVo);
+            playerWithdrawVo = ServiceSiteTool.playerWithdrawService().automaticPay(playerWithdrawVo);
         } catch (Exception e) {
             LOG.error(e, "自动打款失败");
         }

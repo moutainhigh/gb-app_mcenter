@@ -22,7 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.setting.INoticeTmplService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.NoticeTmplForm;
@@ -85,12 +85,12 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
         vo.getSearch().setLocale(SessionManager.getLocale().toString());
         if (StringTool.isEmpty(tmplType)||NoticeTmplType.MANUAL.getCode().equals(tmplType)) {
             vo.getSearch().setTmplType(NoticeTmplType.MANUAL.getCode());
-            vo = ServiceTool.noticeTmplService().searchManual(vo);
+            vo = ServiceSiteTool.noticeTmplService().searchManual(vo);
             model.addAttribute("tmplType",NoticeTmplType.MANUAL.getCode());
             model.addAttribute("reasonType",DictTool.get(DictEnum.NOTICE_REASON_TMPL_TYPE));
         } else {
             vo.getSearch().setTmplType(NoticeTmplType.AUTO.getCode());
-            vo = ServiceTool.noticeTmplService().searchAuto(vo);
+            vo = ServiceSiteTool.noticeTmplService().searchAuto(vo);
             model.addAttribute("tmplType",NoticeTmplType.AUTO.getCode());
             model.addAttribute("reasonType",DictTool.get(DictEnum.NOTICE_REASON_TMPL_TYPE_AUTO));
             result = "/setting/templates/SystemIndex";
@@ -115,12 +115,12 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
         vo.getSearch().setLocale(CommonContext.get().getLocale().toString());
         if (StringTool.isEmpty(tmplType)||NoticeTmplType.MANUAL.getCode().equals(tmplType)) {
             vo.getSearch().setTmplType(NoticeTmplType.MANUAL.getCode());
-            vo = ServiceTool.noticeTmplService().searchBulitInManual(vo);
+            vo = ServiceSiteTool.noticeTmplService().searchBulitInManual(vo);
             model.addAttribute("tmplType",NoticeTmplType.MANUAL.getCode());
             model.addAttribute("reasonType",DictTool.get(DictEnum.NOTICE_REASON_TMPL_TYPE));
         } else {
             vo.getSearch().setTmplType(NoticeTmplType.AUTO.getCode());
-            vo = ServiceTool.noticeTmplService().searchAuto(vo);
+            vo = ServiceSiteTool.noticeTmplService().searchAuto(vo);
             model.addAttribute("tmplType",NoticeTmplType.AUTO.getCode());
             model.addAttribute("reasonType",DictTool.get(DictEnum.NOTICE_REASON_TMPL_TYPE_AUTO));
             result = "/setting/templates/SystemIndex";
@@ -160,7 +160,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
     public String editNoticeTmpl(NoticeTmpl noticeTmpl, Model model) {
         NoticeTmplVo vo = new NoticeTmplVo();
         vo.setResult(noticeTmpl);
-        List<NoticeTmpl> noticeTmplList = ServiceTool.noticeTmplService().searchEditTmpl(vo);
+        List<NoticeTmpl> noticeTmplList = ServiceSiteTool.noticeTmplService().searchEditTmpl(vo);
         List<SiteLanguage> siteLanguageList = siteLang(model);
         if (CollectionTool.isNotEmpty(noticeTmplList) && CollectionTool.isNotEmpty(siteLanguageList)) {
             final SiteLanguage siteLanguage = siteLanguageList.get(0);
@@ -197,7 +197,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
         }
         NoticeParamRelationListVo noticeParamRelationListVo = new NoticeParamRelationListVo();
         noticeParamRelationListVo.getSearch().setEventType(noticeTmpl.getEventType());
-        noticeParamRelationListVo = ServiceTool.noticeParamRelationService().search(noticeParamRelationListVo);
+        noticeParamRelationListVo = ServiceSiteTool.noticeParamRelationService().search(noticeParamRelationListVo);
         model.addAttribute("tags", noticeParamRelationListVo.getResult());
         model.addAttribute("noticeTmpl", noticeTmpl);
         model.addAttribute("maxLang", MAX_LANG);
@@ -220,7 +220,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
     @Token(valid = true)
     public Map saveNoticeTmpl(NoticeTmplVo vo, HttpServletRequest request) {
         vo.getSearch().setCreateUser(SessionManager.getUserId());
-        vo = ServiceTool.noticeTmplService().saveNoticeTmpl(vo);
+        vo = ServiceSiteTool.noticeTmplService().saveNoticeTmpl(vo);
         Map map = new HashMap(2,1f);
         if (vo.isSuccess()) {
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
@@ -248,7 +248,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
         NoticeTmplListVo vo = new NoticeTmplListVo();
         vo.getSearch().setTmplType(tmplType);
 //        vo.getSearch().setPublishMethod(NoticePublishMethod.SITE_MSG.getCode());
-        vo = ServiceTool.noticeTmplService().resetActive(vo);
+        vo = ServiceSiteTool.noticeTmplService().resetActive(vo);
         Map map = new HashMap(2,1f);
         if (vo.isSuccess()) {
             map.put("msg", LocaleTool.tranMessage(Module.COMMON, "reset.success"));
@@ -270,7 +270,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
         NoticeTmplListVo vo = new NoticeTmplListVo();
         vo.setNoticeTmplSoList(noticeTmplSoList);
         if (CollectionTool.isNotEmpty(noticeTmplSoList)) {
-            vo = ServiceTool.noticeTmplService().saveActive(vo);
+            vo = ServiceSiteTool.noticeTmplService().saveActive(vo);
         }
         if(vo.isSuccess()) {
             vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
@@ -290,7 +290,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
     public Map deleteAllNotDefault(String code) {
         NoticeTmplVo vo = new NoticeTmplVo();
         vo.getSearch().setGroupCode(code);
-        boolean isSuccess = ServiceTool.noticeTmplService().deleteAllNotDefault(vo);
+        boolean isSuccess = ServiceSiteTool.noticeTmplService().deleteAllNotDefault(vo);
         vo.setSuccess(isSuccess);
         if(isSuccess) {
             vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
@@ -309,7 +309,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
     @RequestMapping("/fillDefault")
     @ResponseBody
     public String fillDefault(NoticeTmplVo vo) {
-        List<NoticeTmpl> noticeTmplList = ServiceTool.noticeTmplService().searchEditTmpl(vo);
+        List<NoticeTmpl> noticeTmplList = ServiceSiteTool.noticeTmplService().searchEditTmpl(vo);
         return JsonTool.toJson(noticeTmplList);
     }
 
@@ -348,7 +348,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
     @RequestMapping("/getNoticeParam")
     @ResponseBody
     public String getNoticeParam(NoticeParamRelationListVo vo) {
-        vo = ServiceTool.noticeParamRelationService().search(vo);
+        vo = ServiceSiteTool.noticeParamRelationService().search(vo);
         return JsonTool.toJson(vo.getResult());
     }
 
@@ -356,7 +356,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
     @ResponseBody
     public String getNoBuiltIns(NoticeTmplListVo vo) {
         vo.getSearch().setLocale(CommonContext.get().getLocale().toString());
-        vo = ServiceTool.noticeTmplService().getNoBuiltIns(vo);
+        vo = ServiceSiteTool.noticeTmplService().getNoBuiltIns(vo);
         return JsonTool.toJson(vo.getNoticeTmplSoList());
     }
     //endregion your codes 3

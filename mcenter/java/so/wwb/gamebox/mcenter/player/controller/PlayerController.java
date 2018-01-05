@@ -68,6 +68,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import so.wwb.gamebox.common.dubbo.ServiceScheduleTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IUserPlayerService;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
@@ -202,7 +203,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         status.remove(PlayerStatusEnum.ACCOUNTEXPIRED.getCode());
         model.addAttribute("playerStatus", status);
         VPlayerTagListVo vPlayerTagListVo = new VPlayerTagListVo();
-        long count = ServiceTool.vPlayerTagService().count(vPlayerTagListVo);
+        long count = ServiceSiteTool.vPlayerTagService().count(vPlayerTagListVo);
         vPlayerTagListVo.getPaging().setPageSize((int) count);
         //新增的语句
         String templateCode = TemplateCodeEnum.PLAYER.getCode();
@@ -210,17 +211,17 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManager.getUserId(), templateCode));
         List<Pair> userTypeSearchKeys = initUserTypeSearchKeys();
         model.addAttribute("userTypeSearchKeys", userTypeSearchKeys);
-        model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
-        model.addAttribute("playerTag", ServiceTool.vPlayerTagService().search(vPlayerTagListVo));
+        model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
+        model.addAttribute("playerTag", ServiceSiteTool.vPlayerTagService().search(vPlayerTagListVo));
         model.addAttribute("rakebackSet", getService().getRakebackSet(new UserPlayerVo()).getRakebackSet());
-        model.addAttribute("tagSet", ServiceTool.playerTagService().search(new PlayerTagListVo()).getResult());
+        model.addAttribute("tagSet", ServiceSiteTool.playerTagService().search(new PlayerTagListVo()).getResult());
         String queryParamsJson = JsonTool.toJson(listVo.getSearch());
         model.addAttribute("queryParamsJson", queryParamsJson);
         model.addAttribute("validateRule", JsRuleCreator.create(VUserPlayerSearchForm.class));
         //查自己站点sys_param表的param_value值
         SysParam sysParam = getExportParam();
         model.addAttribute("queryparamValue", sysParam);
-        listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
+        listVo = ServiceSiteTool.vUserPlayerService().countTransfer(listVo);
         /*玩家检测注册IP*//*
         if(listVo.getSearch().getRegisterIp()!=null){
             String registerIp = IpTool.ipv4LongToString(listVo.getSearch().getRegisterIp());
@@ -380,7 +381,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     public VUserPlayerListVo doCount(VUserPlayerListVo listVo, String isCounter) {
         if (StringTool.isBlank(isCounter)) {
-            long count = ServiceTool.vUserPlayerService().count(listVo);
+            long count = ServiceSiteTool.vUserPlayerService().count(listVo);
             listVo.getPaging().setTotalCount(count);
         }
         return listVo;
@@ -446,7 +447,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         if (StringTool.isNotBlank(listVo.getSearch().getTagId())) {
             PlayerTagListVo playerTagListVo = new PlayerTagListVo();
             playerTagListVo.getSearch().setTagId(Integer.valueOf(listVo.getSearch().getTagId()));
-            List playerIds = ServiceTool.playerTagService().searchPlayerIdByTagId(playerTagListVo);
+            List playerIds = ServiceSiteTool.playerTagService().searchPlayerIdByTagId(playerTagListVo);
 
             listVo.getSearch().setIds(playerIds);
         }
@@ -455,7 +456,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     //条件查询查询有该标签的玩家
     private void getTagIdByPlayer(VUserPlayerListVo listVo, Model model) {
-        List userPlayerId = ServiceTool.playerTagService().searchTagIdByPlayerId(listVo);
+        List userPlayerId = ServiceSiteTool.playerTagService().searchTagIdByPlayerId(listVo);
         listVo.getSearch().setUserTagIds(userPlayerId);
     }
 
@@ -672,21 +673,21 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         Integer comp = listVo.getComp();
         if (comp != null) {
             if (comp == 1) {    // 新增玩家的存款玩家
-                listVo = ServiceTool.vUserPlayerService().queryOutLinkPlayer(listVo);
+                listVo = ServiceSiteTool.vUserPlayerService().queryOutLinkPlayer(listVo);
             } else if (comp == 2) { // 存款玩家
-                listVo = ServiceTool.vUserPlayerService().queryOutLinkRechargePlayer(listVo);
+                listVo = ServiceSiteTool.vUserPlayerService().queryOutLinkRechargePlayer(listVo);
             } else if (comp == 3) { // 投注玩家
-                listVo = ServiceTool.vUserPlayerService().queryOutLinkBetPlayer(listVo);
+                listVo = ServiceSiteTool.vUserPlayerService().queryOutLinkBetPlayer(listVo);
             }
         } else {
             if (listVo.isAnalyzeNewAgent()) {
                 Integer searchType = listVo.getSearchType();
                 if (searchType != null) {
                     if (searchType == 1) {
-                        listVo = ServiceTool.vUserPlayerService().queryTotalDepositPlayer(listVo);
+                        listVo = ServiceSiteTool.vUserPlayerService().queryTotalDepositPlayer(listVo);
                     } else if (searchType == 2) {
                         resetFormatTime(listVo);
-                        List<Integer> player = ServiceTool.vUserPlayerService().queryEffectivePlayer(listVo);
+                        List<Integer> player = ServiceSiteTool.vUserPlayerService().queryEffectivePlayer(listVo);
                         //玩家id不能为空
                         if (CollectionTool.isEmpty(player)) {
                             player.add(-1);
@@ -694,7 +695,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                         listVo.getSearch().setIds(player);
                     } else {
                         resetFormatTime(listVo);
-                        List<Integer> player = ServiceTool.vUserPlayerService().queryDepositPlayer(listVo);
+                        List<Integer> player = ServiceSiteTool.vUserPlayerService().queryDepositPlayer(listVo);
                         if (CollectionTool.isEmpty(player)) {
                             player.add(-1);
                         }
@@ -703,9 +704,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 }
 
             }
-            listVo = ServiceTool.vUserPlayerService().searchByCustom(listVo);
+            listVo = ServiceSiteTool.vUserPlayerService().searchByCustom(listVo);
         }
-//        listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
+//        listVo = ServiceSiteTool.vUserPlayerService().countTransfer(listVo);
         return listVo;
     }
 
@@ -750,7 +751,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             List<Integer> ids = convertIdToInteger(objectVo.getTagsIdStr());
             VPlayerTagListVo vPlayerTagListVo = new VPlayerTagListVo();
             vPlayerTagListVo.setPropertyValues(ids);
-            List<VPlayerTag> vPlayerTags = ServiceTool.vPlayerTagService().inSearchById(vPlayerTagListVo);
+            List<VPlayerTag> vPlayerTags = ServiceSiteTool.vPlayerTagService().inSearchById(vPlayerTagListVo);
             Map<String, Object> map = new HashMap<>(3);
             for (VPlayerTag vPlayerTag : vPlayerTags) {
                 if (vPlayerTag.getBuiltIn()) {
@@ -827,9 +828,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 allIds.add(id);
                 SysUser sysUser = new SysUser(Integer.parseInt(id));
                 sysUserVo.setResult(sysUser);
-                SysUser dbSysUser = ServiceTool.sysUserService().get(sysUserVo).getResult();
+                SysUser dbSysUser = ServiceSiteTool.sysUserService().get(sysUserVo).getResult();
                 userPlayerVo.setResult(new UserPlayer(Integer.parseInt(id)));
-                UserPlayer player = ServiceTool.userPlayerService().get(userPlayerVo).getResult();
+                UserPlayer player = ServiceSiteTool.userPlayerService().get(userPlayerVo).getResult();
                 if (StringUtils.isBlank(player.getMail())) {
                     bads.add(dbSysUser.getUsername());
                     badIds.add(id);
@@ -872,7 +873,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     private VUserPlayerVo queryDetail(VUserPlayerVo vUserPlayerVo, Model model) {
         vUserPlayerVo = doView(vUserPlayerVo, model);
         model.addAttribute("extendedLinks", vUserPlayerVo.getExtendedLinks());
-        vUserPlayerVo.setPlayerRankList(ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
+        vUserPlayerVo.setPlayerRankList(ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         model.addAttribute("command", vUserPlayerVo);
         //站内信
         message(vUserPlayerVo, model);
@@ -886,7 +887,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     private void fetchPlayerBackwater(VUserPlayerVo vUserPlayerVo) {
         VPlayerTransactionListVo transactionListVo = new VPlayerTransactionListVo();
         transactionListVo.getSearch().setUsername(vUserPlayerVo.getResult().getUsername());
-        Map<String, Object> stringObjectMap = ServiceTool.vPlayerTransactionService().queryPlayerRakebackAmount(transactionListVo);
+        Map<String, Object> stringObjectMap = ServiceSiteTool.vPlayerTransactionService().queryPlayerRakebackAmount(transactionListVo);
         if (stringObjectMap.get("totalMoney") != null) {
             Double totalMoney = MapTool.getDouble(stringObjectMap, "totalMoney");
             vUserPlayerVo.getResult().setRakeback(totalMoney);
@@ -902,7 +903,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         SysAuditLogListVo sysAuditLogListVo = new SysAuditLogListVo();
         sysAuditLogListVo.getSearch().setEntityUserId(vUserPlayerVo.getSearch().getId());
         sysAuditLogListVo.getSearch().setModuleType(ModuleType.PLAYER_UPDATEAGENTLINE_SUCCESS.getCode());
-        sysAuditLogListVo = ServiceTool.auditLogService().queryLogs(sysAuditLogListVo);
+        sysAuditLogListVo = ServiceSiteTool.auditLogService().queryLogs(sysAuditLogListVo);
         List logList = sysAuditLogListVo.getResult();
         if (logList != null && logList.size() > 0) {
             model.addAttribute("sysAuditLog", logList.get(0));
@@ -957,7 +958,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         userBankcard.setType(UserBankcardTypeEnum.BITCOIN.getCode());
         userBankcard.setBankName(BITCOIN);
         LOG.info("管理{0}操作用户绑定比特币,用户{1},绑定地址{2}", SessionManagerBase.getUserName(), userBankcard.getBankcardNumber());
-        userBankcardVo = ServiceTool.userBankcardService().saveAndUpdateUserBankcard(userBankcardVo);
+        userBankcardVo = ServiceSiteTool.userBankcardService().saveAndUpdateUserBankcard(userBankcardVo);
         return getVoMessage(userBankcardVo);
     }
 
@@ -969,10 +970,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         Double rechargeTotal = vUserPlayerVo.getResult().getRechargeTotal() == null ? 0d : vUserPlayerVo.getResult().getRechargeTotal();
         PlayerWithdrawListVo withdrawListVo = new PlayerWithdrawListVo();
         withdrawListVo.getSearch().setPlayerId(vUserPlayerVo.getSearch().getId());
-        Double manualWithdraw = ServiceTool.playerWithdrawService().calManualWithdraw(withdrawListVo);
+        Double manualWithdraw = ServiceSiteTool.playerWithdrawService().calManualWithdraw(withdrawListVo);
         PlayerTransactionListVo transactionListVo = new PlayerTransactionListVo();
         transactionListVo.getSearch().setPlayerId(vUserPlayerVo.getSearch().getId());
-        Double otherDepoist = ServiceTool.getPlayerTransactionService().calOtherDeposit(transactionListVo);
+        Double otherDepoist = ServiceSiteTool.getPlayerTransactionService().calOtherDeposit(transactionListVo);
         LOG.info("总资产：{0}，玩家取款总额：{1}，手动取款：{2}，存款总额：{3}，其它存款：{4}", totalAssets, txTotal, manualWithdraw, rechargeTotal, otherDepoist);
         double profitLoss = totalAssets + txTotal + manualWithdraw - rechargeTotal - otherDepoist;
         BigDecimal b = new BigDecimal(profitLoss);
@@ -987,14 +988,14 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     public String querySingleAndEffective(VUserPlayerVo vUserPlayerVo) {
         PlayerGameOrderVo gameOrderVo = new PlayerGameOrderVo();
         gameOrderVo.getSearch().setPlayerId(vUserPlayerVo.getSearch().getId());
-        Map<String, Object> map = ServiceTool.playerGameOrderService().querySingleAndEffectiveAmount(gameOrderVo);
+        Map<String, Object> map = ServiceSiteTool.playerGameOrderService().querySingleAndEffectiveAmount(gameOrderVo);
         return JsonTool.toJson(map);
     }
 
 
     private VUserPlayerVo fetchTotalTradeAmount(VUserPlayerVo vUserPlayerVo) {
         PlayerGameOrderVo gameOrderVo = getPlayerGameOrderVo(vUserPlayerVo);
-        Double aDouble = ServiceTool.playerGameOrderService().calSingleAmountByPlayerId(gameOrderVo);
+        Double aDouble = ServiceSiteTool.playerGameOrderService().calSingleAmountByPlayerId(gameOrderVo);
         vUserPlayerVo.getResult().setTotalTradeVolume(aDouble);
         return vUserPlayerVo;
     }
@@ -1002,7 +1003,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     private PlayerGameOrderVo getPlayerGameOrderVo(VUserPlayerVo vUserPlayerVo) {
         PlayerWithdrawVo withdrawVo = new PlayerWithdrawVo();
         withdrawVo.getSearch().setPlayerId(vUserPlayerVo.getSearch().getId());
-        PlayerWithdraw withdraw = ServiceTool.playerWithdrawService().getNewAuditedWithdraw(withdrawVo);
+        PlayerWithdraw withdraw = ServiceSiteTool.playerWithdrawService().getNewAuditedWithdraw(withdrawVo);
         PlayerGameOrderVo gameOrderVo = new PlayerGameOrderVo();
         gameOrderVo.getSearch().setPlayerId(vUserPlayerVo.getSearch().getId());
         if (withdraw != null) {//
@@ -1013,17 +1014,17 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     private VUserPlayerVo fetchTotalEffectTradeAmount(VUserPlayerVo vUserPlayerVo) {
         PlayerGameOrderVo gameOrderVo = getPlayerGameOrderVo(vUserPlayerVo);
-        Double aDouble = ServiceTool.playerGameOrderService().calEffectiveAmountByPlayerId(gameOrderVo);
+        Double aDouble = ServiceSiteTool.playerGameOrderService().calEffectiveAmountByPlayerId(gameOrderVo);
         vUserPlayerVo.getResult().setTotalEffectiveVolume(aDouble);
         /*PlayerWithdrawVo withdrawVo = new PlayerWithdrawVo();
         withdrawVo.getSearch().setPlayerId(vUserPlayerVo.getSearch().getId());
-        PlayerWithdraw withdraw = ServiceTool.playerWithdrawService().getNewAuditedWithdraw(withdrawVo);
+        PlayerWithdraw withdraw = ServiceSiteTool.playerWithdrawService().getNewAuditedWithdraw(withdrawVo);
         PlayerTransactionVo transactionVo = new PlayerTransactionVo();
         transactionVo.getSearch().setPlayerId(vUserPlayerVo.getSearch().getId());
         if(withdraw!=null){
             transactionVo.getSearch().setCreateTime(withdraw.getCreateTime());
         }
-        Double aDouble = ServiceTool.getPlayerTransactionService().calPlayerEffectTradeAmount(transactionVo);
+        Double aDouble = ServiceSiteTool.getPlayerTransactionService().calPlayerEffectTradeAmount(transactionVo);
         vUserPlayerVo.getResult().setTotalEffectiveVolume(aDouble);*/
         return vUserPlayerVo;
     }
@@ -1033,7 +1034,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         PlayerWithdrawVo playerWithdrawVo = new PlayerWithdrawVo();
         playerWithdrawVo.setResult(new PlayerWithdraw());
         playerWithdrawVo.getSearch().setPlayerId(userId);
-        List<PlayerWithdraw> playerWithdraws = ServiceTool.playerWithdrawService().queryWithdrawingRecord(playerWithdrawVo);
+        List<PlayerWithdraw> playerWithdraws = ServiceSiteTool.playerWithdrawService().queryWithdrawingRecord(playerWithdrawVo);
         PlayerWithdraw playerWithdraw = null;
         if (playerWithdraws != null && playerWithdraws.size() > 0) {
             playerWithdraw = playerWithdraws.get(0);
@@ -1068,7 +1069,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
         listVo.getSearch().setUserId(vUserPlayerVo.getSearch().getId());
         listVo.getPaging().setPageSize(10);
-        listVo = ServiceTool.userBankcardService().search(listVo);
+        listVo = ServiceSiteTool.userBankcardService().search(listVo);
         return listVo;
     }
 
@@ -1077,7 +1078,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         if (vUserPlayerVo.getSearch().getId() == null) {
             return null;
         }
-        IPlayerRecommendAwardService service = ServiceTool.playerRecommendAwardService();
+        IPlayerRecommendAwardService service = ServiceSiteTool.playerRecommendAwardService();
         PlayerRecommendAwardListVo listVo = new PlayerRecommendAwardListVo();
         listVo.getSearch().setStartTime(SessionManager.getDate().getYestoday());
         listVo.getSearch().setEndTime(SessionManager.getDate().getToday());
@@ -1094,7 +1095,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         VPlayerAdvisoryListVo listVo = new VPlayerAdvisoryListVo();
         listVo.getSearch().setAdvisoryTime(DateTool.addMonths(SessionManager.getDate().getNow(), -1));
         listVo.getSearch().setPlayerId(vUserPlayerVo.getSearch().getId());
-        listVo = ServiceTool.vPlayerAdvisoryService().search(listVo);
+        listVo = ServiceSiteTool.vPlayerAdvisoryService().search(listVo);
         return listVo;
     }
 
@@ -1160,7 +1161,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         UserPlayerVo userPlayerVo = new UserPlayerVo();
         userPlayerVo.getSearch().setId(sysUserVo.getResult().getId());
         userPlayerVo.setRealName(sysUserVo.getResult().getRealName());
-        Boolean bool = ServiceTool.userPlayerService().updatePlayerRealName(userPlayerVo);
+        Boolean bool = ServiceSiteTool.userPlayerService().updatePlayerRealName(userPlayerVo);
         if (bool) {
             sysUserVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "update.success"));
             //操作日志
@@ -1191,7 +1192,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         VNoticeReceivedTextVo vnrtVo = new VNoticeReceivedTextVo();
         vnrtVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
         vnrtVo.getSearch().setReceiverId(vUserPlayerVo.getSearch().getId());
-        Long count = ServiceTool.playerWithdrawService().sumSystemCount(vnrtVo);
+        Long count = ServiceSiteTool.playerWithdrawService().sumSystemCount(vnrtVo);
         model.addAttribute("msgCount", count);
     }
 
@@ -1230,7 +1231,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     @RequestMapping("/deleteTag")
     @ResponseBody
     public Map deleteTag(PlayerTagVo playerTagVo) {
-        Boolean bool = ServiceTool.playerTagService().delete(playerTagVo);
+        Boolean bool = ServiceSiteTool.playerTagService().delete(playerTagVo);
         Map map = new HashMap();
         if (bool) {
             map.put("state", true);
@@ -1246,7 +1247,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         VPlayerTagAllListVo vPlayerTagAllListVo = new VPlayerTagAllListVo();
         vPlayerTagAllListVo.getSearch().setPlayerId(objectVo.getResult().getId());
         vPlayerTagAllListVo.setPaging(null);
-        vPlayerTagAllListVo = ServiceTool.vPlayerTagAllService().search(vPlayerTagAllListVo);
+        vPlayerTagAllListVo = ServiceSiteTool.vPlayerTagAllService().search(vPlayerTagAllListVo);
 
         RemarkListVo remarkListVo = new RemarkListVo();
         remarkListVo.getSearch().setEntityUserId(objectVo.getResult().getId());
@@ -1286,7 +1287,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     @RequestMapping("/setSpecialFocus")
     @ResponseBody
     public Map setSpecialFocus(UserPlayerVo userPlayerVo) {
-        Boolean flag = ServiceTool.userPlayerService().setSpecialFocus(userPlayerVo);
+        Boolean flag = ServiceSiteTool.userPlayerService().setSpecialFocus(userPlayerVo);
 
         if (flag) {
             userPlayerVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
@@ -1304,7 +1305,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     @RequestMapping("/view/address")
     public String address(PlayerAddressListVo listVo, Model model) {
         listVo.getPaging().setPageSize(10);
-        listVo = ServiceTool.playerAddressService().queryAddress(listVo);
+        listVo = ServiceSiteTool.playerAddressService().queryAddress(listVo);
         model.addAttribute("command", listVo);
         return ADDRESS_URI;
     }
@@ -1321,7 +1322,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //表单校验
         model.addAttribute("validate", JsRuleCreator.create(PlayerAddressForm.class));
         objVo.getSearch().setIsDefault(true);
-        objVo = ServiceTool.playerAddressService().search(objVo);
+        objVo = ServiceSiteTool.playerAddressService().search(objVo);
         model.addAttribute("command", objVo);
         return ADDRESS_EDIT_URI;
     }
@@ -1332,10 +1333,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         if (result.hasErrors()) {
             return null;
         }
-        PlayerAddressVo _objVo = ServiceTool.playerAddressService().get(objVo);
+        PlayerAddressVo _objVo = ServiceSiteTool.playerAddressService().get(objVo);
         _objVo.getResult().setIsDefault(false);
         _objVo.setProperties(PlayerAddress.PROP_IS_DEFAULT);
-        _objVo = ServiceTool.playerAddressService().updateOnly(_objVo);//原有默认信息更改为不默认
+        _objVo = ServiceSiteTool.playerAddressService().updateOnly(_objVo);//原有默认信息更改为不默认
 
         //玩家地址修改即为新增一条默认地址，原有默认地址改为不默认使用
         Map<String, Map<String, String>> i18nMap = I18nTool.getDictsMap(SessionManagerBase.getLocale().toString()).get(Module.COMMON.getCode());
@@ -1346,7 +1347,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         objVo.getResult().setIsDefault(true);
         objVo.getResult().setUseStauts(false);
         objVo.getResult().setPlayerId(_objVo.getResult().getPlayerId());
-        objVo = ServiceTool.playerAddressService().insert(objVo);
+        objVo = ServiceSiteTool.playerAddressService().insert(objVo);
         return this.getVoMessage(objVo);
     }
 
@@ -1358,7 +1359,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     @RequestMapping("/view/bankCard")
     public String bankCard(UserBankcardListVo listVo, Model model) {
         listVo.getPaging().setPageSize(10);
-        listVo = ServiceTool.userBankcardService().search(listVo);
+        listVo = ServiceSiteTool.userBankcardService().search(listVo);
         model.addAttribute("bankMap", Cache.getBank());
         model.addAttribute("command", listVo);
         return BANK_CARD_URI;
@@ -1421,7 +1422,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         try {
             userBankcard = objVo.getResult();
             userBankcard.setType(UserBankcardTypeEnum.BANK.getCode());
-            objVo = ServiceTool.userBankcardService().saveAndUpdateUserBankcard(objVo);
+            objVo = ServiceSiteTool.userBankcardService().saveAndUpdateUserBankcard(objVo);
 
             map.put("state", objVo.isSuccess());
             if (!objVo.isSuccess()) {
@@ -1444,7 +1445,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         UserBankcard userBankcard = null;
         if (objVo.getResult().getId() != null) {
             vo.getSearch().setId(objVo.getResult().getId());
-            vo = ServiceTool.userBankcardService().get(vo);
+            vo = ServiceSiteTool.userBankcardService().get(vo);
             userBankcard = vo.getResult();
             baseLog.setDescription("setting.bankCard.edit");
             baseLog.setOpType(OpType.UPDATE);
@@ -1453,7 +1454,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
         if (userBankcard != null) {
             vUserPlayerVo.getSearch().setId(userBankcard.getUserId());
-            vUserPlayerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
+            vUserPlayerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
             params.add(vUserPlayerVo.getResult().getUsername());
             params.add(userBankcard.getBankcardNumber());
             params.add(LocaleTool.tranDict(DictEnum.BANKNAME, userBankcard.getBankName()));
@@ -1464,7 +1465,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             }
         }
         vUserPlayerVo.getSearch().setId(objVo.getResult().getUserId());
-        vUserPlayerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
+        vUserPlayerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
         params.add(vUserPlayerVo.getResult().getUsername());
         params.add(objVo.getResult().getBankcardNumber());
         params.add(LocaleTool.tranDict(DictEnum.BANKNAME, objVo.getResult().getBankName()));
@@ -1491,7 +1492,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         listVo.getQuery().setCriterions(new Criterion[]{
                 new Criterion(BankExtend.PROP_BANK_NAME, Operator.EQ, bankName)
         });
-        List<String> bankCardBegin = ServiceTool.bankExtendService().searchProperty(listVo);
+        List<String> bankCardBegin = ServiceSiteTool.bankExtendService().searchProperty(listVo);
         if (CollectionTool.isNotEmpty(bankCardBegin)) {
             for (String st : bankCardBegin) {
                 if (StringTool.startsWith(bankcardNumber, st)) {
@@ -1546,7 +1547,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             listVo.getSearch().setOperatorEnd(DateTool.addDays(listVo.getSearch().getOperatorEnd(), +1));
         }
 
-        listVo = ServiceTool.auditLogService().queryLogs(listVo);
+        listVo = ServiceSiteTool.auditLogService().queryLogs(listVo);
         if (listVo.getSearch().getOperatorBegin() != null && listVo.getSearch().getOperatorEnd() != null) {
             listVo.getSearch().setOperatorEnd(DateTool.addDays(listVo.getSearch().getOperatorEnd(), -1));
         }
@@ -1567,7 +1568,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/view/journalMore")
     public String journalMore(SysAuditLogListVo listVo, Model model, HttpServletRequest request) {
-        //listVo = ServiceTool.vUserPlayerService().searchSysAuditLogs(listVo);
+        //listVo = ServiceSiteTool.vUserPlayerService().searchSysAuditLogs(listVo);
         model.addAttribute("command", listVo);
         return MORE_JOURNAL_URI;
     }
@@ -1581,7 +1582,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     public String news(VPlayerAdvisoryListVo listVo, Model model, HttpServletRequest request) {
         //提问内容
         listVo.getSearch().setAdvisoryTime(DateTool.addMonths(SessionManager.getDate().getNow(), -1));
-        listVo = ServiceTool.vPlayerAdvisoryService().search(listVo);
+        listVo = ServiceSiteTool.vPlayerAdvisoryService().search(listVo);
         listVo.changeReadState(SessionManager.getUserId());
         //获取全部的追问咨询是否已读
         List<VPlayerAdvisory> list = new ArrayList();
@@ -1617,7 +1618,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     @RequestMapping("/view/checkReplyCount")
     @ResponseBody
     public String checkReplyCount(PlayerAdvisoryReplyVo vo) {
-        Long count = ServiceTool.playerAdvisoryReplyService().checkReplyCount(vo);
+        Long count = ServiceSiteTool.playerAdvisoryReplyService().checkReplyCount(vo);
         String flag = "";
         if (count >= REPLAY_COUNT) {
             flag = "false";
@@ -1640,7 +1641,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         } else {
             vPlayerAdvisoryListVo.getSearch().setId(id);
         }
-        List<VPlayerAdvisory> vPlayerAdvisoryList = ServiceTool.vPlayerAdvisoryService().searchVPlayerAdvisoryReply(vPlayerAdvisoryListVo);
+        List<VPlayerAdvisory> vPlayerAdvisoryList = ServiceSiteTool.vPlayerAdvisoryService().searchVPlayerAdvisoryReply(vPlayerAdvisoryListVo);
         Map map = new TreeMap(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -1650,7 +1651,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         for (VPlayerAdvisory obj : vPlayerAdvisoryList) {
             //回复标题和内容
             listVo.getSearch().setPlayerAdvisoryId(obj.getId());
-            listVo = ServiceTool.vPlayerAdvisoryReplyService().search(listVo);
+            listVo = ServiceSiteTool.vPlayerAdvisoryReplyService().search(listVo);
             map.put(obj.getId(), listVo);
         }
 
@@ -1662,32 +1663,32 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         playerAdvisoryReadVo.setResult(new PlayerAdvisoryRead());
         playerAdvisoryReadVo.getSearch().setPlayerAdvisoryId(id);
         playerAdvisoryReadVo.getSearch().setUserId(SessionManager.getUserId());
-        playerAdvisoryReadVo = ServiceTool.playerAdvisoryReadService().search(playerAdvisoryReadVo);
+        playerAdvisoryReadVo = ServiceSiteTool.playerAdvisoryReadService().search(playerAdvisoryReadVo);
         if (playerAdvisoryReadVo.getResult() == null) {
             PlayerAdvisoryReadVo readVo = new PlayerAdvisoryReadVo();
             readVo.setResult(new PlayerAdvisoryRead());
             readVo.getResult().setUserId(SessionManager.getUserId());
             readVo.getResult().setPlayerAdvisoryId(id);
-            ServiceTool.playerAdvisoryReadService().insert(readVo);
+            ServiceSiteTool.playerAdvisoryReadService().insert(readVo);
             //标识为已读时更新任务数
             updateTaskNum(UserTaskEnum.PLAYERCONSULTATION);
         }
         //判断追问咨询是否已读
         PlayerAdvisoryListVo playerAdvisoryListVo = new PlayerAdvisoryListVo();
         playerAdvisoryListVo.getSearch().setContinueQuizId(id);
-        playerAdvisoryListVo = ServiceTool.playerAdvisoryService().search(playerAdvisoryListVo);
+        playerAdvisoryListVo = ServiceSiteTool.playerAdvisoryService().search(playerAdvisoryListVo);
         for (PlayerAdvisory pa : playerAdvisoryListVo.getResult()) {
             PlayerAdvisoryReadVo par = new PlayerAdvisoryReadVo();
             par.setResult(new PlayerAdvisoryRead());
             par.getSearch().setPlayerAdvisoryId(pa.getId());
             par.getSearch().setUserId(SessionManager.getUserId());
-            par = ServiceTool.playerAdvisoryReadService().search(par);
+            par = ServiceSiteTool.playerAdvisoryReadService().search(par);
             if (par.getResult() == null) {
                 PlayerAdvisoryReadVo readVo = new PlayerAdvisoryReadVo();
                 readVo.setResult(new PlayerAdvisoryRead());
                 readVo.getResult().setUserId(SessionManager.getUserId());
                 readVo.getResult().setPlayerAdvisoryId(pa.getId());
-                ServiceTool.playerAdvisoryReadService().insert(readVo);
+                ServiceSiteTool.playerAdvisoryReadService().insert(readVo);
                 //标识为已读时更新任务数
                 updateTaskNum(UserTaskEnum.PLAYERCONSULTATION);
             }
@@ -1700,7 +1701,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         try {
             UserTaskReminderVo userTaskReminderVo = new UserTaskReminderVo();
             userTaskReminderVo.setTaskEnum(userTaskEnum);
-            ServiceTool.userTaskReminderService().reduceTaskReminder(userTaskReminderVo);
+            ServiceSiteTool.userTaskReminderService().reduceTaskReminder(userTaskReminderVo);
         } catch (Exception ex) {
             LOG.error(ex, "更新任务数出错");
         }
@@ -1718,12 +1719,12 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             reply.setReplyTime(timeNow);
             reply.setUserId(SessionManager.getUserId());
             vo.setResult(reply);
-            vo = ServiceTool.playerAdvisoryReplyService().insert(vo);
+            vo = ServiceSiteTool.playerAdvisoryReplyService().insert(vo);
 
             PlayerAdvisoryVo playerAdvisoryVo = new PlayerAdvisoryVo();
             playerAdvisoryVo.setResult(new PlayerAdvisory());
             playerAdvisoryVo.getSearch().setId(vo.getResult().getPlayerAdvisoryId());
-            playerAdvisoryVo = ServiceTool.playerAdvisoryService().get(playerAdvisoryVo);
+            playerAdvisoryVo = ServiceSiteTool.playerAdvisoryService().get(playerAdvisoryVo);
             //保存咨询回复同时修改咨询回复次数及时间
             PlayerAdvisoryVo pVo = new PlayerAdvisoryVo();
             pVo.setResult(new PlayerAdvisory());
@@ -1731,7 +1732,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             pVo.getResult().setLatestTime(SessionManager.getDate().getNow());
             pVo.getResult().setReplyCount(playerAdvisoryVo.getResult().getReplyCount() == null ? 0 : playerAdvisoryVo.getResult().getReplyCount() + 1);
             pVo.setProperties(PlayerAdvisory.PROP_REPLY_COUNT, PlayerAdvisory.PROP_LATEST_TIME);
-            ServiceTool.playerAdvisoryService().updateOnly(pVo);
+            ServiceSiteTool.playerAdvisoryService().updateOnly(pVo);
             if (vo.isSuccess() == true) {
                 vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "send.success"));
             } else {
@@ -1756,7 +1757,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         vo.setResult(new PlayerAdvisory());
         vo.getSearch().setId(id);
         if (id != null) {
-            boolean success = ServiceTool.playerAdvisoryService().delete(vo);
+            boolean success = ServiceSiteTool.playerAdvisoryService().delete(vo);
             vo.setSuccess(success);
             if (success == true) {
                 vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
@@ -1777,7 +1778,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/moreAdvisory")
     public String moreAdvisory(VPlayerAdvisoryListVo listVo, Model model, HttpServletRequest request) {
-        listVo = ServiceTool.vPlayerAdvisoryService().searchVPlayerAdvisorys(listVo);
+        listVo = ServiceSiteTool.vPlayerAdvisoryService().searchVPlayerAdvisorys(listVo);
         model.addAttribute("command", listVo);
         return ServletTool.isAjaxSoulRequest(request) ? MORE_ADVISORY_URI + "Partial" : MORE_ADVISORY_URI;
     }
@@ -1792,7 +1793,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/moreAdvisoryReply")
     public String moreAdvisoryReply(PlayerAdvisoryReplyListVo listVo, Model model, HttpServletRequest request) {
-        listVo = ServiceTool.playerAdvisoryReplyService().searchPlayerAdvisoryReplys(listVo);
+        listVo = ServiceSiteTool.playerAdvisoryReplyService().searchPlayerAdvisoryReplys(listVo);
         model.addAttribute("command", listVo);
         return ServletTool.isAjaxSoulRequest(request) ? MORE_ADVISORYREPLY_URI + "Partial" : MORE_ADVISORYREPLY_URI;
     }
@@ -2264,7 +2265,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         vUserPlayer.setDefaultTimezone(SessionManager.getUser().getDefaultTimezone());
         objectVo.setResult(vUserPlayer);
         model.addAttribute("command", objectVo);
-        List playerRanks = ServiceTool.playerRankService().queryUsableRankList(new PlayerRankVo());
+        List playerRanks = ServiceSiteTool.playerRankService().queryUsableRankList(new PlayerRankVo());
         model.addAttribute("playerRanks", playerRanks);
         model.addAttribute("validateRule", JsRuleCreator.create(AddNewPlayerForm.class));
         return "player/Edit";
@@ -2296,7 +2297,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         UserRegisterVo userRegisterVo = new UserRegisterVo();
         userRegisterVo.setSysUser(sysUser);
         userRegisterVo.setUserPlayer(userPlayer);
-        ServiceTool.userPlayerService().register(userRegisterVo);
+        ServiceSiteTool.userPlayerService().register(userRegisterVo);
         if (userRegisterVo.isSuccess()) {
             resultMap.put("status", true);
         } else {
@@ -2319,7 +2320,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         SysAuditLogListVo sysAuditLogListVo = new SysAuditLogListVo();
         sysAuditLogListVo.getSearch().setEntityUserId(objectVo.getSearch().getId());
         sysAuditLogListVo.getSearch().setModuleType(ModuleType.PLAYER_UPDATEAGENTLINE_SUCCESS.getCode());
-        sysAuditLogListVo = ServiceTool.auditLogService().queryLogs(sysAuditLogListVo);
+        sysAuditLogListVo = ServiceSiteTool.auditLogService().queryLogs(sysAuditLogListVo);
         List logList = sysAuditLogListVo.getResult();
         if (logList != null && logList.size() > 0) {
             model.addAttribute("sysAuditLog", logList.get(0));
@@ -2339,13 +2340,13 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         String required = JsonTool.toJson(CollectionTool.extractToList(requiredFieldSorts, FieldSort.PROP_NAME));
 
         /*层级*/
-        objectVo.setSomePlayerRanks(ServiceTool.playerRankService().queryUsableRankList(new PlayerRankVo()));
+        objectVo.setSomePlayerRanks(ServiceSiteTool.playerRankService().queryUsableRankList(new PlayerRankVo()));
 
         //返水
         RakebackSetListVo rakebackSetListVo = new RakebackSetListVo();
         rakebackSetListVo.getQuery().setCriterions(new Criterion[]{new Criterion(RakebackSet.PROP_STATUS, Operator.EQ, UserAgentEnum.SET_STATUS_NORMAL.getCode())});
         rakebackSetListVo.setProperties(RakebackSet.PROP_ID, RakebackSet.PROP_NAME);
-        objectVo.setRakebackSetList(ServiceTool.rakebackSetService().searchProperties(rakebackSetListVo));
+        objectVo.setRakebackSetList(ServiceSiteTool.rakebackSetService().searchProperties(rakebackSetListVo));
         objectVo.setRequired(required);
 //        userAgentVo.setFieldSorts(fieldSorts);
         objectVo.setFieldSorts(fieldSorts);
@@ -2367,7 +2368,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         objectVo.setImTypeMaps(imTypeMaps);
         //获取标签和所属代理
         objectVo = this.getService().queryPlayerTagAllAndMstRankList(objectVo);
-        objectVo.setPlayerRankList(ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
+        objectVo.setPlayerRankList(ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         objectVo.setValidateRule(JsRuleCreator.create(VUserPlayerForm.class, "result"));
         objectVo.setUserDate(SessionManager.getDate().getNow());
 
@@ -2477,20 +2478,20 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                         PlayerRankVo oldRankVo = new PlayerRankVo();
                         oldRankVo.setResult(new PlayerRank());
                         oldRankVo.getSearch().setId(vUserPlayerVo.getResult().getOldRankId());
-                        oldRankVo = ServiceTool.playerRankService().get(oldRankVo);
+                        oldRankVo = ServiceSiteTool.playerRankService().get(oldRankVo);
                         RakebackSetVo oldSetVo = new RakebackSetVo();
                         oldSetVo.setResult(new RakebackSet());
                         oldSetVo.getSearch().setId(oldRankVo.getResult().getRakebackId());
-                        oldSetVo = ServiceTool.rakebackSetService().get(oldSetVo);
+                        oldSetVo = ServiceSiteTool.rakebackSetService().get(oldSetVo);
                         //新的rankId 和　返水方案
                         PlayerRankVo newRankVo = new PlayerRankVo();
                         newRankVo.setResult(new PlayerRank());
                         newRankVo.getSearch().setId(vUserPlayerVo.getResult().getRankId());
-                        newRankVo = ServiceTool.playerRankService().get(newRankVo);
+                        newRankVo = ServiceSiteTool.playerRankService().get(newRankVo);
                         RakebackSetVo newSetVo = new RakebackSetVo();
                         newSetVo.setResult(new RakebackSet());
                         newSetVo.getSearch().setId(newRankVo.getResult().getRakebackId());
-                        newSetVo = ServiceTool.rakebackSetService().get(newSetVo);
+                        newSetVo = ServiceSiteTool.rakebackSetService().get(newSetVo);
                         //填充玩家名称
                         SysUserVo sysUserVo = new SysUserVo();
                         sysUserVo.setResult(new SysUser());
@@ -2524,7 +2525,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     private Map<String, Object> getIsPubMsg() {
         NoticeTmplVo vo = new NoticeTmplVo();
         vo.getSearch().setEventType(AutoNoticeEvent.CHANGE_PLAYER_DATA.getCode());
-        return ServiceTool.noticeTmplService().searchNoticeTmplByEventType(vo);
+        return ServiceSiteTool.noticeTmplService().searchNoticeTmplByEventType(vo);
     }
 
     @RequestMapping({"/getLanguagePlayerCount"})
@@ -2573,10 +2574,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         PlayerTransactionListVo playerTransactionListVo = new PlayerTransactionListVo();
         playerTransactionListVo.getSearch().setPlayerId(playerId);
         playerTransactionListVo.getSearch().setStatus(CommonStatusEnum.SUCCESS.getCode());
-        long count = ServiceTool.getPlayerTransactionService().countFavorable(playerTransactionListVo);
+        long count = ServiceSiteTool.getPlayerTransactionService().countFavorable(playerTransactionListVo);
         model.addAttribute("count", count);
 
-        Double favorableValue = ServiceTool.getPlayerTransactionService().countPlayerFavorable(playerTransactionListVo);
+        Double favorableValue = ServiceSiteTool.getPlayerTransactionService().countPlayerFavorable(playerTransactionListVo);
         model.addAttribute("favorableVal", favorableValue);
     }
 
@@ -2618,7 +2619,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             return map;
         }
         userPlayerVo.getSearch().setId(userPlayerVo.getResult().getId());
-        boolean flag = ServiceTool.userPlayerService().updatePlayerRealName(userPlayerVo);
+        boolean flag = ServiceSiteTool.userPlayerService().updatePlayerRealName(userPlayerVo);
         if (flag) {
             //操作日志
             //日志参数,日志vo
@@ -2656,7 +2657,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             sysUserVo.getResult().setUpdateUser(SessionManager.getUserId());
             sysUserVo.getResult().setUpdateTime(new Date());
 
-            sysUserVo = ServiceTool.vUserPlayerService().updateUserPlayerStatus(sysUserVo);
+            sysUserVo = ServiceSiteTool.vUserPlayerService().updateUserPlayerStatus(sysUserVo);
             map.put("state", sysUserVo.isSuccess());
         } catch (Exception ex) {
             map.put("state", false);
@@ -2682,7 +2683,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             sysUser.setOwnerId(agentId);
             //更新user_player和sys_user的数据
             userPlayerVo.setSysUser(sysUser);
-            userPlayerVo = ServiceTool.userPlayerService().updateAgentData(userPlayerVo);
+            userPlayerVo = ServiceSiteTool.userPlayerService().updateAgentData(userPlayerVo);
             //组装操作日志的数据
             getLogData(request, oldagentId, userPlayer);
             map.put("state", userPlayerVo.isSuccess());
@@ -2711,7 +2712,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     private String getAgentLine(Integer agentId) {
         UserAgentVo userAgentVo = new UserAgentVo();
         userAgentVo.getSearch().setId(agentId);
-        Map map = ServiceTool.userAgentService().queryAgentLine(userAgentVo);
+        Map map = ServiceSiteTool.userAgentService().queryAgentLine(userAgentVo);
         String agentName = this.getAgentNameByAgentId(agentId);
         StringBuilder agentLine = new StringBuilder(MapTool.getString(map, "parent_name_array") == null ? "" : MapTool.getString(map, "parent_name_array"));
         agentLine.append(" > " + agentName);
@@ -2721,7 +2722,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     private String getAgentNameByAgentId(Integer agentId) {
         VUserAgentVo vo = new VUserAgentVo();
         vo.getSearch().setId(agentId);
-        vo = ServiceTool.vUserAgentService().search(vo);
+        vo = ServiceSiteTool.vUserAgentService().search(vo);
         String agentName = vo.getResult().getUsername();
         return agentName;
     }
@@ -2738,34 +2739,34 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         try {
             PlayerRankVo rankVo = new PlayerRankVo();
             rankVo.getSearch().setId(userPlayerVo.getResult().getRankId());
-            rankVo = ServiceTool.playerRankService().get(rankVo);
+            rankVo = ServiceSiteTool.playerRankService().get(rankVo);
             if (rankVo.getResult() != null && rankVo.getResult().getRakebackId() != null) {
                 userPlayerVo.getResult().setRakebackId(rankVo.getResult().getRakebackId());
             } else {
                 userPlayerVo.getResult().setRakebackId(0);
             }
             userPlayerVo.setProperties(UserPlayer.PROP_RANK_ID, UserPlayer.PROP_RAKEBACK_ID);
-            userPlayerVo = ServiceTool.userPlayerService().updateOnly(userPlayerVo);
+            userPlayerVo = ServiceSiteTool.userPlayerService().updateOnly(userPlayerVo);
 
             if (!userPlayerVo.getResult().getOldRankId().equals(userPlayerVo.getResult().getRankId())) {
                 //旧的rankId 和　返水方案
                 PlayerRankVo oldRankVo = new PlayerRankVo();
                 oldRankVo.setResult(new PlayerRank());
                 oldRankVo.getSearch().setId(Integer.valueOf(userPlayerVo.getResult().getOldRankId()));
-                oldRankVo = ServiceTool.playerRankService().get(oldRankVo);
+                oldRankVo = ServiceSiteTool.playerRankService().get(oldRankVo);
                 RakebackSetVo oldSetVo = new RakebackSetVo();
                 oldSetVo.setResult(new RakebackSet());
                 oldSetVo.getSearch().setId(oldRankVo.getResult().getRakebackId());
-                oldSetVo = ServiceTool.rakebackSetService().get(oldSetVo);
+                oldSetVo = ServiceSiteTool.rakebackSetService().get(oldSetVo);
                 //新的rankId 和　返水方案
                 PlayerRankVo newRankVo = new PlayerRankVo();
                 newRankVo.setResult(new PlayerRank());
                 newRankVo.getSearch().setId(userPlayerVo.getResult().getRankId());
-                newRankVo = ServiceTool.playerRankService().get(newRankVo);
+                newRankVo = ServiceSiteTool.playerRankService().get(newRankVo);
                 RakebackSetVo newSetVo = new RakebackSetVo();
                 newSetVo.setResult(new RakebackSet());
                 newSetVo.getSearch().setId(newRankVo.getResult().getRakebackId());
-                newSetVo = ServiceTool.rakebackSetService().get(newSetVo);
+                newSetVo = ServiceSiteTool.rakebackSetService().get(newSetVo);
                 //填充玩家名称
                 SysUserVo sysUserVo = new SysUserVo();
                 sysUserVo.setResult(new SysUser());
@@ -2813,7 +2814,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     private void baseInfoRepeatNum(Model model, VUserPlayer player) {
         UserPlayerVo userPlayerVo = new UserPlayerVo();
         userPlayerVo.setPropertiesMap(userInfoQueryMap(player));
-        model.addAttribute("repeatNum", ServiceTool.userPlayerService().queryRepeatNum(userPlayerVo));
+        model.addAttribute("repeatNum", ServiceSiteTool.userPlayerService().queryRepeatNum(userPlayerVo));
     }
 
     private Map userInfoQueryMap(VUserPlayer userPlayer) {
@@ -2851,7 +2852,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         UserBankcardVo vo = new UserBankcardVo();
         vo.getSearch().setBankcardNumber(userBankcardForm.getResult_bankcardNumber());
         vo.getSearch().setUserType(UserTypeEnum.PLAYER.getCode());
-        UserBankcard isExists = ServiceTool.userBankcardService().cardIsExists(vo);
+        UserBankcard isExists = ServiceSiteTool.userBankcardService().cardIsExists(vo);
         if (isExists == null) {
             return true;
         }
@@ -2902,7 +2903,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
         UserAgentVo userAgentVo = new UserAgentVo();
         userAgentVo.getSearch().setId(agentId);
-        userAgentVo = ServiceTool.userAgentService().get(userAgentVo);
+        userAgentVo = ServiceSiteTool.userAgentService().get(userAgentVo);
         if (userAgentVo.getResult() != null) {
             return userAgentVo.getResult().getAgentRank();
         }
@@ -2955,7 +2956,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         PlayerTransactionListVo playerTransactionListVo = new PlayerTransactionListVo();
         playerTransactionListVo.getSearch().setPlayerId(playerId);
         playerTransactionListVo.getSearch().setStatus(CommonStatusEnum.SUCCESS.getCode());
-        map = ServiceTool.getPlayerTransactionService().queryPlayerAllSumMoney(playerTransactionListVo);
+        map = ServiceSiteTool.getPlayerTransactionService().queryPlayerAllSumMoney(playerTransactionListVo);
         return map;
     }
 
@@ -3041,7 +3042,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     public String getRank(@PathVariable("agentRank") Integer agentRank) {
         VUserAgentManageListVo listVo = new VUserAgentManageListVo();
         listVo.getSearch().setAgentRank(agentRank);
-        List<VUserAgentManage> result = ServiceTool.vUserAgentManageService().queryAgentByAgentRank(listVo);
+        List<VUserAgentManage> result = ServiceSiteTool.vUserAgentManageService().queryAgentByAgentRank(listVo);
         return JsonTool.toJson(result);
     }
 
@@ -3050,7 +3051,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     public Map queryAgentLine(Integer agentId) {
         UserAgentVo userAgentVo = new UserAgentVo();
         userAgentVo.getSearch().setId(agentId);
-        Map map = ServiceTool.userAgentService().queryAgentLine(userAgentVo);
+        Map map = ServiceSiteTool.userAgentService().queryAgentLine(userAgentVo);
         return map;
     }
 
@@ -3062,7 +3063,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         sysUserVo.getSearch().setSubsysCode(SubSysCodeEnum.PCENTER.getCode());
         sysUserVo.getSearch().setUsername(userName);
         sysUserVo.getSearch().setSiteId(SessionManager.getSiteId());
-        String existAgent = ServiceTool.userAgentService().isExistAgent(sysUserVo);
+        String existAgent = ServiceSiteTool.userAgentService().isExistAgent(sysUserVo);
         return existAgent;
     }
 
@@ -3095,7 +3096,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         listVo.getSearch().setIds(Arrays.asList(ids));
         Map map = new HashMap(2, 1f);
         try {
-            VUserPlayerListVo vUserPlayerListVo = ServiceTool.userPlayerService().batchFreezenAccount(listVo);
+            VUserPlayerListVo vUserPlayerListVo = ServiceSiteTool.userPlayerService().batchFreezenAccount(listVo);
             if (vUserPlayerListVo.isSuccess()) {
                 for (Integer id : ids) {
                     KickoutFilter.loginKickoutAll(id, OpMode.MANUAL, "站长中心冻结玩家强制踢出");

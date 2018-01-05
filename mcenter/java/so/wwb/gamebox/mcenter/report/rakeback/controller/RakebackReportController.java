@@ -17,9 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.operation.IRakebackBillService;
-import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.report.rakeback.form.RakebackBillForm;
 import so.wwb.gamebox.mcenter.report.rakeback.form.RakebackBillSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -194,14 +194,14 @@ public class RakebackReportController extends BaseCrudController<IRakebackBillSe
     @ResponseBody
     public String ajaxYears(RakebackBillListVo vo) {
         vo._setDataSourceId(vo.getSiteId());
-        return ServiceTool.rakebackBillService().ajaxYears(vo);
+        return ServiceSiteTool.rakebackBillService().ajaxYears(vo);
     }
 
     @RequestMapping("/ajaxPeriods")
     @ResponseBody
     public String ajaxPeriods(RakebackBillListVo vo) {
         vo._setDataSourceId(vo.getSiteId());
-        return ServiceTool.rakebackBillService().ajaxPeriods(vo);
+        return ServiceSiteTool.rakebackBillService().ajaxPeriods(vo);
     }
 
     /**
@@ -212,7 +212,7 @@ public class RakebackReportController extends BaseCrudController<IRakebackBillSe
         billVo.getSearch().setRakebackYear(listVo.getSearch().getRakebackYear());
         billVo.getSearch().setRakebackMonth(listVo.getSearch().getRakebackMonth());
         billVo._setDataSourceId(listVo.getSearch().getSiteId());
-        List<RakebackBill> temp = ServiceTool.rakebackBillService().queryPeriods(billVo);
+        List<RakebackBill> temp = ServiceSiteTool.rakebackBillService().queryPeriods(billVo);
         List<RakebackBill> periods = new ArrayList<>();
         if (temp != null && !temp.isEmpty()) {
             for (RakebackBill bill : temp) {
@@ -230,7 +230,7 @@ public class RakebackReportController extends BaseCrudController<IRakebackBillSe
         RakebackBillVo vo = new RakebackBillVo();
         vo._setDataSourceId(listVo.getSearch().getSiteId());
         vo.getSearch().setId(listVo.getSearch().getId());
-        return ServiceTool.rakebackBillService().get(vo).getResult();
+        return ServiceSiteTool.rakebackBillService().get(vo).getResult();
     }
 
 }

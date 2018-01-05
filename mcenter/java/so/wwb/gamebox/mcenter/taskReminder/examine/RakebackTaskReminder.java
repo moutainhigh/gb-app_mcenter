@@ -1,6 +1,6 @@
 package so.wwb.gamebox.mcenter.taskReminder.examine;
 
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminder;
 import so.wwb.gamebox.model.master.operation.vo.RakebackBillVo;
 import so.wwb.gamebox.model.master.tasknotify.po.UserTaskReminder;
@@ -19,6 +19,6 @@ public class RakebackTaskReminder extends TaskReminder {
 
     @Override
     public Integer countTask() {
-        return ServiceTool.rakebackBillService().countPendingAndPartPayForRakeback(new RakebackBillVo());
+        return ServiceSiteTool.rakebackBillService().countPendingAndPartPayForRakeback(new RakebackBillVo());
     }
 }

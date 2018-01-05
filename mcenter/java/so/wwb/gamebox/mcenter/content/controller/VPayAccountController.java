@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.IVPayAccountService;
 import so.wwb.gamebox.mcenter.content.form.PayAccountDepositForm;
@@ -118,7 +119,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
     protected VPayAccountListVo doList(VPayAccountListVo listVo, VPayAccountSearchForm form, BindingResult result, Model model) {
         PlayerRankVo vo = new PlayerRankVo();
         vo.getSearch().setStatus(RankStatusEnum.NORMAL.getCode());
-        List<PlayerRank> playerRanks = ServiceTool.playerRankService().queryUsableList(vo);
+        List<PlayerRank> playerRanks = ServiceSiteTool.playerRankService().queryUsableList(vo);
         listVo.setPlayerRanks(playerRanks);
         Map<String, Serializable> status = DictTool.get(DictEnum.PAY_ACCOUNT_STATUS);
         status.remove(PayAccountStatusEnum.DELETED.getCode());
@@ -182,7 +183,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
 
     @RequestMapping("/detail")
     public String detail(VPayAccountVo vo, Model model) {
-        vo = ServiceTool.vPayAccountService().detailPayAccount(vo);
+        vo = ServiceSiteTool.vPayAccountService().detailPayAccount(vo);
         vo = getPayCurrencyAndRank(vo);
         vo = buildChannelJson(vo);
         vo.setValidateRule(JsRuleCreator.create(PayAccountDepositForm.class));
@@ -219,7 +220,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         Integer payAccountId = objectVo.getResult().getId();
         if (payAccountId != null) {
             payAccountCurrencyListVo.getSearch().setPayAccountId(payAccountId);
-            payAccountCurrencyListVo = ServiceTool.payAccountCurrencyService().search(payAccountCurrencyListVo);
+            payAccountCurrencyListVo = ServiceSiteTool.payAccountCurrencyService().search(payAccountCurrencyListVo);
             objectVo.setPayAccountCurrencyList(payAccountCurrencyListVo.getResult());
         }
         return objectVo;
@@ -235,7 +236,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         if (StringTool.isNotEmpty(id)) {
             vo.getSearch().setId(Integer.parseInt(id));
         }
-        vo = ServiceTool.vPayAccountService().searchCashFlowOrder(vo);
+        vo = ServiceSiteTool.vPayAccountService().searchCashFlowOrder(vo);
         //对线上支付金流顺序进行分组（线上支付、扫码支付）
         groupCahFlowOrder(vo);
         model.addAttribute("command", vo);
@@ -264,7 +265,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
     @RequestMapping(value = "/saveCashFlowOrder", method = RequestMethod.POST, headers = {"Content-type=application/json"})
     @ResponseBody
     public Boolean settingCashFlowOrder(@RequestBody VPayAccountVo vPayAccountVo, Model model) {
-        return ServiceTool.vPayAccountService().saveCashFlowOrder(vPayAccountVo);
+        return ServiceSiteTool.vPayAccountService().saveCashFlowOrder(vPayAccountVo);
     }
 
     @RequestMapping(value = "/hideSetting", method = RequestMethod.GET)
@@ -409,7 +410,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
      */
     @RequestMapping("/companySort")
     public String companySort(Model model) {
-        List<PlayerRank> ranks = ServiceTool.playerRankService().searchCompanyAccountRank(new PlayerRankVo());
+        List<PlayerRank> ranks = ServiceSiteTool.playerRankService().searchCompanyAccountRank(new PlayerRankVo());
         model.addAttribute("ranks", ranks);
         if (CollectionTool.isNotEmpty(ranks)) {
             companyAccountByRank(model, ranks.get(0).getId());
@@ -429,7 +430,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         PayAccountListVo payAccountListVo = new PayAccountListVo();
         payAccountListVo.setRankId(rankId);
         payAccountListVo.getSearch().setType(PayAccountType.COMPANY_ACCOUNT.getCode());
-        List<VPayAccountCashOrder> payAccounts = ServiceTool.payAccountService().queryAccountByRank(payAccountListVo);
+        List<VPayAccountCashOrder> payAccounts = ServiceSiteTool.payAccountService().queryAccountByRank(payAccountListVo);
         List<VPayAccountCashOrder> bankAccounts = new ArrayList<>();
         List<VPayAccountCashOrder> electronicAccounts = new ArrayList<>();
         List<VPayAccountCashOrder> bitAccounts = new ArrayList<>();
@@ -451,7 +452,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         //查询层级获取是否展示多个账号
         PlayerRankVo rankVo = new PlayerRankVo();
         rankVo.getSearch().setId(rankId);
-        rankVo = ServiceTool.playerRankService().get(rankVo);
+        rankVo = ServiceSiteTool.playerRankService().get(rankVo);
         model.addAttribute("rank", rankVo.getResult());
         return getViewBasePath() + "/company/SortPartial";
     }
@@ -484,7 +485,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
             payRank.setCreateTime(date);
             payRank.setCreateUser(SessionManager.getUserId());
         }
-        int count = ServiceTool.payRankService().batchSaveOrUpdatePayRank(payRankListVo);
+        int count = ServiceSiteTool.payRankService().batchSaveOrUpdatePayRank(payRankListVo);
         if (count > 0) {
             return true;
         }
@@ -508,7 +509,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         playerRank.setDisplayCompanyAccount(state);
         playerRankVo.setResult(playerRank);
         playerRankVo.setProperties(PlayerRank.PROP_DISPLAY_COMPANY_ACCOUNT);
-        playerRankVo = ServiceTool.playerRankService().updateOnly(playerRankVo);
+        playerRankVo = ServiceSiteTool.playerRankService().updateOnly(playerRankVo);
         return playerRankVo.isSuccess();
     }
     //endregion your codes 3

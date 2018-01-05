@@ -1,6 +1,6 @@
 package so.wwb.gamebox.mcenter.taskReminder.examine;
 
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminder;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
@@ -32,15 +32,15 @@ public class PlayerWithdrawTaskReminder extends TaskReminder {
             SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
             sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
             sysUserDataRightVo.getSearch().setModuleType(DataRightModuleType.PLAYERWITHDRAW.getCode());
-            List entityIds = ServiceTool.sysUserDataRightService().searchDataRightEntityId(sysUserDataRightVo);
+            List entityIds = ServiceSiteTool.sysUserDataRightService().searchDataRightEntityId(sysUserDataRightVo);
             if (entityIds != null && entityIds.size() > 0) {
                 vPlayerWithdrawListVo.getSearch().setRankIds(entityIds);
-                return ServiceTool.vPlayerWithdrawService().countPendingwithdrawForPlayer(vPlayerWithdrawListVo);
+                return ServiceSiteTool.vPlayerWithdrawService().countPendingwithdrawForPlayer(vPlayerWithdrawListVo);
             }  else {
-                return ServiceTool.vPlayerWithdrawService().countPendingwithdrawForPlayer(vPlayerWithdrawListVo);
+                return ServiceSiteTool.vPlayerWithdrawService().countPendingwithdrawForPlayer(vPlayerWithdrawListVo);
             }
         } else {
-            return ServiceTool.vPlayerWithdrawService().countPendingwithdrawForPlayer(vPlayerWithdrawListVo);
+            return ServiceSiteTool.vPlayerWithdrawService().countPendingwithdrawForPlayer(vPlayerWithdrawListVo);
         }
     }
 }

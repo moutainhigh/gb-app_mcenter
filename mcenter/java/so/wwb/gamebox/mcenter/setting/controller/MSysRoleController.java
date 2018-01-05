@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.setting.ISysRoleService;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -143,7 +143,7 @@ public class MSysRoleController extends BaseCrudController<ISysRoleService, SysR
      */
     @Override
     protected void doDelete(SysRoleVo sysRoleVo) {
-        boolean success = ServiceTool.mSysRoleService().deleteRole(sysRoleVo);
+        boolean success = ServiceSiteTool.mSysRoleService().deleteRole(sysRoleVo);
         if (!success) {
             sysRoleVo.setErrMsg(LocaleTool.tranMessage("privilege","exist.user"));
         }
@@ -156,7 +156,7 @@ public class MSysRoleController extends BaseCrudController<ISysRoleService, SysR
         SysRoleVo vo = new SysRoleVo();
         vo.getSearch().setName(name);
         vo.getSearch().setSubsysCode(ConfigManager.getConfigration().getSubsysCode());
-        return ServiceTool.mSysRoleService().checkSameRoleName(vo);
+        return ServiceSiteTool.mSysRoleService().checkSameRoleName(vo);
     }
 
 }

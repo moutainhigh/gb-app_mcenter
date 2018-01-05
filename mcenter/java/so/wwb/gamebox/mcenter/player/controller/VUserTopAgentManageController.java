@@ -20,7 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.player.IVUserTopAgentManageService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.player.form.VUserTopAgentManageForm;
@@ -69,7 +69,7 @@ public class VUserTopAgentManageController extends BaseCrudController<IVUserTopA
     protected VUserTopAgentManageListVo doList(VUserTopAgentManageListVo listVo, VUserTopAgentManageSearchForm form, BindingResult result, Model model) {
         //listVo.getSearch().setStatus(StatusEnum.NORMAL.getCode());
         resetCondition(listVo);
-        listVo = ServiceTool.vUserTopAgentManageService().searchByCustom(listVo);
+        listVo = ServiceSiteTool.vUserTopAgentManageService().searchByCustom(listVo);
         Map allListFields = ListOpTool.getFields(ListOpEnum.VUserTopAgentManageListVo);
         listVo.setAllFieldLists(allListFields);
         if (allListFields != null) {
@@ -112,20 +112,20 @@ public class VUserTopAgentManageController extends BaseCrudController<IVUserTopA
                 UserAgentRebateVo userAgentRebateVo = new UserAgentRebateVo();
                 if(Operator.IN.equals(criterion.getOperator())){
                     userAgentRebateVo.getSearch().setInIds(stringToInteger(criterion.getValue()));
-                    List userIds = ServiceTool.userAgentRebateService().queryInRebateId(userAgentRebateVo);
+                    List userIds = ServiceSiteTool.userAgentRebateService().queryInRebateId(userAgentRebateVo);
                     criterion1.setProperty(VUserTopAgentManage.PROP_ID);
                     criterion1.setOperator(Operator.IN);
                     criterion1.setValue(userIds);
                 }else if(Operator.NOT_IN.equals(criterion.getOperator())){
                     userAgentRebateVo.getSearch().setNotInIds(stringToInteger(criterion.getValue()));
-                    List userIds = ServiceTool.userAgentRebateService().queryNotInRebateId(userAgentRebateVo);
+                    List userIds = ServiceSiteTool.userAgentRebateService().queryNotInRebateId(userAgentRebateVo);
                     criterion1.setProperty(VUserTopAgentManage.PROP_ID);
                     criterion1.setOperator(Operator.IN);
                     criterion1.setValue(userIds);
                 }else{
                     //EQ TODO:是否需要新写一个等于的查询条件
                     userAgentRebateVo.getSearch().setInIds(stringToInteger(criterion.getValue()));
-                    List userIds = ServiceTool.userAgentRebateService().queryInRebateId(userAgentRebateVo);
+                    List userIds = ServiceSiteTool.userAgentRebateService().queryInRebateId(userAgentRebateVo);
                     criterion1.setProperty(VUserTopAgentManage.PROP_ID);
                     criterion1.setOperator(Operator.IN);
                     criterion1.setValue(userIds);
@@ -136,20 +136,20 @@ public class VUserTopAgentManageController extends BaseCrudController<IVUserTopA
                 UserAgentRakebackVo userAgentRebateVo = new UserAgentRakebackVo();
                 if(Operator.IN.equals(criterion.getOperator())){
                     userAgentRebateVo.getSearch().setInIds(stringToInteger(criterion.getValue()));
-                    List userIds = ServiceTool.userAgentRakebackService().queryInRakebackId(userAgentRebateVo);
+                    List userIds = ServiceSiteTool.userAgentRakebackService().queryInRakebackId(userAgentRebateVo);
                     criterion1.setProperty(VUserTopAgentManage.PROP_ID);
                     criterion1.setOperator(Operator.IN);
                     criterion1.setValue(userIds);
                 }else if(Operator.NOT_IN.equals(criterion.getOperator())){
                     userAgentRebateVo.getSearch().setNotInIds(stringToInteger(criterion.getValue()));
-                    List userIds = ServiceTool.userAgentRakebackService().queryNotInRakebackId(userAgentRebateVo);
+                    List userIds = ServiceSiteTool.userAgentRakebackService().queryNotInRakebackId(userAgentRebateVo);
                     criterion1.setProperty(VUserTopAgentManage.PROP_ID);
                     criterion1.setOperator(Operator.IN);
                     criterion1.setValue(userIds);
                 }else{
                     //EQ TODO:是否需要新写一个等于的查询条件
                     userAgentRebateVo.getSearch().setInIds(stringToInteger(criterion.getValue()));
-                    List userIds = ServiceTool.userAgentRakebackService().queryInRakebackId(userAgentRebateVo);
+                    List userIds = ServiceSiteTool.userAgentRakebackService().queryInRakebackId(userAgentRebateVo);
                     criterion1.setProperty(VUserTopAgentManage.PROP_ID);
                     criterion1.setOperator(Operator.IN);
                     criterion1.setValue(userIds);
@@ -252,7 +252,7 @@ public class VUserTopAgentManageController extends BaseCrudController<IVUserTopA
                 FilterSelectConstant.greatAndLess, TabTypeEnum.DATE, null));
         /*filterRowList.add(new FilterRow(VUserTopAgentManage.PROP_COUNTRY, LocaleTool.tranView("column", vUserTopAgentManager + "." + VUserTopAgentManage.PROP_COUNTRY),
                 FilterSelectConstant.containCountry, TabTypeEnum.REGIONS, null));*/
-        Map<String, List<Pair>> agentFilter = ServiceTool.vUserTopAgentManageService().searchAgentFilter(new VUserTopAgentManageListVo());
+        Map<String, List<Pair>> agentFilter = ServiceSiteTool.vUserTopAgentManageService().searchAgentFilter(new VUserTopAgentManageListVo());
         if (MapTool.isNotEmpty(agentFilter)) {
             String vUserAgentManage = VUserAgentManage.class.getSimpleName();
             List<Pair> rebateSetList = agentFilter.get(RebateSet.class.getName());

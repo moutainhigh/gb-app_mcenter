@@ -1,6 +1,5 @@
 package so.wwb.gamebox.mcenter.content.controller;
 
-import org.omg.CORBA.COMM_FAILURE;
 import org.soul.commons.collections.CollectionQueryTool;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.MapTool;
@@ -41,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.IPayAccountService;
 import so.wwb.gamebox.mcenter.content.form.*;
@@ -70,7 +70,6 @@ import so.wwb.gamebox.model.master.content.po.PayAccount;
 import so.wwb.gamebox.model.master.content.po.VPayAccount;
 import so.wwb.gamebox.model.master.content.vo.*;
 import so.wwb.gamebox.model.master.digiccy.po.DigiccyAccountInfo;
-import so.wwb.gamebox.model.master.enums.CommonStatusEnum;
 import so.wwb.gamebox.model.master.enums.PayAccountAccountType;
 import so.wwb.gamebox.model.master.enums.PayAccountType;
 import so.wwb.gamebox.model.master.enums.UserTaskEnum;
@@ -150,7 +149,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         } else {
             payWarningListVo.getSearch().setAccountType(RechargeTypeParentEnum.ONLINE_DEPOSIT.getCode());
         }
-        payWarningListVo = ServiceTool.payWarningService().search(payWarningListVo);
+        payWarningListVo = ServiceSiteTool.payWarningService().search(payWarningListVo);
         model.addAttribute("command", payWarningListVo);
         return WARNING_SETTINGS_URL + "Partial";
     }
@@ -337,7 +336,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         this.getPayCurrencyAndRank(objectVo);
         VPayAccountVo vPayAccountVo = new VPayAccountVo();
         vPayAccountVo.getSearch().setId(objectVo.getResult().getId());
-        vPayAccountVo = ServiceTool.vPayAccountService().get(vPayAccountVo);
+        vPayAccountVo = ServiceSiteTool.vPayAccountService().get(vPayAccountVo);
         objectVo.getSearch().setRechargeNum(vPayAccountVo.getResult().getRechargeNum() == null ? 0 : vPayAccountVo.getResult().getRechargeNum());
         objectVo.getSearch().setRechargeAmount(vPayAccountVo.getResult().getRechargeAmount() == null ? 0 : vPayAccountVo.getResult().getRechargeAmount()
         );
@@ -468,12 +467,12 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         PayAccountCurrencyListVo payAccountCurrencyListVo = new PayAccountCurrencyListVo();
         Integer payAccountId = objectVo.getResult().getId();
         payAccountCurrencyListVo.getSearch().setPayAccountId(payAccountId);
-        payAccountCurrencyListVo = ServiceTool.payAccountCurrencyService().search(payAccountCurrencyListVo);
+        payAccountCurrencyListVo = ServiceSiteTool.payAccountCurrencyService().search(payAccountCurrencyListVo);
         objectVo.setPayAccountCurrencyList(payAccountCurrencyListVo.getResult());
         PayRankListVo payRankListVo = new PayRankListVo();
         payRankListVo.getSearch().setPayAccountId(objectVo.getResult().getId());
         payRankListVo.setPaging(null);
-        payRankListVo = ServiceTool.payRankService().search(payRankListVo);
+        payRankListVo = ServiceSiteTool.payRankService().search(payRankListVo);
         objectVo.setPayRankList(payRankListVo.getResult());
     }
 
@@ -499,7 +498,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         }*/
         objectVo = this.getService().generationPayCode(objectVo);
         //获取可用的层级列表
-        objectVo.setPlayerRankList(ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
+        objectVo.setPlayerRankList(ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
 
         return objectVo;
     }
@@ -793,7 +792,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         } else {
             UserTaskReminderVo reminderVo = new UserTaskReminderVo();
             reminderVo.getSearch().setDictCode(UserTaskEnum.FREEZE.getCode());
-            reminderVo = ServiceTool.userTaskReminderService().search(reminderVo);
+            reminderVo = ServiceSiteTool.userTaskReminderService().search(reminderVo);
             if (reminderVo.getResult() != null) {
                 model.addAttribute("taskId", reminderVo.getResult().getId());
             }
@@ -827,7 +826,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             query.setStartTime(startTime);
             query.setEndTime(endTime);
             query.setPayAccountId(vo.getSearch().getId());
-            map = ServiceTool.vPlayerRechargeService().getStatistics(vPlayerRechargeListVo);
+            map = ServiceSiteTool.vPlayerRechargeService().getStatistics(vPlayerRechargeListVo);
 
             Integer hours = endTime.getHours();
             Number totalAmount = (Number) map.get("totalAmount");
@@ -990,7 +989,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
 
     @RequestMapping("/getRankByUserId")
     public String getRankByUserId(VPlayerTagVo vPlayerTagVo, Model model) {
-        List<VPlayerTag> vPlayerTags = ServiceTool.vPlayerTagService().getPayRankByUsers(vPlayerTagVo);
+        List<VPlayerTag> vPlayerTags = ServiceSiteTool.vPlayerTagService().getPayRankByUsers(vPlayerTagVo);
 
         model.addAttribute("tags", vPlayerTags);
         model.addAttribute("userLen", vPlayerTagVo.getUserId().size());
@@ -1002,7 +1001,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @ResponseBody
     public Map saveRank(PayRankVo payRankVo) {
         try {
-            payRankVo = ServiceTool.payRankService().saveOrUpdatePayRanks(payRankVo);
+            payRankVo = ServiceSiteTool.payRankService().saveOrUpdatePayRanks(payRankVo);
         } catch (Exception e) {
             LOG.error(e);
             payRankVo.setSuccess(false);
@@ -1073,7 +1072,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         }
         PayAccountVo payAccountVo = new PayAccountVo();
         payAccountVo.getSearch().setId(id);
-        payAccountVo = ServiceTool.payAccountService().get(payAccountVo);
+        payAccountVo = ServiceSiteTool.payAccountService().get(payAccountVo);
         if (payAccountVo.getResult() != null) {
             return payAccountVo.getResult();
         }
@@ -1100,7 +1099,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         }
 
         payAccountVo.setProperties(PayAccount.PROP_DEPOSIT_DEFAULT_COUNT);
-        payAccountVo = ServiceTool.payAccountService().updateOnly(payAccountVo);
+        payAccountVo = ServiceSiteTool.payAccountService().updateOnly(payAccountVo);
         if (payAccountVo.isSuccess()) {
             map.put("payAccountValue", payAccountVo.getResult().getDepositDefaultCount());
             map.put("state", true);
@@ -1132,7 +1131,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         }
 
         payAccountVo.setProperties(PayAccount.PROP_DEPOSIT_DEFAULT_TOTAL);
-        payAccountVo = ServiceTool.payAccountService().updateOnly(payAccountVo);
+        payAccountVo = ServiceSiteTool.payAccountService().updateOnly(payAccountVo);
         if (payAccountVo.isSuccess()) {
             map.put("payAccountValue", CurrencyTool.formatCurrency(payAccountVo.getResult().getDepositDefaultTotal()));
             map.put("state", true);
@@ -1163,7 +1162,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
 
         VPayAccountVo vPayAccountVo = new VPayAccountVo();
         vPayAccountVo.getSearch().setId(payAccount.getId());
-        vPayAccountVo = ServiceTool.vPayAccountService().get(vPayAccountVo);
+        vPayAccountVo = ServiceSiteTool.vPayAccountService().get(vPayAccountVo);
 
         if ("count".equals(types)) {
             payAccountVo.setProperties(PayAccount.PROP_DEPOSIT_DEFAULT_COUNT);
@@ -1172,7 +1171,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             payAccountVo.setProperties(PayAccount.PROP_DEPOSIT_DEFAULT_TOTAL);
             payAccount.setDepositDefaultTotal(vPayAccountVo.getResult().getRechargeAmount());
         }
-        payAccountVo = ServiceTool.payAccountService().updateOnly(payAccountVo);
+        payAccountVo = ServiceSiteTool.payAccountService().updateOnly(payAccountVo);
 
         if (payAccountVo.isSuccess()) {
             if ("count".equals(types)) {
@@ -1199,7 +1198,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         }
         PayAccountVo payAccountVo = new PayAccountVo();
         payAccountVo.getSearch().setId(accountId);
-        payAccountVo = ServiceTool.payAccountService().get(payAccountVo);
+        payAccountVo = ServiceSiteTool.payAccountService().get(payAccountVo);
 
         return payAccountVo.getResult();
     }
@@ -1217,7 +1216,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         playerRankListVo.getQuery().setCriterions(new Criterion[]{
                 new Criterion(PlayerRank.PROP_STATUS, Operator.EQ, RankStatusEnum.NORMAL.getCode())
         });
-        model.addAttribute("ranks", ServiceTool.playerRankService().searchProperties(playerRankListVo));
+        model.addAttribute("ranks", ServiceSiteTool.playerRankService().searchProperties(playerRankListVo));
         model.addAttribute("validateRule", JsRuleCreator.create(RechargeUrlForm.class));
         return getViewBasePath() + "RechargeUrl";
     }
@@ -1245,18 +1244,18 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         sysParam.setParamValue(paramValue);
         sysParamVo.setResult(sysParam);
         sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-        sysParamVo = ServiceTool.siteSysParamService().updateOnly(sysParamVo);
+        sysParamVo = ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
         SysParam allRankParam = ParamTool.getSysParam(SiteParamEnum.SETTING_RECHARGE_URL_ALL_RANK);
         if (allRankParam != null) {
             sysParamVo.setResult(allRankParam);
             allRankParam.setParamValue(allRank);
-            sysParamVo = ServiceTool.siteSysParamService().updateOnly(sysParamVo);
+            sysParamVo = ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
         }
         SysParam ranksParam = ParamTool.getSysParam(SiteParamEnum.SETTING_RECHARGE_URL_RANKS);
         if (ranksParam != null) {
             sysParamVo.setResult(ranksParam);
             ranksParam.setParamValue(rank);
-            sysParamVo = ServiceTool.siteSysParamService().updateOnly(sysParamVo);
+            sysParamVo = ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
         }
         ParamTool.refresh(SiteParamEnum.SETTING_RECHARGE_URL);
         ParamTool.refresh(SiteParamEnum.SETTING_RECHARGE_URL_ALL_RANK);
@@ -1329,7 +1328,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             param.setParamValue(JsonTool.toJson(digiccyAccountInfo));
             sysParamVo.setResult(param);
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-            sysParamVo = ServiceTool.siteSysParamService().updateOnly(sysParamVo);
+            sysParamVo = ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
             ParamTool.refresh(SiteParamEnum.DIGICCY_PROVIDER_ACCOUNT_INFO);
         }
 
@@ -1344,7 +1343,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         }
         PayAccountListVo payAccountListVo = new PayAccountListVo();
         payAccountListVo.getQuery().setCriterions(new Criterion[]{new Criterion(PayAccount.PROP_ALIAS_NAME, Operator.EQ, aliasName), new Criterion(PayAccount.PROP_ID, Operator.NE, NumberTool.toInt(id))});
-        return ServiceTool.payAccountService().count(payAccountListVo) <= 0;
+        return ServiceSiteTool.payAccountService().count(payAccountListVo) <= 0;
     }
     //endregion your codes 3
 

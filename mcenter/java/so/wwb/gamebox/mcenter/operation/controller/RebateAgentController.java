@@ -18,7 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.operation.form.RebateAgentForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.Module;
@@ -224,7 +224,7 @@ public class RebateAgentController extends BaseRebateAgentController{
     private boolean hasNextPeriod(RebateAgentVo rebateAgentVo){
         RebateBillVo rebateBillVo = new RebateBillVo();
         rebateBillVo.getSearch().setId(rebateAgentVo.getResult().getRebateBillId());
-        rebateBillVo = ServiceTool.rebateBillService().get(rebateBillVo);
+        rebateBillVo = ServiceSiteTool.rebateBillService().get(rebateBillVo);
         if(rebateAgentVo.getResult()!=null){
             String period = rebateBillVo.getResult().getPeriod();
             Date date = DateTool.parseDate(period, "yyyy-MM");
@@ -232,7 +232,7 @@ public class RebateAgentController extends BaseRebateAgentController{
             String formatDate = DateTool.formatDate(nextMonth, "yyyy-MM");
             rebateBillVo = new RebateBillVo();
             rebateBillVo.getSearch().setPeriod(formatDate);
-            rebateBillVo = ServiceTool.rebateBillService().search(rebateBillVo);
+            rebateBillVo = ServiceSiteTool.rebateBillService().search(rebateBillVo);
             if(rebateBillVo.getResult()!=null){
                 return true;
             }

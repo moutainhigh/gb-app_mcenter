@@ -20,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.common.security.AuthTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -72,7 +73,7 @@ public class MyAccountController {
             myAccountVo._setDataSourceId(SessionManager.getSiteParentId());
             myAccountVo.setIsMasterId(SessionManager.getMasterUserId());
         }
-        myAccountVo = ServiceTool.myAccountService().getMyAccount(myAccountVo);
+        myAccountVo = ServiceSiteTool.myAccountService().getMyAccount(myAccountVo);
         model.addAttribute("command", myAccountVo);
         //获取用户类型
         model.addAttribute("type",SessionManager.getUserType().getCode());

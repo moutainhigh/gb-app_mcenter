@@ -23,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.setting.IRebateSetService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -97,7 +98,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         }
         VUserAgentManageVo agentManageVo = new VUserAgentManageVo();
         agentManageVo.getSearch().setUsername(listVo.getSearch().getOwnerName());
-        agentManageVo = ServiceTool.vUserAgentManageService().search(agentManageVo);
+        agentManageVo = ServiceSiteTool.vUserAgentManageService().search(agentManageVo);
         if(agentManageVo.getResult()==null){
             listVo.getSearch().setOwnerId(-1);
         }else{
@@ -113,7 +114,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         UserAgentRebateListVo rebateListVo = new UserAgentRebateListVo();
         rebateListVo.getSearch().setUserId(listVo.getTopAgentId());
         rebateListVo.setPaging(null);
-        rebateListVo = ServiceTool.userAgentRebateService().search(rebateListVo);
+        rebateListVo = ServiceSiteTool.userAgentRebateService().search(rebateListVo);
         if (rebateListVo.getResult() != null) {
             List<Integer> ids = new ArrayList<>();
             for (UserAgentRebate rebate : rebateListVo.getResult()) {
@@ -131,7 +132,7 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         RebateSetVo setVo = new RebateSetVo();
         setVo.setId(id);
         try {
-            ServiceTool.rebateSetService().deleteRebateSet(setVo);
+            ServiceSiteTool.rebateSetService().deleteRebateSet(setVo);
             setVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } catch (Exception e) {
             setVo.setSuccess(false);

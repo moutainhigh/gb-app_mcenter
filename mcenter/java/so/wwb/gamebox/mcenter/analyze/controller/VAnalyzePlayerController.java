@@ -18,7 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.analyze.IVAnalyzePlayerService;
 import so.wwb.gamebox.mcenter.analyze.form.AnalyzeParamForm;
 import so.wwb.gamebox.mcenter.analyze.form.VAnalyzePlayerForm;
@@ -274,17 +274,17 @@ public class VAnalyzePlayerController extends BaseCrudController<IVAnalyzePlayer
                 vo.getDepositCountParam().setParamValue("0");
             }
             sysParamVo.setResult(vo.getDepositCountParam());
-            ServiceTool.siteSysParamService().updateOnly(sysParamVo);
+            ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
             if(StringTool.isBlank(vo.getDepositParam().getParamValue())){
                 vo.getDepositParam().setParamValue("0");
             }
             sysParamVo.setResult(vo.getDepositParam());
-            ServiceTool.siteSysParamService().updateOnly(sysParamVo);
+            ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
             if(StringTool.isBlank(vo.getEffectiveParam().getParamValue())){
                 vo.getEffectiveParam().setParamValue("0");
             }
             sysParamVo.setResult(vo.getEffectiveParam());
-            ServiceTool.siteSysParamService().updateOnly(sysParamVo);
+            ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
 
             ParamTool.refresh(SiteParamEnum.ANALYZE_PLAYER_DEPOSIT_COUNT);
             ParamTool.refresh(SiteParamEnum.ANALYZE_PLAYER_DEPOSIT);

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.setting.IUserShortcutMenuService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.UserShortcutMenuForm;
@@ -63,7 +63,7 @@ public class UserShortcutMenuController extends BaseCrudController<IUserShortcut
         vUserShortcutMenuListVo.getSearch().setUserId(SessionManager.getUserId());
         vUserShortcutMenuListVo.getSearch().setPosition("1");
 
-        model.addAttribute("listVo", ServiceTool.vUserShortcutMenuService().searchByUser(vUserShortcutMenuListVo));
+        model.addAttribute("listVo", ServiceSiteTool.vUserShortcutMenuService().searchByUser(vUserShortcutMenuListVo));
         return GET_SHORTCUT_MENU;
     }
     /**
@@ -89,7 +89,7 @@ public class UserShortcutMenuController extends BaseCrudController<IUserShortcut
         VUserShortcutMenuListVo vUserShortcutMenuListVo = new VUserShortcutMenuListVo();
         vUserShortcutMenuListVo.getSearch().setUserId(SessionManager.getUserId());
         vUserShortcutMenuListVo.getSearch().setPosition(position);
-        vUserShortcutMenuListVo = ServiceTool.vUserShortcutMenuService().search(vUserShortcutMenuListVo);
+        vUserShortcutMenuListVo = ServiceSiteTool.vUserShortcutMenuService().search(vUserShortcutMenuListVo);
         model.addAttribute("vUserShortcutMenuListVo",vUserShortcutMenuListVo);
         /*根据userid 取权限内的菜单*/
         UserShortcutMenuListVo userShortcutMenuListVo = new UserShortcutMenuListVo();

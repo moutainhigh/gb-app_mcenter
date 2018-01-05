@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttDocumentI18nService;
 import so.wwb.gamebox.mcenter.content.form.CttDocumentForm;
@@ -250,7 +251,7 @@ public class CttDocumentI18nController extends BaseCrudController<ICttDocumentI1
         return objectVo;
     }
     private void updateSiteContentAudit() {
-        SiteContentAudit contentAudit = ServiceTool.vCttDocumentUserService().countCompanyAuditCount(new CttDocumentVo());
+        SiteContentAudit contentAudit = ServiceSiteTool.vCttDocumentUserService().countCompanyAuditCount(new CttDocumentVo());
         if(contentAudit==null){
             return;
         }
@@ -283,7 +284,7 @@ public class CttDocumentI18nController extends BaseCrudController<ICttDocumentI1
     private CttDocumentI18nVo toUpdateDocument(CttDocumentI18nVo objectVo) {
         CttDocumentVo cttDocumentVo = new CttDocumentVo();
         cttDocumentVo.getSearch().setId(objectVo.getCttDocumentVo().getId());
-        cttDocumentVo = ServiceTool.cttDocumentService().get(cttDocumentVo);
+        cttDocumentVo = ServiceSiteTool.cttDocumentService().get(cttDocumentVo);
         CttDocument cttDocument = cttDocumentVo.getResult();
         if (cttDocument != null) {
             cttDocument.setCode(objectVo.getCttDocumentVo().getCode());
@@ -405,12 +406,12 @@ public class CttDocumentI18nController extends BaseCrudController<ICttDocumentI1
             if (objectVo.getParentVo() != null && objectVo.getParentVo().getId() != null) {
                 CttDocumentVo pvo = new CttDocumentVo();
                 pvo.getSearch().setId(objectVo.getParentVo().getId());
-                pvo = ServiceTool.cttDocumentService().get(pvo);
+                pvo = ServiceSiteTool.cttDocumentService().get(pvo);
                 objectVo.setParentVo(pvo.getResult());
                 CttDocumentI18nListVo i18nListVo = new CttDocumentI18nListVo();
                 i18nListVo.getSearch().setDocumentId(objectVo.getParentVo().getId());
                 i18nListVo.getSearch().setLocal(SessionManager.getLocale().toString());
-                i18nListVo = ServiceTool.cttDocumentI18nService().search(i18nListVo);
+                i18nListVo = ServiceSiteTool.cttDocumentI18nService().search(i18nListVo);
                 if (i18nListVo != null && i18nListVo.getResult().size() > 0) {
                     objectVo.setParentTitle(i18nListVo.getResult().get(0).getTitle());
                 }
@@ -563,7 +564,7 @@ public class CttDocumentI18nController extends BaseCrudController<ICttDocumentI1
                 cttDocumentListVo.getSearch().setId(NumberTool.toInt(did));
             }
         }
-        return ServiceTool.cttDocumentService().getCountByCode(cttDocumentListVo) <= 0;
+        return ServiceSiteTool.cttDocumentService().getCountByCode(cttDocumentListVo) <= 0;
     }
     //endregion your codes 3
 

@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.report.IOperateAgentService;
 import so.wwb.gamebox.iservice.master.report.IOperatePlayerService;
@@ -233,9 +234,9 @@ public class OperateReportController extends BaseOperateController {
         if (listVo.getSearch().getTopagentId() != null) {
             listVo.setUserTop(queryAgent(listVo.getSearch().getSiteId(), listVo.getSearch().getTopagentId()));
         } else if (StringTool.isNotBlank(listVo.getSearch().getTopagentName())) {
-            listVo.setUserTop(ServiceTool.operatePlayerService().queryTopAgentByTopAgentName(listVo));
+            listVo.setUserTop(ServiceSiteTool.operatePlayerService().queryTopAgentByTopAgentName(listVo));
         } else if (StringTool.isNotBlank(listVo.getSearch().getAgentName())) {
-            listVo.setUserTop(ServiceTool.operatePlayerService().queryTopagentByAgentName(listVo));
+            listVo.setUserTop(ServiceSiteTool.operatePlayerService().queryTopagentByAgentName(listVo));
         }
     }
 
@@ -246,7 +247,7 @@ public class OperateReportController extends BaseOperateController {
         if (listVo.getSearch().getAgentId() != null) {
             listVo.setUserAgent(queryAgent(listVo.getSearch().getSiteId(), listVo.getSearch().getAgentId()));
         } else if (StringTool.isNotBlank(listVo.getSearch().getAgentName())) {
-            listVo.setUserAgent(ServiceTool.operatePlayerService().queryAgentByAgentName(listVo));
+            listVo.setUserAgent(ServiceSiteTool.operatePlayerService().queryAgentByAgentName(listVo));
         }
     }
 
@@ -265,7 +266,7 @@ public class OperateReportController extends BaseOperateController {
      * 站点旗下总代报表
      */
     private void operateTopAgent(OperatePlayerListVo listVo, Model model) {
-        OperateTopagentListVo command = ServiceTool.operateTopagentService().queryOperateReport(listVo);
+        OperateTopagentListVo command = ServiceSiteTool.operateTopagentService().queryOperateReport(listVo);
         command.setRoleName(listVo.getRoleName());
         model.addAttribute("conditionJson", ExportCriteriaTool.criteriaToJson(command.getExportJsonCondition()));
         model.addAttribute("command", command);
@@ -275,7 +276,7 @@ public class OperateReportController extends BaseOperateController {
      * 总代旗下代理报表
      */
     private void operateAgent(OperatePlayerListVo listVo, Model model) {
-        OperateAgentListVo command = ServiceTool.operateAgentService().queryOperateReport(listVo);
+        OperateAgentListVo command = ServiceSiteTool.operateAgentService().queryOperateReport(listVo);
         command.setRoleName(listVo.getRoleName());
         model.addAttribute("conditionJson", ExportCriteriaTool.criteriaToJson(command.getExportJsonCondition()));
         model.addAttribute("command", command);
@@ -285,7 +286,7 @@ public class OperateReportController extends BaseOperateController {
      * 代理旗下玩家报表
      */
     private void operatePlayer(OperatePlayerListVo listVo, Model model) {
-        listVo = ServiceTool.operatePlayerService().queryOperateReport(listVo);
+        listVo = ServiceSiteTool.operatePlayerService().queryOperateReport(listVo);
         model.addAttribute("conditionJson", ExportCriteriaTool.criteriaToJson(listVo.getExportJsonCondition()));
         model.addAttribute("command", listVo);
     }

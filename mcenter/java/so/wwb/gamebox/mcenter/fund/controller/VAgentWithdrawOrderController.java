@@ -34,6 +34,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.fund.IVAgentWithdrawOrderService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
@@ -143,7 +144,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         String ipStr = listVo.getSearch().getIpStr();
         listVo.getSearch().setIpWithdraw(StringTool.isBlank(ipStr)?null: IpTool.ipv4StringToLong(listVo.getSearch().getIpStr()));
         listVo.setValidateRule(JsRuleCreator.create(VAgentWithdrawOrderSearchForm.class, "search"));
-        listVo = ServiceTool.getVAgentWithdrawOrderService().searchAgentWithdraw(listVo);
+        listVo = ServiceSiteTool.getVAgentWithdrawOrderService().searchAgentWithdraw(listVo);
         // 公司入款声音参数
         SysParam systemParam = ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DRAW);
         model.addAttribute("systemParam", systemParam);
@@ -224,7 +225,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
 
     private VAgentWithdrawOrderVo setAuditData(VAgentWithdrawOrderVo vo, Model model) {
         //审核页面
-        vo = ServiceTool.getVAgentWithdrawOrderService().get(vo);
+        vo = ServiceSiteTool.getVAgentWithdrawOrderService().get(vo);
         vo.setThisUserId(SessionManager.getUserId());
         vo.setUserType(SessionManager.getUser().getUserType());
         setBankcard(vo, model);
@@ -241,7 +242,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         UserBankcardVo userBankcardVo = new UserBankcardVo();
         userBankcardVo.getSearch().setUserId(vo.getResult().getAgentId());
         userBankcardVo.getSearch().setIsDefault(true);
-        userBankcardVo = ServiceTool.userBankcardService().search(userBankcardVo);
+        userBankcardVo = ServiceSiteTool.userBankcardService().search(userBankcardVo);
         model.addAttribute("userBankcardVo", userBankcardVo);
     }
 
@@ -249,7 +250,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         //判断是否有没有下一条数据
         VAgentWithdrawOrderVo vo1 = new VAgentWithdrawOrderVo();
         vo1.setResult(new VAgentWithdrawOrder());
-        vo1 = ServiceTool.getVAgentWithdrawOrderService().searchNext(vo);
+        vo1 = ServiceSiteTool.getVAgentWithdrawOrderService().searchNext(vo);
         model.addAttribute("commandNextId", vo1);
     }
 
@@ -264,7 +265,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         if(vo.getResult()!=null&&vo.getResult().getAgentId()!=null){
             UserAgentVo agentVo = new UserAgentVo();
             agentVo.getSearch().setId(vo.getResult().getAgentId());
-            agentVo = ServiceTool.getUserAgentService().get(agentVo);
+            agentVo = ServiceSiteTool.getUserAgentService().get(agentVo);
             if(agentVo.getResult()!=null&&agentVo.getResult().getParentId()!=null){
                 SysUserVo topAgentVo = new SysUserVo();
                 topAgentVo.getSearch().setId(agentVo.getResult().getParentId());
@@ -289,7 +290,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
     }
 
     private VAgentWithdrawOrderVo setAuditDetailData(VAgentWithdrawOrderVo vo, RemarkListVo listVo, Model model) {
-        vo = ServiceTool.getVAgentWithdrawOrderService().get(vo);
+        vo = ServiceSiteTool.getVAgentWithdrawOrderService().get(vo);
         vo.setThisUserId(SessionManager.getUserId());
         vo.setUserType(SessionManager.getUser().getUserType());
         model.addAttribute("vo", vo);
@@ -380,7 +381,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         vo.getResult().setIsLock(1);
         vo.getResult().setLockPersonId(SessionManager.getUserId());
         vo.setProperties(AgentWithdrawOrder.PROP_IS_LOCK, AgentWithdrawOrder.PROP_LOCK_PERSON_ID);
-        vo = ServiceTool.getAgentWithdrawOrderService().updateOnly(vo);
+        vo = ServiceSiteTool.getAgentWithdrawOrderService().updateOnly(vo);
         if (vo.isSuccess()) {
             vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, "update.success"));
         } else {
@@ -406,7 +407,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
             vo.getResult().setIsLock(null);
             vo.getResult().setLockPersonId(null);
             vo.setProperties(AgentWithdrawOrder.PROP_IS_LOCK, AgentWithdrawOrder.PROP_LOCK_PERSON_ID);
-            vo = ServiceTool.getAgentWithdrawOrderService().updateOnly(vo);
+            vo = ServiceSiteTool.getAgentWithdrawOrderService().updateOnly(vo);
         }else{
             vo.setSuccess(false);
         }
@@ -427,7 +428,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
     protected String isAuditPerson(AgentWithdrawOrderVo vo) {
         Integer id = SessionManager.getUserId();
         String json = null;
-        vo = ServiceTool.getAgentWithdrawOrderService().get(vo);//取款视图表
+        vo = ServiceSiteTool.getAgentWithdrawOrderService().get(vo);//取款视图表
         if ((id).equals(vo.getResult().getLockPersonId()) || vo.getResult().getLockPersonId() == null) {
             json = "true";
         } else {
@@ -452,7 +453,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
     @RequestMapping("/putConfirmCheck")
     public String putConfirmCheck(VAgentWithdrawOrderVo objVo, Model model) {
         if(objVo.getSearch().getId()!=null){
-            objVo = ServiceTool.getVAgentWithdrawOrderService().search(objVo);
+            objVo = ServiceSiteTool.getVAgentWithdrawOrderService().search(objVo);
             objVo.getResult().setActualAmount(objVo.getResult().getWithdrawAmount());
             model.addAttribute("command", objVo);
             setOtherData(objVo,model);
@@ -469,7 +470,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
     @RequestMapping("/isAudit")
     @ResponseBody
     private Map isAudit(AgentWithdrawOrderVo objVo) {
-        objVo = ServiceTool.getAgentWithdrawOrderService().get(objVo);
+        objVo = ServiceSiteTool.getAgentWithdrawOrderService().get(objVo);
         Boolean bool = null;
         bool = !AgentWithdrawOrderStatusEnum.PENDING.getCode().equals(objVo.getResult().getTransactionStatus());
         HashMap map = new HashMap(1,1f);
@@ -485,7 +486,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
     @RequestMapping("/putAuditStatus")
     @ResponseBody
     public Map putAuditStatus(AgentWithdrawOrderVo objVo, UserAgentVo vo, Remark remark) {
-        objVo = ServiceTool.getAgentWithdrawOrderService().get(objVo);
+        objVo = ServiceSiteTool.getAgentWithdrawOrderService().get(objVo);
 
         SysUserVo agentUser = new SysUserVo();
         agentUser.getSearch().setId(objVo.getResult().getAgentId());
@@ -548,8 +549,8 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
             objVo.getResult().setTransactionStatus(AgentWithdrawOrderStatusEnum.REFUSE.getCode());
         }
         vo.getSearch().setId(objVo.getResult().getAgentId());
-        vo = ServiceTool.getUserAgentService().get(vo);
-        objVo = ServiceTool.getVAgentWithdrawOrderService().auditStatus(objVo, vo, remark);
+        vo = ServiceSiteTool.getUserAgentService().get(vo);
+        objVo = ServiceSiteTool.getVAgentWithdrawOrderService().auditStatus(objVo, vo, remark);
 
 
         if (objVo.isSuccess() == true && AgentWithdrawOrderStatusEnum.SUCCESS.getCode().equals(objVo.getResult().getTransactionStatus())) {
@@ -605,7 +606,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         message.setMasterId(SessionManager.getSiteUserId());
         SysResourceListVo sysResourceListVo = new SysResourceListVo();
         sysResourceListVo.getSearch().setUrl("fund/vAgentWithdrawOrder/agentList.html");
-        List<Integer> userIdByUrl = ServiceTool.playerRechargeService().findUserIdByUrl(sysResourceListVo);
+        List<Integer> userIdByUrl = ServiceSiteTool.playerRechargeService().findUserIdByUrl(sysResourceListVo);
         userIdByUrl.add(Const.MASTER_BUILT_IN_ID);
         //自已会刷新，不发给自己
         if(userIdByUrl.contains(SessionManager.getUserId())){
@@ -636,7 +637,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
             remark = buildRemarkData(objVo,remark);
             remark = setRemarkTitle(objVo, remark);
             objVo.setRemark(remark);
-            objVo = ServiceTool.getAgentWithdrawOrderService().updateWithdrawRemark(objVo);
+            objVo = ServiceSiteTool.getAgentWithdrawOrderService().updateWithdrawRemark(objVo);
             map.put("state",objVo.isSuccess());
         }catch (Exception ex){
             map.put("state","false");
@@ -648,7 +649,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         if(objVo.getResult().getId()!=null){
             VAgentWithdrawOrderVo orderVo = new VAgentWithdrawOrderVo();
             orderVo.getSearch().setId(objVo.getResult().getId());
-            orderVo = ServiceTool.getVAgentWithdrawOrderService().get(orderVo);
+            orderVo = ServiceSiteTool.getVAgentWithdrawOrderService().get(orderVo);
 			if(orderVo.getResult()!=null){
 				String title = "{0}手动修改了代理[{1}]的取款订单备注";
 				title = MessageFormat.format(title, SessionManager.getUser().getUsername(),orderVo.getResult().getUsername());
@@ -668,7 +669,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
      */
     @RequestMapping("/putConfirmRefuses")
     public String putConfirmRefuses(VAgentWithdrawOrderVo objVo, Model model) {
-        objVo = ServiceTool.getVAgentWithdrawOrderService().get(objVo);
+        objVo = ServiceSiteTool.getVAgentWithdrawOrderService().get(objVo);
 
         //查询拒绝原因模板
         NoticeVo noticeVo = new NoticeVo();
@@ -689,7 +690,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
      */
     @RequestMapping("/putCheckFailure")
     public String putCheckFailure(VAgentWithdrawOrderVo objVo, Remark remark, Model model) {
-        objVo = ServiceTool.getVAgentWithdrawOrderService().get(objVo);
+        objVo = ServiceSiteTool.getVAgentWithdrawOrderService().get(objVo);
 
         //查询失败原因模板
         NoticeVo noticeVo = new NoticeVo();

@@ -6,7 +6,7 @@ import org.soul.commons.locale.DateQuickPicker;
 import org.soul.commons.query.Criteria;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Order;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminder;
 import so.wwb.gamebox.model.master.content.po.PayWarning;
 import so.wwb.gamebox.model.master.content.vo.PayAccountVo;
@@ -28,7 +28,7 @@ public abstract class PayTaskReminder extends TaskReminder {
         payAccountVo.setType(accountType);
         payAccountVo.setStartTime(DateQuickPicker.getInstance().getToday());
         payAccountVo.setEndTime(DateQuickPicker.getInstance().getTomorrow());
-        return ServiceTool.payAccountService().countFreezePayAccount(payAccountVo);
+        return ServiceSiteTool.payAccountService().countFreezePayAccount(payAccountVo);
     }
 
     private List<PayWarning> countOrangeAndRedPayAccount(String accountType) {
@@ -36,7 +36,7 @@ public abstract class PayTaskReminder extends TaskReminder {
         payWarningVo.setAccountType(accountType);
         payWarningVo.setStartTime(DateQuickPicker.getInstance().getToday());
         payWarningVo.setEndTime(DateQuickPicker.getInstance().getTomorrow());
-        return ServiceTool.payWarningService().countOrangeAndRedPayAccount(payWarningVo);
+        return ServiceSiteTool.payWarningService().countOrangeAndRedPayAccount(payWarningVo);
     }
 
     private List<PayWarning> filterPayWarningsByWarningType(String warningType,String accountType) {
