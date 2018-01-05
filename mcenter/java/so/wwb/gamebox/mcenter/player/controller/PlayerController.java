@@ -370,12 +370,12 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         listVo = buildSearchIp(listVo);
         if(listVo.isSuccess()){
             playerDetection(listVo, model);
+            getTagIdByPlayer(listVo, model);
             initDate(listVo);
             listVo = doCount(listVo, isCounter);
             listVo.getPaging().cal();
             model.addAttribute("command", listVo);
         }
-
         return getViewBasePath() + "IndexPagination";
     }
 

@@ -65,7 +65,9 @@ import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
 import so.wwb.gamebox.model.master.fund.po.PlayerWithdraw;
 import so.wwb.gamebox.model.master.fund.po.VPlayerDeposit;
 import so.wwb.gamebox.model.master.fund.vo.*;
+import so.wwb.gamebox.model.master.operation.po.ActivityMessage;
 import so.wwb.gamebox.model.master.operation.po.VActivityMessage;
+import so.wwb.gamebox.model.master.operation.vo.ActivityMessageVo;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMessageListVo;
 import so.wwb.gamebox.model.master.player.po.PlayerTransaction;
 import so.wwb.gamebox.model.master.player.po.Remark;
@@ -487,7 +489,14 @@ public class ManualController {
         playerTransactionVo = ServiceSiteTool.getPlayerTransactionService().get(playerTransactionVo);
         model.addAttribute("command", playerTransactionVo);
         Map transactionDataMap = JsonTool.fromJson(playerTransactionVo.getResult().getTransactionData(),HashMap.class);
-        model.addAttribute("activityId",MapTool.getString(transactionDataMap,"activityId"));
+        String activityId = MapTool.getString(transactionDataMap,"activityId");
+        model.addAttribute("activityId",activityId);
+        if(StringTool.isNotEmpty(activityId)){
+            ActivityMessageVo activityMessageVo = new ActivityMessageVo();
+            activityMessageVo.getSearch().setId(Integer.valueOf(activityId));
+            activityMessageVo = ServiceTool.activityMessageService().get(activityMessageVo);
+            model.addAttribute("activityMessage",activityMessageVo.getResult());
+        }
         model.addAttribute("activityName",MapTool.getString(transactionDataMap,"activityName"));
         model.addAttribute("activityType",MapTool.getString(transactionDataMap,"activityType"));
         PlayerTransaction playerTransaction = playerTransactionVo.getResult();
