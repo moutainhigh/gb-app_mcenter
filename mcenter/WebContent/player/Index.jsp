@@ -251,8 +251,8 @@
                                 <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                                     <div class="input-group date">
                                         <span class="input-group-addon bg-gray">${views.player_auto['注册IP']}</span>
-                                        <input type="text" class="form-control" name="search.registerIpv4"
-                                               value="${command.search.registerIpv4}">
+                                        <input id="ipv4" type="text" class="form-control" name="search.registerIpv4"
+                                               value="${command.search.registerIpv4}"/>
                                     </div>
                                 </div>
                                     <%--来源终端ok--%>
@@ -401,7 +401,7 @@
                                             <div class="btn-group table-desc-right-t-dropdown" initprompt="10条"
                                                  callback="query">
                                                 <button type="button" class="btn btn btn-default right-radius rank-btn">
-                                                    <span class="rankText"
+                                                    <span class="tagText"
                                                           prompt="prompt">${views.player_auto['请选择']}</span>
                                                     <span class="caret-a pull-right"></span>
                                                 </button>
@@ -554,7 +554,7 @@
                                          cssClass="btn btn-filter reset-condition-button"/>
                             <shiro:hasPermission name="role:player_add">
                                 <soul:button target="${root}/player/addNewPlayer.html" opType="dialog"
-                                             permission="role:player_add"
+                                             permission="role:player_add" ccc=""
                                              text="${views.player_auto['新增玩家']}" callback="query"
                                              cssClass="btn btn-filter pull-right m-r"/>
                             </shiro:hasPermission>
@@ -585,6 +585,7 @@
                                 </soul:button>
                             </div>
                         </c:if>
+
                             <%--层级--%>
                         <div class="btn-group" id="player_rank" style="padding-right: 10px">
                             <button data-toggle="dropdown" id="player_rank_dropdown"

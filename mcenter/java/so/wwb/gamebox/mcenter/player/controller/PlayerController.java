@@ -70,7 +70,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import so.wwb.gamebox.common.dubbo.ServiceScheduleTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IUserPlayerService;
-import so.wwb.gamebox.iservice.master.player.IVPlayerTagService;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.iservice.master.report.IPlayerRecommendAwardService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
@@ -223,12 +222,12 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("queryparamValue", sysParam);
         listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
         /*玩家检测注册IP*/
-        if(listVo.getSearch().getRegisterIp()!=null){
+        if (listVo.getSearch().getRegisterIp() != null) {
             String registerIp = IpTool.ipv4LongToString(listVo.getSearch().getRegisterIp());
             listVo.getSearch().setRegisterIpv4(registerIp);
         }
         /*玩家检测登录IP*/
-        if(StringTool.isNotBlank(listVo.getSearch().getIp())){
+        if (StringTool.isNotBlank(listVo.getSearch().getIp())) {
             String lastLoginIp = IpTool.ipv4LongToString(Long.parseLong(listVo.getSearch().getIp()));
             listVo.getSearch().setLastLoginIpv4(lastLoginIp);
         }
@@ -259,18 +258,27 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         if (result.hasErrors()) {
             LOG.info("站点ID{0}玩家列表查询验证有误", SessionManager.getSiteId());
         }
+
+        /*
+        * 登录ip和注册ip模糊查询
+        *
+        * */
+        listVo = buildSearchIp(listVo);
+        if(!listVo.isSuccess()){
+            return listVo;
+        }
+
         // 玩家检测页面IP登录记录,筛选玩家
         playerDetection(listVo, model);
         // 初始化外部链接时间
         initDate(listVo);
         //层级筛选
         hadlePlayerRanks(listVo);
-
+        //条件查询根据标签查询玩家
+        getTagIdByPlayer(listVo, model);
         //标签管理,筛选有该标签的玩家
         getPlayerByTagId(listVo, model);
         initRemarkContent(listVo);
-        //条件查询根据标签查询玩家
-        getTagIdByPlayer(listVo, model);
         // 不同的链接得到不同的玩家列表
         VUserPlayerListVo list = getListVo(listVo);
         // 玩家筛选
@@ -278,6 +286,34 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
         handlePageData(list);
         return list;
+    }
+    /*
+    * 根据登录ip和注册ip模糊查询
+    * */
+    private VUserPlayerListVo buildSearchIp(VUserPlayerListVo listVo){
+        if(StringTool.isNotBlank(listVo.getSearch().getRegisterIpv4())){
+            Map regMap = fetchStartEndIp(listVo.getSearch().getRegisterIpv4());
+            if(!MapTool.getBoolean(regMap,"state")){
+                listVo.setSuccess(false);
+                return listVo;
+            }
+            String min = MapTool.getString(regMap, "min");
+            listVo.getSearch().setStartIps(min);
+            String max = MapTool.getString(regMap, "max");
+            listVo.getSearch().setEndIps(max);
+        }
+        if(StringTool.isNotBlank(listVo.getSearch().getLastLoginIpv4())){
+            Map loginMap = fetchStartEndIp(listVo.getSearch().getLastLoginIpv4());
+            if(!MapTool.getBoolean(loginMap,"state")){
+                listVo.setSuccess(false);
+                return listVo;
+            }
+            String loginMin = MapTool.getString(loginMap, "min");
+            listVo.getSearch().setStartIp(loginMin);
+            String loginmax = MapTool.getString(loginMap, "max");
+            listVo.getSearch().setEndIp(loginmax);
+        }
+        return listVo;
     }
 
     /**
@@ -327,10 +363,14 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     @RequestMapping("/count")
     public String count(VUserPlayerListVo listVo, Model model, String isCounter) {
-        initDate(listVo);
-        listVo = doCount(listVo, isCounter);
-        listVo.getPaging().cal();
-        model.addAttribute("command", listVo);
+        listVo = buildSearchIp(listVo);
+        if(listVo.isSuccess()){
+            initDate(listVo);
+            listVo = doCount(listVo, isCounter);
+            listVo.getPaging().cal();
+            model.addAttribute("command", listVo);
+        }
+
         return getViewBasePath() + "IndexPagination";
     }
 
@@ -428,11 +468,121 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         listVo.getSearch().setUserTagIds(userPlayerId);
     }
 
+    /*
+    * 验证ip是否合法
+    * */
+    @RequestMapping("/doMsg")
+    @ResponseBody
+    protected Map msg(String ip) {
+        return fetchStartEndIp(ip);
+    }
+
+   /*
+    * 获取模糊查询IP的开始和结束IP
+    * */
+    private Map fetchStartEndIp(String ip) {
+        Map<String,Object> maps=new HashMap<>();
+        maps.put("state", false);
+        if (StringTool.isNotBlank(ip)) {
+            String[] ips = ip.split("[.]");
+            if(ips.length!=4){
+                return maps;
+            }
+            String minIp = "";
+            String maxIp = "";
+            for (String s : ips) {
+                Map map = testIp(s);
+                String min = MapTool.getString(map, "min");
+                String max = MapTool.getString(map, "max");
+                minIp += min + ".";
+                maxIp += max + ".";
+            }
+            if (minIp.endsWith(".")) {
+                minIp = minIp.substring(0, minIp.length() - 1);
+            }
+            if (maxIp.endsWith(".")) {
+                maxIp = maxIp.substring(0, maxIp.length() - 1);
+            }
+            if (IpTool.isValidIpv4(maxIp)) {
+                maps.put("max",maxIp);
+                maps.put("min",minIp);
+                maps.put("state", true);
+            } else {
+                maps.put("state", false);
+            }
+        }
+        return maps;
+    }
+
+
+
+
+    private static Map testIp(String ip) {
+        Map ipMap = new HashMap();
+        if (StringTool.isBlank(ip)) {
+            return ipMap;
+        }
+        if (ip.indexOf("*") > -1) {
+            ipMap.put("min", "0");
+            ipMap.put("max", "255");
+        } else if (ip.indexOf("?") > -1) {
+            if (ip.length() == 3) {
+                //IP小段为3位
+                dealIp3(ip, ipMap);
+            } else {
+                ipMap.put("min", ip.replaceAll("[?]", "0"));
+                ipMap.put("max", ip.replaceAll("[?]", "9"));
+            }
+
+
+        } else {
+            ipMap.put("min", ip);
+            ipMap.put("max", ip);
+        }
+        return ipMap;
+    }
+    /*
+    * 模糊查询ip小段为3位数
+    * */
+    private static void dealIp3(String ip, Map ipMap) {
+        if ("???".equals(ip)) {
+            ipMap.put("min", "0");
+            ipMap.put("max", "255");
+        } else if (ip.endsWith("??")) {
+            ipMap.put("min", ip.replaceAll("[?]", "0"));
+            String firstIp = ip.substring(0, 1);
+            if ("2".equals(firstIp)) {
+                ipMap.put("max", ip.replaceAll("[?]", "5"));
+            } else {
+                ipMap.put("max", ip.replaceAll("[?]", "9"));
+            }
+
+        } else if (ip.endsWith("?")) {
+            ipMap.put("min", ip.replaceAll("[?]", "0"));
+            String firstIp = ip.substring(0, 1);
+            String secondIp = ip.substring(1, 2);
+            if (firstIp.equals("2") && secondIp.equals("5")) {
+                ipMap.put("max", ip.replaceAll("[?]", "5"));
+            } else {
+                ipMap.put("max", ip.replaceAll("[?]", "9"));
+            }
+        } else if (ip.startsWith("?", 1)) {
+            String firstIp = ip.substring(0, 1);
+            ipMap.put("min", ip.replaceAll("[?]", "0"));
+            if ("2".equals(firstIp)) {
+                ipMap.put("max", ip.replaceAll("[?]", "2"));
+            } else {
+                ipMap.put("max", ip.replaceAll("[?]", "9"));
+            }
+        }
+    }
+
     /**
      * 玩家检测页面IP登录记录,筛选玩家
      * add by Bruce.QQ
      */
     private void playerDetection(VUserPlayerListVo listVo, Model model) {
+
         VUserPlayerSo vuserPlayerSo = listVo.getSearch();
         if (StringTool.isNotBlank(vuserPlayerSo.getIp())) {
             SysAuditLogSo sysAuditLogSo = new SysAuditLogSo();
@@ -2991,6 +3141,26 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
 
         return listVo;
+    }
+    /*
+    * 远程表单校验注册IP
+    *
+    * */
+    @RequestMapping(value = "/checkRegIp")
+    @ResponseBody
+    public boolean checkRegIp(@RequestParam("search.registerIpv4") String ip){
+        Map map = fetchStartEndIp(ip);
+        return MapTool.getBoolean(map,"state");
+    }
+    /*
+    *
+    * 远程校验登录ip
+    * */
+    @RequestMapping(value = "/checkLoginIp")
+    @ResponseBody
+    public boolean checkLoginIp(@RequestParam("search.lastLoginIpv4") String ip){
+        Map map = fetchStartEndIp(ip);
+        return MapTool.getBoolean(map,"state");
     }
 
     //endregion
