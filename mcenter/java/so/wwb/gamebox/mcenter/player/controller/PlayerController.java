@@ -221,12 +221,12 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         SysParam sysParam = getExportParam();
         model.addAttribute("queryparamValue", sysParam);
         listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
-        /*玩家检测注册IP*//*
+       /*// 玩家检测注册IP
         if(listVo.getSearch().getRegisterIp()!=null){
             String registerIp = IpTool.ipv4LongToString(listVo.getSearch().getRegisterIp());
             listVo.getSearch().setRegisterIpv4(registerIp);
         }
-        *//*玩家检测登录IP*//*
+       // 玩家检测登录IP
         if(StringTool.isNotBlank(listVo.getSearch().getIp())){
             String lastLoginIp = IpTool.ipv4LongToString(Long.parseLong(listVo.getSearch().getIp()));
             listVo.getSearch().setLastLoginIpv4(lastLoginIp);
@@ -369,12 +369,12 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         listVo = buildSearchIp(listVo);
         if(listVo.isSuccess()){
             playerDetection(listVo, model);
+            getTagIdByPlayer(listVo, model);
             initDate(listVo);
             listVo = doCount(listVo, isCounter);
             listVo.getPaging().cal();
             model.addAttribute("command", listVo);
         }
-
         return getViewBasePath() + "IndexPagination";
     }
 
