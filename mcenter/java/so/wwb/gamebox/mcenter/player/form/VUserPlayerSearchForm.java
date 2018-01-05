@@ -3,9 +3,11 @@ package so.wwb.gamebox.mcenter.player.form;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.soul.commons.validation.form.constraints.Compare;
+import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
+import so.wwb.gamebox.mcenter.player.controller.PlayerController;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
@@ -62,10 +64,12 @@ public class VUserPlayerSearchForm implements IForm {
     @Length(min = 10,max = 25)
     public String getSearch_bankcardNumber(){return search_bankcardNumber;}
 
-    @Pattern(regexp = FormValidRegExps.IP)
+    //@Pattern(regexp = FormValidRegExps.IP)
+    @Remote(message = "登录IP不合法",checkMethod = "checkLoginIp",checkClass = PlayerController.class)
     public String getSearch_lastLoginIpv4(){return search_lastLoginIpv4;}
 
-    @Pattern(regexp = FormValidRegExps.IP)
+    //@Pattern(regexp = FormValidRegExps.IP)
+    @Remote(message = "注册IP不合法",checkMethod = "checkRegIp",checkClass = PlayerController.class)
     public String getSearch_registerIpv4(){return search_registerIpv4;}
 
     @Pattern(regexp = FormValidRegExps.PREFIX_LINK)
