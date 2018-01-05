@@ -264,8 +264,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         playerDetection(listVo, model);
         // 初始化外部链接时间
         initDate(listVo);
-        //层级筛选
-        hadlePlayerRanks(listVo);
 
         //标签管理,筛选有该标签的玩家
         getPlayerByTagId(listVo, model);
@@ -339,7 +337,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     public VUserPlayerListVo doCount(VUserPlayerListVo listVo, String isCounter) {
         if (StringTool.isBlank(isCounter)) {
-            hadlePlayerRanks(listVo);
             long count = ServiceTool.vUserPlayerService().count(listVo);
             listVo.getPaging().setTotalCount(count);
         }
@@ -359,19 +356,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             return sysParam;
         }
         return null;
-    }
-
-
-    private void hadlePlayerRanks(VUserPlayerListVo listVo) {
-        List playerRanks = listVo.getSearch().getPlayerRanks();
-        List newPlayerRanks = new ArrayList();
-        if (playerRanks != null) {
-            for (int i = 0; i < playerRanks.size(); i++) {
-                int rankId = Integer.parseInt((String) playerRanks.get(i));
-                newPlayerRanks.add(rankId);
-            }
-            listVo.getSearch().setPlayerRanks(newPlayerRanks);
-        }
     }
 
     private List<Pair> initUserTypeSearchKeys() {
