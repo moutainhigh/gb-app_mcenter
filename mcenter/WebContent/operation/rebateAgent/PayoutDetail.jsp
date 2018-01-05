@@ -33,7 +33,7 @@
                         <c:forEach var="s" items="${command.result}">
                             <c:set var="sum1" value="${sum1 + s.profitSelf}"></c:set>
                             <tr>
-                                <td>${gbFn:getSiteApiName(s.apiId)}</td>
+                                <td>${gbFn:getSiteApiName(s.apiId)}-${dicts.game.game_type[s.gameType]}</td>
                                 <td>${soulFn:formatCurrency(s.profitSelf)}</td>
                                 <td>${s.rebateRatio}</td>
                                 <td>${soulFn:formatCurrency(s.rebateSelf) }</td>
