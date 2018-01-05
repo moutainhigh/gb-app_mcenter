@@ -16,7 +16,7 @@
             </div>
             <div class="line-hi25 col-sm-12">
                 <b>${views.fund['playerDetect.view.playerAccount']}：</b>
-                <a href="javascript:void(0)" class="m-r-sm">${command1.result.username}</a>
+                <a href="/player/playerView.html?search.id=${command1.result.id}" class="m-r-sm" nav-target="mainFrame">${command1.result.username}</a>
                 <c:if test="${command1.result.onLineId>0}">
                     <i class="fa fa-flash" title="${views.fund_auto['在线']}"></i>
                 </c:if>

@@ -221,16 +221,17 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         SysParam sysParam = getExportParam();
         model.addAttribute("queryparamValue", sysParam);
         listVo = ServiceTool.vUserPlayerService().countTransfer(listVo);
-        /*玩家检测注册IP*/
-        if (listVo.getSearch().getRegisterIp() != null) {
+        /*玩家检测注册IP*//*
+        if(listVo.getSearch().getRegisterIp()!=null){
             String registerIp = IpTool.ipv4LongToString(listVo.getSearch().getRegisterIp());
             listVo.getSearch().setRegisterIpv4(registerIp);
         }
-        /*玩家检测登录IP*/
-        if (StringTool.isNotBlank(listVo.getSearch().getIp())) {
+        *//*玩家检测登录IP*//*
+        if(StringTool.isNotBlank(listVo.getSearch().getIp())){
             String lastLoginIp = IpTool.ipv4LongToString(Long.parseLong(listVo.getSearch().getIp()));
             listVo.getSearch().setLastLoginIpv4(lastLoginIp);
-        }
+        }*/
+        model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
         /*玩家检测真是姓名*/
         if (listVo.getSearch().isHasReturn() && StringTool.isNotBlank(listVo.getSearch().getRealName())) {
@@ -279,6 +280,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //标签管理,筛选有该标签的玩家
         getPlayerByTagId(listVo, model);
         initRemarkContent(listVo);
+        //条件查询根据标签查询玩家
+        getTagIdByPlayer(listVo, model);
         // 不同的链接得到不同的玩家列表
         VUserPlayerListVo list = getListVo(listVo);
         // 玩家筛选
@@ -365,6 +368,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     public String count(VUserPlayerListVo listVo, Model model, String isCounter) {
         listVo = buildSearchIp(listVo);
         if(listVo.isSuccess()){
+            playerDetection(listVo, model);
             initDate(listVo);
             listVo = doCount(listVo, isCounter);
             listVo.getPaging().cal();
@@ -582,7 +586,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      * add by Bruce.QQ
      */
     private void playerDetection(VUserPlayerListVo listVo, Model model) {
-
         VUserPlayerSo vuserPlayerSo = listVo.getSearch();
         if (StringTool.isNotBlank(vuserPlayerSo.getIp())) {
             SysAuditLogSo sysAuditLogSo = new SysAuditLogSo();
@@ -591,9 +594,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             sysAuditLogSo.setOperatorUserType(UserTypeEnum.PLAYER.getCode());
             List<Integer> playerIds = ServiceTool.customSysAuditLogService().searchOperatorIdByIp(sysAuditLogSo);
             vuserPlayerSo.setIds(playerIds);
-            model.addAttribute("operateIp", vuserPlayerSo.getIp());
+
         }
-        model.addAttribute("hasReturn", vuserPlayerSo.isHasReturn());
+
         if (vuserPlayerSo.isHasReturn() && StringTool.isNotBlank(vuserPlayerSo.getRealName())) {
             try {
                 String realName = URLDecoder.decode(vuserPlayerSo.getRealName(), Const.DEFAULT_CHARACTER);

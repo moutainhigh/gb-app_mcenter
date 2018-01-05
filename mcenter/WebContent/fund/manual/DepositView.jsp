@@ -45,8 +45,37 @@
                         </tr>
                         <tr>
                             <th scope="row" class="text-right">${views.fund['类型：']}</th>
-                            <td>${dicts.fund.recharge_type[r.transactionWay]}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${r.transactionWay=='manual_favorable'}">
+                                        ${views.report_auto['人工存入']}-${dicts.fund.recharge_type[r.transactionWay]}-${dicts.common.activity_type[activityType]}
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${dicts.fund.recharge_type[r.transactionWay]}
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                         </tr>
+                        <c:if test="${r.transactionWay=='manual_favorable'}">
+                        <tr>
+                            <th scope="row" class="text-right">优惠活动：</th>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${activityId==''||activityId==null}">
+                                        <c:if test="${not empty activityName}">
+                                            ${activityName}
+                                        </c:if>
+                                        <c:if test="${empty activityName}">
+                                             -  -
+                                        </c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="/operation/activityType/viewActivityDetail.html?search.id=${activityId}" nav-target="mainFrame">${activityName}</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                        </c:if>
                         <tr>
                             <th scope="row" class="text-right">${views.fund['稽核：']}</th>
                             <td>

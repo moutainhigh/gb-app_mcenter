@@ -131,6 +131,7 @@ public class ManualController {
         model.addAttribute("hasReturn", request.getParameter("hasReturn"));
         model.addAttribute("fromPlayerDetail", request.getParameter("fromPlayerDetail"));
         model.addAttribute("playerId", request.getParameter("playerId"));
+        model.addAttribute("activityType",ActivityTypeEnum.values());
         return MANUAL_INDEX;
     }
 
@@ -143,20 +144,26 @@ public class ManualController {
         model.addAttribute("username", username);
         String transactionNo = request.getParameter("transactionNo");
         model.addAttribute("transactionNo", transactionNo);
-        sales(model, transactionNo);//优惠活动
+//        sales(model, transactionNo);//优惠活动
         return MANUAL_DEPOSIT;
     }
 
-    private void sales(Model model, String transactionNo) {
+    @RequestMapping("/sales")
+    @ResponseBody
+    private List<Map<String, Object>> sales(String favorableType ,String transactionNo) {
+        if (StringTool.isBlank(favorableType)) {
+            return null;
+        }
         VActivityMessageListVo vActivityMessageListVo = new VActivityMessageListVo();
         vActivityMessageListVo.getSearch().setActivityVersion(SessionManager.getLocale().toString());
         vActivityMessageListVo.getSearch().setIsDeleted(false);
+        vActivityMessageListVo.getSearch().setCode(favorableType);
         if (StringTool.isNotBlank(transactionNo)) {
             vActivityMessageListVo.getSearch().setCodes(new String[]{ActivityTypeEnum.DEPOSIT_SEND.getCode(), ActivityTypeEnum.FIRST_DEPOSIT.getCode()});
         }
-        vActivityMessageListVo.setProperties(VActivityMessage.PROP_ID, VActivityMessage.PROP_ACTIVITY_NAME);
+        vActivityMessageListVo.setProperties(VActivityMessage.PROP_ID, VActivityMessage.PROP_ACTIVITY_NAME,VActivityMessage.PROP_CODE);
         List<Map<String, Object>> mapList = ServiceTool.vActivityMessageService().searchProperties(vActivityMessageListVo);
-        model.addAttribute("sales", mapList);
+        return mapList;
     }
 
     @RequestMapping("/withdraw")
@@ -265,9 +272,13 @@ public class ManualController {
                     "dicts", CommonContext.get().getLocale());
             params.add(result.getRechargeAmount().toString());//存款金额
             params.add(localStr);//存款类型
-            params.add(isAuditRecharge.toString());
+            params.add(isAuditRecharge.toString());//是否稽核
             if (isAuditRecharge){
-                params.add(playerRechargeVo.getAuditMultiple().toString());
+                params.add("是");
+                params.add(playerRechargeVo.getAuditMultiple().toString());//稽核倍数
+            }else {
+                params.add("否");
+                params.add("0");
             }
         }
         if (playerRechargeVo.getActivityName()!=null){
@@ -331,11 +342,14 @@ public class ManualController {
         PlayerWithdraw result = playerWithdrawVo.getResult();
         params.add(playerWithdrawVo.getUsername());
         params.add(result.getWithdrawAmount().toString());
-        params.add(result.getWithdrawType());
+        String withdrawType = "withdraw_type." + result.getWithdrawType();
+        String localStr = I18nTool.getLocalStr(withdrawType, DictEnum.WITHDRAW_TYPE.getModule().getCode(),
+                "dicts", CommonContext.get().getLocale());
+        params.add(localStr);//取款类型
         if (result.getIsClearAudit()!= null){
-            params.add(result.getIsClearAudit().toString());
+            params.add("是");//清除稽核点
         }else {
-            params.add("false");
+            params.add("否");
         }
         BaseLog baseLog = logVo.addBussLog();
         for (String param : params){
@@ -471,6 +485,10 @@ public class ManualController {
     public String depositView(PlayerTransactionVo playerTransactionVo, Model model) {
         playerTransactionVo = ServiceTool.getPlayerTransactionService().get(playerTransactionVo);
         model.addAttribute("command", playerTransactionVo);
+        Map transactionDataMap = JsonTool.fromJson(playerTransactionVo.getResult().getTransactionData(),HashMap.class);
+        model.addAttribute("activityId",MapTool.getString(transactionDataMap,"activityId"));
+        model.addAttribute("activityName",MapTool.getString(transactionDataMap,"activityName"));
+        model.addAttribute("activityType",MapTool.getString(transactionDataMap,"activityType"));
         PlayerTransaction playerTransaction = playerTransactionVo.getResult();
         LOG.info("查询人工存款详细，交易号{0}", playerTransaction.getTransactionNo());
         if (TransactionTypeEnum.DEPOSIT.getCode().equals(playerTransaction.getTransactionType())) {
