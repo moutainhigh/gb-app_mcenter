@@ -65,7 +65,6 @@ import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
 import so.wwb.gamebox.model.master.fund.po.PlayerWithdraw;
 import so.wwb.gamebox.model.master.fund.po.VPlayerDeposit;
 import so.wwb.gamebox.model.master.fund.vo.*;
-import so.wwb.gamebox.model.master.operation.po.ActivityMessage;
 import so.wwb.gamebox.model.master.operation.po.VActivityMessage;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMessageVo;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMessageListVo;
@@ -494,7 +493,7 @@ public class ManualController {
         if(StringTool.isNotEmpty(activityId)){
             ActivityMessageVo activityMessageVo = new ActivityMessageVo();
             activityMessageVo.getSearch().setId(Integer.valueOf(activityId));
-            activityMessageVo = ServiceTool.activityMessageService().get(activityMessageVo);
+            activityMessageVo = ServiceSiteTool.activityMessageService().get(activityMessageVo);
             model.addAttribute("activityMessage",activityMessageVo.getResult());
         }
         model.addAttribute("activityName",MapTool.getString(transactionDataMap,"activityName"));
