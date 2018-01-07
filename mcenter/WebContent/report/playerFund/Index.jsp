@@ -4,7 +4,7 @@
 <!--//region your codes 1-->
 
 <!--//endregion your codes 1-->
-<form:form action="${root}/rebateBill/list.html" method="post">
+<form:form action="${root}/userPlayerFund/search.html   " method="post">
     <div id="validateRule" style="display: none">${command.validateRule}</div>
     <!--//region your codes 2-->
     <div class="row">
