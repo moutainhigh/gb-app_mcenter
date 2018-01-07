@@ -6,6 +6,7 @@
     <form:form action="${root}/player/list.html" method="post" name="playerForm">
         <div id="validateRule" style="display: none">${validateRule}</div>
         <input type="hidden" id="playerRanksMemory" value="">
+        <input type="hidden" id="playerTagsMemory" value="">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
             <span>${views.sysResource['角色']}</span><span>/</span>
@@ -594,6 +595,7 @@
                                 <span class="hd">${views.role['player.list.title.layer']}</span>&nbsp;&nbsp;<span
                                     class="caret"></span>
                             </button>
+
                             <soul:button cssClass="btn btn-outline btn-filter _unlockrank hidden"
                                          target="${root}/userPlayer/unlock.html"
                                          post="getSelectIds" precall="" opType="ajax" dataType="json"
@@ -614,7 +616,7 @@
                                 </li>
                             </ul>
                         </div>
-
+                        //标签
                         <div class="btn-group" id="player_tag" style="padding-right: 10px">
                             <input type="hidden" value="true" id="hasLoadTag">
                             <button data-toggle="dropdown" type="button" id="player_tag_btn" data-has-load="true"
@@ -649,7 +651,6 @@
                                                  cssClass="fil" tag="a" opType="dialog"
                                                  text="${views.role['Player.list.tagManager']}">${views.common['manage']}</soul:button>
                                 </li>
-
                             </ul>
                         </div>
 
