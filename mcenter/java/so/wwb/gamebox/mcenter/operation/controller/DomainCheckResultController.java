@@ -1,0 +1,50 @@
+package so.wwb.gamebox.mcenter.operation.controller;
+
+import org.soul.web.controller.BaseCrudController;
+import org.soul.web.validation.form.annotation.FormModel;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import so.wwb.gamebox.iservice.company.sys.IDomainCheckResultService;
+import so.wwb.gamebox.model.company.sys.po.DomainCheckResult;
+import so.wwb.gamebox.model.company.sys.vo.DomainCheckResultListVo;
+import so.wwb.gamebox.model.company.sys.vo.DomainCheckResultVo;
+import so.wwb.gamebox.mcenter.operation.form.DomainCheckResultSearchForm;
+import so.wwb.gamebox.mcenter.operation.form.DomainCheckResultForm;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+
+/**
+ * 控制器
+ *
+ * @author steffan
+ * @time 2018-1-7 15:10:59
+ */
+@Controller
+//region your codes 1
+@RequestMapping("/operation/domainCheckResult")
+public class DomainCheckResultController extends BaseCrudController<IDomainCheckResultService, DomainCheckResultListVo, DomainCheckResultVo, DomainCheckResultSearchForm, DomainCheckResultForm, DomainCheckResult, String> {
+
+//endregion your codes 1
+
+    @Override
+    protected String getViewBasePath() {
+        //region your codes 2
+        return "/operation/domainCheckResult/";
+        //endregion your codes 2
+    }
+
+    //region your codes 3
+
+    //endregion your codes 3
+
+
+    @Override
+    public String list(DomainCheckResultListVo listVo, @FormModel("search") @Valid DomainCheckResultSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
+        return super.list(listVo, form, result, model, request, response);
+    }
+}
