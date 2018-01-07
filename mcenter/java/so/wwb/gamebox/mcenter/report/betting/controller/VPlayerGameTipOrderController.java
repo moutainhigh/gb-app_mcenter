@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
 import so.wwb.gamebox.model.site.report.vo.VPlayerGameTipOrderListVo;
@@ -42,7 +42,7 @@ public class VPlayerGameTipOrderController {
     @RequestMapping("/vPlayerGameTipOrderList")
     public String vPlayerGameTipOrderList(Model model, VPlayerGameTipOrderListVo vPlayerGameTipOrderListVo, HttpServletRequest request) {
         initPage(model, vPlayerGameTipOrderListVo);
-        vPlayerGameTipOrderListVo = ServiceTool.vPlayerGameTipOrderService().search(vPlayerGameTipOrderListVo);
+        vPlayerGameTipOrderListVo = ServiceSiteTool.vPlayerGameTipOrderService().search(vPlayerGameTipOrderListVo);
         model.addAttribute("command", vPlayerGameTipOrderListVo);
         return ServletTool.isAjaxSoulRequest(request) ? getViewBasePath() + "IndexPartial" : getViewBasePath() + "Index";
     }
@@ -100,7 +100,7 @@ public class VPlayerGameTipOrderController {
     public Map<String, String> statisticalData(VPlayerGameTipOrderListVo listVo) {
         Map<String, String> map = new HashMap<>(1,1f);
         if (listVo.getPaging().getTotalCount() > 0) {
-            Map<String, Object> sum = ServiceTool.vPlayerGameTipOrderService().querySumTip(listVo);
+            Map<String, Object> sum = ServiceSiteTool.vPlayerGameTipOrderService().querySumTip(listVo);
             map.put("sumTip", CurrencyTool.formatCurrency(MapTool.getDouble(sum, "tip")));
         } else {
             map.put("sumTip", "0.00");

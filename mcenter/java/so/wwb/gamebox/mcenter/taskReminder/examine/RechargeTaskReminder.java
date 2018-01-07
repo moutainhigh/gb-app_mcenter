@@ -1,6 +1,6 @@
 package so.wwb.gamebox.mcenter.taskReminder.examine;
 
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminder;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
@@ -32,15 +32,15 @@ public class RechargeTaskReminder extends TaskReminder {
             SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
             sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
             sysUserDataRightVo.getSearch().setModuleType(DataRightModuleType.COMPANYDEPOSIT.getCode());
-            List entityIds = ServiceTool.sysUserDataRightService().searchDataRightEntityId(sysUserDataRightVo);
+            List entityIds = ServiceSiteTool.sysUserDataRightService().searchDataRightEntityId(sysUserDataRightVo);
             if (entityIds != null && entityIds.size() > 0) {
                 vPlayerDepositVo.getSearch().setRankIds(entityIds);
-                return ServiceTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
+                return ServiceSiteTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
             }  else {
-                return ServiceTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
+                return ServiceSiteTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
             }
         } else {
-            return ServiceTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
+            return ServiceSiteTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
         }
     }
 }

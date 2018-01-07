@@ -9,15 +9,12 @@ import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.DateFormat;
 import org.soul.commons.locale.LocaleDateTool;
-import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.IpTool;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
-import org.soul.model.sys.po.SysParam;
-import org.soul.web.session.SessionManagerBase;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,15 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.fund.IPlayerRechargeService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.CacheBase;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
-import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.company.setting.po.CurrencyExchangeRate;
 import so.wwb.gamebox.model.company.setting.po.SysCurrency;
 import so.wwb.gamebox.model.company.setting.vo.CurrencyExchangeRateVo;
@@ -274,7 +270,7 @@ public class CompanyDepositController extends BaseDepositController {
         if (RechargeTypeEnum.BITCOIN_FAST.getCode().equals(vo.getResult().getRechargeType()) && !RechargeStatusEnum.EXCHANGE.getCode().equals(vo.getResult().getRechargeStatus())) {
             PlayerTransactionVo playerTransactionVo = new PlayerTransactionVo();
             playerTransactionVo.getSearch().setId(vo.getResult().getPlayerTransactionId());
-            playerTransactionVo = ServiceTool.getPlayerTransactionService().get(playerTransactionVo);
+            playerTransactionVo = ServiceSiteTool.getPlayerTransactionService().get(playerTransactionVo);
             model.addAttribute("transactionData", JsonTool.fromJson(playerTransactionVo.getResult().getTransactionData(), Map.class));
         }
         return getViewBasePath() + "Check";
@@ -367,7 +363,7 @@ public class CompanyDepositController extends BaseDepositController {
             map.put("hasExchange", true);
             return map;
         }
-        IPlayerRechargeService playerRechargeService = ServiceTool.playerRechargeService();
+        IPlayerRechargeService playerRechargeService = ServiceSiteTool.playerRechargeService();
         //验证订单状态
         if (!playerRechargeService.checkDepositStatus(vo)) {//查询不到订单状态
             map.put("state", false);

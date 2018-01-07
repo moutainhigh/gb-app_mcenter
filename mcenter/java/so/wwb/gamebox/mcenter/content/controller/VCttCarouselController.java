@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.content.IVCttCarouselService;
 import so.wwb.gamebox.mcenter.content.form.VCttCarouselForm;
 import so.wwb.gamebox.mcenter.content.form.VCttCarouselSearchForm;
@@ -22,18 +22,17 @@ import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.master.content.enums.IntervalTimeEnum;
-import so.wwb.gamebox.model.master.content.po.CttCarousel;
 import so.wwb.gamebox.model.master.content.po.CttCarouselI18n;
 import so.wwb.gamebox.model.master.content.po.VCttCarousel;
 import so.wwb.gamebox.model.master.content.vo.CttCarouselI18nListVo;
-import so.wwb.gamebox.model.master.content.vo.CttCarouselListVo;
 import so.wwb.gamebox.model.master.content.vo.VCttCarouselListVo;
 import so.wwb.gamebox.model.master.content.vo.VCttCarouselVo;
-import so.wwb.gamebox.model.master.enums.CarouselTypeEnum;
 import so.wwb.gamebox.model.master.enums.CttCarouselTypeEnum;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -78,7 +77,7 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
         cttCarouselI18nListVo.getSearch().setName(listVo.getSearch().getName());
         cttCarouselI18nListVo.setPaging(null);
         cttCarouselI18nListVo.setProperties(CttCarouselI18n.PROP_CAROUSEL_ID);
-        List<Integer> list = ServiceTool.cttCarouselI18nService().searchProperty(cttCarouselI18nListVo);
+        List<Integer> list = ServiceSiteTool.cttCarouselI18nService().searchProperty(cttCarouselI18nListVo);
         if(list!=null&&list.size()>0){
             listVo.getSearch().setIds(list);
         }else{
@@ -95,7 +94,7 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
         CttCarouselI18nListVo cttCarouselI18nListVo = new CttCarouselI18nListVo();
         cttCarouselI18nListVo.getSearch().setLanguage(SessionManager.getLocale().toString());
         cttCarouselI18nListVo.setPaging(null);
-        cttCarouselI18nListVo = ServiceTool.cttCarouselI18nService().search(cttCarouselI18nListVo);
+        cttCarouselI18nListVo = ServiceSiteTool.cttCarouselI18nService().search(cttCarouselI18nListVo);
         List<CttCarouselI18n> i18nList = cttCarouselI18nListVo.getResult();
         Map<Object, CttCarouselI18n> i18nMap= CollectionTool.toEntityMap(i18nList, CttCarouselI18n.PROP_CAROUSEL_ID);
         listVo.setCurrentLang(i18nMap);
@@ -230,7 +229,7 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
         Map<String, SysDict> useStatus = DictTool.get(DictEnum.CAROUSEL_STATE);
         vCttCarouselListVo.setUseStatus(useStatus);
         getCurrentLangCarousel(vCttCarouselListVo);
-        vCttCarouselListVo = ServiceTool.vCttCarouselService().search(vCttCarouselListVo);
+        vCttCarouselListVo = ServiceSiteTool.vCttCarouselService().search(vCttCarouselListVo);
         model.addAttribute("command",vCttCarouselListVo);
         model.addAttribute("webType", code);
         model.addAttribute("type",vCttCarouselListVo.getSearch().getType());

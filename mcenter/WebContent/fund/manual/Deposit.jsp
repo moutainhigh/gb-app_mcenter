@@ -46,7 +46,7 @@
                                     <select name="result.rechargeType" class="btn-group chosen-select-no-single">
                                         <c:forEach items="${rechargeType}" var="i">
                                             <c:if test="${i.dictCode != manualFavorable && i.dictCode != manualRakeback}">
-                                                <option value="${i.dictCode}">${dicts.fund.recharge_type[i.dictCode]}</option>
+                                                <option value="${i.dictCode}" ${i.dictCode == manualDeposit?'selected':''}>${dicts.fund.recharge_type[i.dictCode]}</option>
                                             </c:if>
                                         </c:forEach>
                                     </select>
@@ -93,7 +93,7 @@
                                 <select name="favorableType" class="btn-group chosen-select-no-single">
                                     <c:forEach items="${rechargeType}" var="i">
                                         <c:if test="${i.dictCode != manualDeposit}">
-                                            <option value="${i.dictCode}">${dicts.fund.recharge_type[i.dictCode]}</option>
+                                            <option value="${i.dictCode}" ${i.dictCode == manualFavorable?'selected':''}>${dicts.fund.recharge_type[i.dictCode]}</option>
                                         </c:if>
                                     </c:forEach>
                                 </select>

@@ -15,6 +15,7 @@ import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IUserPlayerService;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
@@ -196,7 +197,7 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
     protected UserPlayerVo doCreate(UserPlayerVo userPlayerVo, Model model) {
         Map<String, SysDict> sex = DictTool.get(DictEnum.COMMON_SEX );
         userPlayerVo.setSex(sex);
-        List<PlayerRank> rankList = ServiceTool.playerRankService().getRankName(new PlayerRankVo());
+        List<PlayerRank> rankList = ServiceSiteTool.playerRankService().getRankName(new PlayerRankVo());
         model.addAttribute("rankList",rankList);
         Map<String, Serializable> imTypeMaps = DictTool.get(DictEnum.COMMON_CONTACT_WAY_TYPE);
         userPlayerVo.setContactTypeMap(imTypeMaps);
@@ -217,12 +218,12 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
         String msg ;
         boolean success =ids.length>1;
         userPlayerVo.setIds(Arrays.asList(ids));
-        ServiceTool.playerRankService().unlockPlayerRank(userPlayerVo);
+        ServiceSiteTool.playerRankService().unlockPlayerRank(userPlayerVo);
         if(ids.length==1){
             Integer playerId = ids[0];
             VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
             vUserPlayerVo.setType(playerId);
-            List<String> rankName = ServiceTool.vUserPlayerService().getRankNameById(vUserPlayerVo);
+            List<String> rankName = ServiceSiteTool.vUserPlayerService().getRankNameById(vUserPlayerVo);
             String rank = rankName.get(0);
             msg = LocaleTool.tranMessage(_Module.COMMON, "unlockRank.success");
             msg = msg +rank;
@@ -254,10 +255,10 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
             Integer playerId = playerRankVo.getSearch().getPlayerIds().get(0);
             UserPlayerVo userPlayerVo = new UserPlayerVo();
             userPlayerVo.getSearch().setId(playerId);
-            userPlayerVo = ServiceTool.userPlayerService().get(userPlayerVo);
+            userPlayerVo = ServiceSiteTool.userPlayerService().get(userPlayerVo);
             model.addAttribute("userPlayerVo",userPlayerVo);
         }
-        List<PlayerRank> rankList = ServiceTool.playerRankService().getRankName(playerRankVo);
+        List<PlayerRank> rankList = ServiceSiteTool.playerRankService().getRankName(playerRankVo);
         model.addAttribute("rankList",rankList);
         return RANK_LIST;
     }

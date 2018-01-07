@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
@@ -116,7 +117,7 @@ public class PlayerGroupSendController {
             VNoticeEmailRankListVo vno  = new VNoticeEmailRankListVo();
             vno.getSearch().setStatus("1");
             /*vno.getSearch().setBuiltIn(false);*/
-            vno = ServiceTool.vNoticeEmailRankService().search(vno);
+            vno = ServiceSiteTool.vNoticeEmailRankService().search(vno);
             if (vno.getResult().size()>0) {
                 getSendTypeWay(model, userPlayerVo, NoticePublishMethod.EMAIL);
                 url =  SEND_MESSAGE_CONTENT_EDIT;
@@ -129,7 +130,7 @@ public class PlayerGroupSendController {
     }
 
     private void getSendTypeWay(Model model, UserPlayerVo userPlayerVo, NoticePublishMethod siteMsg) {
-        userPlayerVo = ServiceTool.userPlayerService().getUserPlayer4GroupSend(userPlayerVo);
+        userPlayerVo = ServiceSiteTool.userPlayerService().getUserPlayer4GroupSend(userPlayerVo);
         //解密email
         if (SEND_TYPE_MAIL.equals(userPlayerVo.getSendType())) {
             List<Map<String,Object>> groupSendPlayers = userPlayerVo.getGroupSendPlayers();

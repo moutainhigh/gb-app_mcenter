@@ -37,6 +37,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.operation.form.MassInformationForm;
@@ -154,8 +155,8 @@ public class MassInformationController {
         }
         //查询有效的层级
         PlayerRankVo playerRankVo = new PlayerRankVo();
-        List<PlayerRank> rankList = ServiceTool.playerRankService().queryUsableList(playerRankVo);
-        List<VPlayerTag> vPlayerTags = ServiceTool.vPlayerTagService().allSearch(new VPlayerTagListVo());
+        List<PlayerRank> rankList = ServiceSiteTool.playerRankService().queryUsableList(playerRankVo);
+        List<VPlayerTag> vPlayerTags = ServiceSiteTool.vPlayerTagService().allSearch(new VPlayerTagListVo());
         queryMasterAndAgent(massInformationVo, model);
         model.addAttribute("rankList", rankList);
         model.addAttribute("vPlayerTags", vPlayerTags);
@@ -207,13 +208,13 @@ public class MassInformationController {
                 new Criterion(VUserAgent.PROP_STATUS, Operator.IS_NOT_NULL, null)
         });
         vUserAgentListVo.setPaging(null);
-        VUserAgentListVo master = ServiceTool.vUserAgentService().search(vUserAgentListVo);
+        VUserAgentListVo master = ServiceSiteTool.vUserAgentService().search(vUserAgentListVo);
         vUserAgentListVo.getQuery().setCriterions(new Criterion[]{
                 new Criterion(VUserAgent.PROP_STATUS, Operator.LG, '2'),
                 new Criterion(VUserAgent.PROP_USER_TYPE, Operator.IN, new ArrayList(Arrays.asList("23", "231"))),
                 new Criterion(VUserAgent.PROP_STATUS, Operator.IS_NOT_NULL, null)
         });
-        VUserAgentListVo agent = ServiceTool.vUserAgentService().search(vUserAgentListVo);
+        VUserAgentListVo agent = ServiceSiteTool.vUserAgentService().search(vUserAgentListVo);
         List<VUserAgent> allMaster = master.getResult();
         List<VUserAgent> allAgent = agent.getResult();
         List<VUserAgent> selectedMaster = new ArrayList<>();
@@ -284,7 +285,7 @@ public class MassInformationController {
         List<String> playerList = new ArrayList<>();
         UserPlayerVo userPlayerVo = new UserPlayerVo();
         userPlayerVo.setProperties(playerArray);
-        List<SysUser> existUser = ServiceTool.userPlayerService().queryUserNamesExists(userPlayerVo);
+        List<SysUser> existUser = ServiceSiteTool.userPlayerService().queryUserNamesExists(userPlayerVo);
         String disableStatus = PlayerStatusEnum.DISABLE.getCode();
         for (SysUser sysUser : existUser) {
             if (StringTool.equals(sysUser.getStatus(), disableStatus)) {
@@ -335,7 +336,7 @@ public class MassInformationController {
         SiteLanguageListVo siteLanguageListVo = new SiteLanguageListVo();
         siteLanguageListVo.getSearch().setSiteId(SessionManager.getSiteId());
         List<SiteLanguage> languageList = ServiceTool.siteLanguageService().availableLanguage(siteLanguageListVo);
-        List<VPlayerTag> vPlayerTags = ServiceTool.vPlayerTagService().allSearch(new VPlayerTagListVo());
+        List<VPlayerTag> vPlayerTags = ServiceSiteTool.vPlayerTagService().allSearch(new VPlayerTagListVo());
         model.addAttribute("massInformationVo", massInformationVo);
         model.addAttribute("languageList", languageList);
         model.addAttribute("vPlayerTags", vPlayerTags);
@@ -395,7 +396,7 @@ public class MassInformationController {
                 VUserPlayerListVo vUserPlayerListVo = new VUserPlayerListVo();
                 vUserPlayerListVo.setProperties(VUserPlayer.PROP_ID);
                 vUserPlayerListVo.getQuery().setCriterions(new Criterion[]{new Criterion(VUserPlayer.PROP_STATUS, Operator.LG, "2")});
-                List<Integer> userIds = ServiceTool.vUserPlayerService().searchProperty(vUserPlayerListVo);
+                List<Integer> userIds = ServiceSiteTool.vUserPlayerService().searchProperty(vUserPlayerListVo);
                 if (massInformationVo.getSendType().equals(PublishMethodEnum.EMAIL.getCode())) {
                     enableContactCount = CollectionTool.intersection(enableContactUsers, userIds).size();
                     disableContactCount = userIds.size() - enableContactCount;
@@ -451,14 +452,14 @@ public class MassInformationController {
                 VPlayerTagAllListVo vplayerTagAllListVo = new VPlayerTagAllListVo();
                 if (rankIdList.size() > 0) {
                     userPlayerListVo.setRankIds(rankIdList);
-                    rankUserIds = ServiceTool.userPlayerService().countAppointRankUser(userPlayerListVo);
+                    rankUserIds = ServiceSiteTool.userPlayerService().countAppointRankUser(userPlayerListVo);
                     enableContactCount = CollectionTool.intersection(enableContactUsers, rankUserIds).size();
                     disableContactCount = rankUserIds.size() - enableContactCount;
                 }
                 if (tagIdList.size() > 0) {
                     vplayerTagAllListVo.getQuery().setCriterions(new Criterion[]{new Criterion(VPlayerTagAll.PROP_TAG_ID, Operator.IN, tagIdList), new Criterion(VPlayerTagAll.PROP_STATUS, Operator.NE, PlayerStatusEnum.DISABLE.getCode())});
                     vplayerTagAllListVo.setProperties(VPlayerTagAll.PROP_PLAYER_ID);
-                    tagUserIds = ServiceTool.vPlayerTagAllService().searchProperty(vplayerTagAllListVo);
+                    tagUserIds = ServiceSiteTool.vPlayerTagAllService().searchProperty(vplayerTagAllListVo);
                     enableContactCount = CollectionTool.intersection(enableContactUsers, tagUserIds).size();
                     disableContactCount = tagUserIds.size() - enableContactCount;
                 }
@@ -510,7 +511,7 @@ public class MassInformationController {
                         new Criterion(VUserAgent.PROP_STATUS, Operator.NE, PlayerStatusEnum.DISABLE.getCode()),
                         new Criterion(VUserAgent.PROP_USER_TYPE, Operator.EQ, UserTypeEnum.AGENT.getCode())
                 });
-                List<Integer> userIds = ServiceTool.vUserAgentService().searchProperty(userAgentListVo);
+                List<Integer> userIds = ServiceSiteTool.vUserAgentService().searchProperty(userAgentListVo);
                 enableContactCount = CollectionTool.intersection(enableContactUsers, userIds).size() + CollectionTool.intersection(enableContactUsers, massInformationVo.getMasterAndAgent()).size();
                 disableContactCount = userIds.size() + masterSize - enableContactCount;
                 StringBuffer info = new StringBuffer(LocaleTool.tranMessage("operation_auto", "总代及其代理").replace("{0}", masterSize + "").replace("{1}", new Long(masterSize + userIds.size()) + ""));
@@ -697,7 +698,7 @@ public class MassInformationController {
             switch (massInformationVo.getGroup()) {
                 case SEND_OBJECT_AGENT_ALL:
                     userAgentListVo.setProperties(UserAgent.PROP_ID);
-                    agent = ServiceTool.userAgentService().searchProperty(userAgentListVo);
+                    agent = ServiceSiteTool.userAgentService().searchProperty(userAgentListVo);
                     noticeVo.addUserIds(agent.toArray(new Integer[agent.size()]));
                     break;
                 case SEND_OBJECT_AGENT_APPOINTAGENT:
@@ -712,7 +713,7 @@ public class MassInformationController {
                             new Criterion(VUserAgent.PROP_STATUS, Operator.NE, PlayerStatusEnum.DISABLE.getCode()),
                             new Criterion(VUserAgent.PROP_USER_TYPE, Operator.EQ, UserTypeEnum.AGENT.getCode())
                     });
-                    agent = ServiceTool.vUserAgentService().searchProperty(vUserAgentListVo);
+                    agent = ServiceSiteTool.vUserAgentService().searchProperty(vUserAgentListVo);
                     noticeVo.addUserIds(masterAndAgent.toArray(new Integer[masterAndAgent.size()]));
                     noticeVo.addUserIds(agent.toArray(new Integer[agent.size()]));
                     break;
@@ -874,7 +875,7 @@ public class MassInformationController {
             VUserAgentManageListVo listVo = new VUserAgentManageListVo();
             if (CollectionTool.isNotEmpty(ids)) {
                 listVo.getSearch().setIds(ids);
-                listVo = ServiceTool.vUserAgentManageService().searchByCustom(listVo);
+                listVo = ServiceSiteTool.vUserAgentManageService().searchByCustom(listVo);
             }
             status.remove(SysUserStatus.AUDIT_FAIL.getCode());
             returnUrl = "/player/agent/agentmanage/Index";
@@ -883,7 +884,7 @@ public class MassInformationController {
             VUserTopAgentManageListVo listVo = new VUserTopAgentManageListVo();
             if (CollectionTool.isNotEmpty(ids)) {
                 listVo.getSearch().setIds(ids);
-                listVo = ServiceTool.vUserTopAgentManageService().searchByCustom(listVo);
+                listVo = ServiceSiteTool.vUserTopAgentManageService().searchByCustom(listVo);
             }
             status.remove(SysUserStatus.AUDIT_FAIL.getCode());
             status.remove(SysUserStatus.INACTIVE.getCode());
@@ -894,7 +895,7 @@ public class MassInformationController {
             VUserPlayerListVo listVo = new VUserPlayerListVo();
             if (CollectionTool.isNotEmpty(ids)) {
                 listVo.getSearch().setIds(ids);
-                listVo = ServiceTool.vUserPlayerService().searchByCustom(listVo);
+                listVo = ServiceSiteTool.vUserPlayerService().searchByCustom(listVo);
             }
             listVo.setAllFieldLists(allListFields);
             model.addAttribute("command", listVo);

@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.tools;
 
 import org.soul.model.comet.vo.MessageVo;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.CompanyParamEnum;
@@ -27,6 +28,6 @@ public class SendMessageTool {
 		UserTaskReminderVo userTaskReminderVo = new UserTaskReminderVo();
 		userTaskReminderVo.setTaskEnum(taskEnum);
 		userTaskReminderVo._setDataSourceId(SessionManager.getSiteParentId());
-		ServiceTool.userTaskReminderService().addTaskReminder(userTaskReminderVo);
+		ServiceSiteTool.userTaskReminderService().addTaskReminder(userTaskReminderVo);
 	}
 }

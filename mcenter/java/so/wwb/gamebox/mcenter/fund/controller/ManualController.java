@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.fund.form.ManualDepositForm;
 import so.wwb.gamebox.mcenter.fund.form.ManualWithdrawForm;
@@ -64,7 +65,6 @@ import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
 import so.wwb.gamebox.model.master.fund.po.PlayerWithdraw;
 import so.wwb.gamebox.model.master.fund.po.VPlayerDeposit;
 import so.wwb.gamebox.model.master.fund.vo.*;
-import so.wwb.gamebox.model.master.operation.po.ActivityMessage;
 import so.wwb.gamebox.model.master.operation.po.VActivityMessage;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMessageVo;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMessageListVo;
@@ -164,7 +164,7 @@ public class ManualController {
             vActivityMessageListVo.getSearch().setCodes(new String[]{ActivityTypeEnum.DEPOSIT_SEND.getCode(), ActivityTypeEnum.FIRST_DEPOSIT.getCode()});
         }
         vActivityMessageListVo.setProperties(VActivityMessage.PROP_ID, VActivityMessage.PROP_ACTIVITY_NAME,VActivityMessage.PROP_CODE);
-        List<Map<String, Object>> mapList = ServiceTool.vActivityMessageService().searchProperties(vActivityMessageListVo);
+        List<Map<String, Object>> mapList = ServiceSiteTool.vActivityMessageService().searchProperties(vActivityMessageListVo);
         return mapList;
     }
 
@@ -315,7 +315,7 @@ public class ManualController {
         try {
             playerWithdrawVo.getResult().setCheckUserId(SessionManager.getUserId());
             playerWithdrawVo.setOperator(SessionManager.getAuditUserName());
-            playerWithdrawVo = ServiceTool.playerWithdrawService().manualWithdraw(playerWithdrawVo);
+            playerWithdrawVo = ServiceSiteTool.playerWithdrawService().manualWithdraw(playerWithdrawVo);
             if (playerWithdrawVo.isSuccess() && !TransactionWayEnum.MANUAL_PAYOUT.getCode().equals(playerWithdrawVo.getResult().getWithdrawType())) {
                 map.put("id", playerWithdrawVo.getResult().getId());
                 PlayerWithdraw playerWithdraw = playerWithdrawVo.getResult();
@@ -429,7 +429,7 @@ public class ManualController {
     public boolean checkMoney(@RequestParam("result.withdrawAmount") String withdrawAmount, @RequestParam("username") String username) {
         SysUserVo sysUserVo = new SysUserVo();
         sysUserVo.getSearch().setUsername(username);
-        Double walletBalance = ServiceTool.userPlayerService().queryWalletBalance(sysUserVo);
+        Double walletBalance = ServiceSiteTool.userPlayerService().queryWalletBalance(sysUserVo);
         if (walletBalance == null) {
             return false;
         }
@@ -448,7 +448,7 @@ public class ManualController {
     public Map walletBalance(String username) {
         VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
         vUserPlayerVo.getSearch().setUsername(username);
-        vUserPlayerVo = ServiceTool.vUserPlayerService().search(vUserPlayerVo);
+        vUserPlayerVo = ServiceSiteTool.vUserPlayerService().search(vUserPlayerVo);
         Map<String, String> map = new HashMap<>(3, 1f);
         map.put(VUserPlayer.PROP_WALLET_BALANCE, CurrencyTool.formatInteger(vUserPlayerVo.getResult().getWalletBalance()));
         map.put(VUserPlayer.PROP_DEFAULT_CURRENCY, getCurrencySign(vUserPlayerVo.getResult().getDefaultCurrency()));
@@ -485,7 +485,7 @@ public class ManualController {
 
     @RequestMapping("/depositView")
     public String depositView(PlayerTransactionVo playerTransactionVo, Model model) {
-        playerTransactionVo = ServiceTool.getPlayerTransactionService().get(playerTransactionVo);
+        playerTransactionVo = ServiceSiteTool.getPlayerTransactionService().get(playerTransactionVo);
         model.addAttribute("command", playerTransactionVo);
         Map transactionDataMap = JsonTool.fromJson(playerTransactionVo.getResult().getTransactionData(),HashMap.class);
         String activityId = MapTool.getString(transactionDataMap,"activityId");
@@ -493,7 +493,7 @@ public class ManualController {
         if(StringTool.isNotEmpty(activityId)){
             ActivityMessageVo activityMessageVo = new ActivityMessageVo();
             activityMessageVo.getSearch().setId(Integer.valueOf(activityId));
-            activityMessageVo = ServiceTool.activityMessageService().get(activityMessageVo);
+            activityMessageVo = ServiceSiteTool.activityMessageService().get(activityMessageVo);
             model.addAttribute("activityMessage",activityMessageVo.getResult());
         }
         model.addAttribute("activityName",MapTool.getString(transactionDataMap,"activityName"));
@@ -512,7 +512,7 @@ public class ManualController {
     private void recharge(PlayerTransaction playerTransaction, Model model) {
         VPlayerDepositVo vPlayerDepositVo = new VPlayerDepositVo();
         vPlayerDepositVo.getSearch().setId(playerTransaction.getSourceId());
-        vPlayerDepositVo = ServiceTool.vPlayerDepositService().get(vPlayerDepositVo);
+        vPlayerDepositVo = ServiceSiteTool.vPlayerDepositService().get(vPlayerDepositVo);
         VPlayerDeposit vPlayerDeposit = vPlayerDepositVo.getResult();
         model.addAttribute("username", vPlayerDeposit.getUsername());
         model.addAttribute("currency", getCurrencySign(vPlayerDeposit.getDefaultCurrency()));
@@ -524,7 +524,7 @@ public class ManualController {
         LOG.info("查询手动优惠详细：id:{0}", playerTransaction.getSourceId());
         PlayerFavorableVo playerFavorableVo = new PlayerFavorableVo();
         playerFavorableVo.getSearch().setId(playerTransaction.getSourceId());
-        playerFavorableVo = ServiceTool.playerFavorableService().get(playerFavorableVo);
+        playerFavorableVo = ServiceSiteTool.playerFavorableService().get(playerFavorableVo);
         SysUser sysUser = getUser(playerFavorableVo.getResult().getOperatorId());
         if (sysUser != null) {
             model.addAttribute("operator", sysUser.getUsername());
@@ -539,7 +539,7 @@ public class ManualController {
 
     @RequestMapping("/withdrawView")
     public String withdrawView(VPlayerWithdrawVo vPlayerWithdrawVo, Model model) {
-        vPlayerWithdrawVo = ServiceTool.vPlayerWithdrawService().get(vPlayerWithdrawVo);
+        vPlayerWithdrawVo = ServiceSiteTool.vPlayerWithdrawService().get(vPlayerWithdrawVo);
         model.addAttribute("command", vPlayerWithdrawVo);
         model.addAttribute("currency", getCurrencySign(vPlayerWithdrawVo.getResult().getWithdrawMonetary()));
         return MANUAL_WITHDRAW_VIEW;
@@ -568,7 +568,7 @@ public class ManualController {
         playerFavorable.setFavorableRemark(remark);
         playerFavorableVo.setResult(playerFavorable);
         playerFavorableVo.setProperties(PlayerFavorable.PROP_FAVORABLE_REMARK);
-        ServiceTool.playerFavorableService().updateOnly(playerFavorableVo);
+        ServiceSiteTool.playerFavorableService().updateOnly(playerFavorableVo);
         saveOrUpdateRemark(entityId, RemarkEnum.FUND_ARTIFICIAL_DEPOSIT.getModel(), RemarkEnum.FUND_ARTIFICIAL_DEPOSIT.getType(), remark, playerId);
     }
 
@@ -579,7 +579,7 @@ public class ManualController {
         playerRecharge.setCheckRemark(remark);
         playerRechargeVo.setResult(playerRecharge);
         playerRechargeVo.setProperties(PlayerRecharge.PROP_CHECK_REMARK);
-        ServiceTool.playerRechargeService().updateOnly(playerRechargeVo);
+        ServiceSiteTool.playerRechargeService().updateOnly(playerRechargeVo);
         saveOrUpdateRemark(entityId, RemarkEnum.FUND_ARTIFICIAL_DEPOSIT.getModel(), RemarkEnum.FUND_ARTIFICIAL_DEPOSIT.getType(), remark, playerId);
     }
 
@@ -590,7 +590,7 @@ public class ManualController {
         playerWithdraw.setId(entityId);
         playerWithdrawVo.setResult(playerWithdraw);
         playerWithdrawVo.setProperties(PlayerWithdraw.PROP_CHECK_REMARK);
-        ServiceTool.playerWithdrawService().updateOnly(playerWithdrawVo);
+        ServiceSiteTool.playerWithdrawService().updateOnly(playerWithdrawVo);
         saveOrUpdateRemark(entityId, RemarkEnum.FUND_ARTIFICIAL_DRAW.getModel(), RemarkEnum.FUND_ARTIFICIAL_DRAW.getType(), remark, playerId);
     }
 
@@ -652,7 +652,7 @@ public class ManualController {
             playerRechargeVo.getResult().setId(null);
             playerRechargeVo.getResult().setCreateTime(date);
             try {
-                playerRechargeVo = ServiceTool.playerRechargeService().manualRecharge(playerRechargeVo);
+                playerRechargeVo = ServiceSiteTool.playerRechargeService().manualRecharge(playerRechargeVo);
             } catch (Exception e) {
                 LOG.error(e);
                 playerRechargeVo.setSuccess(false);
@@ -724,7 +724,7 @@ public class ManualController {
         String[] userName = userNames.split(",");
         UserPlayerVo userPlayerVo = new UserPlayerVo();
         userPlayerVo.setProperties(userName);
-        List<SysUser> existUser = ServiceTool.userPlayerService().queryIgnoreCaseUserNamesExists(userPlayerVo);
+        List<SysUser> existUser = ServiceSiteTool.userPlayerService().queryIgnoreCaseUserNamesExists(userPlayerVo);
         List<String> existUserNames = new ArrayList<>(existUser.size());
         for (SysUser sysUser : existUser) {
             existUserNames.add(StringTool.lowerCase(sysUser.getUsername()));

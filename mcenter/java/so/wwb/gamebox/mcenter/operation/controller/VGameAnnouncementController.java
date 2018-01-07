@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.operator.ISystemAnnouncementService;
 import so.wwb.gamebox.mcenter.operation.form.SystemAnnouncementForm;
@@ -121,7 +122,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         aListVo.getSearch().setAdvisoryTime(DateTool.addDays(new Date(), -30));
         aListVo.getSearch().setQuestionType(PlayerAdvisoryEnum.QUESTION.getCode());
         aListVo.setPaging(null);
-        aListVo = ServiceTool.vPlayerAdvisoryService().search(aListVo);
+        aListVo = ServiceSiteTool.vPlayerAdvisoryService().search(aListVo);
         aListVo.changeReadState(SessionManager.getUserId());//判断是否已读
         Integer advisoryUnReadCount = 0;
         for (VPlayerAdvisory obj : aListVo.getResult()) {
@@ -352,7 +353,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         if(listVo.getSearch().getAdvisoryTimeBegin() == null && listVo.getSearch().getAdvisoryTimeEnd() == null){
             listVo.getSearch().setAdvisoryTime(DateTool.addMonths(SessionManager.getDate().getNow(), -1));
         }
-        listVo = ServiceTool.vPlayerAdvisoryService().search(listVo);
+        listVo = ServiceSiteTool.vPlayerAdvisoryService().search(listVo);
         listVo.changeReadState(SessionManager.getUserId());
         //获取全部的追问咨询是否已读
         List<VPlayerAdvisory> list = new ArrayList();
@@ -410,7 +411,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
             vo.getResult().setId(Integer.valueOf(messageId));
             vo.getResult().setStatus(true);
             vo.setProperties(PlayerAdvisory.PROP_STATUS);
-            vo = ServiceTool.playerAdvisoryService().updateOnly(vo);
+            vo = ServiceSiteTool.playerAdvisoryService().updateOnly(vo);
         }
         if (vo.isSuccess()) {
             vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.player.form.ResetPwdForm;
 import so.wwb.gamebox.mcenter.player.form.ResetSysUserPwdForm;
@@ -64,7 +65,7 @@ public class PlayerResetPwdController {
      */
     @RequestMapping("/index")
     public String resetPwd(Model model, ResetPwdVo resetPwdVo) {
-        model.addAttribute("resetPwdVo", ServiceTool.userPlayerService().getResetPasswordInfo(resetPwdVo));
+        model.addAttribute("resetPwdVo", ServiceSiteTool.userPlayerService().getResetPasswordInfo(resetPwdVo));
         return RESET_LOGIN_POPUP;
     }
     @RequestMapping("/isOnline")
@@ -96,7 +97,7 @@ public class PlayerResetPwdController {
         Map<String, SysDict> mailMobilePhoneStatus = DictTool.get(DictEnum.PLAYER_MAIL_MOBILEPHONE_STATUS);
         resetPwdVo.setMailMobilePhoneStatus(mailMobilePhoneStatus);
         resetPwdVo.setValidateRule(JsRuleCreator.create(ResetPwdForm.class));
-        model.addAttribute("resetPwdVo", ServiceTool.userPlayerService().getResetPasswordInfo(resetPwdVo));
+        model.addAttribute("resetPwdVo", ServiceSiteTool.userPlayerService().getResetPasswordInfo(resetPwdVo));
         return RESET_LOGIN_BY_HAND;
     }
 
@@ -111,7 +112,7 @@ public class PlayerResetPwdController {
             KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL,"站长中心重置玩家密码强制踢出");
         }else if(resetPwdVo.getResetTypePayPwd().equals(resetPwdVo.getResetType())){
             resetPwdVo.setPermissionPwd(newPwd);
-            Boolean isOk = ServiceTool.userPlayerService().resetPassword(resetPwdVo);
+            Boolean isOk = ServiceSiteTool.userPlayerService().resetPassword(resetPwdVo);
             KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(),OpMode.MANUAL,"站长中心重置玩家密码强制踢出");
             map.put("state",isOk);
         }
@@ -155,7 +156,7 @@ public class PlayerResetPwdController {
             Integer userId = resetPwdVo.getUserId();
             VUserPlayerVo userPlayerVo = new VUserPlayerVo();
             userPlayerVo.getSearch().setId(userId);
-            userPlayerVo = ServiceTool.vUserPlayerService().get(userPlayerVo);
+            userPlayerVo = ServiceSiteTool.vUserPlayerService().get(userPlayerVo);
             String mail = "";
             if(resetPwdVo.getInformType()!=null){
                 if("true".equals(resetPwdVo.getInformType())){
@@ -224,7 +225,7 @@ public class PlayerResetPwdController {
             map = resetUserPwd(resetPwdVo);
             KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(),OpMode.MANUAL,"站长中心手动重置玩家密码强制踢出");
         }else if(StringTool.isNotBlank(resetPwdVo.getPermissionPwd())){
-            Boolean isOk = ServiceTool.userPlayerService().resetPassword(resetPwdVo);
+            Boolean isOk = ServiceSiteTool.userPlayerService().resetPassword(resetPwdVo);
             KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(),OpMode.MANUAL,"站长中心手动重置玩家密码强制踢出");
             map.put("state",isOk);
         }else{
@@ -242,7 +243,7 @@ public class PlayerResetPwdController {
      */
     private Map resetUserPwd(ResetPwdVo resetPwdVo) {
         Map map = new HashMap();
-        Boolean isOk = ServiceTool.userPlayerService().resetPassword(resetPwdVo);
+        Boolean isOk = ServiceSiteTool.userPlayerService().resetPassword(resetPwdVo);
         map.put("state",isOk);
         if(StringTool.isBlank(resetPwdVo.getInformType())){
 			resetPwdVo.setInformType("false");
@@ -290,7 +291,7 @@ public class PlayerResetPwdController {
      */
     @RequestMapping("/goRestUserPwd")
     public String goRestUserPwd(Model model, ResetSysUserPwdVo resetSysUserPwdVo) {
-        resetSysUserPwdVo = ServiceTool.userAgentService().getResetSysUserPwdInfo(resetSysUserPwdVo);
+        resetSysUserPwdVo = ServiceSiteTool.userAgentService().getResetSysUserPwdInfo(resetSysUserPwdVo);
         model.addAttribute("resetPwdVo", resetSysUserPwdVo);
         return RESET_PWD_POPUP;
     }
@@ -307,7 +308,7 @@ public class PlayerResetPwdController {
         Map<String, SysDict> mailMobilePhoneStatus = DictTool.get(DictEnum.PLAYER_MAIL_MOBILEPHONE_STATUS);
         resetPwdVo.setMailMobilePhoneStatus(mailMobilePhoneStatus);
         resetPwdVo.setValidateRule(JsRuleCreator.create(ResetSysUserPwdForm.class));
-        resetPwdVo = ServiceTool.userAgentService().getResetSysUserPwdInfo(resetPwdVo);
+        resetPwdVo = ServiceSiteTool.userAgentService().getResetSysUserPwdInfo(resetPwdVo);
         model.addAttribute("resetPwdVo", resetPwdVo);
         return RESET_PWD_EDIT_POPUP;
     }
@@ -329,7 +330,7 @@ public class PlayerResetPwdController {
      @ResponseBody
      public Boolean doRestUserPwdByHand(ResetSysUserPwdVo resetPwdVo,String mail) {
      // 重置密码
-     Boolean isOk = ServiceTool.userAgentService().resetSysUserPwd(resetPwdVo);
+     Boolean isOk = ServiceSiteTool.userAgentService().resetSysUserPwd(resetPwdVo);
      if (isOk) {
      // 发送消息
          if (StringTool.isNotBlank(mail)) {

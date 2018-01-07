@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceScheduleTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.operation.IRakebackBillService;
 import so.wwb.gamebox.mcenter.operation.form.BackwaterActualForm;
@@ -123,7 +124,7 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
     private void displayBackwaterDetail(RakebackPlayerListVo listVo, RakebackApiListVo backwaterDetailListVo, Model model) {
         //查询站长层级
         PlayerRankVo playerRankVo = new PlayerRankVo();
-        List<Map<String, Object>> ranks = ServiceTool.playerRankService().queryUsableRankList(playerRankVo);
+        List<Map<String, Object>> ranks = ServiceSiteTool.playerRankService().queryUsableRankList(playerRankVo);
         listVo = getService().searchBackwaterPlayer(listVo);//玩家返水
 
         //列表表头组装
@@ -238,7 +239,7 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
      */
     @RequestMapping("/editBackwaterActual")
     protected String editBackwaterActual(RakebackPlayerVo vo, Model model) {
-        vo = ServiceTool.rakebackPlayerService().get(vo);
+        vo = ServiceSiteTool.rakebackPlayerService().get(vo);
         if (vo.getResult() == null || vo.getResult().getPlayerId() == null) {
             return null;
         }
@@ -596,7 +597,7 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
         RakebackBillNosettled rakebackBillNosettled = getService().searchRakeBillNosettled(vo);//查询最新一期未出账单
         model.addAttribute("rakebackBillNosettled", rakebackBillNosettled);
 
-        List<Map<String, Object>> ranks = ServiceTool.playerRankService().queryUsableRankList(new PlayerRankVo());//查询站长层级
+        List<Map<String, Object>> ranks = ServiceSiteTool.playerRankService().queryUsableRankList(new PlayerRankVo());//查询站长层级
         model.addAttribute("ranks", ranks);
 
         if (rakebackBillNosettled != null) {

@@ -5,7 +5,6 @@ import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.support._Module;
-import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.support.BaseWebConf;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.BossParamEnum;
@@ -92,7 +92,7 @@ public class PreferenceController {
     @ResponseBody
     public Map savePreference(PreferenceVo preferenceVo) {
         HashMap map = new HashMap(2,1f);
-        boolean result = ServiceTool.preferenceService().savePreference(preferenceVo);
+        boolean result = ServiceSiteTool.preferenceService().savePreference(preferenceVo);
         if (result) {
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             refreshSysParam();
@@ -114,7 +114,7 @@ public class PreferenceController {
         userShortcutMenu.setUserId(SessionManager.getUserId());
         preferenceVo.setUserShortcutMenu(userShortcutMenu);
         try {
-            ServiceTool.preferenceService().resetPreference(preferenceVo);
+            ServiceSiteTool.preferenceService().resetPreference(preferenceVo);
         } catch (Exception e) {
             LOG.error(e);
             return false;
@@ -172,7 +172,7 @@ public class PreferenceController {
     public Map uploadTone(SysParamVo sysParamVo) {
         HashMap map = new HashMap(2,1f);
         try {
-            ServiceTool.preferenceService().uploadTone(sysParamVo);
+            ServiceSiteTool.preferenceService().uploadTone(sysParamVo);
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             map.put("state", Boolean.valueOf(true));
             ParamTool.refresh( SiteParamEnum.WARMING_TONE_DEPOSIT);

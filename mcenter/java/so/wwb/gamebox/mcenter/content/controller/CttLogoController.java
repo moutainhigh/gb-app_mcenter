@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttLogoService;
 import so.wwb.gamebox.mcenter.content.form.CttLogoForm;
@@ -349,7 +350,7 @@ public class CttLogoController extends BaseCrudController<ICttLogoService, CttLo
         setCommonData(model);
         VCttLogoUserVo logoUserVo = new VCttLogoUserVo();
         logoUserVo.getSearch().setId(cttLogoVo.getSearch().getId());
-        logoUserVo = ServiceTool.vCttLogoUserService().get(logoUserVo);
+        logoUserVo = ServiceSiteTool.vCttLogoUserService().get(logoUserVo);
         //cttLogoVo = this.getService().get(cttLogoVo);
         model.addAttribute("command",logoUserVo);
         return getViewBasePath() +"LogoDetail";

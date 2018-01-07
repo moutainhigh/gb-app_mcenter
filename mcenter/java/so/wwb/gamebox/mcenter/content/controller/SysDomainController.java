@@ -1,6 +1,5 @@
 package so.wwb.gamebox.mcenter.content.controller;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.soul.commons.collections.CollectionQueryTool;
 import org.soul.commons.collections.ListTool;
 import org.soul.commons.data.json.JsonTool;
@@ -25,11 +24,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.sys.ISysDomainService;
 import so.wwb.gamebox.mcenter.content.form.*;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.BossParamEnum;
+import so.wwb.gamebox.model.CacheBase;
+import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.enums.DomainCheckStatusEnum;
 import so.wwb.gamebox.model.company.enums.DomainPageUrlEnum;
@@ -429,7 +432,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
             //如果search.agentUserName有值要查出用户Id
             String agentUserName = listVo.getSearch().getAgentUserName();
             if (StringTool.isNotBlank(agentUserName)) {
-                VUserAgent vUserAgent = ServiceTool.vUserAgentService().checkAgentInfo(new VUserAgentVo(), agentUserName);
+                VUserAgent vUserAgent = ServiceSiteTool.vUserAgentService().checkAgentInfo(new VUserAgentVo(), agentUserName);
                 if (vUserAgent != null) {
                     listVo.getSearch().setAgentId(vUserAgent.getId());
                 }
@@ -478,7 +481,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         VUserAgentListVo listVo = new VUserAgentListVo();
         listVo.getSearch().setUsername(agentUserName);
         listVo.getSearch().setUserType(UserTypeEnum.AGENT.getCode());
-        VUserAgentListVo search = ServiceTool.vUserAgentService().search(listVo);
+        VUserAgentListVo search = ServiceSiteTool.vUserAgentService().search(listVo);
         if (search.getResult()!=null&&search.getResult().size() > 0) {
             SysDomainListVo sysDomainListVo = new SysDomainListVo();
             sysDomainListVo.getSearch().setAgentId(search.getResult().get(0).getId());
@@ -503,7 +506,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         listVo.getSearch().setUsername(agentUserName);
         listVo.getSearch().setUserType(UserTypeEnum.AGENT.getCode());
         listVo.getSearch().setStatus("1");
-        long count = ServiceTool.vUserAgentService().count(listVo);
+        long count = ServiceSiteTool.vUserAgentService().count(listVo);
         return (count > 0) + "";
     }
 
@@ -567,7 +570,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         VUserAgentListVo listVo = new VUserAgentListVo();
         listVo.getSearch().setUsername(sysDomainVo.getAgentUserName());
         listVo.getSearch().setUserType(UserTypeEnum.AGENT.getCode());
-        VUserAgentListVo vUserAgentListVo = ServiceTool.vUserAgentService().search(listVo);
+        VUserAgentListVo vUserAgentListVo = ServiceSiteTool.vUserAgentService().search(listVo);
         if(vUserAgentListVo==null||vUserAgentListVo.getResult()==null||vUserAgentListVo.getResult().size()==0){
             return null;
         }
@@ -582,7 +585,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         sysDomainVo.getSearch().setId(id);
         sysDomainVo = this.getService().get(sysDomainVo);
         vUserAgentVo.getSearch().setId(sysDomainVo.getResult().getAgentId());
-        String username = ServiceTool.vUserAgentService().get(vUserAgentVo).getResult().getUsername();
+        String username = ServiceSiteTool.vUserAgentService().get(vUserAgentVo).getResult().getUsername();
         sysDomainVo.setAgentUserName(username);
         sysDomainVo.setValidateRule(JsRuleCreator.create(SysDomainAgentForm.class));
         model.addAttribute("command", sysDomainVo);
@@ -623,7 +626,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
 
 //    @RequestMapping("/getRankByUserId")
 //    public String getTagByUserId(VPlayerTagVo vPlayerTagVo, Model model, SysDomainListVo sysDomainListVo) {
-//        List<VPlayerTag> vPlayerTags = ServiceTool.vPlayerTagService().getDomainRankByUsers(vPlayerTagVo);
+//        List<VPlayerTag> vPlayerTags = ServiceSiteTool.vPlayerTagService().getDomainRankByUsers(vPlayerTagVo);
 //        //查询全部层级的域名
 //        sysDomainListVo.getSearch().setUserIds(vPlayerTagVo.getUserId());
 //        sysDomainListVo.getSearch().setIsForAllRank(true);

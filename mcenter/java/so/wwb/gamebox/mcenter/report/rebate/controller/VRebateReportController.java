@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.report.IVRebateReportService;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.report.rebate.form.VRebateReportForm;
@@ -84,7 +84,7 @@ private static final Log LOG = LogFactory.getLog(VRebateReportController.class);
         listVo.setPeriod(getPeriod(listVo));
 
         // 查找数据
-        listVo = ServiceTool.vRebateReportService().queryRebateReport(listVo);
+        listVo = ServiceSiteTool.vRebateReportService().queryRebateReport(listVo);
 
         // 格式化年
         listVo.setYearMap(fmtYear(listVo.getYears()));
@@ -124,7 +124,7 @@ private static final Log LOG = LogFactory.getLog(VRebateReportController.class);
         vo.getSearch().setRebateYear(listVo.getSearch().getRebateYear());
         vo.getSearch().setRebateMonth(listVo.getSearch().getRebateMonth());
         vo._setDataSourceId(listVo.getSearch().getSiteId());
-        List<RebateBill> temp = ServiceTool.rebateBillService().queryPeriods(vo);
+        List<RebateBill> temp = ServiceSiteTool.rebateBillService().queryPeriods(vo);
         List<RebateBill> periods = new ArrayList<>();
         if (temp != null && !temp.isEmpty()) {
             for (RebateBill bill : temp) {
@@ -142,7 +142,7 @@ private static final Log LOG = LogFactory.getLog(VRebateReportController.class);
         RebateBillVo vo = new RebateBillVo();
         vo._setDataSourceId(listVo.getSearch().getSiteId());
         vo.getSearch().setId(listVo.getSearch().getId());
-        return ServiceTool.rebateBillService().get(vo).getResult();
+        return ServiceSiteTool.rebateBillService().get(vo).getResult();
     }
 
     /**
@@ -175,7 +175,7 @@ private static final Log LOG = LogFactory.getLog(VRebateReportController.class);
     @ResponseBody
     public String ajaxPeriods(RebateBillVo vo) {
         vo._setDataSourceId(vo.getSiteId());
-        return ServiceTool.rebateBillService().ajaxPeriods(vo);
+        return ServiceSiteTool.rebateBillService().ajaxPeriods(vo);
     }
 
     @Override

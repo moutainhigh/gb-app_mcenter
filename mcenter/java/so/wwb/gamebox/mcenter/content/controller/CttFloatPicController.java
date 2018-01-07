@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttFloatPicService;
 import so.wwb.gamebox.mcenter.content.form.CttFloatPicForm;
@@ -82,7 +83,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
         for(CttFloatPic floatPic : listVo.getResult()){
             CttFloatPicItemListVo itemListVo = new CttFloatPicItemListVo();
             itemListVo.getSearch().setFloatPicId(floatPic.getId());
-            itemListVo = ServiceTool.cttFloatPicItemService().search(itemListVo);
+            itemListVo = ServiceSiteTool.cttFloatPicItemService().search(itemListVo);
             floatItemMap.put(floatPic.getId(),itemListVo.getResult());
         }
         listVo.setFloatItemMap(floatItemMap);
@@ -306,7 +307,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
     private CttFloatPicVo getItemList(CttFloatPicVo floatPicVo) {
         CttFloatPicItemListVo itemListVo = new CttFloatPicItemListVo();
         itemListVo.getSearch().setFloatPicId(floatPicVo.getResult().getId());
-        itemListVo = ServiceTool.cttFloatPicItemService().search(itemListVo);
+        itemListVo = ServiceSiteTool.cttFloatPicItemService().search(itemListVo);
         if(itemListVo.getResult()!=null&&itemListVo.getResult().size()>0){
             if(floatPicVo.getResult().getSingleMode()){
                 floatPicVo.setFloatPicItem(itemListVo.getResult().get(0));

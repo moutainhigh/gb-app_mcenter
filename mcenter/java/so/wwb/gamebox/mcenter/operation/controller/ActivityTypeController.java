@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.operation.ActivityMoneyPeriodTool;
 import so.wwb.gamebox.iservice.master.operation.IActivityTypeService;
 import so.wwb.gamebox.mcenter.operation.form.ActivityContentStepForm;
@@ -88,7 +88,7 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
     @RequestMapping("/customList")
     public String activityTypeList(ActivityTypeListVo listVo, Model model) {
 
-        List<ActivityType> activityTypeList = ServiceTool.activityTypeService().allSearch(listVo);
+        List<ActivityType> activityTypeList = ServiceSiteTool.activityTypeService().allSearch(listVo);
         /*for (ActivityType activityType : activityTypeList) {
             String code = activityType.getCode();
             if (ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code) || ActivityTypeEnum.REGIST_SEND.getCode().equals(code)) {
@@ -150,7 +150,7 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
         model.addAttribute("languageList", Cache.getAvailableSiteLanguage());
 
         vo.getSearch().setCode(code);
-        ActivityTypeVo activityType = ServiceTool.activityTypeService().search(vo);
+        ActivityTypeVo activityType = ServiceSiteTool.activityTypeService().search(vo);
         model.addAttribute("activityType", activityType);
         model.addAttribute("validateRule", JsRuleCreator.create(ActivityContentStepForm.class));
 
@@ -160,7 +160,7 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
         CttFloatPicVo cttFloatPicVo=new CttFloatPicVo();
         cttFloatPicVo.getSearch().setPicType("2");
         cttFloatPicVo.getSearch().setStatus(true);
-        List<CttFloatPic> cttFloatPics = ServiceTool.cttFloatPicService().isExistAgent(cttFloatPicVo);
+        List<CttFloatPic> cttFloatPics = ServiceSiteTool.cttFloatPicService().isExistAgent(cttFloatPicVo);
         String isExist = "true";
         if (CollectionTool.isNotEmpty(cttFloatPics) && cttFloatPics.size() > 0) {
             isExist = "false";
@@ -183,8 +183,8 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
     @Token(generate = true)
     public String activityEdit(ActivityMessageVo activityMessageVo, VActivityMessageVo vActivityMessageVo, Model model) {
 
-        activityMessageVo = ServiceTool.activityMessageService().get(activityMessageVo);
-        List<ActivityMessageI18n> activityMessageI18ns = ServiceTool.activityMessageI18nService().activityMessageI18ns(activityMessageVo);
+        activityMessageVo = ServiceSiteTool.activityMessageService().get(activityMessageVo);
+        List<ActivityMessageI18n> activityMessageI18ns = ServiceSiteTool.activityMessageI18nService().activityMessageI18ns(activityMessageVo);
         if (activityMessageI18ns != null && activityMessageI18ns.size() > 0) {
             Map activityMessageI18nsMap = CollectionTool.toEntityMap(activityMessageI18ns, ActivityMessageI18n.PROP_ACTIVITY_VERSION, String.class);
             model.addAttribute("activityMessageI18ns", activityMessageI18nsMap);
@@ -194,7 +194,7 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
 //        String states = vActivityMessageVo.getStates();
 //        if (ActivityStateEnum.PROCESSING.getCode().equals(states) || ActivityStateEnum.NOTSTARTED.getCode().equals(states)) {
             vActivityMessageVo.setActivityMessageId(activityMessageVo.getSearch().getId());
-            ActivityRule activityRule = ServiceTool.vActivityMessageService().getActivityRule(vActivityMessageVo);
+            ActivityRule activityRule = ServiceSiteTool.vActivityMessageService().getActivityRule(vActivityMessageVo);
             if (activityRule != null) {
                 model.addAttribute("playerRank", activityRule.getRank() + ",");
             } else {
@@ -208,22 +208,22 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
             if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code)
                     || ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code)
                     || ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
-                List activitypreferentialList = ServiceTool.activityPreferentialRelationService().queryPreferential(vActivityMessageVo);
+                List activitypreferentialList = ServiceSiteTool.activityPreferentialRelationService().queryPreferential(vActivityMessageVo);
                 model.addAttribute("activitypreferentialList", activitypreferentialList);
             }
 
             if (ActivityTypeEnum.REGIST_SEND.getCode().equals(code)) {
-                ActivityWayRelation activityWayRelation = ServiceTool.activityWayRelationService().getActivityWayRelation(vActivityMessageVo);
+                ActivityWayRelation activityWayRelation = ServiceSiteTool.activityWayRelationService().getActivityWayRelation(vActivityMessageVo);
                 model.addAttribute("activityWayRelation", activityWayRelation);
             }
 
             if (ActivityTypeEnum.RELIEF_FUND.getCode().equals(code)) {
-                List<ActivityPreferentialRelation> activityPreferentialRelations = ServiceTool.activityPreferentialRelationService().queryPreferentialByTransaction(vActivityMessageVo);
-                List<ActivityPreferentialRelation> activityPreferentialRelationList = ServiceTool.activityPreferentialRelationService().queryPreferentialByTotal(vActivityMessageVo);
+                List<ActivityPreferentialRelation> activityPreferentialRelations = ServiceSiteTool.activityPreferentialRelationService().queryPreferentialByTransaction(vActivityMessageVo);
+                List<ActivityPreferentialRelation> activityPreferentialRelationList = ServiceSiteTool.activityPreferentialRelationService().queryPreferentialByTotal(vActivityMessageVo);
                 Map map = CollectionTool.toEntityMap(activityPreferentialRelationList, ActivityPreferentialRelation.PROP_ORDER_COLUMN, Integer.class);
-                List<ActivityPreferentialRelation> activityPreferentialRelationList1 = ServiceTool.activityPreferentialRelationService().queryPreferentialByLossAmount(vActivityMessageVo);
+                List<ActivityPreferentialRelation> activityPreferentialRelationList1 = ServiceSiteTool.activityPreferentialRelationService().queryPreferentialByLossAmount(vActivityMessageVo);
                 Map map2 = CollectionTool.toEntityMap(activityPreferentialRelationList1, ActivityPreferentialRelation.PROP_ORDER_COLUMN, Integer.class);
-                List<ActivityWayRelation> activityWayRelations = ServiceTool.activityWayRelationService().getActivityWayRelationList(vActivityMessageVo);
+                List<ActivityWayRelation> activityWayRelations = ServiceSiteTool.activityWayRelationService().getActivityWayRelationList(vActivityMessageVo);
                 Map map1 = CollectionTool.toEntityMap(activityWayRelations, ActivityWayRelation.PROP_ORDER_COLUMN, Integer.class);
 
                 model.addAttribute("activityPreferentialRelations", activityPreferentialRelations);
@@ -233,8 +233,8 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
             }
 
             if (ActivityTypeEnum.PROFIT.getCode().equals(code)) {
-                List profitPreferential = ServiceTool.activityPreferentialRelationService().queryProfitPreferential(vActivityMessageVo);
-                List lossPreferential = ServiceTool.activityPreferentialRelationService().queryLossPreferential(vActivityMessageVo);
+                List profitPreferential = ServiceSiteTool.activityPreferentialRelationService().queryProfitPreferential(vActivityMessageVo);
+                List lossPreferential = ServiceSiteTool.activityPreferentialRelationService().queryLossPreferential(vActivityMessageVo);
                 model.addAttribute("profitPreferential", profitPreferential);
                 model.addAttribute("lossPreferential", lossPreferential);
             }
@@ -281,7 +281,7 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
 
         ActivityTypeVo activityTypeVo = new ActivityTypeVo();
         activityTypeVo.getSearch().setCode(activityMessageVo.getResult().getActivityTypeCode());
-        ActivityTypeVo activityType = ServiceTool.activityTypeService().search(activityTypeVo);
+        ActivityTypeVo activityType = ServiceSiteTool.activityTypeService().search(activityTypeVo);
         model.addAttribute("activityType", activityType);
         model.addAttribute("activityMessageVo", activityMessageVo);
         model.addAttribute("validateRule", JsRuleCreator.create(ActivityContentStepForm.class));
@@ -289,7 +289,7 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
         CttFloatPicVo cttFloatPicVo=new CttFloatPicVo();
         cttFloatPicVo.getSearch().setPicType("2");
         cttFloatPicVo.getSearch().setStatus(true);
-        List<CttFloatPic> cttFloatPics = ServiceTool.cttFloatPicService().isExistAgent(cttFloatPicVo);
+        List<CttFloatPic> cttFloatPics = ServiceSiteTool.cttFloatPicService().isExistAgent(cttFloatPicVo);
         String isExist = "true";
         if (CollectionTool.isNotEmpty(cttFloatPics) && cttFloatPics.size() > 0) {
             isExist = "false";
@@ -327,7 +327,7 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
         model.addAttribute("siteI18nMap", tempMap);
 
         //获取活动基本信息
-        activityMessageVo = ServiceTool.activityMessageService().get(activityMessageVo);
+        activityMessageVo = ServiceSiteTool.activityMessageService().get(activityMessageVo);
         activityMessageVo.setTotalPeriods(queryTotalCount(activityMessageVo.getResult().getId()));
         model.addAttribute("command", activityMessageVo);
 
@@ -335,13 +335,13 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
         //获取国际话信息
         ActivityMessageI18nListVo activityMessageI18nListVo = new ActivityMessageI18nListVo();
         activityMessageI18nListVo.getSearch().setActivityMessageId(activityMessageId);
-        activityMessageI18nListVo = ServiceTool.activityMessageI18nService().search(activityMessageI18nListVo);
+        activityMessageI18nListVo = ServiceSiteTool.activityMessageI18nService().search(activityMessageI18nListVo);
         model.addAttribute("activityMessageI18nListVo", activityMessageI18nListVo);
 
         //优惠条件
         ActivityRuleVo activityRuleVo = new ActivityRuleVo();
         activityRuleVo.getSearch().setActivityMessageId(activityMessageId);
-        activityRuleVo = ServiceTool.activityRuleService().getActivityRule(activityRuleVo);
+        activityRuleVo = ServiceSiteTool.activityRuleService().getActivityRule(activityRuleVo);
         model.addAttribute("activityRuleVo", activityRuleVo);
 
         VActivityMessage vActivityMessage = new VActivityMessage();
@@ -349,13 +349,13 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
         vActivityMessage.setCode(activityMessageVo.getResult().getActivityTypeCode());
         VActivityMessageVo vActivityMessageVo = new VActivityMessageVo();
         vActivityMessageVo.setResult(vActivityMessage);
-        Map<Integer, List<Map<String, Object>>> preferentialWayRelation = ServiceTool.vActivityMessageService().getPreferentialRelation(vActivityMessageVo);
+        Map<Integer, List<Map<String, Object>>> preferentialWayRelation = ServiceSiteTool.vActivityMessageService().getPreferentialRelation(vActivityMessageVo);
         model.addAttribute("preferentialWayRelation", preferentialWayRelation);
 
         //获取返水
         if (ActivityTypeEnum.BACK_WATER.getCode().equals(activityMessageVo.getResult().getActivityTypeCode())) {
             RakebackSetListVo rakebackSetListVo = new RakebackSetListVo();
-            List<RakebackSet> rakebackSets = ServiceTool.rakebackSetService().searchNormalRakebackSet(rakebackSetListVo);
+            List<RakebackSet> rakebackSets = ServiceSiteTool.rakebackSetService().searchNormalRakebackSet(rakebackSetListVo);
             //获取结算周期
             SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_RAKEBACKSETTING_SETTLEMENTPERIODTIMES);
             String paramValue = null;
@@ -376,26 +376,26 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
         ActivityMoneyDefaultWinVo objectVo = new ActivityMoneyDefaultWinVo();
         objectVo.setResult(new ActivityMoneyDefaultWin());
         objectVo.getResult().setActivityMessageId(activityMessageId);
-        return ServiceTool.activityMoneyDefaultWinService().countTotalPeriod(objectVo);
+        return ServiceSiteTool.activityMoneyDefaultWinService().countTotalPeriod(objectVo);
     }
 
     private void getActivityMoneyDetail(Model model, Integer activityMessageId) {
         ActivityOpenPeriodListVo periodListVo = new ActivityOpenPeriodListVo();
         periodListVo.setPaging(null);
         periodListVo.getSearch().setActivityMessageId(activityMessageId);
-        periodListVo = ServiceTool.activityMoneyOpenPeriodService().search(periodListVo);
+        periodListVo = ServiceSiteTool.activityMoneyOpenPeriodService().search(periodListVo);
         ActivityMoneyPeriodTool.sortOpenPeriod(periodListVo.getResult());
 
         ActivityMoneyConditionListVo conditionListVo = new ActivityMoneyConditionListVo();
         conditionListVo.setPaging(null);
         conditionListVo.getSearch().setActivityMessageId(activityMessageId);
-        conditionListVo = ServiceTool.activityMoneyConditionService().search(conditionListVo);
+        conditionListVo = ServiceSiteTool.activityMoneyConditionService().search(conditionListVo);
 
         ActivityMoneyAwardsRulesListVo rulesListVo = new ActivityMoneyAwardsRulesListVo();
         rulesListVo.setPaging(null);
         rulesListVo.getQuery().addOrder(ActivityMoneyAwardsRules.PROP_AMOUNT, Direction.ASC);
         rulesListVo.getSearch().setActivityMessageId(activityMessageId);
-        rulesListVo = ServiceTool.activityMoneyAwardsRulesService().search(rulesListVo);
+        rulesListVo = ServiceSiteTool.activityMoneyAwardsRulesService().search(rulesListVo);
 
         model.addAttribute("periodListVo",periodListVo);
         model.addAttribute("conditionListVo",conditionListVo);
@@ -505,9 +505,9 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
      */
     private void getNormalRakebackSet(Model model) {
 
-        List<RakebackSet> rakebackSets = ServiceTool.rakebackSetService().searchNormalRakebackSet(new RakebackSetListVo());
+        List<RakebackSet> rakebackSets = ServiceSiteTool.rakebackSetService().searchNormalRakebackSet(new RakebackSetListVo());
         //获取结算周期
-        List<SysParam> rakebackSetting = ServiceTool.vActivityMessageService().getRakebackSetting(new SysParamVo());
+        List<SysParam> rakebackSetting = ServiceSiteTool.vActivityMessageService().getRakebackSetting(new SysParamVo());
         model.addAttribute("rakebackSetting", rakebackSetting);
         model.addAttribute("rakebackSets", rakebackSets);
     }

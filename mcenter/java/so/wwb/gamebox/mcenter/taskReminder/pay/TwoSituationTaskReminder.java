@@ -1,7 +1,7 @@
 package so.wwb.gamebox.mcenter.taskReminder.pay;
 
 import org.soul.commons.data.json.JsonTool;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.model.master.content.po.PayAccount;
 import so.wwb.gamebox.model.master.content.vo.PayAccountListVo;
 import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
@@ -28,9 +28,9 @@ public class TwoSituationTaskReminder extends PayTaskReminder {
 
     private Map countRechargeNoSuccessOfPayAccount() {
         List<PayAccount> noSuccessRechargeOrder = new ArrayList<>();
-        List<Integer> payAccountIds = ServiceTool.playerRechargeService().searchRechargeSuccessOfPayAccount(new PlayerRechargeVo());
+        List<Integer> payAccountIds = ServiceSiteTool.playerRechargeService().searchRechargeSuccessOfPayAccount(new PlayerRechargeVo());
         if (payAccountIds != null && payAccountIds.size()>0) {
-            List<PayAccount> payAccounts =  ServiceTool.payAccountService().searchPayAccountByUsing(new PayAccountListVo());
+            List<PayAccount> payAccounts =  ServiceSiteTool.payAccountService().searchPayAccountByUsing(new PayAccountListVo());
             for (PayAccount payAccount : payAccounts) {
                 for (Integer payAccountId : payAccountIds) {
                     if (payAccount.getId().equals(payAccountId)) {
