@@ -65,7 +65,7 @@
             <td>${soulFn:formatIp(cmd.operateIp)}<br>${gbFn:getIpRegion(cmd.operateIpDictCode)}</td>
             <td>${views.report['log.label.os']}${cmd.clientOs}&nbsp;&nbsp;${views.report['log.label.browser']}${cmd.clientBrowser}</td>
             <c:choose>
-                <c:when test="${'39'.equals(cmd.moduleType) || '40'.equals(cmd.moduleType)}">
+                <c:when test="${'41'.equals(cmd.moduleType) || '42'.equals(cmd.moduleType)}">
                     <td >
                         <c:set var="id" value="${cmd.id}"/>
                         <soul:button target="${root}/report/log/descDetail.html?id=${id}" text="详情" opType="dialog"></soul:button>
