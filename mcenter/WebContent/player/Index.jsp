@@ -35,7 +35,7 @@
         <input name="endTime" value="${soulFn:formatDateTz(command.endTime,DateFormat.DAY_SECOND ,timeZone )}"
                type="hidden">
 
-        <%--<input name="search.registerIp" value="${command.search.registerIp}" type="hidden"/>--%>
+        <input name="search.registerIp" value="${command.search.registerIp}" type="hidden"/>
         <%--<input name="search.lastLoginIp" value="${command.search.lastLoginIp}" type="hidden"/>--%>
         <input name="outer" value="${command.outer}" type="hidden"/>
         <input name="comp" value="${command.comp}" type="hidden"/>
