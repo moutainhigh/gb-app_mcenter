@@ -616,7 +616,7 @@
                                 </li>
                             </ul>
                         </div>
-                        //标签
+
                         <div class="btn-group" id="player_tag" style="padding-right: 10px">
                             <input type="hidden" value="true" id="hasLoadTag">
                             <button data-toggle="dropdown" type="button" id="player_tag_btn" data-has-load="true"
