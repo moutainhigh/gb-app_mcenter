@@ -328,7 +328,8 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
 
         SysAuditLogSo sysAuditLogSo = new SysAuditLogSo();
         sysAuditLogSo.setModuleType(ModuleType.PASSPORT_LOGIN.getCode());
-        sysAuditLogSo.setOperator(username);
+        String userName = username.toLowerCase();
+        sysAuditLogSo.setOperator(userName);
         sysAuditLogSo.setOperatorUserType(UserTypeEnum.PLAYER.getCode());
         List<SysAuditLog> sysAuditLogs = ServiceSiteTool.userPlayerService().queryWithOtherUserCount(sysAuditLogSo);
         List<SysAuditLog> sysAuditLogsExc = new ArrayList<>();
