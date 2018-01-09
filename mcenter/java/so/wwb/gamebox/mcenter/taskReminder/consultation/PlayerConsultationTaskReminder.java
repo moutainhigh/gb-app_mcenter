@@ -1,7 +1,7 @@
 package so.wwb.gamebox.mcenter.taskReminder.consultation;
 
 import org.soul.commons.lang.DateTool;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminder;
 import so.wwb.gamebox.model.master.player.enums.PlayerAdvisoryEnum;
@@ -29,7 +29,7 @@ public class PlayerConsultationTaskReminder extends TaskReminder {
         aListVo.getSearch().setAdvisoryTime(DateTool.addDays(new Date(), -30));
         aListVo.getSearch().setQuestionType(PlayerAdvisoryEnum.QUESTION.getCode());
         aListVo.setPaging(null);
-        aListVo = ServiceTool.vPlayerAdvisoryService().search(aListVo);
+        aListVo = ServiceSiteTool.vPlayerAdvisoryService().search(aListVo);
         aListVo.changeReadState(SessionManager.getUserId());//判断是否已读
         Integer advisoryUnReadCount = 0;
         for (VPlayerAdvisory obj : aListVo.getResult()) {

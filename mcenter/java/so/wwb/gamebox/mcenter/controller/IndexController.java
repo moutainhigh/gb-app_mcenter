@@ -32,6 +32,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -151,7 +152,7 @@ public class IndexController extends BaseIndexController {
             if (SessionManager.getFirstLogin()) {
                 //任务提醒
                 List<Object> objects = new ArrayList<>();
-                UserTaskReminderListVo search = ServiceTool.userTaskReminderService().search(listVo);//未读任务
+                UserTaskReminderListVo search = ServiceSiteTool.userTaskReminderService().search(listVo);//未读任务
                 for (UserTaskReminder taskReminder : search.getResult()) {
                     HashMap<Object, Object> map = new HashMap<>();
                     map.put("id", taskReminder.getId());
@@ -199,7 +200,7 @@ public class IndexController extends BaseIndexController {
     private void rankInadequate(List<Object> objects) {
         HashMap<Object, Object> map = new HashMap<>();
         map.put("dictCode", "rankInadequate");
-        map.put("paramValue", ServiceTool.vPayRankService().rankInadequate(new VPayRankVo()));
+        map.put("paramValue", ServiceSiteTool.vPayRankService().rankInadequate(new VPayRankVo()));
         map.put("toneType", "warm");
         objects.add(map);
     }
@@ -212,7 +213,7 @@ public class IndexController extends BaseIndexController {
         } else {
             menuListVo.getSearch().setUserId(SessionManager.getUserId());
         }
-        List<VUserShortcutMenu> vUserShortcutMenus = ServiceTool.vUserShortcutMenuService().queryShortMenuByUser(menuListVo);
+        List<VUserShortcutMenu> vUserShortcutMenus = ServiceSiteTool.vUserShortcutMenuService().queryShortMenuByUser(menuListVo);
         menuListVo.setResult(vUserShortcutMenus);
         filterSubAccountMenu(menuListVo);
         model.addAttribute("menuListVo", menuListVo);
@@ -353,7 +354,7 @@ public class IndexController extends BaseIndexController {
     @RequestMapping(value = "/index/task")
     public String tasks(Model model) {
         UserTaskReminderListVo taskListVo = new UserTaskReminderListVo();
-        List<UserTaskReminder> userTaskReminderList = ServiceTool.userTaskReminderService().unResdTask(taskListVo);
+        List<UserTaskReminder> userTaskReminderList = ServiceSiteTool.userTaskReminderService().unResdTask(taskListVo);
         for (UserTaskReminder userTaskReminder : userTaskReminderList) {
             String dictCode = userTaskReminder.getDictCode();
             TaskReminder taskReminder = TaskReminderHelp.getInstance(dictCode);
@@ -547,15 +548,15 @@ public class IndexController extends BaseIndexController {
                     SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
                     sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
                     sysUserDataRightVo.getSearch().setModuleType(DataRightModuleType.COMPANYDEPOSIT.getCode());
-                    List entityIds = ServiceTool.sysUserDataRightService().searchDataRightEntityId(sysUserDataRightVo);
+                    List entityIds = ServiceSiteTool.sysUserDataRightService().searchDataRightEntityId(sysUserDataRightVo);
                     if (entityIds != null && entityIds.size() > 0) {
                         vPlayerDepositVo.getSearch().setRankIds(entityIds);
-                        count = ServiceTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
+                        count = ServiceSiteTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
                     } else {
-                        count = ServiceTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
+                        count = ServiceSiteTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
                     }
                 } else {
-                    count = ServiceTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
+                    count = ServiceSiteTool.vPlayerDepositService().countCompanyDeposit(vPlayerDepositVo);
                 }
 
                 result.put("companyDepositCount", count);
@@ -571,15 +572,15 @@ public class IndexController extends BaseIndexController {
                     SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
                     sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
                     sysUserDataRightVo.getSearch().setModuleType(DataRightModuleType.PLAYERWITHDRAW.getCode());
-                    List entityIds = ServiceTool.sysUserDataRightService().searchDataRightEntityId(sysUserDataRightVo);
+                    List entityIds = ServiceSiteTool.sysUserDataRightService().searchDataRightEntityId(sysUserDataRightVo);
                     if (entityIds != null && entityIds.size() > 0) {
                         vPlayerWithdrawListVo.getSearch().setRankIds(entityIds);
-                        withdrawCount = ServiceTool.vPlayerWithdrawService().unlockPendingWithdraw(vPlayerWithdrawListVo);
+                        withdrawCount = ServiceSiteTool.vPlayerWithdrawService().unlockPendingWithdraw(vPlayerWithdrawListVo);
                     } else {
-                        withdrawCount = ServiceTool.vPlayerWithdrawService().unlockPendingWithdraw(vPlayerWithdrawListVo);
+                        withdrawCount = ServiceSiteTool.vPlayerWithdrawService().unlockPendingWithdraw(vPlayerWithdrawListVo);
                     }
                 } else {
-                    withdrawCount = ServiceTool.vPlayerWithdrawService().unlockPendingWithdraw(vPlayerWithdrawListVo);
+                    withdrawCount = ServiceSiteTool.vPlayerWithdrawService().unlockPendingWithdraw(vPlayerWithdrawListVo);
                 }
 
                 result.put("playerWithdrawCount", withdrawCount);
@@ -630,7 +631,7 @@ public class IndexController extends BaseIndexController {
         sysParam.setActive(true);
         sysParam.setRemark("是否弹窗提醒");
         sysParamVo.setResult(sysParam);
-        ServiceTool.siteSysParamService().insert(sysParamVo);
+        ServiceSiteTool.siteSysParamService().insert(sysParamVo);
     }
 
     private SysParamVo getSysParamVo() {
@@ -638,7 +639,7 @@ public class IndexController extends BaseIndexController {
         sysParamVo.getSearch().setModule(Module.MASTER_SETTING.getCode());
         sysParamVo.getSearch().setParamType(SiteParamEnum.SETTING_SHOWPOP.getType());
         sysParamVo.getSearch().setParamCode(SessionManager.getUserId().toString());
-        sysParamVo = ServiceTool.siteSysParamService().searchByModuleTypeCode(sysParamVo);
+        sysParamVo = ServiceSiteTool.siteSysParamService().searchByModuleTypeCode(sysParamVo);
         return sysParamVo;
     }
 
@@ -654,7 +655,7 @@ public class IndexController extends BaseIndexController {
             } else {
                 sysParamVo.getResult().setParamValue(isShow);
                 sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-                ServiceTool.siteSysParamService().updateOnly(sysParamVo);
+                ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
             }
             result.put("state", true);
         } catch (Exception ex) {
@@ -773,7 +774,7 @@ public class IndexController extends BaseIndexController {
         PlayerGameOrderVo playerGameOrderVo = new PlayerGameOrderVo();
         playerGameOrderVo.getSearch().setBeginPayoutTime(today);
         playerGameOrderVo.getSearch().setEndPayoutTime(DateTool.addDays(today, 1));
-        Double todayProfit = ServiceTool.playerGameOrderService().queryProfit(playerGameOrderVo);
+        Double todayProfit = ServiceSiteTool.playerGameOrderService().queryProfit(playerGameOrderVo);
         return todayProfit == null ? 0d : -todayProfit;
     }
 }

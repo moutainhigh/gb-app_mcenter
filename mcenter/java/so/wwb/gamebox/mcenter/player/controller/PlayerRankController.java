@@ -21,7 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.player.IPlayerRankService;
 import so.wwb.gamebox.mcenter.player.form.PlayerRankAddForm;
 import so.wwb.gamebox.mcenter.player.form.PlayerRankForm;
@@ -111,7 +111,7 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
         RakebackSetListVo rakebackSetListVo = new RakebackSetListVo();
         rakebackSetListVo.getQuery().setCriterions(new Criterion[]{new Criterion(RakebackSet.PROP_STATUS, Operator.EQ, UserAgentEnum.SET_STATUS_NORMAL.getCode())});
         rakebackSetListVo.setProperties(RakebackSet.PROP_ID, RakebackSet.PROP_NAME);
-        objectVo.setRakebackSetList(ServiceTool.rakebackSetService().searchProperties(rakebackSetListVo));
+        objectVo.setRakebackSetList(ServiceSiteTool.rakebackSetService().searchProperties(rakebackSetListVo));
     }
 
     @Override
@@ -148,7 +148,7 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
             playerRank.setId(id);
             playerRank.setStatus(PlayerStatusEnum.ENABLE.getCode());
             playerRankVo.setResult(playerRank);
-            boolean isSuccess = ServiceTool.playerRankService().deletePlayerRank(playerRankVo);
+            boolean isSuccess = ServiceSiteTool.playerRankService().deletePlayerRank(playerRankVo);
             playerRankVo.setSuccess(isSuccess);
             if (isSuccess) {
                 playerRankVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
@@ -260,7 +260,7 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
         listVo.setPaging(null);
         listVo.getSearch().setStatus(PayAccountStatusEnum.USING.getCode());
         listVo.getQuery().addOrder(PayAccount.PROP_TYPE, Direction.DESC).addOrder(PayAccount.PROP_ACCOUNT_TYPE,Direction.DESC).addOrder(PayAccount.PROP_BANK_CODE,Direction.ASC);
-        listVo = ServiceTool.payAccountService().search(listVo);
+        listVo = ServiceSiteTool.payAccountService().search(listVo);
         return listVo.getResult();
     }
 
@@ -295,7 +295,7 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
         if(objectVo.getResult()!=null&&objectVo.getResult().getRakebackId()!=null){
             RakebackSetVo rakebackSetVo = new RakebackSetVo();
             rakebackSetVo.getSearch().setId(objectVo.getResult().getRakebackId());
-            rakebackSetVo = ServiceTool.rakebackSetService().get(rakebackSetVo);
+            rakebackSetVo = ServiceSiteTool.rakebackSetService().get(rakebackSetVo);
             objectVo.setRakebackSet(rakebackSetVo.getResult());
         }
         String json = JsonTool.toJson(objectVo);
@@ -428,7 +428,7 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
         if (rankId!=null){
             playerRankVo.getSearch().setId(rankId);
         }
-        String existAgent = ServiceTool.playerRankService().isExistAgent(playerRankVo);
+        String existAgent = ServiceSiteTool.playerRankService().isExistAgent(playerRankVo);
         return existAgent;
     }
     //endregion your codes 3

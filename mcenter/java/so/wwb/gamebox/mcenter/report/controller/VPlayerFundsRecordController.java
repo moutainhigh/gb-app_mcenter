@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.report.IVPlayerFundsRecordService;
 import so.wwb.gamebox.mcenter.report.form.VPlayerFundsRecordForm;
@@ -93,7 +94,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
         //在搜素的时候资金记录查询条件相关的内容无需重新查询一次
         if (!ServletTool.isAjaxSoulRequest(request)) {
             //所有可用的玩家层级
-            //model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
+            //model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
             //账号类型列表
             model.addAttribute("userTypeSearchKeys", initUserTypeSearchKeys());
             //搜索模板
@@ -124,7 +125,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             playerWithdrawListVo.getSearch().setStartTime(listVo.getSearch().getStartTime());
             playerWithdrawListVo.getSearch().setEndTime(listVo.getSearch().getEndTime());
             //统计:公司入款 玩家取款 线上支付 人工取出 人工存入 玩家优惠
-            model.addAttribute("fundsSum", ServiceTool.vPlayerFundsRecordService().fundsSum(listVo));
+            model.addAttribute("fundsSum", ServiceSiteTool.vPlayerFundsRecordService().fundsSum(listVo));
             //第一次加载页面时,判断加载统计页面或者资金列表页面
             model.addAttribute("isSummary", true);
             model.addAttribute("command", listVo);
@@ -141,7 +142,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                 int rawOffset = SessionManager.getTimeZone().getRawOffset();
                 int hour = rawOffset / 1000 / 3600;
                 listVo.getSearch().setTimeZoneInterval(hour);
-                listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionOutLink(listVo);
+                listVo = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionOutLink(listVo);
             } else {
                 //查询列表
                 if (listVo.isAnalyzeNewAgent()) {
@@ -150,22 +151,22 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                     if (searchType != null) {
                         if (searchType == 1) {
                             listVo.getSearch().setTransactionType("deposit");
-                            listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionOrder(listVo);
+                            listVo = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionOrder(listVo);
                         } else if (searchType == 2) {
                             listVo.getSearch().setTransactionType("withdrawals");
-                            listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionOrder(listVo);
+                            listVo = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionOrder(listVo);
                         } else if (searchType == 3) {
                             listVo.getSearch().setTransactionType("deposit");
-                            listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrder(listVo);
+                            listVo = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrder(listVo);
                         } else if (searchType == 4) {
                             listVo.getSearch().setTransactionType("withdrawals");
-                            listVo = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrder(listVo);
+                            listVo = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrder(listVo);
                         } else if (searchType == 5) {
                             listVo.getSearch().setTransactionType("deposit");
-                            listVo = ServiceTool.vPlayerFundsRecordService().queryTotalTransactionOrder(listVo);
+                            listVo = ServiceSiteTool.vPlayerFundsRecordService().queryTotalTransactionOrder(listVo);
                         } else {
                             listVo.getSearch().setTransactionType("withdrawals");
-                            listVo = ServiceTool.vPlayerFundsRecordService().queryTotalTransactionOrder(listVo);
+                            listVo = ServiceSiteTool.vPlayerFundsRecordService().queryTotalTransactionOrder(listVo);
                         }
                     }
                 } else {
@@ -342,22 +343,22 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             int rawOffset = SessionManager.getTimeZone().getRawOffset();
             int hour = rawOffset / 1000 / 3600;
             listVo.getSearch().setTimeZoneInterval(hour);
-            sumMoney = ServiceTool.vPlayerFundsRecordService().playerTransactionOutLinkSum(listVo);
+            sumMoney = ServiceSiteTool.vPlayerFundsRecordService().playerTransactionOutLinkSum(listVo);
 
         }
         if (listVo.isAnalyzeNewAgent()) {
             Integer searchType = listVo.getSearchType();
             if (searchType != null) {
                 if (searchType == 1 || searchType == 2) {
-                    sumMoney = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionOrderSum(listVo);
+                    sumMoney = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionOrderSum(listVo);
                 } else if (searchType == 3 || searchType == 4) {
-                    sumMoney = ServiceTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrderSum(listVo);
+                    sumMoney = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrderSum(listVo);
                 } else {
-                    sumMoney = ServiceTool.vPlayerFundsRecordService().queryTotalTransactionOrderSum(listVo);
+                    sumMoney = ServiceSiteTool.vPlayerFundsRecordService().queryTotalTransactionOrderSum(listVo);
                 }
             }
         } else {
-            sumMoney = ServiceTool.vPlayerFundsRecordService().AmountSum(listVo);
+            sumMoney = ServiceSiteTool.vPlayerFundsRecordService().AmountSum(listVo);
         }
         return CurrencyTool.formatCurrency(sumMoney == null ? 0 : sumMoney);
     }
@@ -392,13 +393,13 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             RakebackBillVo rakebackBillVo = new RakebackBillVo();
             rakebackBillVo.getSearch().setEndTime(d);
             rakebackBillVo.getSearch().setPeriod(map.get("period").toString());
-            rakebackBillVo = ServiceTool.rakebackBillService().getOneByEndtimeAndPeriod(rakebackBillVo);
+            rakebackBillVo = ServiceSiteTool.rakebackBillService().getOneByEndtimeAndPeriod(rakebackBillVo);
             if (rakebackBillVo != null && rakebackBillVo.getResult() != null) {
                 vo.setBackwaterCircle(DateTool.formatDate(rakebackBillVo.getResult().getStartTime(), DateTool.yyyy_MM_dd) + " ~ " + DateTool.formatDate(rakebackBillVo.getResult().getEndTime(), DateTool.yyyy_MM_dd));
                 RakebackPlayerVo rakebackPlayerVo = new RakebackPlayerVo();
                 rakebackPlayerVo.getSearch().setPlayerId(vo.getResult().getPlayerId());
                 rakebackPlayerVo.getSearch().setRakebackBillId(rakebackBillVo.getResult().getId());
-                rakebackPlayerVo = ServiceTool.rakebackPlayerService().getOneByPlayerAndBill(rakebackPlayerVo);
+                rakebackPlayerVo = ServiceSiteTool.rakebackPlayerService().getOneByPlayerAndBill(rakebackPlayerVo);
                 if (rakebackPlayerVo != null && rakebackPlayerVo.getResult() != null) {
                     vo.setBackwaterTotal(rakebackPlayerVo.getResult().getRakebackTotal());
                 }
@@ -409,7 +410,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
         //操作人
         PlayerFavorableVo playerFavorableVo = new PlayerFavorableVo();
         playerFavorableVo.getSearch().setTransactionNo(vo.getResult().getTransactionNo());
-        playerFavorableVo = ServiceTool.playerFavorableService().getOneByTransactionNo(playerFavorableVo);
+        playerFavorableVo = ServiceSiteTool.playerFavorableService().getOneByTransactionNo(playerFavorableVo);
         if (playerFavorableVo != null && playerFavorableVo.getResult() != null) {
             operator.getSearch().setId(playerFavorableVo.getResult().getOperatorId());
             if (ServiceTool.sysUserService().get(operator).getResult() != null) {
@@ -422,14 +423,14 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                     //活动是否下架
                     ActivityMessageVo amVo = new ActivityMessageVo();
                     amVo.getSearch().setId(playerFavorableVo.getResult().getActivityMessageId());
-                    amVo = ServiceTool.activityMessageService().get(amVo);
+                    amVo = ServiceSiteTool.activityMessageService().get(amVo);
                     if (amVo.getResult() != null && !amVo.getResult().getIsDeleted()) {
                         vo.setActivityMessageId(playerFavorableVo.getResult().getActivityMessageId());
                     }
                 } else if (StringTool.equals(vo.getResult().getTransactionWay(), TransactionWayEnum.REFUND_FEE.getCode())) {
                     PlayerRechargeVo playerRechargeVo = new PlayerRechargeVo();
                     playerRechargeVo.getSearch().setId(playerFavorableVo.getResult().getPlayerRechargeId());
-                    playerRechargeVo = ServiceTool.playerRechargeService().get(playerRechargeVo);
+                    playerRechargeVo = ServiceSiteTool.playerRechargeService().get(playerRechargeVo);
                     vo.setDepositTransactionNo(playerRechargeVo.getResult().getTransactionNo());
                     vo.setDepositMoney(playerRechargeVo.getResult().getRechargeAmount());
                 }

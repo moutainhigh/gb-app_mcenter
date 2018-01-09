@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.report.IVPlayerApiTransactionService;
 import so.wwb.gamebox.mcenter.report.form.VPlayerApiTransactionForm;
 import so.wwb.gamebox.mcenter.report.form.VPlayerApiTransactionSearchForm;
@@ -79,7 +79,7 @@ public class VPlayerApiTransactionController extends AbstractExportController<IV
         initDate(listVo);
         trimSearch(listVo);
         listVo._setDataSourceId(listVo.getSiteId());
-        listVo = ServiceTool.vPlayerApiTransactionService().search(listVo);
+        listVo = ServiceSiteTool.vPlayerApiTransactionService().search(listVo);
         List<Pair> userTypeSearchKeys = initUserTypeSearchKeys();
         listVo.setDictFundType(initFundType());
         listVo.setDictCommonStatus(initCommonStatus());
@@ -89,7 +89,7 @@ public class VPlayerApiTransactionController extends AbstractExportController<IV
         model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManager.getUserId(), templateCode));
         model.addAttribute("conditionJson", conditionJson);
         model.addAttribute("command", listVo);
-        model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
+        model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         model.addAttribute("api", Cache.getSiteApi());
         model.addAttribute("userTypeSearchKeys", userTypeSearchKeys);
         model.addAttribute("validateRule", JsRuleCreator.create(VPlayerApiTransactionSearchForm.class));
@@ -177,7 +177,7 @@ public class VPlayerApiTransactionController extends AbstractExportController<IV
         handleParam(listVo);
         initDate(listVo);
         trimSearch(listVo);
-        return ServiceTool.vPlayerApiTransactionService().totalMoney(listVo);
+        return ServiceSiteTool.vPlayerApiTransactionService().totalMoney(listVo);
     }
 
     @Override

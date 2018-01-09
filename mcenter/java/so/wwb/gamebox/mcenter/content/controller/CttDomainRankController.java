@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttDomainRankService;
 import so.wwb.gamebox.mcenter.content.form.CttDomainRankForm;
@@ -57,7 +58,7 @@ public class CttDomainRankController extends BaseCrudController<ICttDomainRankSe
     @ResponseBody
     public Map saveRank(CttDomainRankVo cttDomainRankVo,SysDomainVo sysDomainVo){
         //查询该域名是否是全部层级
-        List<Map<String, Object>> maps = ServiceTool.playerRankService().queryUsableRankList(new PlayerRankVo());
+        List<Map<String, Object>> maps = ServiceSiteTool.playerRankService().queryUsableRankList(new PlayerRankVo());
         for(Integer domainId:cttDomainRankVo.getSearch().getDomainIds()){
             sysDomainVo.getSearch().setId(domainId);
             sysDomainVo = ServiceTool.sysDomainService().get(sysDomainVo);

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.operation.IRebateAgentService;
 import so.wwb.gamebox.mcenter.operation.form.RebateAgentForm;
@@ -184,7 +185,7 @@ public class SettlementRebateAgentController extends BaseCrudController<IRebateA
         if(objectVo.getRebateBillVo()==null){
             RebateBillVo rebateBillVo = new RebateBillVo();
             rebateBillVo.getSearch().setId(id);
-            rebateBillVo = ServiceTool.rebateBillService().get(rebateBillVo);
+            rebateBillVo = ServiceSiteTool.rebateBillService().get(rebateBillVo);
             objectVo.setRebateBillVo(rebateBillVo);
         }
         objectVo.setcId(id);

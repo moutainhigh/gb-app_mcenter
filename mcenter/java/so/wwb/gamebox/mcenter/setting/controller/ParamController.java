@@ -37,9 +37,9 @@ import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.content.form.RegLimitForm;
 import so.wwb.gamebox.mcenter.player.form.RecommendedForm;
@@ -426,7 +426,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         sysSiteVo.setMonth(DateTool.monthsBetween(new Date(), openingTime) % 12);
         sysSiteVo.setDay(DateTool.daysBetween(new Date(), openingTime) % 30);
         //国旗
-        sysSiteVo.setCttLogo(ServiceTool.getCttLogService().getCttlog(new CttLogoVo()));
+        sysSiteVo.setCttLogo(ServiceSiteTool.getCttLogService().getCttlog(new CttLogoVo()));
         //货币 和 语言
         sysSiteVo = ServiceTool.siteOperateAreaService().getAreaCurrancyLang(new SiteOperateAreaListVo(), sysSiteVo);
         sysSiteVo.setValidateRule(JsRuleCreator.create(TrafficStatisticsForm.class, "result"));
@@ -439,7 +439,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         transLangByLocale(languageListVo, sysSiteVo.getResult().getMainLanguage());
         sysSiteVo.setSiteLanguageList(languageListVo.getResult());
         sysSiteVo.setSiteI18nMap(Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_NAME));
-        sysSiteVo = ServiceTool.vUserPlayerService().queryCurrencyPlayerNum(sysSiteVo);
+        sysSiteVo = ServiceSiteTool.vUserPlayerService().queryCurrencyPlayerNum(sysSiteVo);
         findEnableImportPlayerParam(model);
         model.addAttribute("command", sysSiteVo);
         model.addAttribute("siteTile", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_TITLE));
@@ -698,7 +698,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         if (!result.hasErrors()) {
             siteConfineAreaVo._setDataSourceId(SessionManager.getSiteId());
             //ServiceTool.siteConfineAreaService().savePlayerSetting(siteConfineAreaVo);
-            ServiceTool.siteSysParamService().savePlayerSetting(siteConfineAreaVo);
+            ServiceSiteTool.siteSysParamService().savePlayerSetting(siteConfineAreaVo);
             ParamTool.refresh(SiteParamEnum.SETTING_REG_LIMIT_IP_REG);
             ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_SETTING);
 
@@ -851,7 +851,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         Cache.refreshSiteI18n(SiteI18nEnum.MASTER_SERVICE_TERMS);
         Cache.refreshSiteI18n(SiteI18nEnum.MASTER_SERVICE_TERMS_AGENT);
         Cache.refreshCurrentSitePageCache();
-        ServiceTool.siteSysParamService().saveServiceTrems(siteConfineAreaVo);
+        ServiceSiteTool.siteSysParamService().saveServiceTrems(siteConfineAreaVo);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SERVICE_TERMS_SHOW);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SERVICE_TERMS_SHOW_AGENT);
         return this.getVoMessage(siteConfineAreaVo);
@@ -902,7 +902,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             map.put("state", false);
             return map;
         }
-        vo = ServiceTool.payAccountService().saveWarningSettings(vo);
+        vo = ServiceSiteTool.payAccountService().saveWarningSettings(vo);
         if (vo.isSuccess()) {
             ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_REBATE_PERCENT);
         }
@@ -971,7 +971,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     @ResponseBody
     public Map saveRecommended(SiteConfineIpVo siteConfineIpVo, @FormModel @Valid RecommendedForm form, BindingResult result, SiteI18nListVo siteI18nListVo) {
         if (!result.hasErrors()) {
-            ServiceTool.siteSysParamService().batchUpdateRecommended(siteConfineIpVo);
+            ServiceSiteTool.siteSysParamService().batchUpdateRecommended(siteConfineIpVo);
             ParamTool.refresh(SiteParamEnum.SETTING_RECOMMENDED);
             //保存内容和规则
             List<SiteI18n> content = siteConfineIpVo.getSiteI18nContentList();

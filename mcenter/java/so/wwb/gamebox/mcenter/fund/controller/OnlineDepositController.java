@@ -22,7 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -80,7 +80,7 @@ public class OnlineDepositController extends BaseDepositController {
         listVo.setTone(sysParam);
         listVo.setRechargeType(onlineRechargeType());
         //层级
-        model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
+        model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         return listVo;
     }
 
@@ -142,7 +142,12 @@ public class OnlineDepositController extends BaseDepositController {
                 deposit.set_soulFn_formatDateTz_checkTime(LocaleDateTool.formatDate(deposit.getCheckTime(), dateFormat.getDAY_SECOND(),timeZone));
                 deposit.set_soulFn_formatTimeMemo_checkTime(LocaleDateTool.formatTimeMemo(deposit.getCheckTime(), locale));
                 deposit.set_dicts_common_currency_symbol(dictsMap.get("common").get("currency_symbol").get(deposit.getPayerBank()));
-                deposit.set_ipDeposit_ipv4LongToString(IpTool.ipv4LongToString(deposit.getIpDeposit()));
+                //ip is null
+                if (deposit.getIpDeposit() != null) {
+                    deposit.set_ipDeposit_ipv4LongToString(IpTool.ipv4LongToString(deposit.getIpDeposit()));
+                } else {
+                    deposit.set_ipDeposit_ipv4LongToString("");
+                }
                 deposit.set_gbFn_getIpRegion_ipDictCode(IpRegionTool.getIpRegion(deposit.getIpDictCode()));
                 String checkRemark = deposit.getCheckRemark();
                 if(StringTool.isNotBlank(checkRemark)){

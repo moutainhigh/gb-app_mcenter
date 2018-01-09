@@ -7,7 +7,7 @@ import org.soul.web.listop.ListOpTool;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerForm;
@@ -42,7 +42,7 @@ public class PlayerLinkController extends BaseCrudController<IVUserPlayerService
     @RequestMapping("/rakeback")
     public String rakebackPlayers(RakebackBillVo vo, HttpServletRequest request, Model model) {
         // 获取玩家列表
-        VUserPlayerListVo listVo = ServiceTool.vUserPlayerService().searchRakebackPlayers(vo);
+        VUserPlayerListVo listVo = ServiceSiteTool.vUserPlayerService().searchRakebackPlayers(vo);
         // 处理页面参数
         setPageParam(listVo, model);
         // 返回页面
@@ -55,7 +55,7 @@ public class PlayerLinkController extends BaseCrudController<IVUserPlayerService
     @RequestMapping("/rebate")
     public String rebatePlayers(RebateBillVo vo, HttpServletRequest request, Model model) {
         // 获取玩家列表
-        VUserPlayerListVo listVo = ServiceTool.vUserPlayerService().searchRebatePlayers(vo);
+        VUserPlayerListVo listVo = ServiceSiteTool.vUserPlayerService().searchRebatePlayers(vo);
         // 处理页面参数
        setPageParam(listVo, model);
         // 返回页面

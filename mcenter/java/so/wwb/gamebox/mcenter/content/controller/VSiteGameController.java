@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.site.IVSiteGameService;
 import so.wwb.gamebox.mcenter.content.form.VSiteGameForm;
@@ -178,7 +179,7 @@ public class VSiteGameController extends BaseCrudController<IVSiteGameService, V
         try {
             PlayerApiListVo listVo = new PlayerApiListVo();
             listVo.getSearch().setApiId(siteApiVo.getSearch().getApiId());
-            listVo = ServiceTool.playerApiService().kickoutApi(listVo);
+            listVo = ServiceSiteTool.playerApiService().kickoutApi(listVo);
             result.put("state", listVo.isSuccess());
         } catch (Exception ex) {
             result.put("state", false);
@@ -191,7 +192,7 @@ public class VSiteGameController extends BaseCrudController<IVSiteGameService, V
         vSiteGameListVo.setApiBalance(getApiBalance(vSiteGameListVo));
         PlayerApiListVo playerApiListVo = new PlayerApiListVo();
         playerApiListVo.getSearch().setApiId(vSiteGameListVo.getSearch().getApiId());
-        Date date = ServiceTool.playerApiService().getLastRefreshTime(playerApiListVo);
+        Date date = ServiceSiteTool.playerApiService().getLastRefreshTime(playerApiListVo);
         SessionManager.setLastRefreshApiBalanceTime(date);
         return vSiteGameListVo;
     }
@@ -199,7 +200,7 @@ public class VSiteGameController extends BaseCrudController<IVSiteGameService, V
     private double getApiBalance(VSiteGameListVo vSiteGameListVo) {
         VPlayerApiListVo playerApiListVo = new VPlayerApiListVo();
         playerApiListVo.getSearch().setApiId(vSiteGameListVo.getSearch().getApiId());
-        Number number = ServiceTool.playerApiService().queryApiSumMoney(playerApiListVo);
+        Number number = ServiceSiteTool.playerApiService().queryApiSumMoney(playerApiListVo);
         if (number != null) {
             return number.doubleValue();
         }
@@ -235,7 +236,7 @@ public class VSiteGameController extends BaseCrudController<IVSiteGameService, V
             vPlayerApiListVo.setType(vPlayerApiListVo.REFRESH_SINGLE_API);
             vPlayerApiListVo.setIp(SessionManager.getIpDb().getIp());
             vPlayerApiListVo.getSearch().setApiId(vSiteGameListVo.getSearch().getApiId());
-            Number number = ServiceTool.playerApiService().queryApiSumMoney(vPlayerApiListVo);
+            Number number = ServiceSiteTool.playerApiService().queryApiSumMoney(vPlayerApiListVo);
             if (number != null) {
                 String balance = CurrencyTool.formatCurrency(number.doubleValue());
                 result.put("balance", balance);
@@ -296,7 +297,7 @@ public class VSiteGameController extends BaseCrudController<IVSiteGameService, V
         logVo.getSearch().setLoginEndTime(now);
         logVo.getSearch().setLoginStartTime(start);
         logVo._setDataSourceId(SessionManager.getSiteId());
-        Integer playerCount = ServiceTool.playerGameLogService().getPlayerCountBySiteApi(logVo);
+        Integer playerCount = ServiceSiteTool.playerGameLogService().getPlayerCountBySiteApi(logVo);
         return playerCount;
     }
 
@@ -308,7 +309,7 @@ public class VSiteGameController extends BaseCrudController<IVSiteGameService, V
         Date start = DateTool.addDays(now, -1);
         logVo.getSearch().setLoginEndTime(now);
         logVo.getSearch().setLoginStartTime(start);
-        Integer playerCount = ServiceTool.playerGameLogService().getPlayerCountByGame(logVo);
+        Integer playerCount = ServiceSiteTool.playerGameLogService().getPlayerCountByGame(logVo);
         return playerCount;
     }
 
@@ -320,7 +321,7 @@ public class VSiteGameController extends BaseCrudController<IVSiteGameService, V
         Date start = DateTool.addDays(now, -30);
         logVo.getSearch().setLoginEndTime(now);
         logVo.getSearch().setLoginStartTime(start);
-        Integer playerCount = ServiceTool.playerGameLogService().getPlayerCountByGame(logVo);
+        Integer playerCount = ServiceSiteTool.playerGameLogService().getPlayerCountByGame(logVo);
         return playerCount;
     }
     //endregion your codes 3

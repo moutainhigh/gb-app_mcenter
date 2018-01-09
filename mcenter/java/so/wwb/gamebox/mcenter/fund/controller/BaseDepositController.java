@@ -25,7 +25,7 @@ import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.fund.IVPlayerDepositService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.DepositRemarkForm;
@@ -126,15 +126,15 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
                 if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
                     masterSubSearch(listVo,moduleType,sysUserDataRights);
                     Paging paging = listVo.getPaging();
-                    paging.setTotalCount(ServiceTool.vPlayerDepositService().countPlayerDeposit(listVo));
+                    paging.setTotalCount(ServiceSiteTool.vPlayerDepositService().countPlayerDeposit(listVo));
                     paging.cal();
-                    listVo = ServiceTool.vPlayerDepositService().searchPlayerDeposit(listVo);
+                    listVo = ServiceSiteTool.vPlayerDepositService().searchPlayerDeposit(listVo);
                 } else {
-                    long count = ServiceTool.vPlayerDepositService().count(listVo);
+                    long count = ServiceSiteTool.vPlayerDepositService().count(listVo);
                     listVo.getPaging().setTotalCount(count);
                 }
             } else {
-                long count = ServiceTool.vPlayerDepositService().count(listVo);
+                long count = ServiceSiteTool.vPlayerDepositService().count(listVo);
                 listVo.getPaging().setTotalCount(count);
             }
         }
@@ -219,7 +219,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         SysParamVo vo = new SysParamVo();
         vo.setResult(param);
         vo.setProperties(SysParam.PROP_ACTIVE);
-        ServiceTool.siteSysParamService().updateOnly(vo);
+        ServiceSiteTool.siteSysParamService().updateOnly(vo);
     }
 
     /**
@@ -271,7 +271,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
      * 层级:包含/不包含
      */
     private FilterRow initRanks() {
-        List<PlayerRank> playerRanks = ServiceTool.playerRankService().allSearch(new PlayerRankListVo());
+        List<PlayerRank> playerRanks = ServiceSiteTool.playerRankService().allSearch(new PlayerRankListVo());
         List<Pair> rankPairs = new ArrayList<>();
         for (PlayerRank playerRank : playerRanks) {
             rankPairs.add(new Pair(playerRank.getId(), playerRank.getRankName()));
@@ -359,7 +359,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         if (RechargeTypeEnum.BITCOIN_FAST.getCode().equals(vo.getResult().getRechargeType()) && !RechargeStatusEnum.EXCHANGE.getCode().equals(vo.getResult().getRechargeStatus())) {
             DigiccyTransactionVo digiccyTransactionVo = new DigiccyTransactionVo();
             digiccyTransactionVo.getSearch().setTransactionNo(vo.getResult().getTransactionNo());
-            digiccyTransactionVo = ServiceTool.digiccyTransactionService().search(digiccyTransactionVo);
+            digiccyTransactionVo = ServiceSiteTool.digiccyTransactionService().search(digiccyTransactionVo);
             DigiccyTransaction digiccyTransaction = digiccyTransactionVo.getResult();
             if (digiccyTransaction != null) {
                 DigiccyRechargeResponseText responseText = JsonTool.fromJson(digiccyTransaction.getResponseText(), DigiccyRechargeResponseText.class);
@@ -378,7 +378,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
 
         ActivityPlayerApplyVo applyVo = new ActivityPlayerApplyVo();
         applyVo.getSearch().setPlayerRechargeId(vo.getResult().getId());
-        applyVo = ServiceTool.activityPlayerApplyService().search(applyVo);
+        applyVo = ServiceSiteTool.activityPlayerApplyService().search(applyVo);
         if (applyVo.getResult() == null) {
             return vo;
         }
@@ -401,7 +401,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         messageListVo.getSearch().setActivityVersion(SessionManager.getLocale().toString());
         messageListVo.getSearch().setId(vo.getActivityId());
         messageListVo.setProperties(VActivityMessage.PROP_ACTIVITY_NAME, VActivityMessage.PROP_IS_AUDIT);
-        List<Map<String, Object>> list = ServiceTool.vActivityMessageService().searchProperties(messageListVo);
+        List<Map<String, Object>> list = ServiceSiteTool.vActivityMessageService().searchProperties(messageListVo);
         if (CollectionTool.isNotEmpty(list)) {
             vo.setActivityName(MapTool.getString(list.get(0), VActivityMessage.PROP_ACTIVITY_NAME));
             vo.setActivityAudit(MapTool.getBoolean(list.get(0), VActivityMessage.PROP_IS_AUDIT));
@@ -419,7 +419,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
             PlayerFavorableVo playerFavorableVo = new PlayerFavorableVo();
             playerFavorableVo.getSearch().setPlayerRechargeId(vo.getResult().getId());
             playerFavorableVo.getSearch().setActivityMessageId(activityPlayerApply.getActivityMessageId());
-            playerFavorableVo = ServiceTool.playerFavorableService().search(playerFavorableVo);
+            playerFavorableVo = ServiceSiteTool.playerFavorableService().search(playerFavorableVo);
             vo.setFavorableTransactionId(playerFavorableVo.getResult().getPlayerTransactionId());
         }
     }
@@ -475,7 +475,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         List<Integer> rankIds = CollectionTool.extractToList(sysUserDataRights,SysUserDataRight.PROP_ENTITY_ID);
         PlayerRankVo rankVo = new PlayerRankVo();
         rankVo.getSearch().setIds(rankIds);
-        model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(rankVo));
+        model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(rankVo));
     }
 
     protected VPlayerDepositListVo getPlayerDeposit(VPlayerDepositListVo listVo, String moduleType,
@@ -485,7 +485,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
             if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
                 masterSubSearch(listVo, moduleType,sysUserDataRights);
                 buildPlayerRankData(model,sysUserDataRights);
-                listVo = ServiceTool.vPlayerDepositService().searchPlayerDeposit(listVo);
+                listVo = ServiceSiteTool.vPlayerDepositService().searchPlayerDeposit(listVo);
             } else {
                 listVo = getDeposit(listVo, form, result, model);
                 buildPlayerRankData(model,sysUserDataRights);
@@ -535,10 +535,10 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
                     VPlayerDepositListVo vPlayerDepositListVo = isTodayBaseSearch(listVo);
                     vPlayerDepositListVo.getSearch().setModuleType(listVo.getSearch().getModuleType());
                     vPlayerDepositListVo.getSearch().setDataRightUserId(SessionManager.getUserId());
-                    Double sum = ServiceTool.vPlayerDepositService().sumPlayerDeposit(vPlayerDepositListVo);
+                    Double sum = ServiceSiteTool.vPlayerDepositService().sumPlayerDeposit(vPlayerDepositListVo);
                     listVo.setTodayTotal(CurrencyTool.formatCurrency(sum == null ? 0 : sum));
                 } else {
-                    Double sum = ServiceTool.vPlayerDepositService().sumPlayerDeposit(listVo);
+                    Double sum = ServiceSiteTool.vPlayerDepositService().sumPlayerDeposit(listVo);
                     listVo.setTotalSum(CurrencyTool.CURRENCY.format(sum == null ? 0 : sum));
                 }
             } else {
@@ -598,7 +598,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         SysUserDataRightVo sysUserDataRightVo = new SysUserDataRightVo();
         sysUserDataRightVo.getSearch().setUserId(SessionManager.getUserId());
         sysUserDataRightVo.getSearch().setModuleType(moduleType);
-        return ServiceTool.sysUserDataRightService().searchDataRightsByUserId(sysUserDataRightVo);
+        return ServiceSiteTool.sysUserDataRightService().searchDataRightsByUserId(sysUserDataRightVo);
     }
 
     /**
@@ -667,7 +667,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         }
         vo.getSearch().setCheckUsername(SessionManager.getAuditUserName());
         // 更新审核状态和任务数
-        return ServiceTool.playerRechargeService().rechargeCheck(vo);
+        return ServiceSiteTool.playerRechargeService().rechargeCheck(vo);
     }
 
     /**
@@ -718,7 +718,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
 //        message.setMasterId(SessionManager.getSiteUserId());
 //        SysResourceListVo sysResourceListVo = new SysResourceListVo();
 //        sysResourceListVo.getSearch().setUrl(roleUrl);
-//        List<Integer> userIdByUrl = ServiceTool.playerRechargeService().findUserIdByUrl(sysResourceListVo);
+//        List<Integer> userIdByUrl = ServiceSiteTool.playerRechargeService().findUserIdByUrl(sysResourceListVo);
 //        userIdByUrl.add(Const.MASTER_BUILT_IN_ID);
 //        //自已会刷新，不发给自己
 //        if(userIdByUrl.contains(SessionManager.getUserId())){

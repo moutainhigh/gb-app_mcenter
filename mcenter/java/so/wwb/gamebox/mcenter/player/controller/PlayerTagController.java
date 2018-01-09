@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.player.IPlayerTagService;
 import so.wwb.gamebox.mcenter.player.form.PlayerTagForm;
 import so.wwb.gamebox.mcenter.player.form.PlayerTagSearchForm;
@@ -46,13 +46,13 @@ public class PlayerTagController extends BaseCrudController<IPlayerTagService, P
     //endregion
     @RequestMapping("/manageTag")
     public String manageTag(Model model){
-        model.addAttribute("PlayerTags", ServiceTool.vPlayerTagService().allSearch(new VPlayerTagListVo()));
+        model.addAttribute("PlayerTags", ServiceSiteTool.vPlayerTagService().allSearch(new VPlayerTagListVo()));
          return MANAGER_TAG;
      }
 
     @RequestMapping("/getTagByUserId")
     public String getTagByUserId(VPlayerTagVo vPlayerTagVo,Model model){
-        List<VPlayerTag> vPlayerTags = ServiceTool.vPlayerTagService().getTagByUserId(vPlayerTagVo);
+        List<VPlayerTag> vPlayerTags = ServiceSiteTool.vPlayerTagService().getTagByUserId(vPlayerTagVo);
 
         model.addAttribute("tags", vPlayerTags);
         model.addAttribute("userLen",vPlayerTagVo.getUserId().size());
@@ -67,7 +67,7 @@ public class PlayerTagController extends BaseCrudController<IPlayerTagService, P
         if (playerTagVo.getSearch().getInsertTagId() != null && playerTagVo.getSearch().getPlayerIds() != null) {
             VPlayerTagListVo vPlayerTagListVo = new VPlayerTagListVo();
             vPlayerTagListVo.setPropertyValues(playerTagVo.getSearch().getInsertTagId());
-            List<VPlayerTag> vPlayerTags = ServiceTool.vPlayerTagService().inSearchById(vPlayerTagListVo);
+            List<VPlayerTag> vPlayerTags = ServiceSiteTool.vPlayerTagService().inSearchById(vPlayerTagListVo);
             Map<String,Object> map = new HashMap<>(3,1f);
             for (VPlayerTag vPlayerTag : vPlayerTags) {
                 if (vPlayerTag.getBuiltIn()) {

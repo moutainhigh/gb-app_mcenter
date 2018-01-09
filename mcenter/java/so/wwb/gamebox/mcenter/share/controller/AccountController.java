@@ -32,6 +32,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -44,7 +45,6 @@ import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.listop.FreezeTime;
 import so.wwb.gamebox.model.listop.FreezeType;
 import so.wwb.gamebox.model.master.player.po.UserPlayer;
-import so.wwb.gamebox.model.master.player.po.VUserPlayer;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
@@ -88,7 +88,7 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
 
         /*停用模板 账号信息 在线状态*/
         /*模板*/
-        accountVo = ServiceTool.userPlayerService().accountOption(accountVo);
+        accountVo = ServiceSiteTool.userPlayerService().accountOption(accountVo);
         NoticeVo noticeVo = new NoticeVo();
         noticeVo.setEventType(eventType);
         List<NoticeLocaleTmpl> noticeLocaleTmpls = ServiceTool.noticeService().fetchLocaleTmpls(noticeVo);
@@ -148,7 +148,7 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
     @Token(valid = true)
     public Map setAccountDisabled(Model model, AccountVo accountVo) {
         createRemarkTitle(accountVo, "account.disabledAccount.text");
-        ServiceTool.userPlayerService().setAccountDisabled(accountVo);
+        ServiceSiteTool.userPlayerService().setAccountDisabled(accountVo);
         /*踢出当前登录的用户*/
         //loginKickout(accountVo.getResult().getId());
         KickoutFilter.loginKickoutAll(accountVo.getResult().getId(), OpMode.MANUAL,"站长中心停用玩家密码强制踢出");
@@ -166,7 +166,7 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
     public String freezeAccount(Model model, AccountVo accountVo) {
         String type = accountVo.getType();
         /*冻结模板 账号信息 在线状态*/
-        accountVo = ServiceTool.userPlayerService().accountOption(accountVo);
+        accountVo = ServiceSiteTool.userPlayerService().accountOption(accountVo);
         Map<String, SysDict> freezeTime = DictTool.get(DictEnum.COMMON_FREEZE_TIME);
         accountVo.setFreezeTime(freezeTime);
         // code by cogo
@@ -220,7 +220,7 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         freezeContent = formatContent(accountVo);
         String content = StringTool.fillTemplate(freezeContent, noticeVo.getParamMap());
         accountVo.getSearch().setFreezeContent(content);
-        accountVo = ServiceTool.userPlayerService().setAccountFreeze(accountVo);
+        accountVo = ServiceSiteTool.userPlayerService().setAccountFreeze(accountVo);
         sendMessageByGroupCode(noticeVo);
         return getVoMessage(accountVo);
     }
@@ -229,10 +229,10 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         try{
             PlayerApiAccountListVo accountListVo = new PlayerApiAccountListVo();
             accountListVo.getSearch().setUserId(userId);
-            accountListVo = ServiceTool.playerApiAccountService().search(accountListVo);
+            accountListVo = ServiceSiteTool.playerApiAccountService().search(accountListVo);
             SysUser sysUser = getSysUser(userId);
             accountListVo.setSysUser(sysUser);
-            ServiceTool.playerApiAccountService().kickoutFromApi(accountListVo);
+            ServiceSiteTool.playerApiAccountService().kickoutFromApi(accountListVo);
         }catch (Exception ex){
             LogFactory.getLog(this.getClass()).error(ex,"从API踢出玩家失败，但不影响操作");
         }
@@ -250,7 +250,7 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
      */
     @RequestMapping("/toCancelAccountFreeze")
     public String toCancelAccountFreeze(VSysUserPlayerFrozenVo vo, Model model, String sign) {
-        vo = ServiceTool.vSysUserPlayerFrozenService().get(vo);
+        vo = ServiceSiteTool.vSysUserPlayerFrozenService().get(vo);
         SysUserVo sysUserVo = new SysUserVo();
         sysUserVo.setResult(new SysUser());
         sysUserVo.getSearch().setId(vo.getResult().getFreezeUser());
@@ -278,7 +278,7 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
 
     //TODO: water on line is need modify
     private void isUserOnline(SysUserVo sysUserVo, Model model) {
-        IVUserPlayerService vUserPlayerService = ServiceTool.vUserPlayerService();
+        IVUserPlayerService vUserPlayerService = ServiceSiteTool.vUserPlayerService();
         VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
         vUserPlayerVo.getSearch().setId(sysUserVo.getResult().getId());
         vUserPlayerVo = vUserPlayerService.get(vUserPlayerVo);
@@ -341,7 +341,7 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
     public String freezeBalance(Model model, AccountVo accountVo) {
 
         /*账号冻结模板*/
-        accountVo = ServiceTool.userPlayerService().accountOption(accountVo);
+        accountVo = ServiceSiteTool.userPlayerService().accountOption(accountVo);
         NoticeVo noticeVo = new NoticeVo();
         noticeVo.setEventType(ManualNoticeEvent.BALANCE_FREEZON);
         List<NoticeLocaleTmpl> noticeLocaleTmpls = ServiceTool.noticeService().fetchLocaleTmpls(noticeVo);
@@ -377,7 +377,7 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         NoticeVo noticeVo = buildNoticeParam(messageType,accountVo,ManualNoticeEvent.BALANCE_FREEZON);
         content = StringTool.fillTemplate(content, noticeVo.getParamMap());
         accountVo.setBalanceFreezeContent(content);
-        UserPlayer userPlayer = ServiceTool.userPlayerService().setAccountBalanceFreeze(accountVo);
+        UserPlayer userPlayer = ServiceSiteTool.userPlayerService().setAccountBalanceFreeze(accountVo);
         sendMessageByGroupCode(noticeVo);
         return getVoMessage(accountVo);
     }
@@ -410,7 +410,7 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
      */
     @RequestMapping("/toCancelBalanceFreeze")
     public String toCancelBalanceFreeze(VSysUserPlayerFrozenVo vo, Model model) {
-        vo = ServiceTool.vSysUserPlayerFrozenService().get(vo);
+        vo = ServiceSiteTool.vSysUserPlayerFrozenService().get(vo);
 
         SysUserVo sysUserVo = new SysUserVo();
         sysUserVo.setResult(new SysUser());
@@ -437,15 +437,14 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         userPlayerVo.getResult().setId(accountVo.getSearch().getId());
         userPlayerVo.getResult().setBalanceFreezeEndTime(new Date());
         userPlayerVo.setProperties(UserPlayer.PROP_BALANCE_FREEZE_END_TIME);
-        ServiceTool.userPlayerService().updateOnly(userPlayerVo);
+        ServiceSiteTool.userPlayerService().updateOnly(userPlayerVo);
         return getVoMessage(accountVo);
     }
 
     /**
      * 根据模板code发送信息
      *
-     * @param groupCode
-     * @param userId
+     * @param noticeVo
      */
     private NoticeVo sendMessageByGroupCode(NoticeVo noticeVo) {
         if(StringTool.isNotBlank(noticeVo.getTmplGroupCode())){

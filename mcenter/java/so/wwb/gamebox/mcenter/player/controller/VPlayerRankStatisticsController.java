@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.player.IVPlayerRankStatisticsService;
 import so.wwb.gamebox.mcenter.player.form.VPlayerRankStatisticsForm;
 import so.wwb.gamebox.mcenter.player.form.VPlayerRankStatisticsSearchForm;
@@ -41,7 +41,7 @@ public class VPlayerRankStatisticsController extends BaseCrudController<IVPlayer
     @Override
     protected VPlayerRankStatisticsVo doView(VPlayerRankStatisticsVo objectVo, Model model) {
         getMstCurrency(model);
-        objectVo = ServiceTool.vPlayerRankStatisticsService().viewPlayerRank(objectVo);
+        objectVo = ServiceSiteTool.vPlayerRankStatisticsService().viewPlayerRank(objectVo);
         return super.doView(objectVo, model);
     }
 

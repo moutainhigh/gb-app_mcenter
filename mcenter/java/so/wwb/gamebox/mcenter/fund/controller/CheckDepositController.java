@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.fund.form.DepositRemarkForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -137,7 +138,7 @@ public class CheckDepositController extends BaseDepositController {
     private Boolean isPublishMessage() {
         NoticeTmplVo tmplVo = new NoticeTmplVo();
         tmplVo.getSearch().setEventType(ManualNoticeEvent.DEPOSIT_AUDIT_FAIL.getCode());
-        Map<String, Object> map = ServiceTool.noticeTmplService().searchNoticeTmplByEventType(tmplVo);
+        Map<String, Object> map = ServiceSiteTool.noticeTmplService().searchNoticeTmplByEventType(tmplVo);
         return !map.isEmpty() && Boolean.valueOf(String.valueOf(map.get("siteMsg")));
     }
 
@@ -152,7 +153,7 @@ public class CheckDepositController extends BaseDepositController {
                     || RechargeStatusEnum.ONLINE_SUCCESS.getCode().equals(recharge.getRechargeStatus())) {
                 NoticeVo noticeVo = NoticeVo.autoNotify(AutoNoticeEvent.DEPOSIT_AUDIT_SUCCESS, recharge.getPlayerId());
                 publishMessage(noticeVo, recharge);
-                Boolean isAuditActivity = ServiceTool.playerRechargeService().isAuditActivity(vo);
+                Boolean isAuditActivity = ServiceSiteTool.playerRechargeService().isAuditActivity(vo);
                 if (isAuditActivity != null && isAuditActivity) {
                     addTaskReminder();
                 }
@@ -277,7 +278,7 @@ public class CheckDepositController extends BaseDepositController {
         playerRechargeVo.getResult().setCheckUserId(SessionManager.getUserId());
         playerRechargeVo.getResult().setCheckUsername(SessionManager.getAuditUserName());
         playerRechargeVo.setProperties(PlayerRecharge.PROP_CHECK_REMARK);
-        playerRechargeVo = ServiceTool.playerRechargeService().updateRechargeRemark(playerRechargeVo);
+        playerRechargeVo = ServiceSiteTool.playerRechargeService().updateRechargeRemark(playerRechargeVo);
         return getVoMessage(playerRechargeVo);
     }
 
@@ -285,7 +286,7 @@ public class CheckDepositController extends BaseDepositController {
     private void addTaskReminder() {
         UserTaskReminderVo userTaskReminderVo = new UserTaskReminderVo();
         userTaskReminderVo.setTaskEnum(UserTaskEnum.PREFERENTIAL);
-        ServiceTool.userTaskReminderService().addTaskReminder(userTaskReminderVo);
+        ServiceSiteTool.userTaskReminderService().addTaskReminder(userTaskReminderVo);
     }
 
 }

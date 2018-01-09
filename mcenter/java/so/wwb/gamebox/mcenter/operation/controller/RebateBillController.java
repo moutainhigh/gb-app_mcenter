@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.operation.IRebateBillService;
 import so.wwb.gamebox.mcenter.operation.form.ConfirmSettlementForm;
@@ -96,7 +97,7 @@ public class RebateBillController extends BaseCrudController<IRebateBillService,
 
         rebateAgentListVo.getSearch().setRebateBillId(id);
         rebateAgentListVo.getSearch().setSettlementState(request.getParameter("settlementState"));//此处用于列表页待发放/已发放/拒绝链接的过滤
-        rebateAgentListVo = ServiceTool.settlementRebateAgentService().search(rebateAgentListVo);
+        rebateAgentListVo = ServiceSiteTool.settlementRebateAgentService().search(rebateAgentListVo);
         rebateAgentListVo = assembledListData(rebateAgentListVo,userAgentList);
         model.addAttribute("command", rebateAgentListVo);
 
@@ -107,7 +108,7 @@ public class RebateBillController extends BaseCrudController<IRebateBillService,
             AgentRebateOrderVo agentRebateOrderVo = new AgentRebateOrderVo();
             agentRebateOrderVo.getSearch().setAgentId(agentId);
             agentRebateOrderVo.getSearch().setRebateBillId(id);
-            agentRebateOrderVo = ServiceTool.agentRebateOrderService().search(agentRebateOrderVo);
+            agentRebateOrderVo = ServiceSiteTool.agentRebateOrderService().search(agentRebateOrderVo);
             if (agentRebateOrderVo.getResult() != null) {
                 list.add(agentRebateOrderVo.getResult());
             }
@@ -138,7 +139,7 @@ public class RebateBillController extends BaseCrudController<IRebateBillService,
         List<UserAgent> userAgentList = getUserAgentInfo();
         rebateAgentListVo.getSearch().setRebateBillId(id);
         rebateAgentListVo.getSearch().setSettlementState(SettlementStateEnum.PENDING_LSSUING.getCode());
-        rebateAgentListVo = ServiceTool.settlementRebateAgentService().search(rebateAgentListVo);
+        rebateAgentListVo = ServiceSiteTool.settlementRebateAgentService().search(rebateAgentListVo);
         rebateAgentListVo = assembledListData(rebateAgentListVo,userAgentList);
         model.addAttribute("command", rebateAgentListVo);
 
@@ -218,7 +219,7 @@ public class RebateBillController extends BaseCrudController<IRebateBillService,
 
         RebateAgentListVo rebateAgentListVo = new RebateAgentListVo();
         rebateAgentListVo.getSearch().setIds(ids);
-        Double sum = ServiceTool.settlementRebateAgentService().statisticsTotalRebate(rebateAgentListVo);
+        Double sum = ServiceSiteTool.settlementRebateAgentService().statisticsTotalRebate(rebateAgentListVo);
         model.addAttribute("sum", sum);
 
         return OPERATION_REBATE_CONFIRM_SETTLEMENT;
@@ -234,7 +235,7 @@ public class RebateBillController extends BaseCrudController<IRebateBillService,
     @RequestMapping("/toModifySettlement")
     @Token(generate = true)
     public String toModifySettlementDialog(RebateAgentVo rebateAgentVo, Model model) {
-        rebateAgentVo = ServiceTool.settlementRebateAgentService().get(rebateAgentVo);
+        rebateAgentVo = ServiceSiteTool.settlementRebateAgentService().get(rebateAgentVo);
         RebateBillVo objectVo = getSettlementRebate(new RebateBillVo(), rebateAgentVo.getResult().getRebateBillId());
         model.addAttribute("objectVo", objectVo);
         model.addAttribute("command", rebateAgentVo);
@@ -273,7 +274,7 @@ public class RebateBillController extends BaseCrudController<IRebateBillService,
      */
     private List<UserAgent> getUserAgentInfo() {
         UserAgentListVo userAgentListVo = new UserAgentListVo();
-        return ServiceTool.userAgentService().allSearch(userAgentListVo);
+        return ServiceSiteTool.userAgentService().allSearch(userAgentListVo);
     }
 
     /**

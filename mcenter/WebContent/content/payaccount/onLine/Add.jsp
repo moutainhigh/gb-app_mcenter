@@ -125,12 +125,13 @@
                         </label>
                         <div class="col-sm-5" id="onLinePay">
                             <div class="input-group date">
-                                <form:select path="onLinePay" callback="onLinePay" cssClass="btn-group chosen-select-no-single">
+                                <gb:select name="onLinePay" callback="onLinePay" cssClass="btn-group chosen-select-no-single" prompt="${views.common['pleaseSelect']}" list="${command.sysDomains}" listKey="domain" listValue="domain" value="${doamin}"/>
+                               <%-- <select name="onLinePay" callback="onLinePay" class="btn-group chosen-select-no-single">
                                     <option value="">${views.common['pleaseSelect']}</option>
                                     <c:forEach items="${command.sysDomains}" var="p">
                                         <option value="${p.domain}" ${p.domain==doamin?'selected':''} >${p.domain}</option>
                                     </c:forEach>
-                                </form:select>
+                                </select>--%>
                                 <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
                             </div>
                         </div>

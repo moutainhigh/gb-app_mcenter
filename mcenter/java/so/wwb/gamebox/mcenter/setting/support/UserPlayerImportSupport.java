@@ -12,7 +12,7 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
@@ -129,7 +129,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
         UserPlayerTransferListVo transferVo = new UserPlayerTransferListVo();
         transferVo.getSearch().setIsActive("0");
         transferVo.setPaging(null);
-        transferVo = ServiceTool.userPlayerTransferService().search(transferVo);
+        transferVo = ServiceSiteTool.userPlayerTransferService().search(transferVo);
         if(transferVo!=null&&transferVo.getResult()!=null){
             playerMap = CollectionTool.toEntityMap(transferVo.getResult(),UserPlayerTransfer.PROP_PLAYER_ACCOUNT);
         }else{
@@ -141,7 +141,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
         VUserAgentListVo agentListVo = new VUserAgentListVo();
         agentListVo.getSearch().setUserType(UserTypeEnum.TOP_AGENT.getCode());
         agentListVo.setPaging(null);
-        agentListVo = ServiceTool.vUserAgentService().search(agentListVo);
+        agentListVo = ServiceSiteTool.vUserAgentService().search(agentListVo);
         if(agentListVo!=null&&agentListVo.getResult()!=null){
             topagentMap = CollectionTool.toEntityMap(agentListVo.getResult(), VUserAgent.PROP_USERNAME);
         }else{
@@ -154,7 +154,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
         VUserAgentListVo agentListVo = new VUserAgentListVo();
         agentListVo.getSearch().setUserType(UserTypeEnum.AGENT.getCode());
         agentListVo.setPaging(null);
-        agentListVo = ServiceTool.vUserAgentService().search(agentListVo);
+        agentListVo = ServiceSiteTool.vUserAgentService().search(agentListVo);
         if(agentListVo!=null&&agentListVo.getResult()!=null){
             agentMap = CollectionTool.toEntityMap(agentListVo.getResult(),VUserAgent.PROP_USERNAME);
         }else{
@@ -164,7 +164,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
     }
 
     private void getAllPlayerRank(){
-        List<PlayerRank> playerRanks = ServiceTool.playerRankService().queryUsableList(new PlayerRankVo());
+        List<PlayerRank> playerRanks = ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo());
         playerRankMap = CollectionTool.toEntityMap(playerRanks,PlayerRank.PROP_RANK_NAME);
     }
 
@@ -172,7 +172,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
         VUserAgentVo topAgent  = new VUserAgentVo();
         topAgent.getSearch().setBuiltIn(true);
         topAgent.getSearch().setUserType(UserTypeEnum.TOP_AGENT.getCode());
-        topAgent = ServiceTool.vUserAgentService().search(topAgent);
+        topAgent = ServiceSiteTool.vUserAgentService().search(topAgent);
         if(topAgent==null||topAgent.getResult() == null){
             return null;
         }
@@ -183,7 +183,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
         VUserAgentVo agentVo  = new VUserAgentVo();
         agentVo.getSearch().setBuiltIn(true);
         agentVo.getSearch().setUserType(UserTypeEnum.AGENT.getCode());
-        agentVo = ServiceTool.vUserAgentService().search(agentVo);
+        agentVo = ServiceSiteTool.vUserAgentService().search(agentVo);
         if(agentVo==null||agentVo.getResult() == null){
             return null;
         }
@@ -193,7 +193,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
     private void getAllBankcardNumber(){
         UserBankcardListVo listVo = new UserBankcardListVo();
         listVo.getSearch().setIsDefault(true);
-        listVo = ServiceTool.userBankcardService().search(listVo);
+        listVo = ServiceSiteTool.userBankcardService().search(listVo);
         if(listVo.getResult()!=null){
             userBankcardMap = CollectionTool.toEntityMap(listVo.getResult(),UserBankcard.PROP_BANKCARD_NUMBER);
         }else{
@@ -207,7 +207,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
             UserPlayerImportVo userPlayerImportVo = buildImportRecord();
             List<UserPlayerTransfer> list = buildUserPlayer();
             userPlayerImportVo.setPlayerList(list);
-            ServiceTool.userPlayerImportService().savePlayerImport(userPlayerImportVo);
+            ServiceSiteTool.userPlayerImportService().savePlayerImport(userPlayerImportVo);
         }
 
     }

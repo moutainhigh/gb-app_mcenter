@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.site.IVSiteApiTypeService;
 import so.wwb.gamebox.mcenter.content.form.VSiteApiTypeForm;
@@ -123,7 +124,7 @@ public class VSiteApiTypeController extends BaseCrudController<IVSiteApiTypeServ
         Date start = DateTool.addDays(now, -30);
         logVo.getSearch().setLoginEndTime(now);
         logVo.getSearch().setLoginStartTime(start);
-        Integer playerCount = ServiceTool.playerGameLogService().getPlayerCountBySiteApiType(logVo);
+        Integer playerCount = ServiceSiteTool.playerGameLogService().getPlayerCountBySiteApiType(logVo);
         return playerCount;
     }
 

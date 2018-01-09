@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.setting.IRakebackSetService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.RakebackSetForm;
@@ -128,7 +128,7 @@ public class RakebackSetController extends BaseCrudController<IRakebackSetServic
         vGameTypeListVo.getSearch().setSiteId(SessionManager.getSiteId());
         vGameTypeListVo.setCahceApiMap(Cache.getApi());
         vGameTypeListVo.setCahceSiteApiMap(Cache.getSiteApi());
-        List<Map<String, Object>> someGames = ServiceTool.rebateSetService().queryGameData(vGameTypeListVo);
+        List<Map<String, Object>> someGames = ServiceSiteTool.rebateSetService().queryGameData(vGameTypeListVo);
         objectVo.setSomeGames(someGames);
         return objectVo;
     }

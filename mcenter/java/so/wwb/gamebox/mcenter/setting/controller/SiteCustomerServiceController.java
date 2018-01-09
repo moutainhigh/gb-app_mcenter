@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.site.ISiteCustomerServiceService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -171,7 +172,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
             vFloatPicListVo.getSearch().setImgLinkType(FloatPicLinkTypeEnum.CUSTOMER_SERVICE.getCode());
             vFloatPicListVo.getSearch().setImgLinkValue(id + "");
             //在线客服前端显示
-            vFloatPicListVo = ServiceTool.vFloatPicService().search(vFloatPicListVo);
+            vFloatPicListVo = ServiceSiteTool.vFloatPicService().search(vFloatPicListVo);
             picCount=vFloatPicListVo.getResult().size();
 
 
@@ -219,7 +220,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         vFloatPicListVo.getSearch().setImgLinkType(FloatPicLinkTypeEnum.CUSTOMER_SERVICE.getCode());
         vFloatPicListVo.getSearch().setImgLinkValue(id + "");
         //在线客服前端显示
-        vFloatPicListVo = ServiceTool.vFloatPicService().search(vFloatPicListVo);
+        vFloatPicListVo = ServiceSiteTool.vFloatPicService().search(vFloatPicListVo);
        Integer picCount=vFloatPicListVo.getResult().size();
         if(picCount==0){
             //当前站点前端无客服咨询浮动窗口，建议立即去设置！
