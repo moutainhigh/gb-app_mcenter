@@ -12,7 +12,7 @@
     <div class="col-lg-12">
         <div class="wrapper white-bg shadow clearfix">
             <div class="clearfix filter-wraper border-b-1 line-hi34">
-                <a href="/operation/rakebackBill/rakebackNosettled.html" nav-target="mainFrame" class="btn btn-outline btn-filter">${views.operation['Rakeback.list.nosettled']}</a>
+                <%--<a href="/operation/rakebackBill/rakebackNosettled.html" nav-target="mainFrame" class="btn btn-outline btn-filter">${views.operation['Rakeback.list.nosettled']}</a>--%>
                 <soul:button target="query" text="${views.common['refresh']}" opType="function" cssClass="btn btn-filter"></soul:button>
                 <a href="/setting/vRakebackSet/list.html?hasReturn=change" nav-target="mainFrame" class="pull-right">${views.operation['backwater.index.backwaterSetting']}</a>
             </div>
