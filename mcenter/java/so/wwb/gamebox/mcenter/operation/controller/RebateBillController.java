@@ -36,7 +36,7 @@ import java.util.*;
 
 /**
  * 返佣账单
- *
+ * todo::will delete
  * @author younger
  * @time 2017-08-08 11:35:46
  */
@@ -323,12 +323,12 @@ public class RebateBillController extends BaseCrudController<IRebateBillService,
                 total[1] = total[1] + (rebateAgentNosettled.getEffectiveTransaction()==null?0.00d:rebateAgentNosettled.getEffectiveTransaction());
                 total[2] = total[2] + (rebateAgentNosettled.getProfitLoss()==null?0.00d:rebateAgentNosettled.getProfitLoss());
                 total[3] = total[3] + (rebateAgentNosettled.getDepositAmount()==null?0.00d:rebateAgentNosettled.getDepositAmount());
-                total[4] = total[4] + (rebateAgentNosettled.getWithdrawalAmount()==null?0.00d:rebateAgentNosettled.getWithdrawalAmount());
-                total[5] = total[5] + (rebateAgentNosettled.getRakeback()==null?0.00d:rebateAgentNosettled.getRakeback());
-                total[6] = total[6] + ((rebateAgentNosettled.getPreferentialValue()==null || rebateAgentNosettled.getRecommend()==null)?0.00d:rebateAgentNosettled.getPreferentialValue()+rebateAgentNosettled.getRecommend());
-                total[7] = total[7] + (rebateAgentNosettled.getRefundFee()==null?0.00d:rebateAgentNosettled.getRefundFee());
-                total[8] = total[8] + (rebateAgentNosettled.getApportion()==null?0.00d:rebateAgentNosettled.getApportion());
-                total[9] = total[9] + (rebateAgentNosettled.getHistoryApportion()==null?0.00d:rebateAgentNosettled.getHistoryApportion());
+                total[4] = total[4] + (rebateAgentNosettled.getWithdrawAmount()==null?0.00d:rebateAgentNosettled.getWithdrawAmount());
+                total[5] = total[5] + (rebateAgentNosettled.getRakebackAmount()==null?0.00d:rebateAgentNosettled.getRakebackAmount());
+                total[6] = total[6] + ((rebateAgentNosettled.getFavorableAmount()==null || rebateAgentNosettled.getFavorableAmount()==null)?0.00d:rebateAgentNosettled.getFavorableAmount());
+                //total[7] = total[7] + (rebateAgentNosettled.getRefundFee()==null?0.00d:rebateAgentNosettled.getRefundFee());
+                //total[8] = total[8] + (rebateAgentNosettled.getApportion()==null?0.00d:rebateAgentNosettled.getApportion());
+               // total[9] = total[9] + (rebateAgentNosettled.getHistoryApportion()==null?0.00d:rebateAgentNosettled.getHistoryApportion());
                 total[10] = total[10] + (rebateAgentNosettled.getRebateTotal()==null?0.00d:rebateAgentNosettled.getRebateTotal());
             }
 
