@@ -80,7 +80,6 @@ public class OnlineDepositController extends BaseDepositController {
         }
         listVo.setTone(sysParam);
         listVo.setRechargeType(onlineRechargeType());
-        model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
         //层级
         model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         return listVo;
