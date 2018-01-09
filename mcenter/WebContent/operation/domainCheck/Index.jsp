@@ -36,11 +36,17 @@
                                     <%--地区--%>
                                 <div class="col-xs-4 p-x">
                                     <div>
-                                      地区:<gb:select name="result.province" prompt="${views.common['pleaseSelect']}" value="${command.result.province}"
+                                      地区:<select>
+                                            <option value ="12">广西</option>
+                                            <option value ="13">广东</option>
+                                            <option value="14"></option>
+                                            <option value="15">Audi</option>
+                                          </select>
+                                            <%--<gb:select name="result.province" prompt="${views.common['pleaseSelect']}" value="${command.result.province}"
                                                     ajaxListPath="${root}/regions/states/${command.result.nation}.html"
                                                     relSelectPath="${root}/regions/states/#result.nation#.html"
                                                     listValue="remark" listKey="dictCode" cssClass="btn-group chosen-select-no-single"
-                                                    relSelect="result.city"/>
+                                                    relSelect="result.city"/>--%>
                                     </div>
                                 </div>
 
