@@ -58,7 +58,7 @@
                         </tr>
                         <c:if test="${r.transactionWay=='manual_favorable'}">
                         <tr>
-                            <th scope="row" class="text-right">优惠活动：</th>
+                            <th scope="row" class="text-right">${views.fund['优惠活动：']}</th>
                             <td>
                                 <c:choose>
                                     <c:when test="${activityId==''||activityId==null}">
@@ -70,7 +70,12 @@
                                         </c:if>
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="/operation/activityType/viewActivityDetail.html?search.id=${activityId}" nav-target="mainFrame">${activityName}</a>
+                                        <c:if test="${activityMessage.isDeleted}">
+                                            ${views.fund['该活动已被删除']}
+                                        </c:if>
+                                        <c:if test="${!activityMessage.isDeleted}">
+                                            <a href="/operation/activityType/viewActivityDetail.html?search.id=${activityId}" nav-target="mainFrame">${activityName}</a>
+                                        </c:if>
                                     </c:otherwise>
                                 </c:choose>
                             </td>

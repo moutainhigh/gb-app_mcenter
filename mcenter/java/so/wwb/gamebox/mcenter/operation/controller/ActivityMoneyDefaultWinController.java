@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.operation.IActivityMoneyDefaultWinService;
 import so.wwb.gamebox.mcenter.operation.form.ActivityMoneyDefaultWinForm;
@@ -146,7 +147,7 @@ public class ActivityMoneyDefaultWinController extends BaseCrudController<IActiv
         sysUserVo.getSearch().setSiteId(SessionManager.getSiteId());
         sysUserVo.getSearch().setSubsysCode(SubSysCodeEnum.PCENTER.getCode());
         sysUserVo.getSearch().setStatus(SysUserStatus.NORMAL.getCode());
-        SysUserListVo sysUserListVo = ServiceTool.userPlayerService().findByUsernameForMoney(sysUserVo);
+        SysUserListVo sysUserListVo = ServiceSiteTool.userPlayerService().findByUsernameForMoney(sysUserVo);
         return sysUserListVo.getResult().isEmpty()? null:sysUserListVo.getResult().get(0);
     }
 
@@ -173,7 +174,7 @@ public class ActivityMoneyDefaultWinController extends BaseCrudController<IActiv
         }
         ActivityMoneyAwardsRulesVo awardsRulesVo = new ActivityMoneyAwardsRulesVo();
         awardsRulesVo.getSearch().setId(id);
-        awardsRulesVo = ServiceTool.activityMoneyAwardsRulesService().get(awardsRulesVo);
+        awardsRulesVo = ServiceSiteTool.activityMoneyAwardsRulesService().get(awardsRulesVo);
         if(awardsRulesVo.getResult()!=null){
 
             Long totalPeriod = queryTotalCount(awardsRulesVo);

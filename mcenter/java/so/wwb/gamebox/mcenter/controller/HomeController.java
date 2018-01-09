@@ -1,7 +1,6 @@
 package so.wwb.gamebox.mcenter.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.DateQuickPicker;
@@ -19,15 +18,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
-import so.wwb.gamebox.iservice.master.player.IVPlayerOnlineService;
-import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerVo;
-import so.wwb.gamebox.model.master.player.vo.VPlayerOnlineListVo;
 import so.wwb.gamebox.model.master.setting.po.VUserShortcutMenu;
 import so.wwb.gamebox.model.master.setting.vo.UserShortcutMenuListVo;
 import so.wwb.gamebox.model.master.setting.vo.VUserShortcutMenuListVo;
@@ -119,7 +116,7 @@ public class HomeController extends SiteHomeController{
         UserPlayerVo userPlayerVo = new UserPlayerVo();
         userPlayerVo.setStartTime(day);
         userPlayerVo.setEndTime(DateQuickPicker.getInstance().getNow());
-        Map statusCountMap = ServiceTool.userPlayerService().queryPlayerStatus(userPlayerVo);
+        Map statusCountMap = ServiceSiteTool.userPlayerService().queryPlayerStatus(userPlayerVo);
 
         return statusCountMap;
     }
@@ -128,7 +125,7 @@ public class HomeController extends SiteHomeController{
      * 查找站点资产(钱包余额 + API余额 + 冻结余额）
      */
     private Map<String, Object> getAssets() {
-        return ServiceTool.userPlayerService().queryAssets(new UserPlayerVo());
+        return ServiceSiteTool.userPlayerService().queryAssets(new UserPlayerVo());
     }
 
 
@@ -159,9 +156,9 @@ public class HomeController extends SiteHomeController{
         //左侧菜单栏
         VUserShortcutMenuListVo menuListVo = new VUserShortcutMenuListVo();
         menuListVo.getSearch().setUserId(SessionManager.getUserId());
-        List<VUserShortcutMenu> vUserShortcutMenus = ServiceTool.vUserShortcutMenuService().queryShortMenuByUser(menuListVo);
+        List<VUserShortcutMenu> vUserShortcutMenus = ServiceSiteTool.vUserShortcutMenuService().queryShortMenuByUser(menuListVo);
         menuListVo.setResult(vUserShortcutMenus);
-        //menuListVo = ServiceTool.vUserShortcutMenuService().search(menuListVo);
+        //menuListVo = ServiceSiteTool.vUserShortcutMenuService().search(menuListVo);
         model.addAttribute("menuListVo", menuListVo);
         return ADD_MENU_URI;
     }
@@ -193,7 +190,7 @@ public class HomeController extends SiteHomeController{
         } else {
             userShortcutMenuListVo.getSearch().setUserId(SessionManager.getUserId());
         }
-        userShortcutMenuListVo = ServiceTool.userShortcutMenuService().revertDefaultMenu(userShortcutMenuListVo);
+        userShortcutMenuListVo = ServiceSiteTool.userShortcutMenuService().revertDefaultMenu(userShortcutMenuListVo);
         return getVoMessage(userShortcutMenuListVo);
     }
 
@@ -210,7 +207,7 @@ public class HomeController extends SiteHomeController{
             userShortcutMenuListVo.getSearch().setUserId(SessionManager.getUserId());
         }
         userShortcutMenuListVo.setResourceIds(resourceIds);
-        userShortcutMenuListVo = ServiceTool.userShortcutMenuService().saveLeftMenu(userShortcutMenuListVo);
+        userShortcutMenuListVo = ServiceSiteTool.userShortcutMenuService().saveLeftMenu(userShortcutMenuListVo);
         return getVoMessage(userShortcutMenuListVo);
     }
 

@@ -8,7 +8,7 @@ import org.soul.model.common.BaseObjectVo;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.support.IForm;
 import org.springframework.ui.Model;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.master.operation.po.VActivityMessage;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMessageVo;
@@ -46,7 +46,7 @@ public abstract class ActivityController<S extends IBaseService, L extends BaseL
     }
 
     protected List<VActivityMessage> loadActivityMessageByActivityType(String code,Integer... activityMessageIds) {
-       return ServiceTool.vActivityMessageService().searchActivityMessageByActivityType(new VActivityMessageVo(), code,
+       return ServiceSiteTool.vActivityMessageService().searchActivityMessageByActivityType(new VActivityMessageVo(), code,
                SessionManager.getLocale().toString(),activityMessageIds);
     }
 
@@ -165,7 +165,7 @@ public abstract class ActivityController<S extends IBaseService, L extends BaseL
      * 获取玩家正常层级
      */
     protected List<PlayerRank> getNormalPlayRanks() {
-        return ServiceTool.playerRankService().queryUsableList(new PlayerRankVo());
+        return ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo());
     }
 
     protected Map<String, Object> isAllRank(String combinedRanks) {

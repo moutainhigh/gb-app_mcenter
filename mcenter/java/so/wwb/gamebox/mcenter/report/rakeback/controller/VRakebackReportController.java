@@ -16,7 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.report.IVRakebackReportService;
 import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.report.rakeback.form.RakebackBillSearchForm;
@@ -91,7 +91,7 @@ public class VRakebackReportController extends AbstractExportController<IVRakeba
         listVo.setPeriod(getPeriod(listVo));
 
         // 查找数据
-        listVo = ServiceTool.vRakebackReportService().queryRakebackReport(listVo);
+        listVo = ServiceSiteTool.vRakebackReportService().queryRakebackReport(listVo);
 
         // 格式化年
         listVo.setYearMap(fmtYear(listVo.getYears()));
@@ -173,7 +173,7 @@ public class VRakebackReportController extends AbstractExportController<IVRakeba
         billVo.getSearch().setRakebackYear(listVo.getSearch().getRakebackYear());
         billVo.getSearch().setRakebackMonth(listVo.getSearch().getRakebackMonth());
         billVo._setDataSourceId(billVo.getSearch().getSiteId());
-        List<RakebackBill> temp = ServiceTool.rakebackBillService().queryPeriods(billVo);
+        List<RakebackBill> temp = ServiceSiteTool.rakebackBillService().queryPeriods(billVo);
         List<RakebackBill> periods = new ArrayList<>();
         if (temp != null && !temp.isEmpty()) {
             for (RakebackBill bill : temp) {
@@ -191,21 +191,21 @@ public class VRakebackReportController extends AbstractExportController<IVRakeba
         RakebackBillVo vo = new RakebackBillVo();
         vo._setDataSourceId(listVo.getSearch().getSiteId());
         vo.getSearch().setId(listVo.getSearch().getId());
-        return ServiceTool.rakebackBillService().get(vo).getResult();
+        return ServiceSiteTool.rakebackBillService().get(vo).getResult();
     }
 
     @RequestMapping("/ajaxYears")
     @ResponseBody
     public String ajaxYears(RakebackBillListVo vo) {
         vo._setDataSourceId(vo.getSiteId());
-        return ServiceTool.rakebackBillService().ajaxYears(vo);
+        return ServiceSiteTool.rakebackBillService().ajaxYears(vo);
     }
 
     @RequestMapping("/ajaxPeriods")
     @ResponseBody
     public String ajaxPeriods(RakebackBillListVo vo) {
         vo._setDataSourceId(vo.getSiteId());
-        return ServiceTool.rakebackBillService().ajaxPeriods(vo);
+        return ServiceSiteTool.rakebackBillService().ajaxPeriods(vo);
     }
 
     @Override

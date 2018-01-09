@@ -46,7 +46,7 @@
                                     <select name="result.rechargeType" class="btn-group chosen-select-no-single">
                                         <c:forEach items="${rechargeType}" var="i">
                                             <c:if test="${i.dictCode != manualFavorable && i.dictCode != manualRakeback}">
-                                                <option value="${i.dictCode}">${dicts.fund.recharge_type[i.dictCode]}</option>
+                                                <option value="${i.dictCode}" ${i.dictCode == manualDeposit?'selected':''}>${dicts.fund.recharge_type[i.dictCode]}</option>
                                             </c:if>
                                         </c:forEach>
                                     </select>
@@ -93,7 +93,7 @@
                                 <select name="favorableType" class="btn-group chosen-select-no-single">
                                     <c:forEach items="${rechargeType}" var="i">
                                         <c:if test="${i.dictCode != manualDeposit}">
-                                            <option value="${i.dictCode}">${dicts.fund.recharge_type[i.dictCode]}</option>
+                                            <option value="${i.dictCode}" ${i.dictCode == manualFavorable?'selected':''}>${dicts.fund.recharge_type[i.dictCode]}</option>
                                         </c:if>
                                     </c:forEach>
                                 </select>
@@ -141,7 +141,7 @@
                                         <input type="text" name="activityName" placeholder="${views.operation['Activity.step.message1']}" maxlength="50" class="form-control" style="width: 100%;">
                                     </span>
                                 </div>
-                                <div class="right-flo co-grayc2 line-hi34">${views.fund['非必填；选择后，活动名称将在玩家中心-优惠记录页面显示']}</div>
+                                <div class="right-flo co-grayc2 line-hi34">${views.fund['请填写活动名称，不得超过50个字符，活动名称将在玩家中心-优惠记录页面显示']}</div>
                             </div>
                         </td>
                     </tr>

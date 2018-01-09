@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.setting.IVNoticeEmailInterfaceService;
 import so.wwb.gamebox.mcenter.setting.form.NoticeEmailInterfaceForm;
@@ -65,11 +66,11 @@ public class VNoticeEmailInterfaceController extends BaseCrudController<IVNotice
     }
     @RequestMapping({"/editEmail"})
     public String editEmail(Model model,VNoticeEmailRankVo vNoticeEmailRankVo){
-        vNoticeEmailRankVo= ServiceTool.vNoticeEmailRankService().search(vNoticeEmailRankVo);
+        vNoticeEmailRankVo= ServiceSiteTool.vNoticeEmailRankService().search(vNoticeEmailRankVo);
         String password = CryptoTool.aesDecrypt(vNoticeEmailRankVo.getResult().getAccountPassword());
         vNoticeEmailRankVo.getResult().setAccountPassword(password);
         PlayerRankVo vo = new PlayerRankVo();
-        List<PlayerRank> playerRanks = ServiceTool.playerRankService().queryUsableList(vo);
+        List<PlayerRank> playerRanks = ServiceSiteTool.playerRankService().queryUsableList(vo);
         vNoticeEmailRankVo.setRankList(playerRanks);
         vNoticeEmailRankVo.setValidateRule(JsRuleCreator.create(VNoticeEmailInterfaceForm.class, "result"));
         model.addAttribute("command", vNoticeEmailRankVo);
@@ -169,7 +170,7 @@ public class VNoticeEmailInterfaceController extends BaseCrudController<IVNotice
     @ResponseBody
     public List<PlayerRank> queryUsableList(){
         PlayerRankVo vo = new PlayerRankVo();
-        List<PlayerRank> playerRanks = ServiceTool.playerRankService().queryUsableList(vo);
+        List<PlayerRank> playerRanks = ServiceSiteTool.playerRankService().queryUsableList(vo);
         return playerRanks;
     }
 
@@ -178,7 +179,7 @@ public class VNoticeEmailInterfaceController extends BaseCrudController<IVNotice
     public String createEmail(VNoticeEmailInterfaceVo objectVo, Model model) {
         objectVo=super.doCreate(objectVo, model);
         PlayerRankVo vo = new PlayerRankVo();
-        List<PlayerRank> playerRanks = ServiceTool.playerRankService().queryUsableList(vo);
+        List<PlayerRank> playerRanks = ServiceSiteTool.playerRankService().queryUsableList(vo);
         objectVo.setRankList(playerRanks);
         // 表单校验
         objectVo.setValidateRule(JsRuleCreator.create(VNoticeEmailInterfaceForm.class, "result"));
@@ -200,7 +201,7 @@ public class VNoticeEmailInterfaceController extends BaseCrudController<IVNotice
             return this.getVoMessage(vo);
         }
         vo.setPropertyValues(Arrays.asList(ids));
-        vo = ServiceTool.vNoticeEmailInterfaceService().batchDel(vo);
+        vo = ServiceSiteTool.vNoticeEmailInterfaceService().batchDel(vo);
         if(vo.isSuccess()){
             vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         }else {

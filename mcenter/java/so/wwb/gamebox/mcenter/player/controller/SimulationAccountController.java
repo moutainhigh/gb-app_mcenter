@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IUserPlayerService;
 import so.wwb.gamebox.mcenter.player.form.SimulationAddNewPlayerForm;
@@ -78,7 +79,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
     protected String playerView(VUserPlayerListVo listVo, Model model, HttpServletRequest request) {
         listVo.getSearch().setSiteId(SessionManager.getSiteId());
         listVo._setDataSourceId(mockAccountSiteId);
-        VUserPlayerListVo vUserPlayerListVo = ServiceTool.vUserPlayerService().search(listVo);
+        VUserPlayerListVo vUserPlayerListVo = ServiceSiteTool.vUserPlayerService().search(listVo);
         model.addAttribute("foreverTime",Const.Platform_Forever_Date);
         model.addAttribute("command",vUserPlayerListVo);
         if (ServletTool.isAjaxSoulRequest(request)) {
@@ -126,12 +127,12 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         userRegisterVo.setSysUser(sysUser);
         userRegisterVo._setDataSourceId(mockAccountSiteId);
         userRegisterVo.setDemoModel(DemoModelEnum.MODEL_4_MOCK_ACCOUNT);
-        userRegisterVo = ServiceTool.userPlayerService().registerModelAccount(userRegisterVo);
+        userRegisterVo = ServiceSiteTool.userPlayerService().registerModelAccount(userRegisterVo);
         /*Vo._setDataSourceId(mockAccountSiteId);
         userPlayer.setId(userRegisterVo.getSysUser().getId());
         Vo.setResult(userPlayer);
         Vo.setProperties(UserPlayer.PROP_WALLET_BALANCE);
-        UserPlayerVo userPlayerVo = ServiceTool.userPlayerService().updateOnly(Vo);*/
+        UserPlayerVo userPlayerVo = ServiceSiteTool.userPlayerService().updateOnly(Vo);*/
         if (userRegisterVo.isSuccess()){
             map.put("state",true);
             map.put("msg","成功");
@@ -149,7 +150,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         sysUserVo.getSearch().setSubsysCode(SubSysCodeEnum.PCENTER.getCode());
         sysUserVo.getSearch().setUsername(userName);
         sysUserVo._setDataSourceId(mockAccountSiteId);
-        String existAgent = ServiceTool.userAgentService().isExistAgent(sysUserVo);
+        String existAgent = ServiceSiteTool.userAgentService().isExistAgent(sysUserVo);
         return existAgent;
     }
 
@@ -172,7 +173,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
     public String editAccount(VUserPlayerVo vUserPlayerVo, Model model){
         model.addAttribute("validateRule", JsRuleCreator.create(SimulationEditPlayerForm.class));
         vUserPlayerVo._setDataSourceId(mockAccountSiteId);
-        VUserPlayerVo playerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
+        VUserPlayerVo playerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
         model.addAttribute("command",playerVo);
         return getViewBasePath()+"Edit";
     }
@@ -242,7 +243,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
             playerRecharge.setIsAuditRecharge(false);
             if ((vUserPlayerVo.getSearch().getId())!=null){
                 vUserPlayerVo._setDataSourceId(mockAccountSiteId);
-                VUserPlayerVo userPlayerVo = ServiceTool.vUserPlayerService().get(vUserPlayerVo);
+                VUserPlayerVo userPlayerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
                 Double totalAssets = userPlayerVo.getResult().getTotalAssets();
                 Double walletBalance = vUserPlayerVo.getSearch().getWalletBalance();
                 double quota = walletBalance + totalAssets;
@@ -281,7 +282,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         playerRecharge.setRechargeType(RechargeTypeEnum.MANUAL_DEPOSIT.getCode());
         playerRechargeVo.setResult(playerRecharge);
         playerRechargeVo._setDataSourceId(mockAccountSiteId);
-        PlayerRechargeVo rechargeVo = ServiceTool.playerRechargeService().manualRecharge(playerRechargeVo);
+        PlayerRechargeVo rechargeVo = ServiceSiteTool.playerRechargeService().manualRecharge(playerRechargeVo);
         if (rechargeVo.isSuccess()){
             map.put("state",true);
             map.put("msg","成功");
@@ -308,7 +309,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         VUserPlayerListVo listVo=new VUserPlayerListVo();
         listVo.getSearch().setIds( Arrays.asList(ids));
         listVo._setDataSourceId(mockAccountSiteId);
-        VUserPlayerListVo vUserPlayerListVo = ServiceTool.userPlayerService().deletePlayer(listVo);
+        VUserPlayerListVo vUserPlayerListVo = ServiceSiteTool.userPlayerService().deletePlayer(listVo);
         if (vUserPlayerListVo.isSuccess()){
             String targetSiteId= CommonContext.get().getSiteId().toString();
             for (Integer id:ids){
@@ -377,7 +378,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
     private Map resetUserPwd(ResetPwdVo resetPwdVo) {
         Map map = new HashMap();
         resetPwdVo._setDataSourceId(mockAccountSiteId);
-        Boolean isOk = ServiceTool.userPlayerService().resetPassword(resetPwdVo);
+        Boolean isOk = ServiceSiteTool.userPlayerService().resetPassword(resetPwdVo);
         map.put("state",isOk);
         if(StringTool.isBlank(resetPwdVo.getInformType())){
             resetPwdVo.setInformType("false");

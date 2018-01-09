@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerImportService;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerImportForm;
@@ -81,7 +82,7 @@ public class VUserPlayerImportController extends BaseCrudController<IVUserPlayer
         sysParam.setParamValue(vUserPlayerImportListVo.getNameVerification());
         sysParamVo.setResult(sysParam);
         sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-        SysParamVo paramVo = ServiceTool.siteSysParamService().updateOnly(sysParamVo);
+        SysParamVo paramVo = ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
         ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_NAME_VERIFICATION);
         return getVoMessage(paramVo);
     }

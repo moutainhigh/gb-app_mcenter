@@ -4,7 +4,7 @@ import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.tasknotify.IUserTaskReminderService;
 import so.wwb.gamebox.mcenter.form.UserTaskReminderForm;
 import so.wwb.gamebox.mcenter.form.UserTaskReminderSearchForm;
@@ -77,7 +77,7 @@ public class UserTaskReminderController extends BaseCrudController<IUserTaskRemi
 //    }
     @RequestMapping({"/rankInadequate"})
     public String rankInadequate(Model model, WarningContentVo vo, PlayerRankVo rankVo){
-        rankVo = ServiceTool.playerRankService().get(rankVo);
+        rankVo = ServiceSiteTool.playerRankService().get(rankVo);
         vo.setRankName(rankVo.getResult().getRankName());
         model.addAttribute("command", vo);
         return "content/payaccount/payTask/rankInadequate";
@@ -85,7 +85,7 @@ public class UserTaskReminderController extends BaseCrudController<IUserTaskRemi
 
     @RequestMapping({"/rankInadequateDialog"})
     public String rankInadequateDialog(Model model, WarningContentVo vo){
-        Map map = ServiceTool.vPayRankService().rankInadequate(new VPayRankVo());
+        Map map = ServiceSiteTool.vPayRankService().rankInadequate(new VPayRankVo());
         vo.setRankName(map.get(vo.getRankName()).toString());
         model.addAttribute("command", vo);
         return "content/payaccount/payTask/rankInadequate";

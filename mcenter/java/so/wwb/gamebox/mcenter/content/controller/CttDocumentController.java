@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttDocumentService;
 import so.wwb.gamebox.mcenter.content.form.CttDocumentForm;
@@ -59,7 +60,7 @@ public class CttDocumentController extends BaseCrudController<ICttDocumentServic
     @RequestMapping(value = "/showDocumentDetail")
     public String showDocumentDetail(VCttDocumentUserVo vCttDocumentUserVo,Model model){
         getSiteLanguage(model);
-        vCttDocumentUserVo = ServiceTool.vCttDocumentUserService().get(vCttDocumentUserVo);
+        vCttDocumentUserVo = ServiceSiteTool.vCttDocumentUserService().get(vCttDocumentUserVo);
         vCttDocumentUserVo = getCttDocumentVo(vCttDocumentUserVo);
         model.addAttribute("command",vCttDocumentUserVo);
         return getViewBasePath() + "DocumentDetail";
@@ -95,7 +96,7 @@ public class CttDocumentController extends BaseCrudController<ICttDocumentServic
         VCttDocumentUser document =cttDocumentVo.getResult();
         VCttDocumentUserVo documentUserVo = new VCttDocumentUserVo();
         documentUserVo.getSearch().setId(document.getParentId());
-        documentUserVo = ServiceTool.vCttDocumentUserService().get(documentUserVo);
+        documentUserVo = ServiceSiteTool.vCttDocumentUserService().get(documentUserVo);
         if(documentUserVo.getResult()==null){
             return cttDocumentVo;
         }
@@ -119,7 +120,7 @@ public class CttDocumentController extends BaseCrudController<ICttDocumentServic
         VCttDocumentUser document = cttDocumentVo.getResult();
         CttDocumentI18nListVo listVo = new CttDocumentI18nListVo();
         listVo.getSearch().setDocumentId(document.getId());
-        listVo = ServiceTool.vCttDocumentService().findCttDocumentI18nListByDocumentId(listVo);
+        listVo = ServiceSiteTool.vCttDocumentService().findCttDocumentI18nListByDocumentId(listVo);
 
         return listVo;
     }

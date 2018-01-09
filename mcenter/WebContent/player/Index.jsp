@@ -6,6 +6,7 @@
     <form:form action="${root}/player/list.html" method="post" name="playerForm">
         <div id="validateRule" style="display: none">${validateRule}</div>
         <input type="hidden" id="playerRanksMemory" value="">
+        <input type="hidden" id="playerTagsMemory" value="">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
             <span>${views.sysResource['角色']}</span><span>/</span>
@@ -34,7 +35,7 @@
         <input name="endTime" value="${soulFn:formatDateTz(command.endTime,DateFormat.DAY_SECOND ,timeZone )}"
                type="hidden">
 
-        <%--<input name="search.registerIp" value="${command.search.registerIp}" type="hidden"/>--%>
+        <input name="search.registerIp" value="${command.search.registerIp}" type="hidden"/>
         <%--<input name="search.lastLoginIp" value="${command.search.lastLoginIp}" type="hidden"/>--%>
         <input name="outer" value="${command.outer}" type="hidden"/>
         <input name="comp" value="${command.comp}" type="hidden"/>
@@ -594,6 +595,7 @@
                                 <span class="hd">${views.role['player.list.title.layer']}</span>&nbsp;&nbsp;<span
                                     class="caret"></span>
                             </button>
+
                             <soul:button cssClass="btn btn-outline btn-filter _unlockrank hidden"
                                          target="${root}/userPlayer/unlock.html"
                                          post="getSelectIds" precall="" opType="ajax" dataType="json"
@@ -645,11 +647,10 @@
                                     </soul:button>
                                     <soul:button target="${root}/vPlayerTag/list.html"
                                                  callback="playerTag.playerTagSaveCallBack"
-                                                 size="open-dialog-70"
+                                                 size="open-dialog-95p"
                                                  cssClass="fil" tag="a" opType="dialog"
                                                  text="${views.role['Player.list.tagManager']}">${views.common['manage']}</soul:button>
                                 </li>
-
                             </ul>
                         </div>
 

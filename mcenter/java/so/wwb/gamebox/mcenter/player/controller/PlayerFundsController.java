@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IPlayerTransactionService;
 import so.wwb.gamebox.mcenter.player.form.PlayerTransactionForm;
@@ -86,7 +87,7 @@ public class PlayerFundsController extends BaseCrudController<IPlayerTransaction
 
     private void queryList(VPlayerTransactionListVo listVo, Model model) {
         listVo.getQuery().getPageOrderMap();
-        listVo = ServiceTool.vPlayerTransactionService().search(listVo);//交易列表
+        listVo = ServiceSiteTool.vPlayerTransactionService().search(listVo);//交易列表
         listVo.getQuery().getPageOrderMap();
          /*字典*/
         listVo.setDictCommonTransactionType(DictTool.get(DictEnum.COMMON_TRANSACTION_TYPE));
@@ -119,7 +120,7 @@ public class PlayerFundsController extends BaseCrudController<IPlayerTransaction
         //查询玩家api数据
         VUserPlayerVo vo = new VUserPlayerVo();
         vo.getSearch().setId(listVo.getSearch().getPlayerId());
-        vo = ServiceTool.vUserPlayerService().get(vo);
+        vo = ServiceSiteTool.vUserPlayerService().get(vo);
         model.addAttribute("player", vo.getResult());
         refreshFunds(listVo.getSearch().getPlayerId(), model);
     }
@@ -174,7 +175,7 @@ public class PlayerFundsController extends BaseCrudController<IPlayerTransaction
         PlayerApiListVo listVo = new PlayerApiListVo();
         listVo.getSearch().setPlayerId(playerId);
         listVo.setSiteGame(Cache.getSiteGame());
-        listVo = ServiceTool.playerApiService().calculateScale(listVo);
+        listVo = ServiceSiteTool.playerApiService().calculateScale(listVo);
         model.addAttribute("listVo", listVo);
     }
 
@@ -240,7 +241,7 @@ public class PlayerFundsController extends BaseCrudController<IPlayerTransaction
     private List<PlayerApi> getPlayerApiByUser(Integer userId) {
         PlayerApiVo playerApiVo = new PlayerApiVo();
         playerApiVo.getSearch().setPlayerId(userId);
-        return ServiceTool.playerApiService().queryPlayerApi(playerApiVo);
+        return ServiceSiteTool.playerApiService().queryPlayerApi(playerApiVo);
     }
 
     /**
@@ -311,7 +312,7 @@ public class PlayerFundsController extends BaseCrudController<IPlayerTransaction
         PlayerApiAccountListVo apiAccountListVo = new PlayerApiAccountListVo();
         apiAccountListVo.getSearch().setUserId(userId);
         apiAccountListVo.setPaging(null);
-        apiAccountListVo = ServiceTool.playerApiAccountService().search(apiAccountListVo);
+        apiAccountListVo = ServiceSiteTool.playerApiAccountService().search(apiAccountListVo);
         Map<Integer, PlayerApiAccount> apiAccountMap = new HashMap<>();
         if (apiAccountListVo.getResult() != null) {
             for (PlayerApiAccount account : apiAccountListVo.getResult()) {

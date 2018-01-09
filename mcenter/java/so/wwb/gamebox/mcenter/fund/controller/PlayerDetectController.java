@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerForm;
@@ -107,7 +108,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
 
             // 反水包含人工存入反水 bug-10207
             if (objVo != null && objVo.getResult() != null) {
-                Double rakeback = ServiceTool.getPlayerTransactionService().queryManualRakeback(objVo);
+                Double rakeback = ServiceSiteTool.getPlayerTransactionService().queryManualRakeback(objVo);
                 objVo.getResult().setRakeback(objVo.getResult().getRakeback() + (rakeback == null ? 0.0d : rakeback));
             }
 
@@ -150,7 +151,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
         PlayerTransactionListVo playerTransactionListVo = new PlayerTransactionListVo();
         playerTransactionListVo.getSearch().setPlayerId(playerId);
         playerTransactionListVo.getSearch().setStatus(CommonStatusEnum.SUCCESS.getCode());
-        map = ServiceTool.getPlayerTransactionService().queryPlayerAllSumMoney(playerTransactionListVo);
+        map = ServiceSiteTool.getPlayerTransactionService().queryPlayerAllSumMoney(playerTransactionListVo);
         return map;
     }
 
@@ -172,7 +173,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
     private VUserPlayerVo fetchRakebackWithManual(VUserPlayerVo vUserPlayerVo) {
         VPlayerTransactionListVo transactionListVo = new VPlayerTransactionListVo();
         transactionListVo.getSearch().setUsername(vUserPlayerVo.getResult().getUsername());
-        Map<String, Object> stringObjectMap = ServiceTool.vPlayerTransactionService().queryPlayerRakebackAmount(transactionListVo);
+        Map<String, Object> stringObjectMap = ServiceSiteTool.vPlayerTransactionService().queryPlayerRakebackAmount(transactionListVo);
         if (stringObjectMap.get("totalMoney") != null) {
             Double totalMoney = MapTool.getDouble(stringObjectMap, "totalMoney");
             vUserPlayerVo.getResult().setRakeback(totalMoney);
@@ -210,7 +211,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
             realNameMap.put(VUserPlayer.PROP_ID, vUserPlayer.getId());
             realNameMap.put(VUserPlayer.PROP_REAL_NAME, realName);
             objVo.setRepeatNumMap(realNameMap);
-            Map<String, Object> realNameNumMap = ServiceTool.vUserPlayerService().countRepeat(objVo);
+            Map<String, Object> realNameNumMap = ServiceSiteTool.vUserPlayerService().countRepeat(objVo);
             repeatMap.put(VUserPlayer.PROP_REAL_NAME, realNameNumMap.get("repeatnum") != null ? Integer.valueOf(realNameNumMap.get("repeatnum").toString()) : 0);
         }
 
@@ -223,7 +224,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
             mailMap.put(VUserPlayer.PROP_MAIL, email);
             mailMap.put(VUserPlayer.PROP_ID, vUserPlayer.getId());
             objVo.setRepeatNumMap(mailMap);
-            Map<String, Object> mailNumMap = ServiceTool.vUserPlayerService().countRepeat(objVo);
+            Map<String, Object> mailNumMap = ServiceSiteTool.vUserPlayerService().countRepeat(objVo);
             repeatMap.put(VUserPlayer.PROP_MAIL, mailNumMap.get("repeatnum") != null ? Integer.valueOf(mailNumMap.get("repeatnum").toString()) : 0);
         }
 
@@ -236,7 +237,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
             mobilePhoneMap.put(VUserPlayer.PROP_MOBILE_PHONE, cellPhone);
             mobilePhoneMap.put(VUserPlayer.PROP_ID, vUserPlayer.getId());
             objVo.setRepeatNumMap(mobilePhoneMap);
-            Map<String, Object> mobilePhoneNumMap = ServiceTool.vUserPlayerService().countRepeat(objVo);
+            Map<String, Object> mobilePhoneNumMap = ServiceSiteTool.vUserPlayerService().countRepeat(objVo);
             repeatMap.put(VUserPlayer.PROP_MOBILE_PHONE, mobilePhoneNumMap.get("repeatnum") != null ? Integer.valueOf(mobilePhoneNumMap.get("repeatnum").toString()) : 0);
         }
 
@@ -248,7 +249,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
             iPMap.put(VUserPlayer.PROP_REGISTER_IP, registerIp);
             iPMap.put(VUserPlayer.PROP_ID, vUserPlayer.getId());
             objVo.setRepeatNumMap(iPMap);
-            Map<String, Object> iPNumMap = ServiceTool.vUserPlayerService().countRepeat(objVo);
+            Map<String, Object> iPNumMap = ServiceSiteTool.vUserPlayerService().countRepeat(objVo);
             repeatMap.put(VUserPlayer.PROP_REGISTER_IP, iPNumMap.get("repeatnum") != null ? Integer.valueOf(iPNumMap.get("repeatnum").toString()) : 0);
         }
         objVo.setRepeatMap(repeatMap);
@@ -264,7 +265,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
         PlayerApiListVo playerApiListVo = new PlayerApiListVo();
         playerApiListVo.getSearch().setPlayerId(playerId);
         playerApiListVo.setSiteGame(Cache.getSiteGame());
-        playerApiListVo = ServiceTool.playerApiService().calculateScale(playerApiListVo);
+        playerApiListVo = ServiceSiteTool.playerApiService().calculateScale(playerApiListVo);
         model.addAttribute("apiList", playerApiListVo);
     }
 
@@ -277,7 +278,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
     private void playerGameOrderList(Integer playerId, Model model) {
         PlayerGameOrderListVo playerGameOrderListVo = new PlayerGameOrderListVo();
         playerGameOrderListVo.getSearch().setPlayerId(playerId);
-        Map<String, Object> gameOrderMap = ServiceTool.playerGameOrderService().searchTotal(playerGameOrderListVo);
+        Map<String, Object> gameOrderMap = ServiceSiteTool.playerGameOrderService().searchTotal(playerGameOrderListVo);
         model.addAttribute("gameOrderMap", gameOrderMap);
     }
 
@@ -290,7 +291,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
     private void playerTransactionMap(Integer playerId, Model model) {
         PlayerTransactionListVo playerTransactionListVo = new PlayerTransactionListVo();
         playerTransactionListVo.getSearch().setPlayerId(playerId);
-        Map<String, Object> transactionMap = ServiceTool.getPlayerTransactionService().searchLastTime(playerTransactionListVo);
+        Map<String, Object> transactionMap = ServiceSiteTool.getPlayerTransactionService().searchLastTime(playerTransactionListVo);
 
         if (transactionMap == null) {
             transactionMap = new HashMap<>();
@@ -327,9 +328,10 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
 
         SysAuditLogSo sysAuditLogSo = new SysAuditLogSo();
         sysAuditLogSo.setModuleType(ModuleType.PASSPORT_LOGIN.getCode());
-        sysAuditLogSo.setOperator(username);
+        String userName = username.toLowerCase();
+        sysAuditLogSo.setOperator(userName);
         sysAuditLogSo.setOperatorUserType(UserTypeEnum.PLAYER.getCode());
-        List<SysAuditLog> sysAuditLogs = ServiceTool.userPlayerService().queryWithOtherUserCount(sysAuditLogSo);
+        List<SysAuditLog> sysAuditLogs = ServiceSiteTool.userPlayerService().queryWithOtherUserCount(sysAuditLogSo);
         List<SysAuditLog> sysAuditLogsExc = new ArrayList<>();
         for (SysAuditLog sysAuditLog : sysAuditLogs) {
             if (sysAuditLog.getOtherUserLoginCount() != 0) {
@@ -383,11 +385,11 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
         /*PlayerFavorableListVo playerFavorableListVo = new PlayerFavorableListVo();
         playerFavorableListVo.getSearch().setPlayerId(playerId);
         playerFavorableListVo.setPropertyName(PlayerFavorable.PROP_FAVORABLE);
-        Number favorableVal = ServiceTool.playerFavorableService().sum(playerFavorableListVo);
+        Number favorableVal = ServiceSiteTool.playerFavorableService().sum(playerFavorableListVo);
         Double favorableValue = favorableVal == null ?0:favorableVal.doubleValue();*/
         PlayerTransactionListVo playerTransactionListVo = new PlayerTransactionListVo();
         playerTransactionListVo.getSearch().setPlayerId(playerId);
-        Double favorableValue = ServiceTool.getPlayerTransactionService().countPlayerFavorable(playerTransactionListVo);
+        Double favorableValue = ServiceSiteTool.getPlayerTransactionService().countPlayerFavorable(playerTransactionListVo);
         model.addAttribute("favorableVal", favorableValue);
     }
 
@@ -400,7 +402,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
         playerTransactionListVo.getSearch().setPlayerId(playerId);
         playerTransactionListVo.getSearch().setStatus(CommonStatusEnum.SUCCESS.getCode());
         playerTransactionListVo.getSearch().setTransactionTypes(transactionTypes);
-        long count = ServiceTool.getPlayerTransactionService().countFavorable(playerTransactionListVo);
+        long count = ServiceSiteTool.getPlayerTransactionService().countFavorable(playerTransactionListVo);
         model.addAttribute("favorableCount", count);
     }
     //endregion

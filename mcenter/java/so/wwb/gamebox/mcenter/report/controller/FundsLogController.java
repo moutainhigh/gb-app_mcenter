@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.report.IVPlayerTransactionService;
 import so.wwb.gamebox.mcenter.report.form.VPlayerTransactionForm;
@@ -106,9 +107,9 @@ public class FundsLogController extends AbstractExportController<IVPlayerTransac
             int rawOffset = SessionManager.getTimeZone().getRawOffset();
             int hour = rawOffset/1000/3600;
             listVo.getSearch().setTimeZoneInterval(hour);
-            listVo = ServiceTool.vPlayerTransactionService().queryPlayerTransactionOutLink(listVo);
+            listVo = ServiceSiteTool.vPlayerTransactionService().queryPlayerTransactionOutLink(listVo);
         }else if("playerRakeback".equals(listVo.getSearch().getType())){
-            listVo = ServiceTool.vPlayerTransactionService().queryPlayerRakeback(listVo);
+            listVo = ServiceSiteTool.vPlayerTransactionService().queryPlayerRakeback(listVo);
         } else {
             listVo = super.doList(listVo, form, result, model);
         }
@@ -318,7 +319,7 @@ public class FundsLogController extends AbstractExportController<IVPlayerTransac
 
     private <T> T getViewBySourceId(T vo){
         if (vo instanceof PlayerFavorableVo){
-            vo = (T)ServiceTool.playerFavorableService().get((PlayerFavorableVo)vo);
+            vo = (T)ServiceSiteTool.playerFavorableService().get((PlayerFavorableVo)vo);
         }
 
         return  vo;

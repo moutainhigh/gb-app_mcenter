@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IVUserAgentManageService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
@@ -84,7 +85,7 @@ public class VUserAgentManageController extends AbstractExportController<IVUserA
         /** 首页链接 */
         initDate(listVo);
 
-        listVo = ServiceTool.vUserAgentManageService().searchByCustom(listVo);
+        listVo = ServiceSiteTool.vUserAgentManageService().searchByCustom(listVo);
         Map allListFields = ListOpTool.getFields(ListOpEnum.VUserAgentManageListVo);
         listVo.setAllFieldLists(allListFields);
 
@@ -212,7 +213,7 @@ public class VUserAgentManageController extends AbstractExportController<IVUserA
 
         filterRowList.add(new FilterRow(VUserAgentManage.PROP_PLAYER_NUM, LocaleTool.tranView("column", vUserAgentManager + "." + VUserAgentManage.PROP_PLAYER_NUM),
                 FilterSelectConstant.equalRange, TabTypeEnum.TEXT, null));
-        Map<String, List<Pair>> agentFilter = ServiceTool.vUserAgentManageService().searchAgentFilter(new VUserAgentManageListVo());
+        Map<String, List<Pair>> agentFilter = ServiceSiteTool.vUserAgentManageService().searchAgentFilter(new VUserAgentManageListVo());
         if (MapTool.isNotEmpty(agentFilter)) {
             List<Pair> playerRankList = agentFilter.get(PlayerRank.class.getName());
             filterRowList.add(new FilterRow(VUserAgentManage.PROP_PLAYER_RANK_ID, LocaleTool.tranView("column", vUserAgentManager + "." + VUserAgentManage.PROP_PLAYER_RANK_ID),

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.analyze.IAnalyzePlayerService;
 import so.wwb.gamebox.iservice.master.analyze.IVAnalyzePlayerService;
@@ -122,7 +123,7 @@ public class AnalyzePlayerController extends BaseCrudController<IAnalyzePlayerSe
             vo.getSearch().setDay(DateTool.parseDate(s,DateTool.yyyy_MM_dd));
             vo.getSearch().setDaySecondStart(SessionManager.getDate().getToday());
             vo.getSearch().setDaySecondEnd(SessionManager.getDate().getTomorrow());
-            String count = ServiceTool.vAnalyzePlayerService().staticToday(vo);
+            String count = ServiceSiteTool.vAnalyzePlayerService().staticToday(vo);
              log.debug("执行代理分析：站点ID:{0},日期：{1}，开始时间：{2},结束时间：{3},记录数:{4}",
                 SessionManager.getSiteId(),
                 DateTool.formatDate(vo.getSearch().getDay(), DateTool.yyyy_MM_dd),
@@ -166,7 +167,7 @@ public class AnalyzePlayerController extends BaseCrudController<IAnalyzePlayerSe
                 vo.getSearch().setDay(day);
                 vo.getSearch().setDaySecondStart(start);
                 vo.getSearch().setDaySecondEnd(convertDate);
-                IVAnalyzePlayerService service = ServiceTool.vAnalyzePlayerService();
+                IVAnalyzePlayerService service = ServiceSiteTool.vAnalyzePlayerService();
                 log.debug("执行代理分析：站点ID:{0},日期：{1}，开始时间：{2},结束时间：{3},记录数:{4}",
                         siteVo.getResult().getId(),
                         DateTool.formatDate(vo.getSearch().getDay(), DateTool.yyyy_MM_dd),

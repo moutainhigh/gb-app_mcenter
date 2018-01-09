@@ -16,7 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.agent.ICttMaterialTextService;
 import so.wwb.gamebox.mcenter.content.form.CttMaterialPicForm;
 import so.wwb.gamebox.mcenter.content.form.CttMaterialTextForm;
@@ -188,7 +188,7 @@ public class CttMaterialTextController extends BaseCrudController<ICttMaterialTe
         Map<String,Object> conditions = new HashMap<>();
         conditions.put(CttMaterialText.PROP_GROUP_CODE,vo.getSearch().getGroupCode());
         vo.setConditions(conditions);
-        List<CttMaterialPic>  cttMaterialList = ServiceTool.cttMaterialPicService().andSearch(vo);
+        List<CttMaterialPic>  cttMaterialList = ServiceSiteTool.cttMaterialPicService().andSearch(vo);
         List<SiteLanguage> siteLanguageList =siteLang(model);
         if (CollectionTool.isNotEmpty(cttMaterialList) && CollectionTool.isNotEmpty(cttMaterialList)) {
             int index = 0;
@@ -220,7 +220,7 @@ public class CttMaterialTextController extends BaseCrudController<ICttMaterialTe
     public Map saveCttPic(CttMaterialPicListVo vo,@FormModel("result") @Valid CttMaterialPicForm form, BindingResult result) {
         if (!result.hasErrors()) {
             vo.getSearch().setCreateUser(SessionManager.getUserId());
-            vo = ServiceTool.cttMaterialPicService().editCttPic(vo);
+            vo = ServiceSiteTool.cttMaterialPicService().editCttPic(vo);
             Map map = new HashMap(2,1f);
             if (vo.isSuccess()) {
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));

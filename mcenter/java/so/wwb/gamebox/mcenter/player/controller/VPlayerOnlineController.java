@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.player.IVPlayerOnlineService;
 import so.wwb.gamebox.mcenter.player.form.VPlayerOnlineForm;
 import so.wwb.gamebox.mcenter.player.form.VPlayerOnlineSearchForm;
@@ -71,7 +71,7 @@ public class VPlayerOnlineController extends BaseCrudController<IVPlayerOnlineSe
         map.put("search.ip","IP");
         model.addAttribute("userType",map);
         model.addAttribute("channelTerminal", terminal);
-        model.addAttribute("playerRanks", ServiceTool.playerRankService().queryUsableList(new PlayerRankVo()));
+        model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
 
         for (int i = 0; i < list.size(); i++) {
             Long hours = DateTool.hoursBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime());

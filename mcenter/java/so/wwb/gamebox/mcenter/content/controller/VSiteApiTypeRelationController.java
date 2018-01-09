@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.company.site.IVSiteApiTypeRelationService;
 import so.wwb.gamebox.mcenter.content.form.VSiteApiTypeRelationForm;
 import so.wwb.gamebox.mcenter.content.form.VSiteApiTypeRelationSearchForm;
@@ -96,7 +96,7 @@ public class VSiteApiTypeRelationController extends BaseCrudController<IVSiteApi
         logVo.getSearch().setLoginEndTime(now);
         logVo.getSearch().setLoginStartTime(start);
         logVo._setDataSourceId(SessionManager.getSiteId());
-        Integer playerCount = ServiceTool.playerGameLogService().getPlayerCountBySiteApi(logVo);
+        Integer playerCount = ServiceSiteTool.playerGameLogService().getPlayerCountBySiteApi(logVo);
         return playerCount;
     }
 

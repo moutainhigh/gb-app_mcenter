@@ -16,6 +16,7 @@ import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.model.sys.po.SysParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
@@ -23,7 +24,6 @@ import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
-import so.wwb.gamebox.model.master.player.po.VUserAgentManage;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.player.vo.UserAgentVo;
 import so.wwb.gamebox.model.master.setting.po.FieldSort;
@@ -138,7 +138,7 @@ public class UserAgentController extends BaseUserAgentController {
             userAgentVo.setTopAgents(ServiceTool.sysUserService().searchProperties(sysUserListVo));
 
             PlayerRankVo playerRankVo = new PlayerRankVo();
-            userAgentVo.setSomePlayerRanks(ServiceTool.playerRankService().queryUsableRankList(playerRankVo));
+            userAgentVo.setSomePlayerRanks(ServiceSiteTool.playerRankService().queryUsableRankList(playerRankVo));
 
         }
         getAnswer(userAgentVo);
@@ -160,11 +160,11 @@ public class UserAgentController extends BaseUserAgentController {
         if(parentId!=null){
             UserAgentVo parentAgent = new UserAgentVo();
             parentAgent.getSearch().setId(parentId);
-            parentAgent = ServiceTool.userAgentService().get(parentAgent);
+            parentAgent = ServiceSiteTool.userAgentService().get(parentAgent);
             if(parentAgent.getResult()!=null&&parentAgent.getResult().getPlayerRankId()!=null){
                 PlayerRankVo playerRankVo = new PlayerRankVo();
                 playerRankVo.getSearch().setId(parentAgent.getResult().getPlayerRankId());
-                userAgentVo.setSomePlayerRanks(ServiceTool.playerRankService().queryUsableRankList(playerRankVo));
+                userAgentVo.setSomePlayerRanks(ServiceSiteTool.playerRankService().queryUsableRankList(playerRankVo));
             }
         }
     }
