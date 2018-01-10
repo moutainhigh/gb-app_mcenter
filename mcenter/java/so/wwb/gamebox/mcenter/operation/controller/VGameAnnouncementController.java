@@ -316,11 +316,11 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
     @RequestMapping("/advisoryList")
     public String advisoryList(VPlayerAdvisoryListVo listVo, VPlayerAdvisoryListVo aListVo, Model model, HttpServletRequest request){
         //查询时间加一秒
-        if(listVo.getSearch().getAdvisoryTimeEnd()!=null) {
+        /*if(listVo.getSearch().getAdvisoryTimeEnd()!=null) {
             Date advisoryTimeEnd = listVo.getSearch().getAdvisoryTimeEnd();
             advisoryTimeEnd.setSeconds(advisoryTimeEnd.getSeconds() + 1);
             listVo.getSearch().setAdvisoryTimeEnd(advisoryTimeEnd);
-        }
+        }*/
         listVo = getvPlayerAdvisoryListVo(listVo);
         model.addAttribute("advisoryType", DictTool.get(DictEnum.ADVISORY_TYPE));
         model.addAttribute("command", listVo);

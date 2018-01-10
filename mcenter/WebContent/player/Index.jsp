@@ -647,7 +647,7 @@
                                     </soul:button>
                                     <soul:button target="${root}/vPlayerTag/list.html"
                                                  callback="playerTag.playerTagSaveCallBack"
-                                                 size="open-dialog-70"
+                                                 size="open-dialog-95p"
                                                  cssClass="fil" tag="a" opType="dialog"
                                                  text="${views.role['Player.list.tagManager']}">${views.common['manage']}</soul:button>
                                 </li>
