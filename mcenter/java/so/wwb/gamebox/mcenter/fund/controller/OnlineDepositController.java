@@ -22,6 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
@@ -177,9 +178,9 @@ public class OnlineDepositController extends BaseDepositController {
     }
 
     /*
-    * 计算分页
-    *
-    * */
+     * 计算分页
+     *
+     * */
     @RequestMapping("/count")
     public String count(VPlayerDepositListVo listVo,Model model, String isCounter) {
         String moduleType = DataRightModuleType.ONLINEDEPOSIT.getCode();
@@ -187,9 +188,9 @@ public class OnlineDepositController extends BaseDepositController {
     }
 
     /*
-    * 统计金额
-    *
-    * */
+     * 统计金额
+     *
+     * */
     @RequestMapping("/doStatistics")
     @ResponseBody
     protected VPlayerDepositListVo doStatistics(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
