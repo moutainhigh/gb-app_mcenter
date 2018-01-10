@@ -46,7 +46,7 @@
                     </div>
 
 
-                        <%--运营商--%>
+                        <%--运营商 --%>
                     <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group date">
                             <span class="input-group-addon bg-gray">&nbsp;&nbsp;<%--${views.analyze['代理账号']}--%>运营商&nbsp;</span>
