@@ -10,10 +10,11 @@
             <th>序号</th>
             <th>域名</th>
             <th>状态</th>
-            <th>区域</th>
+            <th>省</th>
+            <th>市</th>
             <th>运营商</th>
             <%--<c:if test="${ command.search.isSecondSearch!='0' } ">--%>
-                <th width="70px">详情</th>
+            <th width="70px">详情</th>
             <%--</c:if>--%>
         </tr>
         </thead>
@@ -23,22 +24,23 @@
                 <td>${status.index+1}</td>
                 <td>${p.domain}</td>
                 <td>${p.status}</td>
-                <td>${p.area}</td>
+                <td>${p.serverProvince}</td>
+                <td>${p.serverCity}</td>
                 <td>${p.isp}</td>
                 <td>
-                    <%--<c:if test="${ command.search.isSecondSearch!='0' } ">--%>
-                        <div class="joy-list-row-operations">
-                            <a class="btn btn-link co-blue"
-                               href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.isSecondSearch=0"
-                               nav-target="mainFrame">详情
-                        </div>
-                    <%--</c:if>--%>
+                        <%--<c:if test="${ command.search.isSecondSearch!='0' } ">--%>
+                    <div class="joy-list-row-operations">
+                        <a class="btn btn-link co-blue"
+                           href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.isSecondSearch=0"
+                           nav-target="mainFrame">详情
+                    </div>
+                        <%--</c:if>--%>
                 </td>
             </tr>
         </c:forEach>
         <c:if test="${fn:length(command.result)<1}">
             <tr>
-　　　　　　　　　　　　正常
+                　　　　　　　　　　　　正常
             </tr>
         </c:if>
         </tbody>

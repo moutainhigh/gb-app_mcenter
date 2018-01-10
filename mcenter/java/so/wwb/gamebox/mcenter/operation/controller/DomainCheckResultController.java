@@ -53,7 +53,7 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
     public String list(DomainCheckResultListVo listVo, @FormModel("search") @Valid DomainCheckResultSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
         listVo.getSearch().setSiteId(SessionManager.getSiteId());
         super.list(listVo, form, result, model, request, response);
-
+//        ServiceTool.domainCheckResultService().
 
         //状态
         Map<String, Serializable> domainStatus = DictTool.get(DictEnum.COMMON_DOMAIN_CHECK_RESULT_STATUS);
@@ -61,6 +61,10 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
         //运营商
         Map<String, Serializable> isp = DictTool.get(DictEnum.COMMON_ISP);
         model.addAttribute("isp", isp);
+
+
+        //ServiceTool.vDomainCheckResultStatisticsService().getDomainCount(new DomainCheckResult());
+
 
         return getViewBasePath() + (ServletTool.isAjaxSoulRequest(request) ? "ResultPartial" : "Result");
     }
