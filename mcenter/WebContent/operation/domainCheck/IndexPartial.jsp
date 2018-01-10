@@ -71,7 +71,7 @@
                 </c:choose>
                 <td>
                     <div class="joy-list-row-operations">
-                        <soul:button target="${root}/vDomainCheckResultStatistics/view.html?id=${p.id}" text="详情" opType="dialog" />
+                        <a href="/vDomainCheckResultStatistics/searchDetail.html?id=${p.id}" nav-target="mainFrame" class="co-blue">详情</a>
                     </div>
                 </td>
             </tr>

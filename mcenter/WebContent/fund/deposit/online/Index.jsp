@@ -17,7 +17,7 @@
         <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
     </div>
 
-    <div class="col-lg-12">
+   <div class="col-lg-12">
         <div class="wrapper white-bg shadow clearfix">
             <%@include file="SearchConditions.jsp"%>
         </div>
