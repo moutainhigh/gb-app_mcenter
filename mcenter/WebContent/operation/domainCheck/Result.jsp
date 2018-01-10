@@ -43,34 +43,50 @@
                                        value="${command.search.domain}"/>
                             </div>
                         </div>
+                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="input-group">
+                                <span class="input-group-addon bg-gray">国家</span>
+                                <gb:select name="result.province"
+                                           prompt="省" value=""
+                                           ajaxListPath="${root}/regions/states/CN.html"
+                                           listValue="remark" listKey="dictCode"
+                                           cssClass="btn-group chosen-select-no-single"
+                                           relSelect="result.city"/>
 
-                        <gb:select name="result.province"
-                                   prompt="省" value=""
-                                   ajaxListPath="${root}/regions/states/CN.html"
-                                   listValue="remark" listKey="dictCode"
-                                   cssClass="btn-group chosen-select-no-single"
-                                   relSelect="result.city"/>
+                            </div>
+                        </div>
+                                <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                                    <div class="input-group">
+                                        <span class="input-group-addon bg-gray">城市</span>
 
-                        <gb:select name="result.city" prompt="${views.common['pleaseSelect']}"
-                                   value=""
-                                   ajaxListPath="${root}/regions/cities/CN-${command.search.area}.html"
-                                   relSelectPath="${root}/regions/cities/CN-#result.province#.html"
-                                   listValue="remark"
-                                   listKey="dictCode"
-                                   cssClass="btn-group chosen-select-no-single"/>
 
+                                        <gb:select name="result.city" prompt="${views.common['pleaseSelect']}"
+                                                   value=""
+                                                   ajaxListPath="${root}/regions/cities/CN-${command.search.area}.html"
+                                                   relSelectPath="${root}/regions/cities/CN-#result.province#.html"
+                                                   listValue="remark"
+                                                   listKey="dictCode"
+                                                   cssClass="btn-group chosen-select-no-single"/>
+                                    </div>
+                                </div>
 
                             <%--地区--%>
 
 
                             <%--运营商--%>
 
-
+                                <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                                    <div class="input-group">
+                                        <span class="input-group-addon bg-gray">运营商</span>
                         <gb:select name="search.isp" value="" prompt="运营商" list="${isp}"/>
-
-
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                                    <div class="input-group">
+                                        <span class="input-group-addon bg-gray">状态</span>
                         <gb:select name="search.status" value="" prompt="状态" list="${domainStatus}"/>
-
+                                    </div>
+                                </div>
                             <%-- 搜索--%>
                         <soul:button text="" target="query" opType="function" cssClass="btn btn-filter" tag="button">
                             <i class="fa fa-search"></i>

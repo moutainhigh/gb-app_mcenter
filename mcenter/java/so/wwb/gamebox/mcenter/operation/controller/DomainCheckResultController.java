@@ -61,7 +61,7 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
         //运营商
         Map<String, Serializable> isp = DictTool.get(DictEnum.COMMON_ISP);
         model.addAttribute("isp", isp);
-        //
+
         return getViewBasePath() + (ServletTool.isAjaxSoulRequest(request) ? "ResultPartial" : "Result");
     }
 
