@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.operation.controller;
 
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Map;
 
 
@@ -52,9 +54,12 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
     @Override
     public String list(DomainCheckResultListVo listVo, @FormModel("search") @Valid DomainCheckResultSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
         listVo.getSearch().setSiteId(SessionManager.getSiteId());
-        super.list(listVo, form, result, model, request, response);
-//        ServiceTool.domainCheckResultService().
-
+        if(StringTool.isNotBlank(listVo.getSearch().getDomain())){
+            listVo.getSearch().setDomains(Arrays.asList(listVo.getSearch().getDomain().split(",")));
+        }
+//        super.list(listVo, form, result, model, request, response);
+        listVo = ServiceTool.domainCheckResultService().searchList(listVo);
+        model.addAttribute("command", listVo);
         //状态
         Map<String, Serializable> domainStatus = DictTool.get(DictEnum.COMMON_DOMAIN_CHECK_RESULT_STATUS);
         model.addAttribute("domainStatus", domainStatus);
