@@ -185,7 +185,8 @@
                                         <div class="input-group date">
                                             <span class="input-group-addon"><input  type="radio" class="i-checks returnType fee_txt returnTypeRadio" name="radio_returnType" tt="returnType" ff="returnPercentageAmount" value="2"  ${command.result.isReturnFee?'':'disabled="disabled"'} ${command.result.returnType=='2'?'checked':''}></span>
                                             <input type="text" tt="div2" class="form-control  returnFeeStatus fee_txt fee2" name="returnFixedAmount" ${command.result.returnType=='2'?'':'disabled="disabled"'}  id="returnFixedAmount" value="${command.result.returnType=='2'?command.result.returnMoney:''}" >
-                                            <span class="input-group-addon bdn" id="span_maxReturnFee">&nbsp;≤<fmt:formatNumber value='${command.result.maxReturnFee}' pattern='#.0'/></span>
+                                            <span   data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="input-group-addon help-popover" tabindex="0" data-original-title="" title="">&nbsp;≤<fmt:formatNumber value='${command.result.maxReturnFee}' pattern='#.0'/></span>
+                                            <%--<span class="input-group-addon bdn" id="span_maxReturnFee">&nbsp;≤<fmt:formatNumber value='${command.result.maxReturnFee}' pattern='#.0'/></span>--%>
                                         </div>
                                     </div>
                                 </div>
