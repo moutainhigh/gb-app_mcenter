@@ -61,7 +61,7 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
         if(StringTool.isNotEmpty(domainChecksVo.getSearch().getDomain())){
 
             dmainCheckResultStatistics.setDomains(Arrays.asList(domainChecksVo.getSearch().getDomain().split(",")));
-            dmainCheckResultStatistics.setDomain(domainChecksVo.getSearch().getDomain());
+             dmainCheckResultStatistics.setDomain(domainChecksVo.getSearch().getDomain());
         }
 
 
