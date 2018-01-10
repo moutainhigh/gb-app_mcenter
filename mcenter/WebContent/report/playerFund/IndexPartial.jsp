@@ -14,8 +14,10 @@
                 <th>存款次数</th>
                 <th>存款金额</th>
                 <th>取款次数</th>
-                <th>取款金额</th>
-                <th>优惠次数</th>
+                <soul:orderColumn poType="${poType}" property="withdrawAmount" column="取款金额"></soul:orderColumn>
+                <%--<th>取款金额</th>--%>
+                <%--<th>优惠优惠</th>--%>
+                <soul:orderColumn poType="${poType}" property="favorableAmount" column="优惠金额"></soul:orderColumn>
                 <th>返水金额</th>
                 <th>有效投注额</th>
                 <th>损益</th>
