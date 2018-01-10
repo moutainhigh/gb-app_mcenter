@@ -27,7 +27,7 @@
             <div class="col-lg-12 m-b">
                 <div class="wrapper white-bg shadow">
                     <ul class="clearfix sys_tab_wrap">
-                        <li><a href="/vDomainCheckResultStatistics/list.html"><%--${views.analyze['新近情况']}--%>域名状态</a>
+                        <li><a href="/vDomainCheckResultStatistics/list.html" nav-target="mainFrame"><%--${views.analyze['新近情况']}--%>域名状态</a>
                         </li>
                         <li class="active"><a href="#" nav-target="mainFrame"><%--${views.analyze['总况']}--%>域名检测结果</a>
                         </li>
