@@ -31,7 +31,7 @@
 <!--//region your codes 3-->
 <%--<soul:import res="site/report/playerFund/Index"/>--%>
 <script type="text/javascript">
-    curl(["site/report/playerFund/Index",'gb/sysSearchTemplate/SysSearchTemplate'], function(Page,SysSearchTemplate) {
+    curl(["site/report/playerFund/Index",'site/report/playerFund/SysSearchTemplate'], function(Page,SysSearchTemplate) {
         page =new Page();
         page.bindButtonEvents();
         page.sysSearchTmp = new SysSearchTemplate();
