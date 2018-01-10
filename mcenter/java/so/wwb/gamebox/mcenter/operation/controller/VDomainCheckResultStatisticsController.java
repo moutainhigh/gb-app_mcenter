@@ -1,5 +1,8 @@
 package so.wwb.gamebox.mcenter.operation.controller;
 
+import org.omg.CORBA.SystemException;
+import org.soul.commons.lang.ArrayTool;
+import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.Criteria;
 import org.soul.web.controller.BaseCrudController;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -48,27 +52,32 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
     }
 
     //region your codes 3
-   /* @Override
-    protected  doList(HelpDocumentListVo listVo, HelpDocumentSearchForm form, BindingResult result, Model model) {
-        listVo = getService().search(listVo);
 
-        return super.doList(listVo, form, result, model);
-    }*/
     @RequestMapping("/getCount")
-    public String doList(VDomainCheckResultStatisticsVo domainChecksVo,VDomainCheckResultStatisticsForm form, BindingResult result, Model model,HttpServletRequest request){
+    public String doList(VDomainCheckResultStatisticsListVo domainChecksVo,VDomainCheckResultStatisticsForm form, BindingResult result, Model model,HttpServletRequest request){
+       //dmainCheckResultStatistics.setdomainarr(domainChecksVo.getSearch().getDomain().split(","))
         DomainCheckResult dmainCheckResultStatistics=new DomainCheckResult();
-        dmainCheckResultStatistics.setDomain(domainChecksVo.getSearch().getDomain());
-        dmainCheckResultStatistics.setArea(domainChecksVo.getSearch().getArea());
+
+        if(StringTool.isNotEmpty(domainChecksVo.getSearch().getDomain())){
+
+            dmainCheckResultStatistics.setDomains(Arrays.asList(domainChecksVo.getSearch().getDomain().split(",")));
+            dmainCheckResultStatistics.setDomain(domainChecksVo.getSearch().getDomain());
+        }
+
+
+        dmainCheckResultStatistics.setServerProvince(domainChecksVo.getSearch().getServerProvince());
         dmainCheckResultStatistics.setIsp(domainChecksVo.getSearch().getIsp());
         List<VDomainCheckResultStatistics> domainList = ServiceTool.vDomainCheckResultStatisticsService().getDomainCount(dmainCheckResultStatistics);
-         VDomainCheckResultStatisticsListVo listVo=new VDomainCheckResultStatisticsListVo();
-        listVo.setResult(domainList);
-        model.addAttribute("command",listVo);
+
+        domainChecksVo.setResult(domainList);
+
+        model.addAttribute("command",domainChecksVo);
         if (ServletTool.isAjaxSoulRequest(request)) {
             return PROP_ACTIVITY_INDEX + "Partial";
         } else {
             return PROP_ACTIVITY_INDEX;
         }
+
     }
 
     /**
@@ -79,14 +88,19 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
     @RequestMapping("/searchDetail")
     public String searchDetail(VDomainCheckResultStatisticsListVo domainChecksVo, Model model, HttpServletRequest request){
         DomainCheckResult dmainCheckResultStatistics=new DomainCheckResult();
-        dmainCheckResultStatistics.setDomain(domainChecksVo.getSearch().getDomain());
-        dmainCheckResultStatistics.setArea(domainChecksVo.getSearch().getArea());
-        dmainCheckResultStatistics.setIsp(domainChecksVo.getSearch().getIsp());
-        List<VDomainCheckResultStatistics> domainList = ServiceTool.vDomainCheckResultStatisticsService().getDomainCount(dmainCheckResultStatistics);
-        VDomainCheckResultStatisticsListVo listVo=new VDomainCheckResultStatisticsListVo();
-        listVo.setResult(domainList);
-        model.addAttribute("command",listVo);
 
+        if(StringTool.isNotEmpty(domainChecksVo.getSearch().getDomain())){
+
+            dmainCheckResultStatistics.setDomains(Arrays.asList(domainChecksVo.getSearch().getDomain().split(",")));
+            dmainCheckResultStatistics.setDomain(domainChecksVo.getSearch().getDomain());
+        }
+
+        List<VDomainCheckResultStatistics> domainList = ServiceTool.vDomainCheckResultStatisticsService().getDomainCount(dmainCheckResultStatistics);
+
+        domainChecksVo.setResult(domainList);
+
+        model.addAttribute("command",domainChecksVo);
+        //model.addAttribute("command",domainChecksVo);
         return Domain_DETAIL_URI;
     }
 
