@@ -1,4 +1,5 @@
 <%--@elvariable id="command" type="so.wwb.gamebox.model.company.sys.vo.VDomainCheckResultStatisticsListVo"--%>
+<%--@elvariable id="area" type="so.wwb.gamebox.model.master.setting.vo.SiteConfineAreaVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <!--//region your codes 1-->
@@ -19,8 +20,8 @@
         <div class="col-lg-12 m-b">
             <div class="wrapper white-bg shadow">
                 <ul class="clearfix sys_tab_wrap">
-                    <li class="active"><a href="javascript:void(0)">域名状态</a></li>
-                    <li><a href="" nav-target="mainFrame">域名检测结果</a></li>
+                    <li class="active"><a href="/vDomainCheckResultStatistics/list.html" nav-target="mainFrame">域名状态</a></li>
+                    <li><a href="/operation/domainCheckResult/list.html" nav-target="mainFrame">域名检测结果</a></li>
                 </ul>
                 <div class="clearfix" style="padding:10px 10px;" id="searchDiv">
                             <%--域名--%>
