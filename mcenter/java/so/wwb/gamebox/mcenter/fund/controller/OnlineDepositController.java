@@ -88,7 +88,6 @@ public class OnlineDepositController extends BaseDepositController {
     @RequestMapping("/doData")
     @ResponseBody
     protected VPlayerDepositListVo doData(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
-
         // 初始化筛选条件
         this.initQuery(listVo);
         // 初始化ListVo
