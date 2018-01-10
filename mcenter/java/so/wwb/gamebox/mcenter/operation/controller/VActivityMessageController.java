@@ -593,6 +593,8 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
                 if (activityMessageVo.getResult() != null) {
                     if (activityMessageVo.getResult().getSettlementTimeLatest() == null) {
                         settlementTimeNext = calSettlementTimeNext(startTime, endTime, claimPeriod);
+                    } else { //如果有下次结算时间，更改为等下次发放生效后，下下次生效结算时间
+                        settlementTimeNext = activityMessageVo.getResult().getSettlementTimeNext();
                     }
                 }
             }
