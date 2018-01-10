@@ -25,7 +25,7 @@
                     <%--被墙状态--%>
                 <c:choose>
                         <c:when test="${!empty p.firewall }">
-                            <td>  ${p.firewall } </td>
+                            <td>  ${p.firewall} </td>
                         </c:when>
                         <c:otherwise>
                             <td> 0 </td>
@@ -71,7 +71,7 @@
                 </c:choose>
                 <td>
                     <div class="joy-list-row-operations">
-                        <a href="/vDomainCheckResultStatistics/searchDetail.html?id=${p.id}" nav-target="mainFrame" class="co-blue">详情</a>
+                        <a href="/vDomainCheckResultStatistics/searchDetail.html?search.domain=${p.domain}" nav-target="mainFrame" class="co-blue">详情</a>
                     </div>
                 </td>
             </tr>

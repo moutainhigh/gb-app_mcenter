@@ -33,31 +33,32 @@
                                            value="${command.search.domain}"/>
                                 </div>
                             </div>
-                                    <%--地区--%>
-                                <div class="col-xs-4 p-x">
-                                    <div>
-                                      地区:<select name="search.area">
-                                            <option value ="12">广西</option>
-                                            <option value ="13">广东</option>
-                                            <option value="14">山东</option>
-                                            <option value="15">湖南</option>
-                                          </select>
+                                <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                                    <div class="input-group">
+                                        <span class="input-group-addon bg-gray">地区省</span>
+                                        <gb:select name="result.province"
+                                                   prompt="省" value=""
+                                                   ajaxListPath="${root}/regions/states/CN.html"
+                                                   listValue="remark" listKey="dictCode"
+                                                   cssClass="btn-group chosen-select-no-single"
+                                                   relSelect="result.city"/>
 
                                     </div>
                                 </div>
+                                <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                                    <div class="input-group">
+                                        <span class="input-group-addon bg-gray">城市</span>
 
 
-                            <%--运营商--%>
-                            <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
-                                <div class="input-group date">
-
-                                    <select name="search.isp">
-                                        <option value ="2">电信</option>
-                                        <option value ="13">移动</option>
-                                        <option value="4">联通</option>
-                                    </select>
+                                        <gb:select name="result.city" prompt="${views.common['pleaseSelect']}"
+                                                   value=""
+                                                   ajaxListPath="${root}/regions/cities/CN-${command.search.serverCity}.html"
+                                                   relSelectPath="${root}/regions/cities/CN-#result.province#.html"
+                                                   listValue="remark"
+                                                   listKey="dictCode"
+                                                   cssClass="btn-group chosen-select-no-single"/>
+                                    </div>
                                 </div>
-                            </div>
                           &nbsp;&nbsp;&nbsp;&nbsp;
                                     <%-- 搜索--%>
                     <soul:button text="" target="query" opType="function" cssClass="btn btn-filter" tag="button">
