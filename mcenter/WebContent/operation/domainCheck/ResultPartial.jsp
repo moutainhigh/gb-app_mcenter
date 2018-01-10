@@ -20,19 +20,21 @@
         </thead>
         <tbody>
         <c:forEach items="${command.result}" var="p" varStatus="status">
+            <c:set var="CN" value="CN"></c:set>
+            <c:set var="province" value='${CN.concat("_").concat(p.serverProvince)}'></c:set>
             <tr>
                 <td>${status.index+1}</td>
                 <td>${p.domain}</td>
-                <td>${p.status}</td>
-                <td>${p.serverProvince}</td>
-                <td>${p.serverCity}</td>
-                <td>${p.isp}</td>
+                <td>${dicts.common.domain_check_result_status[p.status]}</td>
+                <td>${dicts.state[CN][p.serverProvince]}</td>
+                <td>${dicts.city[province][p.serverCity]}</td>
+                <td>${dicts.common.isp[p.isp]}</td>
                 <td>
                         <%--<c:if test="${ command.search.isSecondSearch!='0' } ">--%>
                     <div class="joy-list-row-operations">
                         <a class="btn btn-link co-blue"
                            href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.isSecondSearch=0"
-                           nav-target="mainFrame">详情
+                           nav-target="mainFrame"/>详情
                     </div>
                         <%--</c:if>--%>
                 </td>
