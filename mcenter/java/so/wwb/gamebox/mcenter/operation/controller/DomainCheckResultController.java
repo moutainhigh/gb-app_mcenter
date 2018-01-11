@@ -6,6 +6,7 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.Criteria;
 import org.soul.commons.query.Criterion;
+import org.soul.commons.query.enums.Operator;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.company.enums.ResolveStatusEnum;
 import so.wwb.gamebox.model.company.sys.po.DomainCheckResult;
+import so.wwb.gamebox.model.company.sys.po.SysDomain;
 import so.wwb.gamebox.model.company.sys.po.VDomainCheckResultStatistics;
 import so.wwb.gamebox.model.company.sys.so.SysDomainSo;
 import so.wwb.gamebox.model.company.sys.vo.DomainCheckResultBatchLogListVo;
@@ -85,35 +87,21 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
             model.addAttribute("checkPointCount", checkPointCount);
 
             //siteId下所有域名的数量
-            Long sysDomainCount = getSysDomainCount();
+            Long sysDomainCount = ServiceTool.domainCheckResultService().getSysDomainCountBySiteId(siteId);//this.getCustomCriteria()
             model.addAttribute("sysDomainCount", sysDomainCount);
 
             //各种状态的数量
             DomainCheckResult domainCheckResult = new DomainCheckResult();
             domainCheckResult.setSiteId(siteId);
             List<VDomainCheckResultStatistics> statisticsList = ServiceTool.vDomainCheckResultStatisticsService().getDomainCount(domainCheckResult);
-            model.addAttribute("statisticsList", statisticsList);
+
+            model.addAttribute("statisticsList", statisticsList.get(0));
         }
 
 
         return getViewBasePath() + (ServletTool.isAjaxSoulRequest(request) ? "ResultPartial" : "Result");
     }
 
-    /**
-     * siteId下所有域名的数量
-     *
-     * @return
-     */
-    private Long getSysDomainCount() {
-        SysDomainListVo sysDomainListVo = new SysDomainListVo();
-        SysDomainSo sysDomainSo = new SysDomainSo();
-        sysDomainSo.setIsDeleted(false);
-        sysDomainSo.setSiteId(SessionManager.getSiteId());
-        sysDomainSo.setIsEnable(true);
-        sysDomainSo.setResolveStatus(ResolveStatusEnum.SUCCESS.getCode());
-        sysDomainListVo.setSearch(sysDomainSo);
-        return ServiceTool.sysDomainService().count(sysDomainListVo);
-    }
 
     /**
      * 获取siteId下检查点数量
@@ -125,8 +113,8 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
         batchVo.getSearch().setSiteId(SessionManager.getSiteId());
         batchVo.getSearch().setStatus(0);
         batchVo.getPaging().setPageSize(1);
-        batchVo = ServiceTool.domainCheckResultBatchLogService().query(batchVo);
-        if (CollectionTool.isNotEmpty(batchVo.getResult())) {
+        batchVo = ServiceTool.domainCheckResultBatchLogService().search(batchVo);
+        if (batchVo != null && CollectionTool.isNotEmpty(batchVo.getResult())) {
             return batchVo.getResult().get(0).getCheckPointCount();
         }
         return 0;

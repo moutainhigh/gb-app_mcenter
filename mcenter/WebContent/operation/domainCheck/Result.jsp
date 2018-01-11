@@ -19,11 +19,11 @@
             <span>运营<%--${views.sysResource['分析']}--%></span><span>/</span><span><%--${views.sysResource['推广链接新进']}--%>域名检测</span>
             <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         </div>
-        <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
-        <soul:button target="goToLastPage" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn"
-                     text="" opType="function">
-            <em class="fa fa-caret-left"></em>${views.common['return']}
-        </soul:button>
+        <%--<a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>--%>
+        <%--<soul:button target="goToLastPage" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn"--%>
+                     <%--text="" opType="function">--%>
+            <%--<em class="fa fa-caret-left"></em>${views.common['return']}--%>
+        <%--</soul:button>--%>
         <div class="col-lg-12 m-b">
             <div class="wrapper white-bg shadow">
                 <ul class="clearfix sys_tab_wrap">
@@ -33,6 +33,27 @@
                     <li class="active"><a href="#" nav-target="mainFrame"><%--${views.analyze['总况']}--%>域名检测结果</a>
                     </li>
                 </ul>
+
+
+                <div class="sys_tab_wrap shadow m-t clearfix"
+                     style="border-bottom: 0; border-top:1px solid #e6e6e6; margin-bottom: -5px;">
+                    <div class=" clearfix m-sm">
+
+                        <span >监测点${checkPointCount}个&nbsp;&nbsp;&nbsp;
+                        检测情况：
+                            <span class="text-green2">${sysDomainCount-statisticsList.firewall}个监测点${dicts.common.domain_check_result_status['NORMAL']}</span>
+                            ${statisticsList.firewall}个监测点${dicts.common.domain_check_result_status['BE_HIJACKED']}
+                            ${statisticsList.hijack}个监测点${dicts.common.domain_check_result_status['UNRESOLVED']}
+                            ${statisticsList.unparsed}个监测点${dicts.common.domain_check_result_status['UNRESOLVED']}
+                            ${statisticsList.unreach}个监测点${dicts.common.domain_check_result_status['SERVER_UNREACHABLE']}
+                            ${statisticsList.unknown}个监测点${dicts.common.domain_check_result_status['UNKNOWN_ERR']}
+                        </span>
+                    </div>
+                </div>
+                <br>
+
+
+
                 <div class="clearfix" style="padding:10px 10px;" id="searchDiv">
                         <%--域名--%>
                     <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
@@ -97,14 +118,7 @@
                 </div>
 
 
-                <div class="sys_tab_wrap shadow m-t clearfix"
-                     style="border-bottom: 0; border-top:1px solid #e6e6e6; margin-bottom: -5px;">
-                    <div class=" clearfix m-sm">
 
-                        <span class="co-yellow m-l-sm choose">描述</span>
-                    </div>
-                </div>
-                <br>
 
 
                 <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
