@@ -26,7 +26,7 @@
                 <tbody>
                 <tr>
                     <c:set var="m" value="${command.fundTotalMap}"/>
-                    <td>${m.get('depositcounttotal')}</td>
+                    <td>${m.get('depositamounttotal')}</td>
                     <td>${m.get('withdrawamounttotal')}</td>
                     <td>${m.get('favorableamounttotal')}</td>
                     <td>${m.get('rakebackamounttotal')}</td>
