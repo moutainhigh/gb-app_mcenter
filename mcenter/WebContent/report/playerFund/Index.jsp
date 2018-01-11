@@ -19,6 +19,14 @@
         <div class="col-lg-12">
             <div class="wrapper white-bg shadow clearfix">
                 <%@include file="SearchConditions.jsp"%>
+                <%--<soul:button tag="button" cssClass="btn btn-export-btn btn-primary-hide"
+                             text="${views.common['export']}"
+                             precall="validExportCount" post="getCurrentFormData"
+                             title="${views.role['player.dataExport']}"
+                             target="${root}/userPlayerFund/exportData.html" opType="ajax">
+                    <i class="fa fa-sign-out"></i><span class="hd">${views.common['export']}</span>
+                </soul:button>--%>
+                <%--<a href="${root}/userPlayerFund/exportData.html" class="btn btn-export-btn btn-primary-hide" target="_blank">导出</a>--%>
                 <div id="editable_wrapper" class="dataTables_wrapper white-bg m-t-md search-list-container" role="grid">
                     <%@ include file="IndexPartial.jsp" %>
                 </div>
