@@ -24,7 +24,7 @@
                     </c:if>
                     <c:if test="${not empty command.fundSearch.topagentName}">
                         <input type="text" class="form-control account_input list-search-input-text" name="fundSearch.topagentName" id="operator"
-                               value="${command.search.topagentName}" placeholder="">
+                               value="${command.fundSearch.topagentName}" placeholder="">
                     </c:if>
                 </div>
             </div>
