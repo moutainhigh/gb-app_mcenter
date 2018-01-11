@@ -41,7 +41,7 @@ public class UserPlayerFundController {
     @RequestMapping(value = "search")
     public String search(VPlayerFundsRecordListVo listVo, Model model, HttpServletRequest request){
 
-        String templateCode = TemplateCodeEnum.TRANSACTION.getCode();
+        String templateCode = TemplateCodeEnum.USER_PLAYER_FUND.getCode();
         model.addAttribute("searchTempCode", templateCode);
         model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManager.getUserId(), templateCode));
         List<Pair> userTypeSearchKeys = initUserTypeSearchKeys();

@@ -4,23 +4,55 @@
 <%@ include file="/include/include.inc.jsp" %>
 <c:set value="<%=UserPlayerFund.class%>" var="poType"></c:set>
 <!--//region your codes 1-->
+<div class="dataTables_wrapper white-bg" role="grid">
+    <div class="tab-content">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover dataTable m-b-none" aria-describedby="editable_info">
+                <thead>
+                <tr class="bg-gray">
+                    <th colspan="9">
+                        <span class="pull-left">资金汇总</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th>存款金额</th>
+                    <th>取款金额</th>
+                    <th>优惠金额</th>
+                    <th>返水金额</th>
+                    <th>有效投注额</th>
+                    <th>损益</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <c:set var="m" value="${command.fundTotalMap}"/>
+                    <td>${m.get('depositamounttotal')}</td>
+                    <td>${m.get('withdrawamounttotal')}</td>
+                    <td>${m.get('favorableamounttotal')}</td>
+                    <td>${m.get('rakebackamounttotal')}</td>
+                    <td>${m.get('effectivetransactiontotal')}</td>
+                    <td>${m.get('profitlosstotal')}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <div class="table-responsive table-min-h">
     <table class="table table-striped table-hover dataTable m-b-none" aria-describedby="editable_info">
         <thead>
             <tr role="row" class="bg-gray">
                 <th>${views.common['number']}</th>
                 <th>账号</th>
-                <th>注册时间</th>
-                <th>存款次数</th>
-                <th>存款金额</th>
-                <th>取款次数</th>
+                <soul:orderColumn poType="${poType}" property="createTime" column="注册时间"></soul:orderColumn>
+                <soul:orderColumn poType="${poType}" property="depositCount" column="存款次数"></soul:orderColumn>
+                <soul:orderColumn poType="${poType}" property="depositAmount" column="存款金额"></soul:orderColumn>
+                <soul:orderColumn poType="${poType}" property="withdrawCount" column="取款次数"></soul:orderColumn>
                 <soul:orderColumn poType="${poType}" property="withdrawAmount" column="取款金额"></soul:orderColumn>
-                <%--<th>取款金额</th>--%>
-                <%--<th>优惠优惠</th>--%>
                 <soul:orderColumn poType="${poType}" property="favorableAmount" column="优惠金额"></soul:orderColumn>
-                <th>返水金额</th>
-                <th>有效投注额</th>
-                <th>损益</th>
+                <soul:orderColumn poType="${poType}" property="rakebackAmount" column="返水金额"></soul:orderColumn>
+                <soul:orderColumn poType="${poType}" property="effectiveTransaction" column="有效投注额"></soul:orderColumn>
+                <soul:orderColumn poType="${poType}" property="profitLoss" column="损益"></soul:orderColumn>
             </tr>
         </thead>
         <tbody>
