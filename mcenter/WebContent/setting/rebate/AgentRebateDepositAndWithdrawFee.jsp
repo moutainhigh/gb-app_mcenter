@@ -48,7 +48,7 @@
                     <tr>
                         <td width="15%"></td>
                         <td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">${views.setting['apportion.page.item.topagent.default.percent']}</span></td>
-                        <td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">${views.setting['apportion.page.item.agent.default.percent']}</span></td>
+                        <%--<td width="30%"><span class="input-group-addon abroder-no p-x" style="padding: 5px 0px">${views.setting['apportion.page.item.agent.default.percent']}</span></td>--%>
                         <td></td>
                     </tr>
                 </thead>
@@ -61,12 +61,12 @@
                                 <span class="input-group-addon">%</span>
                             </div>
                         </td>
-                        <td>
+                        <%--<td>
                             <div class="input-group content-width-limit-10" style="padding: 5px 0px">
                                 <input type="number" class="form-control ratio" id="sysParam2" name="sysParam[2].paramValue" value="${empty rakebackParam.paramValue ? rakebackParam.defaultValue : rakebackParam.paramValue}">
                                 <span class="input-group-addon">%</span>
                             </div>
-                        </td>
+                        </td>--%>
                         <td></td>
                     </tr>
                     <tr>
@@ -77,18 +77,18 @@
                                 <span class="input-group-addon">%</span>
                             </div>
                         </td>
-                        <td>
+                        <%--<td>
                             <div class="input-group content-width-limit-10" style="padding: 5px 0px">
                                 <input type="number" class="form-control ratio" id="sysParam3" name="sysParam[3].paramValue" value="${empty favorableParam.paramValue ? favorableParam.defaultValue : favorableParam.paramValue}">
                                 <span class="input-group-addon">%</span>
                             </div>
-                        </td>
+                        </td>--%>
                         <td></td>
                     </tr>
                     <tr>
                         <td><span class="input-group-addon abroder-no p-x"><b>${views.operation_auto['其它费用']}</b></span></td>
                         <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" id="sysParam7" name="sysParam[7].paramValue" value="${empty topOtherParam.paramValue ? topOtherParam.defaultValue : topOtherParam.paramValue}"><span class="input-group-addon">%</span></div></td>
-                        <td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" id="sysParam4" name="sysParam[4].paramValue" value="${empty otherParam.paramValue ? otherParam.defaultValue : otherParam.paramValue}"><span class="input-group-addon">%</span></div></td>
+                        <%--<td><div class="input-group content-width-limit-10" style="padding: 5px 0px"><input type="number" class="form-control ratio" id="sysParam4" name="sysParam[4].paramValue" value="${empty otherParam.paramValue ? otherParam.defaultValue : otherParam.paramValue}"><span class="input-group-addon">%</span></div></td>--%>
                         <td></td>
                     </tr>
                 </tbody>
