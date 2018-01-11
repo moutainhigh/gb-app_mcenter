@@ -21,8 +21,8 @@
         </div>
         <%--<a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>--%>
         <%--<soul:button target="goToLastPage" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn"--%>
-                     <%--text="" opType="function">--%>
-            <%--<em class="fa fa-caret-left"></em>${views.common['return']}--%>
+        <%--text="" opType="function">--%>
+        <%--<em class="fa fa-caret-left"></em>${views.common['return']}--%>
         <%--</soul:button>--%>
         <div class="col-lg-12 m-b">
             <div class="wrapper white-bg shadow">
@@ -39,19 +39,71 @@
                      style="border-bottom: 0; border-top:1px solid #e6e6e6; margin-bottom: -5px;">
                     <div class=" clearfix m-sm">
 
-                        <span >监测点${checkPointCount}个&nbsp;&nbsp;&nbsp;
-                        检测情况：
-                            <span class="text-green2">${sysDomainCount-statisticsList.firewall}个监测点${dicts.common.domain_check_result_status['NORMAL']}</span>
-                            ${statisticsList.firewall}个监测点${dicts.common.domain_check_result_status['BE_HIJACKED']}
-                            ${statisticsList.hijack}个监测点${dicts.common.domain_check_result_status['UNRESOLVED']}
-                            ${statisticsList.unparsed}个监测点${dicts.common.domain_check_result_status['UNRESOLVED']}
-                            ${statisticsList.unreach}个监测点${dicts.common.domain_check_result_status['SERVER_UNREACHABLE']}
-                            ${statisticsList.unknown}个监测点${dicts.common.domain_check_result_status['UNKNOWN_ERR']}
+                            <span>监测点 &nbsp;${checkPointCount}个&nbsp;&nbsp;&nbsp;
+
+                            检测情况：
+                            <span class="co-green">${sysDomainCount-statisticsList.firewall-statisticsList.hijack-statisticsList.unparsed-statisticsList.unreach-statisticsList.unknown}</span>个域名
+                                    <span class="co-green">${dicts.common.domain_check_result_status['NORMAL']}</span>
+                                &nbsp;&nbsp;&nbsp;
+
+                            <span class="co-yellow">
+                                <c:if test="${empty statisticsList.firewall}">
+                                    0
+                                </c:if>
+                                <c:if test="${!empty statisticsList.firewall}">
+                                    ${statisticsList.firewall}
+                                </c:if>
+                            </span>个域名
+                            <span class="co-yellow">${dicts.common.domain_check_result_status['WALLED_OFF']}</span>
+                                &nbsp;&nbsp;&nbsp;
+
+
+                            <span class="co-yellow">
+                            <c:if test="${empty statisticsList.hijack}">
+                                0
+                            </c:if>
+                                <c:if test="${!empty statisticsList.hijack}">
+                                    ${statisticsList.hijack}
+                                </c:if>
+                            </span>个域名
+                            <span class="co-yellow">${dicts.common.domain_check_result_status['BE_HIJACKED']}</span>
+                                &nbsp;&nbsp;&nbsp;
+
+                            <span class="co-yellow">
+                            <c:if test="${empty statisticsList.unparsed}">
+                                0
+                            </c:if>
+                                <c:if test="${!empty statisticsList.unparsed}">
+                                    ${statisticsList.unparsed}
+                                </c:if>
+                            </span>
+                            个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNRESOLVED']}</span>
+                                &nbsp;&nbsp;&nbsp;
+
+                            <span class="co-yellow">
+                            <c:if test="${empty statisticsList.unreach}">
+                                0
+                            </c:if>
+                                <c:if test="${!empty statisticsList.unreach}">
+                                    ${statisticsList.unreach}
+                                </c:if>
+                            </span>
+                            个域名<span class="co-yellow">${dicts.common.domain_check_result_status['SERVER_UNREACHABLE']}</span>
+                                &nbsp;&nbsp;&nbsp;
+
+                            <span class="co-yellow">
+                            <c:if test="${empty statisticsList.unknown}">
+                                0
+                            </c:if>
+                                <c:if test="${!empty statisticsList.unknown}">
+                                    ${statisticsList.unknown}
+                                </c:if>
+                            </span>
+                            个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNKNOWN_ERR']}</span>
                         </span>
                     </div>
                 </div>
                 <br>
-
 
 
                 <div class="clearfix" style="padding:10px 10px;" id="searchDiv">
@@ -116,9 +168,6 @@
                     </soul:button>
 
                 </div>
-
-
-
 
 
                 <div id="editable_wrapper" class="dataTables_wrapper" role="grid">

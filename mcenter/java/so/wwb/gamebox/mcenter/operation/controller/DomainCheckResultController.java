@@ -93,6 +93,7 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
             //各种状态的数量
             DomainCheckResult domainCheckResult = new DomainCheckResult();
             domainCheckResult.setSiteId(siteId);
+            domainCheckResult.setIsAll("0");
             List<VDomainCheckResultStatistics> statisticsList = ServiceTool.vDomainCheckResultStatisticsService().getDomainCount(domainCheckResult);
 
             model.addAttribute("statisticsList", statisticsList.get(0));
