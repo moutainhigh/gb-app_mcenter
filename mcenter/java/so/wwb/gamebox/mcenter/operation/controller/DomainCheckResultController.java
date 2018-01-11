@@ -62,6 +62,17 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
     //region your codes 3
 
 
+    /**
+     * 列表
+     *
+     * @param listVo
+     * @param form
+     * @param result
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
     public String list(DomainCheckResultListVo listVo, @FormModel("search") @Valid DomainCheckResultSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
         Integer siteId = SessionManager.getSiteId();
@@ -82,21 +93,8 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
             Map<String, Serializable> isp = DictTool.get(DictEnum.COMMON_ISP);
             model.addAttribute("isp", isp);
 
-            //获取siteId下检查点数量
-            int checkPointCount = getCheckPointCount();
-            model.addAttribute("checkPointCount", checkPointCount);
-
-            //siteId下所有域名的数量
-            Long sysDomainCount = ServiceTool.domainCheckResultService().getSysDomainCountBySiteId(siteId);//this.getCustomCriteria()
-            model.addAttribute("sysDomainCount", sysDomainCount);
-
-            //各种状态的数量
-            DomainCheckResult domainCheckResult = new DomainCheckResult();
-            domainCheckResult.setSiteId(siteId);
-            VDomainCheckResultStatistics statusCount =  ServiceTool.domainCheckResultService().getStatusCount(listVo);
-
-
-            model.addAttribute("statusCount", statusCount);
+            //获取综合统计信息
+            getComprehensiveInfo(listVo, model, siteId);
         }
 
 
@@ -121,6 +119,48 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
         return 0;
     }
 
+
+    /**
+     * 弹窗展示状态统计
+     *
+     * @param listVo
+     * @param form
+     * @param result
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/showPopStatusCount")
+    public String showPopStatusCount(DomainCheckResultListVo listVo, @FormModel("search") @Valid DomainCheckResultSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
+        Integer siteId = SessionManager.getSiteId();
+        listVo.getSearch().setSiteId(siteId);
+        //获取综合统计信息
+        getComprehensiveInfo(listVo, model, siteId);
+
+        return getViewBasePath() + "ShowPopStatusCount";
+    }
+
+    /**
+     * 获取综合统计信息
+     *
+     * @param listVo
+     * @param model
+     * @param siteId
+     */
+    private void getComprehensiveInfo(DomainCheckResultListVo listVo, Model model, Integer siteId) {
+        //获取siteId下检查点数量
+        int checkPointCount = getCheckPointCount();
+        model.addAttribute("checkPointCount", checkPointCount);
+
+        //siteId下所有域名的数量
+        Long sysDomainCount = ServiceTool.domainCheckResultService().getSysDomainCountBySiteId(siteId);//this.getCustomCriteria()
+        model.addAttribute("sysDomainCount", sysDomainCount);
+
+        //各种状态的数量
+        VDomainCheckResultStatistics statusCount = ServiceTool.domainCheckResultService().getStatusCount(listVo);
+        model.addAttribute("statusCount", statusCount);
+    }
 
     //endregion your codes 3
 

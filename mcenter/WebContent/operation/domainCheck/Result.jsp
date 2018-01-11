@@ -19,11 +19,7 @@
             <span>运营<%--${views.sysResource['分析']}--%></span><span>/</span><span><%--${views.sysResource['推广链接新进']}--%>域名检测</span>
             <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         </div>
-        <%--<a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>--%>
-        <%--<soul:button target="goToLastPage" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn"--%>
-        <%--text="" opType="function">--%>
-        <%--<em class="fa fa-caret-left"></em>${views.common['return']}--%>
-        <%--</soul:button>--%>
+
         <div class="col-lg-12 m-b">
             <div class="wrapper white-bg shadow">
                 <ul class="clearfix sys_tab_wrap">
@@ -100,6 +96,8 @@
                                 </c:if>
                             </span>
                             个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNKNOWN_ERR']}</span>
+
+                                <soul:button target="${root}/operation/domainCheckResult/showPopStatusCount.html" text="showpop" opType="dialog"></soul:button>
                         </span>
                     </div>
                 </div>
