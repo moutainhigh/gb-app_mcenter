@@ -42,7 +42,7 @@
         </c:forEach>
         <c:if test="${fn:length(command.result)<1}">
             <tr>
-                　　　　　　　　　　　　正常
+                　　　　　　　　<td>正常</td>　　　
             </tr>
         </c:if>
         </tbody>
