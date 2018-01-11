@@ -596,7 +596,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
      */
     @RequestMapping({"/saveOnLine"})
     @ResponseBody
-    @Audit(module = Module.PAY, moduleType = ModuleType.PLAYER_PLAYE_SUCCESS, opType = OpType.CREATE)
+    @Audit(module = Module.PAY, moduleType = ModuleType.ONLINE_ACCOUNT_EDIT, opType = OpType.CREATE)
     @Token(valid = true)
     public Map saveOnLine(PayAccountVo vo, @FormModel("result") @Valid PayAccountOnlineForm form, BindingResult result) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
