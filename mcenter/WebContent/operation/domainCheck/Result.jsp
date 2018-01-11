@@ -46,13 +46,13 @@
                     </div>
                     <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group">
-                            <span class="input-group-addon bg-gray">国家</span>
+                            <span class="input-group-addon bg-gray">地区省</span>
                             <gb:select name="search.serverProvince"
                                        prompt="省" value=""
                                        ajaxListPath="${root}/regions/states/CN.html"
                                        listValue="remark" listKey="dictCode"
                                        cssClass="btn-group chosen-select-no-single"
-                                       relSelect="result.city"/>
+                                       relSelect="search.serverCity"/>
 
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                             <gb:select name="search.serverCity" prompt="${views.common['pleaseSelect']}"
                                        value=""
                                        ajaxListPath="${root}/regions/cities/CN-${command.search.serverCity}.html"
-                                       relSelectPath="${root}/regions/cities/CN-#result.province#.html"
+                                       relSelectPath="${root}/regions/cities/CN-#search.serverProvince#.html"
                                        listValue="remark"
                                        listKey="dictCode"
                                        cssClass="btn-group chosen-select-no-single"/>

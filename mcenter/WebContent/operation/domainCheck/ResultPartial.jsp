@@ -34,7 +34,7 @@
                     <div class="joy-list-row-operations">
                         <a class="btn btn-link co-blue"
                            href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.isSecondSearch=0"
-                           nav-target="mainFrame"/>详情
+                           nav-target="mainFrame">详情</a>
                     </div>
                         <%--</c:if>--%>
                 </td>
