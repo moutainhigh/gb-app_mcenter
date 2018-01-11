@@ -88,7 +88,6 @@ public class OnlineDepositController extends BaseDepositController {
     @RequestMapping("/doData")
     @ResponseBody
     protected VPlayerDepositListVo doData(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {
-
         // 初始化筛选条件
         this.initQuery(listVo);
         // 初始化ListVo
@@ -178,9 +177,9 @@ public class OnlineDepositController extends BaseDepositController {
     }
 
     /*
-    * 计算分页
-    *
-    * */
+     * 计算分页
+     *
+     * */
     @RequestMapping("/count")
     public String count(VPlayerDepositListVo listVo,Model model, String isCounter) {
         String moduleType = DataRightModuleType.ONLINEDEPOSIT.getCode();
@@ -188,9 +187,9 @@ public class OnlineDepositController extends BaseDepositController {
     }
 
     /*
-    * 统计金额
-    *
-    * */
+     * 统计金额
+     *
+     * */
     @RequestMapping("/doStatistics")
     @ResponseBody
     protected VPlayerDepositListVo doStatistics(VPlayerDepositListVo listVo, VPlayerDepositSearchForm form, BindingResult result, Model model) {

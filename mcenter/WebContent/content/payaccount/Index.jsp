@@ -51,7 +51,7 @@
                             </soul:button>
                             <c:if test="${command.search.type eq '1'}">
                                 <soul:button target="${root}/payAccount/rechargeUrl.html" text="" opType="dialog" title="${views.content_auto['充值中心']}" cssClass="btn btn-primary-hide pull-left m-r-sm"><i class="iconfont icon-xianshangzhifujilu"></i><span class="hd">${views.content_auto['充值中心']}</span></soul:button>
-                                <soul:button target="${root}/payAccount/acbSetting.html" title="${views.content_auto['上分设置']}" tag="button" opType="dialog" text="${views.content_auto['上分设置']}" cssClass="btn btn-primary-hide"><i class="iconfont icon-fanshuishezhi"></i><span class="hd">${views.content_auto['上分设置']}</span></soul:button>
+                                <%--<soul:button target="${root}/payAccount/acbSetting.html" title="${views.content_auto['上分设置']}" tag="button" opType="dialog" text="${views.content_auto['上分设置']}" cssClass="btn btn-primary-hide"><i class="iconfont icon-fanshuishezhi"></i><span class="hd">${views.content_auto['上分设置']}</span></soul:button>--%>
                                 <a href="/vPayAccount/companySort.html" nav-target="mainFrame" class="btn btn-primary-hide pull-left m-r-sm"><i class="fa fa-exchange"></i><span class="hd">${views.content['payAccount.cash.order']}</span></a>
                                 <%--<soul:button target="${root}/payAccount/digiccyAccount.html" cssClass="btn btn-primary-hide pull-left m-r-sm" text="${views.content_auto['数字货币']}" opType="dialog" permission="content:onlineaccount_digiccy"/>--%>
                             </c:if>
