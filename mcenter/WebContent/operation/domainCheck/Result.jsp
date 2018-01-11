@@ -1,4 +1,4 @@
-<%--@elvariable id="command" type="so.wwb.gamebox.model.company.sys.vo.VDomainCheckResultStatisticsListVo"--%>
+<%--@elvariable id="command" type="so.wwb.gamebox.model.company.sys.vo.VDomainCheckResultstatusCountVo"--%>
 <%--@elvariable id="area" type="so.wwb.gamebox.model.master.setting.vo.SiteConfineAreaVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
@@ -42,16 +42,16 @@
                             <span>监测点 &nbsp;${checkPointCount}个&nbsp;&nbsp;&nbsp;
 
                             检测情况：
-                            <span class="co-green">${sysDomainCount-statisticsList.firewall-statisticsList.hijack-statisticsList.unparsed-statisticsList.unreach-statisticsList.unknown}</span>个域名
+                            <span class="co-green">${sysDomainCount-statusCount.firewall-statusCount.hijack-statusCount.unparsed-statusCount.unreach-statusCount.unknown}</span>个域名
                                     <span class="co-green">${dicts.common.domain_check_result_status['NORMAL']}</span>
                                 &nbsp;&nbsp;&nbsp;
 
                             <span class="co-yellow">
-                                <c:if test="${empty statisticsList.firewall}">
+                                <c:if test="${empty statusCount.firewall}">
                                     0
                                 </c:if>
-                                <c:if test="${!empty statisticsList.firewall}">
-                                    ${statisticsList.firewall}
+                                <c:if test="${!empty statusCount.firewall}">
+                                    ${statusCount.firewall}
                                 </c:if>
                             </span>个域名
                             <span class="co-yellow">${dicts.common.domain_check_result_status['WALLED_OFF']}</span>
@@ -59,44 +59,44 @@
 
 
                             <span class="co-yellow">
-                            <c:if test="${empty statisticsList.hijack}">
+                            <c:if test="${empty statusCount.hijack}">
                                 0
                             </c:if>
-                                <c:if test="${!empty statisticsList.hijack}">
-                                    ${statisticsList.hijack}
+                                <c:if test="${!empty statusCount.hijack}">
+                                    ${statusCount.hijack}
                                 </c:if>
                             </span>个域名
                             <span class="co-yellow">${dicts.common.domain_check_result_status['BE_HIJACKED']}</span>
                                 &nbsp;&nbsp;&nbsp;
 
                             <span class="co-yellow">
-                            <c:if test="${empty statisticsList.unparsed}">
+                            <c:if test="${empty statusCount.unparsed}">
                                 0
                             </c:if>
-                                <c:if test="${!empty statisticsList.unparsed}">
-                                    ${statisticsList.unparsed}
+                                <c:if test="${!empty statusCount.unparsed}">
+                                    ${statusCount.unparsed}
                                 </c:if>
                             </span>
                             个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNRESOLVED']}</span>
                                 &nbsp;&nbsp;&nbsp;
 
                             <span class="co-yellow">
-                            <c:if test="${empty statisticsList.unreach}">
+                            <c:if test="${empty statusCount.unreach}">
                                 0
                             </c:if>
-                                <c:if test="${!empty statisticsList.unreach}">
-                                    ${statisticsList.unreach}
+                                <c:if test="${!empty statusCount.unreach}">
+                                    ${statusCount.unreach}
                                 </c:if>
                             </span>
                             个域名<span class="co-yellow">${dicts.common.domain_check_result_status['SERVER_UNREACHABLE']}</span>
                                 &nbsp;&nbsp;&nbsp;
 
                             <span class="co-yellow">
-                            <c:if test="${empty statisticsList.unknown}">
+                            <c:if test="${empty statusCount.unknown}">
                                 0
                             </c:if>
-                                <c:if test="${!empty statisticsList.unknown}">
-                                    ${statisticsList.unknown}
+                                <c:if test="${!empty statusCount.unknown}">
+                                    ${statusCount.unknown}
                                 </c:if>
                             </span>
                             个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNKNOWN_ERR']}</span>

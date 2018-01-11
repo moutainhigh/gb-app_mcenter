@@ -30,19 +30,21 @@
                 <td>${dicts.city[province][p.serverCity]}</td>
                 <td>${dicts.common.isp[p.isp]}</td>
                 <td>
-                        <%--<c:if test="${ command.search.isSecondSearch!='0' } ">--%>
-                    <div class="joy-list-row-operations">
-                        <a class="btn btn-link co-blue"
-                           href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.isSecondSearch=0"
-                           nav-target="mainFrame">详情</a>
-                    </div>
-                        <%--</c:if>--%>
+                    <c:if test="${p.status eq 'BE_HIJACKED'}">
+                        <div class="joy-list-row-operations">
+                            <a class="btn btn-link co-blue"
+                               href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.isSecondSearch=0"
+                               nav-target="mainFrame">详情</a>
+                        </div>
+                    </c:if>
                 </td>
             </tr>
         </c:forEach>
         <c:if test="${fn:length(command.result)<1}">
             <tr>
-                　　　　　　　　<td>正常</td>　　　
+                　　　　　　　　
+                <td>正常</td>
+                　　　
             </tr>
         </c:if>
         </tbody>
