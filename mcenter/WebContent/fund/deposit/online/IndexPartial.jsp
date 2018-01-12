@@ -145,9 +145,9 @@
                         </td>
                         <%--审核人--%>
                         <td>
-                            {{if overTime==rechargeStatus||pending==rechargeStatus}}
+                            {{if rechargeStatus==7||rechargeStatus==4}}
                                 --
-                            {{else success==rechargeStatus}}
+                            {{else rechargeStatus==5}}
                                 {{if checkUserId != null}}
                                     {{:checkUsername}}
                                 {{else}}
