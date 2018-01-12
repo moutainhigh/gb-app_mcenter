@@ -111,16 +111,16 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
      *
      * @return
      */
-    private Integer getCheckPointCount() {
+    private DomainCheckResultBatchLogListVo getCheckPointCount() {
         DomainCheckResultBatchLogListVo batchVo = new DomainCheckResultBatchLogListVo();
         batchVo.getSearch().setSiteId(SessionManager.getSiteId());
         batchVo.getSearch().setStatus(0);
         batchVo.getPaging().setPageSize(1);
         batchVo = ServiceTool.domainCheckResultBatchLogService().search(batchVo);
         if (batchVo != null && CollectionTool.isNotEmpty(batchVo.getResult())) {
-            return batchVo.getResult().get(0).getCheckPointCount();
+            return batchVo;
         }
-        return 0;
+        return batchVo;
     }
 
 
@@ -154,8 +154,8 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
      */
     private void getComprehensiveInfo(DomainCheckResultListVo listVo, Model model, Integer siteId) {
         //获取siteId下检查点数量
-        int checkPointCount = getCheckPointCount();
-        model.addAttribute("checkPointCount", checkPointCount);
+        DomainCheckResultBatchLogListVo batchVo = getCheckPointCount();
+        model.addAttribute("batchVo", batchVo);
 
         //siteId下所有域名的数量
         Long sysDomainCount = ServiceTool.domainCheckResultService().getSysDomainCountBySiteId(siteId);//this.getCustomCriteria()

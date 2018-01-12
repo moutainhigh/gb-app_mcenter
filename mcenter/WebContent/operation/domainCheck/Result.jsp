@@ -30,7 +30,7 @@
                     </li>
                 </ul>
 
-
+                <soul:button target="${root}/operation/domainCheckResult/showPopStatusCount.html" text="showpop" opType="dialog"></soul:button>
 
 
                 <div class="clearfix" style="padding:10px 10px;" id="searchDiv">
@@ -53,14 +53,6 @@
                                        listValue="remark" listKey="dictCode"
                                        cssClass="btn-group chosen-select-no-single"
                                        relSelect="search.serverCity"/>
-
-                        </div>
-                    </div>
-                    <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
-                        <div class="input-group">
-                            <span class="input-group-addon bg-gray">城市</span>
-
-
                             <gb:select name="search.serverCity" prompt="${views.common['pleaseSelect']}"
                                        value=""
                                        ajaxListPath="${root}/regions/cities/CN-${command.search.serverCity}.html"
@@ -68,10 +60,9 @@
                                        listValue="remark"
                                        listKey="dictCode"
                                        cssClass="btn-group chosen-select-no-single"/>
-                        </div>
-                    </div>
 
-                        <%--地区--%>
+                        </div>
+　
 
 
                         <%--运营商--%>
