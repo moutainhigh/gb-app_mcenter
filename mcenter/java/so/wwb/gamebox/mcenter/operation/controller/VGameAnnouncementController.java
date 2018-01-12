@@ -150,8 +150,8 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
 
         vo = ServiceTool.noticeService().fetchReceivedSiteMsgDetail(vo);
         /*替换内容包含${user}的内容 */
-        if(vo.getResult().getContent().contains("${user}")){
-            String replace = vo.getResult().getContent().replace("${user}",SessionManager.getUserName());
+        if (vo.getResult().getContent().contains("${user}")) {
+            String replace = vo.getResult().getContent().replace("${user}", SessionManager.getUserName());
             vo.getResult().setContent(replace);
         }
         model.addAttribute("command", vo);
@@ -182,7 +182,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         } else {
             noticeReceiveVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, "update.failed"));
         }
-        HashMap map = new HashMap(2,1f);
+        HashMap map = new HashMap(2, 1f);
         map.put("msg", StringTool.isNotBlank(noticeReceiveVo.getOkMsg()) ? noticeReceiveVo.getOkMsg() : noticeReceiveVo.getErrMsg());
         map.put("state", Boolean.valueOf(b));
         return map;
@@ -211,7 +211,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         } else {
             vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
-        HashMap map = new HashMap(2,1f);
+        HashMap map = new HashMap(2, 1f);
         map.put("msg", StringTool.isNotBlank(vo.getOkMsg()) ? vo.getOkMsg() : vo.getErrMsg());
         map.put("state", Boolean.valueOf(vo.isSuccess()));
         return map;
@@ -227,7 +227,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
      */
     @RequestMapping("/systemNoticeHistory")
     public String systemNoticeHistory(HttpServletRequest request, VPlayerAdvisoryListVo aListVo, VSystemAnnouncementListVo vListVo, Model model) {
-        if(vListVo.getSearch().getStartTime()==null && vListVo.getSearch().getEndTime()==null){
+        if (vListVo.getSearch().getStartTime() == null && vListVo.getSearch().getEndTime() == null) {
             vListVo.getSearch().setStartTime(DateTool.addMonths(SessionManager.getDate().getNow(), -1));
             vListVo.getSearch().setEndTime(SessionManager.getDate().getNow());
         }
@@ -283,7 +283,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
      */
     @RequestMapping("/gameAnnouncement")
     public String gameAnnouncement(VSystemAnnouncementListVo listVo, VPlayerAdvisoryListVo aListVo, Model model, HttpServletRequest request) {
-        if(listVo.getSearch().getStartTime()==null && listVo.getSearch().getEndTime()==null){
+        if (listVo.getSearch().getStartTime() == null && listVo.getSearch().getEndTime() == null) {
             listVo.getSearch().setStartTime(DateTool.addMonths(SessionManager.getDate().getNow(), -1));
             listVo.getSearch().setEndTime(SessionManager.getDate().getNow());
         }
@@ -292,12 +292,12 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         listVo.getSearch().setPublishTime(SessionManager.getUser().getCreateTime());
         Map apiMap = new HashMap();
         //纯彩票只保留龙头彩票游戏公告
-        if(ParamTool.isLotterySite()) {
+        if (ParamTool.isLotterySite()) {
             String apiId = ApiProviderEnum.PL.getCode();
             listVo.getSearch().setApiId(NumberTool.toInt(apiId));
             SiteApi siteApi = new SiteApi();
             siteApi.setApiId(NumberTool.toInt(apiId));
-            apiMap.put(apiId,siteApi);
+            apiMap.put(apiId, siteApi);
         } else {
             apiMap = Cache.getSiteApiI18n();
         }
@@ -315,13 +315,13 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
     }
 
     @RequestMapping("/advisoryList")
-    public String advisoryList(VPlayerAdvisoryListVo listVo, VPlayerAdvisoryListVo aListVo, Model model, HttpServletRequest request){
+    public String advisoryList(VPlayerAdvisoryListVo listVo, VPlayerAdvisoryListVo aListVo, Model model, HttpServletRequest request) {
         listVo.getPaging().setPageSize(200);
         return this.doAdvisoryList(listVo, aListVo, model, request);
     }
 
     @RequestMapping("/doAdvisoryList")
-    public String doAdvisoryList(VPlayerAdvisoryListVo listVo, VPlayerAdvisoryListVo aListVo, Model model, HttpServletRequest request){
+    public String doAdvisoryList(VPlayerAdvisoryListVo listVo, VPlayerAdvisoryListVo aListVo, Model model, HttpServletRequest request) {
         //查询时间加一秒
         /*if(listVo.getSearch().getAdvisoryTimeEnd()!=null) {
             Date advisoryTimeEnd = listVo.getSearch().getAdvisoryTimeEnd();
@@ -332,8 +332,8 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         model.addAttribute("advisoryType", DictTool.get(DictEnum.ADVISORY_TYPE));
         model.addAttribute("command", listVo);
         String hasReturn = request.getParameter("hasReturn");
-        if(StringTool.isNotBlank(hasReturn)){
-            model.addAttribute("hasReturn",true);
+        if (StringTool.isNotBlank(hasReturn)) {
+            model.addAttribute("hasReturn", true);
         }
         return ServletTool.isAjaxSoulRequest(request) ? ADVISORY_MESSAGE_LIST_URL + "Partial" : ADVISORY_MESSAGE_LIST_URL;
     }
@@ -357,27 +357,23 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
 
     private VPlayerAdvisoryListVo getvPlayerAdvisoryListVo(VPlayerAdvisoryListVo listVo) {
         //提问内容
-        if(listVo.getSearch().getAdvisoryTimeBegin() == null && listVo.getSearch().getAdvisoryTimeEnd() == null){
+        if (listVo.getSearch().getAdvisoryTimeBegin() == null && listVo.getSearch().getAdvisoryTimeEnd() == null) {
             listVo.getSearch().setAdvisoryTime(DateTool.addMonths(SessionManager.getDate().getNow(), -1));
         }
         listVo = ServiceSiteTool.vPlayerAdvisoryService().search(listVo);
         listVo.changeReadState(SessionManager.getUserId());
         //获取全部的追问咨询是否已读
         List<VPlayerAdvisory> list = new ArrayList();
-        for(VPlayerAdvisory vp:listVo.getResult()){
-            if(PlayerAdvisoryEnum.PUMP.getCode().equals(vp.getQuestionType())){
+        for (VPlayerAdvisory vp : listVo.getResult()) {
+            if (PlayerAdvisoryEnum.PUMP.getCode().equals(vp.getQuestionType())) { //获取全部的追问咨询是否已读
                 VPlayerAdvisory vPlayerAdvisory = new VPlayerAdvisory();
                 vPlayerAdvisory.setContinueQuizId(vp.getContinueQuizId());
                 vPlayerAdvisory.setRead(vp.getRead());
                 list.add(vPlayerAdvisory);
-            }
-        }
-        //把未读的追问咨询同步到他的父类咨询问题
-        for(VPlayerAdvisory advisory:listVo.getResult()){
-            if(PlayerAdvisoryEnum.QUESTION.getCode().equals(advisory.getQuestionType())){
-                for(VPlayerAdvisory obj:list){
-                    if(advisory.getId().equals(obj.getContinueQuizId()) && obj.getRead()==false){
-                        advisory.setRead(false);
+            } else if (PlayerAdvisoryEnum.QUESTION.getCode().equals(vp.getQuestionType())) { //把未读的追问咨询同步到他的父类咨询问题
+                for (VPlayerAdvisory obj : list) {
+                    if (vp.getId().equals(obj.getContinueQuizId()) && obj.getRead() == false) {
+                        vp.setRead(false);
                     }
                 }
             }
@@ -425,7 +421,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         } else {
             vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
-        HashMap map = new HashMap(2,1f);
+        HashMap map = new HashMap(2, 1f);
         map.put("msg", StringTool.isNotBlank(vo.getOkMsg()) ? vo.getOkMsg() : vo.getErrMsg());
         map.put("state", Boolean.valueOf(vo.isSuccess()));
         return map;
