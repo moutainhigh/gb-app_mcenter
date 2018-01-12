@@ -5,10 +5,16 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.data.json.JsonTool;
+import org.soul.commons.http.HttpClient;
+import org.soul.commons.http.PostParameter;
+import org.soul.commons.http.Response;
+import org.soul.commons.init.context.ContextParam;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.DateQuickPicker;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.commons.log.Log;
+import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.sort.Direction;
 import org.soul.web.validation.form.js.JsRuleCreator;
@@ -22,6 +28,8 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.CacheBase;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
+import so.wwb.gamebox.model.company.setting.po.SysExport;
+import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.master.report.vo.UserPlayerFund;
 import so.wwb.gamebox.model.master.report.vo.VPlayerFundsRecordListVo;
 
@@ -42,6 +50,8 @@ import java.util.*;
 @RequestMapping("/userPlayerFund")
 public class UserPlayerFundController {
 //endregion your codes 1
+
+    private final static Log LOG = LogFactory.getLog(UserPlayerFundController.class);
 
     @RequestMapping(value = "search")
     public String search(VPlayerFundsRecordListVo listVo, Model model, HttpServletRequest request){
@@ -120,23 +130,45 @@ public class UserPlayerFundController {
 
             in=new BufferedInputStream(new FileInputStream(templateFileName));
             Workbook workbook=transformer.transformXLS(in, beans);
-            //out=response.getOutputStream();
-            //将内容写入输出流并把缓存的内容全部发出去
-            //workbook.write(out);
             workbook.write(fileOutputStream);
-            //out.flush();
             resMap.put("state",true);
             resMap.put("filePath",exportFile.getAbsolutePath());
+            uploadFileAndUpdateStatus(exportFile);
         } catch (InvalidFormatException e) {
-            e.printStackTrace();
+            LOG.error(e,"导出出错1");
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+            LOG.error(e,"导出出错2");
+        } catch (Exception ex){
+            LOG.error(ex,"导出出错3");
+        }finally {
             if (in!=null){try {in.close();} catch (IOException e) {}}
             if (out!=null){try {out.close();} catch (IOException e) {}}
         }
         System.out.println(resMap);
         return resMap;
+    }
+
+    //上传文件并更新导出状态
+    private void uploadFileAndUpdateStatus(File file) throws Exception {
+        try{
+            ArrayList<PostParameter> arrayList = new ArrayList<>();
+            arrayList.add(new PostParameter(SysExportVo.FSERVER_PARAM_CATEPATH, "exportFile"));
+            arrayList.add(new PostParameter(SysExportVo.FSERVER_PARAM_OBJID, 1));
+            arrayList.add(new PostParameter("siteId", SessionManager.getSiteId()));
+            arrayList.add(new PostParameter(SysExportVo.FSERVER_PARAM_USERNAME, SessionManager.getUser().getUsername()));
+            String fsserverPath = file.getAbsolutePath();
+            Response response = new HttpClient().multPartURL(file.getName(),fsserverPath,
+                    arrayList.toArray(new PostParameter[arrayList.size()]), file, false);
+            LOG.info("调用文件上传接口，接口返回值为{0}}",response);
+            HashMap hashMap = JsonTool.fromJson(response.getResponseAsString().replaceAll("'", "\""), HashMap.class);
+            String state = String.valueOf(hashMap.get(SysExportVo.FSERVER_RETURN_STATE));
+            String url = String.valueOf(hashMap.get(SysExportVo.FSERVER_RETURN_URL));
+
+            LOG.info("调用文件上传接口，接口返回值状态为{0},完成更新导出记录的文件路径{1}。",state,url);
+        }catch (Exception e){
+            LOG.error(e,"上传文件出错");
+        }
+
     }
 
 }
