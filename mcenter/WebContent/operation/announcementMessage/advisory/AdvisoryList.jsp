@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <div class="row">
-    <form:form action="${root}/operation/announcementMessage/doAdvisoryList.html" method="post">
+    <form:form action="${root}/operation/announcementMessage/advisoryList.html" method="post">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
             <span>${views.sysResource['角色']}</span><span>/</span><span>${views.sysResource['玩家咨询']}</span>
