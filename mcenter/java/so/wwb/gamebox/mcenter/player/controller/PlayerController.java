@@ -297,6 +297,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     * 根据登录ip和注册ip模糊查询
     * */
     private VUserPlayerListVo buildSearchIp(VUserPlayerListVo listVo){
+
         if(StringTool.isNotBlank(listVo.getSearch().getRegisterIpv4())){
             Map regMap = fetchStartEndIp(listVo.getSearch().getRegisterIpv4());
             if(!MapTool.getBoolean(regMap,"state")){
@@ -304,9 +305,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 return listVo;
             }
             String min = MapTool.getString(regMap, "min");
-            listVo.getSearch().setStartIps(min);
+            listVo.getSearch().setRegisterStartIp(min);
             String max = MapTool.getString(regMap, "max");
-            listVo.getSearch().setEndIps(max);
+            listVo.getSearch().setRegisterEndIp(max);
         }
         if(StringTool.isNotBlank(listVo.getSearch().getLastLoginIpv4())){
             Map loginMap = fetchStartEndIp(listVo.getSearch().getLastLoginIpv4());
@@ -315,9 +316,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 return listVo;
             }
             String loginMin = MapTool.getString(loginMap, "min");
-            listVo.getSearch().setStartIp(loginMin);
+            listVo.getSearch().setLoginStartIp(loginMin);
             String loginmax = MapTool.getString(loginMap, "max");
-            listVo.getSearch().setEndIp(loginmax);
+            listVo.getSearch().setLoginEndIp(loginmax);
         }
         return listVo;
     }
