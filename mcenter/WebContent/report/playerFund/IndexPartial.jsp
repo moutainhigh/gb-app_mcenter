@@ -11,16 +11,28 @@
                 <thead>
                 <tr class="bg-gray">
                     <th colspan="9">
-                        <span class="pull-left">资金汇总</span>
+                        <span class="pull-left">${views.fund['资金汇总']}</span>
                     </th>
                 </tr>
                 <tr>
-                    <th>存款金额</th>
-                    <th>取款金额</th>
-                    <th>优惠金额</th>
-                    <th>返水金额</th>
-                    <th>有效投注额</th>
-                    <th>损益</th>
+                    <th>
+                        <span title="" data-original-title="" data-content="${views.fund['存款金额提示']}" data-html="true" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover m-l-sm" tabindex="0"><i class="fa fa-question-circle"></i></span>
+                        ${views.player_auto['存款金额']}
+                    </th>
+                    <th>
+                        <span title="" data-original-title="" data-content="${views.fund['取款金额提示']}" data-html="true" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover m-l-sm" tabindex="0"><i class="fa fa-question-circle"></i></span>
+                        ${views.player_auto['取款金额']}
+                    </th>
+                    <th>
+                        <span title="" data-original-title="" data-content="${views.fund['优惠金额提示']}" data-html="true" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover m-l-sm" tabindex="0"><i class="fa fa-question-circle"></i></span>
+                        ${views.player_auto['优惠金额']}
+                    </th>
+                    <th>
+                        <span title="" data-original-title="" data-content="${views.fund['返水金额提示']}" data-html="true" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover m-l-sm" tabindex="0"><i class="fa fa-question-circle"></i></span>
+                        ${views.player_auto['返水金额']}
+                    </th>
+                    <th>${views.player_auto['有效投注额']}</th>
+                    <th>${views.player_auto['损益']}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,16 +55,16 @@
         <thead>
             <tr role="row" class="bg-gray">
                 <th>${views.common['number']}</th>
-                <th>账号</th>
-                <soul:orderColumn poType="${poType}" property="createTime" column="注册时间"></soul:orderColumn>
-                <soul:orderColumn poType="${poType}" property="depositCount" column="存款次数"></soul:orderColumn>
-                <soul:orderColumn poType="${poType}" property="depositAmount" column="存款金额"></soul:orderColumn>
-                <soul:orderColumn poType="${poType}" property="withdrawCount" column="取款次数"></soul:orderColumn>
-                <soul:orderColumn poType="${poType}" property="withdrawAmount" column="取款金额"></soul:orderColumn>
-                <soul:orderColumn poType="${poType}" property="favorableAmount" column="优惠金额"></soul:orderColumn>
-                <soul:orderColumn poType="${poType}" property="rakebackAmount" column="返水金额"></soul:orderColumn>
-                <soul:orderColumn poType="${poType}" property="effectiveTransaction" column="有效投注额"></soul:orderColumn>
-                <soul:orderColumn poType="${poType}" property="profitLoss" column="损益"></soul:orderColumn>
+                <th>${views.fund['账号']}</th>
+                <soul:orderColumn poType="${poType}" property="createTime" column="${views.player_auto['注册时间']}"></soul:orderColumn>
+                <soul:orderColumn poType="${poType}" property="depositCount" column="${views.player_auto['存款次数']}"></soul:orderColumn>
+                <soul:orderColumn poType="${poType}" property="depositAmount" column="${views.player_auto['存款金额']}"></soul:orderColumn>
+                <soul:orderColumn poType="${poType}" property="withdrawCount" column="${views.player_auto['取款次数']}"></soul:orderColumn>
+                <soul:orderColumn poType="${poType}" property="withdrawAmount" column="${views.player_auto['取款金额']}"></soul:orderColumn>
+                <soul:orderColumn poType="${poType}" property="favorableAmount" column="${views.player_auto['优惠金额']}"></soul:orderColumn>
+                <soul:orderColumn poType="${poType}" property="rakebackAmount" column="${views.player_auto['返水金额']}"></soul:orderColumn>
+                <soul:orderColumn poType="${poType}" property="effectiveTransaction" column="${views.player_auto['有效投注额']}"></soul:orderColumn>
+                <soul:orderColumn poType="${poType}" property="profitLoss" column="${views.player_auto['损益']}"></soul:orderColumn>
             </tr>
         </thead>
         <tbody>
