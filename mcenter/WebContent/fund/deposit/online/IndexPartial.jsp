@@ -88,7 +88,7 @@
                                 </span>
                             {{/if}}
                             {{if counterFee<0}}
-                                <span data-content="${views.fund_auto['手续费']}<span class='co-red'>{{:_currencySign}}&nbsp;{{:_soulFn_formatInteger_favorableTotalAmount}}{{:_soulFn_formatDecimals_favorableTotalAmount}}</span>"
+                                <span data-content="${views.fund_auto['手续费']}<span class='co-red'>{{:_currencySign}}&nbsp;{{:_soulFn_formatInteger_counterFee}}{{:_soulFn_formatDecimals_counterFee}}</span>"
                                     data-toggle="popover" data-html="true" data-container="body" role="button" class="help-popover" tabindex="0">
                                         <span class="fee negative"></span>
                                 </span>
