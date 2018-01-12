@@ -41,7 +41,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon bg-gray">地区省</span>
                                     <gb:select name="result.province"
-                                               prompt="省" value=""
+                                               prompt="省" value="${command.result.province}"
                                                ajaxListPath="${root}/regions/states/CN.html"
                                                listValue="remark" listKey="dictCode"
                                                cssClass="btn-group chosen-select-no-single"
@@ -54,8 +54,8 @@
                                 <div class="input-group">
                                     <span class="input-group-addon bg-gray">城市</span>
                                     <gb:select name="result.city" prompt="${views.common['pleaseSelect']}"
-                                               value=""
-                                               ajaxListPath="${root}/regions/cities/CN-${command.search.area}.html"
+                                               value="${command.result.province}"
+                                               ajaxListPath="${root}/regions/cities/CN-${command.search.serverCity}.html"
                                                relSelectPath="${root}/regions/cities/CN-#result.province#.html"
                                                listValue="remark"
                                                listKey="dictCode"
@@ -64,6 +64,7 @@
                             </div>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                         <%-- 搜索--%>
+
                     <soul:button text="" target="query" opType="function" cssClass="btn btn-filter" tag="button">
                         <i class="fa fa-search"></i>
                         <span class="hd">&nbsp;${views.common['search']}</span>
