@@ -15,10 +15,22 @@
                     </th>
                 </tr>
                 <tr>
-                    <th>${views.player_auto['存款金额']}</th>
-                    <th>${views.player_auto['取款金额']}</th>
-                    <th>${views.player_auto['优惠金额']}</th>
-                    <th>${views.player_auto['返水金额']}</th>
+                    <th>
+                        <span title="" data-original-title="" data-content="${views.fund['存款金额提示']}" data-html="true" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover m-l-sm" tabindex="0"><i class="fa fa-question-circle"></i></span>
+                        ${views.player_auto['存款金额']}
+                    </th>
+                    <th>
+                        <span title="" data-original-title="" data-content="${views.fund['取款金额提示']}" data-html="true" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover m-l-sm" tabindex="0"><i class="fa fa-question-circle"></i></span>
+                        ${views.player_auto['取款金额']}
+                    </th>
+                    <th>
+                        <span title="" data-original-title="" data-content="${views.fund['优惠金额提示']}" data-html="true" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover m-l-sm" tabindex="0"><i class="fa fa-question-circle"></i></span>
+                        ${views.player_auto['优惠金额']}
+                    </th>
+                    <th>
+                        <span title="" data-original-title="" data-content="${views.fund['返水金额提示']}" data-html="true" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover m-l-sm" tabindex="0"><i class="fa fa-question-circle"></i></span>
+                        ${views.player_auto['返水金额']}
+                    </th>
                     <th>${views.player_auto['有效投注额']}</th>
                     <th>${views.player_auto['损益']}</th>
                 </tr>
