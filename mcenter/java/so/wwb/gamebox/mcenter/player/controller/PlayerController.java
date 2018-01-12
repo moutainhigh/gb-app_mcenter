@@ -235,6 +235,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
         model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
+        model.addAttribute("tagIds",listVo.getSearch().getTagId());
         /*玩家检测真是姓名*/
         if (listVo.getSearch().isHasReturn() && StringTool.isNotBlank(listVo.getSearch().getRealName())) {
             try {
@@ -372,6 +373,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         if(listVo.isSuccess()){
             playerDetection(listVo, model);
             getTagIdByPlayer(listVo, model);
+            getPlayerByTagId(listVo,model);
             initDate(listVo);
             listVo = doCount(listVo, isCounter);
             listVo.getPaging().cal();
