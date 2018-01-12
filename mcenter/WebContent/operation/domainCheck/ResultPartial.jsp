@@ -8,14 +8,16 @@
         <thead>
         <tr role="row" class="bg-gray">
             <th>序号</th>
+            <th>域名类型</th>
             <th>域名</th>
-            <th>状态</th>
-            <th>省</th>
-            <th>市</th>
-            <th>运营商</th>
-            <%--<c:if test="${ command.search.isSecondSearch!='0' } ">--%>
-            <th width="70px">详情</th>
-            <%--</c:if>--%>
+            <th class="inline">
+                状态<%--<gb:select name="search.status" value="" prompt="状态" list="${domainStatus}"/>--%>
+            </th>
+            <th>地区</th>
+            <th>
+                <%--运营商<gb:select name="search.isp" value="" prompt="运营商" list="${isp}" callback="query"/>--%>
+            </th>
+            <th>备注</th>
         </tr>
         </thead>
         <tbody>
@@ -24,20 +26,14 @@
             <c:set var="province" value='${CN.concat("_").concat(p.serverProvince)}'></c:set>
             <tr>
                 <td>${status.index+1}</td>
+                <td>${pageUrl[p.pageUrl]}</td>
                 <td>${p.domain}</td>
                 <td>${dicts.common.domain_check_result_status[p.status]}</td>
-                <td>${dicts.state[CN][p.serverProvince]}</td>
-                <td>${dicts.city[province][p.serverCity]}</td>
-                <td>${dicts.common.isp[p.isp]}</td>
-                <td>
-                    <c:if test="${p.status eq 'BE_HIJACKED'}">
-                        <div class="joy-list-row-operations">
-                            <a class="btn btn-link co-blue"
-                               href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.isSecondSearch=0"
-                               nav-target="mainFrame">详情</a>
-                        </div>
-                    </c:if>
+                <td>${dicts.state[CN][p.serverProvince]}<br>
+                        ${dicts.city[province][p.serverCity]}
                 </td>
+                <td>${dicts.common.isp[p.isp]}</td>
+                <td> ${p.detail}</td>
             </tr>
         </c:forEach>
         <c:if test="${fn:length(command.result)<1}">

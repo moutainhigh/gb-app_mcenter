@@ -4,9 +4,8 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.net.ServletTool;
-import org.soul.commons.query.Criteria;
-import org.soul.commons.query.Criterion;
-import org.soul.commons.query.enums.Operator;
+import org.soul.model.sys.po.SysDict;
+import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.springframework.ui.Model;
@@ -14,12 +13,11 @@ import org.springframework.validation.BindingResult;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.sys.IDomainCheckResultService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.model.BossParamEnum;
 import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.company.enums.ResolveStatusEnum;
+import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.company.sys.po.DomainCheckResult;
-import so.wwb.gamebox.model.company.sys.po.SysDomain;
 import so.wwb.gamebox.model.company.sys.po.VDomainCheckResultStatistics;
-import so.wwb.gamebox.model.company.sys.so.SysDomainSo;
 import so.wwb.gamebox.model.company.sys.vo.DomainCheckResultBatchLogListVo;
 import so.wwb.gamebox.model.company.sys.vo.DomainCheckResultListVo;
 import so.wwb.gamebox.model.company.sys.vo.DomainCheckResultVo;
@@ -27,16 +25,12 @@ import so.wwb.gamebox.mcenter.operation.form.DomainCheckResultSearchForm;
 import so.wwb.gamebox.mcenter.operation.form.DomainCheckResultForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import so.wwb.gamebox.model.company.sys.vo.SysDomainListVo;
-import so.wwb.gamebox.model.master.enums.PlayerStatusEnum;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -80,12 +74,22 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
         if (StringTool.isNotBlank(listVo.getSearch().getDomain())) {
             listVo.getSearch().setDomains(Arrays.asList(listVo.getSearch().getDomain().split(",")));
         }
+
 //        super.list(listVo, form, result, model, request, response);
         listVo = ServiceTool.domainCheckResultService().searchList(listVo);
         model.addAttribute("command", listVo);
 
+        //域名类型对应的描述
+        Collection<SysParam> sysParams = ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX);
+        Map<String,String> pageUrl = new HashMap<>();
+        for (SysParam sysParam : sysParams) {
+            pageUrl.put(sysParam.getParamValue(),sysParam.getRemark());
+        }
+        model.addAttribute("pageUrl", pageUrl);
+
+
         //总体数量显示只有在非ajax请求才需要
-        if (!ServletTool.isAjaxSoulRequest(request)) {
+//        if (!ServletTool.isAjaxSoulRequest(request)) {
             //状态
             Map<String, Serializable> domainStatus = DictTool.get(DictEnum.COMMON_DOMAIN_CHECK_RESULT_STATUS);
             model.addAttribute("domainStatus", domainStatus);
@@ -95,7 +99,7 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
 
             //获取综合统计信息
             getComprehensiveInfo(listVo, model, siteId);
-        }
+//        }
 
 
         return getViewBasePath() + (ServletTool.isAjaxSoulRequest(request) ? "ResultPartial" : "Result");
