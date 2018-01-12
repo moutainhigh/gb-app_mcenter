@@ -11,7 +11,7 @@
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
             <span>${views.sysResource['统计']}</span>
-            <span>/</span><span>资金查询</span>
+            <span>/</span><span>${views.fund['资金查询']}</span>
             <soul:button target="goToLastPage" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
                 <em class="fa fa-caret-left"></em>${views.common['return']}
             </soul:button>

@@ -31,7 +31,7 @@
                 <%--查询时间--%>
                 <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
                     <div class="input-group date time-select-a">
-                        <span class="input-group-addon bg-gray">查询时间</span>
+                        <span class="input-group-addon bg-gray">${views.player_auto['查询时间']}</span>
                         <gb:dateRange format="${DateFormat.DAY}" style="width:38%" useRange="true"
                                       maxDate="${maxDate}" opens="right" position="down"
                                       startDate="${command.fundSearch.searchStartDate}"
@@ -69,7 +69,7 @@
                         <%--存款金额--%>
                         <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group time-select-a">
-                                <span class="input-group-addon bg-gray">存款金额</span>
+                                <span class="input-group-addon bg-gray">${views.player_auto['存款金额']}</span>
                                 <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
                                 <input type="type" class="form-control border-left-none" name="fundSearch.depositStartAmount"
                                        id="depositStartAmount"
@@ -98,7 +98,7 @@
                         <%--取款金额--%>
                         <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group time-select-a">
-                                <span class="input-group-addon bg-gray">取款金额</span>
+                                <span class="input-group-addon bg-gray">${views.player_auto['取款金额']}</span>
                                 <span class="input-group-addon border-right-none">${views.player_auto['起']}</span>
                                 <input type="type" class="form-control border-left-none" name="fundSearch.withdrawStartAmount"
                                        id=""
@@ -126,7 +126,7 @@
                         <%--优惠金额--%>
                         <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group time-select-a">
-                                <span class="input-group-addon bg-gray">优惠金额</span>
+                                <span class="input-group-addon bg-gray">${views.player_auto['优惠金额']}</span>
                                 <span class="input-group-addon time-select-ico">${views.report_auto['起']}</span>
                                 <input class="form-control search jp_distance" type="text" name="fundSearch.favorableStartAmount"
                                        value="${command.fundSearch.favorableStartAmount}">
@@ -139,7 +139,7 @@
                         <%--返水金额--%>
                         <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group time-select-a">
-                                <span class="input-group-addon bg-gray">返水金额</span>
+                                <span class="input-group-addon bg-gray">${views.player_auto['返水金额']}</span>
                                 <span class="input-group-addon time-select-ico">${views.report_auto['起']}</span>
                                 <input class="form-control search jp_distance" type="text" name="fundSearch.rakebackStartAmount"
                                        value="${command.fundSearch.rakebackStartAmount}">
@@ -152,7 +152,7 @@
                         <%--损益--%>
                         <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group time-select-a">
-                                <span class="input-group-addon bg-gray">损益</span>
+                                <span class="input-group-addon bg-gray">${views.player_auto['损益']}</span>
                                 <span class="input-group-addon time-select-ico">${views.report_auto['起']}</span>
                                 <input class="form-control search jp_distance" type="text" name="fundSearch.profitLossStartAmount"
                                        value="${command.fundSearch.profitLossStartAmount}">
