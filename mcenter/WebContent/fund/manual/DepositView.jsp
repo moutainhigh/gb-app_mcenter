@@ -62,19 +62,31 @@
                             <td>
                                 <c:choose>
                                     <c:when test="${activityId==''||activityId==null}">
-                                        <c:if test="${not empty activityName}">
-                                            ${activityName}
-                                        </c:if>
-                                        <c:if test="${empty activityName}">
-                                             -  -
-                                        </c:if>
+                                        <c:choose>
+                                            <c:when test="${not empty activityName}">
+                                                ${activityName}
+                                            </c:when>
+                                            <c:when test="${not empty _activityName}">
+                                                 ${_activityName}
+                                            </c:when>
+                                            <c:otherwise>
+                                                ——   ——
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:when>
                                     <c:otherwise>
                                         <c:if test="${activityMessage.isDeleted}">
                                             ${views.fund['该活动已被删除']}
                                         </c:if>
                                         <c:if test="${!activityMessage.isDeleted}">
-                                            <a href="/operation/activityType/viewActivityDetail.html?search.id=${activityId}" nav-target="mainFrame">${activityName}</a>
+                                            <a href="/operation/activityType/viewActivityDetail.html?search.id=${activityId}" nav-target="mainFrame">
+                                                <c:if test="${not empty activityName}">
+                                                    ${activityName}
+                                                </c:if>
+                                                <c:if test="${not empty _activityName}">
+                                                    ${_activityName}
+                                                </c:if>
+                                            </a>
                                         </c:if>
                                     </c:otherwise>
                                 </c:choose>
