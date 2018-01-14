@@ -7,17 +7,17 @@
     <table class="table table-striped table-hover dataTable m-b-sm" aria-describedby="editable_info" id="editable">
         <thead>
         <tr role="row" class="bg-gray">
-            <th>序号</th>
-            <th>域名类型</th>
-            <th>域名</th>
+            <th>${views.common['number']}</th>
+            <th>${views.operation['域名类型']}</th>
+            <th>${views.operation['域名']}</th>
             <th class="inline">
-                状态<%--<gb:select name="search.status" value="" prompt="状态" list="${domainStatus}"/>--%>
+                    ${views.operation['状态']}<%--<gb:select name="search.status" value="" prompt="状态" list="${domainStatus}"/>--%>
             </th>
-            <th>地区</th>
+            <th>${views.operation['地区']}</th>
             <th>
-                运营商<%--<gb:select name="search.isp" value="" prompt="运营商" list="${isp}" callback="query"/>--%>
+                    ${views.operation['运营商']}<%--<gb:select name="search.isp" value="" prompt="运营商" list="${isp}" callback="query"/>--%>
             </th>
-            <th>备注</th>
+            <th>${views.operation['备注']}</th>
         </tr>
         </thead>
         <tbody>
@@ -38,7 +38,7 @@
         </c:forEach>
         <c:if test="${fn:length(command.result)<1}">
             <tr>　　　　
-                <td class="no-content_wrap" colspan="6"><div><i class="fa fa-exclamation-circle"></i> 当前所有域名均处于正常状态!</div></td>
+                <td class="no-content_wrap" colspan="6"><div><i class="fa fa-exclamation-circle"></i> ${views.operation['当前所有域名均处于正常状态!']}</div></td>
             </tr>
         </c:if>
         </tbody>

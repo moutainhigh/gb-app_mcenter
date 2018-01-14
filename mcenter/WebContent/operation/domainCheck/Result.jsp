@@ -16,7 +16,7 @@
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a>
             </h2>
-            <span>运营<%--${views.sysResource['分析']}--%></span><span>/</span><span><%--${views.sysResource['推广链接新进']}--%>域名检测</span>
+            <span>${views.sysResource['运营']}</span><span>/</span><span>${views.operation['域名检测']}</span>
             <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         </div>
 
@@ -24,9 +24,9 @@
             <div class="wrapper white-bg shadow">
                 <ul class="clearfix sys_tab_wrap">
                     <li><a href="/vDomainCheckResultStatistics/list.html"
-                           nav-target="mainFrame"><%--${views.analyze['新近情况']}--%>域名状态</a>
+                           nav-target="mainFrame">${views.operation['域名状态']}</a>
                     </li>
-                    <li class="active"><a href="#" nav-target="mainFrame"><%--${views.analyze['总况']}--%>域名检测结果</a>
+                    <li class="active"><a href="#" nav-target="mainFrame">${views.operation['检测结果']}</a>
                     </li>
                 </ul>
 
@@ -37,18 +37,18 @@
                         <%--域名--%>
                     <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group date">
-                            <span class="input-group-addon bg-gray">&nbsp;&nbsp;<%--${views.analyze['代理账号']}--%>域名&nbsp;</span>
+                            <span class="input-group-addon bg-gray">&nbsp;&nbsp;${views.operation['域名']}&nbsp;</span>
                             <input class="form-control account_input list-search-input-text" type="text"
                                    name="search.domain"
-                                   placeholder="多个账号，用半角逗号隔开<%--${views.analyze['多个账号，用半角逗号隔开']}--%>"
+                                   placeholder="${views.analyze['多个账号，用半角逗号隔开']}"
                                    value="${command.search.domain}"/>
                         </div>
                     </div>
                     <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group">
-                            <span class="input-group-addon bg-gray">地区省</span>
+                            <span class="input-group-addon bg-gray">${views.operation['地区']}</span>
                             <gb:select name="search.serverProvince"
-                                       prompt="省" value=""
+                                       prompt="${views.common['pleaseSelect']}" value=""
                                        ajaxListPath="${root}/regions/states/CN.html"
                                        listValue="remark" listKey="dictCode"
                                        cssClass="btn-group chosen-select-no-single"
@@ -75,14 +75,14 @@
 
                     <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group">
-                            <span class="input-group-addon bg-gray">运营商</span>
-                            <gb:select name="search.isp" value="" prompt="运营商" list="${isp}"/>
+                            <span class="input-group-addon bg-gray">${views.operation['运营商']}</span>
+                            <gb:select name="search.isp" value="" prompt="${views.common['pleaseSelect']}" list="${isp}"/>
                         </div>
                     </div>
                     <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group">
-                            <span class="input-group-addon bg-gray">状态</span>
-                            <gb:select name="search.status" value="" prompt="状态" list="${domainStatus}"/>
+                            <span class="input-group-addon bg-gray">${views.operation['状态']}</span>
+                            <gb:select name="search.status" value="" prompt="${views.common['pleaseSelect']}" list="${domainStatus}"/>
                         </div>
                     </div>
                         <%-- 搜索--%>
@@ -96,11 +96,11 @@
 
                 <div class="operate-btn n-o-margin border-b-1 clearfix">
                     <span class="co-yellow"><i class="fa fa-exclamation-circle"></i></span>
-                    检测时间：${soulFn:formatDateTz(checkTime, DateFormat.DAY_SECOND, timeZone )}
+                        ${views.operation['检测时间：']}${soulFn:formatDateTz(checkTime, DateFormat.DAY_SECOND, timeZone )}
                 </div>
 
                 <div class="clearfix filter-wraper border-b-1 line-hi34 al-right">
-                    所有域名检测结果仅供参考，不完全代表整个区域的实际解析情况，不具备故障证据之作用！如有需要请自行核实域名实际情况！
+                        ${views.operation['所有域名检测结果仅供参考，不完全代表整个区域的实际解析情况，不具备故障证据之作用！如有需要请自行核实域名实际情况！']}
                 </div>
 
 
