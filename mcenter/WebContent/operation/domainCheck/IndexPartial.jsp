@@ -4,7 +4,10 @@
 
 <!--//region your codes 1-->
 <div class="table-responsive">
-    <span >上次监测时间:</span>
+    <div class="operate-btn n-o-margin border-b-1 clearfix">
+        <span class="co-yellow"><i class="fa fa-exclamation-circle"></i></span>
+        检测时间：${soulFn:formatDateTz(checkTime, DateFormat.DAY_SECOND, timeZone )}
+    </div>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
