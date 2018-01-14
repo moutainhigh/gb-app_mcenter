@@ -15,7 +15,7 @@
             </th>
             <th>地区</th>
             <th>
-                <%--运营商<gb:select name="search.isp" value="" prompt="运营商" list="${isp}" callback="query"/>--%>
+                运营商<%--<gb:select name="search.isp" value="" prompt="运营商" list="${isp}" callback="query"/>--%>
             </th>
             <th>备注</th>
         </tr>

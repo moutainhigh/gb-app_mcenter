@@ -97,7 +97,7 @@
 
                                 </tbody>
                             </table>
-                            <div class="joy-list-row-operations">
+                            <div class="clearfix filter-wraper border-b-1 line-hi34 al-right">
                                 <a class="btn btn-link co-blue"
                                    href="/operation/domainCheckResult/list.html"
                                    nav-target="mainFrame" target="_blank">详情</a>

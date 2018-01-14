@@ -55,6 +55,11 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
     //region your codes 3
 
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     /**
      * 列表
      *
@@ -154,10 +159,6 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
     private void getComprehensiveInfo(DomainCheckResultListVo listVo, Model model, Integer siteId) {
         //获取siteId下检查时间
         model.addAttribute("checkTime", getCheckTime());
-
-        //siteId下所有域名的数量
-        Long sysDomainCount = ServiceTool.domainCheckResultService().getSysDomainCountBySiteId(siteId);//this.getCustomCriteria()
-        model.addAttribute("sysDomainCount", sysDomainCount);
 
         //各种状态的数量
         VDomainCheckResultStatistics statusCount = ServiceTool.domainCheckResultService().getStatusCount(listVo);
