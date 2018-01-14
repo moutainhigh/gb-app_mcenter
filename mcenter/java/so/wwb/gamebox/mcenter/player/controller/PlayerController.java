@@ -229,10 +229,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             listVo.getSearch().setRegisterIpv4(registerIp);
         }
        // 玩家检测登录IP
-        if(StringTool.isNotBlank(listVo.getSearch().getIp())){
+        /*if(StringTool.isNotBlank(listVo.getSearch().getIp())){
             String lastLoginIp = IpTool.ipv4LongToString(Long.parseLong(listVo.getSearch().getIp()));
             listVo.getSearch().setLastLoginIpv4(lastLoginIp);
-        }
+        }*/
         model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
         model.addAttribute("tagIds",listVo.getSearch().getTagId());
