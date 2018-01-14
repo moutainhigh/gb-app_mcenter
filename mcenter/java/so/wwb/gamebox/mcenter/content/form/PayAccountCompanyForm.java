@@ -205,7 +205,7 @@ public class PayAccountCompanyForm implements IForm {
 
     @Comment("第三方自定义名称")
     @Depends(property = "result_accountType", operator = Operator.EQ, value = {PayAccountType.ONLINE_ACCOUNT_CODE}, message = "content.payAccount.form.customBankName")
-    @Length(min = 1, max = 30)
+    @Length(min = 1, max = 10)
     public String getCustomBankName() {
         return customBankName;
     }
