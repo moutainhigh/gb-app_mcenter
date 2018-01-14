@@ -73,18 +73,7 @@
 
                         <%--运营商--%>
 
-                    <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
-                        <div class="input-group">
-                            <span class="input-group-addon bg-gray">${views.operation['运营商']}</span>
-                            <gb:select name="search.isp" value="" prompt="${views.common['pleaseSelect']}" list="${isp}"/>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
-                        <div class="input-group">
-                            <span class="input-group-addon bg-gray">${views.operation['状态']}</span>
-                            <gb:select name="search.status" value="" prompt="${views.common['pleaseSelect']}" list="${domainStatus}"/>
-                        </div>
-                    </div>
+
                         <%-- 搜索--%>
                     <soul:button text="" target="query" opType="function" cssClass="btn btn-filter" tag="button">
                         <i class="fa fa-search"></i>
@@ -115,5 +104,5 @@
     </form:form>
 </div>
 <!--//region your codes 3-->
-<soul:import type="list"/>
+<soul:import res="site/operation/DomainCheckResult/ResultList"/>
 <!--//endregion your codes 3-->

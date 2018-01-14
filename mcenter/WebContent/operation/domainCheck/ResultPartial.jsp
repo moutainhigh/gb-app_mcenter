@@ -11,11 +11,11 @@
             <th>${views.operation['域名类型']}</th>
             <th>${views.operation['域名']}</th>
             <th class="inline">
-                ${views.operation['状态']}<%--<gb:select name="search.status" value="" prompt="状态" list="${domainStatus}"/>--%>
+                <gb:select name="search.status" value="${command.search.status}" prompt="${views.operation['状态']}" list="${domainStatus}" callback="query"/>
             </th>
             <th>${views.operation['地区']}</th>
             <th>
-                ${views.operation['运营商']}<%--<gb:select name="search.isp" value="" prompt="运营商" list="${isp}" callback="query"/>--%>
+                <gb:select name="search.isp" value="${command.search.isp}" prompt="${views.operation['运营商']}" list="${isp}" callback="query"/>
             </th>
             <th>${views.operation['备注']}</th>
         </tr>
