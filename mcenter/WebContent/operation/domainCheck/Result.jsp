@@ -30,7 +30,7 @@
                     </li>
                 </ul>
 
-                <soul:button target="${root}/operation/domainCheckResult/showPopStatusCount.html" text="showpop" opType="dialog"></soul:button>
+
 
 
                 <div class="clearfix" style="padding:10px 10px;" id="searchDiv">
@@ -53,6 +53,11 @@
                                        listValue="remark" listKey="dictCode"
                                        cssClass="btn-group chosen-select-no-single"
                                        relSelect="search.serverCity"/>
+
+                        </div>
+                    </div>
+                    <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                        <div class="input-group">
                             <gb:select name="search.serverCity" prompt="${views.common['pleaseSelect']}"
                                        value=""
                                        ajaxListPath="${root}/regions/cities/CN-${command.search.serverCity}.html"
@@ -60,9 +65,10 @@
                                        listValue="remark"
                                        listKey="dictCode"
                                        cssClass="btn-group chosen-select-no-single"/>
-
                         </div>
-　
+                    </div>
+
+                        <%--地区--%>
 
 
                         <%--运营商--%>
@@ -85,6 +91,16 @@
                         <span class="hd">&nbsp;${views.common['search']}</span>
                     </soul:button>
 
+                </div>
+
+
+                <div class="operate-btn n-o-margin border-b-1 clearfix">
+                    <span class="co-yellow"><i class="fa fa-exclamation-circle"></i></span>
+                    检测时间：${soulFn:formatDateTz(checkTime, DateFormat.DAY_SECOND, timeZone )}
+                </div>
+
+                <div class="clearfix filter-wraper border-b-1 line-hi34 al-right">
+                    所有域名检测结果仅供参考，不完全代表整个区域的实际解析情况，不具备故障证据之作用！如有需要请自行核实域名实际情况！
                 </div>
 
 

@@ -37,10 +37,8 @@
             </tr>
         </c:forEach>
         <c:if test="${fn:length(command.result)<1}">
-            <tr>
-                　　　　　　　　
-                <td>正常</td>
-                　　　
+            <tr>　　　　
+                <td class="no-content_wrap" colspan="6"><div><i class="fa fa-exclamation-circle"></i> 当前所有域名均处于正常状态!</div></td>
             </tr>
         </c:if>
         </tbody>

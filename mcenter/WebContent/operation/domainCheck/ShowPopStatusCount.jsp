@@ -22,7 +22,7 @@
                              style="border-bottom: 0; border-top:1px solid #e6e6e6; margin-bottom: -5px;">
                             <div class=" clearfix m-sm">
                                 <center><H1>域名检测完成</H1></center>
-                                <span>最新检测时间:${batchVo.result.checkTime}</span><br>
+                                <span>最新检测时间:${soulFn:formatDateTz(checkTime, DateFormat.DAY_SECOND, timeZone )}</span><br>
                                 <span>域名检测情况如下所示（结果仅供参考）</span>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                             </table>
                             <div class="joy-list-row-operations">
                                 <a class="btn btn-link co-blue"
-                                   href="${root}/operation/domainCheckResult/list.html"
+                                   href="/operation/domainCheckResult/list.html"
                                    nav-target="mainFrame" target="_blank">详情</a>
                             </div>
                         </div>

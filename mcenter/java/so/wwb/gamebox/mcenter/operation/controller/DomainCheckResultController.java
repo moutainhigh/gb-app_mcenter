@@ -4,7 +4,6 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.net.ServletTool;
-import org.soul.model.sys.po.SysDict;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
@@ -111,16 +110,16 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
      *
      * @return
      */
-    private DomainCheckResultBatchLogListVo getCheckPointCount() {
+    private Date getCheckTime() {
         DomainCheckResultBatchLogListVo batchVo = new DomainCheckResultBatchLogListVo();
         batchVo.getSearch().setSiteId(SessionManager.getSiteId());
         batchVo.getSearch().setStatus(0);
         batchVo.getPaging().setPageSize(1);
         batchVo = ServiceTool.domainCheckResultBatchLogService().search(batchVo);
         if (batchVo != null && CollectionTool.isNotEmpty(batchVo.getResult())) {
-            return batchVo;
+            return batchVo.getResult().get(0).getCheckTime();
         }
-        return batchVo;
+        return null;
     }
 
 
@@ -153,9 +152,8 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
      * @param siteId
      */
     private void getComprehensiveInfo(DomainCheckResultListVo listVo, Model model, Integer siteId) {
-        //获取siteId下检查点数量
-        DomainCheckResultBatchLogListVo batchVo = getCheckPointCount();
-        model.addAttribute("batchVo", batchVo);
+        //获取siteId下检查时间
+        model.addAttribute("checkTime", getCheckTime());
 
         //siteId下所有域名的数量
         Long sysDomainCount = ServiceTool.domainCheckResultService().getSysDomainCountBySiteId(siteId);//this.getCustomCriteria()

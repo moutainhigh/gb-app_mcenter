@@ -17,15 +17,18 @@
             <div class="wrapper white-bg shadow">
 
                 <ul class="clearfix sys_tab_wrap">
-                    <li class="active"><a href="/operation/stationbill/list.html" nav-target="mainFrame">${views.operation['Bill.station']}</a></li>
-                    <li><a href="/operation/stationbill/generalBill.html" nav-target="mainFrame">${views.operation['Bill.distributor']}</a></li>
+                    <li class="active"><a href="/operation/stationbill/list.html"
+                                          nav-target="mainFrame">${views.operation['Bill.station']}</a></li>
+                    <li><a href="/operation/stationbill/generalBill.html"
+                           nav-target="mainFrame">${views.operation['Bill.distributor']}</a></li>
                 </ul>
                 <div class="operate-btn n-o-margin border-b-1 clearfix">
                     <span class="co-yellow"><i class="fa fa-exclamation-circle"></i></span>
-                    ${views.operation['Bill.station.list.message']}</div>
+                        ${views.operation['Bill.station.list.message']}</div>
 
                 <div class="clearfix filter-wraper border-b-1 line-hi34 al-right">
-                    <a href="/operation/stationbill/viewContractScheme.html" nav-target="mainFrame">${views.operation['Bill.station.list.contract']}</a>
+                    <a href="/operation/stationbill/viewContractScheme.html"
+                       nav-target="mainFrame">${views.operation['Bill.station.list.contract']}</a>
                 </div>
                 <!--表格内容-->
                 <div id="editable_wrapper" class="dataTables_wrapper search-list-container" role="grid">
