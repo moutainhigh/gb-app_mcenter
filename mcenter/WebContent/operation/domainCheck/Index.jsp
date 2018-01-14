@@ -187,7 +187,14 @@
                     </soul:button>
 
                 </div>
+                <div class="operate-btn n-o-margin border-b-1 clearfix">
+                    <span class="co-yellow"><i class="fa fa-exclamation-circle"></i></span>
+                        ${views.operation['检测时间：']}${soulFn:formatDateTz(checkTime, DateFormat.DAY_SECOND, timeZone )}
+                </div>
 
+                <div class="clearfix filter-wraper border-b-1 line-hi34 al-right">
+                        ${views.operation['所有域名检测结果仅供参考，不完全代表整个区域的实际解析情况，不具备故障证据之作用！如有需要请自行核实域名实际情况！']}
+                </div>
 
                 <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
                     <div class="search-list-container">
