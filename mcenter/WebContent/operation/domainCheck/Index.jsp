@@ -1,4 +1,4 @@
-<%--@elvariable id="command" type="so.wwb.gamebox.model.company.sys.vo.VDomainCheckResultstatusCountVo"--%>
+<%--@elvariable id="command" type="so.wwb.gamebox.model.company.sys.vo.VDomainCheckResultStatisticsVo"--%>
 <%--@elvariable id="area" type="so.wwb.gamebox.model.master.setting.vo.SiteConfineAreaVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
@@ -15,13 +15,14 @@
             <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         </div>
 
-        <div class="col-lg-12 m-b">
+       <div class="col-lg-12 m-b">
             <div class="wrapper white-bg shadow">
                 <ul class="clearfix sys_tab_wrap">
                     <li class="active"><a href="/vDomainCheckResultStatistics/getCount.html"
-                           nav-target="mainFrame"><%--${views.analyze['新近情况']}--%>域名状态</a>
+                                          nav-target="mainFrame">域名状态</a>
                     </li>
-                    <li><a href="/operation/domainCheckResult/list.html" nav-target="mainFrame"><%--${views.analyze['总况']}--%>域名检测结果</a>
+                    <li><a href="/operation/domainCheckResult/list.html"
+                           nav-target="mainFrame">域名检测结果</a>
                     </li>
                 </ul>
 
@@ -33,16 +34,16 @@
                             <span>监测点 &nbsp;${checkPointCount}个&nbsp;&nbsp;&nbsp;
 
                             检测情况：
-                            <span class="co-green">${sysDomainCount-statusCount.firewall-statusCount.hijack-statusCount.unparsed-statusCount.unreach-statusCount.unknown}</span>个域名
+                            <span class="co-green">${statusCount.all- statusCount.errAll}&nbsp;</span>个域名
                                     <span class="co-green">${dicts.common.domain_check_result_status['NORMAL']}</span>
                                 &nbsp;&nbsp;&nbsp;
-
+                                   <%-- 被墙 --%>
                             <span class="co-yellow">
-                                <c:if test="${empty statusCount.firewall}">
-                                    0
+                                <c:if test="${empty statusCount.wallOF}">
+                                    ${statusCount.wallOF}
                                 </c:if>
-                                <c:if test="${!empty statusCount.firewall}">
-                                    ${statusCount.firewall}
+                                <c:if test="${!empty statusCount.wallOF}">
+                                    ${statusCount.wallOF}
                                 </c:if>
                             </span>个域名
                             <span class="co-yellow">${dicts.common.domain_check_result_status['WALLED_OFF']}</span>
@@ -50,49 +51,75 @@
 
 
                             <span class="co-yellow">
-                            <c:if test="${empty statusCount.hijack}">
+                                <%-- 被劫持 --%>
+                            <c:if test="${empty statusCount.beHijached}">
                                 0
                             </c:if>
-                                <c:if test="${!empty statusCount.hijack}">
-                                    ${statusCount.hijack}
+                                <c:if test="${!empty statusCount.beHijached}">
+                                    ${statusCount.beHijached}
                                 </c:if>
                             </span>个域名
                             <span class="co-yellow">${dicts.common.domain_check_result_status['BE_HIJACKED']}</span>
                                 &nbsp;&nbsp;&nbsp;
 
                             <span class="co-yellow">
-                            <c:if test="${empty statusCount.unparsed}">
+                                  <%--UNRESOLVED 未解析--%>
+                            <c:if test="${empty statusCount.unResolved}">
                                 0
                             </c:if>
-                                <c:if test="${!empty statusCount.unparsed}">
-                                    ${statusCount.unparsed}
+                                <c:if test="${!empty statusCount.unResolved}">
+                                    ${statusCount.unResolved}
                                 </c:if>
                             </span>
                             个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNRESOLVED']}</span>
                                 &nbsp;&nbsp;&nbsp;
 
                             <span class="co-yellow">
-                            <c:if test="${empty statusCount.unreach}">
+                              <%--  服务器不通 --%>
+                            <c:if test="${empty statusCount.serverUnreachable}">
                                 0
                             </c:if>
-                                <c:if test="${!empty statusCount.unreach}">
-                                    ${statusCount.unreach}
+                                <c:if test="${!empty statusCount.serverUnreachable}">
+                                    ${statusCount.serverUnreachable}
                                 </c:if>
                             </span>
                             个域名<span class="co-yellow">${dicts.common.domain_check_result_status['SERVER_UNREACHABLE']}</span>
                                 &nbsp;&nbsp;&nbsp;
 
-                            <span class="co-yellow">
-                            <c:if test="${empty statusCount.unknown}">
-                                0
-                            </c:if>
-                                <c:if test="${!empty statusCount.unknown}">
-                                    ${statusCount.unknown}
-                                </c:if>
+                                <span class="co-yellow">
+                                    <c:if test="${empty statusCount.unAuthorized}">
+                                        0
+                                    </c:if>
+                                    <c:if test="${!empty statusCount.unAuthorized}">
+                                        ${statusCount.unAuthorized}
+                                    </c:if>
                             </span>
-                            个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNKNOWN_ERR']}</span>
 
-                               <%-- <soul:button target="${root}/operation/domainCheckResult/showPopStatusCount.html" text="showpop" opType="dialog"></soul:button>--%>
+                            个域名<span class="co-yellow">未授权</span>
+&nbsp;                          &nbsp;&nbsp;&nbsp;
+
+                                <span class="co-yellow">
+                                    <c:if test="${empty statusCount.redirect}">
+                                        0
+                                    </c:if>
+                                    <c:if test="${!empty statusCount.redirect}">
+                                            ${statusCount.redirect}
+                                    </c:if>
+                                </span>
+
+                            个域名<span class="co-yellow">被跳转</span>
+
+                                &nbsp;&nbsp;&nbsp;
+                                   <%--未知异常--%>
+                                <span class="co-yellow">
+                                    <c:if test="${empty statusCount.unknown}">
+                                        0
+                                    </c:if>
+                                    <c:if test="${!empty statusCount.unknown}">
+                                        ${statusCount.unknown}
+                                    </c:if>
+                                </span>
+                            个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNKNOWN_ERR']}</span>
                         </span>
                     </div>
                 </div>
@@ -110,35 +137,41 @@
                                    value="${command.search.domain}"/>
                         </div>
                     </div>
-                    <%--<div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
-                        <div class="input-group">
-                            <span class="input-group-addon bg-gray">地区省</span>
-                            <gb:select name="search.serverProvince"
-                                       prompt="省" value=""
-                                       ajaxListPath="${root}/regions/states/CN.html"
-                                       listValue="remark" listKey="dictCode"
-                                       cssClass="btn-group chosen-select-no-single"
-                                       relSelect="search.serverCity"/>
+                        <%--<div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="input-group">
+                                <span class="input-group-addon bg-gray">地区省</span>
+                                <gb:select name="search.serverProvince"
+                                           prompt="省" value=""
+                                           ajaxListPath="${root}/regions/states/CN.html"
+                                           listValue="remark" listKey="dictCode"
+                                           cssClass="btn-group chosen-select-no-single"
+                                           relSelect="search.serverCity"/>
 
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
-                        <div class="input-group">
-                            <span class="input-group-addon bg-gray">城市</span>
+                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="input-group">
+                                <span class="input-group-addon bg-gray">城市</span>
 
 
-                            <gb:select name="search.serverCity" prompt="${views.common['pleaseSelect']}"
-                                       value=""
-                                       ajaxListPath="${root}/regions/cities/CN-${command.search.serverCity}.html"
-                                       relSelectPath="${root}/regions/cities/CN-#search.serverProvince#.html"
-                                       listValue="remark"
-                                       listKey="dictCode"
-                                       cssClass="btn-group chosen-select-no-single"/>
-                        </div>
-                    </div>--%>
+                                <gb:select name="search.serverCity" prompt="${views.common['pleaseSelect']}"
+                                           value=""
+                                           ajaxListPath="${root}/regions/cities/CN-${command.search.serverCity}.html"
+                                           relSelectPath="${root}/regions/cities/CN-#search.serverProvince#.html"
+                                           listValue="remark"
+                                           listKey="dictCode"
+                                           cssClass="btn-group chosen-select-no-single"/>
+                            </div>
+                        </div>--%>
 
                         <%--地区--%>
-
+                            <%-- 类型 --%>
+                            <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                                <div class="input-group">
+                                    <span class="input-group-addon bg-gray">类型</span>
+                                    <gb:select name="search.pageUrl" value="" prompt="类型" list="${domainType}"/>
+                                </div>
+                            </div>
 
                     <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group">
@@ -146,7 +179,7 @@
                             <gb:select name="search.status" value="" prompt="状态" list="${domainStatus}"/>
                         </div>
                     </div>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
                         <%-- 搜索--%>
                     <soul:button text="" target="query" opType="function" cssClass="btn btn-filter" tag="button">
                         <i class="fa fa-search"></i>
