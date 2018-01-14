@@ -11,11 +11,11 @@
             <th>${views.operation['域名类型']}</th>
             <th>${views.operation['域名']}</th>
             <th class="inline">
-                    ${views.operation['状态']}<%--<gb:select name="search.status" value="" prompt="状态" list="${domainStatus}"/>--%>
+                ${views.operation['状态']}<%--<gb:select name="search.status" value="" prompt="状态" list="${domainStatus}"/>--%>
             </th>
             <th>${views.operation['地区']}</th>
             <th>
-                    ${views.operation['运营商']}<%--<gb:select name="search.isp" value="" prompt="运营商" list="${isp}" callback="query"/>--%>
+                ${views.operation['运营商']}<%--<gb:select name="search.isp" value="" prompt="运营商" list="${isp}" callback="query"/>--%>
             </th>
             <th>${views.operation['备注']}</th>
         </tr>
@@ -29,7 +29,8 @@
                 <td>${pageUrl[p.pageUrl]}</td>
                 <td>${p.domain}</td>
                 <td>${dicts.common.domain_check_result_status[p.status]}</td>
-                <td>${dicts.state[CN][p.serverProvince]}<br>
+                <td>
+                        ${dicts.state[CN][p.serverProvince]}<br>
                         ${dicts.city[province][p.serverCity]}
                 </td>
                 <td>${dicts.common.isp[p.isp]}</td>
@@ -38,7 +39,9 @@
         </c:forEach>
         <c:if test="${fn:length(command.result)<1}">
             <tr>　　　　
-                <td class="no-content_wrap" colspan="6"><div><i class="fa fa-exclamation-circle"></i> ${views.operation['当前所有域名均处于正常状态!']}</div></td>
+                <td class="no-content_wrap" colspan="6">
+                    <div><i class="fa fa-exclamation-circle"></i> ${views.operation['当前所有域名均处于正常状态!']}</div>
+                </td>
             </tr>
         </c:if>
         </tbody>

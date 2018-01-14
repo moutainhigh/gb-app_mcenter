@@ -81,6 +81,7 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
 
 //        super.list(listVo, form, result, model, request, response);
         listVo = ServiceTool.domainCheckResultService().searchList(listVo);
+//        listVo.getPaging().setTotalCount(100);
         model.addAttribute("command", listVo);
 
         //域名类型对应的描述
