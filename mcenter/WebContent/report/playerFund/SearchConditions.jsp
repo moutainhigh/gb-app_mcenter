@@ -166,6 +166,13 @@
         </div>
     </div>
     <div class="col-sm-12 clearfix template-menu">
+        <%--<soul:button tag="button" cssClass="btn btn-export-btn btn-primary-hide pull-right"
+                     text="${views.common['export']}" callback="downloadFile"
+                     precall="validExportCount" post="getCurrentFormData"
+                     title="${views.role['player.dataExport']}"
+                     target="${root}/userPlayerFund/exportData.html" opType="ajax">
+            <i class="fa fa-sign-out"></i><span class="hd">${views.common['export']}</span>
+        </soul:button>--%>
         <button type="button" class="btn btn-filter btn-outline pull-right  show-demand-b">
             <i class="fa fa-chevron-down"></i> ${views.player_auto['高级搜索']}
         </button>
@@ -174,6 +181,7 @@
         <soul:button target="reset" opType="function" text="${views.report_auto['重置']}"
                      cssClass="btn btn-filter reset-condition-button"/>
         <%@include file="/sysSearchTemplate/SearchTemplate.jsp" %>
+
     </div>
 </div>
 </div>

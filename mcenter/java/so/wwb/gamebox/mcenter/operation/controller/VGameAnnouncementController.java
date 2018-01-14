@@ -316,12 +316,6 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
 
     @RequestMapping("/advisoryList")
     public String advisoryList(VPlayerAdvisoryListVo listVo, VPlayerAdvisoryListVo aListVo, Model model, HttpServletRequest request) {
-        listVo.getPaging().setPageSize(200);
-        return this.doAdvisoryList(listVo, aListVo, model, request);
-    }
-
-    @RequestMapping("/doAdvisoryList")
-    public String doAdvisoryList(VPlayerAdvisoryListVo listVo, VPlayerAdvisoryListVo aListVo, Model model, HttpServletRequest request) {
         //查询时间加一秒
         /*if(listVo.getSearch().getAdvisoryTimeEnd()!=null) {
             Date advisoryTimeEnd = listVo.getSearch().getAdvisoryTimeEnd();
