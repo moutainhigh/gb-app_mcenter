@@ -223,7 +223,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("queryparamValue", sysParam);
         // 玩家检测注册IP
         listVo = ServiceSiteTool.vUserPlayerService().countTransfer(listVo);
-        //玩家检测注册IP
+       /* //玩家检测注册IP
         if(listVo.getSearch().getRegisterIp()!=null){
             String registerIp = IpTool.ipv4LongToString(listVo.getSearch().getRegisterIp());
             listVo.getSearch().setRegisterIpv4(registerIp);
@@ -232,7 +232,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         if(StringTool.isNotBlank(listVo.getSearch().getIp())){
             String lastLoginIp = IpTool.ipv4LongToString(Long.parseLong(listVo.getSearch().getIp()));
             listVo.getSearch().setLastLoginIpv4(lastLoginIp);
-        }
+        }*/
         model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
         model.addAttribute("tagIds",listVo.getSearch().getTagId());
