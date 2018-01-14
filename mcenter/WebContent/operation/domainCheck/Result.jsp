@@ -81,7 +81,7 @@
                     </soul:button>
 
                 </div>
-                <soul:button target="${root}/operation/domainCheckResult/showPopStatusCount.html" text="showpop" opType="dialog"></soul:button>
+
 
                 <div class="operate-btn n-o-margin border-b-1 clearfix">
                     <span class="co-yellow"><i class="fa fa-exclamation-circle"></i></span>
