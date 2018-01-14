@@ -223,7 +223,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("queryparamValue", sysParam);
         // 玩家检测注册IP
         listVo = ServiceSiteTool.vUserPlayerService().countTransfer(listVo);
-        //玩家检测注册IP
+       /* //玩家检测注册IP
         if(listVo.getSearch().getRegisterIp()!=null){
             String registerIp = IpTool.ipv4LongToString(listVo.getSearch().getRegisterIp());
             listVo.getSearch().setRegisterIpv4(registerIp);

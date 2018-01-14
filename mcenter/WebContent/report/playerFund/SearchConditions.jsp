@@ -7,25 +7,28 @@
             <%--玩家--%>
             <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                 <div class="input-group">
+                    <c:choose>
+                        <c:when test="${not empty command.fundSearch.topagentName}">
+                            <c:set var="fundSearchUserName" value="${command.fundSearch.topagentName}"/>
+                            <c:set var="searchKeyName" value="fundSearch.topagentName"/>
+                        </c:when>
+                        <c:when test="${not empty command.fundSearch.agentName}">
+                            <c:set var="fundSearchUserName" value="${command.fundSearch.agentName}"/>
+                            <c:set var="searchKeyName" value="fundSearch.agentName"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="fundSearchUserName" value="${command.fundSearch.playerName}"/>
+                            <c:set var="searchKeyName" value="fundSearch.playerName"/>
+                        </c:otherwise>
+                    </c:choose>
                     <span class="bg-gray input-group-addon bdn">
                         <gb:selectPure name="search.userTypes" list="${userTypeSearchKeys}"
                                        listKey="key"
-                                       value="" listValue="value"
+                                       value="${searchKeyName}" listValue="value"
                                        callback="changeKey"
                                        prompt="" cssClass="chosen-select-no-single"/>
                     </span>
-                    <c:if test="${not empty command.fundSearch.playerName||(empty command.fundSearch.playerName&&empty command.fundSearch.agentName&&empty command.fundSearch.topagentName)}">
-                        <input type="text" class="form-control account_input list-search-input-text" name="fundSearch.playerName" id="operator"
-                               value="${command.fundSearch.playerName}" placeholder="">
-                    </c:if>
-                    <c:if test="${not empty command.fundSearch.agentName}">
-                        <input type="text" class="form-control account_input list-search-input-text" name="fundSearch.agentName" id="operator"
-                               value="${command.fundSearch.agentName}" placeholder="">
-                    </c:if>
-                    <c:if test="${not empty command.fundSearch.topagentName}">
-                        <input type="text" class="form-control account_input list-search-input-text" name="fundSearch.topagentName" id="operator"
-                               value="${command.fundSearch.topagentName}" placeholder="">
-                    </c:if>
+                    <input class="form-control search list-search-input-text" placeholder="" type="text" id="operator" value="${fundSearchUserName}" name="${searchKeyName}"/>
                 </div>
             </div>
                 <%--查询时间--%>
@@ -176,11 +179,11 @@
         <button type="button" class="btn btn-filter btn-outline pull-right  show-demand-b">
             <i class="fa fa-chevron-down"></i> ${views.player_auto['高级搜索']}
         </button>
-        <soul:button precall="validateForm" target="query" opType="function"
-                     text="${views.report_auto['搜索']}" cssClass="btn btn-filter mediate-search-btn"/>
-        <soul:button target="reset" opType="function" text="${views.report_auto['重置']}"
-                     cssClass="btn btn-filter reset-condition-button"/>
-        <%@include file="/sysSearchTemplate/SearchTemplate.jsp" %>
+            <soul:button precall="validateForm" target="query" opType="function"
+                         text="${views.report_auto['搜索']}" cssClass="btn btn-filter mediate-search-btn"/>
+            <soul:button target="reset" opType="function" text="${views.report_auto['重置']}"
+                         cssClass="btn btn-filter reset-condition-button"/>
+            <%@include file="/sysSearchTemplate/SearchTemplate.jsp" %>
 
     </div>
 </div>
