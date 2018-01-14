@@ -5,10 +5,16 @@
 <!--//region your codes 1-->
 <div class="table-responsive">
     <span >上次监测时间:</span>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <span style="border-right: 680px;"> 所有域名检测结果仅提供参考,不完全代表整个区域的实际解析情况，不具备故障证据之用！如有需要自行核实实际域名情况</span>
     <table class="table table-condensed table-hover table-striped table-bordered">
         <thead>
         <tr>
             <th width="70px">序号</th>
+            <td width="70px">域名类型</td>
             <th width="70px">${views.operation['域名']}</th>
             <th width="70px">${views.operation['被墙']}</th>
             <th width="70px">${views.operation['被劫持']}</th>
@@ -24,6 +30,7 @@
         <c:forEach items="${command.result}" var="p" varStatus="status">
             <tr>
                 <td>${status.index+1}</td>
+                <td>${pageUrl[p.pageUrl]}</td>
                 <td>${p.domain}</td>
                     <%--被墙状态--%>
                 <c:choose>
@@ -41,7 +48,7 @@
                             <td>  ${p.beHijached} </td>
                         </c:when>
                         <c:otherwise>
-                            <td>  0</td>
+                            <td>0</td>
                         </c:otherwise>
                 </c:choose>
                     <%--未解析状态--%>
@@ -91,10 +98,17 @@
                 </c:choose>
                 <td>
                     <div class="joy-list-row-operations">
-                        <a href="/vDomainCheckResultStatistics/searchDetail.html?search.domain=${p.domain}" nav-target="mainFrame" class="co-blue">详情</a>
+                        <a href="/vDomainCheckResultStatistics/getCount.html?search.domain=${p.domain}" nav-target="mainFrame" class="co-blue">详情</a>
                     </div>
                 </td>
             </tr>
+        </c:forEach>
+        <c:forEach items="${command.result}" var="p" varStatus="status">
+            <c:if test="${fn:length(command.result)<1}">
+                <tr>
+                    <td>当前域名均处于正常状态</td>
+                </tr>
+            </c:if>
         </c:forEach>
         </tbody>
     </table>
