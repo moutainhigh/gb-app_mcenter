@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <%--地区--%>
-                            <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                           <%-- <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group">
                                     <span class="input-group-addon bg-gray">地区省</span>
                                     <gb:select name="result.province"
@@ -48,9 +48,9 @@
                                                relSelect="result.city"/>
 
                                 </div>
-                            </div>
+                            </div>--%>
                                 <%--运营商--%>
-                            <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                            <%--<div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group">
                                     <span class="input-group-addon bg-gray">城市</span>
                                     <gb:select name="result.city" prompt="${views.common['pleaseSelect']}"
@@ -61,7 +61,7 @@
                                                listKey="dictCode"
                                                cssClass="btn-group chosen-select-no-single"/>
                                 </div>
-                            </div>
+                            </div>--%>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                         <%-- 搜索--%>
 
