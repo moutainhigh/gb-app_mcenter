@@ -104,5 +104,5 @@
     </form:form>
 </div>
 <!--//region your codes 3-->
-<soul:import res="site/operation/DomainCheckResult/ResultList"/>
+<soul:import type="list"/>
 <!--//endregion your codes 3-->
