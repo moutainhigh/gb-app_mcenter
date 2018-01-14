@@ -79,9 +79,7 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
             listVo.getSearch().setDomains(Arrays.asList(listVo.getSearch().getDomain().split(",")));
         }
 
-//        super.list(listVo, form, result, model, request, response);
         listVo = ServiceTool.domainCheckResultService().searchList(listVo);
-//        listVo.getPaging().setTotalCount(100);
         model.addAttribute("command", listVo);
 
         //域名类型对应的描述
@@ -112,7 +110,7 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
 
 
     /**
-     * 获取siteId下检查点数量
+     * 获取siteId下检查时间
      *
      * @return
      */
