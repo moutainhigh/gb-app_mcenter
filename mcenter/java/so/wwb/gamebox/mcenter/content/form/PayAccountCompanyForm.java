@@ -227,7 +227,7 @@ public class PayAccountCompanyForm implements IForm {
 
     @Comment("自定义银行")
     @Depends(property = {"result_accountType", "result_bankCode"}, operator = {Operator.EQ, Operator.EQ}, value = {PayAccountType.COMMPANY_ACCOUNT_CODE, "other_bank"}, message = "content.payAccount.form.customBankName")
-    @Length(min = 1, max = 30)
+    @Length(min = 1, max = 10)
     public String get$customBankName() {
         return $customBankName;
     }
