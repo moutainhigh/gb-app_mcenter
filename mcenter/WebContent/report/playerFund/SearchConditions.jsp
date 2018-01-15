@@ -170,13 +170,13 @@
     </div>
     <div class="col-sm-12 clearfix template-menu">
         <div class="pull-right">
-            <soul:button tag="button" cssClass="btn btn-export-btn btn-primary-hide pull-left"
+            <%--<soul:button tag="button" cssClass="btn btn-export-btn btn-primary-hide pull-left"
                          text="${views.common['export']}" callback="gotoExportHistory"
                          precall="validExportCount" post="getCurrentFormData"
                          title="${views.role['player.dataExport']}"
                          target="${root}/userPlayerFund/export.html" opType="ajax">
                 <i class="fa fa-sign-out"></i><span class="hd">${views.common['export']}</span>
-            </soul:button>
+            </soul:button>--%>
             <button type="button" class="btn btn-filter btn-outline pull-right  show-demand-b">
                 <i class="fa fa-chevron-down"></i> ${views.player_auto['高级搜索']}
             </button>&nbsp;
