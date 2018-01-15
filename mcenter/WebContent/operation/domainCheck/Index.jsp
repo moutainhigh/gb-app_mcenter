@@ -137,46 +137,18 @@
                                    value="${command.search.domain}"/>
                         </div>
                     </div>
-                        <%--<div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
-                            <div class="input-group">
-                                <span class="input-group-addon bg-gray">地区省</span>
-                                <gb:select name="search.serverProvince"
-                                           prompt="省" value=""
-                                           ajaxListPath="${root}/regions/states/CN.html"
-                                           listValue="remark" listKey="dictCode"
-                                           cssClass="btn-group chosen-select-no-single"
-                                           relSelect="search.serverCity"/>
-
-                            </div>
-                        </div>
-                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
-                            <div class="input-group">
-                                <span class="input-group-addon bg-gray">城市</span>
-
-
-                                <gb:select name="search.serverCity" prompt="${views.common['pleaseSelect']}"
-                                           value=""
-                                           ajaxListPath="${root}/regions/cities/CN-${command.search.serverCity}.html"
-                                           relSelectPath="${root}/regions/cities/CN-#search.serverProvince#.html"
-                                           listValue="remark"
-                                           listKey="dictCode"
-                                           cssClass="btn-group chosen-select-no-single"/>
-                            </div>
-                        </div>--%>
-
-                        <%--地区--%>
                             <%-- 类型 --%>
                             <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group">
                                     <span class="input-group-addon bg-gray">类型</span>
-                                    <gb:select name="search.pageUrl" value="" prompt="类型" list="${domainType}"/>
+                                    <gb:select name="search.pageUrl" value="" prompt="全部" list="${domainType}"/>
                                 </div>
                             </div>
 
                     <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group">
                             <span class="input-group-addon bg-gray">状态</span>
-                            <gb:select name="search.status" value="" prompt="状态" list="${domainStatus}"/>
+                            <gb:select name="search.status" value="" prompt="全部" list="${domainStatus}"/>
                         </div>
                     </div>
                     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -187,12 +159,12 @@
                     </soul:button>
 
                 </div>
-                <div class="operate-btn n-o-margin border-b-1 clearfix">
+                <div class="clearfix filter-wraper border-b-1 line-hi34 pull-left">
                     <span class="co-yellow"><i class="fa fa-exclamation-circle"></i></span>
                         ${views.operation['检测时间：']}${soulFn:formatDateTz(checkTime, DateFormat.DAY_SECOND, timeZone )}
                 </div>
 
-                <div class="clearfix filter-wraper border-b-1 line-hi34 al-right">
+                <div class="clearfix filter-wraper border-b-1 line-hi34 al-right pull-right">
                         ${views.operation['所有域名检测结果仅供参考，不完全代表整个区域的实际解析情况，不具备故障证据之作用！如有需要请自行核实域名实际情况！']}
                 </div>
 
