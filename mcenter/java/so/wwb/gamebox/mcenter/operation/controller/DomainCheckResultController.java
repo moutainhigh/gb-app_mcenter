@@ -17,6 +17,7 @@ import so.wwb.gamebox.model.BossParamEnum;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.company.enums.DomainCheckResultImportStatusEnum;
+import so.wwb.gamebox.model.company.enums.DomainCheckResultStatusEnum;
 import so.wwb.gamebox.model.company.enums.DomainCheckStatusEnum;
 import so.wwb.gamebox.model.company.sys.po.DomainCheckResult;
 import so.wwb.gamebox.model.company.sys.po.DomainCheckResultBatchLog;
@@ -113,7 +114,7 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
 
         //状态
         Map<String, Serializable> domainStatus = DictTool.get(DictEnum.COMMON_DOMAIN_CHECK_RESULT_STATUS);
-        domainStatus.remove("NORMAL");//删掉正常状态
+        domainStatus.remove(DomainCheckResultStatusEnum.NORMAL.getCode());//删掉正常状态
         listVo.setDomainStatus(domainStatus);
         //运营商
         Map<String, Serializable> isp = DictTool.get(DictEnum.COMMON_ISP);
