@@ -99,7 +99,7 @@
                             </table>
                             <div class="clearfix filter-wraper border-b-1 line-hi34 al-right">
                                 <a class="btn btn-link co-blue"
-                                   href="/operation/domainCheckResult/list.html"
+                                   href="${root}#/vDomainCheckResultStatistics/getCount.html"
                                    nav-target="mainFrame" target="_blank">${views.operation['查看详情']}</a>
                             </div>
                         </div>
