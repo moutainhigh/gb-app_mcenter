@@ -3,16 +3,10 @@
 <%@ include file="/include/include.inc.jsp" %>
 
 <!--//region your codes 1-->
-<div class="table-responsive">
-    <span >上次监测时间:</span>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span style="border-right: 680px;"> 所有域名检测结果仅提供参考,不完全代表整个区域的实际解析情况，不具备故障证据之用！如有需要自行核实实际域名情况</span>
-    <table class="table table-condensed table-hover table-striped table-bordered">
+<div class="table-responsive table-min-h">
+    <table class="table table-striped table-hover dataTable m-b-sm" aria-describedby="editable_info" id="editable">
         <thead>
-        <tr>
+        <tr role="row" class="bg-gray">
             <th width="70px">序号</th>
             <td width="70px">域名类型</td>
             <th width="70px">${views.operation['域名']}</th>
@@ -34,22 +28,22 @@
                 <td>${p.domain}</td>
                     <%--被墙状态--%>
                 <c:choose>
-                        <c:when test="${!empty p.wallOF }">
-                            <td>  ${p.wallOF} </td>
-                        </c:when>
-                        <c:otherwise>
-                            <td> 0 </td>
-                         </c:otherwise>
+                    <c:when test="${!empty p.wallOF }">
+                        <td>  ${p.wallOF} </td>
+                    </c:when>
+                    <c:otherwise>
+                        <td> 0 </td>
+                    </c:otherwise>
                 </c:choose>
 
-                <%--被劫持状态--%>
+                    <%--被劫持状态--%>
                 <c:choose>
-                        <c:when test="${!empty p.beHijached }">
-                            <td>  ${p.beHijached} </td>
-                        </c:when>
-                        <c:otherwise>
-                            <td>0</td>
-                        </c:otherwise>
+                    <c:when test="${!empty p.beHijached }">
+                        <td>  ${p.beHijached} </td>
+                    </c:when>
+                    <c:otherwise>
+                        <td>0</td>
+                    </c:otherwise>
                 </c:choose>
                     <%--未解析状态--%>
                 <c:choose>
@@ -103,13 +97,13 @@
                 </td>
             </tr>
         </c:forEach>
-        <c:forEach items="${command.result}" var="p" varStatus="status">
-            <c:if test="${fn:length(command.result)<1}">
-                <tr>
-                    <td>当前域名均处于正常状态</td>
-                </tr>
-            </c:if>
-        </c:forEach>
+        <c:if test="${fn:length(command.result)<1}">
+            <tr>　　　　
+                <td class="no-content_wrap" colspan="6">
+                    <div><i class="fa fa-exclamation-circle"></i> ${views.operation['当前所有域名均处于正常状态!']}</div>
+                </td>
+            </tr>
+        </c:if>
         </tbody>
     </table>
 </div>
