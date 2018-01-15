@@ -8,28 +8,26 @@
     <%@ include file="/include/include.head.jsp" %>
 </head>
 <div class="row">
-    <form:form action="" method="post">
-
         <div class="col-lg-12 m-b">
             <div class="wrapper white-bg shadow">
 
                 <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
                     <div class="search-list-container">
 
-
+                        <center><H1>${views.operation['域名检测完成！']}</H1></center>
 
                         <div class="sys_tab_wrap shadow m-t clearfix"
                              style="border-bottom: 0; border-top:1px solid #e6e6e6; margin-bottom: -5px;">
                             <div class=" clearfix m-sm">
-                                <center><H1>${views.operation['域名检测完成']}</H1></center>
+
                                 <span>${views.operation['最新检测时间:']}${soulFn:formatDateTz(command.checkTime, DateFormat.DAY_SECOND, timeZone )}</span><br>
                                 <span>${views.operation['域名检测情况如下所示（结果仅供参考）']}</span>
                             </div>
                         </div>
                         <br>
 
-                        <div class="table-responsive table-min-h">
-                            <table class="table table-striped table-hover dataTable m-b-sm"
+                        <div class="table-min-h">
+                            <table class="table table-striped"
                                    aria-describedby="editable_info"
                                    id="editable">
                                 <thead>
@@ -107,8 +105,6 @@
                 </div>
             </div>
         </div>
-
-    </form:form>
 </div>
 </html>
 <!--//endregion your codes 1-->
