@@ -104,12 +104,10 @@ public class UserPlayerFundController{
     @RequestMapping(value = "export")
     @ResponseBody
     public Map export(VPlayerFundsRecordListVo listVo, SysExportVo sysExportVo, HttpServletRequest request) {
-        String templateFileName= request.getServletContext().getRealPath("/") + "/report/playerFund/playerFund.xlsx";
         listVo.getQuery().addOrder(UserPlayerFund.PROP_CREATE_TIME, Direction.DESC);
         Map param = listVo.getQueryParams();
         listVo.getSearch().getFundSearch().setOrderSql(MapTool.getString(param,"sort"));
         sysExportVo.setExportObject(listVo.getSearch());
-        sysExportVo.setTemplateFileName(templateFileName);
         return doExport(sysExportVo);
     }
     protected Map doExport(SysExportVo vo){
