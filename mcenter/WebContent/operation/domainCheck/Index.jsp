@@ -31,19 +31,16 @@
                      style="border-bottom: 0; border-top:1px solid #e6e6e6; margin-bottom: -5px;">
                     <div class=" clearfix m-sm">
 
-                            <span>监测点 &nbsp;${checkPointCount}个&nbsp;&nbsp;&nbsp;
+                            <span>监测点 &nbsp;${command.domainCheckResultListVo.checkPointCount}个&nbsp;&nbsp;&nbsp;
 
                             检测情况：
-                            <span class="co-green">${statusCount.all- statusCount.errAll}&nbsp;</span>个域名
+                            <span class="co-green">${command.domainCheckResultListVo.statusCount.all- command.domainCheckResultListVo.statusCount.errAll}&nbsp;</span>个域名
                                     <span class="co-green">${dicts.common.domain_check_result_status['NORMAL']}</span>
                                 &nbsp;&nbsp;&nbsp;
                                    <%-- 被墙 --%>
                             <span class="co-yellow">
-                                <c:if test="${empty statusCount.wallOF}">
-                                    ${statusCount.wallOF}
-                                </c:if>
-                                <c:if test="${!empty statusCount.wallOF}">
-                                    ${statusCount.wallOF}
+                                <c:if test="${!empty command.domainCheckResultListVo.statusCount.wallOF}">
+                                    ${command.domainCheckResultListVo.statusCount.wallOF}
                                 </c:if>
                             </span>个域名
                             <span class="co-yellow">${dicts.common.domain_check_result_status['WALLED_OFF']}</span>
@@ -52,11 +49,11 @@
 
                             <span class="co-yellow">
                                 <%-- 被劫持 --%>
-                            <c:if test="${empty statusCount.beHijached}">
+                            <c:if test="${empty command.domainCheckResultListVo.statusCount.beHijached}">
                                 0
                             </c:if>
-                                <c:if test="${!empty statusCount.beHijached}">
-                                    ${statusCount.beHijached}
+                                <c:if test="${!empty command.domainCheckResultListVo.statusCount.beHijached}">
+                                    ${command.domainCheckResultListVo.statusCount.beHijached}
                                 </c:if>
                             </span>个域名
                             <span class="co-yellow">${dicts.common.domain_check_result_status['BE_HIJACKED']}</span>
@@ -64,11 +61,11 @@
 
                             <span class="co-yellow">
                                   <%--UNRESOLVED 未解析--%>
-                            <c:if test="${empty statusCount.unResolved}">
+                            <c:if test="${empty command.domainCheckResultListVo.statusCount.unResolved}">
                                 0
                             </c:if>
-                                <c:if test="${!empty statusCount.unResolved}">
-                                    ${statusCount.unResolved}
+                                <c:if test="${!empty command.domainCheckResultListVo.statusCount.unResolved}">
+                                    ${command.domainCheckResultListVo.statusCount.unResolved}
                                 </c:if>
                             </span>
                             个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNRESOLVED']}</span>
@@ -76,22 +73,22 @@
 
                             <span class="co-yellow">
                               <%--  服务器不通 --%>
-                            <c:if test="${empty statusCount.serverUnreachable}">
+                            <c:if test="${empty command.domainCheckResultListVo.statusCount.serverUnreachable}">
                                 0
                             </c:if>
-                                <c:if test="${!empty statusCount.serverUnreachable}">
-                                    ${statusCount.serverUnreachable}
+                                <c:if test="${!empty command.domainCheckResultListVo.statusCount.serverUnreachable}">
+                                    ${command.domainCheckResultListVo.statusCount.serverUnreachable}
                                 </c:if>
                             </span>
                             个域名<span class="co-yellow">${dicts.common.domain_check_result_status['SERVER_UNREACHABLE']}</span>
                                 &nbsp;&nbsp;&nbsp;
 
                                 <span class="co-yellow">
-                                    <c:if test="${empty statusCount.unAuthorized}">
+                                    <c:if test="${empty command.domainCheckResultListVo.statusCount.unAuthorized}">
                                         0
                                     </c:if>
-                                    <c:if test="${!empty statusCount.unAuthorized}">
-                                        ${statusCount.unAuthorized}
+                                    <c:if test="${!empty command.domainCheckResultListVo.statusCount.unAuthorized}">
+                                        ${command.domainCheckResultListVo.statusCount.unAuthorized}
                                     </c:if>
                             </span>
 
@@ -99,11 +96,11 @@
 &nbsp;                          &nbsp;&nbsp;&nbsp;
 
                                 <span class="co-yellow">
-                                    <c:if test="${empty statusCount.redirect}">
+                                    <c:if test="${empty command.domainCheckResultListVo.statusCount.redirect}">
                                         0
                                     </c:if>
-                                    <c:if test="${!empty statusCount.redirect}">
-                                            ${statusCount.redirect}
+                                    <c:if test="${!empty command.domainCheckResultListVo.statusCount.redirect}">
+                                            ${command.domainCheckResultListVo.statusCount.redirect}
                                     </c:if>
                                 </span>
 
@@ -112,11 +109,11 @@
                                 &nbsp;&nbsp;&nbsp;
                                    <%--未知异常--%>
                                 <span class="co-yellow">
-                                    <c:if test="${empty statusCount.unknown}">
+                                    <c:if test="${empty command.domainCheckResultListVo.statusCount.unknown}">
                                         0
                                     </c:if>
-                                    <c:if test="${!empty statusCount.unknown}">
-                                        ${statusCount.unknown}
+                                    <c:if test="${!empty command.domainCheckResultListVo.statusCount.unknown}">
+                                        ${command.domainCheckResultListVo.statusCount.unknown}
                                     </c:if>
                                 </span>
                             个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNKNOWN_ERR']}</span>
@@ -141,14 +138,14 @@
                             <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group">
                                     <span class="input-group-addon bg-gray">类型</span>
-                                    <gb:select name="search.pageUrl" value="" prompt="全部" list="${domainType}"/>
+                                    <gb:select name="search.pageUrl" value="" prompt="全部" list="${command.domainCheckResultListVo.pageUrl}"/>
                                 </div>
                             </div>
 
                     <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group">
                             <span class="input-group-addon bg-gray">状态</span>
-                            <gb:select name="search.status" value="" prompt="全部" list="${domainStatus}"/>
+                            <gb:select name="search.status" value="" prompt="全部" list="${command.domainCheckResultListVo.domainStatus}"/>
                         </div>
                     </div>
                     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -161,7 +158,7 @@
                 </div>
                 <div class="clearfix filter-wraper border-b-1 line-hi34 pull-left">
                     <span class="co-yellow"><i class="fa fa-exclamation-circle"></i></span>
-                        ${views.operation['检测时间：']}${soulFn:formatDateTz(checkTime, DateFormat.DAY_SECOND, timeZone )}
+                        ${views.operation['检测时间：']}${soulFn:formatDateTz(command.domainCheckResultListVo.checkTime, DateFormat.DAY_SECOND, timeZone )}
                 </div>
 
                 <div class="clearfix filter-wraper border-b-1 line-hi34 al-right pull-right">
