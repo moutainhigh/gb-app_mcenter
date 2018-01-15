@@ -8,28 +8,26 @@
     <%@ include file="/include/include.head.jsp" %>
 </head>
 <div class="row">
-    <form:form action="${root}/operation/domainCheckResult/list.html?search.isSecondSearch=0" method="post">
-
         <div class="col-lg-12 m-b">
             <div class="wrapper white-bg shadow">
 
                 <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
                     <div class="search-list-container">
 
-
+                        <center><H1>${views.operation['域名检测完成！']}</H1></center>
 
                         <div class="sys_tab_wrap shadow m-t clearfix"
                              style="border-bottom: 0; border-top:1px solid #e6e6e6; margin-bottom: -5px;">
                             <div class=" clearfix m-sm">
-                                <center><H1>${views.operation['域名检测完成']}</H1></center>
-                                <span>${views.operation['最新检测时间:']}${soulFn:formatDateTz(checkTime, DateFormat.DAY_SECOND, timeZone )}</span><br>
+
+                                <span>${views.operation['最新检测时间:']}${soulFn:formatDateTz(command.checkTime, DateFormat.DAY_SECOND, timeZone )}</span><br>
                                 <span>${views.operation['域名检测情况如下所示（结果仅供参考）']}</span>
                             </div>
                         </div>
                         <br>
 
-                        <div class="table-responsive table-min-h">
-                            <table class="table table-striped table-hover dataTable m-b-sm"
+                        <div class="table-min-h">
+                            <table class="table table-striped"
                                    aria-describedby="editable_info"
                                    id="editable">
                                 <thead>
@@ -44,54 +42,54 @@
                                 <tr>
                                     <td>${dicts.common.domain_check_result_status['NORMAL']}</td>
                                     <td><span
-                                            class="co-green">${statusCount.all-statusCount.errAll}</span>
+                                            class="co-green">${command.statusCount.all-command.statusCount.errAll}</span>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td>${dicts.common.domain_check_result_status['WALLED_OFF']}</td>
                                     <td><span
-                                            class="co-red">${statusCount.wallOF}</span>
+                                            class="co-red">${command.statusCount.wallOF}</span>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td>${dicts.common.domain_check_result_status['BE_HIJACKED']}</td>
                                     <td><span
-                                            class="co-red">${statusCount.beHijached}</span>
+                                            class="co-red">${command.statusCount.beHijached}</span>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td>${dicts.common.domain_check_result_status['UNRESOLVED']}</td>
                                     <td><span
-                                            class="co-red">${statusCount.unResolved}</span>
+                                            class="co-red">${command.statusCount.unResolved}</span>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td>${dicts.common.domain_check_result_status['SERVER_UNREACHABLE']}</td>
                                     <td><span
-                                            class="co-red">${statusCount.serverUnreachable}</span>
+                                            class="co-red">${command.statusCount.serverUnreachable}</span>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td>${dicts.common.domain_check_result_status['UNKNOWN_ERR']}</td>
                                     <td><span
-                                            class="co-red">${statusCount.unknown}</span>
+                                            class="co-red">${command.statusCount.unknown}</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>${dicts.common.domain_check_result_status['UNAUTHORIZED']}</td>
                                     <td><span
-                                            class="co-red">${statusCount.unAuthorized}</span>
+                                            class="co-red">${command.statusCount.unAuthorized}</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>${dicts.common.domain_check_result_status['REDIRECT']}</td>
                                     <td><span
-                                            class="co-red">${statusCount.redirect}</span>
+                                            class="co-red">${command.statusCount.redirect}</span>
                                     </td>
                                 </tr>
 
@@ -99,7 +97,7 @@
                             </table>
                             <div class="clearfix filter-wraper border-b-1 line-hi34 al-right">
                                 <a class="btn btn-link co-blue"
-                                   href="/operation/domainCheckResult/list.html"
+                                   href="${root}#/vDomainCheckResultStatistics/getCount.html"
                                    nav-target="mainFrame" target="_blank">${views.operation['查看详情']}</a>
                             </div>
                         </div>
@@ -107,8 +105,6 @@
                 </div>
             </div>
         </div>
-
-    </form:form>
 </div>
 </html>
 <!--//endregion your codes 1-->
