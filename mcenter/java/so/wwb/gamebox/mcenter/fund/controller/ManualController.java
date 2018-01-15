@@ -497,6 +497,7 @@ public class ManualController {
             model.addAttribute("activityMessage",activityMessageVo.getResult());
         }
         model.addAttribute("activityName",MapTool.getString(transactionDataMap,"activityName"));
+        model.addAttribute("_activityName",MapTool.getString(transactionDataMap,"_activityName"));
         model.addAttribute("activityType",MapTool.getString(transactionDataMap,"activityType"));
         PlayerTransaction playerTransaction = playerTransactionVo.getResult();
         LOG.info("查询人工存款详细，交易号{0}", playerTransaction.getTransactionNo());
