@@ -25,7 +25,7 @@
             <c:set var="CN" value="CN"></c:set>
             <c:set var="province" value='${CN.concat("_").concat(p.serverProvince)}'></c:set>
             <tr>
-                <td>${status.index+1}</td>
+                <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}<%--${status.index+1}--%></td>
                 <td>${command.pageUrl[p.pageUrl]}</td>
                 <td>${p.domain}</td>
                 <td>${dicts.common.domain_check_result_status[p.status]}</td>

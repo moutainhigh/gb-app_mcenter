@@ -138,6 +138,7 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
     public String showPopStatusCount(DomainCheckResultListVo listVo, @FormModel("search") @Valid DomainCheckResultSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
         listVo.getSearch().setSiteId(SessionManager.getSiteId());
         listVo = ServiceTool.domainCheckResultService().getComprehensiveInfo(listVo);
+        model.addAttribute("command", listVo);
         return getViewBasePath() + "ShowPopStatusCount";
     }
 

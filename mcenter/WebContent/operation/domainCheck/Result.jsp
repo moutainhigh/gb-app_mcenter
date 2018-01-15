@@ -6,7 +6,7 @@
 
 <!--//endregion your codes 1-->
 <div class="row">
-    <form:form action="${root}/operation/domainCheckResult/getCount.html?search.isSecondSearch=0" method="post">
+    <form:form action="${root}/operation/domainCheckResult/list.html?search.isSecondSearch=0" method="post">
         <%--        <style>
                     .table th, .table td {
                         text-align: center;
@@ -23,7 +23,7 @@
         <div class="col-lg-12 m-b">
             <div class="wrapper white-bg shadow">
                 <ul class="clearfix sys_tab_wrap">
-                    <li><a href="/vDomainCheckResultStatistics/list.html"
+                    <li><a href="/vDomainCheckResultStatistics/getCount.html"
                            nav-target="mainFrame">${views.operation['域名状态']}</a>
                     </li>
                     <li class="active"><a href="#" nav-target="mainFrame">${views.operation['检测结果']}</a>
