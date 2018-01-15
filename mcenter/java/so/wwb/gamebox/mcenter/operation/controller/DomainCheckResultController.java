@@ -4,6 +4,7 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.net.ServletTool;
+import org.soul.commons.query.sort.Direction;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
@@ -15,7 +16,10 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.BossParamEnum;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.company.enums.DomainCheckResultImportStatusEnum;
+import so.wwb.gamebox.model.company.enums.DomainCheckStatusEnum;
 import so.wwb.gamebox.model.company.sys.po.DomainCheckResult;
+import so.wwb.gamebox.model.company.sys.po.DomainCheckResultBatchLog;
 import so.wwb.gamebox.model.company.sys.po.VDomainCheckResultStatistics;
 import so.wwb.gamebox.model.company.sys.vo.DomainCheckResultBatchLogListVo;
 import so.wwb.gamebox.model.company.sys.vo.DomainCheckResultListVo;
@@ -84,25 +88,23 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
 
         //域名类型对应的描述
         Collection<SysParam> sysParams = ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX);
-        Map<String,String> pageUrl = new HashMap<>();
+        Map<String, String> pageUrl = new HashMap<>();
         for (SysParam sysParam : sysParams) {
-            pageUrl.put(sysParam.getParamValue(),sysParam.getRemark());
+            pageUrl.put(sysParam.getParamValue(), sysParam.getRemark());
         }
         model.addAttribute("pageUrl", pageUrl);
 
 
-        //总体数量显示只有在非ajax请求才需要
-//        if (!ServletTool.isAjaxSoulRequest(request)) {
-            //状态
-            Map<String, Serializable> domainStatus = DictTool.get(DictEnum.COMMON_DOMAIN_CHECK_RESULT_STATUS);
-            model.addAttribute("domainStatus", domainStatus);
-            //运营商
-            Map<String, Serializable> isp = DictTool.get(DictEnum.COMMON_ISP);
-            model.addAttribute("isp", isp);
+        //状态
+        Map<String, Serializable> domainStatus = DictTool.get(DictEnum.COMMON_DOMAIN_CHECK_RESULT_STATUS);
+        domainStatus.remove("NORMAL" );//删掉正常状态
+        model.addAttribute("domainStatus", domainStatus);
+        //运营商
+        Map<String, Serializable> isp = DictTool.get(DictEnum.COMMON_ISP);
+        model.addAttribute("isp", isp);
 
-            //获取综合统计信息
-            getComprehensiveInfo(listVo, model, siteId);
-//        }
+        //获取综合统计信息
+        getComprehensiveInfo(listVo, model, siteId);
 
 
         return getViewBasePath() + (ServletTool.isAjaxSoulRequest(request) ? "ResultPartial" : "Result");
@@ -117,7 +119,7 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
     private Date getCheckTime() {
         DomainCheckResultBatchLogListVo batchVo = new DomainCheckResultBatchLogListVo();
         batchVo.getSearch().setSiteId(SessionManager.getSiteId());
-        batchVo.getSearch().setStatus(0);
+        batchVo.getSearch().setStatus(Integer.valueOf(DomainCheckResultImportStatusEnum.SUCCESS.getCode()));
         batchVo.getPaging().setPageSize(1);
         batchVo = ServiceTool.domainCheckResultBatchLogService().search(batchVo);
         if (batchVo != null && CollectionTool.isNotEmpty(batchVo.getResult())) {
