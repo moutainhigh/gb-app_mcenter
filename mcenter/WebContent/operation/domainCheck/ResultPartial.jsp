@@ -11,11 +11,11 @@
             <th>${views.operation['域名类型']}</th>
             <th>${views.operation['域名']}</th>
             <th class="inline">
-                <gb:select name="search.status" value="${command.search.status}" prompt="${views.operation['状态']}" list="${domainStatus}" callback="query"/>
+                <gb:select name="search.status" value="${command.search.status}" prompt="${views.operation['状态']}" list="${command.domainStatus}" callback="query"/>
             </th>
             <th>${views.operation['地区']}</th>
             <th>
-                <gb:select name="search.isp" value="${command.search.isp}" prompt="${views.operation['运营商']}" list="${isp}" callback="query"/>
+                <gb:select name="search.isp" value="${command.search.isp}" prompt="${views.operation['运营商']}" list="${command.isp}" callback="query"/>
             </th>
             <th>${views.operation['备注']}</th>
         </tr>
@@ -26,7 +26,7 @@
             <c:set var="province" value='${CN.concat("_").concat(p.serverProvince)}'></c:set>
             <tr>
                 <td>${status.index+1}</td>
-                <td>${pageUrl[p.pageUrl]}</td>
+                <td>${command.pageUrl[p.pageUrl]}</td>
                 <td>${p.domain}</td>
                 <td>${dicts.common.domain_check_result_status[p.status]}</td>
                 <td>

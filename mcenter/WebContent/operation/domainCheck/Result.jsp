@@ -6,7 +6,7 @@
 
 <!--//endregion your codes 1-->
 <div class="row">
-    <form:form action="${root}/operation/domainCheckResult/list.html?search.isSecondSearch=0" method="post">
+    <form:form action="${root}/operation/domainCheckResult/getCount.html?search.isSecondSearch=0" method="post">
         <%--        <style>
                     .table th, .table td {
                         text-align: center;
@@ -68,12 +68,6 @@
                         </div>
                     </div>
 
-                        <%--地区--%>
-
-
-                        <%--运营商--%>
-
-
                         <%-- 搜索--%>
                     <soul:button text="" target="query" opType="function" cssClass="btn btn-filter" tag="button">
                         <i class="fa fa-search"></i>
@@ -82,13 +76,12 @@
 
                 </div>
 
-
-                <div class="operate-btn n-o-margin border-b-1 clearfix">
+                <div class="clearfix filter-wraper border-b-1 line-hi34 pull-left">
                     <span class="co-yellow"><i class="fa fa-exclamation-circle"></i></span>
-                        ${views.operation['检测时间：']}${soulFn:formatDateTz(checkTime, DateFormat.DAY_SECOND, timeZone )}
+                        ${views.operation['检测时间：']}${soulFn:formatDateTz(command.checkTime, DateFormat.DAY_SECOND, timeZone )}
                 </div>
 
-                <div class="clearfix filter-wraper border-b-1 line-hi34 al-right">
+                <div class="clearfix filter-wraper border-b-1 line-hi34 al-right pull-right">
                         ${views.operation['所有域名检测结果仅供参考，不完全代表整个区域的实际解析情况，不具备故障证据之作用！如有需要请自行核实域名实际情况！']}
                 </div>
 

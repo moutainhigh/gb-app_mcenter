@@ -83,49 +83,42 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
             listVo.getSearch().setDomains(Arrays.asList(listVo.getSearch().getDomain().split(",")));
         }
 
+        //参数查询domain
         listVo = ServiceTool.domainCheckResultService().searchList(listVo);
-        model.addAttribute("command", listVo);
 
+        //获取字典信息列表前台下拉显示
+        listVo = getDictInfo(listVo);
+
+        //查询综合信息(获取检测时间，监测点,状态总信息)
+        listVo = ServiceTool.domainCheckResultService().getComprehensiveInfo(listVo);
+
+        model.addAttribute("command", listVo);
+        return getViewBasePath() + (ServletTool.isAjaxSoulRequest(request) ? "ResultPartial" : "Result");
+    }
+
+    /**
+     * 获取字典信息列表前台显示
+     *
+     * @param listVo
+     */
+    private DomainCheckResultListVo getDictInfo(DomainCheckResultListVo listVo) {
         //域名类型对应的描述
         Collection<SysParam> sysParams = ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX);
         Map<String, String> pageUrl = new HashMap<>();
         for (SysParam sysParam : sysParams) {
             pageUrl.put(sysParam.getParamValue(), sysParam.getRemark());
         }
-        model.addAttribute("pageUrl", pageUrl);
+        listVo.setPageUrl(pageUrl);
 
 
         //状态
         Map<String, Serializable> domainStatus = DictTool.get(DictEnum.COMMON_DOMAIN_CHECK_RESULT_STATUS);
-        domainStatus.remove("NORMAL" );//删掉正常状态
-        model.addAttribute("domainStatus", domainStatus);
+        domainStatus.remove("NORMAL");//删掉正常状态
+        listVo.setDomainStatus(domainStatus);
         //运营商
         Map<String, Serializable> isp = DictTool.get(DictEnum.COMMON_ISP);
-        model.addAttribute("isp", isp);
-
-        //获取综合统计信息
-        getComprehensiveInfo(listVo, model, siteId);
-
-
-        return getViewBasePath() + (ServletTool.isAjaxSoulRequest(request) ? "ResultPartial" : "Result");
-    }
-
-
-    /**
-     * 获取siteId下检查时间
-     *
-     * @return
-     */
-    private Date getCheckTime() {
-        DomainCheckResultBatchLogListVo batchVo = new DomainCheckResultBatchLogListVo();
-        batchVo.getSearch().setSiteId(SessionManager.getSiteId());
-        batchVo.getSearch().setStatus(Integer.valueOf(DomainCheckResultImportStatusEnum.SUCCESS.getCode()));
-        batchVo.getPaging().setPageSize(1);
-        batchVo = ServiceTool.domainCheckResultBatchLogService().search(batchVo);
-        if (batchVo != null && CollectionTool.isNotEmpty(batchVo.getResult())) {
-            return batchVo.getResult().get(0).getCheckTime();
-        }
-        return null;
+        listVo.setIsp(isp);
+        return listVo;
     }
 
 
@@ -142,29 +135,11 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
      */
     @RequestMapping("/showPopStatusCount")
     public String showPopStatusCount(DomainCheckResultListVo listVo, @FormModel("search") @Valid DomainCheckResultSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
-        Integer siteId = SessionManager.getSiteId();
-        listVo.getSearch().setSiteId(siteId);
-        //获取综合统计信息
-        getComprehensiveInfo(listVo, model, siteId);
-
+        listVo.getSearch().setSiteId(SessionManager.getSiteId());
+        listVo = ServiceTool.domainCheckResultService().getComprehensiveInfo(listVo);
         return getViewBasePath() + "ShowPopStatusCount";
     }
 
-    /**
-     * 获取综合统计信息
-     *
-     * @param listVo
-     * @param model
-     * @param siteId
-     */
-    private void getComprehensiveInfo(DomainCheckResultListVo listVo, Model model, Integer siteId) {
-        //获取siteId下检查时间
-        model.addAttribute("checkTime", getCheckTime());
-
-        //各种状态的数量
-        VDomainCheckResultStatistics statusCount = ServiceTool.domainCheckResultService().getStatusCount(listVo);
-        model.addAttribute("statusCount", statusCount);
-    }
 
     //endregion your codes 3
 
