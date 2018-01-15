@@ -1099,6 +1099,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         VPlayerAdvisoryListVo listVo = new VPlayerAdvisoryListVo();
         listVo.getSearch().setAdvisoryTime(DateTool.addMonths(SessionManager.getDate().getNow(), -1));
         listVo.getSearch().setPlayerId(vUserPlayerVo.getSearch().getId());
+        listVo.getSearch().setStatus(true);
         listVo = ServiceSiteTool.vPlayerAdvisoryService().search(listVo);
         return listVo;
     }
