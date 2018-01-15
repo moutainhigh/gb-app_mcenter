@@ -38,12 +38,12 @@
                 <tbody>
                 <tr>
                     <c:set var="m" value="${command.fundTotalMap}"/>
-                    <td>${m.get('depositamounttotal')}</td>
-                    <td>${m.get('withdrawamounttotal')}</td>
-                    <td>${m.get('favorableamounttotal')}</td>
-                    <td>${m.get('rakebackamounttotal')}</td>
-                    <td>${m.get('effectivetransactiontotal')}</td>
-                    <td>${m.get('profitlosstotal')}</td>
+                    <td>${soulFn:formatCurrency(m.get('depositamounttotal'))}</td>
+                    <td>${soulFn:formatCurrency(m.get('withdrawamounttotal'))}</td>
+                    <td>${soulFn:formatCurrency(m.get('favorableamounttotal'))}</td>
+                    <td>${soulFn:formatCurrency(m.get('rakebackamounttotal'))}</td>
+                    <td>${soulFn:formatCurrency(m.get('effectivetransactiontotal'))}</td>
+                    <td>${soulFn:formatCurrency(m.get('profitlosstotal'))}</td>
                 </tr>
                 </tbody>
             </table>

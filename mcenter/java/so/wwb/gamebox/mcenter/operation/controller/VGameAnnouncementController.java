@@ -354,6 +354,8 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         if (listVo.getSearch().getAdvisoryTimeBegin() == null && listVo.getSearch().getAdvisoryTimeEnd() == null) {
             listVo.getSearch().setAdvisoryTime(DateTool.addMonths(SessionManager.getDate().getNow(), -1));
         }
+        //需要和市场确认是否只查提问的.TODO by kobe
+        listVo.getSearch().setQuestionType(PlayerAdvisoryEnum.QUESTION.getCode());
         listVo = ServiceSiteTool.vPlayerAdvisoryService().search(listVo);
         listVo.changeReadState(SessionManager.getUserId());
         //获取全部的追问咨询是否已读
