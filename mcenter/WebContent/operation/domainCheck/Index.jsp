@@ -11,7 +11,7 @@
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a>
             </h2>
-            <span>${view.operation['运营']}<%--${views.sysResource['分析']}--%></span><span>/</span><span>${view.operation['域名检测']}</span>
+            <span>${views.operation['运营']}<%--${views.sysResource['分析']}--%></span><span>/</span><span>${views.operation['域名检测']}</span>
             <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         </div>
 
