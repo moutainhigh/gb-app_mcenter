@@ -31,6 +31,7 @@
                     <input name="allRank" class="check-box" ${allRank.paramValue eq 'true'?'checked':''} value="true" type="checkbox"/>
                         ${views.content['全部层级']}
                 </label>
+                <button type="button" class="btn btn-outline btn-filter btn-xs" data-type="clear" name="clearRank" style="margin-right: 10px;">清空</button>
                 <div>
                     <c:set var="rs" value="${fn:split(ranksParam.paramValue, ',')}"/>
                     <c:forEach var="r" items="${ranks}">

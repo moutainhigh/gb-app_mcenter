@@ -223,18 +223,19 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("queryparamValue", sysParam);
         // 玩家检测注册IP
         listVo = ServiceSiteTool.vUserPlayerService().countTransfer(listVo);
-        //玩家检测注册IP
+       /* //玩家检测注册IP
         if(listVo.getSearch().getRegisterIp()!=null){
             String registerIp = IpTool.ipv4LongToString(listVo.getSearch().getRegisterIp());
             listVo.getSearch().setRegisterIpv4(registerIp);
         }
        // 玩家检测登录IP
-        if(StringTool.isNotBlank(listVo.getSearch().getIp())){
+        /*if(StringTool.isNotBlank(listVo.getSearch().getIp())){
             String lastLoginIp = IpTool.ipv4LongToString(Long.parseLong(listVo.getSearch().getIp()));
             listVo.getSearch().setLastLoginIpv4(lastLoginIp);
-        }
+        }*/
         model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
+        model.addAttribute("tagIds",listVo.getSearch().getTagId());
         /*玩家检测真是姓名*/
         if (listVo.getSearch().isHasReturn() && StringTool.isNotBlank(listVo.getSearch().getRealName())) {
             try {
@@ -296,6 +297,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     * 根据登录ip和注册ip模糊查询
     * */
     private VUserPlayerListVo buildSearchIp(VUserPlayerListVo listVo){
+
         if(StringTool.isNotBlank(listVo.getSearch().getRegisterIpv4())){
             Map regMap = fetchStartEndIp(listVo.getSearch().getRegisterIpv4());
             if(!MapTool.getBoolean(regMap,"state")){
@@ -303,9 +305,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 return listVo;
             }
             String min = MapTool.getString(regMap, "min");
-            listVo.getSearch().setStartIps(min);
+            listVo.getSearch().setRegisterStartIp(min);
             String max = MapTool.getString(regMap, "max");
-            listVo.getSearch().setEndIps(max);
+            listVo.getSearch().setRegisterEndIp(max);
         }
         if(StringTool.isNotBlank(listVo.getSearch().getLastLoginIpv4())){
             Map loginMap = fetchStartEndIp(listVo.getSearch().getLastLoginIpv4());
@@ -314,9 +316,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 return listVo;
             }
             String loginMin = MapTool.getString(loginMap, "min");
-            listVo.getSearch().setStartIp(loginMin);
+            listVo.getSearch().setLoginStartIp(loginMin);
             String loginmax = MapTool.getString(loginMap, "max");
-            listVo.getSearch().setEndIp(loginmax);
+            listVo.getSearch().setLoginEndIp(loginmax);
         }
         return listVo;
     }
@@ -372,6 +374,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         if(listVo.isSuccess()){
             playerDetection(listVo, model);
             getTagIdByPlayer(listVo, model);
+            getPlayerByTagId(listVo,model);
             initDate(listVo);
             listVo = doCount(listVo, isCounter);
             listVo.getPaging().cal();
@@ -1096,6 +1099,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         VPlayerAdvisoryListVo listVo = new VPlayerAdvisoryListVo();
         listVo.getSearch().setAdvisoryTime(DateTool.addMonths(SessionManager.getDate().getNow(), -1));
         listVo.getSearch().setPlayerId(vUserPlayerVo.getSearch().getId());
+        listVo.getSearch().setStatus(true);
+        listVo.getSearch().setQuestionType(PlayerAdvisoryEnum.QUESTION.getCode());
         listVo = ServiceSiteTool.vPlayerAdvisoryService().search(listVo);
         return listVo;
     }

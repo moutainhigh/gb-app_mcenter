@@ -133,7 +133,6 @@ public class ManualController {
         model.addAttribute("hasReturn", request.getParameter("hasReturn"));
         model.addAttribute("fromPlayerDetail", request.getParameter("fromPlayerDetail"));
         model.addAttribute("playerId", request.getParameter("playerId"));
-        model.addAttribute("activityType",ActivityTypeEnum.values());
         return MANUAL_INDEX;
     }
 
@@ -146,6 +145,7 @@ public class ManualController {
         model.addAttribute("username", username);
         String transactionNo = request.getParameter("transactionNo");
         model.addAttribute("transactionNo", transactionNo);
+        model.addAttribute("activityType",ActivityTypeEnum.values());
 //        sales(model, transactionNo);//优惠活动
         return MANUAL_DEPOSIT;
     }
@@ -497,6 +497,7 @@ public class ManualController {
             model.addAttribute("activityMessage",activityMessageVo.getResult());
         }
         model.addAttribute("activityName",MapTool.getString(transactionDataMap,"activityName"));
+        model.addAttribute("_activityName",MapTool.getString(transactionDataMap,"_activityName"));
         model.addAttribute("activityType",MapTool.getString(transactionDataMap,"activityType"));
         PlayerTransaction playerTransaction = playerTransactionVo.getResult();
         LOG.info("查询人工存款详细，交易号{0}", playerTransaction.getTransactionNo());

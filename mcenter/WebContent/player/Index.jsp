@@ -116,7 +116,7 @@
 
                             <div class="show-demand-a">
 
-                                    <%--真实姓名--ok--%>
+                                    <%--备注--%>
                                 <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                                     <div class="input-group">
                                         <span class="bg-gray input-group-addon bdn">
@@ -126,7 +126,7 @@
                                                            callback="changeKey2"
                                                            prompt="" cssClass="chosen-select-no-single"/>
                                         </span>
-                                        <c:if test="${not empty command.search.remarks || (empty command.search.realName&&empty command.search.remarks&&empty command.search.registCode&&empty command.search.mobilePhone&&empty command.search.mail&&empty command.search.qq&&empty command.search.weixin&&empty command.search.bankcardNumber)}">
+                                        <c:if test="${not empty command.search.remarks || (empty command.search.remarks&&empty command.search.registCode&&empty command.search.mobilePhone&&empty command.search.mail&&empty command.search.qq&&empty command.search.weixin&&empty command.search.bankcardNumber)}">
                                             <input type="text" class="form-control account_input list-search-input-text"
                                                    name="search.remarks" id="operator2"
                                                    value="${command.search.remarks}"

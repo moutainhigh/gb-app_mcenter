@@ -146,7 +146,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         activityMessageVo.setProperties(ActivityMessage.PROP_IS_DELETED);
         activityMessageVo.getResult().setIsDeleted(true);
         activityMessageVo = ServiceSiteTool.activityMessageService().updateOnly(activityMessageVo);
-        HashMap map = new HashMap(2,1f);
+        HashMap map = new HashMap(2, 1f);
         if (activityMessageVo.isSuccess()) {
             Cache.refreshActivityMessages();
             Cache.refreshCurrentSitePageCache();
@@ -171,8 +171,8 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         Map<String, Map<String, SiteI18n>> command = new ListOrderedMap();
         for (String siteI18nKey : siteI18nMap.keySet()) {
             String[] keyLocale = StringTool.split(siteI18nKey, ":");
-            if(command.get(keyLocale[0])==null) {
-                command.put(keyLocale[0],new HashMap<String, SiteI18n>());
+            if (command.get(keyLocale[0]) == null) {
+                command.put(keyLocale[0], new HashMap<String, SiteI18n>());
             }
             command.get(keyLocale[0]).put(keyLocale[1], siteI18nMap.get(siteI18nKey));
         }
@@ -201,7 +201,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
                 break;
             }
         }
-        Map<String, Object> map = new HashMap(4,1f);
+        Map<String, Object> map = new HashMap(4, 1f);
         map.put("isDefault", isDefault);
         if (isDefault) {
             map.put("msg", LocaleTool.tranMessage(Module.MASTER_OPERATION.getCode(), "classification.defaultNotDelete"));
@@ -268,7 +268,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         }
         vo.getSearch().setKey(key);
         boolean state = getService().deleteClassification(vo);
-        Map<String, Object> map = new HashMap<>(2,1f);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         map.put("state", state);
         if (state) {
             CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
@@ -368,7 +368,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         model.addAttribute("activityMessageId", activityMessageId);
         Map params = getVoMessage(vActivityMessageVo);
         params.put("activityMessageId", activityMessageId);
-        params.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+        params.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
         return params;
     }
 
@@ -391,7 +391,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         model.addAttribute("activityMessageId", activityMessageId);
         Map params = getVoMessage(vActivityMessageVo);
         params.put("activityMessageId", activityMessageId);
-        params.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+        params.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
         return params;
     }
 
@@ -406,8 +406,8 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
     @ResponseBody
     @Token(valid = true)
     public Map activityRelease(ActivityTypeVo activityTypeVo, VActivityMessageVo vActivityMessageVo) {
-        Map map = new HashMap(2,1f);
-        try{
+        Map map = new HashMap(2, 1f);
+        try {
             vActivityMessageVo.setCode(activityTypeVo.getResult().getCode());
             assignment(activityTypeVo, vActivityMessageVo);
 
@@ -420,30 +420,31 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
                 Cache.refreshCurrentSitePageCache();
                 map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             } else {
-                map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+                map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
                 map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             }
             map.put("state", success);
             //推送任务给运营商
             SendMessageTool.addTaskReminder(UserTaskEnum.ACTIVITY);
             SendMessageTool.sendAuditMessageToCcenter();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             map.put("state", false);
-            map.put("errMsg",ex.getMessage());
-            map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
-            LogFactory.getLog(this.getClass()).error(ex,"保存活动异常");
+            map.put("errMsg", ex.getMessage());
+            map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
+            LogFactory.getLog(this.getClass()).error(ex, "保存活动异常");
         }
 
 
         return map;
     }
+
     private void updateSiteContentAudit() {
         SiteContentAudit contentAudit = ServiceSiteTool.vActivityMessageUserService().countCompanyAuditCount(new ActivityMessageVo());
-        if(contentAudit==null){
+        if (contentAudit == null) {
             return;
         }
         SiteContentAudit oldRecord = getSiteContentAuditBySiteId();
-        if(oldRecord==null){
+        if (oldRecord == null) {
             oldRecord = new SiteContentAudit();
             oldRecord.setSiteId(SessionManager.getSiteId());
             oldRecord.setActivityReadCount(contentAudit.getActivityReadCount());
@@ -452,22 +453,24 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
             SiteContentAuditVo vo = new SiteContentAuditVo();
             vo.setResult(oldRecord);
             ServiceTool.siteContentAuditService().insert(vo);
-        }else{
+        } else {
             oldRecord.setActivityReadCount(contentAudit.getActivityReadCount());
             oldRecord.setActivityRemoveCount(contentAudit.getActivityRemoveCount());
             oldRecord.setActivityTotalCount(contentAudit.getActivityTotalCount());
             SiteContentAuditVo vo = new SiteContentAuditVo();
             vo.setResult(oldRecord);
-            vo.setProperties(SiteContentAudit.PROP_ACTIVITY_READ_COUNT,SiteContentAudit.PROP_ACTIVITY_REMOVE_COUNT,SiteContentAudit.PROP_ACTIVITY_TOTAL_COUNT);
+            vo.setProperties(SiteContentAudit.PROP_ACTIVITY_READ_COUNT, SiteContentAudit.PROP_ACTIVITY_REMOVE_COUNT, SiteContentAudit.PROP_ACTIVITY_TOTAL_COUNT);
             ServiceTool.siteContentAuditService().updateOnly(vo);
         }
     }
-    private SiteContentAudit getSiteContentAuditBySiteId(){
+
+    private SiteContentAudit getSiteContentAuditBySiteId() {
         SiteContentAuditVo siteContentAuditVo = new SiteContentAuditVo();
         siteContentAuditVo.getSearch().setSiteId(SessionManager.getSiteId());
         siteContentAuditVo = ServiceTool.siteContentAuditService().search(siteContentAuditVo);
         return siteContentAuditVo.getResult();
     }
+
     /**
      * 前端展示开关启用，停用切换
      *
@@ -526,7 +529,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         if (ActivityTypeEnum.CONTENT.getCode().equals(code)) {
             activityRule = JsRuleCreator.create(ActivityContentStepForm.class);
         }
-        if(ActivityTypeEnum.MONEY.getCode().equals(code)){
+        if (ActivityTypeEnum.MONEY.getCode().equals(code)) {
             activityRule = JsRuleCreator.create(ActivityMoneyConditionForm.class);
         }
         return activityRule;
@@ -593,6 +596,8 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
                 if (activityMessageVo.getResult() != null) {
                     if (activityMessageVo.getResult().getSettlementTimeLatest() == null) {
                         settlementTimeNext = calSettlementTimeNext(startTime, endTime, claimPeriod);
+                    } else { //如果有下次结算时间，更改为等下次发放生效后，下下次生效结算时间
+                        settlementTimeNext = activityMessageVo.getResult().getSettlementTimeNext();
                     }
                 }
             }
@@ -615,18 +620,19 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(startTime);
         Date settlementTimeNext = null;
+        Date today = SessionManager.getDate().getToday();
         if (ActivityClaimPeriod.NATURALDAY.getCode().equals(claimPeriod)) {
             calendar.add(Calendar.DATE, 1);
             Date newTime = calendar.getTime();
-            settlementTimeNext = compareSettlementTimeNext(newTime, endTime);
+            settlementTimeNext = compareSettlementTimeNext(newTime, endTime, today);
         } else if (ActivityClaimPeriod.NATURALWEEK.getCode().equals(claimPeriod)) {
             calendar.add(Calendar.DATE, 7);
             Date newTime = calendar.getTime();
-            settlementTimeNext = compareSettlementTimeNext(newTime, endTime);
+            settlementTimeNext = compareSettlementTimeNext(newTime, endTime, today);
         } else if (ActivityClaimPeriod.NATURALMONTH.getCode().equals(claimPeriod)) {
             calendar.add(Calendar.MONTH, 1);
             Date newTime = calendar.getTime();
-            settlementTimeNext = compareSettlementTimeNext(newTime, endTime);
+            settlementTimeNext = compareSettlementTimeNext(newTime, endTime, today);
         } else {
             settlementTimeNext = endTime;
         }
@@ -640,9 +646,12 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
      * @param endTime
      * @return
      */
-    private Date compareSettlementTimeNext(Date newTime, Date endTime) {
+    private Date compareSettlementTimeNext(Date newTime, Date endTime, Date today) {
         Date settlementTimeNext = null;
-        if (DateTool.secondsBetween(newTime, endTime) > 0) {
+        int daysBetween = (int) DateTool.daysBetween(today, newTime);
+        if (daysBetween > 0) {
+            settlementTimeNext = DateTool.addDays(newTime, daysBetween + 1);
+        } else if (DateTool.secondsBetween(newTime, endTime) > 0) {
             settlementTimeNext = endTime;
         } else {
             settlementTimeNext = newTime;
@@ -652,61 +661,61 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
 
     @RequestMapping(value = "/setDefaultWin")
     @Token(generate = true)
-    public String setDefaultWin(ActivityMessageVo activityMessageVo,Model model){
+    public String setDefaultWin(ActivityMessageVo activityMessageVo, Model model) {
         String url = getViewBasePath() + "SetMoneyDefaultWin";
-        if(activityMessageVo.getSearch().getId()==null){
+        if (activityMessageVo.getSearch().getId() == null) {
             activityMessageVo.setResult(new ActivityMessage());
             return url;
         }
         activityMessageVo = ServiceSiteTool.activityMessageService().get(activityMessageVo);
-        if(activityMessageVo.getResult()==null){
+        if (activityMessageVo.getResult() == null) {
             activityMessageVo.setResult(new ActivityMessage());
         }
-        if(!ActivityTypeEnum.MONEY.getCode().equals(activityMessageVo.getResult().getActivityTypeCode())){
+        if (!ActivityTypeEnum.MONEY.getCode().equals(activityMessageVo.getResult().getActivityTypeCode())) {
             return null;
         }
         List<ActivityMoneyAwardsRules> activityMoneyAwardsRules = queryMoneyRulesByActivityId(activityMessageVo);
-        if(activityMessageVo==null){
+        if (activityMessageVo == null) {
             activityMoneyAwardsRules = new ArrayList<>();
         }
-        model.addAttribute("activityMoneyAwardsRules",activityMoneyAwardsRules);
-        model.addAttribute("activityMessageVo",activityMessageVo);
-        queryOperateRecord(activityMessageVo,model);
-        model.addAttribute("validateRule",JsRuleCreator.create(ActivityMoneyDefaultWinForm.class));
+        model.addAttribute("activityMoneyAwardsRules", activityMoneyAwardsRules);
+        model.addAttribute("activityMessageVo", activityMessageVo);
+        queryOperateRecord(activityMessageVo, model);
+        model.addAttribute("validateRule", JsRuleCreator.create(ActivityMoneyDefaultWinForm.class));
         //ActivityMoneyDefaultWinListVo winListVo = queryDefaultWinPlayer(activityMessageVo);
         //model.addAttribute("winListVo",winListVo);
         return url;
     }
 
-    private void queryOperateRecord(ActivityMessageVo activityMessageVo,Model model){
+    private void queryOperateRecord(ActivityMessageVo activityMessageVo, Model model) {
         ActivityMoneyDefaultWinRecordListVo recordListVo = new ActivityMoneyDefaultWinRecordListVo();
         recordListVo.getSearch().setActivityMessageId(activityMessageVo.getResult().getId());
-        recordListVo  = ServiceSiteTool.activityMoneyDefaultWinRecordService().search(recordListVo);
+        recordListVo = ServiceSiteTool.activityMoneyDefaultWinRecordService().search(recordListVo);
         ActivityMoneyDefaultWinListVo winListVo = queryDefaultWinPlayer(activityMessageVo);
-        model.addAttribute("recordListVo",recordListVo);
-        model.addAttribute("winListVo",winListVo);
+        model.addAttribute("recordListVo", recordListVo);
+        model.addAttribute("winListVo", winListVo);
 
     }
 
-    private ActivityMoneyDefaultWinListVo queryDefaultWinPlayer(ActivityMessageVo activityMessageVo){
+    private ActivityMoneyDefaultWinListVo queryDefaultWinPlayer(ActivityMessageVo activityMessageVo) {
         ActivityMoneyDefaultWinListVo winListVo = new ActivityMoneyDefaultWinListVo();
-        if(activityMessageVo.getResult()==null || activityMessageVo.getResult().getId()==null){
+        if (activityMessageVo.getResult() == null || activityMessageVo.getResult().getId() == null) {
             return winListVo;
         }
 
         winListVo.getSearch().setActivityMessageId(activityMessageVo.getResult().getId());
         winListVo.getSearch().setStatus(null);
-        winListVo.getQuery().addOrder(ActivityMoneyDefaultWin.PROP_OPERATE_TIME,Direction.DESC);
+        winListVo.getQuery().addOrder(ActivityMoneyDefaultWin.PROP_OPERATE_TIME, Direction.DESC);
         winListVo = ServiceSiteTool.activityMoneyDefaultWinService().search(winListVo);
-        Map<Integer,List<ActivityMoneyDefaultWinPlayer>> playerMap = new HashMap<>();
-        if(winListVo.getResult()!=null){
-            for(ActivityMoneyDefaultWin defaultWin : winListVo.getResult()){
+        Map<Integer, List<ActivityMoneyDefaultWinPlayer>> playerMap = new HashMap<>();
+        if (winListVo.getResult() != null) {
+            for (ActivityMoneyDefaultWin defaultWin : winListVo.getResult()) {
                 ActivityMoneyDefaultWinPlayerListVo winPlayerListVo = new ActivityMoneyDefaultWinPlayerListVo();
                 winPlayerListVo.getSearch().setDefaultWinId(defaultWin.getId());
-                winPlayerListVo.getQuery().addOrder(ActivityMoneyDefaultWinPlayer.PROP_ID,Direction.ASC);
+                winPlayerListVo.getQuery().addOrder(ActivityMoneyDefaultWinPlayer.PROP_ID, Direction.ASC);
                 winPlayerListVo.setPaging(null);
                 winPlayerListVo = ServiceSiteTool.activityMoneyDefaultWinPlayerService().search(winPlayerListVo);
-                playerMap.put(defaultWin.getId(),winPlayerListVo.getResult());
+                playerMap.put(defaultWin.getId(), winPlayerListVo.getResult());
                 //xxxx-40天前 [username]内定玩家xxx,xxx,xxx,xxx,xx等玩家中奖x次，奖项为xxxx元。收起 取消内定
             }
         }
@@ -715,8 +724,8 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
 
     }
 
-    private List<ActivityMoneyAwardsRules> queryMoneyRulesByActivityId(ActivityMessageVo activityMessageVo){
-        if(activityMessageVo.getResult()==null || activityMessageVo.getResult().getId()==null){
+    private List<ActivityMoneyAwardsRules> queryMoneyRulesByActivityId(ActivityMessageVo activityMessageVo) {
+        if (activityMessageVo.getResult() == null || activityMessageVo.getResult().getId() == null) {
             return null;
         }
         ActivityMoneyAwardsRulesListVo rulesListVo = new ActivityMoneyAwardsRulesListVo();
@@ -728,40 +737,41 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
 
     @RequestMapping(value = "/queryExistMoneyActivity")
     @ResponseBody
-    public Map queryExistMoneyActivity(Integer id){
+    public Map queryExistMoneyActivity(Integer id) {
         List<VActivityMessage> vActivityMessages = getService().queryExistMoneyActivity(new VActivityMessageListVo());
         Map map = new HashMap();
         boolean flag = false;
-        if(vActivityMessages!=null){
-            if(vActivityMessages.size()==0){
+        if (vActivityMessages != null) {
+            if (vActivityMessages.size() == 0) {
                 flag = false;
-            }else if(vActivityMessages.size()==1){
-                if(id!=null){
-                    if(!id.equals(vActivityMessages.get(0).getId())){
+            } else if (vActivityMessages.size() == 1) {
+                if (id != null) {
+                    if (!id.equals(vActivityMessages.get(0).getId())) {
                         flag = true;
                     }
-                }else{
+                } else {
                     flag = true;
                 }
-            }else{
-                for(VActivityMessage message : vActivityMessages){
-                    if(message.getIsDisplay()&&!message.getId().equals(id)){
+            } else {
+                for (VActivityMessage message : vActivityMessages) {
+                    if (message.getIsDisplay() && !message.getId().equals(id)) {
                         flag = true;
                         break;
                     }
                 }
             }
         }
-        map.put("state",flag);
+        map.put("state", flag);
         return map;
     }
+
     @RequestMapping(value = "/validatePeriodArea")
     @ResponseBody
-    public Map validatePeriodArea(ActivityTypeVo activityTypeVo, VActivityMessageVo vActivityMessageVo){
+    public Map validatePeriodArea(ActivityTypeVo activityTypeVo, VActivityMessageVo vActivityMessageVo) {
         Map map = new HashMap();
         List<ActivityOpenPeriod> activityOpenPeriods = ActivityMoneyPeriodTool.buildPeriodDataList(vActivityMessageVo);
         Boolean aBoolean = ActivityMoneyPeriodTool.validatePeriodArea(activityOpenPeriods);
-        map.put("state",aBoolean.booleanValue());
+        map.put("state", aBoolean.booleanValue());
         return map;
     }
     //endregion your codes 3
