@@ -23,7 +23,7 @@
         <div class="col-lg-12 m-b">
             <div class="wrapper white-bg shadow">
                 <ul class="clearfix sys_tab_wrap">
-                    <li><a href="/vDomainCheckResultStatistics/getCount.html"
+                    <li><a href="/operation/domainCheckData/getDomainCount.html"
                            nav-target="mainFrame">${views.operation['域名状态']}</a>
                     </li>
                     <li class="active"><a href="#" nav-target="mainFrame">${views.operation['检测结果']}</a>
