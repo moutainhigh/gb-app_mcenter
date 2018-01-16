@@ -7,17 +7,17 @@
     <table class="table table-striped table-hover dataTable m-b-sm" aria-describedby="editable_info" id="editable">
         <thead>
         <tr role="row" class="bg-gray">
-            <th >序号</th>
-            <td >域名类型</td>
+            <th >${views.common['number']}</th>
+            <td >${views.operation['域名类型']}</td>
             <th >${views.operation['域名']}</th>
             <th >${views.operation['被墙']}</th>
             <th >${views.operation['被劫持']}</th>
             <th >${views.operation['未解析']}</th>
             <th >${views.operation['服务器不通']}</th>
             <th >${views.operation['未知错误']}</th>
-            <th >域名未授权</th>
-            <th >被跳转</th>
-            <th >操作</th>
+            <th >${views.operation['域名未授权']}</th>
+            <th >${views.operation['被跳转']}</th>
+            <th >${views.operation['操作']}</th>
         </tr>
         </thead>
         <tbody>

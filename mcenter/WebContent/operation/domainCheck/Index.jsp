@@ -6,23 +6,23 @@
 
 <!--//endregion your codes 1-->
 <div class="row">
-    <form:form action="${root}/vDomainCheckResultStatistics/getCount.html" method="post">
+    <form:form action="${root}/operation/domainCheckData/getDomainCount.html" method="post">
 
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a>
             </h2>
-            <span>运营<%--${views.sysResource['分析']}--%></span><span>/</span><span><%--${views.sysResource['推广链接新进']}--%>域名检测</span>
+            <span>${view.operation['运营']}<%--${views.sysResource['分析']}--%></span><span>/</span><span>${view.operation['域名检测']}</span>
             <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         </div>
 
        <div class="col-lg-12 m-b">
             <div class="wrapper white-bg shadow">
                 <ul class="clearfix sys_tab_wrap">
-                    <li class="active"><a href="/vDomainCheckResultStatistics/getCount.html"
-                                          nav-target="mainFrame">域名状态</a>
+                    <li class="active"><a href="/operation/domainCheckData/getDomainCount.html"
+                                          nav-target="mainFrame">${views.operation['域名状态']}</a>
                     </li>
                     <li><a href="/operation/domainCheckResult/list.html"
-                           nav-target="mainFrame">域名检测结果</a>
+                           nav-target="mainFrame">${views.operation['检测结果']}</a>
                     </li>
                 </ul>
 
@@ -92,7 +92,7 @@
                                     </c:if>
                             </span>
 
-                            个域名<span class="co-yellow">未授权</span>
+                            个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNAUTHORIZED']}</span>
 &nbsp;                          &nbsp;&nbsp;&nbsp;
 
                                 <span class="co-yellow">
@@ -104,7 +104,7 @@
                                     </c:if>
                                 </span>
 
-                            个域名<span class="co-yellow">被跳转</span>
+                            个域名<span class="co-yellow">${dicts.common.domain_check_result_status['REDIRECT']}</span>
 
                                 &nbsp;&nbsp;&nbsp;
                                    <%--未知异常--%>
@@ -137,14 +137,14 @@
                             <%-- 类型 --%>
                             <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group">
-                                    <span class="input-group-addon bg-gray">类型</span>
+                                    <span class="input-group-addon bg-gray">${views.operation['类型']}</span>
                                     <gb:select name="search.pageUrl" value="" prompt="全部" list="${command.domainCheckResultListVo.pageUrl}"/>
                                 </div>
                             </div>
 
                     <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group">
-                            <span class="input-group-addon bg-gray">状态</span>
+                            <span class="input-group-addon bg-gray">${views.operation['状态']}</span>
                             <gb:select name="search.status" value="" prompt="全部" list="${command.domainCheckResultListVo.domainStatus}"/>
                         </div>
                     </div>
