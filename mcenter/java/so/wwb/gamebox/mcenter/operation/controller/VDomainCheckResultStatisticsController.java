@@ -51,7 +51,7 @@ import java.util.*;
  */
 @Controller
 //region your codes 1
-@RequestMapping("/vDomainCheckResultStatistics")
+@RequestMapping("/operation/domainCheckData")
 public class VDomainCheckResultStatisticsController extends BaseCrudController<IVDomainCheckResultStatisticsService, VDomainCheckResultStatisticsListVo, VDomainCheckResultStatisticsVo, VDomainCheckResultStatisticsSearchForm, VDomainCheckResultStatisticsForm, VDomainCheckResultStatistics, String> {
 //endregion your codes 1
     private static final Log LOG = LogFactory.getLog(VDomainCheckResultStatisticsController.class);
@@ -70,8 +70,8 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
     /**
      * 根据域名状态、类型 统计数据
      * */
-    @RequestMapping("/getCount")
-    public String doList(VDomainCheckResultStatisticsListVo statisticsListVo, @FormModel("search") @Valid VDomainCheckResultStatisticsForm form, BindingResult result, Model model, HttpServletRequest request){
+    @RequestMapping("/getDomainCount")
+    public String getDomainCount(VDomainCheckResultStatisticsListVo statisticsListVo, @FormModel("search") @Valid VDomainCheckResultStatisticsForm form, BindingResult result, Model model, HttpServletRequest request){
         //获取统计域名状态列表
         statisticsListVo = ServiceTool.vDomainCheckResultStatisticsService().getDomainCount(statisticsListVo);
         //获取总条件
