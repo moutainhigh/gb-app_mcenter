@@ -36,7 +36,8 @@
         </dt>
         <div class="zj">
             <c:forEach items="${apiList.result}" var="playerApi" varStatus="status">
-                <dd id="game" <c:if test="${playerApi.synchronizationStatus=='abnormal'&&!empty playerApi.abnormalReason}">data-toggle="tooltip" data-placement="left" title="${fn:replace(views.home['index.assets.abnormalTips'], '{0}', playerApi.abnormalReason)}"</c:if>>
+                <div class="game onmouse api-info api-${playerApi.apiId}">
+                <dd <c:if test="${playerApi.synchronizationStatus=='abnormal'&&!empty playerApi.abnormalReason}">data-toggle="tooltip" data-placement="left" title="${fn:replace(views.home['index.assets.abnormalTips'], '{0}', playerApi.abnormalReason)}"</c:if>>
                     <div class="m-r-xs pull-left prog">
                         <input type="text" value="${playerApi.scale}" class="dial m-r-sm jdt" data-readOnly=true
                                 <c:choose>
@@ -66,8 +67,11 @@
                 </span>
                     <soul:button target="refresh" text="" opType="function" cssClass="refresh refreshApi" title="${soulFn:formatDateTz(playerApi.synchronizationTime, DateFormat.DAY_SECOND,timeZone)}" apiId="${playerApi.apiId}" playerId="${command.result.id}"><i class="fa fa-refresh"></i></soul:button>
                 </dd>
+                </div>
                 <div class="game onmouse loading-api loading-${playerApi.apiId}" style="display: none;">
+                    <dd>
                     <div class="g-loading-icon"><img src="${resRoot}/images/022b.gif"></div>
+                    </dd>
                 </div>
             </c:forEach>
         </div>
