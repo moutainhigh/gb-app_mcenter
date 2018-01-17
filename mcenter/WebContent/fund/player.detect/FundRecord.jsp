@@ -11,8 +11,10 @@
         <c:if test="${!isLotterySite}">
          <span class="co-gray9 m-l-md">
             <soul:button target="refresh" nowTime="${soulFn:formatDateTz(nowTime, DateFormat.DAY_SECOND, timeZone)}" synTime="${soulFn:formatDateTz(balanceTime, DateFormat.DAY_SECOND,timeZone)}" text="" opType="function" cssClass="co-gray9 totalRefresh" playerId="${command.result.id}"><i class="fa fa-refresh"></i></soul:button>
-            ${views.fund['playerDetect.view.synchronizationTime']}：${soulFn:formatDateTz(command.result.synchronizationTime, DateFormat.DAY_SECOND,timeZone)}
-        </span>
+            ${views.fund['playerDetect.view.synchronizationTime']}：
+            <span id="refreshTime">${soulFn:formatDateTz(command.result.synchronizationTime, DateFormat.DAY_SECOND,timeZone)}</span>
+            <span class="m-loading-icon-x" style="display: none"><img src="${resRoot}/images/022b.gif"></span>
+         </span>
     </c:if>
     <c:if test="${isLotterySite}">
         <span class="m-l-md">
