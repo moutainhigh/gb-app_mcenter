@@ -69,6 +69,13 @@
                 ${command.result.contentType=='2' ? 'checked' : ''}>文字
             </div>
         </div>
+        <div class="form-group ${command.result.contentType=='2'?'hide':''}" id="showModel">
+            <div class="col-sm-3">
+                <input type="checkbox" class="i-checks" name="result.showModel" value="1" ${command.result.showModel=='1' ? 'checked' : ''}>
+                <span>启用透明PNG图片模式</span>
+                <span style="font-size: 14px;margin-left: 50px;color: #9c9c9c;">启用后以纯图片形式展示弹窗广告，无边框</span>
+            </div>
+        </div>
         <div class="form-group ${command.result.contentType=='2'?'hide':''}" id="content_picture_link">
             <label>${views.column['VCttCarousel.link']}：</label>
             <div class="clearfix col-sm-8">
