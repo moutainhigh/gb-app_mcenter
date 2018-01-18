@@ -107,7 +107,7 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
         Collection<SysParam> sysParams = ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX);
         Map<String, String> pageUrl = new HashMap<>();
         for (SysParam sysParam : sysParams) {
-            pageUrl.put(sysParam.getParamValue(), sysParam.getRemark());
+            pageUrl.put(sysParam.getParamValue(), sysParam.getResourceKey());
         }
         listVo.setPageUrl(pageUrl);
 
