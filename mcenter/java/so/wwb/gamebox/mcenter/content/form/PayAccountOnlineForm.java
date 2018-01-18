@@ -166,7 +166,7 @@ public class PayAccountOnlineForm implements IForm {
     @Comment("单笔存款最大值")
     @Range(min = 1, max = 9999999999999L)
     @Digits(integer = 8, fraction = 0, message = "content.payAccount.tips1")
-    @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin", logic = CompareLogic.GT, anotherProperty = "result_singleDepositMin")
+    @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin", logic = CompareLogic.GE, anotherProperty = "result_singleDepositMin")
     public Integer getResult_singleDepositMax() {
         return result_singleDepositMax;
     }
