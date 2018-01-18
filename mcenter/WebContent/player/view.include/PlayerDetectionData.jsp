@@ -49,7 +49,7 @@
                             ${soulFn:overlayTel(command.result.mobilePhone)}&nbsp;
                             <c:if test="${not empty command.result.mobilePhone}">
                                 <soul:button target="${root}/player/playerViewDetail.html?search.id=${command.result.id}" text="${views.common['view']}"
-                                             callback="setPersonalData"   opType="ajax" permission="role:player_detail"></soul:button>
+                                             callback="setPersonalData"   opType="ajax" permission="role:player_personal_detail"></soul:button>
                             </c:if>
                         </c:if>
                     </c:otherwise>
@@ -79,7 +79,7 @@
                             ${soulFn:overlayString(command.result.qq)}&nbsp;
                             <c:if test="${empty command.result.mobilePhone && not empty command.result.qq}">
                                 <soul:button target="${root}/player/playerViewDetail.html?search.id=${command.result.id}" text="${views.common['view']}"
-                                             callback="setPersonalData"   opType="ajax" permission="role:player_detail"></soul:button>
+                                             callback="setPersonalData"   opType="ajax" permission="role:player_personal_detail"></soul:button>
                             </c:if>
                         </c:if>
                     </c:otherwise>
@@ -111,7 +111,7 @@
                             ${soulFn:overlayEmaill(command.result.mail)}&nbsp;
                             <c:if test="${empty command.result.mobilePhone&&empty command.result.qq && not empty command.result.mail}">
                                 <soul:button target="${root}/player/playerViewDetail.html?search.id=${command.result.id}" text="${views.common['view']}"
-                                             callback="setPersonalData"   opType="ajax" permission="role:player_detail"></soul:button>
+                                             callback="setPersonalData"   opType="ajax" permission="role:player_personal_detail"></soul:button>
                             </c:if>
                         </c:if>
                     </c:otherwise>
@@ -152,7 +152,7 @@
                             ${soulFn:overlayString(command.result.weixin)}&nbsp;
                             <c:if test="${empty command.result.mail && empty command.result.mobilePhone && empty command.result.qq && not empty command.result.weixin}">
                                 <soul:button target="${root}/player/playerViewDetail.html?search.id=${command.result.id}" text="${views.common['view']}"
-                                             callback="setPersonalData"   opType="ajax" permission="role:player_detail"></soul:button>
+                                             callback="setPersonalData"   opType="ajax" permission="role:player_personal_detail"></soul:button>
                             </c:if>
                         </c:if>
                     </c:otherwise>
