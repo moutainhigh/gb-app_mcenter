@@ -3,10 +3,7 @@
 <%@ include file="/include/include.inc.jsp" %>
 
 <!--//region your codes 1-->
-<html>
-<head>
-    <%@ include file="/include/include.head.jsp" %>
-</head>
+
 <div class="row">
         <div class="col-lg-12 m-b">
             <div class="wrapper white-bg shadow">
@@ -95,10 +92,10 @@
 
                                 </tbody>
                             </table>
-                            <div class="clearfix filter-wraper border-b-1 line-hi34 al-right">
-                                <a class="btn btn-link co-blue"
-                                   href="${root}#/vDomainCheckResultStatistics/getCount.html"
-                                   nav-target="mainFrame" target="_blank">${views.operation['查看详情']}</a>
+                            <br>
+                            <div class="modal-footer">
+                                <soul:button cssClass="btn btn-outline btn-filter" text="${views.operation['查看详情']}" opType="function"
+                                             target="closePageToDomain"/>
                             </div>
                         </div>
                     </div>
@@ -106,5 +103,5 @@
             </div>
         </div>
 </div>
-</html>
+<soul:import res="site/operation/domainCheck/domainCheck"/>
 <!--//endregion your codes 1-->
