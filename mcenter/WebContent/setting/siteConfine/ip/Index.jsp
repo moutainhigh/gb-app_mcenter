@@ -20,22 +20,6 @@
             <div class="wrapper white-bg shadow">
                 <!--筛选条件-->
                 <%@ include file="../top.jsp" %>
-                <c:choose>
-                <c:when test="${command.type.equals('2')&&!command.sysParam.paramValue=='true'}">
-                    <div class="modal-body">
-                        <div class="clearfix m-b bg-gray p-t-xs">
-                        <span class="co-orange fs36 line-hi25 col-xs-1 al-right m-r-sm">
-                            <i class="fa fa-exclamation-circle"></i>
-                        </span>
-                            <div class="line-hi34 m-b-sm">${command.type.equals('2')?views.setting['siteConfine.ip.site.playerMsg']:views.setting['siteConfine.ip.site.admin.playerMsg']}</div>
-                        </div>
-                    </div>
-                    <div class="modal-footer al-center">
-                        <!--                <button type="button" class="btn btn-filter">${views.setting_auto['好的']}</button>-->
-                        <a href="/siteConfineIp/list.html?sysParam.id=${command.sysParam.id}&sysParam.paramValue=true&search.type=${command.type}&type=${command.type}" class="btn btn-filter btn-lg" nav-target="mainFrame">${views.setting_auto['好的']}</a>
-                    </div>
-                </c:when>
-                <c:otherwise>
                 <div class="clearfix filter-wraper border-b-1">
                     <soul:button callback="oneDialog" tag="button" target="${root}/siteConfineIp/create.html?type=${command.type}"
                                  text="${views.setting['page.createConfine']}" title="${views.setting['siteConfine.ip.create']}"
@@ -57,13 +41,12 @@
                                     </soul:button>
                                 </span>
                         </div>
-                    </div> </div>
+                    </div>
+                </div>
                 <!--表格内容-->
                 <div class="search-list-container">
                     <%@ include file="IndexPartial.jsp" %>
                 </div>
-                </c:otherwise>
-                </c:choose>
             </div>
         </div>
     </div>
