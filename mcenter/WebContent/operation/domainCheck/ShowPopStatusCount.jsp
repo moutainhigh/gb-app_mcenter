@@ -9,9 +9,7 @@
 </head>
 <div class="row">
         <div class="col-lg-12 m-b">
-            <div class="wrapper white-bg shadow">
 
-                <div role="grid">
                     <div class="search-list-container">
 
                         <center><H1>${views.operation['域名检测完成！']}</H1></center>
@@ -108,8 +106,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+
 </div>
 </html>
 <!--//endregion your codes 1-->
