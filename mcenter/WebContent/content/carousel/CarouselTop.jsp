@@ -18,5 +18,8 @@
     <li id="li_top_5" class="<c:if test="${'carousel_type_player_index'.equals(webType)}">active</c:if>">
         <a href="/content/vCttCarousel/viewPcenterAd.html" nav-target="mainFrame">玩家中心首页广告</a>
     </li>
+    <li id="li_top_6" class="<c:if test="${'carousel_type_ad_register'.equals(webType)}">active</c:if>">
+        <a href="/content/vCttCarousel/viewRegister.html" nav-target="mainFrame">PC端注册页广告</a>
+    </li>
 </ul>
 <!--//endregion your codes 1-->

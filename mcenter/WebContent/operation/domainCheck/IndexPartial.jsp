@@ -24,7 +24,7 @@
         <c:forEach items="${command.result}" var="p" varStatus="status">
             <tr class="tab-detail">
                 <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
-                <td>${command.domainCheckResultListVo.pageUrl[p.pageUrl]}</td>
+                <td>${views.content[command.domainCheckResultListVo.pageUrl[p.pageUrl]]}</td>
                 <td>${p.domain}</td>
                     <%--被墙状态--%>
                 <td>

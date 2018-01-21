@@ -38,7 +38,18 @@
                 <div class="two-col">${views.wc_fund['累计']}</div>
                 <div class="two-col">${views.wc_fund['当期']}</div>
             </th>
-            <th rowspan="2">${views.wc_fund['可获返佣']}</th>
+            <th rowspan="2">${views.wc_fund['佣金上限']}佣金上限
+                <span tabindex="0" class="m-l-sm help-popover" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+                      data-content="代理达到返佣方案梯度所在的上限" data-original-title="" title=""><i class="fa fa-question-circle"></i></span>
+            </th>
+            <th rowspan="2">${views.wc_fund['本期返佣']}本期返佣
+                <span tabindex="0" class="m-l-sm help-popover" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+                      data-content="自身返佣+下级抽佣<=返佣上限" data-original-title="" title=""><i class="fa fa-question-circle"></i></span>
+            </th>
+            <th rowspan="2">${views.wc_fund['可获返佣']}
+                <span tabindex="0" class="m-l-sm help-popover" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+                      data-content="本期返佣+上期累计-本期费用" data-original-title="" title=""><i class="fa fa-question-circle"></i></span>
+            </th>
             <th rowspan="2">${views.wc_fund['已获返佣']}</th>
             <th rowspan="2">${views.wc_fund['状态']}</th>
             <th rowspan="2">${views.common['operate']}</th>
@@ -106,6 +117,8 @@
                             <a href="/rebateAgent/queryRebateAgentPlayer.html?search.rebateBillId=${p.rebateBillId}&rebateAgentId=${p.id}&search.agentId=${p.agentId}" nav-target="mainFrame">${soulFn:formatCurrency(p.feeAmount)}</a>
                         </div>
                     </td>
+                    <td><div class="${p.maxRebate<0?'co-red':''}">${soulFn:formatCurrency(p.maxRebate)}</div></td>
+                    <td><div class="${p.rebateAmount<0?'co-red':''}">${soulFn:formatCurrency(p.rebateAmount)}</div></td>
                     <td><div class="${p.rebateTotal<0?'co-red':''}">${soulFn:formatCurrency(p.rebateTotal)}</div></td>
                     <td><div class="${p.rebateActual<0?'co-red':''}">${soulFn:formatCurrency(p.rebateActual)}</div></td>
                     <td>
