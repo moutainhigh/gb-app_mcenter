@@ -223,6 +223,23 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
         }
     }
 
+    /**
+     * PC端注册页面广告
+     * @param vCttCarouselListVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/viewRegister")
+    public String viewRegister(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
+        String code = CttCarouselTypeEnum.CAROUSEL_TYPE_AD_REGISTER.getCode();
+        commonViewCarousel(vCttCarouselListVo, model, code);
+        if (ServletTool.isAjaxSoulRequest(request)) {
+            return getViewBasePath() + "registerAd/IndexPartial";
+        }else {
+            return getViewBasePath() + "registerAd/Index";
+        }
+    }
+
     private void commonViewCarousel(VCttCarouselListVo vCttCarouselListVo, Model model, String code) {
         vCttCarouselListVo = searchByName(vCttCarouselListVo);
         vCttCarouselListVo.getSearch().setType(code);
