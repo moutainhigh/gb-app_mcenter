@@ -61,8 +61,8 @@ public class PlayerResetPwdController {
      */
     private static final String RESET_LOGIN_POPUP = "player/player/resetpassword/Index";
     private static final String RESET_LOGIN_BY_HAND = "player/player/resetpassword/ChangePassword";
-    private static final String RESET_PWD_POPUP ="/player/agent/restpwd/ResetPwdIndex";
-    private static final String RESET_PWD_EDIT_POPUP ="/player/agent/restpwd/ResetPwdEdit";
+    private static final String RESET_PWD_POPUP = "/player/agent/restpwd/ResetPwdIndex";
+    private static final String RESET_PWD_EDIT_POPUP = "/player/agent/restpwd/ResetPwdEdit";
     private static final String RESET_TYPE_PAY_PWD = "payPwd";
     private static final String RESET_TYPE_LOGIN_PWD = "loginPwd";
 
@@ -78,15 +78,16 @@ public class PlayerResetPwdController {
         model.addAttribute("resetPwdVo", ServiceSiteTool.userPlayerService().getResetPasswordInfo(resetPwdVo));
         return RESET_LOGIN_POPUP;
     }
+
     @RequestMapping("/isOnline")
     @ResponseBody
     public Map isOnline(ResetPwdVo resetPwdVo) {
         Map map = new HashMap();
-        SysUserVo userVo=new SysUserVo();
+        SysUserVo userVo = new SysUserVo();
         userVo.getResult().setId(resetPwdVo.getUserId());
-        userVo= ServiceTool.sysUserService().get(userVo);
-        Set<String> count=   redisSessionDao.getUserActiveSessions(userVo.getResult().getUserType(),userVo.getResult().getId());
-        map.put("state",(count.size()>0));
+        userVo = ServiceTool.sysUserService().get(userVo);
+        Set<String> count = redisSessionDao.getUserActiveSessions(userVo.getResult().getUserType(), userVo.getResult().getId());
+        map.put("state", (count.size() > 0));
         return map;
     }
 
@@ -99,11 +100,11 @@ public class PlayerResetPwdController {
      */
     @RequestMapping("/resetPwdByHand")
     public String loginPwdByHand(Model model, ResetPwdVo resetPwdVo) {
-        SysUserVo userVo=new SysUserVo();
+        SysUserVo userVo = new SysUserVo();
         userVo.getSearch().setId(resetPwdVo.getUserId());
-        userVo= ServiceTool.sysUserService().get(userVo);
-        Set<String> count=   redisSessionDao.getUserActiveSessions(userVo.getResult().getUserType(),userVo.getResult().getId());
-        model.addAttribute("isOnLine", (count.size()>0));
+        userVo = ServiceTool.sysUserService().get(userVo);
+        Set<String> count = redisSessionDao.getUserActiveSessions(userVo.getResult().getUserType(), userVo.getResult().getId());
+        model.addAttribute("isOnLine", (count.size() > 0));
         Map<String, SysDict> mailMobilePhoneStatus = DictTool.get(DictEnum.PLAYER_MAIL_MOBILEPHONE_STATUS);
         resetPwdVo.setMailMobilePhoneStatus(mailMobilePhoneStatus);
         resetPwdVo.setValidateRule(JsRuleCreator.create(ResetPwdForm.class));
@@ -113,46 +114,41 @@ public class PlayerResetPwdController {
 
     @RequestMapping("/autoResetPwd")
     @Audit(module = Module.PLAYER, moduleType = ModuleType.RESET_USER_PERMISSIONPWD, opType = OpType.UPDATE)
-    public String autoResetPwd(ResetPwdVo resetPwdVo, Model model){
+    public String autoResetPwd(ResetPwdVo resetPwdVo, Model model) {
         // 重置密码
         Map map = new HashMap();
         String newPwd = RandomStringTool.randomNumeric(6);
-        if(resetPwdVo.getResetTypeLoginPwd().equals(resetPwdVo.getResetType())){
+        if (resetPwdVo.getResetTypeLoginPwd().equals(resetPwdVo.getResetType())) {
             resetPwdVo.setPassword(newPwd);
             map = resetUserPwd(resetPwdVo);
-            KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL,"站长中心重置玩家密码强制踢出");
-        }else if(resetPwdVo.getResetTypePayPwd().equals(resetPwdVo.getResetType())){
+            KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL, "站长中心重置玩家密码强制踢出");
+        } else if (resetPwdVo.getResetTypePayPwd().equals(resetPwdVo.getResetType())) {
             resetPwdVo.setPermissionPwd(newPwd);
             Boolean isOk = ServiceSiteTool.userPlayerService().resetPassword(resetPwdVo);
-            KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(),OpMode.MANUAL,"站长中心重置玩家密码强制踢出");
-            map.put("state",isOk);
+            KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL, "站长中心重置玩家密码强制踢出");
+            map.put("state", isOk);
         }
         sendNotice(resetPwdVo);
-        map.put("newPwd",newPwd);
-        model.addAttribute("newPwd",newPwd);
-        model.addAttribute("player.resetPwd.resetPwdVo",resetPwdVo);
-        addLog("player.resetPwd.autoResetPwd",resetPwdVo);
+        map.put("newPwd", newPwd);
+        model.addAttribute("newPwd", newPwd);
+        model.addAttribute("player.resetPwd.resetPwdVo", resetPwdVo);
+        addPlayerLog("player.resetPwd.autoResetPwd", resetPwdVo);
         return "player/player/resetpassword/SuccessPassword";
     }
 
     /**
-     * 添加修改日志
+     * 添加玩家修改日志
      */
-    public void addLog(String description, ResetPwdVo resetPwdVo) {
+    public void addPlayerLog(String description, ResetPwdVo resetPwdVo) {
         try {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
             vUserPlayerVo.getSearch().setId(resetPwdVo.getUserId());
-            vUserPlayerVo = vUserPlayerVo= ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
-            LogVo logVo = new LogVo();
-            BaseLog baseLog = logVo.addBussLog();
-            baseLog.setDescription(description);
-            baseLog.addParam(vUserPlayerVo.getResult().getUsername());
-            request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
-        }catch (Exception ex){
+            vUserPlayerVo = vUserPlayerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
+            addLog(description, vUserPlayerVo.getResult().getUsername());
+        } catch (Exception ex) {
 
         }
-
     }
 
     /**
@@ -173,53 +169,54 @@ public class PlayerResetPwdController {
         notice._setDataSourceId(org.soul.commons.init.context.Const.BASE_DATASOURCE_ID);
         notice.addUserIds(resetPwdVo.getSysUser().getId());
 
-        try{
+        try {
             ServiceTool.noticeService().publish(notice);
-        }catch (Exception ex){
-            LogFactory.getLog(this.getClass()).error(ex,"发布消息不成功");
+        } catch (Exception ex) {
+            LogFactory.getLog(this.getClass()).error(ex, "发布消息不成功");
         }
-        KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(),OpMode.MANUAL,"站长中心邮件重置玩家密码强制踢出");
-        addLog("player.resetPwd.resetPwdByEmail",resetPwdVo);
+        KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL, "站长中心邮件重置玩家密码强制踢出");
+        addPlayerLog("player.resetPwd.resetPwdByEmail", resetPwdVo);
         return MapTool.newHashMap(new Pair<Object, Object>("msg", "保存成功"), new Pair<Object, Object>("state", true));
     }
+
     @RequestMapping("/sendByEmail")
     @ResponseBody
-    public Map sendByEmail(ResetPwdVo resetPwdVo){
+    public Map sendByEmail(ResetPwdVo resetPwdVo) {
         Map map = new HashMap();
-        try{
+        try {
             Integer userId = resetPwdVo.getUserId();
             VUserPlayerVo userPlayerVo = new VUserPlayerVo();
             userPlayerVo.getSearch().setId(userId);
             userPlayerVo = ServiceSiteTool.vUserPlayerService().get(userPlayerVo);
             String mail = "";
-            if(resetPwdVo.getInformType()!=null){
-                if("true".equals(resetPwdVo.getInformType())){
+            if (resetPwdVo.getInformType() != null) {
+                if ("true".equals(resetPwdVo.getInformType())) {
                     mail = resetPwdVo.getMail();
-                    if(StringTool.isBlank(mail)){
-                        if(userPlayerVo.getResult()==null||StringTool.isBlank(userPlayerVo.getResult().getMail())){
-                            map.put("state",false);
+                    if (StringTool.isBlank(mail)) {
+                        if (userPlayerVo.getResult() == null || StringTool.isBlank(userPlayerVo.getResult().getMail())) {
+                            map.put("state", false);
                             return map;
-                        }else{
+                        } else {
                             mail = userPlayerVo.getResult().getMail();
                         }
                     }
-                }else{
+                } else {
                     //不用发邮件
                     return map;
                 }
 
-            }else{
-                if(userPlayerVo.getResult()==null||StringTool.isBlank(userPlayerVo.getResult().getMail())){
-                    map.put("state",false);
+            } else {
+                if (userPlayerVo.getResult() == null || StringTool.isBlank(userPlayerVo.getResult().getMail())) {
+                    map.put("state", false);
                     return map;
-                }else{
+                } else {
                     mail = userPlayerVo.getResult().getMail();
                 }
             }
             sendMailNotice(resetPwdVo, userId, mail);
-            map.put("state",true);
-        }catch (Exception ex){
-            map.put("state",false);
+            map.put("state", true);
+        } catch (Exception ex) {
+            map.put("state", false);
         }
 
 
@@ -229,21 +226,21 @@ public class PlayerResetPwdController {
     private void sendMailNotice(ResetPwdVo resetPwdVo, Integer userId, String mail) {
         NoticeVo notice = new NoticeVo();
         notice.setPublishMethod(NoticePublishMethod.EMAIL);
-        if(resetPwdVo.getResetType().equals(resetPwdVo.getResetTypePayPwd())){
-			notice.setEventType(AutoNoticeEvent.RESET_PERMISSION_PWD_SUCCESS);
-		}else{
-			notice.setEventType(AutoNoticeEvent.RESET_LOGIN_PASSWORD_SUCCESS);
-		}
+        if (resetPwdVo.getResetType().equals(resetPwdVo.getResetTypePayPwd())) {
+            notice.setEventType(AutoNoticeEvent.RESET_PERMISSION_PWD_SUCCESS);
+        } else {
+            notice.setEventType(AutoNoticeEvent.RESET_LOGIN_PASSWORD_SUCCESS);
+        }
 
         notice.setActualReceivers(mail);
 
         Map<NoticePublishMethod, Set<NoticeTmpl>> noticePublishMethodSetMap = ServiceTool.noticeService().fetchTmpls(notice);
         notice.setTmplMap(noticePublishMethodSetMap);
         notice.addUserIds(userId);
-        try{
+        try {
             ServiceTool.noticeService().publish(notice);
-        }catch (Exception ex){
-            LogFactory.getLog(this.getClass()).error(ex,"发布消息不成功");
+        } catch (Exception ex) {
+            LogFactory.getLog(this.getClass()).error(ex, "发布消息不成功");
         }
     }
 
@@ -252,17 +249,18 @@ public class PlayerResetPwdController {
      */
     @RequestMapping("/toResetPwdByHand")
     @ResponseBody
+
     public Map resetPwdByHand(ResetPwdVo resetPwdVo) {
         // 重置密码
         Map map = new HashMap();
-        if(StringTool.isNotBlank(resetPwdVo.getPassword())){
+        if (StringTool.isNotBlank(resetPwdVo.getPassword())) {
             map = resetUserPwd(resetPwdVo);
-            KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(),OpMode.MANUAL,"站长中心手动重置玩家密码强制踢出");
-        }else if(StringTool.isNotBlank(resetPwdVo.getPermissionPwd())){
+            KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL, "站长中心手动重置玩家密码强制踢出");
+        } else if (StringTool.isNotBlank(resetPwdVo.getPermissionPwd())) {
             Boolean isOk = ServiceSiteTool.userPlayerService().resetPassword(resetPwdVo);
-            KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(),OpMode.MANUAL,"站长中心手动重置玩家密码强制踢出");
-            map.put("state",isOk);
-        }else{
+            KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL, "站长中心手动重置玩家密码强制踢出");
+            map.put("state", isOk);
+        } else {
             return sendByEmail(resetPwdVo);
         }
         sendNotice(resetPwdVo);
@@ -270,22 +268,23 @@ public class PlayerResetPwdController {
 
     }
 
-	/**
+    /**
      * 重置密码
+     *
      * @param resetPwdVo
      * @return
      */
     private Map resetUserPwd(ResetPwdVo resetPwdVo) {
         Map map = new HashMap();
         Boolean isOk = ServiceSiteTool.userPlayerService().resetPassword(resetPwdVo);
-        map.put("state",isOk);
-        if(StringTool.isBlank(resetPwdVo.getInformType())){
-			resetPwdVo.setInformType("false");
-		}else{
-			resetPwdVo.setInformType("true");
-		}
+        map.put("state", isOk);
+        if (StringTool.isBlank(resetPwdVo.getInformType())) {
+            resetPwdVo.setInformType("false");
+        } else {
+            resetPwdVo.setInformType("true");
+        }
         Map mailMap = sendByEmail(resetPwdVo);
-        map.put("mailstate",mailMap.get("state"));
+        map.put("mailstate", mailMap.get("state"));
         return map;
     }
 
@@ -306,19 +305,18 @@ public class PlayerResetPwdController {
         notice.setTmplMap(noticePublishMethodSetMap);
         notice._setDataSourceId(SessionManager.getSiteId());
         notice.addUserIds(resetPwdVo.getUserId());
-        try{
+        try {
             ServiceTool.noticeService().publish(notice);
-        }catch (Exception ex){
-            LogFactory.getLog(this.getClass()).error(ex,"发布消息不成功");
+        } catch (Exception ex) {
+            LogFactory.getLog(this.getClass()).error(ex, "发布消息不成功");
         }
     }
-
-
 
 
     /**
      * 重置登录密码弹窗
      * by cogo
+     *
      * @param model
      * @param resetSysUserPwdVo
      * @return
@@ -333,6 +331,7 @@ public class PlayerResetPwdController {
     /**
      * 手动重置登录密码弹窗
      * by cogo
+     *
      * @param model
      * @param resetPwdVo
      * @return
@@ -352,7 +351,7 @@ public class PlayerResetPwdController {
     @ResponseBody
     public Map doRestUserPwd(ResetSysUserPwdVo resetPwdVo) {
         sendNotice(resetPwdVo.getResetType(), resetPwdVo.getResult().getMail(), resetPwdVo.getResult().getId());
-        KickoutFilter.loginKickoutAll(resetPwdVo.getResult().getId(),OpMode.MANUAL,"站长中心自动重置玩家密码强制踢出");
+        KickoutFilter.loginKickoutAll(resetPwdVo.getResult().getId(), OpMode.MANUAL, "站长中心自动重置玩家密码强制踢出");
         return MapTool.newHashMap(new Pair<Object, Object>("msg", "保存成功"), new Pair<Object, Object>("state", true));
     }
 
@@ -360,35 +359,70 @@ public class PlayerResetPwdController {
      * 手动重置密码
      * by cogo
      */
-     @RequestMapping("/doRestUserPwdByHand")
-     @ResponseBody
-     public Boolean doRestUserPwdByHand(ResetSysUserPwdVo resetPwdVo,String mail) {
-     // 重置密码
-     Boolean isOk = ServiceSiteTool.userAgentService().resetSysUserPwd(resetPwdVo);
-     if (isOk) {
-     // 发送消息
-         if (StringTool.isNotBlank(mail)) {
-             sendNotice(resetPwdVo.getResetType(),mail,resetPwdVo.getResult().getId());
-         }
-         if(resetPwdVo.isLogin()){
-             Integer userId = resetPwdVo.getUserId();
-             if(userId==null){
-                 userId = resetPwdVo.getResult().getId();
-             }
-             KickoutFilter.loginKickoutAll(userId,OpMode.MANUAL,"站长中心手动重置玩家密码强制踢出");
-         }
-     }
-     return resetPwdVo.isSuccess();
-     }
+    @RequestMapping("/doRestUserPwdByHand")
+    @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.RESET_USER_PERMISSIONPWD, opType = OpType.UPDATE)
+    public Boolean doRestUserPwdByHand(ResetSysUserPwdVo resetPwdVo, String mail) {
+        // 重置密码
+        Boolean isOk = ServiceSiteTool.userAgentService().resetSysUserPwd(resetPwdVo);
+        if (isOk) {
+            // 发送消息
+            if (StringTool.isNotBlank(mail)) {
+                sendNotice(resetPwdVo.getResetType(), mail, resetPwdVo.getResult().getId());
+            }
+            if (resetPwdVo.isLogin()) {
+                Integer userId = resetPwdVo.getUserId();
+                if (userId == null) {
+                    userId = resetPwdVo.getResult().getId();
+                }
+                KickoutFilter.loginKickoutAll(userId, OpMode.MANUAL, "站长中心手动重置玩家密码强制踢出");
+            }
+            addAgentLog("player.resetPwd.doRestUserPwdByHand", resetPwdVo);
+        }
+        return resetPwdVo.isSuccess();
+    }
+
+    /**
+     * 代理添加修改日志
+     */
+    public void addAgentLog(String description, ResetSysUserPwdVo resetPwdVo) {
+        try {
+            SysUserVo sysUserVo = new SysUserVo();
+            sysUserVo.getSearch().setId(resetPwdVo.getResult().getId());
+            sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+            addLog(description, sysUserVo.getResult().getUsername());
+        } catch (Exception ex) {
+
+        }
+
+    }
+
+    /**
+     * 添加修改日志
+     */
+    public void addLog(String description, String name) {
+        try {
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            LogVo logVo = new LogVo();
+            BaseLog baseLog = logVo.addBussLog();
+            baseLog.setDescription(description);
+            baseLog.addParam(name);
+            request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+        } catch (Exception ex) {
+
+        }
+    }
+
 
     /**
      * 重写发送通知
      * by cogo
+     *
      * @param resetType
      * @param mail
      * @param userId
      */
-    private void sendNotice(String resetType,String mail,Integer userId) {
+    private void sendNotice(String resetType, String mail, Integer userId) {
         NoticeVo notice = new NoticeVo();
         if (ResetSysUserPwdVo.RESETTYPE_LOGINPWD.equals(resetType)) {
             notice.setEventType(AutoNoticeEvent.RESET_LOGIN_PASSWORD_SUCCESS);
@@ -401,10 +435,10 @@ public class PlayerResetPwdController {
         notice._setDataSourceId(SessionManager.getSiteId());
         notice.addUserIds(userId);
         notice.addParams(new Pair<String, String>("GameBox", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_NAME).get(SessionManager.getLocale().toString()).getValue()));
-        try{
+        try {
             ServiceTool.noticeService().publish(notice);
-        }catch (Exception ex){
-            LogFactory.getLog(this.getClass()).error(ex,"发布消息不成功");
+        } catch (Exception ex) {
+            LogFactory.getLog(this.getClass()).error(ex, "发布消息不成功");
         }
     }
 
