@@ -2998,7 +2998,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             }
 
         }
-
+        //vo.setTemplateFileName("gb/0/exportTemplate/228/1516497713030.xls");
         vo.getResult().setParam(VUserPlayerListVo.class.getName());
         vo.getResult().setUsername(SessionManager.getUserName());
         vo.getResult().setExportUserId(SessionManager.getUserId());
