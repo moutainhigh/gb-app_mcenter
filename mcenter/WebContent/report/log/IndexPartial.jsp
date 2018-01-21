@@ -73,7 +73,7 @@
                 </c:when>
                 <c:otherwise>
                     <td>
-                            ［${cmd.operateType}］
+                        [${dicts.log.op_type[cmd.operateType]}]
                         <br>${soulFn:formatLogDesc(cmd)}</td>
                 </c:otherwise>
             </c:choose>

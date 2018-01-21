@@ -8,10 +8,14 @@ import org.soul.commons.lang.string.RandomStringTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.LogFactory;
 import org.soul.model.log.audit.enums.OpMode;
+import org.soul.model.log.audit.enums.OpType;
+import org.soul.model.log.audit.vo.BaseLog;
+import org.soul.model.log.audit.vo.LogVo;
 import org.soul.model.msg.notice.enums.NoticePublishMethod;
 import org.soul.model.msg.notice.po.NoticeTmpl;
 import org.soul.model.msg.notice.vo.NoticeVo;
 import org.soul.model.security.privilege.vo.SysUserVo;
+import org.soul.model.sys.po.SysAuditLog;
 import org.soul.model.sys.po.SysDict;
 import org.soul.web.session.RedisSessionDao;
 import org.soul.web.validation.form.js.JsRuleCreator;
@@ -20,13 +24,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.player.form.ResetPwdForm;
 import so.wwb.gamebox.mcenter.player.form.ResetSysUserPwdForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.ModuleType;
 import so.wwb.gamebox.model.SiteI18nEnum;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.master.agent.vo.ResetSysUserPwdVo;
 import so.wwb.gamebox.model.master.player.vo.ResetPwdVo;
@@ -34,6 +43,7 @@ import so.wwb.gamebox.model.master.player.vo.VUserPlayerVo;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -102,6 +112,7 @@ public class PlayerResetPwdController {
     }
 
     @RequestMapping("/autoResetPwd")
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.RESET_USER_PERMISSIONPWD, opType = OpType.UPDATE)
     public String autoResetPwd(ResetPwdVo resetPwdVo, Model model){
         // 重置密码
         Map map = new HashMap();
@@ -119,8 +130,29 @@ public class PlayerResetPwdController {
         sendNotice(resetPwdVo);
         map.put("newPwd",newPwd);
         model.addAttribute("newPwd",newPwd);
-        model.addAttribute("resetPwdVo",resetPwdVo);
+        model.addAttribute("player.resetPwd.resetPwdVo",resetPwdVo);
+        addLog("player.resetPwd.autoResetPwd",resetPwdVo);
         return "player/player/resetpassword/SuccessPassword";
+    }
+
+    /**
+     * 添加修改日志
+     */
+    public void addLog(String description, ResetPwdVo resetPwdVo) {
+        try {
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
+            vUserPlayerVo.getSearch().setId(resetPwdVo.getUserId());
+            vUserPlayerVo = vUserPlayerVo= ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
+            LogVo logVo = new LogVo();
+            BaseLog baseLog = logVo.addBussLog();
+            baseLog.setDescription(description);
+            baseLog.addParam(vUserPlayerVo.getResult().getUsername());
+            request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+        }catch (Exception ex){
+
+        }
+
     }
 
     /**
@@ -131,6 +163,7 @@ public class PlayerResetPwdController {
      */
     @RequestMapping("/resetPwdByEmail")
     @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.RESET_USER_PERMISSIONPWD, opType = OpType.UPDATE)
     public Map resetPwdByEmail(ResetPwdVo resetPwdVo) {
         NoticeVo notice = new NoticeVo();
         notice.setEventType(AutoNoticeEvent.RESET_LOGIN_PASSWORD_SUCCESS);
@@ -146,6 +179,7 @@ public class PlayerResetPwdController {
             LogFactory.getLog(this.getClass()).error(ex,"发布消息不成功");
         }
         KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(),OpMode.MANUAL,"站长中心邮件重置玩家密码强制踢出");
+        addLog("player.resetPwd.resetPwdByEmail",resetPwdVo);
         return MapTool.newHashMap(new Pair<Object, Object>("msg", "保存成功"), new Pair<Object, Object>("state", true));
     }
     @RequestMapping("/sendByEmail")
