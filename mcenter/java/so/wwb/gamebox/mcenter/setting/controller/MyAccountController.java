@@ -4,14 +4,20 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.ListTool;
 import org.soul.commons.collections.MapTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.init.context.CommonContext;
+import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.model.log.audit.enums.OpType;
+import org.soul.model.log.audit.vo.BaseLog;
+import org.soul.model.log.audit.vo.LogVo;
 import org.soul.model.msg.notice.po.NoticeContactWay;
 import org.soul.model.msg.notice.vo.NoticeContactWayListVo;
 import org.soul.model.msg.notice.vo.NoticeContactWayVo;
 import org.soul.model.passport.vo.PassportVo;
 import org.soul.model.security.privilege.po.SysUser;
 import org.soul.model.security.privilege.vo.SysUserVo;
+import org.soul.model.sys.po.SysAuditLog;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -20,21 +26,31 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.common.security.AuthTool;
+import so.wwb.gamebox.mcenter.fund.form.ManualDepositForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.*;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.ModuleType;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.notice.enums.ContactWayStatus;
 import so.wwb.gamebox.model.common.notice.enums.ContactWayType;
 import so.wwb.gamebox.model.master.content.vo.UpdateUserInfoVo;
+import so.wwb.gamebox.model.master.fund.po.PlayerFavorable;
+import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
+import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
 import so.wwb.gamebox.model.master.player.vo.MyAccountVo;
 import so.wwb.gamebox.model.master.player.vo.UpdatePasswordVo;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +75,6 @@ public class MyAccountController {
     }
 
 
-
     /**
      * 我的账户
      *
@@ -67,7 +82,7 @@ public class MyAccountController {
      * @return
      */
     @RequestMapping(value = "/myAccount")
-    public String myAccount(Model model,MyAccountVo myAccountVo) {
+    public String myAccount(Model model, MyAccountVo myAccountVo) {
         String entranceStr = SessionManager.getEntrance();
         if (String.valueOf(PassportVo.MASTER).equals(entranceStr)) {
             myAccountVo._setDataSourceId(SessionManager.getSiteParentId());
@@ -76,7 +91,7 @@ public class MyAccountController {
         myAccountVo = ServiceSiteTool.myAccountService().getMyAccount(myAccountVo);
         model.addAttribute("command", myAccountVo);
         //获取用户类型
-        model.addAttribute("type",SessionManager.getUserType().getCode());
+        model.addAttribute("type", SessionManager.getUserType().getCode());
         return this.getViewBasePath() + "myAccount/Index";
     }
 
@@ -129,6 +144,7 @@ public class MyAccountController {
         }
         return map;
     }
+
     /**
      * 修改账户密码--检查密码
      *
@@ -142,7 +158,7 @@ public class MyAccountController {
         String inputPassword = AuthTool.md5SysUserPassword(password, user.getUsername());
 
         SysUserVo vo = new SysUserVo();
-        SysUserVo sysUserVo ;
+        SysUserVo sysUserVo;
         String entranceStr = SessionManager.getEntrance();
         if (String.valueOf(PassportVo.MASTER).equals(entranceStr)) {
             //站长
@@ -178,6 +194,7 @@ public class MyAccountController {
      */
     @RequestMapping(value = "/updatePassword")
     @ResponseBody
+    @Audit(module = Module.SUB_ACCOUNT, moduleType = ModuleType.RESET_USER_PASSWORD, opType = OpType.UPDATE)
     public Map updatePassword(UpdatePasswordVo updatePasswordVo, @FormModel() @Valid UpdatePasswordForm form, BindingResult result) {
         Map map = MapTool.newHashMap();
         if (result.hasErrors()) {
@@ -212,6 +229,7 @@ public class MyAccountController {
             sessionUser.setPassword(newPwd);
             SessionManager.setUser(sessionUser);
             map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.success"));
+            addLog("myAccount.updatePassword");
         } else {
             map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.failed"));
         }
@@ -229,16 +247,15 @@ public class MyAccountController {
         model.addAttribute("type", 2);
         String privilegeCode = SessionManager.getPrivilegeCode();
         if (StringTool.isBlank(privilegeCode)) {
-            model.addAttribute("emptyCode","true");
+            model.addAttribute("emptyCode", "true");
             model.addAttribute("rule", JsRuleCreator.create(UpdatePrivilegesPasswordWithoutRemoteForm.class));
         } else {
-            model.addAttribute("emptyCode","false");
+            model.addAttribute("emptyCode", "false");
             model.addAttribute("rule", JsRuleCreator.create(UpdatePrivilegesPasswordForm.class));
         }
         model.addAttribute("first", StringTool.isBlank(privilegeCode));
         return this.getViewBasePath() + "myAccount/UpdatePassword";
     }
-
 
 
     /**
@@ -264,6 +281,7 @@ public class MyAccountController {
      */
     @RequestMapping(value = "/updatePrivilegePassword")
     @ResponseBody
+    @Audit(module = Module.SUB_ACCOUNT, moduleType = ModuleType.RESET_USER_PERMISSIONPWD, opType = OpType.UPDATE)
     public Map updatePrivilegePassword(UpdatePasswordVo updatePasswordVo) {
         Map map = MapTool.newHashMap();
         Integer userId = SessionManager.getUserId();
@@ -276,7 +294,7 @@ public class MyAccountController {
         sysUser.setSecpwdErrorTimes(null);
         sysUser.setSecpwdFreezeEndTime(new Date());
         sysUserVo.setResult(sysUser);
-        sysUserVo.setProperties(SysUser.PROP_PERMISSION_PWD,SysUser.PROP_SECPWD_ERROR_TIMES,SysUser.PROP_SECPWD_FREEZE_END_TIME);
+        sysUserVo.setProperties(SysUser.PROP_PERMISSION_PWD, SysUser.PROP_SECPWD_ERROR_TIMES, SysUser.PROP_SECPWD_FREEZE_END_TIME);
         boolean success = ServiceTool.sysUserService().updateOnly(sysUserVo).isSuccess();
         //如果是站长还要更新在运营商库的用户
         if (String.valueOf(PassportVo.MASTER).equals(entranceStr)) {
@@ -297,12 +315,25 @@ public class MyAccountController {
             SessionManager.setUser(sessionUser);
             map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.success"));
             SessionManager.clearPrivilegeStatus();
+            //增加日志
+            addLog("myAccount.updatePrivilegePassword");
         } else {
             map.put("msg", LocaleTool.tranMessage(Module.COMPANY_SETTING, "myAccount.updatePassword.failed"));
         }
         return map;
     }
 
+
+    /**
+     * 添加修改日志
+     */
+    private void addLog(String description) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        LogVo logVo = new LogVo();
+        BaseLog baseLog = logVo.addBussLog();
+        baseLog.setDescription(description);
+        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+    }
 
     /**
      * 修改資料--打开页面

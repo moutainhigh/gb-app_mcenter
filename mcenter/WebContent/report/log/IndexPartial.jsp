@@ -72,7 +72,9 @@
                     </td>
                 </c:when>
                 <c:otherwise>
-                    <td>${soulFn:formatLogDesc(cmd)}</td>
+                    <td>
+                            ［${cmd.operateType}］
+                        <br>${soulFn:formatLogDesc(cmd)}</td>
                 </c:otherwise>
             </c:choose>
         </tr>
