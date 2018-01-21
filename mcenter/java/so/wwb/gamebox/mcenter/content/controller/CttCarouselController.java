@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttCarouselService;
-import so.wwb.gamebox.mcenter.content.form.CttCarouselDialogForm;
-import so.wwb.gamebox.mcenter.content.form.CttCarouselForm;
-import so.wwb.gamebox.mcenter.content.form.CttCarouselPcenterAdForm;
-import so.wwb.gamebox.mcenter.content.form.CttCarouselSearchForm;
+import so.wwb.gamebox.mcenter.content.form.*;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.ParamTool;
@@ -249,6 +246,18 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         return this.getVoMessage(objectVo);
     }
 
+    @RequestMapping({"registerAd/persist"})
+    @ResponseBody
+    public Map registerPersist(CttCarouselVo objectVo, @FormModel("result") @Valid CttCarouselRegisterForm form, BindingResult result) {
+        if(true) {
+            objectVo = this.doPersist(objectVo);
+        } else {
+            objectVo.setSuccess(false);
+        }
+
+        return this.getVoMessage(objectVo);
+    }
+
     @RequestMapping({"pcenterAD/persist"})
     @ResponseBody
     public Map pcenterPersist(CttCarouselVo objectVo, @FormModel("result") @Valid CttCarouselPcenterAdForm form, BindingResult result) {
@@ -370,7 +379,30 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         commonCreate(cttCarouselVo, model);
         return getViewBasePath() + "mobileDialog/Edit";
     }
-    @RequestMapping("/mobileEdit")
+
+    /**
+     * PC注册页广告编辑
+     * @param cttCarouselVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/registerAd/create")
+    public String registerAdCreate(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselRegisterForm.class));
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_AD_REGISTER.getCode());
+        commonCreate(cttCarouselVo, model);
+        return getViewBasePath() + "registerAd/Edit";
+    }
+
+    @RequestMapping("/registerAd/edit")
+    public String registerAdEdit(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselRegisterForm.class));
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_AD_REGISTER.getCode());
+        commonEdit(cttCarouselVo, model);
+        return getViewBasePath() + "registerAd/Edit";
+    }
+
+    @RequestMapping("/mobileEdit/edit")
     public String mobileEdit(CttCarouselVo cttCarouselVo,Model model){
         cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselDialogForm.class));
         cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_PHONE_DIALOG.getCode());
