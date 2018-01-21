@@ -116,6 +116,7 @@ public class SiteJackpotController extends BaseCrudController<ISiteJackpotServic
         if (vo.getResult() == null) {
             vo.setResult(new SysExport());
         }
+        vo.setConfigKey("SiteApiJackpotForMaster");
         vo.getResult().setService(ISiteJackpotService.class.getName());
         vo.getResult().setMethod("queryJackpotSite");
         vo.getResult().setParam(SiteJackpotListVo.class.getName());
