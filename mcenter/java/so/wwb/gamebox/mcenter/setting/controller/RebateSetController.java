@@ -482,14 +482,14 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         model.addAttribute("withdrawLimitMin", withdrawLimitMin);
         model.addAttribute("withdrawLimitMax", withdrawLimitMax);
 
-        SysParam rakebackParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_RAKEBACK_PERCENT);
+        /*SysParam rakebackParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_RAKEBACK_PERCENT);
         SysParam favorableParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_PREFERENTIAL_PERCENT);
         SysParam adminParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_ADMINISTRATOR_PERCENT);
         SysParam otherParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_OTHER_PERCENT);
         model.addAttribute("rakebackParam", rakebackParam);
         model.addAttribute("favorableParam", favorableParam);
         model.addAttribute("adminParam", adminParam);
-        model.addAttribute("otherParam", otherParam);
+        model.addAttribute("otherParam", otherParam);*/
 
         SysParam rakbackParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
         SysParam preferentialParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
@@ -525,17 +525,17 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         }
         SysParam [] sysParams = rebateSetVo.getSysParam();
         //分摊比例已移到返佣梯度,这里的隐藏.后期删除
-        double sysParam2 = Double.parseDouble(sysParams[2].getParamValue());
+        /*double sysParam2 = Double.parseDouble(sysParams[2].getParamValue());
         double sysParam3 = Double.parseDouble(sysParams[3].getParamValue());
-        double sysParam4 = Double.parseDouble(sysParams[4].getParamValue());
+        double sysParam4 = Double.parseDouble(sysParams[4].getParamValue());*/
         double sysParam5 = Double.parseDouble(sysParams[5].getParamValue());
         double sysParam6 = Double.parseDouble(sysParams[6].getParamValue());
         double sysParam7 = Double.parseDouble(sysParams[7].getParamValue());
-        double rakeback = sysParam2 + sysParam6;
+        /*double rakeback = sysParam2 + sysParam6;
         double promot = sysParam3 + sysParam5;
-        double other = sysParam4 + sysParam7;
+        double other = sysParam4 + sysParam7;*/
         boolean flag = true;
-        if (rakeback>100 || promot>100 || other>100){
+        if (sysParam5>100 || sysParam6>100 || sysParam7>100){
             flag = false;
         }
         if(!flag){
@@ -564,9 +564,9 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
             ParamTool.refresh(SiteParamEnum.SETTING_AGENT_WITHDRAWAL_LIMIT_MAX);
 
             ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_ADMINISTRATOR_PERCENT);
-            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_RAKEBACK_PERCENT);
+            /*ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_RAKEBACK_PERCENT);
             ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_AGENT_OTHER_PERCENT);
-            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+            ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);*/
 
             ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
             ParamTool.refresh(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_ADMINISTRATOR_PERCENT);
