@@ -27,7 +27,7 @@
                     <td>${p.code}</td>
                     <td>
                         <soul:button target="${root}/cttDocument/showDocumentDetail.html?search.id=${p.id}"
-                                     opType="dialog" text="${cacheMap[p.id.toString()].title}"
+                                     opType="dialog" text="${cacheMap[p.id.toString()].title}" size="size-wide"
                                      title="${cacheMap[p.id.toString()].title}-${views.common['detail']}"></soul:button>
 
                     </td>

@@ -2998,7 +2998,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             }
 
         }
-        //vo.setTemplateFileName("gb/0/exportTemplate/228/1516497713030.xls");
+        //vo.setTemplateFileName("gb/0/exportTemplate/232/1516517552234.xls");
         vo.getResult().setParam(VUserPlayerListVo.class.getName());
         vo.getResult().setUsername(SessionManager.getUserName());
         vo.getResult().setExportUserId(SessionManager.getUserId());
@@ -3007,7 +3007,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             vo.getResult().setSiteId(SessionManager.getSiteId());
         }
         vo.getResult().setFileName(LocaleTool.tranView("export", "player_manage") + "-"
-                + DateTool.formatDate(DateQuickPicker.getInstance().getNow(), SessionManager.getLocale(), SessionManager.getTimeZone(), "yyyyMMddHHmmss"));
+                + DateTool.formatDate(DateQuickPicker.getInstance().getNow(), SessionManager.getTimeZone(), "yyyyMMddHHmmss"));
         if (vo.isNeedCallBack()) {
             vo.setCallbackClass(IUserPlayerService.class.getName());
             vo.setCallbackMethod("updateUserPlayerExportStatus");
