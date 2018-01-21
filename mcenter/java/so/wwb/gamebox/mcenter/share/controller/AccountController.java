@@ -14,6 +14,7 @@ import org.soul.commons.log.LogFactory;
 import org.soul.commons.support._Module;
 import org.soul.iservice.security.privilege.ISysUserService;
 import org.soul.model.log.audit.enums.OpMode;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.msg.notice.enums.INoticeEventType;
 import org.soul.model.msg.notice.vo.NoticeLocaleTmpl;
 import org.soul.model.msg.notice.vo.NoticeVo;
@@ -32,11 +33,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
+import so.wwb.gamebox.mcenter.player.controller.PlayerResetPwdController;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.ModuleType;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.NoticeParamEnum;
 import so.wwb.gamebox.model.company.site.po.SiteCustomerService;
@@ -50,6 +57,7 @@ import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 
@@ -146,6 +154,7 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
     @RequestMapping(value = "setAccountDisabled", method = RequestMethod.POST)
     @ResponseBody
     @Token(valid = true)
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.USER_DISABLE, opType = OpType.UPDATE)
     public Map setAccountDisabled(Model model, AccountVo accountVo) {
         createRemarkTitle(accountVo, "account.disabledAccount.text");
         ServiceSiteTool.userPlayerService().setAccountDisabled(accountVo);
@@ -158,6 +167,7 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         String messageType = "accountDisabled";
         NoticeVo noticeVo = buildNoticeParam(messageType,accountVo,eventType);
         sendMessageByGroupCode(noticeVo);
+        addLog("account.setAccountDisabled",accountVo);
         return getVoMessage(accountVo);
     }
 
@@ -195,6 +205,7 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
     @RequestMapping("/setFreezeAccount")
     @ResponseBody
     @Token(valid = true)
+    @Audit(module = Module.AGENT, moduleType = ModuleType.USER_FREEZE, opType = OpType.UPDATE)
     public Map setFreezeAccount(Model model, AccountVo accountVo) {
 
         INoticeEventType eventType = getFreezeNoticeEventType(accountVo.getType());
@@ -222,8 +233,10 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         accountVo.getSearch().setFreezeContent(content);
         accountVo = ServiceSiteTool.userPlayerService().setAccountFreeze(accountVo);
         sendMessageByGroupCode(noticeVo);
+        addLog("account.setFreezeAccount",accountVo);
         return getVoMessage(accountVo);
     }
+
 
     private void kickoutFromApi(Integer userId){
         try{
@@ -299,6 +312,7 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
      */
     @RequestMapping("/cancelAccountFreeze")
     @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.USER_CANCEL_FREEZE, opType = OpType.UPDATE)
     public Map cancelAccountFreeze(AccountVo accountVo) {
         accountVo.setResult(new SysUser());
         accountVo.getResult().setId(accountVo.getSearch().getId());
@@ -306,8 +320,24 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         accountVo.getResult().setLoginErrorTimes(0);
         accountVo.setProperties(SysUser.PROP_FREEZE_END_TIME, SysUser.PROP_LOGIN_ERROR_TIMES);
         ServiceTool.sysUserService().updateOnly(accountVo);
+        addLog("account.cancelAccountFreeze",accountVo);
         return getVoMessage(accountVo);
     }
+
+    /**
+     * 添加账户状态修改日志
+     */
+    public void addLog(String description, AccountVo accountVo) {
+        try {
+            SysUserVo sysUserVo = new SysUserVo();
+            sysUserVo.getSearch().setId(accountVo.getResult().getId());
+            sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+            PlayerResetPwdController.addLog(description, sysUserVo.getResult().getUsername());
+        } catch (Exception ex) {
+
+        }
+    }
+
 
     /*
      *  系统生成备注标题

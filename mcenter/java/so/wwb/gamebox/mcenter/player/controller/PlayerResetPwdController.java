@@ -400,7 +400,7 @@ public class PlayerResetPwdController {
     /**
      * 添加修改日志
      */
-    public void addLog(String description, String name) {
+    public static void addLog(String description, String name) {
         try {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             LogVo logVo = new LogVo();
