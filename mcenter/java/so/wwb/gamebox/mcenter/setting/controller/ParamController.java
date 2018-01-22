@@ -64,6 +64,8 @@ import so.wwb.gamebox.model.master.agent.po.VSubAccount;
 import so.wwb.gamebox.model.master.agent.vo.VSubAccountListVo;
 import so.wwb.gamebox.model.master.content.vo.CttLogoVo;
 import so.wwb.gamebox.model.master.content.vo.PayAccountVo;
+import so.wwb.gamebox.model.master.operation.vo.PlayerRankAppDomainListVo;
+import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.setting.po.FieldSort;
 import so.wwb.gamebox.model.master.setting.po.GradientTemp;
 import so.wwb.gamebox.web.cache.Cache;
@@ -465,10 +467,24 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
         SysParam param = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
         SysParam mobileTraffic = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
+        SysParam sysParamPhone = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_PHONE_NUMBER);
+        SysParam sysParamQq = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
+        SysParam sysParamSkyep = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_QQ);
+        SysParam sysParamEmail= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_SKYPE);
+        SysParam sysParamCopyright= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_COPYRIGHT_INFORMATION);
+        SysParam sysParamQrSwitch= ParamTool.getSysParam(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
+        model.addAttribute("qrSwitch",sysParamQrSwitch);
+        model.addAttribute("phone",sysParamPhone);
+        model.addAttribute("qq",sysParamQq);
+        model.addAttribute("skyep",sysParamSkyep);
+        model.addAttribute("email",sysParamEmail);
+        model.addAttribute("copyright",sysParamCopyright);
         model.addAttribute("access_domain",param);
         model.addAttribute("select_domain",sysParam);
         model.addAttribute("mobile_traffic",mobileTraffic.getParamValue());
         model.addAttribute("appDomain",result);
+        model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
+        model.addAttribute("rankAppDomain",ServiceTool.playerRankAppDomainService().search(new PlayerRankAppDomainListVo()));
         return "/setting/param/siteparameters/BasicSetting";
     }
 
@@ -1068,6 +1084,34 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         }
         return map;
     }
+
+
+    /*
+    *
+    * pc端联方式设置
+    *
+    * */
+    @RequestMapping("/saveContactInformation")
+    @ResponseBody
+    public Map saveContactInformation(SysSiteVo sysSiteVo){
+        Map map=new HashMap(2,1f);
+        SysParamVo sysParamVo=new SysParamVo();
+        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+        SysParam[] sysParam = sysSiteVo.getSysParam();
+      if (sysParam!=null){
+          for (SysParam sysParam1:sysParam){
+              sysParamVo.setResult(sysParam1);
+              ServiceTool.getSysParamService().updateOnly(sysParamVo);
+          }
+          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PHONE_NUMBER);
+          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
+          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_QQ);
+          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_SKYPE);
+          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_COPYRIGHT_INFORMATION);
+      }
+
+        return map;
+    }
     /*
     * 玩家中心弹窗开关
     *
@@ -1086,7 +1130,24 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         }
         return  map;
     }
-
+    /*
+      * 登录二维码显示开关
+      *
+      * */
+    @RequestMapping("/updateQrSwitch")
+    @ResponseBody
+    public  Map updateQrSwitch(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        /*ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_OPENPLAYER_STATISTICS);*/
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
+        if (sysParam!=null) {
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            ParamTool.refresh(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
+        }
+        return  map;
+    }
 
     /*
     * 提示音设置开关

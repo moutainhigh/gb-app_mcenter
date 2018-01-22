@@ -12,6 +12,7 @@ import org.soul.web.validation.form.annotation.FormModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
@@ -33,6 +34,9 @@ import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.master.content.po.VFloatPic;
 import so.wwb.gamebox.model.master.content.vo.VFloatPicListVo;
 import so.wwb.gamebox.model.master.enums.FloatPicLinkTypeEnum;
+import so.wwb.gamebox.model.master.operation.po.PlayerRankAppDomain;
+import so.wwb.gamebox.model.master.operation.vo.PlayerRankAppDomainListVo;
+import so.wwb.gamebox.model.master.operation.vo.PlayerRankAppDomainVo;
 import so.wwb.gamebox.web.cache.Cache;
 
 import javax.validation.Valid;
@@ -325,17 +329,20 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
 
     /**
      * APP下载域名设置
-     * @param sysParamVo
+     * @param
      * @param model
      * @return
      */
     @RequestMapping("/appDomain")
     @ResponseBody
-    public Map updateAppDomainService(SysParamVo sysParamVo,Model model){
-
+    public Map updateAppDomainService( PlayerRankAppDomainListVo playerRankAppDomainListVo,Model model){
         Map map=new HashedMap();
+        playerRankAppDomainListVo=ServiceTool.playerRankAppDomainService().insertALL(playerRankAppDomainListVo);
+        SysParamVo sysParamVo = new SysParamVo();
+        if(playerRankAppDomainListVo.getSysParam()!=null){
+            sysParamVo.setResult(playerRankAppDomainListVo.getSysParam());
+        }
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
-
         if(sysParam!=null){
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
@@ -348,7 +355,6 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
             sysParamVo.getResult().setActive(true);
             sysParamVo = ServiceTool.getSysParamService().insert(sysParamVo);
         }
-
         ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
         if(sysParamVo.isSuccess()){
             map.put("msg",LocaleTool.tranMessage("setting_auto","成功"));
