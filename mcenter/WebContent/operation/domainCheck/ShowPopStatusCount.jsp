@@ -9,9 +9,7 @@
 </head>
 <div class="row">
         <div class="col-lg-12 m-b">
-            <div class="wrapper white-bg shadow">
 
-                <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
                     <div class="search-list-container">
 
                         <center><H1>${views.operation['域名检测完成！']}</H1></center>
@@ -93,18 +91,22 @@
                                     </td>
                                 </tr>
 
+                                <tr>　　　　
+                                    <td colspan="2">
+                                    </td>
+                                </tr>
+
                                 </tbody>
                             </table>
-                            <div class="clearfix filter-wraper border-b-1 line-hi34 al-right">
+                            <div class="clearfix filter-wraper line-hi34 al-right">
                                 <a class="btn btn-link co-blue"
-                                   href="${root}#/vDomainCheckResultStatistics/getCount.html"
+                                   href="${root}#/operation/domainCheckData/getDomainCount.html" onclick="window.top.topPage.closeDialog();"
                                    nav-target="mainFrame" target="_blank">${views.operation['查看详情']}</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+
 </div>
 </html>
 <!--//endregion your codes 1-->

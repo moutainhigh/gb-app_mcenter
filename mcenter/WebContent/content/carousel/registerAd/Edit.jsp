@@ -1,9 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: jeff
-  Date: 15-7-29
-  Time: 上午10:50
---%>
 <%--@elvariable id="command" type="so.wwb.gamebox.model.master.content.vo.CttCarouselVo"--%>
 <%--@elvariable id="languageList" type="java.util.Map<java.lang.String,so.wwb.gamebox.model.company.site.po.SiteLanguage>"--%>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -20,7 +14,6 @@
     <link href="${resComRoot}/themes/${curTheme}/banner/elastislide.css" rel="stylesheet"/>
     <link href="${resComRoot}/themes/${curTheme}/switchery/switchery.css" rel="stylesheet">
     <link href="${resComRoot}/themes/${curTheme}/cropper/cropper.min.css" rel="stylesheet">
-    <%--<link href="${resComRoot}/themes/${curTheme}/bootstrap-checkbox/bootstrap-checkbox.css" rel="stylesheet">--%>
     <link href="${resComRoot}/themes/${curTheme}/chosen/chosen.css" rel="stylesheet">
 </head>
 <body>
@@ -59,69 +52,42 @@
                               startName="result.startTime" endName="result.endTime"
                               startDate="${command.result.startTime}" endDate="${command.result.endTime}"></gb:dateRange>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="al-right">广告类型：</label>
-            <div class="col-sm-3">
-                <input type="radio" class="i-checks" name="result.contentType" value="1"
-                ${command.result.contentType=='1' || empty command.result.contentType ? 'checked' : ''}>图片
-                <input type="radio" class="i-checks" name="result.contentType" value="2"
-                ${command.result.contentType=='2' ? 'checked' : ''}>文字
-            </div>
-        </div>
-        <div class="form-group ${command.result.contentType=='2'?'hide':''}" id="showModel">
-            <div class="col-sm-3">
-                <input type="checkbox" class="i-checks" name="result.showModel" value="1" ${command.result.showModel=='1' ? 'checked' : ''}>
-                <span>启用透明PNG图片模式</span>
-                <span style="font-size: 14px;margin-left: 50px;color: #9c9c9c;">启用后以纯图片形式展示弹窗广告，无边框</span>
-            </div>
-        </div>
-        <div class="form-group ${command.result.contentType=='2'?'hide':''}" id="content_picture_link">
-            <label>${views.column['VCttCarousel.link']}：</label>
-            <div class="clearfix col-sm-8">
-                <input type="text" class="form-control" style="width: 340px; display: inline-block;"
-                       id="url" name="result.link" value="${command.result.link}"
-                       placeholder="${views.content['carousel.pictureLinkTips']}" />
-                <span class="input-group-addon bdn _editTags" style="display: inline-block;">
-                    <a href="javascript:void(0)" name="float_pic_list_item_placeholder"
-                       class="variable">
-                            ${views.operation['MassInformation.step3.website']}<span>{website}</span>
-                    </a>
-                </span>
-            </div>
+
         </div>
 
-    <div class="clearfix save lgg-version">
-        <c:forEach items="${command.siteLanguages}" var="p" varStatus="status">
-            <a id="tag${status.index+1}" aria-expanded="${index.index==0?'true':'false'}" name="tag" tagIndex="${status.index+1}"
-               class="${status.index=='0'?'current':''} a_${p.language} tag${status.index+1} tabLanguage"
-               tagIndex="${status.index+1}" siteSize="" href="javascript:void(0)" local="${p.language}">${dicts.common.local[p.language]}
+
+
+        <div class="clearfix save lgg-version">
+            <c:forEach items="${command.siteLanguages}" var="p" varStatus="status">
+                <a id="tag${status.index+1}" aria-expanded="${index.index==0?'true':'false'}" name="tag" tagIndex="${status.index+1}"
+                   class="${status.index=='0'?'current':''} a_${p.language} tag${status.index+1} tabLanguage"
+                   tagIndex="${status.index+1}" siteSize="" href="javascript:void(0)" local="${p.language}">${dicts.common.local[p.language]}
                 <span id="span${p.language}">
                         ${status.index=='0'?views.setting['switch.CloseReminder.editing']:typeI18nMap.get(p.language).name.length()>0&&typeI18nMap.get(p.language).cover.length()>0?views.setting['switch.CloseReminder.edited']:views.setting['switch.CloseReminder.unedited']}
                 </span>
-            </a>
-        </c:forEach>
-        <input type="hidden" name="curLanguage" id="curLanguage" value="1">
+                </a>
+            </c:forEach>
+            <input type="hidden" name="curLanguage" id="curLanguage" value="1">
         <span class="more">
             <soul:button target="changeCurrentLang" tag="a" opType="function" cssClass="next_lang" text="">
                 <i class="fa fa-angle-double-right"></i>
             </soul:button>
         </span>
-        <div class="pull-right inline">
-            <div class="btn-group">
-                <button class="btn btn-link dropdown-toggle fzyx" data-toggle="dropdown">
-                        ${views.setting['serviceTrems.copy']}&nbsp;&nbsp;<span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu pull-right">
-                    <c:forEach items="${command.siteLanguages}" var="p" varStatus="status"><%--typeI18nMap.get(p.language).name||--%>
-                        <li ${empty typeI18nMap.get(p.language).name||status.index==0?"hidden":""} id="option${p.language}" class="temp">
-                            <a class="co-gray copy" href="javascript:void(0)" local="${p.language}">${dicts.common.local[p.language]}</a>
-                        </li>
-                    </c:forEach>
-                </ul>
+            <div class="pull-right inline">
+                <div class="btn-group">
+                    <button class="btn btn-link dropdown-toggle fzyx" data-toggle="dropdown">
+                            ${views.setting['serviceTrems.copy']}&nbsp;&nbsp;<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu pull-right">
+                        <c:forEach items="${command.siteLanguages}" var="p" varStatus="status"><%--typeI18nMap.get(p.language).name||--%>
+                            <li ${empty typeI18nMap.get(p.language).name||status.index==0?"hidden":""} id="option${p.language}" class="temp">
+                                <a class="co-gray copy" href="javascript:void(0)" local="${p.language}">${dicts.common.local[p.language]}</a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
         <div class="hfsj-wrap">
             <c:forEach var="p" items="${command.siteLanguages}" varStatus="index">
@@ -133,33 +99,16 @@
                         <div class="content${p.language} ann tab-pane" style="display: ${index.index=='0'?'':'none'}" lang="${p.language}">
                             <div class="form-group">
                                 <div class="clearfix ${command.result.contentType=='2'?'hide':''} content_picture_title">
-                                    <label>${views.column['CttCarouselI18n.name']}：</label>
+                                    <label>${views.column['CttAnnouncement.title']}：</label>
                                 </div>
-                                <div class="clearfix ${command.result.contentType=='2'?'':'hide'} content_word_title">
-                                    <label>弹窗标题：</label>
-                                </div>
+                                <input type="hidden" class="carouselCoverVal${p.language} _edit cover"
+                                       name="cttCarouselI18n[${index.index}].cover" value="${carousel.cover}">
                                 <div>
                                     <input type="text" placeholder="" tt="${p.language}" class="form-control field carouselNameVal${p.language} _edit"
-                                           maxlength="40"   name="cttCarouselI18n[${index.index}].name" value="${carousel.name}">
+                                           maxlength="40" name="cttCarouselI18n[${index.index}].name" value="${carousel.name}">
                                 </div>
                             </div>
-
-                            <div class="form-group ${command.result.contentType=='2'?'hide':''} content_picture">
-                                <label>${views.content['carousel.uploadPicture']}：</label>
-                                <span class="m-l co-grayc2">${views.content['carousel.uploadPictureTips']}</span>
-                                <div class="form-group m-b-sm">
-                                    <div id="carouselI18nsCover${index.index}">
-                                        <c:if test="${not empty carousel.cover}">
-                                            <img id="carouselCoverImg${p.language}" src="${soulFn:getThumbPath(domain, carousel.cover,500,500)}" class="logo-size-h100" style="margin: 10px 0; width: auto;height: 250px;"/>
-                                        </c:if>
-                                    </div>
-                                    <input id="activityContentFile" class="file " type="file" accept="image/*" name="carouselCoverFile"
-                                           target="cttCarouselI18n[${index.index}].cover" value="${carousel.cover}">
-                                    <input type="hidden" class="carouselCoverVal${p.language} _edit cover" bbb="${index.index}" tt="${p.language}"
-                                           name="cttCarouselI18n[${index.index}].cover" id="carouselCover${index.index}" value="${carousel.cover}">
-                                </div>
-                            </div>
-                            <div class="form-group ${command.result.contentType=='2'?'':'hide'} content_word_title">
+                            <div class="form-group content_word_title">
                                 <div class="clearfix">
                                     <label>弹窗内容：</label>
                                     <div>
@@ -177,7 +126,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <soul:button precall="preSave" tag="button" target="saveCarousel" callback="" cssClass="btn btn-filter" text="${views.common['OK']}" opType="function"></soul:button>
+        <soul:button precall="" tag="button" target="saveCarousel" callback="" cssClass="btn btn-filter" text="${views.common['OK']}" opType="function"></soul:button>
         <soul:button target="closePageConfirm" tag="button" opType="function" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter"></soul:button>
     </div>
     <%--隐藏域--%>
@@ -191,5 +140,5 @@
 </form:form>
 </body>
 <%@ include file="/include/include.js.jsp" %>
-<soul:import res="site/content/carousel/msiteDialog/Edit"/>
+<soul:import res="site/content/carousel/msiteRegister/Edit"/>
 </html>

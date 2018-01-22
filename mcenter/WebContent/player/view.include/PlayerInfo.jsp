@@ -74,7 +74,7 @@
                     <c:if test="${!unencryption}">
                     <td>
                         ${soulFn:overlayEmaill(command.result.mail)}&nbsp;
-                        <shiro:hasPermission name="role:player_detail">
+                        <shiro:hasPermission name="role:player_personal_detail">
                             <a href="/player/playerViewDetail.html?search.id=${command.search.id}" nav-target="mainFrame" style="display: ${!empty command.result.mail?'':'none'}">${views.common['view']}</a>
                         </shiro:hasPermission>
                     </td>
@@ -93,7 +93,7 @@
                     <c:if test="${!unencryption}">
                         <td>
                             ${soulFn:overlayTel(command.result.mobilePhone)}&nbsp;
-                            <shiro:hasPermission name="role:player_detail">
+                            <shiro:hasPermission name="role:player_personal_detail">
                                 <a href="/player/playerViewDetail.html?search.id=${command.search.id}" nav-target="mainFrame" style="display: ${empty command.result.mail && !empty command.result.mobilePhone?'':'none'}">${views.common['view']}</a>
                             </shiro:hasPermission>
                         </td>
@@ -176,7 +176,7 @@
                     <c:if test="${!unencryption}">
                         <td>
                             ${soulFn:overlayString(command.result.skype)}&nbsp;
-                            <shiro:hasPermission name="role:player_detail">
+                            <shiro:hasPermission name="role:player_personal_detail">
                                 <a href="/player/playerViewDetail.html?search.id=${command.search.id}" nav-target="mainFrame" style="display: ${empty command.result.mail && empty command.result.mobilePhone && !empty command.result.skype?'':'none'}">${views.common['view']}</a>
                             </shiro:hasPermission>
                         </td>
@@ -195,7 +195,7 @@
                     <c:if test="${!unencryption}">
                         <td>
                             ${soulFn:overlayString(command.result.qq)}&nbsp;
-                            <shiro:hasPermission name="role:player_detail">
+                            <shiro:hasPermission name="role:player_personal_detail">
                                 <a href="/player/playerViewDetail.html?search.id=${command.search.id}" nav-target="mainFrame" style="display: ${empty command.result.mail && empty command.result.mobilePhone && empty command.result.skype && !empty command.result.qq?'':'none'}">${views.common['view']}</a></td>
                             </shiro:hasPermission>
                     </c:if>
@@ -213,7 +213,7 @@
                     <c:if test="${!unencryption}">
                         <td>
                         ${soulFn:overlayString(command.result.weixin)}&nbsp;
-                        <shiro:hasPermission name="role:player_detail">
+                        <shiro:hasPermission name="role:player_personal_detail">
                             <a href="/player/playerViewDetail.html?search.id=${command.search.id}" nav-target="mainFrame" style="display: ${empty command.result.mail && empty command.result.mobilePhone && empty command.result.qq && not empty command.result.weixin ?'':'none'}">${views.common['view']}</a></td>
                         </shiro:hasPermission>
                     </c:if>
@@ -231,7 +231,7 @@
                     <c:if test="${!unencryption}">
                     <td>
                         ${soulFn:overlayString(command.result.msn)}&nbsp;
-                        <shiro:hasPermission name="role:player_detail">
+                        <shiro:hasPermission name="role:player_personal_detail">
                             <a href="/player/playerViewDetail.html?search.id=${command.search.id}" nav-target="mainFrame" style="display: ${empty command.result.mail && empty command.result.mobilePhone && empty command.result.skype && empty command.result.qq && !empty command.result.msn?'':'none'}">${views.common['view']}</a></td>
                         </shiro:hasPermission>
                     </c:if>

@@ -13,6 +13,10 @@
             <th rowspan="2">${views.wc_fund['代理层级']}</th>
             <th rowspan="2">${views.wc_fund['rebate.edit.validPlayerNum']}</th>
             <th>${views.wc_fund["达到梯度"]}</th>
+            <th rowspan="2">${views.wc_fund['佣金上限']}
+                <span tabindex="0" class="m-l-sm help-popover" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+                      data-content="${views.wc_fund['max_rebate']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span>
+            </th>
             <th class="multiple-row" colspan="2">
                 <div class="title">${views.wc_fund['effective_transaction']}</div>
                 <div class="two-col">${views.wc_fund['operation.rebate.self']}</div>
@@ -38,7 +42,15 @@
                 <div class="two-col">${views.wc_fund['累计']}</div>
                 <div class="two-col">${views.wc_fund['当期']}</div>
             </th>
-            <th rowspan="2">${views.wc_fund['可获返佣']}</th>
+
+            <th rowspan="2">${views.wc_fund['本期返佣']}
+                <span tabindex="0" class="m-l-sm help-popover" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+                      data-content="${views.wc_fund['this_rebate']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span>
+            </th>
+            <th rowspan="2">${views.wc_fund['可获返佣']}
+                <span tabindex="0" class="m-l-sm help-popover" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+                      data-content="${views.wc_fund['total_rebate']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span>
+            </th>
             <th rowspan="2">${views.wc_fund['已获返佣']}</th>
             <th rowspan="2">${views.wc_fund['状态']}</th>
             <th rowspan="2">${views.common['operate']}</th>
@@ -69,6 +81,7 @@
                     </td>
                     <td>${p.effectivePlayer}</td>
                     <td>${empty p.rebateGradsId ?views.common['no']:views.common['yes']}</td>
+                    <td><div class="${p.maxRebate<0?'co-red':''}">${soulFn:formatCurrency(p.maxRebate)}</div></td>
                     <td colspan="2" class="multiple-row-td">
                         <div class="${p.effectiveSelf<0?'co-red':''}">${soulFn:formatCurrency(p.effectiveSelf)}</div>
                         <div class="${p.effectiveTransaction-p.effectiveSelf<0?'co-red':''}">${soulFn:formatCurrency(p.effectiveTransaction-p.effectiveSelf)}</div>
@@ -106,6 +119,8 @@
                             <a href="/rebateAgent/queryRebateAgentPlayer.html?search.rebateBillId=${p.rebateBillId}&rebateAgentId=${p.id}&search.agentId=${p.agentId}" nav-target="mainFrame">${soulFn:formatCurrency(p.feeAmount)}</a>
                         </div>
                     </td>
+
+                    <td><div class="${p.rebateAmount<0?'co-red':''}">${soulFn:formatCurrency(p.rebateAmount)}</div></td>
                     <td><div class="${p.rebateTotal<0?'co-red':''}">${soulFn:formatCurrency(p.rebateTotal)}</div></td>
                     <td><div class="${p.rebateActual<0?'co-red':''}">${soulFn:formatCurrency(p.rebateActual)}</div></td>
                     <td>

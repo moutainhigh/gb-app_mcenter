@@ -6,12 +6,15 @@
 <c:set var="isLotterySite" value="<%=ParamTool.isLotterySite()%>"/>
 <div class="al-left assets-wrap">
     ${views.fund['playerDetect.view.totalAssets']}：
-    <span class="co-red ass">${soulFn:formatCurrency(apiList.totalAssets)}</span>
-    <c:if test="${!isLotterySite}">
+    <span class="co-red ass" id="totalAssets">${soulFn:formatCurrency(apiList.totalAssets)}</span>
+    <span class="m-loading-icon-x" style="display: none"><img src="${resRoot}/images/022b.gif"></span>
+        <c:if test="${!isLotterySite}">
          <span class="co-gray9 m-l-md">
             <soul:button target="refresh" nowTime="${soulFn:formatDateTz(nowTime, DateFormat.DAY_SECOND, timeZone)}" synTime="${soulFn:formatDateTz(balanceTime, DateFormat.DAY_SECOND,timeZone)}" text="" opType="function" cssClass="co-gray9 totalRefresh" playerId="${command.result.id}"><i class="fa fa-refresh"></i></soul:button>
-            ${views.fund['playerDetect.view.synchronizationTime']}：${soulFn:formatDateTz(command.result.synchronizationTime, DateFormat.DAY_SECOND,timeZone)}
-        </span>
+            ${views.fund['playerDetect.view.synchronizationTime']}：
+            <span id="refreshTime">${soulFn:formatDateTz(command.result.synchronizationTime, DateFormat.DAY_SECOND,timeZone)}</span>
+            <span class="m-loading-icon-x" style="display: none"><img src="${resRoot}/images/022b.gif"></span>
+         </span>
     </c:if>
     <c:if test="${isLotterySite}">
         <span class="m-l-md">
@@ -26,14 +29,16 @@
     <dl class="clearfix funds-wrap tooltip-demo p-xs">
         <dt class="m-l-sm">
             <b>${views.fund['playerDetect.view.walletBalance']}</b>
-            <span>${soulFn:formatCurrency(command.result.walletBalance)}</span>
-            <shiro:hasPermission name="fund:artificial">
+            <span id="walletBalance">${soulFn:formatCurrency(command.result.walletBalance)}</span>
+            <span class="m-loading-icon-x" style="display: none"><img src="${resRoot}/images/022b.gif"></span>
+        <shiro:hasPermission name="fund:artificial">
                 <a style="float: left" href="/fund/manual/index.html?username=${command.result.username}&hasReturn=true" nav-target="mainFrame">${views.fund_auto['人工存入']}</a>
                 <a style="float: left;margin-left: 10px;" href="/fund/manual/index.html?username=${command.result.username}&type=withdraw&hasReturn=true" nav-target="mainFrame">${views.fund_auto['人工取出']}</a>
             </shiro:hasPermission>
         </dt>
         <div class="zj">
             <c:forEach items="${apiList.result}" var="playerApi" varStatus="status">
+                <div class="game onmouse api-info api-${playerApi.apiId}">
                 <dd <c:if test="${playerApi.synchronizationStatus=='abnormal'&&!empty playerApi.abnormalReason}">data-toggle="tooltip" data-placement="left" title="${fn:replace(views.home['index.assets.abnormalTips'], '{0}', playerApi.abnormalReason)}"</c:if>>
                     <div class="m-r-xs pull-left prog">
                         <input type="text" value="${playerApi.scale}" class="dial m-r-sm jdt" data-readOnly=true
@@ -64,6 +69,12 @@
                 </span>
                     <soul:button target="refresh" text="" opType="function" cssClass="refresh refreshApi" title="${soulFn:formatDateTz(playerApi.synchronizationTime, DateFormat.DAY_SECOND,timeZone)}" apiId="${playerApi.apiId}" playerId="${command.result.id}"><i class="fa fa-refresh"></i></soul:button>
                 </dd>
+                </div>
+                <div class="game onmouse loading-api loading-${playerApi.apiId}" style="display: none;">
+                    <dd>
+                    <div class="g-loading-icon"><img src="${resRoot}/images/022b.gif"></div>
+                    </dd>
+                </div>
             </c:forEach>
         </div>
     </dl>

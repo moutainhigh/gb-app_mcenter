@@ -72,11 +72,13 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
      * */
     @RequestMapping("/getDomainCount")
     public String getDomainCount(VDomainCheckResultStatisticsListVo statisticsListVo, @FormModel("search") @Valid VDomainCheckResultStatisticsForm form, BindingResult result, Model model, HttpServletRequest request){
+        Integer siteId = SessionManager.getSiteId();
         //获取统计域名状态列表
+        statisticsListVo.setSiteId(siteId);
         statisticsListVo = ServiceTool.vDomainCheckResultStatisticsService().getDomainCount(statisticsListVo);
         //获取总条件
         DomainCheckResultListVo listVo=new DomainCheckResultListVo();
-        Integer siteId = SessionManager.getSiteId();
+
         listVo.getSearch().setSiteId(siteId);
         //查询综合信息(获取检测时间，监测点,状态总信息)
         listVo = ServiceTool.domainCheckResultService().getComprehensiveInfo(listVo);
@@ -101,7 +103,7 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
         Collection<SysParam> sysParams = ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX);
         Map<String, String> pageUrl = new HashMap<>();
         for (SysParam sysParam : sysParams) {
-            pageUrl.put(sysParam.getParamValue(), sysParam.getRemark());
+            pageUrl.put(sysParam.getParamValue(), sysParam.getResourceKey());
         }
         listVo.setPageUrl(pageUrl);
 
