@@ -74,7 +74,14 @@
                 <c:otherwise>
                     <td>
                         [${dicts.log.op_type[cmd.operateType]}]
-                        <br>${soulFn:formatLogDesc(cmd)}</td>
+
+                        <br>${soulFn:formatLogDesc(cmd)}
+                        <c:if test="${'1'.equals(cmd.moduleType)}">
+                            &nbsp;&nbsp;${views.report['log.query.ip']}:${soulFn:formatIp(cmd.operateIp)}
+                            &nbsp;${views.report['log.label.os']}${cmd.clientOs}&nbsp;&nbsp;${views.report['log.label.browser']}${cmd.clientBrowser}
+                            &nbsp;${views.report['log.label.requestReferer']}${cmd.requestReferer}
+                        </c:if>
+                    </td>
                 </c:otherwise>
             </c:choose>
         </tr>
