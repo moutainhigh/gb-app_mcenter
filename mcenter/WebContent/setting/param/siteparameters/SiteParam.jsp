@@ -10,7 +10,7 @@
         <div class="col-lg-12">
             <div class="wrapper white-bg shadow">
                 <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
-                    <%@include file="../ParamTop.jsp"%>
+                    <%@include file="../ParamTop.jsp" %>
                     <div id="content-div">
                         <div id="validateRule" style="display: none">${command.validateRule}</div>
 
@@ -26,7 +26,8 @@
                                                 <div class="input-group date"><span class="input-group-addon bg-gray"><div
                                                         style="width: 100px;text-align: right">${dicts.common.local[lang.language]}</div></span>
                                                     <input type="text" class="form-control"
-                                                           value="${command.siteI18nMap.get(lang.language).value}" disabled="">
+                                                           value="${command.siteI18nMap.get(lang.language).value}"
+                                                           disabled="">
                                                 </div>
                                             </c:if>
                                         </c:forEach>
@@ -101,7 +102,8 @@
                                                       id="languageStatus${statu.index}">${lang.transLangByLocale}</span>
                                                 <span class="pull-right"><input
                                                         address="/param/changeLanguage.html?result.id=${lang.id}"
-                                                        statusId="languageStatus${statu.index}" type="checkbox" data-size="mini"
+                                                        statusId="languageStatus${statu.index}" type="checkbox"
+                                                        data-size="mini"
                                                         name="my-checkbox"
                                                         mold="language"
                                                         status="${lang.status}"  ${lang.status=="1"?"checked":""}></span>
@@ -113,8 +115,9 @@
                                                                                                    href="javascript:void(0)"
                                                                                                    className="language"
                                                                                                    moreId="#langMore"><span
-                                                id="langMore">${views.setting['basic.useLanguage.exhibitionlanguage']}</span> <span
-                                                class="caret"></span></a>
+                                                id="langMore">${views.setting['basic.useLanguage.exhibitionlanguage']}</span>
+                                            <span
+                                                    class="caret"></span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -128,16 +131,27 @@
                                     <div class="modal-body">
                                         <div class="clearfix save lgg-version">
                                             <c:forEach items="${command.siteLanguageList}" var="p" varStatus="status">
-                                                <a id="tag${status.index+1}" aria-expanded="${index.index==0?'true':'false'}" name="tag" tagIndex="${status.index+1}" class="${status.index=='0'?'current':''} a_${p.language} tag${status.index+1}"
+                                                <a id="tag${status.index+1}"
+                                                   aria-expanded="${index.index==0?'true':'false'}" name="tag"
+                                                   tagIndex="${status.index+1}"
+                                                   class="${status.index=='0'?'current':''} a_${p.language} tag${status.index+1}"
                                                    tagIndex="${status.index+1}" siteSize="${siteTile.size()}"
-                                                   href="javascript:void(0)" local="${p.language}">${dicts.common.local[p.language]}</a>
+                                                   href="javascript:void(0)"
+                                                   local="${p.language}">${dicts.common.local[p.language]}</a>
                                             </c:forEach>
                                             <div class="pull-right inline">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-link dropdown-toggle fzyx" data-toggle="dropdown">${views.setting['serviceTrems.copy']}&nbsp;&nbsp;<span class="caret"></span></button>
+                                                    <button type="button" class="btn btn-link dropdown-toggle fzyx"
+                                                            data-toggle="dropdown">${views.setting['serviceTrems.copy']}&nbsp;&nbsp;<span
+                                                            class="caret"></span></button>
                                                     <ul class="dropdown-menu pull-right">
-                                                        <c:forEach items="${command.siteLanguageList}" var="p" varStatus="status">
-                                                            <li id="option${p.language}" class="temp"><a class="co-gray copy" href="javascript:void(0)" local="${p.language}" style="height: 100%; text-align: center; padding-top: 12px;">${dicts.common.local[p.language]}</a></li>
+                                                        <c:forEach items="${command.siteLanguageList}" var="p"
+                                                                   varStatus="status">
+                                                            <li id="option${p.language}" class="temp"><a
+                                                                    class="co-gray copy" href="javascript:void(0)"
+                                                                    local="${p.language}"
+                                                                    style="height: 100%; text-align: center; padding-top: 12px;">${dicts.common.local[p.language]}</a>
+                                                            </li>
                                                         </c:forEach>
                                                     </ul>
                                                 </div>
@@ -145,53 +159,76 @@
                                         </div>
                                         <div class="">
                                                 <%--标题--%>
-                                            <c:set var="seoIndex" value="0" />
-                                            <c:forEach items="${command.siteLanguageList}" var="lang" varStatus="status">
+                                            <c:set var="seoIndex" value="0"/>
+                                            <c:forEach items="${command.siteLanguageList}" var="lang"
+                                                       varStatus="status">
 
-                                                <div tt="${lang.language}" style="display: ${status.index=='0'?'':'none'};width: 750px;margin-top: 30px;" name="result[${status.index}].content" class="clearfix contentSource ann m-b content${status.index} content${lang.language} contentVal${lang.language}" >
-                                                    <input type="hidden"  name="siteI18ns[${seoIndex}].id" value="${siteTile.get(lang.language).id}">
-                                                    <input type="hidden"  name="siteI18ns[${seoIndex}].locale" value="${lang.language}">
+                                                <div tt="${lang.language}"
+                                                     style="display: ${status.index=='0'?'':'none'};width: 750px;margin-top: 30px;"
+                                                     name="result[${status.index}].content"
+                                                     class="clearfix contentSource ann m-b content${status.index} content${lang.language} contentVal${lang.language}">
+                                                    <input type="hidden" name="siteI18ns[${seoIndex}].id"
+                                                           value="${siteTile.get(lang.language).id}">
+                                                    <input type="hidden" name="siteI18ns[${seoIndex}].locale"
+                                                           value="${lang.language}">
                                                     <div class="clearfix m-b left-arrow">
-                                                        <div class="ft-bold pull-left" style="width: 100px;text-align: right;margin-top: 7px;">
+                                                        <div class="ft-bold pull-left"
+                                                             style="width: 100px;text-align: right;margin-top: 7px;">
                                                                 ${views.setting['basic.webSite.title']}：
                                                         </div>
                                                         <div class="col-xs-5">
-                                                            <input type="text" name="siteI18ns[${seoIndex}].value" value="${siteTile.get(lang.language).value}" placeholder="${views.setting_auto['站点标题']}" class="form-control siteTitle${lang.language}" maxlength="50">
+                                                            <input type="text" name="siteI18ns[${seoIndex}].value"
+                                                                   value="${siteTile.get(lang.language).value}"
+                                                                   placeholder="${views.setting_auto['站点标题']}"
+                                                                   class="form-control siteTitle${lang.language}"
+                                                                   maxlength="50">
                                                         </div>
                                                     </div>
-                                                    <c:set var="seoIndex" value="${seoIndex+1}" />
-                                                    <input type="hidden"  name="siteI18ns[${seoIndex}].id" value="${siteKeywords.get(lang.language).id}">
-                                                    <input type="hidden"  name="siteI18ns[${seoIndex}].locale" value="${lang.language}">
+                                                    <c:set var="seoIndex" value="${seoIndex+1}"/>
+                                                    <input type="hidden" name="siteI18ns[${seoIndex}].id"
+                                                           value="${siteKeywords.get(lang.language).id}">
+                                                    <input type="hidden" name="siteI18ns[${seoIndex}].locale"
+                                                           value="${lang.language}">
                                                     <div class="clearfix m-b">
-                                                        <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                                                        <div class="ft-bold pull-left line-hi34"
+                                                             style="width: 100px;text-align: right;">
                                                                 ${views.setting['basic.webSite.keywords']}：
                                                         </div>
                                                         <div class="col-xs-5">
-                                                            <textarea  name="siteI18ns[${seoIndex}].value" class="form-control siteKeywords${lang.language}" placeholder="${views.setting_auto['关键词1']}">${siteKeywords.get(lang.language).value}</textarea>
+                                                            <textarea name="siteI18ns[${seoIndex}].value"
+                                                                      class="form-control siteKeywords${lang.language}"
+                                                                      placeholder="${views.setting_auto['关键词1']}">${siteKeywords.get(lang.language).value}</textarea>
                                                         </div>
                                                     </div>
-                                                    <c:set var="seoIndex" value="${seoIndex+1}" />
-                                                    <input type="hidden"  name="siteI18ns[${seoIndex}].id" value="${siteDescription.get(lang.language).id}">
-                                                    <input type="hidden"  name="siteI18ns[${seoIndex}].locale" value="${lang.language}">
+                                                    <c:set var="seoIndex" value="${seoIndex+1}"/>
+                                                    <input type="hidden" name="siteI18ns[${seoIndex}].id"
+                                                           value="${siteDescription.get(lang.language).id}">
+                                                    <input type="hidden" name="siteI18ns[${seoIndex}].locale"
+                                                           value="${lang.language}">
                                                     <div class="clearfix m-b">
-                                                        <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                                                        <div class="ft-bold pull-left line-hi34"
+                                                             style="width: 100px;text-align: right;">
                                                                 ${views.setting['basic.webSite.description']}：
                                                         </div>
                                                         <div class="col-xs-5">
-                                                            <textarea  name="siteI18ns[${seoIndex}].value" class="form-control siteDescription${lang.language}" placeholder="${views.setting_auto['站点描述']}">${siteDescription.get(lang.language).value}</textarea>
+                                                            <textarea name="siteI18ns[${seoIndex}].value"
+                                                                      class="form-control siteDescription${lang.language}"
+                                                                      placeholder="${views.setting_auto['站点描述']}">${siteDescription.get(lang.language).value}</textarea>
                                                         </div>
                                                     </div>
-                                                    <c:set var="seoIndex" value="${seoIndex+1}" />
+                                                    <c:set var="seoIndex" value="${seoIndex+1}"/>
                                                 </div>
                                             </c:forEach>
                                         </div>
                                     </div>
 
-                                    <c:set var="siteLang" value="${command.siteLanguageList}" />
-                                    <input type="hidden" placeholder="" class="form-control m-b" name="langSize" value="${siteLang.size()}">
+                                    <c:set var="siteLang" value="${command.siteLanguageList}"/>
+                                    <input type="hidden" placeholder="" class="form-control m-b" name="langSize"
+                                           value="${siteLang.size()}">
                                     <!--//region your codes 3-->
                                     <div class="modal-footer">
-                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
+                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
+                                                     opType="ajax"
                                                      dataType="json"
                                                      target="${root}/siteI18n/batchSaveSeo.html"
                                                      precall="" post="getSiteInfoFormData"
@@ -227,10 +264,11 @@
                                         </li>
                                     </c:forEach>
                                     <li>
-                                        <a ${command.siteOperateAreaList.size()>5?"":"hidden=hidden"} class="co-gray6 more"
-                                                                                                      href="javascript:void(0)"
-                                                                                                      className="area"
-                                                                                                      moreId="#areaMore"><span
+                                        <a ${command.siteOperateAreaList.size()>5?"":"hidden=hidden"}
+                                                class="co-gray6 more"
+                                                href="javascript:void(0)"
+                                                className="area"
+                                                moreId="#areaMore"><span
                                                 id="areaMore">${views.setting['basic.operateArea.exhibitionarea']} </span><span
                                                 class="caret"></span></a>
                                     </li>
@@ -284,14 +322,16 @@
                                             <%-- <span class="pull-right">
                                                  <input type="checkbox" data-size="mini" model="withdraw" name="my-checkbox"  ${withdrawCashParam.paramValue=="true"?"checked":""}>
                                              </span>--%>
-                                        <span class="${withdrawCashParam.paramValue=="true"?"co-green":"co-grayc2"} m-r-sm fs12 status" style="margin-left: 10px">${withdrawCashParam.paramValue=="true"?'开启':'关闭'}</span>
+                                        <span class="${withdrawCashParam.paramValue=="true"?"co-green":"co-grayc2"} m-r-sm fs12 status"
+                                              style="margin-left: 10px">${withdrawCashParam.paramValue=="true"?'开启':'关闭'}</span>
                                     </li>
                                     <li>
                                             ${views.setting_auto['取款方式']}：${views.setting_auto['bitCoin取款']}
                                             <%-- <span class="pull-right">
                                                  <input type="checkbox" data-size="mini" model="withdraw" name="my-checkbox" ${withdrawBitcoinParam.paramValue=="true"?"checked":""}>
                                              </span>--%>
-                                        <span class="${withdrawBitcoinParam.paramValue=="true"?"co-green":"co-grayc2"} m-r-sm fs12 status" style="margin-left: 10px">${withdrawBitcoinParam.paramValue=="true"?'开启':'关闭'}</span>
+                                        <span class="${withdrawBitcoinParam.paramValue=="true"?"co-green":"co-grayc2"} m-r-sm fs12 status"
+                                              style="margin-left: 10px">${withdrawBitcoinParam.paramValue=="true"?'开启':'关闭'}</span>
 
                                     </li>
                                 </ul>
@@ -310,17 +350,21 @@
                                 <div class="content line-hi34 clearfix">
                                     <div class="clearfix">
                                         <label class="ft-bold">${views.setting['basic.otherSet.trafficStatistics']}：<span
-                                                data-content="${views.setting['trafficStatistics.prompt']}" data-placement="top"
+                                                data-content="${views.setting['trafficStatistics.prompt']}"
+                                                data-placement="top"
                                                 data-trigger="focus"
                                                 data-toggle="popover" data-container="body" role="button"
-                                                class="help-popover m-l-sm" tabindex="0"><i class="fa fa-question-circle"></i></span></label>
+                                                class="help-popover m-l-sm" tabindex="0"><i
+                                                class="fa fa-question-circle"></i></span></label>
                                         <textarea class="form-control m-b"
                                                   name="result.trafficStatistics">${command.result.trafficStatistics}</textarea>
                                     </div>
                                     <div class="modal-footer">
-                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
+                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
+                                                     opType="ajax"
                                                      dataType="json" target="${root}/param/saveTrafficStatistics.html"
-                                                     precall="staticValidateForm" post="getStaticValidateForm" callback="saveCallbak"/>
+                                                     precall="staticValidateForm" post="getStaticValidateForm"
+                                                     callback="saveCallbak"/>
                                     </div>
                                     <div class="clearfix" id="mobileTrafficStatistics">
                                         <label class="ft-bold">${views.setting['手机端流量统计代码']}：</label>
@@ -328,9 +372,12 @@
                                                   name="result.paramValue">${mobile_traffic}</textarea>
                                     </div>
                                     <div class="modal-footer">
-                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
-                                                     dataType="json" target="${root}/param/saveMobileTrafficStatistics.html"
-                                                     precall="staticValidateForm" post="getMobileStaticValidateForm" callback="saveCallbak"/>
+                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
+                                                     opType="ajax"
+                                                     dataType="json"
+                                                     target="${root}/param/saveMobileTrafficStatistics.html"
+                                                     precall="staticValidateForm" post="getMobileStaticValidateForm"
+                                                     callback="saveCallbak"/>
                                     </div>
                                 </div>
                             </div>
@@ -341,21 +388,26 @@
                                 <input type="hidden" name="pc.id" value="${pcCustomerService.id}">
                                 <div class="content clearfix" style="padding-top: 10px">
                                     <div class="clearfix m-b">
-                                        <div class="ft-bold pull-left" style="width: 100px;text-align: right;">${views.setting_auto['名称']}：</div>
+                                        <div class="ft-bold pull-left"
+                                             style="width: 100px;text-align: right;">${views.setting_auto['名称']}：
+                                        </div>
                                         <div class="col-xs-5"><input type="text" name="pc.name"
                                                                      value="${pcCustomerService.name}"
                                                                      class="form-control" maxlength="20"></div>
                                     </div>
                                     <div class="clearfix m-b">
-                                        <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                                        <div class="ft-bold pull-left line-hi34"
+                                             style="width: 100px;text-align: right;">
                                                 ${views.setting_auto['在线客服参数']}：
                                         </div>
                                         <div class="col-xs-5">
-                                            <textarea  name="pc.parameter" class="form-control">${pcCustomerService.parameter}</textarea>
+                                            <textarea name="pc.parameter"
+                                                      class="form-control">${pcCustomerService.parameter}</textarea>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
+                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
+                                                     opType="ajax"
                                                      dataType="json"
                                                      target="${root}/siteCustomerService/pc.html"
                                                      precall="validPCCustomerService" post="getPCFormData"
@@ -368,22 +420,26 @@
                                 <input type="hidden" name="mobile.id" value="${mobileCustomerService.id}">
                                 <div class="content clearfix" style="padding-top: 10px">
                                     <div class="clearfix m-b">
-                                        <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">${views.setting_auto['名称']}：
+                                        <div class="ft-bold pull-left line-hi34"
+                                             style="width: 100px;text-align: right;">${views.setting_auto['名称']}：
                                         </div>
                                         <div class="col-xs-5"><input type="text" name="mobile.name"
                                                                      value="${mobileCustomerService.name}"
                                                                      class="form-control" maxlength="20"></div>
                                     </div>
                                     <div class="clearfix m-b">
-                                        <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                                        <div class="ft-bold pull-left line-hi34"
+                                             style="width: 100px;text-align: right;">
                                                 ${views.setting_auto['在线客服参数']}：
                                         </div>
                                         <div class="col-xs-5">
-                                            <textarea name="mobile.parameter" class="form-control">${mobileCustomerService.parameter}</textarea>
+                                            <textarea name="mobile.parameter"
+                                                      class="form-control">${mobileCustomerService.parameter}</textarea>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
+                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
+                                                     opType="ajax"
                                                      dataType="json"
                                                      target="${root}/siteCustomerService/mobile.html"
                                                      precall="validMobileCustomerService"
@@ -392,40 +448,111 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="clearfix">
-                            <div id="appDownloadDomain" class="col-lg-6 site-switch">
+                            <div  class="col-lg-6 site-switch">
                                 <h3>${views.setting_auto['APP下载域名设置']}</h3>
-                                <div class="content clearfix" style="padding-top: 10px">
+                                <div id="appDownloadDomain" class="content clearfix">
+                                    <div style="padding-top: 10px">
+                                        <label class="ft-bold pull-left m-r"
+                                               style='float:left;margin-top: 10px'> ${views.setting_auto['登录后显示二维码']}：</label>
+                                        <input type="checkbox" name="active" objId="${qrSwitch.id}"
+                                            ${qrSwitch.paramValue =="true" ?'checked':''} />
+                                        <label>${views.setting_auto['开启后，玩家需要登录方可查看二维码！']}</label>
+                                    </div>
+                                    <br/>
                                     <div class="clearfix m-b">
-                                        <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                                        <div class="ft-bold pull-left line-hi34">
                                                 ${views.setting_auto['APP下载域名']}
                                         </div>
                                         <div class="col-xs-5">
-                                            <gb:select name="result.paramValue" value="${select_domain.paramValue}" list="${appDomain}" listKey="domain" listValue="domain"/>
+                                            <gb:select name="sysParam.paramValue" value="${select_domain.paramValue}"
+                                                       list="${appDomain}" listKey="domain" listValue="domain"/>
                                         </div>
                                     </div>
+
+                                    <label class="ft-bold col-sm-3 al-right line-hi34"
+                                           style='margin-left: -52px;margin-top:-3px'>按层级设置下载域名：</label><br/><br/>
+                                    <div class="tab-content col-sm-15" id="open-period-div">
+                                        <table class="border" id="app-domain-table">
+                                            <tr>
+                                                <td class="bg-gray ft-bold"
+                                                    style="width:300px"> ${views.setting_auto['层级']}</td>
+                                                <td class="bg-gray ft-bold"
+                                                    style="width: 300px;"> ${views.setting_auto['下载域名']}</td>
+                                                <td class="bg-gray ft-bold"
+                                                    style="width: 100px"> ${views.setting_auto['操作']}</td>
+                                            </tr>
+                                            <c:if test="${not empty rankAppDomain.result}">
+                                                 <c:forEach var="period" items="${rankAppDomain.result}" varStatus="vs">
+                                                    <tr>
+                                                        <td>
+                                                            <gb:select name="playerRankAppDomains[${vs.index}].rankId"
+                                                                       list="${playerRanks}" listValue="rankName" value="${period.rankId}" listKey="id"/>
+                                                        </td>
+                                                        <td>
+                                                            <gb:select name="playerRankAppDomains[${vs.index}].domain"
+                                                                       list="${appDomain}" listValue="domain" value="${period.domain}" listKey="domain"/>
+                                                        </td>
+                                                        <td>
+                                                            <soul:button target="deleteAppDomain" confirm="确认删除该记录吗？" style="float:right"   text="${views.common['delete']}" opType="function"  cssClass="btn btn-danger" >${views.common['delete']}</soul:button>
+                                                        </td>
+                                                    </tr>
+                                                 </c:forEach>
+                                            </c:if>
+                                        </table>
+                                        <table style="width: 791px">
+                                            <tr><td style="width: 100%;">
+                                                <soul:button target="copyAppDomain" text="" opType="function" cssClass="btn btn-info btn-addon pull-right">
+                                                    <span class="hd">新增</span>
+                                                </soul:button>
+                                            </td></tr>
+                                        </table>
+                                    </div>
                                     <div class="modal-footer">
-                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
+                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
+                                                     opType="ajax"
                                                      dataType="json"
                                                      target="${root}/siteCustomerService/appDomain.html"
                                                      precall="validMobileCustomerService"
                                                      post="getAppDomainFormData" callback="saveCallbak"/>
                                     </div>
                                 </div>
+                                <table id="app-domain-template" style="display: none;">
+                                    <tr>
+                                        <td>
+                                            <gb:select name="playerRankAppDomains[{n}].rankId"
+                                                       list="${playerRanks}" listValue="rankName"  listKey="id"/>
+                                        </td>
+                                        <td>
+                                            <gb:select name="playerRankAppDomains[{n}].domain"
+                                                       list="${appDomain}" listValue="domain" listKey="domain"/>
+                                        </td>
+                                        <td>
+                                            <soul:button target="deleteAppDomain" text="${views.common['delete']}" confirm="确认删除该记录吗？" style="float:right" opType="function" cssClass="btn btn-danger"></soul:button>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
+
+
                             <div id="accessDomain" class="col-lg-6 site-switch">
                                 <h3>${views.setting_auto['访问域名设置']}</h3>
                                 <div class="content clearfix" style="padding-top: 10px">
                                     <div class="clearfix m-b">
-                                        <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                                        <div class="ft-bold pull-left line-hi34"
+                                             style="width: 100px;text-align: right;">
                                                 ${views.setting_auto['访问域名']}
                                         </div>
                                         <div class="col-xs-5">
-                                            <gb:select name="result.paramValue" value="${access_domain.paramValue}" list="${appDomain}" listKey="domain" listValue="domain"/>
+                                            <gb:select name="result.paramValue" value="${access_domain.paramValue}"
+                                                       list="${appDomain}" listKey="domain" listValue="domain"/>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}" opType="ajax"
+                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
+                                                     opType="ajax"
                                                      dataType="json"
                                                      target="${root}/siteCustomerService/accessDomain.html"
                                                      post="getAccessDomainFormData" callback="saveCallbak"/>
@@ -433,8 +560,83 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+
+
+                        <div class="clearfix">
+                            <div id="saveContact" class="col-lg-6 site-switch">
+                                <input type="hidden" name="sysParam[0].id" value="${phone.id}">
+                                <input type="hidden" name="sysParam[1].id" value="${email.id}">
+                                <input type="hidden" name="sysParam[2].id" value="${qq.id}">
+                                <input type="hidden" name="sysParam[3].id" value="${skyep.id}">
+                                <input type="hidden" name="sysParam[4].id" value="${copyright.id}">
+                                <h3>${views.setting_auto['站点联系方式设置']}</h3>
+                                <div class="content clearfix" style="padding-top: 10px">
+                                    <div class="clearfix m-b">
+                                        <div class="ft-bold pull-left line-hi34"
+                                             style="width: 100px;text-align: right;">
+                                                ${views.setting_auto['联系电话']}：
+                                        </div>
+                                        <div class="col-xs-5">
+                                            <input id="phoneId" type="text" name="sysParam[0].paramValue"
+                                                   value="${phone.paramValue}"
+                                                   placeholder="请输入7-20位纯数字" class="form-control" minlength="7"
+                                                   maxlength="20">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix m-b">
+                                        <div class="ft-bold pull-left line-hi34"
+                                             style="width: 100px;text-align: right;">
+                                                ${views.setting_auto['联系邮箱']}：
+                                        </div>
+                                        <div class="col-xs-5">
+                                            <input maxlength="30" type="text" name="sysParam[1].paramValue"
+                                                   value="${email.paramValue}"
+                                                   placeholder="输入的长度请小于30个字符" class="form-control"></div>
+                                    </div>
+                                    <div class="clearfix m-b">
+                                        <div class="ft-bold pull-left line-hi34"
+                                             style="width: 100px;text-align: right;">
+                                                ${views.setting_auto['联系QQ']}：
+                                        </div>
+                                        <div class="col-xs-5">
+                                            <input id="qqId" type="text" name="sysParam[2].paramValue"
+                                                   value="${qq.paramValue}"
+                                                   placeholder="请输入5-20位纯数字" class="form-control" minlength="5"
+                                                   maxlength="20">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix m-b">
+                                        <div class="ft-bold pull-left line-hi34"
+                                             style="width: 100px;text-align: right;">
+                                                ${views.setting_auto['联系Skype']}：
+                                        </div>
+                                        <div class="col-xs-5">
+                                            <input type="text" name="sysParam[3].paramValue" value="${skyep.paramValue}"
+                                                   placeholder="输入的长度请小于30个字符" class="form-control" maxlength="30">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix m-b">
+                                        <div class="ft-bold pull-left line-hi34"
+                                             style="width: 100px;text-align: right;">
+                                                ${views.setting_auto['版权信息']}：
+                                        </div>
+                                        <div class="col-xs-5">
+                                            <textarea name="sysParam[4].paramValue" class="form-control"
+                                                      maxlength="200">${copyright.paramValue}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
+                                                     opType="ajax"
+                                                     dataType="json" target="${root}/param/saveContactInformation.html"
+                                                     precall="validationSettings" post="getSaveContactValidateForm"
+                                                     callback="saveCallbak"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
