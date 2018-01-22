@@ -537,8 +537,6 @@
                                     </tr>
                                 </table>
                             </div>
-
-
                             <div id="accessDomain" class="col-lg-6 site-switch">
                                 <h3>${views.setting_auto['访问域名设置']}</h3>
                                 <div class="content clearfix" style="padding-top: 10px">
@@ -581,9 +579,7 @@
                                         </div>
                                         <div class="col-xs-5">
                                             <input id="phoneId" type="text" name="sysParam[0].paramValue"
-                                                   value="${phone.paramValue}"
-                                                   placeholder="请输入7-20位纯数字" class="form-control" minlength="7"
-                                                   maxlength="20">
+                                             value="${phone.paramValue}" placeholder="请输入7-20位纯数字" class="form-control">
                                         </div>
                                     </div>
                                     <div class="clearfix m-b">
@@ -592,7 +588,7 @@
                                                 ${views.setting_auto['联系邮箱']}：
                                         </div>
                                         <div class="col-xs-5">
-                                            <input maxlength="30" type="text" name="sysParam[1].paramValue"
+                                            <input id="emailId" type="text" name="sysParam[1].paramValue"
                                                    value="${email.paramValue}"
                                                    placeholder="输入的长度请小于30个字符" class="form-control"></div>
                                     </div>
@@ -604,8 +600,7 @@
                                         <div class="col-xs-5">
                                             <input id="qqId" type="text" name="sysParam[2].paramValue"
                                                    value="${qq.paramValue}"
-                                                   placeholder="请输入5-20位纯数字" class="form-control" minlength="5"
-                                                   maxlength="20">
+                                                   placeholder="请输入5-20位纯数字" class="form-control">
                                         </div>
                                     </div>
                                     <div class="clearfix m-b">
@@ -614,7 +609,7 @@
                                                 ${views.setting_auto['联系Skype']}：
                                         </div>
                                         <div class="col-xs-5">
-                                            <input type="text" name="sysParam[3].paramValue" value="${skyep.paramValue}"
+                                            <input  id="skyepId" type="text" name="sysParam[3].paramValue" value="${skyep.paramValue}"
                                                    placeholder="输入的长度请小于30个字符" class="form-control" maxlength="30">
                                         </div>
                                     </div>
@@ -624,7 +619,7 @@
                                                 ${views.setting_auto['版权信息']}：
                                         </div>
                                         <div class="col-xs-5">
-                                            <textarea name="sysParam[4].paramValue" class="form-control"
+                                            <textarea id="copyrightId" name="sysParam[4].paramValue" class="form-control"
                                                       maxlength="200">${copyright.paramValue}</textarea>
                                         </div>
                                     </div>
