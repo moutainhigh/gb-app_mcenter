@@ -496,21 +496,23 @@
                                                                        list="${appDomain}" listValue="domain" value="${period.domain}" listKey="domain"/>
                                                         </td>
                                                         <td>
-                                                            <soul:button target="deleteAppDomain" confirm="确认删除该记录吗？" style="float:right"   text="${views.common['delete']}" opType="function"  cssClass="btn btn-danger" >${views.common['delete']}</soul:button>
+                                                            <soul:button target="deleteAppDomain" confirm="确认删除该记录吗？"  text="${views.common['delete']}" opType="function"  cssClass="btn btn-danger">${views.common['delete']}</soul:button>
                                                         </td>
                                                     </tr>
                                                  </c:forEach>
                                             </c:if>
                                         </table>
                                         <table style="width: 791px">
-                                            <tr><td style="width: 100%;">
+                                            <tr>
+                                                <td style="width: 100%;padding-right: 47px;padding-top: 10px;padding-bottom: 10px">
                                                 <soul:button target="copyAppDomain" text="" opType="function" cssClass="btn btn-info btn-addon pull-right">
                                                     <span class="hd">新增</span>
                                                 </soul:button>
-                                            </td></tr>
+                                            </td>
+                                            </tr>
                                         </table>
-                                    </div>
-                                    <div class="modal-footer">
+                                    </div><br/>
+                                    <div style="margin-right: 30px" class="modal-footer">
                                         <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
                                                      opType="ajax"
                                                      dataType="json"
@@ -530,7 +532,7 @@
                                                        list="${appDomain}" listValue="domain" listKey="domain"/>
                                         </td>
                                         <td>
-                                            <soul:button target="deleteAppDomain" text="${views.common['delete']}" confirm="确认删除该记录吗？" style="float:right" opType="function" cssClass="btn btn-danger"></soul:button>
+                                            <soul:button target="deleteAppDomain" text="${views.common['delete']}" confirm="确认删除该记录吗？"  opType="function" cssClass="btn btn-danger"></soul:button>
                                         </td>
                                     </tr>
                                 </table>
