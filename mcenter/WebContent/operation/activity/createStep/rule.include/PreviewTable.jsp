@@ -117,7 +117,11 @@
             <div class="tab-content table-responsive">
                 <table class="table border" id="preview_money_condition">
                     <tr>
-                        <td class="bg-gray ft-bold">${views.operation_auto['单次存款金额']}</td>
+                        <td class="bg-gray ft-bold">
+                            <span id="condition_type_1">${views.operation_auto['单次存款金额']}</span>
+                            <span id="condition_type_2" style="display: none">${views.content_auto['累计存款金额']}</span>
+
+                        </td>
                         <td class="bg-gray ft-bold" >${views.operation_auto['时段累计有效投注额']}</td>
                         <td class="bg-gray ft-bold">${views.operation_auto['抽奖次数']}</td>
                     </tr>

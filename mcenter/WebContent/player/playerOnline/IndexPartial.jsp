@@ -55,7 +55,7 @@
                             </span>
                         </c:if>
                         ${soulFn:formatDateTz(p.loginTime, DateFormat.DAY_SECOND,timeZone)}
-                        <span class="co-red" style="padding-left: 5px">
+                        <br><span class="co-red" style="padding-left: 0px">
                         ${soulFn:formatIp(p.loginIp)}
                         </span>
                         ${gbFn:getShortIpRegion(p.loginIpDictCode)}
