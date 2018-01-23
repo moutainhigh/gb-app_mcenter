@@ -56,6 +56,7 @@
             comet = new Comet();
             //刷新任务提示入口
             topPage.taskManager=taskManager;
+            taskManager.refreshTaskNum();
             /*add by eagle*/
             document.getElementById("feedback").onclick = function() {
                 topPage.doDialog({}, {

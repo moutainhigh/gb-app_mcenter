@@ -122,7 +122,7 @@ public class IndexController extends BaseIndexController {
         UserTaskReminderListVo listVo = new UserTaskReminderListVo();
         /*listVo.setPropertyName(UserTaskReminder.PROP_TASK_NUM);
         Number unReadTaskCount = ServiceTool.userTaskReminderService().sum(listVo);//未读任务数量*/
-        model.addAttribute("unReadTaskCount", TaskReminderHelp.countTask());
+        model.addAttribute("unReadTaskCount", 0);
         model.addAttribute("isReminderTask", SessionManager.getIsReminderTask());
 
         model.addAttribute("unReadCount", unReadMagNum());
