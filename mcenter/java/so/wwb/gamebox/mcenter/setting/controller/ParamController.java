@@ -484,7 +484,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("mobile_traffic",mobileTraffic.getParamValue());
         model.addAttribute("appDomain",result);
         model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
-        model.addAttribute("rankAppDomain",ServiceTool.playerRankAppDomainService().search(new PlayerRankAppDomainListVo()));
+        model.addAttribute("rankAppDomain",ServiceSiteTool.playerRankAppDomainService().search(new PlayerRankAppDomainListVo()));
         return "/setting/param/siteparameters/BasicSetting";
     }
 

@@ -337,7 +337,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     @ResponseBody
     public Map updateAppDomainService( PlayerRankAppDomainListVo playerRankAppDomainListVo,Model model){
         Map map=new HashedMap();
-        playerRankAppDomainListVo=ServiceTool.playerRankAppDomainService().insertALL(playerRankAppDomainListVo);
+        playerRankAppDomainListVo=ServiceSiteTool.playerRankAppDomainService().insertALL(playerRankAppDomainListVo);
         SysParamVo sysParamVo = new SysParamVo();
         if(playerRankAppDomainListVo.getSysParam()!=null){
             sysParamVo.setResult(playerRankAppDomainListVo.getSysParam());
