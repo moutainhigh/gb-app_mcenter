@@ -29,7 +29,7 @@
                     <div class="search-wrapper btn-group pull-right m-r-n-xs">
                         <div class="input-group">
                             <span class="input-group-addon">
-                                    ${views.column['CttCarouselI18n.name']}
+                                    ${views.column['VCttCarousel.AdName']}
                             </span>
                             <input type="text" name="search.name" value="${command.search.name}" class="form-control">
                             <span class="input-group-btn">

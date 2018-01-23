@@ -249,13 +249,12 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
     @RequestMapping({"registerAd/persist"})
     @ResponseBody
     public Map registerPersist(CttCarouselVo objectVo, @FormModel("result") @Valid CttCarouselRegisterForm form, BindingResult result) {
-        if(true) {
-            objectVo = this.doPersist(objectVo);
-        } else {
+        if(result.hasErrors()) {
             objectVo.setSuccess(false);
+            return getVoMessage(objectVo);
         }
-
-        return this.getVoMessage(objectVo);
+        objectVo = this.doPersist(objectVo);
+        return getVoMessage(objectVo);
     }
 
     @RequestMapping({"pcenterAD/persist"})
@@ -299,8 +298,8 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
      */
     @RequestMapping("/checkTime")
     @ResponseBody
-    public String checkTime(HttpServletRequest request,@RequestParam("result.startTime")Date startTime,@RequestParam("result.endTime")Date endTime){
-        return startTime==null ||endTime == null|| startTime.getTime() >= endTime.getTime() ? "false" : "true";
+    public String checkTime(HttpServletRequest request, @RequestParam("result.startTime")Date startTime, @RequestParam("result.endTime")Date endTime){
+        return startTime.getTime() >= endTime.getTime() ? "false" : "true";
     }
 
     public CttCarouselVo setCarouselData(CttCarouselVo cttCarouselVo){
@@ -380,28 +379,6 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         return getViewBasePath() + "mobileDialog/Edit";
     }
 
-    /**
-     * PC注册页广告编辑
-     * @param cttCarouselVo
-     * @param model
-     * @return
-     */
-    @RequestMapping("/registerAd/create")
-    public String registerAdCreate(CttCarouselVo cttCarouselVo,Model model){
-        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselRegisterForm.class));
-        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_AD_REGISTER.getCode());
-        commonCreate(cttCarouselVo, model);
-        return getViewBasePath() + "registerAd/Edit";
-    }
-
-    @RequestMapping("/registerAd/edit")
-    public String registerAdEdit(CttCarouselVo cttCarouselVo,Model model){
-        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselRegisterForm.class));
-        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_AD_REGISTER.getCode());
-        commonEdit(cttCarouselVo, model);
-        return getViewBasePath() + "registerAd/Edit";
-    }
-
     @RequestMapping("/mobileEdit/edit")
     public String mobileEdit(CttCarouselVo cttCarouselVo,Model model){
         cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselDialogForm.class));
@@ -478,9 +455,37 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         return getViewBasePath() + "pcenterAd/Edit";
     }
 
+    /**
+     * PC注册页广告新增
+     * @param cttCarouselVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/registerAd/create")
+    public String registerAdCreate(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselRegisterForm.class));
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_AD_REGISTER.getCode());
+        commonCreate(cttCarouselVo, model);
+        return getViewBasePath() + "registerAd/Edit";
+    }
+
+    /**
+     * PC注册页广告编辑
+     * @param cttCarouselVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/registerAd/edit")
+    public String registerAdEdit(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselRegisterForm.class));
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_AD_REGISTER.getCode());
+        commonEdit(cttCarouselVo, model);
+        return getViewBasePath() + "registerAd/Edit";
+    }
+
     private CttCarouselVo commonEdit(CttCarouselVo cttCarouselVo, Model model) {
         cttCarouselVo = super.doEdit(cttCarouselVo,model);
-        cttCarouselVo =  setCarouselData(cttCarouselVo);
+        cttCarouselVo = setCarouselData(cttCarouselVo);
         buildCarouselData(cttCarouselVo);
         Map<Object, CttCarouselI18n> typeI18nMap= CollectionTool.toEntityMap(cttCarouselVo.getCttCarouselI18n(), CttCarouselI18n.PROP_LANGUAGE);
         model.addAttribute("typeI18nMap", typeI18nMap);
@@ -489,7 +494,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
     }
     private void commonCreate(CttCarouselVo cttCarouselVo, Model model) {
         cttCarouselVo.getSearch().setId(this.getService().getNextVal(cttCarouselVo));
-        cttCarouselVo =  setCarouselData(cttCarouselVo);
+        cttCarouselVo = setCarouselData(cttCarouselVo);
         cttCarouselVo = loadCarouselI18nData(cttCarouselVo);
         Map<Object, CttCarouselI18n> typeI18nMap= CollectionTool.toEntityMap(cttCarouselVo.getCttCarouselI18n(), CttCarouselI18n.PROP_LANGUAGE);
         model.addAttribute("typeI18nMap", typeI18nMap);
