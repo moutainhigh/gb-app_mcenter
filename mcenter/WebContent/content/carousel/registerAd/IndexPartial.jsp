@@ -14,7 +14,6 @@
                 <th width="60">${views.common['number']}</th>
                 <th>${views.column['VCttCarousel.AdName']}</th>
                 <th>${views.column['VCttCarousel.type']}</th>
-                <th>${views.content['carousel.previewPicture']}</th>
                 <th>${views.content['carousel.showTime']}</th>
                 <th class="inline">
                     <gb:select name="search.useStatus" value="${command.search.useStatus}" callback="query"
@@ -56,19 +55,6 @@
                             </c:when>
                             <c:otherwise>
                                 ${views.column['VCttCarousel.picture']}
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${command.currentLang.get(p.id).cover!=null && command.currentLang.get(p.id).cover!=''}">
-                                <soul:button target="previewImg" text="" opType="function" tag="a">
-                                    <img data-src="${soulFn:getImagePath(domain,command.currentLang.get(p.id).cover)}"
-                                         src="${soulFn:getThumbPath(domain,command.currentLang.get(p.id).cover,66,24)}">
-                                </soul:button>
-                            </c:when>
-                            <c:otherwise>
-                                --
                             </c:otherwise>
                         </c:choose>
                     </td>

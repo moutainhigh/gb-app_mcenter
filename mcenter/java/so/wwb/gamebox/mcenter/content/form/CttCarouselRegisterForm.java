@@ -24,6 +24,7 @@ public class CttCarouselRegisterForm implements IForm {
     private String result_startTime;
     private String result_endTime;
     private String[] cttCarouselI18n$$_name;
+    private String[] cttCarouselI18n$$_content;
 
     @NotBlank(message = "carousel.startTimeNotBlank")
     public String getResult_startTime() {
@@ -53,6 +54,16 @@ public class CttCarouselRegisterForm implements IForm {
     public void setCttCarouselI18n$$_name(String[] cttCarouselI18n$$_name) {
         this.cttCarouselI18n$$_name = cttCarouselI18n$$_name;
     }
+
+    @NotBlank
+    public String[] getCttCarouselI18n$$_content() {
+        return cttCarouselI18n$$_content;
+    }
+
+    public void setCttCarouselI18n$$_content(String[] cttCarouselI18n$$_content) {
+        this.cttCarouselI18n$$_content = cttCarouselI18n$$_content;
+    }
+
     //endregion your codes 2
 
 }

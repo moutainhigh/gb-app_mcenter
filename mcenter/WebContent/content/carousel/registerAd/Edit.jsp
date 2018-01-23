@@ -126,7 +126,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <soul:button precall="" tag="button" target="saveCarousel" callback="" cssClass="btn btn-filter" text="${views.common['OK']}" opType="function"></soul:button>
+        <soul:button precall="validateForm" tag="button" target="saveCarousel" callback="" cssClass="btn btn-filter" text="${views.common['OK']}" opType="function"></soul:button>
         <soul:button target="closePageConfirm" tag="button" opType="function" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter"></soul:button>
     </div>
     <%--隐藏域--%>
