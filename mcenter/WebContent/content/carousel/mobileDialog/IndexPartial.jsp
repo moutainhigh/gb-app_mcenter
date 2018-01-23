@@ -104,7 +104,7 @@
                         ${soulFn:formatDateTz(p.publishTime, DateFormat.DAY_SECOND,timeZone)}
                 </td>
                 <td>
-                    <soul:button target="${root}/content/cttCarousel/mobileEdit.html?search.id=${p.id}" text="${views.common['edit']}" tag="a" opType="dialog" callback="query">${views.common['edit']}</soul:button>
+                    <soul:button target="${root}/content/cttCarousel/mobileEdit/edit.html?search.id=${p.id}" text="${views.common['edit']}" tag="a" opType="dialog" callback="query">${views.common['edit']}</soul:button>
                 </td>
             </tr>
         </c:forEach>
