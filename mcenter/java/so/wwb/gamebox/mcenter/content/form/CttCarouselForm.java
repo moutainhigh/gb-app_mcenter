@@ -48,7 +48,7 @@ public class CttCarouselForm implements IForm {
 
 
     //    @Max(value = 50L)
-    @NotBlank
+
     public String getResult_link() {
         return result_link;
     }
