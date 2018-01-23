@@ -239,7 +239,13 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
             return getViewBasePath() + "registerAd/Index";
         }
     }
-
+    /**
+     * 广告管理公共方法
+     * @param vCttCarouselListVo
+     * @param model
+     * @param code
+     * @return
+     */
     private void commonViewCarousel(VCttCarouselListVo vCttCarouselListVo, Model model, String code) {
         vCttCarouselListVo = searchByName(vCttCarouselListVo);
         vCttCarouselListVo.getSearch().setType(code);
