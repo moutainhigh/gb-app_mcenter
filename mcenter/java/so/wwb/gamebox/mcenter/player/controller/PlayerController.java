@@ -2283,6 +2283,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/saveNewPlayer")
     @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.SAVE_NEW_ACCOUNT, opType = OpType.CREATE)
     public Map saveNewPlayer(VUserPlayerVo objectVo, HttpServletRequest request, @FormModel("result") @Valid AddNewPlayerForm form, BindingResult result) {
         Map resultMap = new HashMap(2, 1f);
         SysUser sysUser = new SysUser();
@@ -2306,6 +2307,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         ServiceSiteTool.userPlayerService().register(userRegisterVo);
         if (userRegisterVo.isSuccess()) {
             resultMap.put("status", true);
+//            BussAuditLogTool.addLog(SysAuditLogDescEnum.PLAYER_SAVE_NEW_ACCOUNT.getCode(),objectVo.getResult().getUsername());
         } else {
             resultMap.put("status", false);
             resultMap.put("msg", userRegisterVo.getErrMsg());
@@ -2313,6 +2315,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
         return resultMap;
     }
+
 
     /**
      * 加载玩家编辑页面
@@ -2506,7 +2509,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                         vUserPlayerVo.getResult().setUsername(sysUserVo.getResult().getUsername());
 
                         //操作日志
-                        addLog(request, "player.playerRank.success", vUserPlayerVo, oldRankVo, oldSetVo, newRankVo, newSetVo);
+                        addLog(request, SysAuditLogDescEnum.PLAYER_PLAYERRANK_SUCCESS.getCode(), vUserPlayerVo, oldRankVo, oldSetVo, newRankVo, newSetVo);
                     }
                 }
                 resultMap = this.getVoMessage(vUserPlayerVo);
@@ -2518,10 +2521,46 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             resultMap.put("state", false);
             resultMap.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
         }
+        if(vUserPlayerVo.isSuccess() && StringTool.isBlank(vUserPlayerVo.getResult().getUsername())){
+            SysUserVo sysUserVo = new SysUserVo();
+            sysUserVo.setResult(new SysUser());
+            sysUserVo.getSearch().setId(vUserPlayerVo.getResult().getId());
+            sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+            vUserPlayerVo.getResult().setUsername(sysUserVo.getResult().getUsername());
+        }
+        addDetailLog(request,SysAuditLogDescEnum.PLAYER_PLAYERDETAIL_SUCCESS.getCode(),vUserPlayerVo);
+
 
         return resultMap;
 
     }
+
+
+    /**
+     * 日志
+     *
+     * @param request
+     * @param description 日志描述
+     */
+    private void addDetailLog(HttpServletRequest request, String description, VUserPlayerVo vo) {
+        LogVo logVo = (LogVo) request.getAttribute(SysAuditLog.AUDIT_LOG);
+        if (logVo == null) {
+            logVo = new LogVo();
+        }
+
+        BaseLog baseLog = logVo.addBussLog();
+        baseLog.setModule(Module.PLAYER);
+        baseLog.setModuleType(ModuleType.PLAYER_PLAYE_SUCCESS);
+        baseLog.setOpType(OpType.UPDATE);
+        baseLog.setDescription(description);
+        baseLog.setEntityId(vo.getResult().getId());
+        baseLog.setEntityUserId(vo.getResult().getId());
+        baseLog.setEntityUsername(vo.getResult().getUsername());
+        baseLog.addParam(vo.getResult().getUsername());
+        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+    }
+
+
 
     /**
      * 是否发送消息和邮件通知
@@ -2916,6 +2955,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         return null;
     }
 
+
+
     /**
      * 日志
      *
@@ -2923,7 +2964,11 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      * @param description 日志描述
      */
     private void addLog(HttpServletRequest request, String description, VUserPlayerVo vo, PlayerRankVo oldRankVo, RakebackSetVo oldSetVo, PlayerRankVo newRankVo, RakebackSetVo newSetVo) {
-        LogVo logVo = new LogVo();
+        LogVo logVo = (LogVo) request.getAttribute(SysAuditLog.AUDIT_LOG);
+        if (logVo == null) {
+            logVo = new LogVo();
+        }
+
         BaseLog baseLog = logVo.addBussLog();
         baseLog.setDescription(description);
         baseLog.setEntityId(vo.getResult().getId());
