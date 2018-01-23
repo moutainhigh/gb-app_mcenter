@@ -21,7 +21,6 @@
     <div id="validateRule" style="display: none">${command.validateRule}</div>
     <input input type="hidden" id="oldContent" name="oldContent">
     <input input type="hidden" name="result.type" value="${command.search.type}">
-    <input type="hidden" id="">
     <div class="modal-body">
         <div class="form-group">
             <label>${views.content['carousel.showTime']}：<span class="co-red m-l-sm">*</span>
@@ -56,7 +55,6 @@
         </div>
 
 
-
         <div class="clearfix save lgg-version">
             <c:forEach items="${command.siteLanguages}" var="p" varStatus="status">
                 <a id="tag${status.index+1}" aria-expanded="${index.index==0?'true':'false'}" name="tag" tagIndex="${status.index+1}"
@@ -68,11 +66,11 @@
                 </a>
             </c:forEach>
             <input type="hidden" name="curLanguage" id="curLanguage" value="1">
-        <span class="more">
-            <soul:button target="changeCurrentLang" tag="a" opType="function" cssClass="next_lang" text="">
-                <i class="fa fa-angle-double-right"></i>
-            </soul:button>
-        </span>
+            <span class="more">
+                <soul:button target="changeCurrentLang" tag="a" opType="function" cssClass="next_lang" text="">
+                    <i class="fa fa-angle-double-right"></i>
+                </soul:button>
+            </span>
             <div class="pull-right inline">
                 <div class="btn-group">
                     <button class="btn btn-link dropdown-toggle fzyx" data-toggle="dropdown">
