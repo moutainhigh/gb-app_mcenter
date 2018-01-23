@@ -2307,7 +2307,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         ServiceSiteTool.userPlayerService().register(userRegisterVo);
         if (userRegisterVo.isSuccess()) {
             resultMap.put("status", true);
-//            SysAuditLogTool.addLog(SysAuditLogDescEnum.PLAYER_SAVE_NEW_ACCOUNT.getCode(),objectVo.getResult().getUsername());
+//            BussAuditLogTool.addLog(SysAuditLogDescEnum.PLAYER_SAVE_NEW_ACCOUNT.getCode(),objectVo.getResult().getUsername());
         } else {
             resultMap.put("status", false);
             resultMap.put("msg", userRegisterVo.getErrMsg());
