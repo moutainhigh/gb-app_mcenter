@@ -308,6 +308,7 @@ public class CreditPayController {
         CreditAccountVo creditAccountVo = new CreditAccountVo();
         creditAccountVo.setCurrency(CurrencyEnum.CNY.getCode());
         creditAccountVo.setBankCode(bankName);
+        creditAccountVo.getSearch().setUseSites(SessionManager.getSiteId().toString());
         CreditAccount creditAccount = ServiceTool.creditAccountService().getCreditPayAccount(creditAccountVo);
         if (creditAccount == null) {
             return false;
