@@ -5,6 +5,7 @@ import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.sort.Direction;
+import org.soul.model.sys.po.SysDict;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
@@ -113,11 +114,11 @@ public class DomainCheckResultController extends BaseCrudController<IDomainCheck
 
 
         //状态
-        Map<String, Serializable> domainStatus = DictTool.get(DictEnum.COMMON_DOMAIN_CHECK_RESULT_STATUS);
+        Map<String, SysDict> domainStatus = DictTool.get(DictEnum.COMMON_DOMAIN_CHECK_RESULT_STATUS);
         domainStatus.remove(DomainCheckResultStatusEnum.NORMAL.getCode());//删掉正常状态
         listVo.setDomainStatus(domainStatus);
         //运营商
-        Map<String, Serializable> isp = DictTool.get(DictEnum.COMMON_ISP);
+        Map<String, SysDict> isp = DictTool.get(DictEnum.COMMON_ISP);
         listVo.setIsp(isp);
         return listVo;
     }

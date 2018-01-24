@@ -9,6 +9,7 @@ import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.enums.Operator;
+import org.soul.model.sys.po.SysDict;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
@@ -108,7 +109,7 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
         listVo.setPageUrl(pageUrl);
 
         //状态
-        Map<String, Serializable> domainStatus = DictTool.get(DictEnum.COMMON_DOMAIN_CHECK_RESULT_STATUS);
+        Map<String, SysDict> domainStatus = DictTool.get(DictEnum.COMMON_DOMAIN_CHECK_RESULT_STATUS);
         domainStatus.remove(DomainCheckResultStatusEnum.NORMAL.getCode());//删掉正常状态
         listVo.setDomainStatus(domainStatus);
 
