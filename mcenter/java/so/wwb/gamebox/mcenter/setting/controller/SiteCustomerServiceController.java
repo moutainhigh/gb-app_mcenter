@@ -339,7 +339,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     public Map updateAppDomainService( PlayerRankAppDomainListVo playerRankAppDomainListVo,Model model){
         Map map=new HashedMap();
 
-        //根据层级社会域名
+        //根据层级设置域名
          insertRankByDomain(playerRankAppDomainListVo);
 
         SysParamVo sysParamVo = new SysParamVo();
