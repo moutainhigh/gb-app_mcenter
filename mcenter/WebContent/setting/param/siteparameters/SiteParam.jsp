@@ -464,16 +464,15 @@
                                     <br/>
                                     <div class="clearfix m-b">
                                         <div class="ft-bold pull-left line-hi34">
-                                                ${views.setting_auto['APP下载域名']}
+                                                ${views.setting_auto['APP默认下载域名']}
                                         </div>
                                         <div class="col-xs-5">
                                             <gb:select name="sysParam.paramValue" value="${select_domain.paramValue}"
                                                        list="${appDomain}" listKey="domain" listValue="domain"/>
                                         </div>
                                     </div>
-
                                     <label class="ft-bold col-sm-3 al-right line-hi34"
-                                           style='margin-left: -52px;margin-top:-3px'>按层级设置下载域名：</label><br/><br/>
+                                           style='margin-left: -52px;margin-top:-3px'>${views.setting_auto['按层级设置下载域名']}：</label><br/><br/>
                                     <div class="tab-content col-sm-15" id="open-period-div">
                                         <table class="border" id="app-domain-table">
                                             <tr>
@@ -488,7 +487,7 @@
                                                  <c:forEach var="period" items="${rankAppDomain.result}" varStatus="vs">
                                                     <tr>
                                                         <td>
-                                                            <gb:select name="playerRankAppDomains[${vs.index}].rankId"
+                                                            <gb:select  name="playerRankAppDomains[${vs.index}].rankId"
                                                                        list="${playerRanks}" listValue="rankName" value="${period.rankId}" listKey="id"/>
                                                         </td>
                                                         <td>
@@ -517,14 +516,14 @@
                                                      opType="ajax"
                                                      dataType="json"
                                                      target="${root}/siteCustomerService/appDomain.html"
-                                                     precall="validMobileCustomerService"
+                                                     precall="validRankByDomain"
                                                      post="getAppDomainFormData" callback="saveCallbak"/>
                                     </div>
                                 </div>
                                 <table id="app-domain-template" style="display: none;">
                                     <tr>
                                         <td>
-                                            <gb:select name="playerRankAppDomains[{n}].rankId"
+                                            <gb:select cssClass="rankName" name="playerRankAppDomains[{n}].rankId"
                                                        list="${playerRanks}" listValue="rankName"  listKey="id"/>
                                         </td>
                                         <td>
@@ -610,7 +609,7 @@
                                         </div>
                                         <div class="col-xs-5">
                                             <input  id="skyepId" type="text" name="sysParam[3].paramValue" value="${skyep.paramValue}"
-                                                   placeholder="输入的长度请小于30个字符" class="form-control" maxlength="30">
+                                                   placeholder="输入的长度请小于30个字符" class="form-control" >
                                         </div>
                                     </div>
                                     <div class="clearfix m-b">
@@ -620,7 +619,7 @@
                                         </div>
                                         <div class="col-xs-5">
                                             <textarea id="copyrightId" name="sysParam[4].paramValue" class="form-control"
-                                                      maxlength="200">${copyright.paramValue}</textarea>
+                                                      placeholder="输入的长度请小于200个字符" >${copyright.paramValue}</textarea>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
