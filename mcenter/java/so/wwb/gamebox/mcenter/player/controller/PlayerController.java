@@ -116,6 +116,7 @@ import so.wwb.gamebox.model.master.setting.vo.RakebackSetListVo;
 import so.wwb.gamebox.model.master.setting.vo.RakebackSetVo;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderVo;
 import so.wwb.gamebox.model.report.vo.AddLogVo;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.bank.BankHelper;
 import so.wwb.gamebox.web.cache.Cache;
@@ -2307,7 +2308,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         ServiceSiteTool.userPlayerService().register(userRegisterVo);
         if (userRegisterVo.isSuccess()) {
             resultMap.put("status", true);
-//            BussAuditLogTool.addLog(SysAuditLogDescEnum.PLAYER_SAVE_NEW_ACCOUNT.getCode(),objectVo.getResult().getUsername());
+            BussAuditLogTool.addLog(BussAuditLogDescEnum.PLAYER_SAVE_NEW_ACCOUNT.getCode(),objectVo.getResult().getUsername());
         } else {
             resultMap.put("status", false);
             resultMap.put("msg", userRegisterVo.getErrMsg());
@@ -2509,7 +2510,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                         vUserPlayerVo.getResult().setUsername(sysUserVo.getResult().getUsername());
 
                         //操作日志
-                        addLog(request, SysAuditLogDescEnum.PLAYER_PLAYERRANK_SUCCESS.getCode(), vUserPlayerVo, oldRankVo, oldSetVo, newRankVo, newSetVo);
+                        addLog(request, BussAuditLogDescEnum.PLAYER_PLAYERRANK_SUCCESS.getCode(), vUserPlayerVo, oldRankVo, oldSetVo, newRankVo, newSetVo);
                     }
                 }
                 resultMap = this.getVoMessage(vUserPlayerVo);
@@ -2528,7 +2529,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
             vUserPlayerVo.getResult().setUsername(sysUserVo.getResult().getUsername());
         }
-        addDetailLog(request,SysAuditLogDescEnum.PLAYER_PLAYERDETAIL_SUCCESS.getCode(),vUserPlayerVo);
+        addDetailLog(request, BussAuditLogDescEnum.PLAYER_PLAYERDETAIL_SUCCESS.getCode(),vUserPlayerVo);
 
 
         return resultMap;
@@ -2994,6 +2995,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         sysUserVo.setProperties(SysUser.PROP_MEMO, SysUser.PROP_UPDATE_USER, SysUser.PROP_UPDATE_TIME);
         sysUserVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
         map.put("state", sysUserVo.isSuccess());
+        BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.PLAYER_PLAYERRANK_SUCCESS, OpType.UPDATE, BussAuditLogDescEnum.PLAYER_PLAYERRANK_SUCCESS.getCode(),
+                sysUserVo.getResult().getUpdateUser().toString());
         return map;
     }
 

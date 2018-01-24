@@ -7,6 +7,8 @@ import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.string.RandomStringTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.support.IModule;
+import org.soul.commons.support.IModuleType;
 import org.soul.model.log.audit.enums.OpMode;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.log.audit.vo.BaseLog;
@@ -31,15 +33,13 @@ import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.player.form.ResetPwdForm;
 import so.wwb.gamebox.mcenter.player.form.ResetSysUserPwdForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.Module;
-import so.wwb.gamebox.model.ModuleType;
-import so.wwb.gamebox.model.SiteI18nEnum;
+import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.master.agent.vo.ResetSysUserPwdVo;
 import so.wwb.gamebox.model.master.player.vo.ResetPwdVo;
 import so.wwb.gamebox.model.master.player.vo.VUserPlayerVo;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
 
@@ -122,30 +122,33 @@ public class PlayerResetPwdController {
             resetPwdVo.setPassword(newPwd);
             map = resetUserPwd(resetPwdVo);
             KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL, "站长中心重置玩家密码强制踢出");
+            addPlayerLog(Module.PLAYER, ModuleType.RESET_USER_PASSWORD, OpType.UPDATE,
+                    BussAuditLogDescEnum.PLAYER_RESETPWD_AUTORESETPWD.getCode(),resetPwdVo);
         } else if (resetPwdVo.getResetTypePayPwd().equals(resetPwdVo.getResetType())) {
             resetPwdVo.setPermissionPwd(newPwd);
             Boolean isOk = ServiceSiteTool.userPlayerService().resetPassword(resetPwdVo);
             KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL, "站长中心重置玩家密码强制踢出");
             map.put("state", isOk);
+            addPlayerLog(Module.PLAYER, ModuleType.RESET_USER_PERMISSIONPWD, OpType.UPDATE,
+                    BussAuditLogDescEnum.RESET_USER_PERMISSIONPWD.getCode(),resetPwdVo);
         }
         sendNotice(resetPwdVo);
         map.put("newPwd", newPwd);
         model.addAttribute("newPwd", newPwd);
         model.addAttribute("player.resetPwd.resetPwdVo", resetPwdVo);
-        addPlayerLog("player.resetPwd.autoResetPwd", resetPwdVo);
         return "player/player/resetpassword/SuccessPassword";
     }
 
     /**
      * 添加玩家修改日志
      */
-    public void addPlayerLog(String description, ResetPwdVo resetPwdVo) {
+    public void addPlayerLog(IModule module, IModuleType moduleType, OpType opType, String description, ResetPwdVo resetPwdVo) {
         try {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
             vUserPlayerVo.getSearch().setId(resetPwdVo.getUserId());
             vUserPlayerVo = vUserPlayerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
-            addLog(description, vUserPlayerVo.getResult().getUsername());
+            BussAuditLogTool.addBussLog(module,moduleType,opType,description,vUserPlayerVo.getResult().getUsername());
         } catch (Exception ex) {
 
         }
@@ -175,7 +178,8 @@ public class PlayerResetPwdController {
             LogFactory.getLog(this.getClass()).error(ex, "发布消息不成功");
         }
         KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL, "站长中心邮件重置玩家密码强制踢出");
-        addPlayerLog("player.resetPwd.resetPwdByEmail", resetPwdVo);
+        addPlayerLog(Module.PLAYER,  ModuleType.RESET_USER_PERMISSIONPWD,  OpType.UPDATE,
+                "player.resetPwd.resetPwdByEmail", resetPwdVo);
         return MapTool.newHashMap(new Pair<Object, Object>("msg", "保存成功"), new Pair<Object, Object>("state", true));
     }
 
