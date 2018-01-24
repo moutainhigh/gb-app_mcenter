@@ -123,14 +123,14 @@ public class PlayerResetPwdController {
             map = resetUserPwd(resetPwdVo);
             KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL, "站长中心重置玩家密码强制踢出");
             addPlayerLog(Module.PLAYER, ModuleType.RESET_USER_PASSWORD, OpType.UPDATE,
-                    BussAuditLogDescEnum.PLAYER_RESETPWD_AUTORESETPWD.getCode(),resetPwdVo);
+                    BussAuditLogDescEnum.PLAYER_RESETPWD_AUTORESETPWD.getCode(), resetPwdVo);
         } else if (resetPwdVo.getResetTypePayPwd().equals(resetPwdVo.getResetType())) {
             resetPwdVo.setPermissionPwd(newPwd);
             Boolean isOk = ServiceSiteTool.userPlayerService().resetPassword(resetPwdVo);
             KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL, "站长中心重置玩家密码强制踢出");
             map.put("state", isOk);
             addPlayerLog(Module.PLAYER, ModuleType.RESET_USER_PERMISSIONPWD, OpType.UPDATE,
-                    BussAuditLogDescEnum.RESET_USER_PERMISSIONPWD.getCode(),resetPwdVo);
+                    BussAuditLogDescEnum.RESET_USER_PERMISSIONPWD.getCode(), resetPwdVo);
         }
         sendNotice(resetPwdVo);
         map.put("newPwd", newPwd);
@@ -148,7 +148,7 @@ public class PlayerResetPwdController {
             VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
             vUserPlayerVo.getSearch().setId(resetPwdVo.getUserId());
             vUserPlayerVo = vUserPlayerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
-            BussAuditLogTool.addBussLog(module,moduleType,opType,description,vUserPlayerVo.getResult().getUsername());
+            BussAuditLogTool.addBussLog(module, moduleType, opType, description, vUserPlayerVo.getResult().getUsername());
         } catch (Exception ex) {
 
         }
@@ -178,7 +178,7 @@ public class PlayerResetPwdController {
             LogFactory.getLog(this.getClass()).error(ex, "发布消息不成功");
         }
         KickoutFilter.loginKickoutAll(resetPwdVo.getUserId(), OpMode.MANUAL, "站长中心邮件重置玩家密码强制踢出");
-        addPlayerLog(Module.PLAYER,  ModuleType.RESET_USER_PERMISSIONPWD,  OpType.UPDATE,
+        addPlayerLog(Module.PLAYER, ModuleType.RESET_USER_PERMISSIONPWD, OpType.UPDATE,
                 "player.resetPwd.resetPwdByEmail", resetPwdVo);
         return MapTool.newHashMap(new Pair<Object, Object>("msg", "保存成功"), new Pair<Object, Object>("state", true));
     }
@@ -381,7 +381,7 @@ public class PlayerResetPwdController {
                 }
                 KickoutFilter.loginKickoutAll(userId, OpMode.MANUAL, "站长中心手动重置玩家密码强制踢出");
             }
-            addAgentLog("player.resetPwd.doRestUserPwdByHand", resetPwdVo);
+            addAgentLog(resetPwdVo);
         }
         return resetPwdVo.isSuccess();
     }
@@ -389,12 +389,24 @@ public class PlayerResetPwdController {
     /**
      * 代理添加修改日志
      */
-    public void addAgentLog(String description, ResetSysUserPwdVo resetPwdVo) {
+    public void addAgentLog(ResetSysUserPwdVo resetPwdVo) {
         try {
             SysUserVo sysUserVo = new SysUserVo();
             sysUserVo.getSearch().setId(resetPwdVo.getResult().getId());
             sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
-            addLog(description, sysUserVo.getResult().getUsername());
+            String description = "";
+            IModuleType type = null;
+            if ("permissionPwd".equals(resetPwdVo.getResetType())) {
+                description = "player.resetPwd.doRestUserPermPwdByHand";
+                type = ModuleType.RESET_USER_PERMISSIONPWD;
+            } else {
+                description = "player.resetPwd.doRestUserPwdByHand";
+                type = ModuleType.RESET_USER_PASSWORD;
+            }
+            if (sysUserVo.getResult() != null && StringTool.isNotBlank(sysUserVo.getResult().getUsername())) {
+                BussAuditLogTool.addBussLog(Module.PLAYER, type, OpType.UPDATE, description, sysUserVo.getResult().getUsername());
+            }
+
         } catch (Exception ex) {
 
         }
