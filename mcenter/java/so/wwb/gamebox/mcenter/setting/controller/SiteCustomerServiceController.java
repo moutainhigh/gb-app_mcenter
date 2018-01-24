@@ -39,6 +39,7 @@ import so.wwb.gamebox.model.master.operation.vo.PlayerRankAppDomainListVo;
 import so.wwb.gamebox.model.master.operation.vo.PlayerRankAppDomainVo;
 import so.wwb.gamebox.web.cache.Cache;
 
+import javax.swing.plaf.nimbus.State;
 import javax.validation.Valid;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -337,7 +338,10 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     @ResponseBody
     public Map updateAppDomainService( PlayerRankAppDomainListVo playerRankAppDomainListVo,Model model){
         Map map=new HashedMap();
-        playerRankAppDomainListVo=ServiceSiteTool.playerRankAppDomainService().insertALL(playerRankAppDomainListVo);
+
+        //根据层级社会域名
+         insertRankByDomain(playerRankAppDomainListVo);
+
         SysParamVo sysParamVo = new SysParamVo();
         if(playerRankAppDomainListVo.getSysParam()!=null){
             sysParamVo.setResult(playerRankAppDomainListVo.getSysParam());
@@ -365,6 +369,45 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
         return map;
     }
+
+    /**
+     * 验证根据层级设置域名
+     */
+    @RequestMapping("/insertRankByDomain")
+    @ResponseBody
+    private Map insertRankByDomain(PlayerRankAppDomainListVo playerRankAppDomainListVo) {
+         Map map=new HashMap();
+        List<PlayerRankAppDomain> playerRankAppDomains = playerRankAppDomainListVo.getPlayerRankAppDomains();
+        if (playerRankAppDomains!=null){
+            Iterator<PlayerRankAppDomain> iter = playerRankAppDomains.iterator();
+            Map<String,PlayerRankAppDomain> playerRankAppDomainObjectMap=new HashMap<>();
+            while(iter.hasNext()){
+                PlayerRankAppDomain next = iter.next();
+                if((next.getRankId()==null)||(next.getDomain().length()<1)){
+                    map.put("msg",LocaleTool.tranMessage("setting_auto","层级和域名不能为空"));
+                    map.put("state",false);
+                    return map;
+                }else {
+                    playerRankAppDomainObjectMap.put(next.getRankId()+next.getDomain(),next);
+                }
+            }
+            if (playerRankAppDomainObjectMap.size()!=playerRankAppDomains.size()){
+                map.put("msg",LocaleTool.tranMessage("setting_auto","同一个层级不能设置相同的域名"));
+                map.put("state",false);
+                return  map;
+            }else {
+                map.put("msg",LocaleTool.tranMessage("setting_auto","保存成功"));
+                map.put("state",true);
+             ServiceSiteTool.playerRankAppDomainService().insertALL(playerRankAppDomainListVo);
+            }
+        }else {
+            ServiceSiteTool.playerRankAppDomainService().insertALL(playerRankAppDomainListVo);
+            map.put("msg",LocaleTool.tranMessage("setting_auto","保存成功"));
+            map.put("state",true);
+        }
+        return map ;
+    }
+
     /**
      * APP下载域名设置
      * @param sysParamVo
