@@ -79,6 +79,7 @@ import so.wwb.gamebox.mcenter.report.controller.AuditLogController;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.share.form.SysListOperatorForm;
 import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.boss.enums.ExportFileTypeEnum;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.Const;
@@ -3044,6 +3045,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
         }
         //vo.setTemplateFileName("gb/0/exportTemplate/232/1516517552234.xls");
+        vo.setExportFileType(ExportFileTypeEnum.PLAYER_MANAGE.getCode());
+        vo.setExportLocale(SessionManager.getLocale().toString());
         vo.getResult().setParam(VUserPlayerListVo.class.getName());
         vo.getResult().setUsername(SessionManager.getUserName());
         vo.getResult().setExportUserId(SessionManager.getUserId());
@@ -3080,7 +3083,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 ITaskScheduleService taskScheduleService = ServiceScheduleTool.getTaskScheduleService();
                 taskScheduleService.runOnceTask(taskScheduleVo, vo);
             }
-            result.put("state", vo.isSuccess());
+            result = getVoMessage(vo);
         } catch (Exception ex) {
             LogFactory.getLog(this.getClass()).error(ex, "导出失败");
             result.put("state", false);
