@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <soul:button target="${root}/share/account/cancelAccountFreeze.html?search.id=${command.result.id}" tag="button" cssClass="btn btn-filter" callback="saveCallbak" text="" opType="ajax">
+                <soul:button target="${root}/share/account/cancelAccountFreeze.html?search.id=${command.result.id}&type=${sign}" tag="button" cssClass="btn btn-filter" callback="saveCallbak" text="" opType="ajax">
                     ${views.common['commit']}
                 </soul:button>
                 <soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter" opType="function" callback="saveCallbak"/>

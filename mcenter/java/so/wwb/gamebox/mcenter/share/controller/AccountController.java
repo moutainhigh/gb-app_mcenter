@@ -53,6 +53,7 @@ import so.wwb.gamebox.model.listop.FreezeTime;
 import so.wwb.gamebox.model.listop.FreezeType;
 import so.wwb.gamebox.model.master.player.po.UserPlayer;
 import so.wwb.gamebox.model.master.player.vo.*;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
@@ -233,8 +234,29 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         accountVo.getSearch().setFreezeContent(content);
         accountVo = ServiceSiteTool.userPlayerService().setAccountFreeze(accountVo);
         sendMessageByGroupCode(noticeVo);
-        addLog("account.setFreezeAccount",accountVo);
+        //日志
+        addSetFreezeAccountLog(accountVo,eventType);
         return getVoMessage(accountVo);
+    }
+
+    /**
+     * 冻结日志
+     * @param accountVo
+     * @param eventType
+     */
+    public void addSetFreezeAccountLog(AccountVo accountVo, INoticeEventType eventType) {
+        SysUserVo sysUserVo = new SysUserVo();
+        sysUserVo.getSearch().setId(accountVo.getResult().getId());
+        sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+        String desc = "";
+        if (eventType == ManualNoticeEvent.ACENTER_ACCOUNT_FREEZON) {
+            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_FREEZE, OpType.UPDATE, "ACCOUNT_SETFREEZEACCOUNT", sysUserVo.getResult().getUsername());
+        } else if (eventType == ManualNoticeEvent.TCENTER_ACCOUNT_FREEZON) {
+            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_FREEZE, OpType.UPDATE, "TCENTER_ACCOUNT_SETFREEZEACCOUNT", sysUserVo.getResult().getUsername());
+
+        } else if (eventType == ManualNoticeEvent.PLAYER_ACCOUNT_FREEZON) {
+            BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.USER_FREEZE, OpType.UPDATE, "PLAYER_SETFREEZEACCOUNT_SUCCESS", sysUserVo.getResult().getUsername());
+        }
     }
 
 
@@ -285,6 +307,8 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         if ("topAgent".equals(sign)) {
             model.addAttribute("urls", "/userAgent/topagent/detail.html");
         }
+        //日志中无法区别代理和总代，增加一个标示
+        model.addAttribute("sign", sign);
 
         return getViewBasePath() + "CancelFreezeAccount";
     }
@@ -320,9 +344,33 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         accountVo.getResult().setLoginErrorTimes(0);
         accountVo.setProperties(SysUser.PROP_FREEZE_END_TIME, SysUser.PROP_LOGIN_ERROR_TIMES);
         ServiceTool.sysUserService().updateOnly(accountVo);
-        addLog("account.cancelAccountFreeze",accountVo);
+        //日志
+        addCancelFreezeLog(accountVo);
         return getVoMessage(accountVo);
     }
+
+    /**
+     * 取消冻结日志
+     * @param accountVo
+     */
+    private void addCancelFreezeLog(AccountVo accountVo){
+        SysUserVo sysUserVo = new SysUserVo();
+        sysUserVo.getSearch().setId(accountVo.getResult().getId());
+        sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+        String accountType = accountVo.getType();
+        if (AccountVo.TYPE_AGENT.equals(accountType)) {
+            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_FREEZE, OpType.UPDATE, "ACCOUNT_CANCELACCOUNTFREEZE", sysUserVo.getResult().getUsername());
+        } else if (AccountVo.TYPE_TOPAGENT.equals(accountType)) {
+            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_FREEZE, OpType.UPDATE, "TCENTER_ACCOUNT_CANCELACCOUNTFREEZE", sysUserVo.getResult().getUsername());
+        } else if (AccountVo.TYPE_PLAYER.equals(accountType)) {
+            BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.USER_FREEZE, OpType.UPDATE, "PLAYER_CANCELACCOUNTFREEZE", sysUserVo.getResult().getUsername());
+        }
+    }
+
+
+
+
+
 
     /**
      * 添加账户状态修改日志
