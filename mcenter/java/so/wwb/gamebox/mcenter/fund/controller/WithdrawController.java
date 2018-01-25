@@ -366,9 +366,11 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 String _counterFee = _counterFee_pre+CurrencyTool.formatInteger(counterFee)+CurrencyTool.formatDecimals(counterFee);
                 vPlayerWithdraw.set_counterFee(_counterFee);
                 Double administrativeFee = vPlayerWithdraw.getAdministrativeFee();
-                String _administrativeFee_pre = administrativeFee > 0 ? "-" :"";
-                String _administrativeFee = _administrativeFee_pre+CurrencyTool.formatInteger(administrativeFee)+CurrencyTool.formatDecimals(administrativeFee);
-                vPlayerWithdraw.set_administrativeFee(_administrativeFee);
+                if(administrativeFee!=null){
+                    String _administrativeFee_pre = administrativeFee > 0 ? "-" :"";
+                    String _administrativeFee = _administrativeFee_pre+CurrencyTool.formatInteger(administrativeFee)+CurrencyTool.formatDecimals(administrativeFee);
+                    vPlayerWithdraw.set_administrativeFee(_administrativeFee);
+                }
                 Double deductFavorable = vPlayerWithdraw.getDeductFavorable();
                 String _deductFavorable_pre = deductFavorable > 0 ? "-" :"";
                 String _deductFavorable = _deductFavorable_pre+CurrencyTool.formatInteger(deductFavorable)+CurrencyTool.formatDecimals(deductFavorable);
