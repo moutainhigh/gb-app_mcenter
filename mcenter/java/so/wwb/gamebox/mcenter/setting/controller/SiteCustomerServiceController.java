@@ -398,10 +398,10 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
             }else {
                 map.put("msg",LocaleTool.tranMessage("setting_auto","保存成功"));
                 map.put("state",true);
-             ServiceSiteTool.playerRankAppDomainService().insertALL(playerRankAppDomainListVo);
+             ServiceSiteTool.playerRankAppDomainService().insertAll(playerRankAppDomainListVo);
             }
         }else {
-            ServiceSiteTool.playerRankAppDomainService().insertALL(playerRankAppDomainListVo);
+            ServiceSiteTool.playerRankAppDomainService().insertAll(playerRankAppDomainListVo);
             map.put("msg",LocaleTool.tranMessage("setting_auto","保存成功"));
             map.put("state",true);
         }
