@@ -3147,6 +3147,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/changeStatus")
     @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.USER_FREEZE, opType = OpType.UPDATE)
     public Map changeStatus(Integer[] ids) {
         VUserPlayerListVo listVo = new VUserPlayerListVo();
         listVo.setMasterName(SessionManager.getUserName());
@@ -3159,6 +3160,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                     KickoutFilter.loginKickoutAll(id, OpMode.MANUAL, "站长中心冻结玩家强制踢出");
                 }
                 map = getVoMessage(listVo);
+            }
+            if (vUserPlayerListVo.isSuccess()) {
+                BussAuditLogTool.addBussLog(Module.PLAYER,ModuleType.USER_FREEZE,OpType.AUDIT.UPDATE,BussAuditLogDescEnum.PLAYER_SETFREEZEACCOUNT_SUCCESS.getCode(),vUserPlayerListVo.getOperatedName());
             }
         } catch (Exception ex) {
             map.put("state", false);
