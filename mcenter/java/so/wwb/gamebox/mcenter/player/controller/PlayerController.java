@@ -2722,9 +2722,14 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      * 日志
      * @param sysUserVo
      */
-    private void addNormalStatusLog(SysUserVo sysUserVo){
-        sysUserVo = sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
-        BussAuditLogTool.addBussLog(Module.PLAYER,  ModuleType.USER_CANCEL_FREEZE,  OpType.UPDATE,"PLAYER_CANCELACCOUNTFREEZE",sysUserVo.getResult().getUsername());
+    private void addNormalStatusLog(SysUserVo sysUserVo) {
+        try {
+            sysUserVo.getSearch().setId(sysUserVo.getResult().getId());
+            sysUserVo = sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+            BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.USER_CANCEL_FREEZE, OpType.UPDATE, "PLAYER_CANCELACCOUNTFREEZE", sysUserVo.getResult().getUsername());
+        } catch (Exception ex) {
+            sysUserVo.getSearch().setId(sysUserVo.getResult().getId());
+        }
     }
 
     @RequestMapping("/updateAgentLine")
