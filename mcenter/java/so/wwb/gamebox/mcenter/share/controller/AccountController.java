@@ -40,6 +40,7 @@ import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.mcenter.player.controller.PlayerResetPwdController;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.model.BussAuditLogDescEnum;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ModuleType;
@@ -168,9 +169,28 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         String messageType = "accountDisabled";
         NoticeVo noticeVo = buildNoticeParam(messageType,accountVo,eventType);
         sendMessageByGroupCode(noticeVo);
-        addLog("account.setAccountDisabled",accountVo);
+        //日志
+        addSetAccountDisableLog(accountVo);
         return getVoMessage(accountVo);
     }
+
+
+    /**
+     * 添加disable日志
+     * @param accountVo
+     */
+    private void addSetAccountDisableLog(AccountVo accountVo){
+        String accountType = accountVo.getType();
+        String userName = accountVo.getResult().getUsername();
+        if (AccountVo.TYPE_AGENT.equals(accountType)) {
+            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_FREEZE, OpType.UPDATE, "ACCOUNT_SETACCOUNTDISABLED", userName);
+        } else if (AccountVo.TYPE_TOPAGENT.equals(accountType)) {
+            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_FREEZE, OpType.UPDATE, "TCENTER_ACCOUNT_SETACCOUNTDISABLED", userName);
+        } else {
+            BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.USER_FREEZE, OpType.UPDATE, "PLAYER_SETACCOUNTDISABLED", userName);
+        }
+    }
+
 
     @RequestMapping("/freezeAccount")
     @Token(generate = true)
