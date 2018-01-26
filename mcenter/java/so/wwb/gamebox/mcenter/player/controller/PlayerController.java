@@ -2694,6 +2694,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/updatePlayerStatus")
     @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.USER_CANCEL_FREEZE, opType = OpType.UPDATE)
     public Map updatePlayerStatus(SysUserVo sysUserVo) {
         Map map = new HashMap();
         if (sysUserVo.getResult() == null || sysUserVo.getResult().getId() == null || StringTool.isBlank(sysUserVo.getResult().getStatus())) {
@@ -2706,11 +2707,29 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
             sysUserVo = ServiceSiteTool.vUserPlayerService().updateUserPlayerStatus(sysUserVo);
             map.put("state", sysUserVo.isSuccess());
+            //日志
+            if(sysUserVo.isSuccess()){
+                addNormalStatusLog(sysUserVo);
+            }
         } catch (Exception ex) {
             map.put("state", false);
         }
 
         return map;
+    }
+
+    /**
+     * 日志
+     * @param sysUserVo
+     */
+    private void addNormalStatusLog(SysUserVo sysUserVo) {
+        try {
+            sysUserVo.getSearch().setId(sysUserVo.getResult().getId());
+            sysUserVo = sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+            BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.USER_CANCEL_FREEZE, OpType.UPDATE, "PLAYER_CANCELACCOUNTFREEZE", sysUserVo.getResult().getUsername());
+        } catch (Exception ex) {
+            sysUserVo.getSearch().setId(sysUserVo.getResult().getId());
+        }
     }
 
     @RequestMapping("/updateAgentLine")
