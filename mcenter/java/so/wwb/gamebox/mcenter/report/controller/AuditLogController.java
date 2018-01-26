@@ -10,6 +10,7 @@ import org.soul.model.log.audit.vo.BaseLog;
 import org.soul.model.log.audit.vo.LogVo;
 import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.model.sys.po.SysAuditLog;
+import org.soul.model.sys.po.SysDict;
 import org.soul.model.sys.vo.SysAuditLogListVo;
 import org.soul.model.sys.vo.SysAuditLogVo;
 import org.soul.web.controller.BaseCrudController;
@@ -24,6 +25,7 @@ import so.wwb.gamebox.mcenter.report.form.SysAuditLogSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.SysExportForm;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.ModuleType;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
@@ -35,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author fly
@@ -51,15 +54,15 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
 
     @RequestMapping("/logList")
     protected String logList(SysAuditLogListVo listVo, Model model, HttpServletRequest request) {
-        DictTool.refresh(DictEnum.Search_Keyword);
-
-
         List<Pair> keys = new ArrayList<>();
         keys.add(new Pair("search.operator", LocaleTool.tranDict(DictEnum.Search_Keyword,"sole")));
         keys.add(new Pair("search.ip", LocaleTool.tranDict(DictEnum.Search_Keyword,"ip")));
 
         model.addAttribute("opType", DictTool.get(DictEnum.Log_OpType));//操作类型
-        model.addAttribute("moduleTypes", DictTool.get(DictEnum.Log_Type));
+        //日志类型，去掉没有被调用到的
+        Map<String, SysDict> logTypeMap = DictTool.get(DictEnum.Log_Type);
+        removeNotUserLogType(logTypeMap);
+        model.addAttribute("moduleTypes", logTypeMap);
         model.addAttribute("now", SessionManager.getDate().getNow());
         model.addAttribute("keys", keys);
         model.addAttribute("hasReturnhasReturn", request.getParameter("hasReturn"));
@@ -93,6 +96,27 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
         } else {
             return getViewBasePath() + "Index";
         }
+    }
+
+    /**
+     * 去掉没有使用的日志类型
+     * @param logTypeMap
+     */
+    private void removeNotUserLogType(Map<String, SysDict> logTypeMap) {
+        logTypeMap.remove(ModuleType.COMPANY_ACCOUNT_FREEZE.getCode());
+        logTypeMap.remove(ModuleType.COMPANY_ACCOUNT_WARNING.getCode());
+        logTypeMap.remove(ModuleType.COMPANY_ACCOUNT_LACKING.getCode());
+        logTypeMap.remove(ModuleType.ONLINE_ACCOUNT_FREEZE.getCode());
+        logTypeMap.remove(ModuleType.ONLINE_ACCOUNT_UNFREEZE.getCode());
+        logTypeMap.remove(ModuleType.ONLINE_ACCOUNT_WARNING.getCode());
+        logTypeMap.remove(ModuleType.ONLINE_ACCOUNT_LACKING.getCode());
+//        logTypeMap.remove(ModuleType.USER_FREEZE.getCode());
+//        logTypeMap.remove(ModuleType.USER_CANCEL_FREEZE.getCode());
+//        logTypeMap.remove(ModuleType.USER_DISABLE.getCode());
+//        logTypeMap.remove(ModuleType.RESET_USER_PASSWORD.getCode());
+//        logTypeMap.remove(ModuleType.RESET_USER_PERMISSIONPWD.getCode());
+//        logTypeMap.remove(ModuleType.PLAYER_PLAYE_SUCCESS.getCode());
+        logTypeMap.remove(ModuleType.OPERATER_REBATE_SUCCESS.getCode());
     }
 
     private void beforeQuery(SysAuditLogListVo listVo,Model model) {

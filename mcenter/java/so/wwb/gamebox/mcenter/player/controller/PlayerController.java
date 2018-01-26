@@ -2285,7 +2285,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/saveNewPlayer")
     @ResponseBody
-    @Audit(module = Module.PLAYER, moduleType = ModuleType.SAVE_NEW_ACCOUNT, opType = OpType.CREATE)
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.PLAYER_SAVE_NEW_ACCOUNT, opType = OpType.CREATE)
     public Map saveNewPlayer(VUserPlayerVo objectVo, HttpServletRequest request, @FormModel("result") @Valid AddNewPlayerForm form, BindingResult result) {
         Map resultMap = new HashMap(2, 1f);
         SysUser sysUser = new SysUser();
