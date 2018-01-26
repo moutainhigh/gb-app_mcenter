@@ -15,6 +15,7 @@ import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
 import org.soul.commons.support._Module;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -30,10 +31,8 @@ import so.wwb.gamebox.iservice.master.operation.IVActivityMessageService;
 import so.wwb.gamebox.mcenter.operation.form.*;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.SendMessageTool;
-import so.wwb.gamebox.model.CacheBase;
-import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.Module;
-import so.wwb.gamebox.model.SiteI18nEnum;
+import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.ContentCheckEnum;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.serve.po.SiteContentAudit;
@@ -47,6 +46,7 @@ import so.wwb.gamebox.model.master.enums.ActivityTypeEnum;
 import so.wwb.gamebox.model.master.enums.UserTaskEnum;
 import so.wwb.gamebox.model.master.operation.po.*;
 import so.wwb.gamebox.model.master.operation.vo.*;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
@@ -405,6 +405,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
     @RequestMapping("/activityRelease")
     @ResponseBody
     @Token(valid = true)
+    @Audit(module = Module.ACTIVITY, moduleType = ModuleType.ACTIVITY_ACTIVITYRELEASE_SUCCESS, opType = OpType.CREATE)
     public Map activityRelease(ActivityTypeVo activityTypeVo, VActivityMessageVo vActivityMessageVo) {
         Map map = new HashMap(2, 1f);
         try {
@@ -419,6 +420,12 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
                 Cache.refreshActivityMessages();// 发布和编辑刷新缓存
                 Cache.refreshCurrentSitePageCache();
                 map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
+                //日志
+                String logPara1 = activityTypeVo.getResult() == null ? "" : activityTypeVo.getResult().getName();
+                String logPara2 = (vActivityMessageVo.getActivityMessageI18ns() == null || vActivityMessageVo.getActivityMessageI18ns().size() < 0)
+                        ? "" : vActivityMessageVo.getActivityMessageI18ns().get(0).getActivityName();
+                BussAuditLogTool.addBussLog(Module.ACTIVITY,ModuleType.ACTIVITY_ACTIVITYRELEASE_SUCCESS,OpType.CREATE,"ACTIVITY_ACTIVITYRELEASE_SUCCESS",
+                        logPara1,logPara2);
             } else {
                 map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
                 map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
@@ -437,6 +444,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
 
         return map;
     }
+
 
     private void updateSiteContentAudit() {
         SiteContentAudit contentAudit = ServiceSiteTool.vActivityMessageUserService().countCompanyAuditCount(new ActivityMessageVo());
