@@ -6,6 +6,7 @@ import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.sys.po.SysDict;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
@@ -19,9 +20,8 @@ import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttCarouselService;
 import so.wwb.gamebox.mcenter.content.form.*;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.company.setting.po.ApiTypeI18n;
 import so.wwb.gamebox.model.company.site.po.SiteApi;
 import so.wwb.gamebox.model.company.site.po.SiteApiTypeRelation;
@@ -33,6 +33,7 @@ import so.wwb.gamebox.model.master.content.vo.CttCarouselListVo;
 import so.wwb.gamebox.model.master.content.vo.CttCarouselVo;
 import so.wwb.gamebox.model.master.enums.CarouselTypeEnum;
 import so.wwb.gamebox.model.master.enums.CttCarouselTypeEnum;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
@@ -219,11 +220,23 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
     }
 
     @Override
+    @Audit(module = Module.MASTER_CONTENT, moduleType = ModuleType.MASTER_CONTENT_CTTCAROUSEL_TIME_SUCCESS, opType = OpType.UPDATE)
+    public Map persist(CttCarouselVo objectVo, @FormModel("result") @Valid CttCarouselForm form, BindingResult result) {
+        return super.persist(objectVo, form, result);
+    }
+
+    @Override
+    @Audit(module = Module.MASTER_CONTENT, moduleType = ModuleType.MASTER_CONTENT_CTTCAROUSEL_TIME_SUCCESS, opType = OpType.UPDATE)
     protected CttCarouselVo doPersist(CttCarouselVo objectVo) {
         objectVo.getResult().setPublishTime(new Date());
         objectVo = super.doPersist(objectVo);
         Cache.refreshSiteCarousel();
         Cache.refreshCurrentSitePageCache();
+        //日志
+        if (objectVo.isSuccess()) {
+            BussAuditLogTool.addBussLog(Module.MASTER_CONTENT, ModuleType.MASTER_CONTENT_CTTCAROUSEL_TIME_SUCCESS, OpType.UPDATE,
+                    "MASTER_CONTENT_CTTCAROUSEL_TIME_SUCCESS","aaa");
+        }
         return objectVo;
     }
 
