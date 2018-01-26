@@ -51,9 +51,6 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
 
     @RequestMapping("/logList")
     protected String logList(SysAuditLogListVo listVo, Model model, HttpServletRequest request) {
-        DictTool.refresh(DictEnum.Search_Keyword);
-
-
         List<Pair> keys = new ArrayList<>();
         keys.add(new Pair("search.operator", LocaleTool.tranDict(DictEnum.Search_Keyword,"sole")));
         keys.add(new Pair("search.ip", LocaleTool.tranDict(DictEnum.Search_Keyword,"ip")));
