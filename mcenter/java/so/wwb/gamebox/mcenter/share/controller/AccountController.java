@@ -183,11 +183,11 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         String accountType = accountVo.getType();
         String userName = accountVo.getResult().getUsername();
         if (AccountVo.TYPE_AGENT.equals(accountType)) {
-            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_FREEZE, OpType.UPDATE, "ACCOUNT_SETACCOUNTDISABLED", userName);
+            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_DISABLE, OpType.UPDATE, "ACCOUNT_SETACCOUNTDISABLED", userName);
         } else if (AccountVo.TYPE_TOPAGENT.equals(accountType)) {
-            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_FREEZE, OpType.UPDATE, "TCENTER_ACCOUNT_SETACCOUNTDISABLED", userName);
+            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_DISABLE, OpType.UPDATE, "TCENTER_ACCOUNT_SETACCOUNTDISABLED", userName);
         } else {
-            BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.USER_FREEZE, OpType.UPDATE, "PLAYER_SETACCOUNTDISABLED", userName);
+            BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.USER_DISABLE, OpType.UPDATE, "PLAYER_SETACCOUNTDISABLED", userName);
         }
     }
 
@@ -379,11 +379,11 @@ public class AccountController extends BaseCrudController<ISysUserService, SysUs
         sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
         String accountType = accountVo.getType();
         if (AccountVo.TYPE_AGENT.equals(accountType)) {
-            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_FREEZE, OpType.UPDATE, "ACCOUNT_CANCELACCOUNTFREEZE", sysUserVo.getResult().getUsername());
-        } else if (AccountVo.TYPE_TOPAGENT.equals(accountType)) {
-            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_FREEZE, OpType.UPDATE, "TCENTER_ACCOUNT_CANCELACCOUNTFREEZE", sysUserVo.getResult().getUsername());
+            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_CANCEL_FREEZE, OpType.UPDATE, "ACCOUNT_CANCELACCOUNTFREEZE", sysUserVo.getResult().getUsername());
+        } else if (AccountVo.TYPE_TOPAGENT.equalsIgnoreCase(accountType)) {
+            BussAuditLogTool.addBussLog(Module.AGENT, ModuleType.USER_CANCEL_FREEZE, OpType.UPDATE, "TCENTER_ACCOUNT_CANCELACCOUNTFREEZE", sysUserVo.getResult().getUsername());
         } else if (AccountVo.TYPE_PLAYER.equals(accountType)) {
-            BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.USER_FREEZE, OpType.UPDATE, "PLAYER_CANCELACCOUNTFREEZE", sysUserVo.getResult().getUsername());
+            BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.USER_CANCEL_FREEZE, OpType.UPDATE, "PLAYER_CANCELACCOUNTFREEZE", sysUserVo.getResult().getUsername());
         }
     }
 
