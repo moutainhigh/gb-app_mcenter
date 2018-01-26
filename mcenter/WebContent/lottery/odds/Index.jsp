@@ -34,9 +34,6 @@
                         <a  href="javascript:void(0)" code="cqssc" class="label ssc-label" data-code="ssclottery">${dicts.lottery.lottery['cqssc']}</a>
                         <a  href="javascript:void(0)" code="tjssc" class="label ssc-label" data-code="ssclottery">${dicts.lottery.lottery['tjssc']}</a>
                         <a  href="javascript:void(0)" code="xjssc" class="label ssc-label" data-code="ssclottery">${dicts.lottery.lottery['xjssc']}</a>
-                        <a  href="javascript:void(0)" code="efssc" class="label ssc-label" data-code="ssclottery">${dicts.lottery.lottery['efssc']}</a>
-                        <a  href="javascript:void(0)" code="sfssc" class="label ssc-label" data-code="ssclottery">${dicts.lottery.lottery['sfssc']}</a>
-                        <a  href="javascript:void(0)" code="wfssc" class="label ssc-label" data-code="ssclottery">${dicts.lottery.lottery['wfssc']}</a>
                         <a  href="javascript:void(0)" code="ffssc" class="label ssc-label" data-code="ssclottery">${dicts.lottery.lottery['ffssc']}</a>
 
                         <a  href="javascript:void(0)" code="jsk3" class="label ssc-label"   data-code="k3lottery" style="display: none">${dicts.lottery.lottery['jsk3']}</a>
