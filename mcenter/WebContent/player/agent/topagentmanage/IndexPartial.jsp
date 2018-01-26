@@ -115,7 +115,10 @@
                         </c:when>
                         <c:when test="${f.key=='username' or f.key=='status'}"></c:when>
                         <c:when test="${f.key=='rebatenum'}">
-                            <td><a href="/rebateSet/list.html?topAgentId=${p.id}" nav-target='mainFrame'>${p[f.key]}</a></td>
+                            <c:choose>
+                                <c:when test="${p[f.key]==0}"><td>${p[f.key]}</td></c:when>
+                                <c:otherwise><td><a href="/rebateSet/list.html?topAgentId=${p.id}&hasReturn=true" nav-target='mainFrame'>${p[f.key]}</a></td></c:otherwise>
+                            </c:choose>
                         </c:when>
                         <c:when test="${f.key=='rakebacknum'}">
                             <td><a href="/setting/vRakebackSet/list.html?topAgentId=${p.id}" nav-target='mainFrame'>${p[f.key]}</a></td>
