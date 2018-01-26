@@ -6,6 +6,7 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.query.sort.Direction;
 import org.soul.commons.support._Module;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.sys.po.SysDict;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.js.JsRuleCreator;
@@ -19,6 +20,9 @@ import so.wwb.gamebox.mcenter.content.form.CttAnnouncementForm;
 import so.wwb.gamebox.mcenter.content.form.CttAnnouncementSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.ModuleType;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
@@ -28,6 +32,7 @@ import so.wwb.gamebox.model.master.content.enums.CttAnnouncementTypeEnum;
 import so.wwb.gamebox.model.master.content.po.CttAnnouncement;
 import so.wwb.gamebox.model.master.content.vo.CttAnnouncementListVo;
 import so.wwb.gamebox.model.master.content.vo.CttAnnouncementVo;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
@@ -189,6 +194,7 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
      */
     @RequestMapping("/batchDeleteAnn")
     @ResponseBody
+    @Audit(module = Module.MASTER_CONTENT, moduleType = ModuleType.MASTER_CONTENT_BATCHDELETEANN_SUCCESS, opType = OpType.DELETE)
     public Map batchDeleteAnn(CttAnnouncementVo announcementVo) {
         //拿到页面上带过来的uuid；
         List<String> uuidCode = announcementVo.getSearch().getUuidCodes();
@@ -200,6 +206,11 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         } else {
             success = false;
             msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED);
+        }
+        //日志
+        if (success) {
+            BussAuditLogTool.addBussLog(Module.MASTER_CONTENT, ModuleType.MASTER_CONTENT_BATCHDELETEANN_SUCCESS, OpType.DELETE,
+                    "MASTER_CONTENT_BATCHDELETEANN_SUCCESS", Integer.valueOf(uuidCode.size()).toString());
         }
         HashMap map = new HashMap(2,1f);
         map.put("msg", msg);
