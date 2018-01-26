@@ -383,6 +383,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
     }
 
     @RequestMapping("/autoResetPwd")
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.RESET_USER_PASSWORD, opType = OpType.UPDATE)
     public String autoResetPwd(ResetPwdVo resetPwdVo, Model model) {
         // 重置密码
         String newPwd = RandomStringTool.randomNumeric(6);
@@ -391,11 +392,20 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         resetUserPwd(resetPwdVo);
         if (resetPwdVo.getInformType() == "false") {
             model.addAttribute("newPwd", newPwd);
+            addUpdateLoginPwdLog(resetPwdVo);
         } else {
             model.addAttribute("status", "false");
         }
 
         return getViewBasePath() + "SuccessPassword";
+    }
+    private void addUpdateLoginPwdLog(ResetPwdVo resetPwdVo){
+//        resetPwdVo =  ResetPwd
+        VUserPlayerVo listVo = new VUserPlayerVo();
+        listVo.getSearch().setSiteId(SessionManager.getSiteId());
+        listVo._setDataSourceId(mockAccountSiteId);
+        listVo = ServiceSiteTool.vUserPlayerService().get(listVo);
+        listVo.getResult().getUsername();
     }
 
     /**

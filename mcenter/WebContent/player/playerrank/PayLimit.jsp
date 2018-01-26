@@ -116,7 +116,7 @@
                                             <span class="input-group-addon"><input type="radio" class="i-checks maxFeeRadio  maxFee" name="radio_feeType" tt="feeType" ff="feePercentageAmount" value="2"  ${command.result.isFee?'':'disabled="disabled"'} ${command.result.feeType=='2'?'checked':''}></span>
 
                                             <input type="text" class="form-control  feeStatus maxFee maxFee2" tt="div1" name="fixedAmount" id="feeFixedAmount" ${command.result.feeType=='2'?'':'disabled="disabled"'}  value="${command.result.feeMoney}" >
-                                            <span class="input-group-addon bdn" id="span_maxFee">&nbsp;≤${soulFn:formatCurrency(command.result.maxFee)}</span>
+                                            <span class="input-group-addon help-popover" id="span_maxFee">&nbsp;≤${soulFn:formatCurrency(command.result.maxFee)}</span>
                                         </div>
                                     </div>
                                 </div>

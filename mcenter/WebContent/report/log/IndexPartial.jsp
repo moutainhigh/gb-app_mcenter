@@ -73,7 +73,7 @@
                 </c:when>
                 <c:otherwise>
                     <td>
-                        [${dicts.log.op_type[cmd.operateType]}]
+                        <span class="audit-log-optype-${cmd.operateType}-color">[${dicts.log.op_type[cmd.operateType]}]</span>
 
                         <br>${soulFn:formatLogDesc(cmd)}
                         <c:if test="${'1'.equals(cmd.moduleType)}">

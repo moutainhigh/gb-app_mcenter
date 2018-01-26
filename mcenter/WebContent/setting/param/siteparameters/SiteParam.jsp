@@ -495,7 +495,7 @@
                                                                        list="${appDomain}" listValue="domain" value="${period.domain}" listKey="domain"/>
                                                         </td>
                                                         <td>
-                                                            <soul:button target="deleteAppDomain" confirm="确认删除该记录吗？"  text="${views.common['delete']}" opType="function"  cssClass="btn btn-danger">${views.common['delete']}</soul:button>
+                                                            <soul:button target="deleteAppDomain"  text="${views.common['delete']}" opType="function"  cssClass="btn btn-danger">${views.common['delete']}</soul:button>
                                                         </td>
                                                     </tr>
                                                  </c:forEach>
@@ -531,7 +531,7 @@
                                                        list="${appDomain}" listValue="domain" listKey="domain"/>
                                         </td>
                                         <td>
-                                            <soul:button target="deleteAppDomain" text="${views.common['delete']}" confirm="确认删除该记录吗？"  opType="function" cssClass="btn btn-danger"></soul:button>
+                                            <soul:button target="deleteAppDomain" text="${views.common['delete']}"  opType="function" cssClass="btn btn-danger"></soul:button>
                                         </td>
                                     </tr>
                                 </table>

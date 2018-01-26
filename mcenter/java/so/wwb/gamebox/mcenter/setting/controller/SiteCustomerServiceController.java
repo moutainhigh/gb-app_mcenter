@@ -339,7 +339,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     public Map updateAppDomainService( PlayerRankAppDomainListVo playerRankAppDomainListVo,Model model){
         Map map=new HashedMap();
 
-        //根据层级社会域名
+        //根据层级设置域名
          insertRankByDomain(playerRankAppDomainListVo);
 
         SysParamVo sysParamVo = new SysParamVo();
@@ -398,10 +398,10 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
             }else {
                 map.put("msg",LocaleTool.tranMessage("setting_auto","保存成功"));
                 map.put("state",true);
-             ServiceSiteTool.playerRankAppDomainService().insertALL(playerRankAppDomainListVo);
+             ServiceSiteTool.playerRankAppDomainService().insertAll(playerRankAppDomainListVo);
             }
         }else {
-            ServiceSiteTool.playerRankAppDomainService().insertALL(playerRankAppDomainListVo);
+            ServiceSiteTool.playerRankAppDomainService().insertAll(playerRankAppDomainListVo);
             map.put("msg",LocaleTool.tranMessage("setting_auto","保存成功"));
             map.put("state",true);
         }
