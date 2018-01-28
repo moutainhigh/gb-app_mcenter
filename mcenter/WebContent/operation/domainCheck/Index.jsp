@@ -138,14 +138,20 @@
                             <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group">
                                     <span class="input-group-addon bg-gray">${views.operation['类型']}</span>
-                                    <gb:select name="search.pageUrl" value="" prompt="全部" list="${command.domainCheckResultListVo.pageUrl}"/>
+                                    <%--<gb:select name="search.pageUrl" value="" prompt="全部" list="${command.domainCheckResultListVo.pageUrl}"/>--%>
+                                    <select btnStyle="width: 100%" ulStyle="width: 100%" class="chosen-select-no-single btn-group days" name="search.pageUrl">
+                                        <option value="">${views.content['全部']}</option>
+                                        <c:forEach items="${command.domainCheckResultListVo.domainTypes}" var="type" >
+                                            <option value="${type.paramValue}" ${type.paramValue eq command.search.pageUrl?'selected':''}>${views.content[type.resourceKey]}</option>
+                                        </c:forEach>
+                                    </select >
                                 </div>
                             </div>
 
                     <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group">
                             <span class="input-group-addon bg-gray">${views.operation['状态']}</span>
-                            <gb:select name="search.status" value="" prompt="全部" list="${command.domainCheckResultListVo.domainStatus}"/>
+                            <gb:select name="search.status" value="" prompt="${views.content['全部']}" list="${command.domainCheckResultListVo.domainStatus}"/>
                         </div>
                     </div>
                     &nbsp;&nbsp;&nbsp;&nbsp;
