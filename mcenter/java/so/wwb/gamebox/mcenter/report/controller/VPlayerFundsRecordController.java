@@ -27,6 +27,7 @@ import so.wwb.gamebox.model.CacheBase;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.WeekTool;
+import so.wwb.gamebox.model.boss.enums.ExportFileTypeEnum;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
@@ -316,6 +317,8 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
         if (vo.getResult() == null) {
             vo.setResult(new SysExport());
         }
+        vo.setExportFileType(ExportFileTypeEnum.PLAYER_FUND_REPORT.getCode());
+        vo.setExportLocale(SessionManager.getLocale().toString());
         vo.getResult().setService(IVPlayerFundsRecordService.class.getName());
         vo.getResult().setMethod("searchCustomFundsRecord");
         vo.getResult().setParam(VPlayerFundsRecordListVo.class.getName());

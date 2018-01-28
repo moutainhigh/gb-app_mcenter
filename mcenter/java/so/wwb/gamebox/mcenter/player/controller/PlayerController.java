@@ -3067,8 +3067,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
         }
         //vo.setTemplateFileName("gb/0/exportTemplate/232/1516517552234.xls");
-        //vo.setExportFileType(ExportFileTypeEnum.PLAYER_MANAGE.getCode());
-        //vo.setExportLocale(SessionManager.getLocale().toString());
+        vo.setExportFileType(ExportFileTypeEnum.PLAYER_MANAGE.getCode());
+        vo.setExportLocale(SessionManager.getLocale().toString());
         vo.getResult().setParam(VUserPlayerListVo.class.getName());
         vo.getResult().setUsername(SessionManager.getUserName());
         vo.getResult().setExportUserId(SessionManager.getUserId());
