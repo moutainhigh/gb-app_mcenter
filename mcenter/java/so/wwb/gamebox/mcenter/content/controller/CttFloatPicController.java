@@ -206,7 +206,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
      */
     @RequestMapping(value = "/changeStatus", method = RequestMethod.POST)
     @ResponseBody
-    @Audit(module = Module.MASTER_CONTENT, moduleType = ModuleType.PLAYER_PLAYERRANK_SUCCESS, opType = OpType.UPDATE)
+    @Audit(module = Module.MASTER_CONTENT, moduleType = ModuleType.PLAYER_CTTFLOATPICSTATUS_SUCCESS, opType = OpType.UPDATE)
     public Map changeStatus(CttFloatPicVo objectVo) {
         final HashMap<Object, Object> map = new HashMap<>(2,1f);
         if (objectVo.getResult().getStatus()) {
