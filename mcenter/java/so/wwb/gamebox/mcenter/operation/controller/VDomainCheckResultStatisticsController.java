@@ -103,10 +103,15 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
         //域名类型对应的描述
         Collection<SysParam> sysParams = ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX);
         Map<String, String> pageUrl = new HashMap<>();
+        Collection<SysParam> sysParams1 = new ArrayList<>();
         for (SysParam sysParam : sysParams) {
             pageUrl.put(sysParam.getParamValue(), sysParam.getResourceKey());
+            if (!"creditPay".equals(sysParam.getParamCode())) {
+                sysParams1.add(sysParam);
+            }
         }
         listVo.setPageUrl(pageUrl);
+        listVo.setDomainTypes(sysParams1);
 
         //状态
         Map<String, SysDict> domainStatus = DictTool.get(DictEnum.COMMON_DOMAIN_CHECK_RESULT_STATUS);
