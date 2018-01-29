@@ -34,6 +34,7 @@ import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.company.credit.po.CreditAccount;
 import so.wwb.gamebox.model.company.credit.po.CreditRecord;
+import so.wwb.gamebox.model.company.credit.po.VSysCredit;
 import so.wwb.gamebox.model.company.credit.vo.CreditAccountVo;
 import so.wwb.gamebox.model.company.credit.vo.CreditRecordVo;
 import so.wwb.gamebox.model.company.credit.vo.VSysCreditVo;
@@ -115,6 +116,7 @@ public class CreditPayController {
         model.addAttribute("validateRule", JsRuleCreator.create(CreditRecordForm.class));
         model.addAttribute("useProfit", sysSite.getHasUseProfit() == null ? 0d : sysSite.getHasUseProfit());//CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone()));
         model.addAttribute("disableTransfer", ParamTool.disableTransfer(SessionManager.getSiteId()));
+        model.addAttribute("PAY_LIMIT_PERSENT", VSysCredit.PAY_LIMIT_PERSENT);
         return CREDIT_PAY_URI;
     }
 
