@@ -82,6 +82,7 @@ import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.model.master.setting.enums.SiteCurrencyEnum;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderVo;
 import so.wwb.gamebox.model.report.vo.AddLogVo;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
@@ -773,14 +774,39 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
      */
     @RequestMapping({"/changePayStatus"})
     @ResponseBody
+    @Audit(module = Module.MASTER_OPERATION, moduleType = ModuleType.COMPANY_ACCOUNT_ENABLE, opType = OpType.UPDATE)
     public String changePayStatus(PayAccountVo vo) {
         String[] properties = new String[1];
         properties[0] = PayAccount.PROP_STATUS;
         vo.setProperties(properties);
         this.getService().updateOnly(vo);
         vo.getSearch().setId(vo.getResult().getId());
+        addChangePayStatusLog(vo);
         return "true";
     }
+
+    /**
+     * 添加日志
+     * @param vo
+     */
+    private void addChangePayStatusLog(PayAccountVo vo) {
+        try {
+            if (vo.isSuccess()) {
+                vo = getService().get(vo);
+                String status="";
+                if ("1".equals(vo.getResult().getStatus())){
+                    status="启用";
+                }else if("2".equals(vo.getResult().getStatus())){
+                    status="停用";
+                }
+                BussAuditLogTool.addLog("COMPANY_ACCOUNT_FREEZE", vo.getResult().getPayName(),status);
+            }
+        } catch (Exception ex) {
+
+        }
+    }
+
+
 
     /**
      * @param vo create by ke
