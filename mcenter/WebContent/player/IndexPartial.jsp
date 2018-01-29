@@ -352,5 +352,3 @@
 
     </table>
 </div>
-
-<%--<soul:pagination/>--%>

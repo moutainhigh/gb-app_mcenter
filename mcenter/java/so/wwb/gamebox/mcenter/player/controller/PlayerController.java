@@ -23,6 +23,7 @@ import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.IpTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.Criterion;
+import org.soul.commons.query.Paging;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Order;
 import org.soul.commons.security.Base36;
@@ -225,16 +226,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("queryparamValue", sysParam);
         // 玩家检测注册IP
         listVo = ServiceSiteTool.vUserPlayerService().countTransfer(listVo);
-       /* //玩家检测注册IP
-        if(listVo.getSearch().getRegisterIp()!=null){
-            String registerIp = IpTool.ipv4LongToString(listVo.getSearch().getRegisterIp());
-            listVo.getSearch().setRegisterIpv4(registerIp);
-        }
-       // 玩家检测登录IP
-        /*if(StringTool.isNotBlank(listVo.getSearch().getIp())){
-            String lastLoginIp = IpTool.ipv4LongToString(Long.parseLong(listVo.getSearch().getIp()));
-            listVo.getSearch().setLastLoginIpv4(lastLoginIp);
-        }*/
         model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
         model.addAttribute("tagIds",listVo.getSearch().getTagId());
@@ -371,28 +362,14 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     }
 
     @RequestMapping("/count")
-    public String count(VUserPlayerListVo listVo, Model model, String isCounter) {
-        listVo = buildSearchIp(listVo);
+    public String count(VUserPlayerListVo listVo, Model model,@RequestParam("page") String page) {
         if(listVo.isSuccess()){
-            playerDetection(listVo, model);
-            getTagIdByPlayer(listVo, model);
-            getPlayerByTagId(listVo,model);
-            initDate(listVo);
-            listVo = doCount(listVo, isCounter);
-            listVo.getPaging().cal();
+            Paging paging = JsonTool.fromJson(page, Paging.class);
+            listVo.setPaging(paging);
             model.addAttribute("command", listVo);
         }
         return getViewBasePath() + "IndexPagination";
     }
-
-    public VUserPlayerListVo doCount(VUserPlayerListVo listVo, String isCounter) {
-        if (StringTool.isBlank(isCounter)) {
-            long count = ServiceSiteTool.vUserPlayerService().count(listVo);
-            listVo.getPaging().setTotalCount(count);
-        }
-        return listVo;
-    }
-
 
     public SysParam getExportParam() {
         SysParamVo sysParamVo = new SysParamVo();
