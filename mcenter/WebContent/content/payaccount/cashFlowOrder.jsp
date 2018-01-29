@@ -7,7 +7,7 @@
         <div class="row">
             <div class="position-wrap clearfix">
                 <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
-                <span>${views.sysResource['运营']}</span><span>/</span>
+                <span>支付</span><span>/</span>
                 <span>${views.sysResource['线上支付账户']}</span>
                 <a href="/vPayAccount/list.html?search.type=2" nav-target="mainFrame" class="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn"><em class="fa fa-caret-left"></em>${views.common['return']}</a>
                 <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
