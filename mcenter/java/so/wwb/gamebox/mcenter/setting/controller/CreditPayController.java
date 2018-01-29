@@ -12,6 +12,7 @@ import org.soul.commons.math.NumberTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.spring.utils.SpringTool;
 import org.soul.model.comet.vo.MessageVo;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.pay.enums.CommonFieldsConst;
 import org.soul.model.pay.enums.PayApiTypeConst;
 import org.soul.model.pay.vo.OnlinePayVo;
@@ -27,9 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordForm;
-import so.wwb.gamebox.model.BossParamEnum;
-import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.TerminalEnum;
+import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.company.credit.po.CreditAccount;
@@ -44,6 +44,7 @@ import so.wwb.gamebox.model.company.sys.po.SysSite;
 import so.wwb.gamebox.model.company.sys.po.VSysSiteDomain;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.master.enums.CurrencyEnum;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
@@ -127,6 +128,7 @@ public class CreditPayController {
     @RequestMapping("/submit")
     @ResponseBody
     @Token(valid = true)
+    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.MASTER_SETTING_CREDITPAY_SUCCESS, opType = OpType.UPDATE)
     public Map<String, Object> submit(CreditRecordVo creditRecordVo) {
         CreditRecord creditRecord = creditRecordVo.getResult();
         creditRecord.setIp(SessionManager.getIpDb().getIp());
@@ -154,7 +156,26 @@ public class CreditPayController {
         }
         map.put("state", creditRecordVo.isSuccess());
         map.put("transactionNo", creditRecordVo.getResult().getTransactionNo());
+        //日志
+        addPayLog(creditRecordVo);
         return map;
+    }
+
+    /**
+     *　充值记录日志
+     * @param creditRecordVo
+     */
+    private void addPayLog(CreditRecordVo creditRecordVo) {
+        try {
+            if (creditRecordVo.isSuccess()) {
+                BussAuditLogTool.addLog("MASTER_SETTING_CREDITPAY_SUCCESS",
+                        creditRecordVo.getResult().getBankName(),
+                        creditRecordVo.getResult().getPayAmount().toString());
+            }
+        } catch (Exception ex) {
+            BussAuditLogTool.addLog("MASTER_SETTING_CREDITPAY_SUCCESS","获取失败0",
+                    "获取失败1");
+        }
     }
     /**
      *设置汇率

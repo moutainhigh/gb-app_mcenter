@@ -23,6 +23,7 @@ import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.IpTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.Criterion;
+import org.soul.commons.query.Paging;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Order;
 import org.soul.commons.security.Base36;
@@ -225,16 +226,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("queryparamValue", sysParam);
         // 玩家检测注册IP
         listVo = ServiceSiteTool.vUserPlayerService().countTransfer(listVo);
-       /* //玩家检测注册IP
-        if(listVo.getSearch().getRegisterIp()!=null){
-            String registerIp = IpTool.ipv4LongToString(listVo.getSearch().getRegisterIp());
-            listVo.getSearch().setRegisterIpv4(registerIp);
-        }
-       // 玩家检测登录IP
-        /*if(StringTool.isNotBlank(listVo.getSearch().getIp())){
-            String lastLoginIp = IpTool.ipv4LongToString(Long.parseLong(listVo.getSearch().getIp()));
-            listVo.getSearch().setLastLoginIpv4(lastLoginIp);
-        }*/
         model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
         model.addAttribute("tagIds",listVo.getSearch().getTagId());
@@ -371,28 +362,14 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     }
 
     @RequestMapping("/count")
-    public String count(VUserPlayerListVo listVo, Model model, String isCounter) {
-        listVo = buildSearchIp(listVo);
+    public String count(VUserPlayerListVo listVo, Model model,@RequestParam("page") String page) {
         if(listVo.isSuccess()){
-            playerDetection(listVo, model);
-            getTagIdByPlayer(listVo, model);
-            getPlayerByTagId(listVo,model);
-            initDate(listVo);
-            listVo = doCount(listVo, isCounter);
-            listVo.getPaging().cal();
+            Paging paging = JsonTool.fromJson(page, Paging.class);
+            listVo.setPaging(paging);
             model.addAttribute("command", listVo);
         }
         return getViewBasePath() + "IndexPagination";
     }
-
-    public VUserPlayerListVo doCount(VUserPlayerListVo listVo, String isCounter) {
-        if (StringTool.isBlank(isCounter)) {
-            long count = ServiceSiteTool.vUserPlayerService().count(listVo);
-            listVo.getPaging().setTotalCount(count);
-        }
-        return listVo;
-    }
-
 
     public SysParam getExportParam() {
         SysParamVo sysParamVo = new SysParamVo();
@@ -2751,7 +2728,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             userPlayerVo.setSysUser(sysUser);
             userPlayerVo = ServiceSiteTool.userPlayerService().updateAgentData(userPlayerVo);
             //组装操作日志的数据
-            getLogData(request, oldagentId, userPlayer);
+            getLogData(request, oldagentId,agentId ,userPlayer);
             map.put("state", userPlayerVo.isSuccess());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -2761,18 +2738,29 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         return map;
     }
 
-    private void getLogData(HttpServletRequest request, Integer oldagentId, UserPlayer userPlayer) {
-        String oldAgentLines = this.getAgentLine(oldagentId);
-        List<String> list = new ArrayList<>();
-        list.add(oldAgentLines);
-        AddLogVo addLogVo = new AddLogVo();
-        SysAuditLog sysAuditLog = new SysAuditLog();
-        sysAuditLog.setEntityUserId(userPlayer.getId());
-        sysAuditLog.setEntityId(Long.valueOf(userPlayer.getId()));
-        addLogVo.setResult(sysAuditLog);
-        addLogVo.setList(list);
-        //操作日志
-        AuditLogController.addLog(request, "player.updateAgentLine.success", addLogVo);
+    private void getLogData(HttpServletRequest request, Integer oldagentId,Integer nweAgentId, UserPlayer userPlayer) {
+        try {
+            VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
+            vUserPlayerVo.getSearch().setId(userPlayer.getId());
+            vUserPlayerVo = getService().get(vUserPlayerVo);
+            String oldAgentLines = this.getAgentLine(oldagentId);
+            String newAgentLines = this.getAgentLine(nweAgentId);
+            List<String> list = new ArrayList<>();
+            list.add(oldAgentLines);
+            list.add(newAgentLines);
+            list.add(vUserPlayerVo.getResult() == null ? "" : vUserPlayerVo.getResult().getUsername());
+            AddLogVo addLogVo = new AddLogVo();
+            SysAuditLog sysAuditLog = new SysAuditLog();
+            sysAuditLog.setEntityUserId(userPlayer.getId());
+            sysAuditLog.setEntityId(Long.valueOf(userPlayer.getId()));
+            addLogVo.setResult(sysAuditLog);
+            addLogVo.setList(list);
+            //操作日志
+            AuditLogController.addLog(request, "player.updateAgentLine.success", addLogVo);
+        } catch (Exception ex) {
+
+        }
+
     }
 
     private String getAgentLine(Integer agentId) {

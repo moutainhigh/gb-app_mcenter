@@ -200,13 +200,14 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
 
 
     /**
+     * 浮动图列表：显示/隐藏开关操作
      *
      * @param objectVo
      * @return
      */
     @RequestMapping(value = "/changeStatus", method = RequestMethod.POST)
     @ResponseBody
-    @Audit(module = Module.MASTER_CONTENT, moduleType = ModuleType.PLAYER_CTTFLOATPICSTATUS_SUCCESS, opType = OpType.UPDATE)
+    @Audit(module = Module.MASTER_CONTENT, moduleType = ModuleType.MASTER_CONTENT_CTTFLOATPICSTATUS_SUCCESS, opType = OpType.UPDATE)
     public Map changeStatus(CttFloatPicVo objectVo) {
         final HashMap<Object, Object> map = new HashMap<>(2,1f);
         if (objectVo.getResult().getStatus()) {
@@ -230,7 +231,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
             objectVo = getService().get(objectVo);
             String statusStr = objectVo.getResult().getStatus()?"启用":"停用";
             if(objectVo.getResult() != null){
-                BussAuditLogTool.addLog("PLAYER_CTTFLOATPICSTATUS_SUCCESS",
+                BussAuditLogTool.addLog("MASTER_CONTENT_CTTFLOATPICSTATUS_SUCCESS",
                         objectVo.getResult().getTitle(),statusStr);
             }
         }
