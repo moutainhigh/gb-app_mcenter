@@ -392,7 +392,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         resetUserPwd(resetPwdVo);
         if (resetPwdVo.getInformType() == "false") {
             model.addAttribute("newPwd", newPwd);
-            addUpdateLoginPwdLog(resetPwdVo);
+            //addUpdateLoginPwdLog(resetPwdVo);
         } else {
             model.addAttribute("status", "false");
         }
