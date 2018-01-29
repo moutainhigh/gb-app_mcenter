@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.setting.controller;
 
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.web.controller.NoMappingCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
@@ -17,9 +18,13 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordForm;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordSearchForm;
 import so.wwb.gamebox.mcenter.setting.form.VCreditRecordForm;
+import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.ModuleType;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.company.credit.po.CreditRecord;
 import so.wwb.gamebox.model.company.credit.vo.CreditRecordListVo;
 import so.wwb.gamebox.model.company.credit.vo.CreditRecordVo;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.common.token.Token;
 
 import javax.validation.Valid;
@@ -63,6 +68,7 @@ public class CreditRecordController extends NoMappingCrudController<ICreditRecor
     @RequestMapping(value = "saveUploadReceipt")
     @ResponseBody
     @Token(valid = true)
+    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.MASTER_SETTING_SAVEUPLOADRECEIPT_SUCCESS, opType = OpType.UPDATE)
     public Map saveUploadReceipt(CreditRecordVo creditRecordVo, @FormModel("result") @Valid VCreditRecordForm form, BindingResult result){
         Map resMap = new HashMap();
         if(result.hasErrors()){
@@ -72,7 +78,24 @@ public class CreditRecordController extends NoMappingCrudController<ICreditRecor
         creditRecordVo.setProperties(CreditRecord.PROP_PATH);
         creditRecordVo = getService().updateOnly(creditRecordVo);
         resMap = getVoMessage(creditRecordVo);
+        addUploadReceiptLog(creditRecordVo);//日志
         return resMap;
+    }
+
+    /**
+     * 添加日志
+     * @param creditRecordVo
+     */
+    private void addUploadReceiptLog(CreditRecordVo creditRecordVo) {
+        try {
+            if (creditRecordVo.isSuccess()) {
+                creditRecordVo.getSearch().setId(creditRecordVo.getResult().getId());
+                creditRecordVo = getService().get(creditRecordVo);
+                BussAuditLogTool.addLog("MASTER_SETTING_SAVEUPLOADRECEIPT_SUCCESS",
+                        creditRecordVo.getResult() == null ? "" : creditRecordVo.getResult().getTransactionNo());
+            }
+        }catch (Exception ex){}
+
     }
 
     @RequestMapping("/statisticalData")
