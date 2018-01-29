@@ -2751,7 +2751,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             userPlayerVo.setSysUser(sysUser);
             userPlayerVo = ServiceSiteTool.userPlayerService().updateAgentData(userPlayerVo);
             //组装操作日志的数据
-            getLogData(request, oldagentId, userPlayer);
+            getLogData(request, oldagentId,agentId ,userPlayer);
             map.put("state", userPlayerVo.isSuccess());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -2761,18 +2761,29 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         return map;
     }
 
-    private void getLogData(HttpServletRequest request, Integer oldagentId, UserPlayer userPlayer) {
-        String oldAgentLines = this.getAgentLine(oldagentId);
-        List<String> list = new ArrayList<>();
-        list.add(oldAgentLines);
-        AddLogVo addLogVo = new AddLogVo();
-        SysAuditLog sysAuditLog = new SysAuditLog();
-        sysAuditLog.setEntityUserId(userPlayer.getId());
-        sysAuditLog.setEntityId(Long.valueOf(userPlayer.getId()));
-        addLogVo.setResult(sysAuditLog);
-        addLogVo.setList(list);
-        //操作日志
-        AuditLogController.addLog(request, "player.updateAgentLine.success", addLogVo);
+    private void getLogData(HttpServletRequest request, Integer oldagentId,Integer nweAgentId, UserPlayer userPlayer) {
+        try {
+            VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
+            vUserPlayerVo.getSearch().setId(userPlayer.getId());
+            vUserPlayerVo = getService().get(vUserPlayerVo);
+            String oldAgentLines = this.getAgentLine(oldagentId);
+            String newAgentLines = this.getAgentLine(nweAgentId);
+            List<String> list = new ArrayList<>();
+            list.add(oldAgentLines);
+            list.add(newAgentLines);
+            list.add(vUserPlayerVo.getResult() == null ? "" : vUserPlayerVo.getResult().getUsername());
+            AddLogVo addLogVo = new AddLogVo();
+            SysAuditLog sysAuditLog = new SysAuditLog();
+            sysAuditLog.setEntityUserId(userPlayer.getId());
+            sysAuditLog.setEntityId(Long.valueOf(userPlayer.getId()));
+            addLogVo.setResult(sysAuditLog);
+            addLogVo.setList(list);
+            //操作日志
+            AuditLogController.addLog(request, "player.updateAgentLine.success", addLogVo);
+        } catch (Exception ex) {
+
+        }
+
     }
 
     private String getAgentLine(Integer agentId) {
@@ -3101,10 +3112,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             }
             vo = ServiceTool.sysExportService().doExport(vo);
             if (vo.isSuccess()) {
-//                TaskScheduleVo taskScheduleVo = new TaskScheduleVo();
-//                taskScheduleVo.setResult(new TaskSchedule(SysExportVo.EXPORT_SCHEDULE_CODE));
-//                ITaskScheduleService taskScheduleService = ServiceScheduleTool.getTaskScheduleService();
-//                taskScheduleService.runOnceTask(taskScheduleVo, vo);
+                TaskScheduleVo taskScheduleVo = new TaskScheduleVo();
+                taskScheduleVo.setResult(new TaskSchedule(SysExportVo.EXPORT_SCHEDULE_CODE));
+                ITaskScheduleService taskScheduleService = ServiceScheduleTool.getTaskScheduleService();
+                taskScheduleService.runOnceTask(taskScheduleVo, vo);
             }
             result = getVoMessage(vo);
             //记录日志
