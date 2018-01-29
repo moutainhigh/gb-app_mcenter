@@ -7,6 +7,7 @@ import org.soul.commons.lang.ArrayTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.support._Module;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,9 @@ import so.wwb.gamebox.mcenter.content.form.CttFloatPicForm;
 import so.wwb.gamebox.mcenter.content.form.CttFloatPicSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.ModuleType;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteCustomerService;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
@@ -33,6 +37,7 @@ import so.wwb.gamebox.model.master.content.vo.CttFloatPicItemListVo;
 import so.wwb.gamebox.model.master.content.vo.CttFloatPicListVo;
 import so.wwb.gamebox.model.master.content.vo.CttFloatPicVo;
 import so.wwb.gamebox.model.master.enums.FloatPicInteractivityEnum;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 
 import java.io.Serializable;
@@ -195,13 +200,13 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
 
 
     /**
-     * 浮动图列表：显示/隐藏开关操作
      *
      * @param objectVo
      * @return
      */
     @RequestMapping(value = "/changeStatus", method = RequestMethod.POST)
     @ResponseBody
+    @Audit(module = Module.MASTER_CONTENT, moduleType = ModuleType.PLAYER_CTTFLOATPICSTATUS_SUCCESS, opType = OpType.UPDATE)
     public Map changeStatus(CttFloatPicVo objectVo) {
         final HashMap<Object, Object> map = new HashMap<>(2,1f);
         if (objectVo.getResult().getStatus()) {
@@ -210,7 +215,25 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
         Boolean success = getService().changeFloatPicStatus(objectVo);
         refreshFloatPicCache();
         map.put("state", success);
+
+        addCttFloatPicLog(objectVo);
         return map;
+    }
+
+    /**
+     * 添加浮动图修改日志
+     * @param objectVo
+     */
+    private void addCttFloatPicLog(CttFloatPicVo objectVo){
+        if (objectVo.isSuccess()){
+            objectVo.getSearch().setId(objectVo.getResult().getId());
+            objectVo = getService().get(objectVo);
+            String statusStr = objectVo.getResult().getStatus()?"启用":"停用";
+            if(objectVo.getResult() != null){
+                BussAuditLogTool.addLog("PLAYER_CTTFLOATPICSTATUS_SUCCESS",
+                        objectVo.getResult().getTitle(),statusStr);
+            }
+        }
     }
 
     /**

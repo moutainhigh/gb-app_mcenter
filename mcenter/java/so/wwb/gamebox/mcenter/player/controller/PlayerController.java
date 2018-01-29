@@ -3036,6 +3036,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     @RequestMapping("/export")
     @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.PLAYER_EXPORTPLAYER_SUCCESS, opType = OpType.OTHER)
     public Map export(VUserPlayerListVo listVo, SysExportVo sysExportVo, Model model) {
         if (StringTool.isNotBlank(sysExportVo.getQueryParamsJson())) {
             //这里是查询后是固定了查询条件，不会因为条件改变而改变
@@ -3106,6 +3107,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 taskScheduleService.runOnceTask(taskScheduleVo, vo);
             }
             result = getVoMessage(vo);
+            //记录日志
+            if (vo.isSuccess()){
+                BussAuditLogTool.addLog("PLAYER_EXPORTPLAYER_SUCCESS","");
+            }
         } catch (Exception ex) {
             LogFactory.getLog(this.getClass()).error(ex, "导出失败");
             result.put("state", false);
