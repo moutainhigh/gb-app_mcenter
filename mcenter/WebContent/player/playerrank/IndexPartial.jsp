@@ -75,7 +75,18 @@
                 <td>
                     <c:if test="${not empty p.isFee&&empty p.isReturnFee}">
                         <c:if test="${p.isFee}">
-                            ${p.feeMoney}${p.feeType=='1'?'%':''}
+                            <%--收取存款手续费--%>
+                            <%--● 固定收取手续费，显示为：收取¥10--%>
+                            <%--● 按比例收取手续费，显示为：收取10%，上限¥50--%>
+                            <c:if test="${p.feeType=='1'}">
+                                <c:set var="maxFee" value="${siteCurrencySign}${soulFn:formatInteger(p.maxFee)}${soulFn:formatDecimals(p.maxFee)}"></c:set>
+                                ${views.player_auto['收取']}${p.feeMoney}%,&nbsp;${views.player_auto['上限']}${maxFee}
+                            </c:if>
+                            <c:if test="${p.feeType!='1'}">
+                                ${views.player_auto['收取']}${p.feeMoney}
+                            </c:if>
+
+
                         </c:if>
                         <c:if test="${!p.isFee}">
                             ${views.role['PlayerRank.list.none']}
@@ -84,19 +95,32 @@
                     <c:if test="${empty p.isFee&&not empty p.isReturnFee}">
                         <c:if test="${p.isReturnFee}">
                             <c:set var="restr" value="${views.player_auto['存满']}"></c:set>
-                            <c:set var="reachMoney" value="${soulFn:formatInteger(p.reachMoney)}${soulFn:formatDecimals(p.reachMoney)}"></c:set>
+                            <c:set var="reachMoney" value="${siteCurrencySign}${soulFn:formatInteger(p.reachMoney)}${soulFn:formatDecimals(p.reachMoney)}"></c:set>
                             <c:if test="${p.returnType=='1'}">
                                 <c:set var="returnMoney" value="${p.returnMoney}%"></c:set>
                             </c:if>
                             <c:if test="${p.returnType!='1'}">
-                                <c:set var="returnMoney" value="${soulFn:formatInteger(p.returnMoney)}${soulFn:formatDecimals(p.returnMoney)}"></c:set>
+                                <c:set var="returnMoney" value="${siteCurrencySign}${soulFn:formatInteger(p.returnMoney)}${soulFn:formatDecimals(p.returnMoney)}"></c:set>
                             </c:if>
-                            <c:set var="maxReturnFee" value="${soulFn:formatInteger(p.maxReturnFee)}${soulFn:formatDecimals(p.maxReturnFee)}"></c:set>
+                            <c:set var="maxReturnFee" value="${siteCurrencySign}${soulFn:formatInteger(p.maxReturnFee)}${soulFn:formatDecimals(p.maxReturnFee)}"></c:set>
                             <c:set var="depositFee" value='${fn:replace(fn:replace(fn:replace(restr,"{0}", reachMoney),"{1}",returnMoney),"{2}",maxReturnFee)}'/>
-                            ${fn:substringBefore(depositFee,"," )}
-                            <c:set var="indexof" value="${fn:indexOf(depositFee,',' )}"/>
-                            <c:set var="depositFeeLength" value="${fn:length(depositFee)}"/>
-                            <div class="co-grayc2">${fn:substring(depositFee,indexof+1,depositFeeLength)}</div>
+                            <%--storyID=1263--%>
+                            <%--返还存款手续费&ndash;%&gt;--%>
+                            <%--● 固定返还手续费，显示为：存满¥100返¥10--%>
+                            <%--● 按比例返还手续费，显示为：存满¥100返10%，上限¥50--%>
+
+                            <c:if test="${p.returnType=='1'}">
+                                ${depositFee}
+                            </c:if>
+                            <c:if test="${p.returnType!='1'}">
+                                ${fn:substringBefore(depositFee,"," )}
+                            </c:if>
+
+                            <%--${fn:substringBefore(depositFee,"," )}--%>
+                            <%--<c:set var="indexof" value="${fn:indexOf(depositFee,',' )}"/>--%>
+                            <%--<c:set var="depositFeeLength" value="${fn:length(depositFee)}"/>--%>
+                            <%--<div class="co-grayc2">${fn:substring(depositFee,indexof+1,depositFeeLength)}</div>--%>
+
                             <%--<span class="co-red">-${p.returnMoney}${p.returnType=='1'?'%':''}</span>--%>
                         </c:if>
                         <c:if test="${!p.isReturnFee}">${views.role['PlayerRank.list.none']}</c:if>
@@ -137,7 +161,12 @@
                 <td>
                     <c:choose>
                         <c:when test="${p.withdrawFeeNum>0}">
-                            ${p.withdrawFeeNum}${p.withdrawFeeType=='1'?'%':''}
+                            <c:if test="${p.withdrawFeeType=='1'}">
+                                ${views.player_auto['收取']}${p.withdrawFeeNum}%,&nbsp;${views.player_auto['上限']}${siteCurrencySign}${p.withdrawMaxFee}
+                            </c:if>
+                            <c:if test="${p.withdrawFeeType!='1'}">
+                                ${views.player_auto['收取']}${siteCurrencySign}${p.withdrawFeeNum}
+                            </c:if>
                         </c:when>
                         <c:otherwise>
                             ${views.role['PlayerRank.view.w']}
