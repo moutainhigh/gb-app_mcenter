@@ -34,6 +34,7 @@ import so.wwb.gamebox.mcenter.report.form.UserPlayerFundSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.CacheBase;
 import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.boss.enums.ExportFileTypeEnum;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
@@ -141,6 +142,8 @@ public class UserPlayerFundController{
         vo.getResult().setUsername(SessionManager.getUserName());
         vo.getResult().setExportUserId(SessionManager.getUserId());
         vo.getResult().setExportUserSiteId(SessionManager.getSiteId());
+        vo.setExportFileType(ExportFileTypeEnum.USER_PLAYER_FUND.getCode());
+        vo.setExportLocale(SessionManager.getLocale().toString());
         if (vo.getResult().getSiteId() == null) {
             vo.getResult().setSiteId(SessionManager.getSiteId());
         }
