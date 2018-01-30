@@ -25,6 +25,7 @@ import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import so.wwb.gamebox.common.dubbo.ServiceActivityTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.fund.IVPlayerDepositService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
@@ -378,7 +379,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
 
         ActivityPlayerApplyVo applyVo = new ActivityPlayerApplyVo();
         applyVo.getSearch().setPlayerRechargeId(vo.getResult().getId());
-        applyVo = ServiceSiteTool.activityPlayerApplyService().search(applyVo);
+        applyVo = ServiceActivityTool.activityPlayerApplyService().search(applyVo);
         if (applyVo.getResult() == null) {
             return vo;
         }
@@ -401,7 +402,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         messageListVo.getSearch().setActivityVersion(SessionManager.getLocale().toString());
         messageListVo.getSearch().setId(vo.getActivityId());
         messageListVo.setProperties(VActivityMessage.PROP_ACTIVITY_NAME, VActivityMessage.PROP_IS_AUDIT);
-        List<Map<String, Object>> list = ServiceSiteTool.vActivityMessageService().searchProperties(messageListVo);
+        List<Map<String, Object>> list = ServiceActivityTool.vActivityMessageService().searchProperties(messageListVo);
         if (CollectionTool.isNotEmpty(list)) {
             vo.setActivityName(MapTool.getString(list.get(0), VActivityMessage.PROP_ACTIVITY_NAME));
             vo.setActivityAudit(MapTool.getBoolean(list.get(0), VActivityMessage.PROP_IS_AUDIT));

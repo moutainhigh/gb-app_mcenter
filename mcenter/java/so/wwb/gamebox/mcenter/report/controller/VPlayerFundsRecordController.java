@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceActivityTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.report.IVPlayerFundsRecordService;
@@ -426,7 +427,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                     //活动是否下架
                     ActivityMessageVo amVo = new ActivityMessageVo();
                     amVo.getSearch().setId(playerFavorableVo.getResult().getActivityMessageId());
-                    amVo = ServiceSiteTool.activityMessageService().get(amVo);
+                    amVo = ServiceActivityTool.activityMessageService().get(amVo);
                     if (amVo.getResult() != null && !amVo.getResult().getIsDeleted()) {
                         vo.setActivityMessageId(playerFavorableVo.getResult().getActivityMessageId());
                     }
