@@ -276,10 +276,8 @@ public class VUserAgentManageController extends AbstractExportController<IVUserA
         }
         vo.getResult().setService(IVUserAgentManageService.class.getName());
         vo.getResult().setMethod("searchByCustom");
-
         vo.setExportFileType(ExportFileTypeEnum.AGENT.getCode());
         vo.setExportLocale(SessionManager.getLocale().toString());
-
         vo.getResult().setParam(VUserAgentManageListVo.class.getName());
         vo.getResult().setUsername(SessionManager.getUserName());
         vo.getResult().setExportUserId(SessionManager.getUserId());
