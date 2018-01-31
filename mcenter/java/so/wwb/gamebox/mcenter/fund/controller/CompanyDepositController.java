@@ -28,6 +28,7 @@ import so.wwb.gamebox.iservice.master.fund.IPlayerRechargeService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.company.setting.po.CurrencyExchangeRate;
@@ -112,7 +113,9 @@ public class CompanyDepositController extends BaseDepositController {
             TimeZone timeZone = SessionManagerCommon.getTimeZone();
             Locale locale = SessionManagerCommon.getLocale();
             Map<String, Map<String, String>> views = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views");
-            Map<String, Map<String, Map<String, String>>> dictsMap = I18nTool.getDictsMap(SessionManagerCommon.getLocale().toString());
+            Map<String ,String> dictsRechargeTypeMap = I18nTool.getDictMapByEnum(SessionManager.getLocale().toString(), DictEnum.FUND_RECHARGE_TYPE);
+            Map<String ,String> dictsRechargeStatusMap  = I18nTool.getDictMapByEnum(SessionManager.getLocale().toString(),DictEnum.FUND_RECHARGE_STATUS);
+            Map<String ,String> dictsbankMap = I18nTool.getDictMapByEnum(SessionManager.getLocale().toString(),DictEnum.BANKNAME);
             Map<String, SysCurrency> sysCurrencys = Cache.getSysCurrency();
             for (VPlayerDeposit deposit : result) {
                 String url = RechargeStatusEnum.DEAL.getCode().equals(deposit.getRechargeStatus()) ?
@@ -122,9 +125,9 @@ public class CompanyDepositController extends BaseDepositController {
                 deposit.set_soulFn_formatTimeMemo_createTime(LocaleDateTool.formatTimeMemo(deposit.getCreateTime(), locale));
                 deposit.set_soulFn_formatDateTz_checkTime(LocaleDateTool.formatDate(deposit.getCheckTime(), dateFormat.getDAY_SECOND(),timeZone));
                 deposit.set_soulFn_formatTimeMemo_checkTime(LocaleDateTool.formatTimeMemo(deposit.getCheckTime(), locale));
-                deposit.set_dicts_common_bankname_bankCode(dictsMap.get("common").get("bankname").get(deposit.getBankCode()));
+                deposit.set_dicts_common_bankname_bankCode(dictsbankMap.get(deposit.getBankCode()));
                 String rechargeType = deposit.getRechargeType();
-                deposit.set_recharge_type_dict(dictsMap.get("fund").get("recharge_type").get(rechargeType));
+                deposit.set_recharge_type_dict(dictsRechargeTypeMap.get(rechargeType));
                 String fundAutoData = getFundAutoData(deposit,views);
                 if(StringTool.isNotBlank(deposit.getBankOrder())&& !DepositWayEnum.BITCOIN_FAST.getCode().equals(rechargeType)){
                     if(DepositWayEnum.ALIPAY_FAST.getCode().equals(rechargeType)||DepositWayEnum.WECHATPAY_FAST.getCode().equals(rechargeType)||
@@ -146,7 +149,7 @@ public class CompanyDepositController extends BaseDepositController {
                 deposit.set_soulFn_formatInteger_rechargeAmount(CurrencyTool.formatInteger(deposit.getRechargeAmount()));
                 deposit.set_soulFn_formatDecimals_rechargeAmount(CurrencyTool.formatDecimals(deposit.getRechargeAmount()));
                 deposit.set_bitAmount_formatNumber(getBitFormat(deposit));
-                deposit.set_recharge_status_dicts(dictsMap.get("fund").get("recharge_status").get(deposit.getRechargeStatus()));
+                deposit.set_recharge_status_dicts(dictsRechargeStatusMap.get(deposit.getRechargeStatus()));
                 Long ipDeposit = deposit.getIpDeposit();
                 if(ipDeposit!=null){
                     deposit.set_ipDeposit_ipv4LongToString(IpTool.ipv4LongToString(ipDeposit));

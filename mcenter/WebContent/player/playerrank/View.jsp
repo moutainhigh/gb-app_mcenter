@@ -52,7 +52,14 @@
 							<td>
 								<c:if test="${not empty p.isFee&&empty p.isReturnFee}">
 									<c:if test="${p.isFee}">
-										${p.feeMoney}${p.feeType=='1'?'%':''}
+										<%--${p.feeMoney}${p.feeType=='1'?'%':''}--%>
+										<c:if test="${p.feeType=='1'}">
+											<c:set var="maxFee" value="${siteCurrencySign}${soulFn:formatInteger(p.maxFee)}${soulFn:formatDecimals(p.maxFee)}"></c:set>
+											${views.player_auto['收取']}${p.feeMoney}%,&nbsp;${views.player_auto['上限']}${maxFee}
+										</c:if>
+										<c:if test="${p.feeType!='1'}">
+											${views.player_auto['收取']}${p.feeMoney}
+										</c:if>
 									</c:if>
 									<c:if test="${!p.isFee}">
 										${views.role['PlayerRank.list.none']}
@@ -61,15 +68,25 @@
 								<c:if test="${empty p.isFee&&not empty p.isReturnFee}">
 									<c:if test="${p.isReturnFee}">
 										<c:set var="restr" value="${views.player_auto['存满']}"></c:set>
-										<c:set var="reachMoney" value="${soulFn:formatInteger(p.reachMoney)}${soulFn:formatDecimals(p.reachMoney)}"></c:set>
+										<c:set var="reachMoney" value="${siteCurrencySign}${soulFn:formatInteger(p.reachMoney)}${soulFn:formatDecimals(p.reachMoney)}"></c:set>
 										<c:if test="${p.returnType=='1'}">
 											<c:set var="returnMoney" value="${p.returnMoney}%"></c:set>
 										</c:if>
 										<c:if test="${p.returnType!='1'}">
-											<c:set var="returnMoney" value="${soulFn:formatInteger(p.returnMoney)}${soulFn:formatDecimals(p.returnMoney)}"></c:set>
+											<c:set var="returnMoney" value="${siteCurrencySign}${soulFn:formatInteger(p.returnMoney)}${soulFn:formatDecimals(p.returnMoney)}"></c:set>
 										</c:if>
-										<c:set var="maxReturnFee" value="${soulFn:formatInteger(p.maxReturnFee)}${soulFn:formatDecimals(p.maxReturnFee)}"></c:set>
-										${fn:replace(fn:replace(fn:replace(restr,"{0}", reachMoney),"{1}",returnMoney),"{2}",maxReturnFee)}
+										<c:set var="maxReturnFee" value="${siteCurrencySign}${soulFn:formatInteger(p.maxReturnFee)}${soulFn:formatDecimals(p.maxReturnFee)}"></c:set>
+										<c:set var="depositFee" value='${fn:replace(fn:replace(fn:replace(restr,"{0}", reachMoney),"{1}",returnMoney),"{2}",maxReturnFee)}'/>
+										<c:if test="${p.returnType=='1'}">
+											${depositFee}
+										</c:if>
+										<c:if test="${p.returnType!='1'}">
+											${fn:substringBefore(depositFee,"," )}
+										</c:if>
+
+										<%--${fn:replace(fn:replace(fn:replace(restr,"{0}", reachMoney),"{1}",returnMoney),"{2}",maxReturnFee)}--%>
+
+
 										<%--<span class="co-red">-${p.returnMoney}${p.returnType=='1'?'%':''}</span>--%>
 									</c:if>
 									<c:if test="${!p.isReturnFee}">${views.role['PlayerRank.list.none']}</c:if>
@@ -107,7 +124,18 @@
 							</td>
 								<%--取款手续费--%>
 							<th class="bg-tbcolor">${views.role['PlayerRank.view.qksxf']}：</th>
-							<td>${p.withdrawFeeNum}${p.withdrawFeeType=='1'?'%':''}</td>
+							<td>
+
+								<c:if test="${p.withdrawFeeType=='1'}">
+									${views.player_auto['收取']}${p.withdrawFeeNum}%,&nbsp;${views.player_auto['上限']}${siteCurrencySign}${p.withdrawMaxFee}
+								</c:if>
+								<c:if test="${p.withdrawFeeType!='1'}">
+									${views.player_auto['收取']}${siteCurrencySign}${p.withdrawFeeNum}
+								</c:if>
+
+							<%--${views.player_auto['收取']}${p.withdrawFeeType!='1'?siteCurrencySign:''}${p.withdrawFeeNum}${p.withdrawFeeType=='1'?'%':''}--%>
+
+							</td>
 
 						</tr>
 						<tr class="tab-title">
@@ -150,7 +178,7 @@
 								<c:choose>
 									<%--普通和超额都开启--%>
 									<c:when test="${p.withdrawCheckStatus&&p.withdrawExcessCheckStatus}">
-										${views.role['PlayerRank.view.pt']}${p.withdrawCheckTime}${views.role['PlayerRank.view.fz']},${views.role['PlayerRank.view.ce']}${p.withdrawExcessCheckNum}&nbsp${p.withdrawExcessCheckTime}${views.role['PlayerRank.view.fz']}
+										${views.role['PlayerRank.view.pt']}${p.withdrawCheckTime}${views.role['PlayerRank.view.fz']}, &nbsp;${views.role['PlayerRank.view.ce']}(${siteCurrencySign}${p.withdrawExcessCheckNum})&nbsp${p.withdrawExcessCheckTime}${views.role['PlayerRank.view.fz']}
 									</c:when>
 									<c:when test="${p.withdrawCheckStatus}">
 										${views.role['PlayerRank.view.pt']}${p.withdrawCheckTime}${views.role['PlayerRank.view.fz']}

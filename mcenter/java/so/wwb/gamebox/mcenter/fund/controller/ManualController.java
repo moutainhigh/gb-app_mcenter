@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import so.wwb.gamebox.common.dubbo.ServiceActivityTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.fund.form.ManualDepositForm;
@@ -164,7 +165,7 @@ public class ManualController {
             vActivityMessageListVo.getSearch().setCodes(new String[]{ActivityTypeEnum.DEPOSIT_SEND.getCode(), ActivityTypeEnum.FIRST_DEPOSIT.getCode()});
         }
         vActivityMessageListVo.setProperties(VActivityMessage.PROP_ID, VActivityMessage.PROP_ACTIVITY_NAME,VActivityMessage.PROP_CODE);
-        List<Map<String, Object>> mapList = ServiceSiteTool.vActivityMessageService().searchProperties(vActivityMessageListVo);
+        List<Map<String, Object>> mapList = ServiceActivityTool.vActivityMessageService().searchProperties(vActivityMessageListVo);
         return mapList;
     }
 
@@ -493,7 +494,7 @@ public class ManualController {
         if(StringTool.isNotEmpty(activityId)){
             ActivityMessageVo activityMessageVo = new ActivityMessageVo();
             activityMessageVo.getSearch().setId(Integer.valueOf(activityId));
-            activityMessageVo = ServiceSiteTool.activityMessageService().get(activityMessageVo);
+            activityMessageVo = ServiceActivityTool.activityMessageService().get(activityMessageVo);
             model.addAttribute("activityMessage",activityMessageVo.getResult());
         }
         model.addAttribute("activityName",MapTool.getString(transactionDataMap,"activityName"));

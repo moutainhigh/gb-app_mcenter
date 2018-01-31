@@ -38,7 +38,9 @@ import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.master.agent.vo.ResetSysUserPwdVo;
 import so.wwb.gamebox.model.master.player.vo.ResetPwdVo;
+import so.wwb.gamebox.model.master.player.vo.VUserAgentManageVo;
 import so.wwb.gamebox.model.master.player.vo.VUserPlayerVo;
+import so.wwb.gamebox.model.master.player.vo.VUserTopAgentManageVo;
 import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
@@ -391,21 +393,51 @@ public class PlayerResetPwdController {
      */
     public void addAgentLog(ResetSysUserPwdVo resetPwdVo) {
         try {
-            SysUserVo sysUserVo = new SysUserVo();
-            sysUserVo.getSearch().setId(resetPwdVo.getResult().getId());
-            sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+
+            String agentSign = "";//代理或者总代
+            String account = "";//账户名称
+            //修改密码时代理和总代没有明确区分，查询下总代和代理是否有这个账号
+            VUserAgentManageVo agentVo = new VUserAgentManageVo();
+            agentVo.getSearch().setId(resetPwdVo.getResult().getId());
+            agentVo = ServiceSiteTool.vUserAgentManageService().get(agentVo);
+
+            if (agentVo.getResult() != null && agentVo.getResult().getUsername() != null) {
+                agentSign = "agent";
+                account = agentVo.getResult().getUsername();
+            } else {
+                VUserTopAgentManageVo topVo = new VUserTopAgentManageVo();
+                topVo.getSearch().setId(resetPwdVo.getResult().getId());
+                topVo = ServiceSiteTool.vUserTopAgentManageService().get(topVo);
+                if (topVo.getResult() != null && topVo.getResult().getUsername() != null) {
+                    agentSign = "top";
+                    account = topVo.getResult().getUsername();
+                }
+            }
+
+            //查询不出来就不记录日志
+            if (StringTool.isBlank(agentSign)) {
+                return;
+            }
+
             String description = "";
             IModuleType type = null;
+            //安全密码
             if ("permissionPwd".equals(resetPwdVo.getResetType())) {
-                description = "player.resetPwd.doRestUserPermPwdByHand";
+                if ("agent".equals(agentSign)) {
+                    description = "PLAYER_RESETPWD_AGENT_DORESTUSERPERMPWDBYHAND";
+                } else if ("top".equals(agentSign)) {
+                    description = "PLAYER_RESETPWD_TOP_DORESTUSERPERMPWDBYHAND";
+                }
                 type = ModuleType.RESET_USER_PERMISSIONPWD;
-            } else {
-                description = "player.resetPwd.doRestUserPwdByHand";
+            } else {//登录密码
+                if ("agent".equals(agentSign)) {
+                    description = "PLAYER_RESETPWD_AGENT_DORESTUSERPWDBYHAND";
+                } else if ("top".equals(agentSign)) {
+                    description = "PLAYER_RESETPWD_TOP_DORESTUSERPWDBYHAND";
+                }
                 type = ModuleType.RESET_USER_PASSWORD;
             }
-            if (sysUserVo.getResult() != null && StringTool.isNotBlank(sysUserVo.getResult().getUsername())) {
-                BussAuditLogTool.addBussLog(Module.PLAYER, type, OpType.UPDATE, description, sysUserVo.getResult().getUsername());
-            }
+            BussAuditLogTool.addBussLog(Module.PLAYER, type, OpType.UPDATE, description, account);
 
         } catch (Exception ex) {
 

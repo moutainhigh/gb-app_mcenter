@@ -20,7 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
+import so.wwb.gamebox.common.dubbo.ServiceActivityTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.operation.IVActivityPlayerApplyService;
 import so.wwb.gamebox.mcenter.operation.form.VActivityPlayerApplyForm;
@@ -78,23 +78,23 @@ public class VActivityPlayerApplyController extends BaseCrudController<IVActivit
                                       Model model, HttpServletRequest request) {
         ActivityMessageVo messageVo = new ActivityMessageVo();
         messageVo.getSearch().setId(vMessageVo.getSearch().getId());
-        messageVo = ServiceSiteTool.activityMessageService().get(messageVo);
+        messageVo = ServiceActivityTool.activityMessageService().get(messageVo);
         listVo.getSearch().setActivityTypeCode(messageVo.getResult().getActivityTypeCode());
         listVo.getSearch().setActivityMessageId(vMessageVo.getSearch().getId());
-        listVo = ServiceSiteTool.vActivityPlayerApplyService().search(listVo);
+        listVo = ServiceActivityTool.vActivityPlayerApplyService().search(listVo);
         if (listVo.getResult() == null) {
             return null;
         }
         model.addAttribute("command", listVo);
 
         vMessageVo.getSearch().setActivityVersion(SessionManager.getLocale().toString());
-        List<VActivityMessage> messageList = ServiceSiteTool.vActivityMessageService().searchActivityMessage(vMessageVo);
+        List<VActivityMessage> messageList = ServiceActivityTool.vActivityMessageService().searchActivityMessage(vMessageVo);
         model.addAttribute("command1", messageList);
 
         //activity_way_relation活动优惠方式关系表--查询优惠形式
         ActivityWayRelationVo activityWayRelationVo = new ActivityWayRelationVo();
         activityWayRelationVo.getSearch().setActivityMessageId(vMessageVo.getSearch().getId());
-        List<ActivityWayRelation> activityWayRelationList = ServiceSiteTool.activityWayRelationService()
+        List<ActivityWayRelation> activityWayRelationList = ServiceActivityTool.activityWayRelationService()
                 .searchActivityWayRelation(activityWayRelationVo);
         ActivityWayRelation activityWayRelation = null;
         if (activityWayRelationList != null && activityWayRelationList.size() > 0) {//此处是基于现在有的需求，只会出现固定彩金和比例彩金
@@ -112,7 +112,7 @@ public class VActivityPlayerApplyController extends BaseCrudController<IVActivit
         List<Integer> activityPlayerApplyIds = CollectionTool.extractToList(listVo.getResult(), ActivityPlayerApply.PROP_ID);
         ActivityPlayerPreferentialVo activityPlayerPreferentialVo = new ActivityPlayerPreferentialVo();
         activityPlayerPreferentialVo.getSearch().setActivityPlayerApplyIds(activityPlayerApplyIds);
-        List<ActivityPlayerPreferential> activityPlayerPreferentialList = ServiceSiteTool.activityPlayerPreferentialService()
+        List<ActivityPlayerPreferential> activityPlayerPreferentialList = ServiceActivityTool.activityPlayerPreferentialService()
                 .searchActivityPlayerPreferentialByIds(activityPlayerPreferentialVo);
         Map<Object, ActivityPlayerPreferential> vactivityPlayerApplyMap = CollectionTool.toEntityMap(
                 activityPlayerPreferentialList, ActivityPlayerPreferential.PROP_ACTIVITY_PLAYER_APPLY_ID);
@@ -147,15 +147,15 @@ public class VActivityPlayerApplyController extends BaseCrudController<IVActivit
         String[] id = ids.split(",");
         ActivityPlayerApplyListVo plistVo = new ActivityPlayerApplyListVo();
         plistVo.getSearch().setId(Integer.valueOf(id[0]));
-        plistVo = ServiceSiteTool.activityPlayerApplyService().search(plistVo);
+        plistVo = ServiceActivityTool.activityPlayerApplyService().search(plistVo);
         vMessageListVo.getSearch().setId(plistVo.getResult().get(0).getActivityMessageId());
         vMessageListVo.getSearch().setActivityVersion(SessionManager.getLocale().toString());
-        vMessageListVo = ServiceSiteTool.vActivityMessageService().search(vMessageListVo);
+        vMessageListVo = ServiceActivityTool.vActivityMessageService().search(vMessageListVo);
         Double total = Double.valueOf(0);
         for (String ActivityPlayerApplyId : id) {
             ActivityPlayerPreferentialListVo plistVo2 = new ActivityPlayerPreferentialListVo();
             plistVo2.getSearch().setActivityPlayerApplyId(Integer.valueOf(ActivityPlayerApplyId));
-            plistVo2 = ServiceSiteTool.activityPlayerPreferentialService().search(plistVo2);
+            plistVo2 = ServiceActivityTool.activityPlayerPreferentialService().search(plistVo2);
             for (ActivityPlayerPreferential obj : plistVo2.getResult()) {
                 if (ActivityPreferentialFormEnum.REGULAR_HANDSEL.getCode().equals(obj.getPreferentialForm())
                         || ActivityPreferentialFormEnum.PERCENTAGE_HANDSEL.getCode().equals(obj.getPreferentialForm())) {
@@ -235,13 +235,13 @@ public class VActivityPlayerApplyController extends BaseCrudController<IVActivit
             //活动玩家申请表
             ActivityPlayerApplyVo activityPlayerApplyVo = new ActivityPlayerApplyVo();
             activityPlayerApplyVo.getSearch().setId(Integer.valueOf(activityPlayerApplyId));
-            activityPlayerApplyVo = ServiceSiteTool.activityPlayerApplyService().get(activityPlayerApplyVo);
+            activityPlayerApplyVo = ServiceActivityTool.activityPlayerApplyService().get(activityPlayerApplyVo);
 
             //获取活动名称
             ActivityMessageI18nVo activityMessageI18nVo = new ActivityMessageI18nVo();
             activityMessageI18nVo.getSearch().setActivityVersion(SessionManager.getLocale().toString());
             activityMessageI18nVo.getSearch().setActivityMessageId(activityPlayerApplyVo.getResult().getActivityMessageId());
-            activityMessageI18nVo = ServiceSiteTool.activityMessageI18nService().search(activityMessageI18nVo);
+            activityMessageI18nVo = ServiceActivityTool.activityMessageI18nService().search(activityMessageI18nVo);
             //获取用户的默认时区
             SysUserVo sysUserVo = new SysUserVo();
             sysUserVo.setResult(new SysUser());
@@ -257,7 +257,7 @@ public class VActivityPlayerApplyController extends BaseCrudController<IVActivit
                         activityPlayerApplyVo.getResult().getUserId()));
             }
 
-            vo = ServiceSiteTool.activityPlayerApplyService().auditStatus(vo, activityPlayerApplyVo, activityType, paramValue);
+            vo = ServiceActivityTool.activityPlayerApplyService().auditStatus(vo, activityPlayerApplyVo, activityType, paramValue);
 
             if (vo.isSuccess()) {
                 NoticeVo noticeVo = new NoticeVo();
@@ -342,7 +342,7 @@ public class VActivityPlayerApplyController extends BaseCrudController<IVActivit
         //1.先更新状态
         vo.getSearch().setIds(convertIdToInteger(ids));
         vo.getSearch().setCheckState(ActivityApplyCheckStatusEnum.PENDING.getCode());
-        List<ActivityPlayerApply> activityPlayerApplyList = ServiceSiteTool.activityPlayerApplyService().searchActivityPlayerByIds(vo);
+        List<ActivityPlayerApply> activityPlayerApplyList = ServiceActivityTool.activityPlayerApplyService().searchActivityPlayerByIds(vo);
         for (ActivityPlayerApply activityPlayerApply : activityPlayerApplyList) {
             activityPlayerApply.setCheckTime(SessionManager.getDate().getNow());
             activityPlayerApply.setCheckUserId(SessionManager.getUserId());
