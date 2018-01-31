@@ -26,6 +26,8 @@
 
     <%--是否启用取款--%>
 <form:hidden path="result.isWithdrawLimit"/>
+
+<form:hidden path="result.isWithdrawFeeZeroReset"/>
 <a id="saveReturnCallbak" cssClass="btn btn-outline btn-filter" href="/vPlayerRankStatistics/list.html" nav-target="mainFrame"></a>
 <div id="wrapper">
     <div class="row">
@@ -65,6 +67,16 @@
                 </div>
                 <!--                <hr class="m-t-sm m-b">-->
                 <div class="form-group clearfix">
+                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.column['启用0000重置']}</label>
+
+                    <div class="col-xs-5 line-hi34">
+                        <input type="checkbox" id="isWithdrawFeeZeroReset" data-size="mini"
+                               name="my-checkbox" ${command.result.isWithdrawFeeZeroReset?'checked':''}/>
+                    </div>
+
+                </div>
+                <%--<div class="form-group clearfix" style="${command.result.isWithdrawFeeZeroReset?'display:none':''}">--%>
+                <div class="form-group clearfix" style="${command.result.isWithdrawFeeZeroReset?'display:none':'display:block'}" id="withdrawTimeLimitDiv">
                         <%--时限/小时--%>
                     <label for="result.withdrawTimeLimit"
                            class="col-xs-3 al-right line-hi34">${views.column['PlayerRank.withdrawTimeLimit']}</label>
@@ -73,7 +85,7 @@
                         <div class="input-group" style="width: 100%;">
                             <form:input value="" id="withdrawTimeLimit" path="result.withdrawTimeLimit"
                                         cssClass="form-control m-b isNum" cssStyle="width: 100%"
-                                        placeholder="${views.role['withdrawlimit.timelimit']}" />
+                                        placeholder="${views.role['withdrawlimit.timelimit']}" disabled="${command.result.isWithdrawFeeZeroReset}"/>
                             <%--<span data-content=""
                                   data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
                                   role="button" class="input-group-addon help-popover" tabindex="0"
