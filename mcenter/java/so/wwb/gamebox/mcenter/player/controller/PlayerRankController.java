@@ -397,7 +397,7 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
     @RequestMapping({"/updateWithdrawLimit"})
     @ResponseBody
     public Map updateWithdrawLimit(PlayerRankVo objectVo, @FormModel("result") @Valid PlayerRankAddForm form, BindingResult result) {
-        String[] array=new String[18];
+        String[] array=new String[19];
         array[0] = PlayerRank.PROP_WITHDRAW_TIME_LIMIT;
         array[1] = PlayerRank.PROP_WITHDRAW_FREE_COUNT;
         array[2] = PlayerRank.PROP_IS_WITHDRAW_LIMIT;
@@ -416,6 +416,7 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
         array[15] = PlayerRank.PROP_WITHDRAW_EXCESS_CHECK_NUM;
         array[16] = PlayerRank.PROP_WITHDRAW_EXCESS_CHECK_TIME;
         array[17] = PlayerRank.PROP_WITHDRAW_FEE_NUM;
+        array[18] = PlayerRank.PROP_IS_WITHDRAW_FEE_ZERO_RESET;
         objectVo.setProperties(array);
         this.getService().updateOnly(objectVo);
         return this.getVoMessage(objectVo);
