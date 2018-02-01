@@ -270,9 +270,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         // 初始化外部链接时间
         initDate(listVo);
 
-        //条件查询根据标签查询玩家
-        getTagIdByPlayer(listVo, model);
-
         //标签管理,筛选有该标签的玩家
         getPlayerByTagId(listVo, model);
         initRemarkContent(listVo);
