@@ -298,8 +298,10 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         listVo.setClassifications(list);
         listVo.setSiteId(SessionManager.getSiteId());
         listVo = ServiceTool.siteI18nService().saveClassification(listVo);
-        CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
-        Cache.refreshCurrentSitePageCache();
+        if (listVo.isSuccess()) {
+            CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
+            Cache.refreshCurrentSitePageCache();
+        }
         return getVoMessage(listVo);
     }
 
@@ -424,8 +426,8 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
                 String logPara1 = activityTypeVo.getResult() == null ? "" : activityTypeVo.getResult().getName();
                 String logPara2 = (vActivityMessageVo.getActivityMessageI18ns() == null || vActivityMessageVo.getActivityMessageI18ns().size() < 0)
                         ? "" : vActivityMessageVo.getActivityMessageI18ns().get(0).getActivityName();
-                BussAuditLogTool.addBussLog(Module.ACTIVITY,ModuleType.ACTIVITY_ACTIVITYRELEASE_SUCCESS,OpType.CREATE,"ACTIVITY_ACTIVITYRELEASE_SUCCESS",
-                        logPara1,logPara2);
+                BussAuditLogTool.addBussLog(Module.ACTIVITY, ModuleType.ACTIVITY_ACTIVITYRELEASE_SUCCESS, OpType.CREATE, "ACTIVITY_ACTIVITYRELEASE_SUCCESS",
+                        logPara1, logPara2);
             } else {
                 map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
                 map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
