@@ -68,6 +68,7 @@ import so.wwb.gamebox.model.master.player.po.Remark;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.player.vo.RemarkVo;
 import so.wwb.gamebox.model.report.enums.SettlementStateEnum;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 
@@ -731,12 +732,34 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
             taskScheduleVo.setResult(new TaskSchedule(TaskScheduleEnum.BATCH_SETTLE_RAKEBACK.getCode()));
             ITaskScheduleService taskScheduleService = ServiceScheduleTool.getTaskScheduleService();
             taskScheduleService.runOnceTask(taskScheduleVo, rakebackBatchSettlement);
+            //添加结算所有玩家日志
+            addBatchSettleRakeBackLog(rakebackBillVo);
         } catch (Exception e) {
             LOG.error(e);
             rakebackBillVo.setSuccess(false);
         }
 
         return getVoMessage(rakebackBillVo);
+    }
+
+    /**
+     * 添加结算所有玩家日志
+     * @param rakebackBillVo
+     * @return
+     */
+    private RakebackBillVo addBatchSettleRakeBackLog(RakebackBillVo rakebackBillVo) {
+        try {
+            rakebackBillVo = getService().get(rakebackBillVo);
+            rakebackBillVo.getResult().getPeriod();
+            BussAuditLogTool.addLog("backwater.batchSettleRakeBack.msg", SessionManager.getUserName(),
+                    LocaleDateTool.formatDate(rakebackBillVo.getResult().getEndTime(), LocaleDateTool.getFormat("YEAR"), SessionManager.getUser().getDefaultTimezone()),
+                    LocaleDateTool.formatDate(rakebackBillVo.getResult().getEndTime(), LocaleDateTool.getFormat("MONTH"), SessionManager.getUser().getDefaultTimezone()),
+                    rakebackBillVo.getResult().getPeriod()
+            );
+        } catch (Exception ex) {
+            LOG.warn("添加结算所有玩家日志错误");
+        }
+        return rakebackBillVo;
     }
 
 }
