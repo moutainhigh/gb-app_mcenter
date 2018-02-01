@@ -278,8 +278,9 @@
 
                     <div class="col-xs-5">
                         <div class="input-group date">
-                            <form:input id="withdrawNormalAudit" name="result.withdrawNormalAudit" path="result.withdrawNormalAudit"
-                                        cssClass="form-control m-b isNum" />
+                                <input type="text" id="withdrawNormalAudit" name="result.withdrawNormalAudit"
+                                       class="form-control m-b isNum"
+                                       value="${soulFn:formatInteger(command.result.withdrawNormalAudit)}${soulFn:formatDecimals(command.result.withdrawNormalAudit)}">
                             <span class="input-group-addon">${views.role['withdrawlimit.bei']}</span>
                             <span data-content="${views.role['withdrawlimit.setting.tips.5']}"
                                   data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
@@ -294,8 +295,9 @@
 
                     <div class="col-xs-5">
                         <div class="input-group date">
-                            <form:input  id="withdrawAdminCost" name="result.withdrawAdminCost" path="result.withdrawAdminCost"
-                                        cssClass="form-control m-b isNum" />
+                            <input type="text" id="withdrawAdminCost" name="result.withdrawAdminCost"
+                                   class="form-control m-b isNum"
+                                    value="${soulFn:formatInteger(command.result.withdrawAdminCost)}${soulFn:formatDecimals(command.result.withdrawAdminCost)}">
                             <span class="input-group-addon">%</span>
                             <span data-content="${views.role['withdrawlimit.setting.tips.6']}"
                                   data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
