@@ -737,13 +737,14 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
             taskScheduleVo.setResult(new TaskSchedule(TaskScheduleEnum.BATCH_SETTLE_RAKEBACK.getCode()));
             ITaskScheduleService taskScheduleService = ServiceScheduleTool.getTaskScheduleService();
             taskScheduleService.runOnceTask(taskScheduleVo, rakebackBatchSettlement);
+            //添加结算所有玩家日志
+            LOG.info("batchSettleRakeBack方法中执行ITaskScheduleService完成，开始添加日志");
+            addBatchSettleRakeBackLog(rakebackBillVo);
         } catch (Exception e) {
             LOG.error(e,"batchSettleRakeBack方法中taskScheduleService.runOnceTask错误");
             rakebackBillVo.setSuccess(false);
         }
-        //添加结算所有玩家日志
-        LOG.info("batchSettleRakeBack方法中执行ITaskScheduleService完成，开始添加日志");
-        addBatchSettleRakeBackLog(rakebackBillVo);
+
         LOG.info("batchSettleRakeBack方法执行完成");
         return getVoMessage(rakebackBillVo);
     }
