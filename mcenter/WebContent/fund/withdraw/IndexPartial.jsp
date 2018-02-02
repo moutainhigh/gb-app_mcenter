@@ -31,6 +31,12 @@
                 </th>
                 <th>${views.fund_auto['审核人']}</th>
                 <th>${views.fund_auto['审核时间']}</th>
+                <%--出款--%>
+                <c:if test="${isSwitch}">
+                    <th>出款确认</th>
+                    <th>确认人</th>
+                    <th>确认时间</th>
+                </c:if>
                 <th>${views.fund_auto['备注']}</th>
             </tr>
             </thead>
@@ -185,6 +191,12 @@
                     {{/if}}
                 </span>
             </td>
+            <%--出款列表--%>
+            {{ if isSwitch}}
+                <td></td>
+                <td></td>
+                <td></td>
+            {{/if}}
             <td>
                 {{if ipWithdraw!=null&&ipWithdraw!=''}}
                     IP:
