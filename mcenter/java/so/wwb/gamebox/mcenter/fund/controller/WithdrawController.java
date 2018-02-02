@@ -13,6 +13,7 @@ import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.DateFormat;
+import org.soul.commons.locale.DateQuickPicker;
 import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
@@ -1124,7 +1125,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         Integer hasCount = 0;     // 设定时间内已取款次数
         Integer freeCount = rank.getWithdrawFreeCount();
         // 有设置取款次数限制
-        if (rank.getWithdrawTimeLimit() != null && freeCount != null) {
+        if ((rank.getIsWithdrawFeeZeroReset() || rank.getWithdrawTimeLimit() != null) && freeCount != null) {
             hasCount = getHasCount(rank, playerId);
         }
         LOG.info("已取款次数：{0}", hasCount);
@@ -1156,7 +1157,12 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             throw new RuntimeException("玩家ID不存在");
         }
         Date date = new Date();
-        Date lastTime = DateTool.addHours(date, -rank.getWithdrawTimeLimit());
+        Date lastTime = null;
+        if(rank.getIsWithdrawFeeZeroReset()){
+            lastTime = DateQuickPicker.getInstance().getToday();
+        }else{
+            lastTime = DateTool.addHours(date, -rank.getWithdrawTimeLimit());
+        }
         PlayerWithdrawVo withdrawVo = new PlayerWithdrawVo();
         withdrawVo.setResult(new PlayerWithdraw());
         withdrawVo.getSearch().setPlayerId(playerId);

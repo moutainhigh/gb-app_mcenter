@@ -279,7 +279,7 @@
                     <div class="col-xs-5">
                         <div class="input-group date">
                                 <input type="text" id="withdrawNormalAudit" name="result.withdrawNormalAudit"
-                                       class="form-control m-b isNum proportion"
+                                       class="form-control m-b isNum"
                                        value="${soulFn:formatInteger(command.result.withdrawNormalAudit)}${soulFn:formatDecimals(command.result.withdrawNormalAudit)}">
                             <span class="input-group-addon">${views.role['withdrawlimit.bei']}</span>
                             <span data-content="${views.role['withdrawlimit.setting.tips.5']}"
@@ -296,7 +296,7 @@
                     <div class="col-xs-5">
                         <div class="input-group date">
                             <input type="text" id="withdrawAdminCost" name="result.withdrawAdminCost"
-                                   class="form-control m-b isNum proportion"
+                                   class="form-control m-b isNum"
                                     value="${soulFn:formatInteger(command.result.withdrawAdminCost)}${soulFn:formatDecimals(command.result.withdrawAdminCost)}">
                             <span class="input-group-addon">%</span>
                             <span data-content="${views.role['withdrawlimit.setting.tips.6']}"

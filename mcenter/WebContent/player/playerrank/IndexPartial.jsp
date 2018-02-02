@@ -180,8 +180,11 @@
                         <c:when test="${p.withdrawFeeType>0&& empty p.withdrawFreeCount}">
                         ${views.role['PlayerRank.view.wmf']}
                         </c:when>
-                        <c:when test="${p.withdrawFeeType>0}">
+                        <c:when test="${p.withdrawFeeType>0 && !p.isWithdrawFeeZeroReset}">
                             ${p.withdrawTimeLimit}${views.role['PlayerRank.list.hour']}<div class="co-grayc2">${views.role['PlayerRank.list.mian']}${p.withdrawFreeCount}${views.common['ci']}
+                        </c:when>
+                        <c:when test="${p.withdrawFeeType>0 && p.isWithdrawFeeZeroReset}">
+                            ${views.column['启用0000重置']}<div class="co-grayc2">${views.role['PlayerRank.list.mian']}${p.withdrawFreeCount}${views.common['ci']}
                         </c:when>
                         <c:otherwise>
                             ${views.role['PlayerRank.view.w']}
