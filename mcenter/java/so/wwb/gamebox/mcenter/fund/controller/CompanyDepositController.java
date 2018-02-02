@@ -15,6 +15,7 @@ import org.soul.commons.net.IpTool;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
+import org.soul.model.log.audit.enums.OpType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,9 +29,8 @@ import so.wwb.gamebox.iservice.master.fund.IPlayerRechargeService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.company.setting.po.CurrencyExchangeRate;
 import so.wwb.gamebox.model.company.setting.po.SysCurrency;
 import so.wwb.gamebox.model.company.setting.vo.CurrencyExchangeRateVo;
@@ -46,6 +46,7 @@ import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositListVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerTransactionVo;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.IpRegionTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
@@ -325,12 +326,35 @@ public class CompanyDepositController extends BaseDepositController {
      */
     @RequestMapping("/confirmCheck")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.FUN_CHECK_SUCCESS, opType = OpType.AUDIT,desc = "刷新首页面")
     public Map confirmCompanyCheck(PlayerRechargeVo vo) {
         vo.setAcbKeyParam(ParamTool.getSysParam(SiteParamEnum.SITE_PAY_KEY));
         Map map = confirmCheck(vo);
 //        fundCheckReminder("fund/deposit/company/confirmCheck.html",vo.getSearch().getRechargeTypeParent());
         //取消上分订单
+        addConfirmCheckLog(vo,map);
         return map;
+    }
+
+
+    /**
+     * 入款审核日志
+     * @param vo
+     * @param map
+     */
+    public void addConfirmCheckLog(PlayerRechargeVo vo,Map map ) {
+        try {
+            if (map.get("state") != null && (Boolean) map.get("state")) {
+                if ("success".equals(vo.getSearch().getCheckStatus())) {
+                    BussAuditLogTool.addBussLog(Module.FUND, ModuleType.FUN_CHECK_SUCCESS, OpType.AUDIT,
+                            "COMPANY_DEPOSIT_CHECK_SUCCESS", vo.getSearch().getTransactionNo());
+                } else if ("failure".equals(vo.getSearch().getCheckStatus())) {
+                    BussAuditLogTool.addBussLog(Module.FUND, ModuleType.FUN_CHECK_FAILURE, OpType.AUDIT,
+                            "COMPANY_DEPOSIT_CHECK_FAILURE", vo.getSearch().getTransactionNo());
+                }
+            }
+        } catch (Exception ex) {
+        }
     }
 
     /**

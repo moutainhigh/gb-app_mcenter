@@ -42,7 +42,7 @@
                                 <td class="ft-bold t-a-r" rowspan="2">${views.home_auto['有效投注额（万）']}</td>
                                 <td class="ft-bold t-a-r" rowspan="2">
                                     <span tabindex="0" class=" help-popover m-r-xs" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
-                                          data-html="true" data-content="${views.home_auto['本站点所有玩家的派彩总和']}；">
+                                          data-html="true" data-content="${views.home_auto['本站点所有玩家的派彩总和']}">
                                     <i class="fa fa-question-circle"></i>
                                 </span>${views.home_auto['报表损益']}</td>
                             </tr>
