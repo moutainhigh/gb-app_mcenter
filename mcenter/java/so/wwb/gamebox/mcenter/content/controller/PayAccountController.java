@@ -367,13 +367,13 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         PayAccountVo objectVo = new PayAccountVo();
         List<Bank> list = new ArrayList();
         List<Bank> onlineBank = getOnlineBank(payType);
-        if(onlineBank != null && onlineBank.size() > 0) {
+        if (onlineBank != null && onlineBank.size() > 0) {
             for (Bank bank : onlineBank) {
                 //bankName国际化处理
                 String interlingua = LocaleTool.tranDict(DictEnum.BANKNAME, bank.getBankName());
-                if(StringTool.isNotEmpty(interlingua)){
+                if (StringTool.isNotEmpty(interlingua)) {
                     bank.setInterlinguaBankName(interlingua);
-                }else{
+                } else {
                     bank.setInterlinguaBankName(bank.getBankShortName());
                 }
                 list.add(bank);
@@ -454,7 +454,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         bankVo = ServiceTool.bankService().search(bankVo);
         SysDomainListVo sysDomainListVo = new SysDomainListVo();
         objectVo.setSysDomains(getSysDomainList(sysDomainListVo));
-        model.addAttribute("currentBank",bankVo);
+        model.addAttribute("currentBank", bankVo);
         model.addAttribute("channelJson", channelJson);
         model.addAttribute("command", objectVo);
         model.addAttribute("bankPayTypes", BankPayTypeEnum.values());
@@ -685,18 +685,25 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     private void setAccountType(PayAccountVo vo) {
         String accountType = PayAccountAccountType.THIRTY.getCode();
         Bank bank = Cache.getBank().get(vo.getResult().getBankCode());
-        if (bank != null && BankPayTypeEnum.ALIPAY.getCode().equals(bank.getPayType())) {
+        String payType = bank != null ? bank.getPayType() : "";
+        if (BankPayTypeEnum.ALIPAY.getCode().equals(payType)) {
             accountType = PayAccountAccountType.ALIPAY.getCode();
-        } else if (bank != null && BankPayTypeEnum.WECHAT.getCode().equals(bank.getPayType())) {
+        } else if (BankPayTypeEnum.WECHAT.getCode().equals(payType)) {
             accountType = PayAccountAccountType.WECHAT.getCode();
-        } else if (bank != null && BankPayTypeEnum.QQWALLET.getCode().equals(bank.getPayType())) {
+        } else if (BankPayTypeEnum.QQWALLET.getCode().equals(payType)) {
             accountType = PayAccountAccountType.QQWALLET.getCode();
-        } else if (bank != null && BankPayTypeEnum.JD_PAY.getCode().equals(bank.getPayType())) {
+        } else if (BankPayTypeEnum.JD_PAY.getCode().equals(payType)) {
             accountType = PayAccountAccountType.JD_PAY.getCode();
-        } else if (bank != null && BankPayTypeEnum.BAIFU_PAY.getCode().equals(bank.getPayType())) {
+        } else if (BankPayTypeEnum.BAIFU_PAY.getCode().equals(payType)) {
             accountType = PayAccountAccountType.BAIFU_PAY.getCode();
-        } else if (bank != null && BankPayTypeEnum.ＵUNION_PAY.getCode().equals(bank.getPayType())) {
+        } else if (BankPayTypeEnum.ＵUNION_PAY.getCode().equals(payType)) {
             accountType = PayAccountAccountType.UNION_PAY.getCode();
+        } else if (BankPayTypeEnum.WECHAT_MICROPAY.getCode().equals(payType)) {
+            accountType = PayAccountAccountType.WECHAT_MICROPAY.getCode();
+        } else if (BankPayTypeEnum.ALIPAY_MICROPAY.getCode().equals(payType)) {
+            accountType = PayAccountAccountType.ALIPAY_MICROPAY.getCode();
+        } else if(BankPayTypeEnum.QQ_MICROPAY.getCode().equals(payType)) {
+            accountType = PayAccountAccountType.QQ_MICROPAY.getCode();
         }
         vo.getResult().setAccountType(accountType);
     }
@@ -787,25 +794,25 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
 
     /**
      * 添加日志
+     *
      * @param vo
      */
     private void addChangePayStatusLog(PayAccountVo vo) {
         try {
             if (vo.isSuccess()) {
                 vo = getService().get(vo);
-                String status="";
-                if ("1".equals(vo.getResult().getStatus())){
-                    status="启用";
-                }else if("2".equals(vo.getResult().getStatus())){
-                    status="停用";
+                String status = "";
+                if ("1".equals(vo.getResult().getStatus())) {
+                    status = "启用";
+                } else if ("2".equals(vo.getResult().getStatus())) {
+                    status = "停用";
                 }
-                BussAuditLogTool.addLog("COMPANY_ACCOUNT_FREEZE", vo.getResult().getPayName(),status);
+                BussAuditLogTool.addLog("COMPANY_ACCOUNT_FREEZE", vo.getResult().getPayName(), status);
             }
         } catch (Exception ex) {
 
         }
     }
-
 
 
     /**
