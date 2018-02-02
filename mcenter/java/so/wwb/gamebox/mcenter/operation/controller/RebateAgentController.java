@@ -6,6 +6,7 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.log.audit.enums.ParamType;
 import org.soul.model.log.audit.vo.BaseLog;
 import org.soul.model.log.audit.vo.LogVo;
@@ -22,11 +23,14 @@ import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.operation.form.RebateAgentForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.ModuleType;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.master.operation.po.RebateAgent;
 import so.wwb.gamebox.model.master.operation.vo.RebateAgentVo;
 import so.wwb.gamebox.model.master.operation.vo.RebateBillVo;
 import so.wwb.gamebox.model.report.enums.SettlementStateEnum;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
 import so.wwb.gamebox.web.fund.controller.BaseRebateAgentController;
@@ -75,6 +79,7 @@ public class RebateAgentController extends BaseRebateAgentController{
     @RequestMapping("/settled")
     @ResponseBody
     @Token(valid = true)
+    @Audit(module = Module.FUND, moduleType = ModuleType.Rebate_SETTLEMENT_SUCCESS, opType = OpType.AUDIT)
     public Map settled(RebateAgentVo rebateAgentVo,@FormModel("result") @Valid RebateAgentForm form, BindingResult result,HttpServletRequest request){
         Map resMap = new HashMap(3,1f);
         if(result.hasErrors()){
@@ -104,8 +109,10 @@ public class RebateAgentController extends BaseRebateAgentController{
 
     @RequestMapping("/batchSettled")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.Rebate_SETTLEMENT_SUCCESS, opType = OpType.AUDIT)
     public Map batchSettled(RebateAgentVo rebateAgentVo){
         Map resMap = new HashMap(3,1f);
+        StringBuilder logAgentName = new StringBuilder();
         try {
             List<Integer> ids = rebateAgentVo.getIds();
             if(ids!=null && ids.size()>0){
@@ -115,12 +122,14 @@ public class RebateAgentController extends BaseRebateAgentController{
                     vo = getService().get(vo);
                     vo.getResult().setRebateActual(vo.getResult().getRebateTotal());
                     getRebateAgentVo(vo, SettlementStateEnum.LSSUING.getCode());
+                    logAgentName.append(vo.getResult().getAgentName()).append(",");
                 }
             }
         }catch (Exception ex){
             resMap.put("state",false);
         }
         resMap.put("state",true);
+        BussAuditLogTool.addLog("Rebate_SETTLEMENT_SUCCESS",logAgentName.toString());
         return resMap;
     }
 
@@ -154,8 +163,11 @@ public class RebateAgentController extends BaseRebateAgentController{
 
     @RequestMapping("/batchSignBill")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.REBATE_SETTLEMENT_SIGNBILL, opType = OpType.AUDIT)
     public Map batchSignBill(RebateAgentVo rebateAgentVo){
         Map resMap = new HashedMap(2,1f);
+        StringBuilder logAgentName = new StringBuilder();
+
         resMap.put("state",true);
         List<Integer> ids = rebateAgentVo.getIds();
         if(ids==null){
@@ -179,12 +191,16 @@ public class RebateAgentController extends BaseRebateAgentController{
             vo.setProperties(RebateAgent.PROP_SETTLEMENT_STATE);
             vo.getResult().setSettlementState(SettlementStateEnum.NEXT_LSSUING.getCode());
             getService().updateOnly(vo);
+            logAgentName.append(vo.getResult().getAgentName()).append(",");
         }
+        BussAuditLogTool.addLog("REBATE_SETTLEMENT_SIGNBILL",logAgentName.toString());
+
         return resMap;
     }
 
     @RequestMapping("/signBill")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.REBATE_SETTLEMENT_SIGNBILL, opType = OpType.AUDIT)
     public Map signBill(Integer id){
         Map resMap = new HashedMap(2,1f);
         resMap.put("state",true);
@@ -218,6 +234,7 @@ public class RebateAgentController extends BaseRebateAgentController{
         rebateAgentVo.getResult().setSettlementState(SettlementStateEnum.NEXT_LSSUING.getCode());
         rebateAgentVo = getService().updateOnly(rebateAgentVo);
         resMap = getVoMessage(rebateAgentVo);
+        BussAuditLogTool.addLog("REBATE_SETTLEMENT_SIGNBILL",rebateAgentVo.getResult().getAgentName());
         return resMap;
     }
 
@@ -242,8 +259,11 @@ public class RebateAgentController extends BaseRebateAgentController{
 
     @RequestMapping("/batchClear")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.REBATE_SETTLEMENT_CLEAR, opType = OpType.AUDIT)
     public Map batchClear(RebateAgentVo rebateAgentVo){
         Map resMap = new HashedMap(2,1f);
+        StringBuilder logAgentName = new StringBuilder();
+
         try {
             List<Integer> ids = rebateAgentVo.getIds();
             if(ids!=null && ids.size()>0){
@@ -259,17 +279,21 @@ public class RebateAgentController extends BaseRebateAgentController{
                     }
                     vo.getResult().setRebateActual(0d);
                     getRebateAgentVo(vo, SettlementStateEnum.REJECT_LSSUING.getCode());
+                    logAgentName.append(vo.getResult().getAgentName()).append(",");
                 }
             }
         }catch (Exception ex){
             resMap.put("state",false);
         }
         resMap.put("state",true);
+        BussAuditLogTool.addLog("REBATE_SETTLEMENT_CLEAR",logAgentName.toString());
+
         return resMap;
     }
 
     @RequestMapping("/clear")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.REBATE_SETTLEMENT_CLEAR, opType = OpType.AUDIT)
     public Map clear(Integer id){
         Map resMap = new HashedMap(2,1f);
         resMap.put("state",true);
@@ -292,6 +316,7 @@ public class RebateAgentController extends BaseRebateAgentController{
             rebateAgentVo.getResult().setRebateActual(0d);
             rebateAgentVo = getRebateAgentVo(rebateAgentVo, SettlementStateEnum.REJECT_LSSUING.getCode());
             resMap = getVoMessage(rebateAgentVo);
+            BussAuditLogTool.addLog("REBATE_SETTLEMENT_CLEAR",rebateAgentVo.getResult().getAgentName());
         }catch (Exception ex){
             resMap.put("state",false);
             LOG.error(ex,"代理返佣清除出错:{0}",ex.getMessage());
