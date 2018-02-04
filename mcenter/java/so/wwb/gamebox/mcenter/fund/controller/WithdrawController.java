@@ -370,6 +370,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             TimeZone timeZone = SessionManagerCommon.getTimeZone();
             Map<String, Map<String, Map<String, String>>> dictsMap = I18nTool.getDictsMap(SessionManagerCommon.getLocale().toString());
             Map<String, Map<String, String>> views = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views");
+            SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
+            Boolean isSwitch = sysParam.getIsSwitch();
             List<VPlayerWithdraw> result = vo.getResult();
             for (VPlayerWithdraw vPlayerWithdraw : result) {
                 vPlayerWithdraw.set_formatDateTz_createTime(LocaleDateTool.formatDate(vPlayerWithdraw.getCreateTime(), dateFormat.getDAY_SECOND(), timeZone));
@@ -410,6 +412,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 if(ipWithdraw!=null){
                     vPlayerWithdraw.set_ipWithdraw_ipv4LongToString(IpTool.ipv4LongToString(ipWithdraw));
                 }
+                vPlayerWithdraw.set_isSwitch(isSwitch);
                 vPlayerWithdraw.set_islockPersonId(SessionManager.getAuditUserId().equals(vPlayerWithdraw.getLockPersonId()));
             }
         }
@@ -1613,7 +1616,12 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @RequestMapping("/withdrawReject")
     @ResponseBody
     public Map withdrawReject(PlayerWithdrawVo vo, VPlayerTransactionVo vPlayerTransactionVo, String remarkContent) {
-        return checkWithdraw(vo, vPlayerTransactionVo, remarkContent, WithdrawStatusEnum.REFUSE.getCode(), CheckStatusEnum.REJECT.getCode());
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
+        if (!sysParam.getIsSwitch()) {
+            return checkWithdraw(vo, vPlayerTransactionVo, remarkContent, WithdrawStatusEnum.REFUSE.getCode(), CheckStatusEnum.REJECT.getCode());
+        }else {
+            return null;
+        }
     }
 
     /**

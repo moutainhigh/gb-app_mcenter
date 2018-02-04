@@ -192,10 +192,28 @@
                 </span>
             </td>
             <%--出款列表--%>
-            {{ if isSwitch}}
-                <td></td>
-                <td></td>
-                <td></td>
+            {{if _isSwitch}}
+                <td>
+                {{if withdrawStatus=='4'}}
+                    <soul:button target="" dataId="{{:id}}" size="auditLogCss" cssClass="label label-info p-x-md" text="出款" opType="function" />
+                {{else}}
+                --
+                {{/if}}
+                </td>
+                <td>
+                    {{if withdrawCheckUsername!=null&&withdrawCheckUsername!=''}}
+                        {{:withdrawCheckUsername}}
+                    {{else}}
+                        --
+                    {{/if}}
+                </td>
+                <td>
+                    {{if withdrawCheckTime!=null&&withdrawCheckTime!=''}}
+                        {{:withdrawCheckTime}}
+                    {{else}}
+                        --
+                    {{/if}}
+                </td>
             {{/if}}
             <td>
                 {{if ipWithdraw!=null&&ipWithdraw!=''}}
