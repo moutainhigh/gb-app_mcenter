@@ -2,7 +2,7 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 
-<form:form name="companyDepositForm" action="${root}/fund/deposit/company/doData.html" method="post">
+<form name="companyDepositForm" action="${root}/fund/deposit/company/doData.html" templateUrl="${root}/fund/deposit/company/list.html" method="post">
     <div class="row">
         <div id="validateRule" style="display: none">${command.validateRule}</div>
 
@@ -32,7 +32,7 @@
         </div>
 
     </div>
-</form:form>
+</form>
 
 <script type="text/javascript">
     curl(["site/fund/deposit/company/Index",'gb/sysSearchTemplate/SysSearchTemplateExtend','site/fund/FundSearch'], function(Page,SysSearchTemplate,FundSearch) {
