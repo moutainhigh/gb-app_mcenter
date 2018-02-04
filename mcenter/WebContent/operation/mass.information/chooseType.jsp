@@ -32,7 +32,7 @@
         </ul>
         <div class="al-center m-t-lg m-b-lg p-t-sm p-b-sm">
           <label class="ft-bold m-r-lg"><input type="radio" name="sendType" class="i-checks" <c:if test="${sendType=='siteMsg'}">checked</c:if> value="siteMsg">${dicts.notice.publish_method['siteMsg']}</label>
-          <label class="ft-bold m-l-lg m-r-lg"><input type="radio" name="sendType" class="i-checks" <c:if test="${sendType=='email'}">checked</c:if> value="email">${dicts.notice.publish_method['email']}</label>
+          <%--<label class="ft-bold m-l-lg m-r-lg"><input type="radio" name="sendType" class="i-checks" <c:if test="${sendType=='email'}">checked</c:if> value="email">${dicts.notice.publish_method['email']}</label>--%>
          <%-- <label class="ft-bold m-l-lg"><input type="radio" name="sendType" class="i-checks" <c:if test="${sendType=='sms'}">checked</c:if> value="sms">${views.operation_auto['短信信息']}</label>--%>
         </div>
         <div class="operate-btn">

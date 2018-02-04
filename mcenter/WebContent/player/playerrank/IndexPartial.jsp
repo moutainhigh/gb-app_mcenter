@@ -83,7 +83,7 @@
                                 ${views.player_auto['收取']}${p.feeMoney}%,&nbsp;${views.player_auto['上限']}${maxFee}
                             </c:if>
                             <c:if test="${p.feeType!='1'}">
-                                ${views.player_auto['收取']}${p.feeMoney}
+                                ${views.player_auto['收取']}${siteCurrencySign}${p.feeMoney}
                             </c:if>
 
 
