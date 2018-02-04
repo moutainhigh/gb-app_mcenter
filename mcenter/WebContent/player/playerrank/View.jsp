@@ -58,7 +58,7 @@
 											${views.player_auto['收取']}${p.feeMoney}%,&nbsp;${views.player_auto['上限']}${maxFee}
 										</c:if>
 										<c:if test="${p.feeType!='1'}">
-											${views.player_auto['收取']}${p.feeMoney}
+											${views.player_auto['收取']}${siteCurrencySign}${p.feeMoney}
 										</c:if>
 									</c:if>
 									<c:if test="${!p.isFee}">
@@ -193,7 +193,7 @@
 										${views.role['PlayerRank.view.pt']}${p.withdrawCheckTime}${views.role['PlayerRank.view.fz']}
 									</c:when>
 									<c:when test="${p.withdrawExcessCheckStatus}">
-										${views.role['PlayerRank.view.ce']}${p.withdrawExcessCheckNum}&nbsp${p.withdrawExcessCheckTime}${views.role['PlayerRank.view.fz']}
+										${views.role['PlayerRank.view.ce']}(${siteCurrencySign}${p.withdrawExcessCheckNum})&nbsp${p.withdrawExcessCheckTime}${views.role['PlayerRank.view.fz']}
 									</c:when>
 									<c:otherwise>
 										${views.role['PlayerRank.view.wqy']}
