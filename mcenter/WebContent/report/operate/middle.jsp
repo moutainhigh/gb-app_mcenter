@@ -48,7 +48,7 @@
                 <span class="dividing-line m-r-xs m-l-xs">|</span>
                 <span class="box_api_type"><%-- API Type --%></span>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive" style="overflow: auto;height: 480px">
                 <table class="table table-bordered m-b-xxs">
                     <tbody class="box_game_type"><%-- API & GameType --%></tbody>
                 </table>
