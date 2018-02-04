@@ -3094,7 +3094,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 ITaskScheduleService taskScheduleService = ServiceScheduleTool.getTaskScheduleService();
                 taskScheduleService.runOnceTask(taskScheduleVo, vo);
             }
-            result = getVoMessage(vo);
+            result.put("state",vo.isSuccess());
             //记录日志
             if (vo.isSuccess()){
                 BussAuditLogTool.addLog("PLAYER_EXPORTPLAYER_SUCCESS","");
