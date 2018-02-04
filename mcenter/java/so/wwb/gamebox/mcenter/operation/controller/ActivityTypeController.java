@@ -511,6 +511,7 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
         List<SysParam> rakebackSetting = ServiceActivityTool.vActivityMessageService().getRakebackSetting(new SysParamVo());
         model.addAttribute("rakebackSetting", rakebackSetting);
         model.addAttribute("rakebackSets", rakebackSets);
+        model.addAttribute("rakebackPeriod",ParamTool.getSysParam(SiteParamEnum.SETTING_RAKEBACKSETTING_SETTLEMENTPERIODTIMES));
     }
 
     /**

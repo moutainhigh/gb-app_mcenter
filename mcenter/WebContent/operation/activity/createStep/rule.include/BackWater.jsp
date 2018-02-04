@@ -32,8 +32,9 @@
 <div class="clearfix m-t-md line-hi34">
     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.rakebackBillingCycle']}：</label>
     <div class="col-sm-5" id="backWater">
+
         <c:choose>
-            <c:when test="${rakebackSetting[0] eq 0}">
+            <c:when test="${rakebackPeriod.paramValue eq '0'}">
                 ${views.operation['Activity.step.dayBack']}
             </c:when>
             <c:otherwise>
