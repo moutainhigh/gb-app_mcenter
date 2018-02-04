@@ -81,7 +81,7 @@
                     </td>
                     <td>${p.effectivePlayer}</td>
                     <td>${empty p.rebateGradsId ?views.common['no']:views.common['yes']}</td>
-                    <td><div class="${p.maxRebate<0?'co-red':''}">${soulFn:formatCurrency(p.maxRebate)}</div></td>
+                    <td><div class="${p.maxRebate<0?'co-red':''}">${empty p.maxRebate || p.maxRebate==-1?views.operation_auto['无上限']:soulFn:formatCurrency(p.maxRebate)}</div></td>
                     <td colspan="2" class="multiple-row-td">
                         <div class="${p.effectiveSelf<0?'co-red':''}">${soulFn:formatCurrency(p.effectiveSelf)}</div>
                         <div class="${p.effectiveTransaction-p.effectiveSelf<0?'co-red':''}">${soulFn:formatCurrency(p.effectiveTransaction-p.effectiveSelf)}</div>
