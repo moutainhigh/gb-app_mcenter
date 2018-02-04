@@ -18,6 +18,7 @@ import org.soul.commons.net.ServletTool;
 import org.soul.commons.support._Module;
 import org.soul.model.comet.vo.MessageVo;
 import org.soul.model.listop.po.SysListOperator;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.msg.notice.vo.NoticeLocaleTmpl;
 import org.soul.model.msg.notice.vo.NoticeVo;
 import org.soul.model.security.privilege.po.SysUser;
@@ -44,6 +45,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.share.form.SysListOperatorForm;
 import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
@@ -60,6 +62,7 @@ import so.wwb.gamebox.model.master.enums.RemarkEnum;
 import so.wwb.gamebox.model.master.fund.enums.AgentWithdrawOrderStatusEnum;
 import so.wwb.gamebox.model.master.fund.enums.CheckStatusEnum;
 import so.wwb.gamebox.model.master.fund.enums.TransferStatusEnum;
+import so.wwb.gamebox.model.master.fund.enums.WithdrawStatusEnum;
 import so.wwb.gamebox.model.master.fund.po.AgentWithdrawOrder;
 import so.wwb.gamebox.model.master.fund.po.VAgentWithdrawOrder;
 import so.wwb.gamebox.model.master.fund.po.VPlayerWithdraw;
@@ -67,10 +70,12 @@ import so.wwb.gamebox.model.master.fund.so.VAgentWithdrawOrderSo;
 import so.wwb.gamebox.model.master.fund.vo.AgentWithdrawOrderVo;
 import so.wwb.gamebox.model.master.fund.vo.VAgentWithdrawOrderListVo;
 import so.wwb.gamebox.model.master.fund.vo.VAgentWithdrawOrderVo;
+import so.wwb.gamebox.model.master.fund.vo.VPlayerWithdrawVo;
 import so.wwb.gamebox.model.master.player.po.Remark;
 import so.wwb.gamebox.model.master.player.vo.RemarkListVo;
 import so.wwb.gamebox.model.master.player.vo.UserAgentVo;
 import so.wwb.gamebox.model.master.player.vo.UserBankcardVo;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
@@ -478,6 +483,8 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         return map;
     }
 
+
+
     /**
      * 提现记录-提现审核：更新审核订单状态
      * Modified  jerry  2016-12-11
@@ -485,6 +492,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
      */
     @RequestMapping("/putAuditStatus")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.FUN_CHECK_REJECT, opType = OpType.AUDIT)
     public Map putAuditStatus(AgentWithdrawOrderVo objVo, UserAgentVo vo, Remark remark) {
         objVo = ServiceSiteTool.getAgentWithdrawOrderService().get(objVo);
 
@@ -615,7 +623,34 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
         message.addUserIds(userIdByUrl);
         message.setMsgBody("agent_withdraw");
         ServiceTool.messageService().sendToMcenterMsg(message);
+        //日志
+        addPutAuditStatusLog(objVo, map);
         return map;
+    }
+
+    /**
+     * 添加审核日志
+     * @param objVo
+     * @param map
+     */
+    private void addPutAuditStatusLog(AgentWithdrawOrderVo objVo ,Map map) {
+        try {
+            if (map.get("state") != null && (Boolean) map.get("state")) {
+                if (AgentWithdrawOrderStatusEnum.SUCCESS.getCode().equals(objVo.getSearch().getTransactionStatus())) {
+                    BussAuditLogTool.addBussLog(Module.FUND, ModuleType.FUN_CHECK_SUCCESS, OpType.AUDIT,
+                            "AGENT_DEPOSIT_CHECK_SUCCESS", objVo.getResult().getTransactionNo());
+                } else if (AgentWithdrawOrderStatusEnum.FAIL.getCode().equals(objVo.getSearch().getTransactionStatus())) {
+                    BussAuditLogTool.addBussLog(Module.FUND, ModuleType.FUN_CHECK_FAILURE, OpType.AUDIT,
+                            "AGENT_DEPOSIT_CHECK_FAILURE", objVo.getResult().getTransactionNo());
+                } else if (AgentWithdrawOrderStatusEnum.REFUSE.getCode().equals(objVo.getSearch().getTransactionStatus())) {
+                    BussAuditLogTool.addBussLog(Module.FUND, ModuleType.FUN_CHECK_REJECT, OpType.AUDIT,
+                            "AGENT_DEPOSIT_CHECK_REFUSE", objVo.getResult().getTransactionNo());
+                }
+            }
+        } catch (Exception ex) {
+        }
+
+
     }
 
     private Remark buildRemarkData(AgentWithdrawOrderVo objVo, Remark remark) {

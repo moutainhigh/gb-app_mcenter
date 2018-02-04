@@ -150,6 +150,15 @@
 										${views.role['PlayerRank.view.m']}${p.withdrawFreeCount}${views.role['PlayerRank.view.c']}
 									</span>--%>
 								</c:if>
+								<c:if test="${p.isWithdrawFeeZeroReset}">
+									<c:set value="${views.player_auto['0000重置：免']}" var="limit"></c:set>
+									${fn:replace(limit,"{0}" ,p.withdrawFreeCount)}
+									<%--${p.withdrawTimeLimit}${views.role['PlayerRank.view.xsn']}
+									<span class="co-grayc2">
+										${views.role['PlayerRank.view.m']}${p.withdrawFreeCount}${views.role['PlayerRank.view.c']}
+									</span>--%>
+								</c:if>
+
 								<c:if test="${not empty p.withdrawMaxFee}">
 									${views.player_auto['上限']}${siteCurrencySign}${soulFn:formatInteger(p.withdrawMaxFee)}${soulFn:formatDecimals(p.withdrawMaxFee)}
 								</c:if>
