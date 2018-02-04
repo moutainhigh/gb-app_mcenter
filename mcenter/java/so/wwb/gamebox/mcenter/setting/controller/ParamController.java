@@ -468,9 +468,9 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam param = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
         SysParam mobileTraffic = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
         SysParam sysParamPhone = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_PHONE_NUMBER);
-        SysParam sysParamQq = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
-        SysParam sysParamSkyep = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_QQ);
-        SysParam sysParamEmail= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_SKYPE);
+        SysParam sysParamQq = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_QQ);
+        SysParam sysParamSkyep = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_SKYPE);
+        SysParam sysParamEmail= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
         SysParam sysParamCopyright= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_COPYRIGHT_INFORMATION);
         SysParam sysParamQrSwitch= ParamTool.getSysParam(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
         model.addAttribute("qrSwitch",sysParamQrSwitch);
@@ -1108,6 +1108,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
           ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_QQ);
           ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_SKYPE);
           ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_COPYRIGHT_INFORMATION);
+          Cache.refreshCurrentSitePageCache();
       }
 
         return map;
