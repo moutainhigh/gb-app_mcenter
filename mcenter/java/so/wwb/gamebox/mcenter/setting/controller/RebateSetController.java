@@ -580,6 +580,12 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         return map;
     }
 
+    @RequestMapping("/checkFee")
+    @ResponseBody
+    public Map checkFee(RebateSetListVo listVo) {
+        listVo = ServiceSiteTool.rebateSetService().checkRadio(listVo);
+        return listVo.getCheckResultMap();
+    }
     //endregion your codes 3
 
 }
