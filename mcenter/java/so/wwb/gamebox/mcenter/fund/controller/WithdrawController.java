@@ -13,6 +13,7 @@ import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.DateFormat;
+import org.soul.commons.locale.DateQuickPicker;
 import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
@@ -31,6 +32,7 @@ import org.soul.commons.support._Module;
 import org.soul.model.comet.vo.MessageVo;
 import org.soul.model.listop.po.SysListOperator;
 import org.soul.model.listop.vo.SysListOperatorListVo;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.msg.notice.vo.NoticeLocaleTmpl;
 import org.soul.model.msg.notice.vo.NoticeVo;
 import org.soul.model.security.privilege.po.SysUser;
@@ -63,6 +65,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.share.form.SysListOperatorForm;
 import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
@@ -102,6 +105,7 @@ import so.wwb.gamebox.model.master.player.po.VUserPlayer;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.model.master.report.so.VPlayerTransactionSo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionVo;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.IpRegionTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
@@ -380,9 +384,11 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 String _counterFee = _counterFee_pre+CurrencyTool.formatInteger(counterFee)+CurrencyTool.formatDecimals(counterFee);
                 vPlayerWithdraw.set_counterFee(_counterFee);
                 Double administrativeFee = vPlayerWithdraw.getAdministrativeFee();
-                String _administrativeFee_pre = administrativeFee > 0 ? "-" :"";
-                String _administrativeFee = _administrativeFee_pre+CurrencyTool.formatInteger(administrativeFee)+CurrencyTool.formatDecimals(administrativeFee);
-                vPlayerWithdraw.set_administrativeFee(_administrativeFee);
+                if(administrativeFee!=null){
+                    String _administrativeFee_pre = administrativeFee > 0 ? "-" :"";
+                    String _administrativeFee = _administrativeFee_pre+CurrencyTool.formatInteger(administrativeFee)+CurrencyTool.formatDecimals(administrativeFee);
+                    vPlayerWithdraw.set_administrativeFee(_administrativeFee);
+                }
                 Double deductFavorable = vPlayerWithdraw.getDeductFavorable();
                 String _deductFavorable_pre = deductFavorable > 0 ? "-" :"";
                 String _deductFavorable = _deductFavorable_pre+CurrencyTool.formatInteger(deductFavorable)+CurrencyTool.formatDecimals(deductFavorable);
@@ -1137,7 +1143,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         Integer hasCount = 0;     // 设定时间内已取款次数
         Integer freeCount = rank.getWithdrawFreeCount();
         // 有设置取款次数限制
-        if (rank.getWithdrawTimeLimit() != null && freeCount != null) {
+        if ((rank.getIsWithdrawFeeZeroReset() || rank.getWithdrawTimeLimit() != null) && freeCount != null) {
             hasCount = getHasCount(rank, playerId);
         }
         LOG.info("已取款次数：{0}", hasCount);
@@ -1169,7 +1175,12 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             throw new RuntimeException("玩家ID不存在");
         }
         Date date = new Date();
-        Date lastTime = DateTool.addHours(date, -rank.getWithdrawTimeLimit());
+        Date lastTime = null;
+        if(rank.getIsWithdrawFeeZeroReset()){
+            lastTime = DateQuickPicker.getInstance().getToday();
+        }else{
+            lastTime = DateTool.addHours(date, -rank.getWithdrawTimeLimit());
+        }
         PlayerWithdrawVo withdrawVo = new PlayerWithdrawVo();
         withdrawVo.setResult(new PlayerWithdraw());
         withdrawVo.getSearch().setPlayerId(playerId);
@@ -1589,8 +1600,37 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      */
     @RequestMapping("/withdrawSuccess")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.FUN_CHECK_SUCCESS, opType = OpType.AUDIT)
     public Map withdrawSuccess(PlayerWithdrawVo vo, VPlayerTransactionVo vPlayerTransactionVo, String remarkContent) {
-        return checkWithdraw(vo, vPlayerTransactionVo, remarkContent, WithdrawStatusEnum.SUCCESS.getCode(), CheckStatusEnum.SUCCESS.getCode());
+        Map map = checkWithdraw(vo, vPlayerTransactionVo, remarkContent, WithdrawStatusEnum.SUCCESS.getCode(), CheckStatusEnum.SUCCESS.getCode());
+        addWithdrawCheckLog(vo, map,WithdrawStatusEnum.SUCCESS.getCode());
+        return map;
+    }
+
+    /**
+     * 审核日志
+     * @param vo
+     * @param map
+     */
+    private void addWithdrawCheckLog(PlayerWithdrawVo vo, Map map, String status) {
+        try {
+            if (map.get("state") != null && (Boolean) map.get("state")) {
+                VPlayerWithdrawVo vPlayerWithdrawVo = new VPlayerWithdrawVo();
+                vPlayerWithdrawVo.getSearch().setId(vo.getSearch().getId());
+                vPlayerWithdrawVo = this.getService().get(vPlayerWithdrawVo);
+                if (WithdrawStatusEnum.SUCCESS.getCode().equals(status)) {
+                    BussAuditLogTool.addBussLog(Module.FUND, ModuleType.FUN_CHECK_SUCCESS, OpType.AUDIT,
+                            "PLAYTER_DEPOSIT_CHECK_SUCCESS", vPlayerWithdrawVo.getResult().getTransactionNo());
+                } else if (WithdrawStatusEnum.FAIL.getCode().equals(status)) {
+                    BussAuditLogTool.addBussLog(Module.FUND, ModuleType.FUN_CHECK_FAILURE, OpType.AUDIT,
+                            "PLAYTER_DEPOSIT_CHECK_FAILURE", vPlayerWithdrawVo.getResult().getTransactionNo());
+                }else if (WithdrawStatusEnum.REFUSE.getCode().equals(status)) {
+                    BussAuditLogTool.addBussLog(Module.FUND, ModuleType.FUN_CHECK_REJECT, OpType.AUDIT,
+                            "PLAYTER_DEPOSIT_CHECK_REFUSE", vPlayerWithdrawVo.getResult().getTransactionNo());
+                }
+            }
+        } catch (Exception ex) {
+        }
     }
 
     /**
@@ -1602,8 +1642,12 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      */
     @RequestMapping("/withdrawFail")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.FUN_CHECK_FAILURE, opType = OpType.AUDIT)
     public Map withdrawFail(PlayerWithdrawVo vo, VPlayerTransactionVo vPlayerTransactionVo, String remarkContent) {
-        return checkWithdraw(vo, vPlayerTransactionVo, remarkContent, WithdrawStatusEnum.FAIL.getCode(), CheckStatusEnum.FAILURE.getCode());
+        Map map = checkWithdraw(vo, vPlayerTransactionVo, remarkContent, WithdrawStatusEnum.FAIL.getCode(), CheckStatusEnum.FAILURE.getCode());
+        addWithdrawCheckLog(vo, map,WithdrawStatusEnum.FAIL.getCode());
+        return map;
+
     }
 
     /**
@@ -1615,13 +1659,11 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      */
     @RequestMapping("/withdrawReject")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.FUN_CHECK_REJECT, opType = OpType.AUDIT)
     public Map withdrawReject(PlayerWithdrawVo vo, VPlayerTransactionVo vPlayerTransactionVo, String remarkContent) {
-        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
-        if (!sysParam.getIsSwitch()) {
-            return checkWithdraw(vo, vPlayerTransactionVo, remarkContent, WithdrawStatusEnum.REFUSE.getCode(), CheckStatusEnum.REJECT.getCode());
-        }else {
-            return null;
-        }
+        Map map = checkWithdraw(vo, vPlayerTransactionVo, remarkContent, WithdrawStatusEnum.REFUSE.getCode(), CheckStatusEnum.REJECT.getCode());
+        addWithdrawCheckLog(vo, map,WithdrawStatusEnum.REFUSE.getCode());
+        return map;
     }
 
     /**

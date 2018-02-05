@@ -73,13 +73,16 @@
                 </c:when>
                 <c:otherwise>
                     <td>
-                        [${dicts.log.op_type[cmd.operateType]}]
+                        <span class="audit-log-optype-${cmd.operateType}-color">[${dicts.log.op_type[cmd.operateType]}]</span>
 
-                        <br>${soulFn:formatLogDesc(cmd)}
+                        <br><span title="${soulFn:formatLogDesc(cmd)}">${soulFn:formatLogDesc(cmd)}</span>
                         <c:if test="${'1'.equals(cmd.moduleType)}">
-                            &nbsp;&nbsp;${views.report['log.query.ip']}:${soulFn:formatIp(cmd.operateIp)}
-                            &nbsp;${views.report['log.label.os']}${cmd.clientOs}&nbsp;&nbsp;${views.report['log.label.browser']}${cmd.clientBrowser}
-                            &nbsp;${views.report['log.label.requestReferer']}${cmd.requestReferer}
+                            <c:set var="loginTitle" value="
+                            ${views.report['log.query.ip']}:${soulFn:formatIp(cmd.operateIp)} ${views.report['log.label.os']}${cmd.clientOs} ${views.report['log.label.browser']}${cmd.clientBrowser}${views.report['log.label.requestReferer']}${cmd.requestReferer}">
+                            </c:set>
+                            <span title="${loginTitle}">
+                                    ${loginTitle}
+                            </span>
                         </c:if>
                     </td>
                 </c:otherwise>

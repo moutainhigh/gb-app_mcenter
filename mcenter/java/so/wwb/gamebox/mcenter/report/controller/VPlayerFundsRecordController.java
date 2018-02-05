@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceActivityTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.report.IVPlayerFundsRecordService;
@@ -25,6 +26,7 @@ import so.wwb.gamebox.mcenter.report.form.VPlayerFundsRecordForm;
 import so.wwb.gamebox.mcenter.report.form.VPlayerFundsRecordSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.boss.enums.ExportFileTypeEnum;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
@@ -319,6 +321,8 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
         if (vo.getResult() == null) {
             vo.setResult(new SysExport());
         }
+        vo.setExportFileType(ExportFileTypeEnum.PLAYER_FUND_REPORT.getCode());
+        vo.setExportLocale(SessionManager.getLocale().toString());
         vo.getResult().setService(IVPlayerFundsRecordService.class.getName());
         vo.getResult().setMethod("searchCustomFundsRecord");
         vo.getResult().setParam(VPlayerFundsRecordListVo.class.getName());
@@ -426,7 +430,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                     //活动是否下架
                     ActivityMessageVo amVo = new ActivityMessageVo();
                     amVo.getSearch().setId(playerFavorableVo.getResult().getActivityMessageId());
-                    amVo = ServiceSiteTool.activityMessageService().get(amVo);
+                    amVo = ServiceActivityTool.activityMessageService().get(amVo);
                     if (amVo.getResult() != null && !amVo.getResult().getIsDeleted()) {
                         vo.setActivityMessageId(playerFavorableVo.getResult().getActivityMessageId());
                     }

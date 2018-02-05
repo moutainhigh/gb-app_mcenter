@@ -37,9 +37,6 @@
                 <soul:button text="${dicts.lottery.lottery['cqssc']}" type="ssc" code="cqssc" cssClass="label ssc-label ssc-active" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
                 <soul:button  text="${dicts.lottery.lottery['tjssc']}" type="ssc"  code="tjssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
                 <soul:button  text="${dicts.lottery.lottery['xjssc']}" type="ssc" code="xjssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
-                <soul:button  text="${dicts.lottery.lottery['efssc']}" type="ssc" code="efssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
-                <soul:button  text="${dicts.lottery.lottery['sfssc']}" type="ssc" code="sfssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
-                <soul:button text="${dicts.lottery.lottery['wfssc']}" type="ssc" code="wfssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
                 <soul:button text="${dicts.lottery.lottery['ffssc']}" type="ssc" code="ffssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
 
                 <soul:button text="${dicts.lottery.lottery['jsk3']}" type="k3" code="jsk3" cssClass="label ssc-label hide"   data-code="k3lottery" target="queryByLottery" opType="function" tag="a"></soul:button>

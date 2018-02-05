@@ -37,8 +37,8 @@ import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.vo.VGameTypeListVo;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
-import so.wwb.gamebox.model.master.player.po.UserAgentRebate;
-import so.wwb.gamebox.model.master.player.vo.UserAgentRebateListVo;
+import so.wwb.gamebox.model.master.player.po.UserTopagentRebate;
+import so.wwb.gamebox.model.master.player.vo.UserTopagentRebateListVo;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentManageVo;
 import so.wwb.gamebox.model.master.setting.po.RebateGrads;
 import so.wwb.gamebox.model.master.setting.po.RebateSet;
@@ -111,13 +111,13 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
         if (listVo.getTopAgentId() == null) {
             return listVo;
         }
-        UserAgentRebateListVo rebateListVo = new UserAgentRebateListVo();
+        UserTopagentRebateListVo rebateListVo = new UserTopagentRebateListVo();
         rebateListVo.getSearch().setUserId(listVo.getTopAgentId());
         rebateListVo.setPaging(null);
-        rebateListVo = ServiceSiteTool.userAgentRebateService().search(rebateListVo);
+        rebateListVo = ServiceSiteTool.userTopAgentRebateService().search(rebateListVo);
         if (rebateListVo.getResult() != null) {
             List<Integer> ids = new ArrayList<>();
-            for (UserAgentRebate rebate : rebateListVo.getResult()) {
+            for (UserTopagentRebate rebate : rebateListVo.getResult()) {
                 ids.add(rebate.getRebateId());
             }
             listVo.getSearch().setIds(ids);

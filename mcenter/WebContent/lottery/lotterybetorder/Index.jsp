@@ -36,9 +36,6 @@
                 <soul:button text="${dicts.lottery.lottery['cqssc']}" type="cqssc" cssClass="label ssc-label ssc-active" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
                 <soul:button  text="${dicts.lottery.lottery['tjssc']}"  type="tjssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
                 <soul:button  text="${dicts.lottery.lottery['xjssc']}" type="xjssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
-                <soul:button  text="${dicts.lottery.lottery['efssc']}" type="efssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
-                <soul:button  text="${dicts.lottery.lottery['sfssc']}" type="sfssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
-                <soul:button text="${dicts.lottery.lottery['wfssc']}" type="wfssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
                 <soul:button text="${dicts.lottery.lottery['ffssc']}" type="ffssc" cssClass="label ssc-label" data-code="ssclottery" target="queryByLottery" opType="function" tag="a"></soul:button>
 
                 <soul:button text="${dicts.lottery.lottery['jsk3']}" type="jsk3" cssClass="label ssc-label hide"   data-code="k3lottery" target="queryByLottery" opType="function" tag="a"></soul:button>
@@ -100,10 +97,10 @@
         </div>
       </div>
         <div class="p-sm">
-            <b>总投注</b>&nbsp;&nbsp;<span class="co-red3" id="betAmount">0</span> 元
-            <b class="m-l">总返点</b>&nbsp;&nbsp;<span class="co-red3" id="rabateAmount">0</span>元
-            <b class="m-l">总派彩</b>&nbsp;&nbsp;<span class="co-red3" id="payoutAmount">0</span>元
-            <b class="m-l">总损益</b>&nbsp;&nbsp;<span class="co-red3" id="profitLoss">0</span>元
+            <b>总投注</b>&nbsp;&nbsp;<span class="co-red3" id="betAmount">0.00</span> 元
+            <b class="m-l">总返点</b>&nbsp;&nbsp;<span class="co-red3" id="rabateAmount">0.00</span>元
+            <b class="m-l">总派彩</b>&nbsp;&nbsp;<span class="co-red3" id="payoutAmount">0.00</span>元
+            <b class="m-l">总损益</b>&nbsp;&nbsp;<span class="co-red3" id="profitLoss">0.00</span>元
         </div>
       <div class="search-list-container">
         <%@ include file="IndexPartial.jsp" %>

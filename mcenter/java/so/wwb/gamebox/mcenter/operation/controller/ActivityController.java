@@ -8,6 +8,7 @@ import org.soul.model.common.BaseObjectVo;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.support.IForm;
 import org.springframework.ui.Model;
+import so.wwb.gamebox.common.dubbo.ServiceActivityTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.master.operation.po.VActivityMessage;
@@ -46,7 +47,7 @@ public abstract class ActivityController<S extends IBaseService, L extends BaseL
     }
 
     protected List<VActivityMessage> loadActivityMessageByActivityType(String code,Integer... activityMessageIds) {
-       return ServiceSiteTool.vActivityMessageService().searchActivityMessageByActivityType(new VActivityMessageVo(), code,
+       return ServiceActivityTool.vActivityMessageService().searchActivityMessageByActivityType(new VActivityMessageVo(), code,
                SessionManager.getLocale().toString(),activityMessageIds);
     }
 

@@ -192,7 +192,7 @@
                                 <div class="form-group clearfix">
                                     <label class="ft-bold col-sm-3 al-right line-hi34">${views.player_auto['优惠稽核']}</label>
                                     <div class="col-sm-5 input-group">
-                                        <input type="text" id="favorableAudit" name="result.favorableAudit" class="form-control m-b isNum proportion returnFeeStatus"
+                                        <input type="text" id="favorableAudit" name="result.favorableAudit" class="form-control m-b isNum  returnFeeStatus"
                                                value="${command.result.favorableAudit}">
                                         <span data-content="1、${views.player_auto['优惠稽核倍数为空，视为不对该笔优惠进行稽核；']}<br>2、${views.player_auto['玩家在取款时，有效投注额需要达到（存款金额+优惠金额）*优惠稽核倍数，否则将被扣除该笔优惠；']}<br>3、${views.player_auto['当没有通过存款申请获得优惠，而是直接获得优惠时，则直接按优惠金额*优惠稽核倍数来算即可；']}"
                                               data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" data-html="true"

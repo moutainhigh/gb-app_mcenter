@@ -31,6 +31,7 @@ import so.wwb.gamebox.mcenter.share.form.SysListOperatorForm;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.WeekTool;
+import so.wwb.gamebox.model.boss.enums.ExportFileTypeEnum;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.company.site.po.SiteCurrency;
@@ -275,6 +276,8 @@ public class VUserAgentManageController extends AbstractExportController<IVUserA
         }
         vo.getResult().setService(IVUserAgentManageService.class.getName());
         vo.getResult().setMethod("searchByCustom");
+        vo.setExportFileType(ExportFileTypeEnum.AGENT_MANAGE.getCode());
+        vo.setExportLocale(SessionManager.getLocale().toString());
         vo.getResult().setParam(VUserAgentManageListVo.class.getName());
         vo.getResult().setUsername(SessionManager.getUserName());
         vo.getResult().setExportUserId(SessionManager.getUserId());

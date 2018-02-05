@@ -34,6 +34,7 @@ import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerListVo;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerVo;
 import so.wwb.gamebox.model.master.player.vo.VUserPlayerVo;
+import so.wwb.gamebox.web.BussAuditLogTool;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -66,11 +67,13 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
      */
     @RequestMapping("/clear")
     @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.PLAYER_CLEARCONTACT_SUCCESS, opType = OpType.UPDATE)
     public Map playerView(UserPlayerVo userPlayerVo) {
         boolean success = this.getService().clearContact(userPlayerVo);
         String msg;
         if (success) {
             msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS);
+            BussAuditLogTool.addLog("PLAYER_CLEARCONTACT_SUCCESS",String.valueOf(userPlayerVo.getIds().size()));
         } else {
             msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_FAILED);
         }

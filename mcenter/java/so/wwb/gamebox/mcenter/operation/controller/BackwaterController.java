@@ -68,6 +68,7 @@ import so.wwb.gamebox.model.master.player.po.Remark;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.player.vo.RemarkVo;
 import so.wwb.gamebox.model.report.enums.SettlementStateEnum;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 
@@ -355,7 +356,7 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
      * @return
      */
     @Token(valid = true)
-    @Audit(module = Module.MASTER_OPERATION, moduleType = ModuleType.BACKWATER_SETTLEMENT_SUCCESS, opType = OpType.AUDIT)
+    @Audit(module = Module.FUND, moduleType = ModuleType.BACKWATER_SETTLEMENT_SUCCESS, opType = OpType.AUDIT)
     @RequestMapping("/settlementSuccess")
     @ResponseBody
     protected Map<String, Object> settlementSuccess(RakebackBillVo vo, @RequestParam("ids") Integer[] ids, HttpServletRequest request) {
@@ -717,7 +718,10 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
 
     @RequestMapping("batchSettleRakeBack")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.BACKWATER_SETTLEMENT_SUCCESS, opType = OpType.AUDIT)
     public Map<String, Object> batchSettleRakeBack(RakebackBillVo rakebackBillVo) {
+        LOG.info("进入batchSettleRakeBack方法id:{0}",rakebackBillVo.getSearch().getId());
+
         RakebackBatchSettlement rakebackBatchSettlement = new RakebackBatchSettlement();
         rakebackBatchSettlement.setSiteId(SessionManager.getSiteId());
         rakebackBatchSettlement.setLocale(SessionManager.getLocale());
@@ -726,17 +730,47 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
         rakebackBatchSettlement.setTimeZone(SessionManager.getTimeZone());
         rakebackBatchSettlement.setRakebackBillId(rakebackBillVo.getSearch().getId());
         rakebackBatchSettlement.setSiteCode(CommonContext.get().getSiteCode());
+
+        LOG.info("batchSettleRakeBack方法中执行ITaskScheduleService");
         try {
             TaskScheduleVo taskScheduleVo = new TaskScheduleVo();
             taskScheduleVo.setResult(new TaskSchedule(TaskScheduleEnum.BATCH_SETTLE_RAKEBACK.getCode()));
             ITaskScheduleService taskScheduleService = ServiceScheduleTool.getTaskScheduleService();
             taskScheduleService.runOnceTask(taskScheduleVo, rakebackBatchSettlement);
+            //添加结算所有玩家日志
+            LOG.info("batchSettleRakeBack方法中执行ITaskScheduleService完成，开始添加日志");
+            addBatchSettleRakeBackLog(rakebackBillVo);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e,"batchSettleRakeBack方法中taskScheduleService.runOnceTask错误");
             rakebackBillVo.setSuccess(false);
         }
 
+        LOG.info("batchSettleRakeBack方法执行完成");
         return getVoMessage(rakebackBillVo);
+    }
+
+    /**
+     * 添加结算所有玩家日志
+     * @param rakebackBillVo
+     * @return
+     */
+    private RakebackBillVo addBatchSettleRakeBackLog(RakebackBillVo rakebackBillVo) {
+        LOG.info("进入添加结算所有玩家日志");
+
+        try {
+            rakebackBillVo = getService().get(rakebackBillVo);
+            rakebackBillVo.getResult().getPeriod();
+            BussAuditLogTool.addLog("backwater.batchSettleRakeBack.msg", SessionManager.getUserName(),
+                    LocaleDateTool.formatDate(rakebackBillVo.getResult().getEndTime(), LocaleDateTool.getFormat("YEAR"), SessionManager.getUser().getDefaultTimezone()),
+                    LocaleDateTool.formatDate(rakebackBillVo.getResult().getEndTime(), LocaleDateTool.getFormat("MONTH"), SessionManager.getUser().getDefaultTimezone()),
+                    rakebackBillVo.getResult().getPeriod()
+            );
+
+            LOG.info("添加结算所有玩家日志完成");
+        } catch (Exception ex) {
+            LOG.warn("添加结算所有玩家日志错误");
+        }
+        return rakebackBillVo;
     }
 
 }

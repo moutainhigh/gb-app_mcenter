@@ -54,7 +54,7 @@
 							<tr class="bg-color">
 								<td height="36">${rebateGrad.totalProfit}</td>
 								<td>${rebateGrad.validPlayerNum}</td>
-								<td>${soulFn:formatNumber(rebateGrad.maxRebate)}</td>
+								<td>${empty rebateGrad.maxRebate?"":soulFn:formatNumber(rebateGrad.maxRebate)}</td>
 
 								<td>
 									<div class="input-group m-b-xs">

@@ -31,9 +31,9 @@
                      style="border-bottom: 0; border-top:1px solid #e6e6e6; margin-bottom: -5px;">
                     <div class=" clearfix m-sm">
 
-                            <span>监测点 &nbsp;${command.domainCheckResultListVo.checkPointCount}个&nbsp;&nbsp;&nbsp;
+                            <span>${views.operation['监测点：']} &nbsp;${command.domainCheckResultListVo.checkPointCount}个&nbsp;&nbsp;&nbsp;
 
-                            检测情况：
+                            ${views.operation['检测情况：']}
                             <span class="co-green">${command.domainCheckResultListVo.statusCount.all- command.domainCheckResultListVo.statusCount.errAll}&nbsp;</span>个域名
                                     <span class="co-green">${dicts.common.domain_check_result_status['NORMAL']}</span>
                                 &nbsp;&nbsp;&nbsp;
@@ -42,7 +42,7 @@
                                 <c:if test="${!empty command.domainCheckResultListVo.statusCount.wallOF}">
                                     ${command.domainCheckResultListVo.statusCount.wallOF}
                                 </c:if>
-                            </span>个域名
+                            </span>${views.operation['个域名']}
                             <span class="co-yellow">${dicts.common.domain_check_result_status['WALLED_OFF']}</span>
                                 &nbsp;&nbsp;&nbsp;
 
@@ -55,7 +55,7 @@
                                 <c:if test="${!empty command.domainCheckResultListVo.statusCount.beHijached}">
                                     ${command.domainCheckResultListVo.statusCount.beHijached}
                                 </c:if>
-                            </span>个域名
+                            </span>${views.operation['个域名']}
                             <span class="co-yellow">${dicts.common.domain_check_result_status['BE_HIJACKED']}</span>
                                 &nbsp;&nbsp;&nbsp;
 
@@ -68,7 +68,8 @@
                                     ${command.domainCheckResultListVo.statusCount.unResolved}
                                 </c:if>
                             </span>
-                            个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNRESOLVED']}</span>
+                            ${views.operation['个域名']}
+                            <span class="co-yellow">${dicts.common.domain_check_result_status['UNRESOLVED']}</span>
                                 &nbsp;&nbsp;&nbsp;
 
                             <span class="co-yellow">
@@ -80,7 +81,8 @@
                                     ${command.domainCheckResultListVo.statusCount.serverUnreachable}
                                 </c:if>
                             </span>
-                            个域名<span class="co-yellow">${dicts.common.domain_check_result_status['SERVER_UNREACHABLE']}</span>
+                            ${views.operation['个域名']}
+                            <span class="co-yellow">${dicts.common.domain_check_result_status['SERVER_UNREACHABLE']}</span>
                                 &nbsp;&nbsp;&nbsp;
 
                                 <span class="co-yellow">
@@ -92,7 +94,8 @@
                                     </c:if>
                             </span>
 
-                            个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNAUTHORIZED']}</span>
+                                    ${views.operation['个域名']}
+                                    <span class="co-yellow">${dicts.common.domain_check_result_status['UNAUTHORIZED']}</span>
 &nbsp;                          &nbsp;&nbsp;&nbsp;
 
                                 <span class="co-yellow">
@@ -104,7 +107,8 @@
                                     </c:if>
                                 </span>
 
-                            个域名<span class="co-yellow">${dicts.common.domain_check_result_status['REDIRECT']}</span>
+                                    ${views.operation['个域名']}
+                                    <span class="co-yellow">${dicts.common.domain_check_result_status['REDIRECT']}</span>
 
                                 &nbsp;&nbsp;&nbsp;
                                    <%--未知异常--%>
@@ -116,7 +120,8 @@
                                         ${command.domainCheckResultListVo.statusCount.unknown}
                                     </c:if>
                                 </span>
-                            个域名<span class="co-yellow">${dicts.common.domain_check_result_status['UNKNOWN_ERR']}</span>
+                            ${views.operation['个域名']}
+                            <span class="co-yellow">${dicts.common.domain_check_result_status['UNKNOWN_ERR']}</span>
                         </span>
                     </div>
                 </div>
@@ -127,10 +132,10 @@
                         <%--域名--%>
                     <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group date">
-                            <span class="input-group-addon bg-gray">&nbsp;&nbsp;<%--${views.analyze['代理账号']}--%>域名&nbsp;</span>
+                            <span class="input-group-addon bg-gray">&nbsp;&nbsp;<%--${views.analyze['代理账号']}--%>${views.operation['域名']}&nbsp;</span>
                             <input class="form-control account_input list-search-input-text" type="text"
                                    name="search.domain"
-                                   placeholder="多个账号，用半角逗号隔开<%--${views.analyze['多个账号，用半角逗号隔开']}--%>"
+                                   placeholder="${views.analyze['多个账号，用半角逗号隔开']}"
                                    value="${command.search.domain}"/>
                         </div>
                     </div>
@@ -138,14 +143,20 @@
                             <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group">
                                     <span class="input-group-addon bg-gray">${views.operation['类型']}</span>
-                                    <gb:select name="search.pageUrl" value="" prompt="全部" list="${command.domainCheckResultListVo.pageUrl}"/>
+                                    <%--<gb:select name="search.pageUrl" value="" prompt="全部" list="${command.domainCheckResultListVo.pageUrl}"/>--%>
+                                    <select btnStyle="width: 100%" ulStyle="width: 100%" class="chosen-select-no-single btn-group days" name="search.pageUrl">
+                                        <option value="">${views.content['全部']}</option>
+                                        <c:forEach items="${command.domainCheckResultListVo.domainTypes}" var="type" >
+                                            <option value="${type.paramValue}" ${type.paramValue eq command.search.pageUrl?'selected':''}>${views.content[type.resourceKey]}</option>
+                                        </c:forEach>
+                                    </select >
                                 </div>
                             </div>
 
                     <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group">
                             <span class="input-group-addon bg-gray">${views.operation['状态']}</span>
-                            <gb:select name="search.status" value="" prompt="全部" list="${command.domainCheckResultListVo.domainStatus}"/>
+                            <gb:select name="search.status" value="" prompt="${views.content['全部']}" list="${command.domainCheckResultListVo.domainStatus}"/>
                         </div>
                     </div>
                     &nbsp;&nbsp;&nbsp;&nbsp;

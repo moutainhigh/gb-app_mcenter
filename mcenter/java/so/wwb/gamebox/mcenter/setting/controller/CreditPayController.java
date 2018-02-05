@@ -2,9 +2,12 @@ package so.wwb.gamebox.mcenter.setting.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.http.io.SessionInputBuffer;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
+import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.DateTool;
+import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
@@ -12,10 +15,12 @@ import org.soul.commons.math.NumberTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.spring.utils.SpringTool;
 import org.soul.model.comet.vo.MessageVo;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.pay.enums.CommonFieldsConst;
 import org.soul.model.pay.enums.PayApiTypeConst;
 import org.soul.model.pay.vo.OnlinePayVo;
 import org.soul.model.security.privilege.vo.SysUserRoleVo;
+import org.soul.model.sys.po.SysDict;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.js.JsRuleCreator;
@@ -27,13 +32,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.CreditRecordForm;
-import so.wwb.gamebox.model.BossParamEnum;
-import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.TerminalEnum;
+import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.company.credit.po.CreditAccount;
 import so.wwb.gamebox.model.company.credit.po.CreditRecord;
+import so.wwb.gamebox.model.company.credit.po.VSysCredit;
 import so.wwb.gamebox.model.company.credit.vo.CreditAccountVo;
 import so.wwb.gamebox.model.company.credit.vo.CreditRecordVo;
 import so.wwb.gamebox.model.company.credit.vo.VSysCreditVo;
@@ -44,6 +49,8 @@ import so.wwb.gamebox.model.company.sys.po.SysSite;
 import so.wwb.gamebox.model.company.sys.po.VSysSiteDomain;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.master.enums.CurrencyEnum;
+import so.wwb.gamebox.web.BussAuditLogTool;
+import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
@@ -70,7 +77,7 @@ public class CreditPayController {
 
     @RequestMapping("/pay")
     @Token(generate = true)
-    public String pay(Model model) {
+    public String pay(Model model) {addPayLog(null);
         //站点信息
         SysSiteVo sysSiteVo = new SysSiteVo();
         sysSiteVo.getSearch().setId(SessionManager.getSiteId());
@@ -114,6 +121,7 @@ public class CreditPayController {
         model.addAttribute("validateRule", JsRuleCreator.create(CreditRecordForm.class));
         model.addAttribute("useProfit", sysSite.getHasUseProfit() == null ? 0d : sysSite.getHasUseProfit());//CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone()));
         model.addAttribute("disableTransfer", ParamTool.disableTransfer(SessionManager.getSiteId()));
+        model.addAttribute("PAY_LIMIT_PERSENT", VSysCredit.PAY_LIMIT_PERSENT);
         return CREDIT_PAY_URI;
     }
 
@@ -127,6 +135,7 @@ public class CreditPayController {
     @RequestMapping("/submit")
     @ResponseBody
     @Token(valid = true)
+    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.MASTER_SETTING_CREDITPAY_SUCCESS, opType = OpType.UPDATE)
     public Map<String, Object> submit(CreditRecordVo creditRecordVo) {
         CreditRecord creditRecord = creditRecordVo.getResult();
         creditRecord.setIp(SessionManager.getIpDb().getIp());
@@ -154,7 +163,32 @@ public class CreditPayController {
         }
         map.put("state", creditRecordVo.isSuccess());
         map.put("transactionNo", creditRecordVo.getResult().getTransactionNo());
+        //日志
+        addPayLog(creditRecordVo);
         return map;
+    }
+
+    /**
+     *　充值记录日志
+     * @param creditRecordVo
+     */
+    private void addPayLog(CreditRecordVo creditRecordVo) {
+        LOG.info("进入额度充值日志方法addPayLog");
+        String bankCode = "";
+        Double amount = 0D;
+        try {
+            if (creditRecordVo.isSuccess() && creditRecordVo.getResult() != null) {
+                bankCode = creditRecordVo.getResult().getBankName();
+                amount = creditRecordVo.getResult().getPayAmount();
+                Map<String, String> dictMapByEnum = I18nTool.getDictMapByEnum(SessionManager.getLocale(), DictEnum.BANKNAME);
+                if (dictMapByEnum != null && dictMapByEnum.get(bankCode) != null) {
+                    BussAuditLogTool.addLog("MASTER_SETTING_CREDITPAY_SUCCESS",
+                            dictMapByEnum.get(bankCode), amount.toString());
+                }
+            }
+        } catch (Exception ex) {
+            LOG.info("添加额度充值日志报错:bankCode:{0},金额：{1}", bankCode, amount);
+        }
     }
     /**
      *设置汇率

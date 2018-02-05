@@ -1,6 +1,6 @@
 package so.wwb.gamebox.mcenter.taskReminder.examine;
 
-import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
+import so.wwb.gamebox.common.dubbo.ServiceActivityTool;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminder;
 import so.wwb.gamebox.model.master.operation.vo.ActivityPlayerApplyVo;
 import so.wwb.gamebox.model.master.tasknotify.po.UserTaskReminder;
@@ -28,6 +28,6 @@ public class PreferentialTaskReminder extends TaskReminder {
     }
 
     private Map getPreferentialData() {
-        return ServiceSiteTool.activityPlayerApplyService().countPendingPlayers(new ActivityPlayerApplyVo());
+        return ServiceActivityTool.activityPlayerApplyService().countPendingPlayers(new ActivityPlayerApplyVo());
     }
 }

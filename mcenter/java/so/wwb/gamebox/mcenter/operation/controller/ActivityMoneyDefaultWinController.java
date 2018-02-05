@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceActivityTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.operation.IActivityMoneyDefaultWinService;
@@ -174,7 +175,7 @@ public class ActivityMoneyDefaultWinController extends BaseCrudController<IActiv
         }
         ActivityMoneyAwardsRulesVo awardsRulesVo = new ActivityMoneyAwardsRulesVo();
         awardsRulesVo.getSearch().setId(id);
-        awardsRulesVo = ServiceSiteTool.activityMoneyAwardsRulesService().get(awardsRulesVo);
+        awardsRulesVo = ServiceActivityTool.activityMoneyAwardsRulesService().get(awardsRulesVo);
         if(awardsRulesVo.getResult()!=null){
 
             Long totalPeriod = queryTotalCount(awardsRulesVo);

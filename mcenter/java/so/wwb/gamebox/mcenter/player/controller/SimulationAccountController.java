@@ -48,6 +48,7 @@ import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
 import so.wwb.gamebox.model.master.player.po.UserPlayer;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.model.report.vo.AddLogVo;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
@@ -383,6 +384,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
     }
 
     @RequestMapping("/autoResetPwd")
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.RESET_USER_PASSWORD, opType = OpType.UPDATE)
     public String autoResetPwd(ResetPwdVo resetPwdVo, Model model) {
         // 重置密码
         String newPwd = RandomStringTool.randomNumeric(6);
@@ -391,11 +393,30 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
         resetUserPwd(resetPwdVo);
         if (resetPwdVo.getInformType() == "false") {
             model.addAttribute("newPwd", newPwd);
+            addUpdateLoginPwdLog(resetPwdVo);
         } else {
             model.addAttribute("status", "false");
         }
 
         return getViewBasePath() + "SuccessPassword";
+    }
+
+    /**
+     * 增加更新密码日志
+     * @param resetPwdVo
+     */
+    private void addUpdateLoginPwdLog(ResetPwdVo resetPwdVo) {
+        try {
+            VUserPlayerVo listVo = new VUserPlayerVo();
+            listVo.getSearch().setSiteId(SessionManager.getSiteId());
+            listVo._setDataSourceId(mockAccountSiteId);
+            listVo.getSearch().setId(resetPwdVo.getUserId());
+            listVo = ServiceSiteTool.vUserPlayerService().get(listVo);
+            BussAuditLogTool.addLog("simulationAccount_autoResetPwd",
+                    listVo.getResult() == null ? "" : listVo.getResult().getUsername());
+        } catch (Exception ex) {
+        }
+
     }
 
     /**

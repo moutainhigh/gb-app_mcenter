@@ -23,6 +23,7 @@ import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.IpTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.Criterion;
+import org.soul.commons.query.Paging;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Order;
 import org.soul.commons.security.Base36;
@@ -225,16 +226,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("queryparamValue", sysParam);
         // 玩家检测注册IP
         listVo = ServiceSiteTool.vUserPlayerService().countTransfer(listVo);
-       /* //玩家检测注册IP
-        if(listVo.getSearch().getRegisterIp()!=null){
-            String registerIp = IpTool.ipv4LongToString(listVo.getSearch().getRegisterIp());
-            listVo.getSearch().setRegisterIpv4(registerIp);
-        }
-       // 玩家检测登录IP
-        /*if(StringTool.isNotBlank(listVo.getSearch().getIp())){
-            String lastLoginIp = IpTool.ipv4LongToString(Long.parseLong(listVo.getSearch().getIp()));
-            listVo.getSearch().setLastLoginIpv4(lastLoginIp);
-        }*/
         model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
         model.addAttribute("tagIds",listVo.getSearch().getTagId());
@@ -278,9 +269,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         playerDetection(listVo, model);
         // 初始化外部链接时间
         initDate(listVo);
-
-        //条件查询根据标签查询玩家
-        getTagIdByPlayer(listVo, model);
 
         //标签管理,筛选有该标签的玩家
         getPlayerByTagId(listVo, model);
@@ -371,28 +359,14 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     }
 
     @RequestMapping("/count")
-    public String count(VUserPlayerListVo listVo, Model model, String isCounter) {
-        listVo = buildSearchIp(listVo);
+    public String count(VUserPlayerListVo listVo, Model model,@RequestParam("page") String page) {
         if(listVo.isSuccess()){
-            playerDetection(listVo, model);
-            getTagIdByPlayer(listVo, model);
-            getPlayerByTagId(listVo,model);
-            initDate(listVo);
-            listVo = doCount(listVo, isCounter);
-            listVo.getPaging().cal();
+            Paging paging = JsonTool.fromJson(page, Paging.class);
+            listVo.setPaging(paging);
             model.addAttribute("command", listVo);
         }
         return getViewBasePath() + "IndexPagination";
     }
-
-    public VUserPlayerListVo doCount(VUserPlayerListVo listVo, String isCounter) {
-        if (StringTool.isBlank(isCounter)) {
-            long count = ServiceSiteTool.vUserPlayerService().count(listVo);
-            listVo.getPaging().setTotalCount(count);
-        }
-        return listVo;
-    }
-
 
     public SysParam getExportParam() {
         SysParamVo sysParamVo = new SysParamVo();
@@ -2285,7 +2259,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/saveNewPlayer")
     @ResponseBody
-    @Audit(module = Module.PLAYER, moduleType = ModuleType.SAVE_NEW_ACCOUNT, opType = OpType.CREATE)
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.PLAYER_SAVE_NEW_ACCOUNT, opType = OpType.CREATE)
     public Map saveNewPlayer(VUserPlayerVo objectVo, HttpServletRequest request, @FormModel("result") @Valid AddNewPlayerForm form, BindingResult result) {
         Map resultMap = new HashMap(2, 1f);
         SysUser sysUser = new SysUser();
@@ -2694,6 +2668,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/updatePlayerStatus")
     @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.USER_CANCEL_FREEZE, opType = OpType.UPDATE)
     public Map updatePlayerStatus(SysUserVo sysUserVo) {
         Map map = new HashMap();
         if (sysUserVo.getResult() == null || sysUserVo.getResult().getId() == null || StringTool.isBlank(sysUserVo.getResult().getStatus())) {
@@ -2706,11 +2681,29 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
             sysUserVo = ServiceSiteTool.vUserPlayerService().updateUserPlayerStatus(sysUserVo);
             map.put("state", sysUserVo.isSuccess());
+            //日志
+            if(sysUserVo.isSuccess()){
+                addNormalStatusLog(sysUserVo);
+            }
         } catch (Exception ex) {
             map.put("state", false);
         }
 
         return map;
+    }
+
+    /**
+     * 日志
+     * @param sysUserVo
+     */
+    private void addNormalStatusLog(SysUserVo sysUserVo) {
+        try {
+            sysUserVo.getSearch().setId(sysUserVo.getResult().getId());
+            sysUserVo = sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+            BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.USER_CANCEL_FREEZE, OpType.UPDATE, "PLAYER_CANCELACCOUNTFREEZE", sysUserVo.getResult().getUsername());
+        } catch (Exception ex) {
+            sysUserVo.getSearch().setId(sysUserVo.getResult().getId());
+        }
     }
 
     @RequestMapping("/updateAgentLine")
@@ -2732,7 +2725,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             userPlayerVo.setSysUser(sysUser);
             userPlayerVo = ServiceSiteTool.userPlayerService().updateAgentData(userPlayerVo);
             //组装操作日志的数据
-            getLogData(request, oldagentId, userPlayer);
+            getLogData(request, oldagentId,agentId ,userPlayer);
             map.put("state", userPlayerVo.isSuccess());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -2742,18 +2735,29 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         return map;
     }
 
-    private void getLogData(HttpServletRequest request, Integer oldagentId, UserPlayer userPlayer) {
-        String oldAgentLines = this.getAgentLine(oldagentId);
-        List<String> list = new ArrayList<>();
-        list.add(oldAgentLines);
-        AddLogVo addLogVo = new AddLogVo();
-        SysAuditLog sysAuditLog = new SysAuditLog();
-        sysAuditLog.setEntityUserId(userPlayer.getId());
-        sysAuditLog.setEntityId(Long.valueOf(userPlayer.getId()));
-        addLogVo.setResult(sysAuditLog);
-        addLogVo.setList(list);
-        //操作日志
-        AuditLogController.addLog(request, "player.updateAgentLine.success", addLogVo);
+    private void getLogData(HttpServletRequest request, Integer oldagentId,Integer nweAgentId, UserPlayer userPlayer) {
+        try {
+            VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
+            vUserPlayerVo.getSearch().setId(userPlayer.getId());
+            vUserPlayerVo = getService().get(vUserPlayerVo);
+            String oldAgentLines = this.getAgentLine(oldagentId);
+            String newAgentLines = this.getAgentLine(nweAgentId);
+            List<String> list = new ArrayList<>();
+            list.add(oldAgentLines);
+            list.add(newAgentLines);
+            list.add(vUserPlayerVo.getResult() == null ? "" : vUserPlayerVo.getResult().getUsername());
+            AddLogVo addLogVo = new AddLogVo();
+            SysAuditLog sysAuditLog = new SysAuditLog();
+            sysAuditLog.setEntityUserId(userPlayer.getId());
+            sysAuditLog.setEntityId(Long.valueOf(userPlayer.getId()));
+            addLogVo.setResult(sysAuditLog);
+            addLogVo.setList(list);
+            //操作日志
+            AuditLogController.addLog(request, "player.updateAgentLine.success", addLogVo);
+        } catch (Exception ex) {
+
+        }
+
     }
 
     private String getAgentLine(Integer agentId) {
@@ -3017,6 +3021,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     @RequestMapping("/export")
     @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.PLAYER_EXPORTPLAYER_SUCCESS, opType = OpType.OTHER)
     public Map export(VUserPlayerListVo listVo, SysExportVo sysExportVo, Model model) {
         if (StringTool.isNotBlank(sysExportVo.getQueryParamsJson())) {
             //这里是查询后是固定了查询条件，不会因为条件改变而改变
@@ -3087,6 +3092,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 taskScheduleService.runOnceTask(taskScheduleVo, vo);
             }
             result = getVoMessage(vo);
+            //记录日志
+            if (vo.isSuccess()){
+                BussAuditLogTool.addLog("PLAYER_EXPORTPLAYER_SUCCESS","");
+            }
         } catch (Exception ex) {
             LogFactory.getLog(this.getClass()).error(ex, "导出失败");
             result.put("state", false);
@@ -3147,6 +3156,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/changeStatus")
     @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.USER_FREEZE, opType = OpType.UPDATE)
     public Map changeStatus(Integer[] ids) {
         VUserPlayerListVo listVo = new VUserPlayerListVo();
         listVo.setMasterName(SessionManager.getUserName());
@@ -3159,6 +3169,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                     KickoutFilter.loginKickoutAll(id, OpMode.MANUAL, "站长中心冻结玩家强制踢出");
                 }
                 map = getVoMessage(listVo);
+            }
+            if (vUserPlayerListVo.isSuccess()) {
+                BussAuditLogTool.addBussLog(Module.PLAYER,ModuleType.USER_FREEZE,OpType.AUDIT.UPDATE,BussAuditLogDescEnum.PLAYER_SETFREEZEACCOUNT_SUCCESS.getCode(),vUserPlayerListVo.getOperatedName());
             }
         } catch (Exception ex) {
             map.put("state", false);

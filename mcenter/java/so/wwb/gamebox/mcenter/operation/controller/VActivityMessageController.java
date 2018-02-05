@@ -15,6 +15,7 @@ import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
 import org.soul.commons.support._Module;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -23,17 +24,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
+import so.wwb.gamebox.common.dubbo.ServiceActivityTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.operation.ActivityMoneyPeriodTool;
 import so.wwb.gamebox.iservice.master.operation.IVActivityMessageService;
 import so.wwb.gamebox.mcenter.operation.form.*;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.SendMessageTool;
-import so.wwb.gamebox.model.CacheBase;
-import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.Module;
-import so.wwb.gamebox.model.SiteI18nEnum;
+import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.ContentCheckEnum;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.serve.po.SiteContentAudit;
@@ -47,6 +46,7 @@ import so.wwb.gamebox.model.master.enums.ActivityTypeEnum;
 import so.wwb.gamebox.model.master.enums.UserTaskEnum;
 import so.wwb.gamebox.model.master.operation.po.*;
 import so.wwb.gamebox.model.master.operation.vo.*;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
@@ -145,7 +145,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
     public Map deleteActivityMessage(ActivityMessageVo activityMessageVo) {
         activityMessageVo.setProperties(ActivityMessage.PROP_IS_DELETED);
         activityMessageVo.getResult().setIsDeleted(true);
-        activityMessageVo = ServiceSiteTool.activityMessageService().updateOnly(activityMessageVo);
+        activityMessageVo = ServiceActivityTool.activityMessageService().updateOnly(activityMessageVo);
         HashMap map = new HashMap(2, 1f);
         if (activityMessageVo.isSuccess()) {
             Cache.refreshActivityMessages();
@@ -298,8 +298,10 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         listVo.setClassifications(list);
         listVo.setSiteId(SessionManager.getSiteId());
         listVo = ServiceTool.siteI18nService().saveClassification(listVo);
-        CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
-        Cache.refreshCurrentSitePageCache();
+        if (listVo.isSuccess()) {
+            CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
+            Cache.refreshCurrentSitePageCache();
+        }
         return getVoMessage(listVo);
     }
 
@@ -360,9 +362,9 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
 
         int activityMessageId;
         if (ActivityTypeEnum.CONTENT.getCode().equals(activityTypeVo.getResult().getCode())) {
-            activityMessageId = ServiceSiteTool.vActivityMessageService().saveContentAndRuleDraft(vActivityMessageVo);
+            activityMessageId = ServiceActivityTool.vActivityMessageService().saveContentAndRuleDraft(vActivityMessageVo);
         } else {
-            activityMessageId = ServiceSiteTool.vActivityMessageService().saveContentDraft(vActivityMessageVo);
+            activityMessageId = ServiceActivityTool.vActivityMessageService().saveContentDraft(vActivityMessageVo);
         }
 
         model.addAttribute("activityMessageId", activityMessageId);
@@ -387,7 +389,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         vActivityMessageVo.setCode(activityTypeVo.getResult().getCode());
         assignment(activityTypeVo, vActivityMessageVo);
 
-        int activityMessageId = ServiceSiteTool.vActivityMessageService().saveContentAndRuleDraft(vActivityMessageVo);
+        int activityMessageId = ServiceActivityTool.vActivityMessageService().saveContentAndRuleDraft(vActivityMessageVo);
         model.addAttribute("activityMessageId", activityMessageId);
         Map params = getVoMessage(vActivityMessageVo);
         params.put("activityMessageId", activityMessageId);
@@ -405,6 +407,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
     @RequestMapping("/activityRelease")
     @ResponseBody
     @Token(valid = true)
+    @Audit(module = Module.ACTIVITY, moduleType = ModuleType.ACTIVITY_ACTIVITYRELEASE_SUCCESS, opType = OpType.CREATE)
     public Map activityRelease(ActivityTypeVo activityTypeVo, VActivityMessageVo vActivityMessageVo) {
         Map map = new HashMap(2, 1f);
         try {
@@ -412,13 +415,19 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
             assignment(activityTypeVo, vActivityMessageVo);
 
 
-            boolean success = ServiceSiteTool.vActivityMessageService().activityRelease(vActivityMessageVo);
+            boolean success = ServiceActivityTool.vActivityMessageService().activityRelease(vActivityMessageVo);
 
             if (success) {
                 updateSiteContentAudit();
                 Cache.refreshActivityMessages();// 发布和编辑刷新缓存
                 Cache.refreshCurrentSitePageCache();
                 map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
+                //日志
+                String logPara1 = activityTypeVo.getResult() == null ? "" : activityTypeVo.getResult().getName();
+                String logPara2 = (vActivityMessageVo.getActivityMessageI18ns() == null || vActivityMessageVo.getActivityMessageI18ns().size() < 0)
+                        ? "" : vActivityMessageVo.getActivityMessageI18ns().get(0).getActivityName();
+                BussAuditLogTool.addBussLog(Module.ACTIVITY, ModuleType.ACTIVITY_ACTIVITYRELEASE_SUCCESS, OpType.CREATE, "ACTIVITY_ACTIVITYRELEASE_SUCCESS",
+                        logPara1, logPara2);
             } else {
                 map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
                 map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
@@ -438,8 +447,9 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         return map;
     }
 
+
     private void updateSiteContentAudit() {
-        SiteContentAudit contentAudit = ServiceSiteTool.vActivityMessageUserService().countCompanyAuditCount(new ActivityMessageVo());
+        SiteContentAudit contentAudit = ServiceActivityTool.vActivityMessageUserService().countCompanyAuditCount(new ActivityMessageVo());
         if (contentAudit == null) {
             return;
         }
@@ -480,7 +490,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
     @RequestMapping(value = "/changeDisplayStatus")
     @ResponseBody
     public Map changeDisplayStatus(ActivityMessageVo activityMessageVo) {
-        activityMessageVo = ServiceSiteTool.activityMessageService().updateDisplayStatus(activityMessageVo);
+        activityMessageVo = ServiceActivityTool.activityMessageService().updateDisplayStatus(activityMessageVo);
         /*activityMessageVo.setProperties(ActivityMessage.PROP_IS_DISPLAY);
         activityMessageVo = ServiceSiteTool.activityMessageService().updateOnly(activityMessageVo);
         */
@@ -591,7 +601,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
             } else {
                 ActivityMessageVo activityMessageVo = new ActivityMessageVo();
                 activityMessageVo.getSearch().setId(vActivityMessageVo.getActivityMessageId());
-                activityMessageVo = ServiceSiteTool.activityMessageService().get(activityMessageVo);
+                activityMessageVo = ServiceActivityTool.activityMessageService().get(activityMessageVo);
 
                 if (activityMessageVo.getResult() != null) {
                     if (activityMessageVo.getResult().getSettlementTimeLatest() == null) {
@@ -667,7 +677,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
             activityMessageVo.setResult(new ActivityMessage());
             return url;
         }
-        activityMessageVo = ServiceSiteTool.activityMessageService().get(activityMessageVo);
+        activityMessageVo = ServiceActivityTool.activityMessageService().get(activityMessageVo);
         if (activityMessageVo.getResult() == null) {
             activityMessageVo.setResult(new ActivityMessage());
         }
@@ -690,7 +700,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
     private void queryOperateRecord(ActivityMessageVo activityMessageVo, Model model) {
         ActivityMoneyDefaultWinRecordListVo recordListVo = new ActivityMoneyDefaultWinRecordListVo();
         recordListVo.getSearch().setActivityMessageId(activityMessageVo.getResult().getId());
-        recordListVo = ServiceSiteTool.activityMoneyDefaultWinRecordService().search(recordListVo);
+        recordListVo = ServiceActivityTool.activityMoneyDefaultWinRecordService().search(recordListVo);
         ActivityMoneyDefaultWinListVo winListVo = queryDefaultWinPlayer(activityMessageVo);
         model.addAttribute("recordListVo", recordListVo);
         model.addAttribute("winListVo", winListVo);
@@ -706,7 +716,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         winListVo.getSearch().setActivityMessageId(activityMessageVo.getResult().getId());
         winListVo.getSearch().setStatus(null);
         winListVo.getQuery().addOrder(ActivityMoneyDefaultWin.PROP_OPERATE_TIME, Direction.DESC);
-        winListVo = ServiceSiteTool.activityMoneyDefaultWinService().search(winListVo);
+        winListVo = ServiceActivityTool.activityMoneyDefaultWinService().search(winListVo);
         Map<Integer, List<ActivityMoneyDefaultWinPlayer>> playerMap = new HashMap<>();
         if (winListVo.getResult() != null) {
             for (ActivityMoneyDefaultWin defaultWin : winListVo.getResult()) {
@@ -714,7 +724,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
                 winPlayerListVo.getSearch().setDefaultWinId(defaultWin.getId());
                 winPlayerListVo.getQuery().addOrder(ActivityMoneyDefaultWinPlayer.PROP_ID, Direction.ASC);
                 winPlayerListVo.setPaging(null);
-                winPlayerListVo = ServiceSiteTool.activityMoneyDefaultWinPlayerService().search(winPlayerListVo);
+                winPlayerListVo = ServiceActivityTool.activityMoneyDefaultWinPlayerService().search(winPlayerListVo);
                 playerMap.put(defaultWin.getId(), winPlayerListVo.getResult());
                 //xxxx-40天前 [username]内定玩家xxx,xxx,xxx,xxx,xx等玩家中奖x次，奖项为xxxx元。收起 取消内定
             }
@@ -731,7 +741,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         ActivityMoneyAwardsRulesListVo rulesListVo = new ActivityMoneyAwardsRulesListVo();
         rulesListVo.getSearch().setActivityMessageId(activityMessageVo.getResult().getId());
         rulesListVo.getQuery().addOrder(ActivityMoneyAwardsRules.PROP_AMOUNT, Direction.ASC);
-        rulesListVo = ServiceSiteTool.activityMoneyAwardsRulesService().search(rulesListVo);
+        rulesListVo = ServiceActivityTool.activityMoneyAwardsRulesService().search(rulesListVo);
         return rulesListVo.getResult();
     }
 
