@@ -2157,7 +2157,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         Map<String,Object> paramValueMap = JsonTool.fromJson(siteParam.getParamValue(),Map.class);
         model.addAttribute("paramValueMap",paramValueMap);
         model.addAttribute("command",sysParamVo);
-//        model.addAttribute("validateRule", JsRuleCreator.create(PlayerWithdrawRemindForm.class));
+//        model.addAttribute("validateRule", JsRuleCreator.create(PlayerWithdrawForm.class));
         return WITHDRAW_ACCOUNT;
     }
 
@@ -2174,7 +2174,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         String[] array = paramValues.split(",");
         Map<String,Object> paramValueMap = new HashMap<>();
         paramValueMap.put("withdrawChannel",array[0]);
-        paramValueMap.put("withdrawAccount",array[1]);
+        paramValueMap.put("merchantCode",array[1]);
         paramValueMap.put("platformId",array[2]);
         paramValueMap.put("key",array[3]);
         String paramValueJosn = JsonTool.toJson(paramValueMap);

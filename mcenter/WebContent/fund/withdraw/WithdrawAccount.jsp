@@ -43,7 +43,7 @@
         <div class="form-group over clearfix">
             <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>商户号：</label>
             <div class="col-xs-8 p-x">
-                <input type="text" name="result.paramValue" class="form-control" value="${p.get("withdrawAccount")}"/>
+                <input type="text" name="result.paramValue" class="form-control" value="${p.get("merchantCode")}"/>
             </div>
         </div>
         <div class="form-group over clearfix">

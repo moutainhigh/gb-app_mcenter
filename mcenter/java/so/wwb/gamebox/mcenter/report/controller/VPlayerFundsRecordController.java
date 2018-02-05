@@ -10,6 +10,7 @@ import org.soul.commons.locale.DateQuickPicker;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.model.security.privilege.vo.SysUserVo;
+import org.soul.model.sys.po.SysParam;
 import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -23,10 +24,7 @@ import so.wwb.gamebox.iservice.master.report.IVPlayerFundsRecordService;
 import so.wwb.gamebox.mcenter.report.form.VPlayerFundsRecordForm;
 import so.wwb.gamebox.mcenter.report.form.VPlayerFundsRecordSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.CacheBase;
-import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.Module;
-import so.wwb.gamebox.model.WeekTool;
+import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
@@ -102,6 +100,11 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.TRANSACTION.getCode()));
 
         }
+        //是否开启易收付出款
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
+        model.addAttribute("isWithdraw",sysParam.getIsSwitch());
+        model.addAttribute("onlineWithdrawStatus",DictTool.get(DictEnum.ONLINE_WITHDRAW_STATUS));
+
         //表头的状态和资金类型列表
         model.addAttribute("dictCommonStatus", DictTool.get(DictEnum.COMMON_STATUS));
         Map<String, String> dictFundType = DictTool.get(DictEnum.COMMON_FUND_TYPE);

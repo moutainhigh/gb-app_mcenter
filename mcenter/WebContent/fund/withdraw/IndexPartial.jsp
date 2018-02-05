@@ -195,7 +195,11 @@
             {{if _isSwitch}}
                 <td>
                 {{if withdrawStatus=='4'}}
-                    <soul:button target="" dataId="{{:id}}" size="auditLogCss" cssClass="label label-info p-x-md" text="出款" opType="function" />
+                    <a href="/onlineWithdraw/withdraw.html?search.transactionNo={{:transactionNo}}" nav-target="mainFrame">
+                    <span data-placement="right" data-trigger="focus" data-toggle="popover"
+                        data-container="body" role="button" class="help-popover" tabindex="0">
+                        <span class="label label-info p-x-md">出款</span>
+                    </span>
                 {{else}}
                 --
                 {{/if}}
