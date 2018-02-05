@@ -42,6 +42,9 @@
                     <li class="${command.search.apiTypeId eq 4?'active':''}">
                         <soul:button target="linkType" url="/report/gameTransaction/init.html?search.apiTypeId=4&isLink=${command.link}" text="${views.report_auto['彩票']}" opType="function"/>
                     </li>
+                    <li class="${command.search.apiTypeId eq 5?'active':''}">
+                        <soul:button target="linkType" url="/report/gameTransaction/init.html?search.apiTypeId=5&isLink=${command.link}" text="${views.report_auto['棋牌']}" opType="function"/>
+                    </li>
                   <%--  <li>
                         <soul:button target="linkType" url="/report/betting/vPlayerGameTipOrder/vPlayerGameTipOrderList.html?link=${command.link}" text="${views.report_auto['小费']}" opType="function"/>
                     </li>--%>
