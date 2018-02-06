@@ -240,7 +240,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             }
             Date today = SessionManager.getDate().getToday();
             Date now = SessionManager.getDate().getNow();
-            Date weekStartDate = WeekTool.getWeekStartDate(today);
+            Date weekStartDate = WeekTool.getWeekStartDate(today,null);
             Date monthStartDate = DateQuickPicker.getInstance().getMonthFirstDay(SessionManager.getTimeZone());
             Date tomorrow = DateQuickPicker.getInstance().getTomorrow();
             Date yestoday = DateQuickPicker.getInstance().getYestoday();
