@@ -44,7 +44,7 @@ public class HomeController extends SiteHomeController{
 
     @Override
     protected Integer fetchSiteId() {
-        return null;
+        return SessionManager.getSiteId();
     }
 
     @Override
