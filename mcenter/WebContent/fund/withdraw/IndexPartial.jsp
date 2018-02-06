@@ -31,6 +31,12 @@
                 </th>
                 <th>${views.fund_auto['审核人']}</th>
                 <th>${views.fund_auto['审核时间']}</th>
+                <%--出款--%>
+                <c:if test="${isSwitch}">
+                    <th>出款确认</th>
+                    <th>确认人</th>
+                    <th>确认时间</th>
+                </c:if>
                 <th>${views.fund_auto['备注']}</th>
             </tr>
             </thead>
@@ -185,6 +191,34 @@
                     {{/if}}
                 </span>
             </td>
+            <%--出款列表--%>
+            {{if _isSwitch}}
+                <td>
+                {{if withdrawStatus=='4'}}
+                    <a href="/onlineWithdraw/withdraw.html?search.transactionNo={{:transactionNo}}" nav-target="mainFrame">
+                    <span data-placement="right" data-trigger="focus" data-toggle="popover"
+                        data-container="body" role="button" class="help-popover" tabindex="0">
+                        <span class="label label-info p-x-md">出款</span>
+                    </span>
+                {{else}}
+                --
+                {{/if}}
+                </td>
+                <td>
+                    {{if withdrawCheckUsername!=null&&withdrawCheckUsername!=''}}
+                        {{:withdrawCheckUsername}}
+                    {{else}}
+                        --
+                    {{/if}}
+                </td>
+                <td>
+                    {{if withdrawCheckTime!=null&&withdrawCheckTime!=''}}
+                        {{:withdrawCheckTime}}
+                    {{else}}
+                        --
+                    {{/if}}
+                </td>
+            {{/if}}
             <td>
                 {{if ipWithdraw!=null&&ipWithdraw!=''}}
                     IP:

@@ -13,7 +13,6 @@ import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.net.IpTool;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
-import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.sys.po.SysDict;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.session.SessionManagerBase;
@@ -28,9 +27,10 @@ import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.CacheBase;
+import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
-import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.company.setting.po.SysCurrency;
 import so.wwb.gamebox.model.master.dataRight.DataRightModuleType;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeParentEnum;
@@ -39,7 +39,6 @@ import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositListVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
-import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.IpRegionTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
@@ -269,32 +268,9 @@ public class OnlineDepositController extends BaseDepositController {
 
     @RequestMapping("/confirmCheck")
     @ResponseBody
-    @Audit(module = Module.FUND, moduleType = ModuleType.FUN_CHECK_SUCCESS, opType = OpType.AUDIT)
     public Map confirmOnlineCheck(PlayerRechargeVo vo) {
 //        fundCheckReminder("fund/deposit/online/confirmCheck.html",vo.getSearch().getRechargeTypeParent());
-        Map map = confirmCheck(vo);
-        addConfirmOnlineCheckLog(vo,map);//日志
-        return map;
-    }
-
-    /**
-     * 入款审核日志
-     * @param vo
-     * @param map
-     */
-    public void addConfirmOnlineCheckLog(PlayerRechargeVo vo,Map map ) {
-        try {
-            if (map.get("state") != null && (Boolean) map.get("state")) {
-                if ("success".equals(vo.getSearch().getCheckStatus())) {
-                    BussAuditLogTool.addBussLog(Module.FUND, ModuleType.FUN_CHECK_SUCCESS, OpType.AUDIT,
-                            "ONLINE_DEPOSIT_CHECK_SUCCESS", vo.getSearch().getTransactionNo());
-                } else if ("failure".equals(vo.getSearch().getCheckStatus())) {
-                    BussAuditLogTool.addBussLog(Module.FUND, ModuleType.FUN_CHECK_FAILURE, OpType.AUDIT,
-                            "ONLINE_DEPOSIT_CHECK_FAILURE", vo.getSearch().getTransactionNo());
-                }
-            }
-        } catch (Exception ex) {
-        }
+        return confirmCheck(vo);
     }
 
 

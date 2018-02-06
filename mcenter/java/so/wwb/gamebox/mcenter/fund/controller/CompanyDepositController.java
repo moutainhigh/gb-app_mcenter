@@ -15,7 +15,6 @@ import org.soul.commons.net.IpTool;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
-import org.soul.model.log.audit.enums.OpType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,8 +28,8 @@ import so.wwb.gamebox.iservice.master.fund.IPlayerRechargeService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.*;
-import so.wwb.gamebox.model.common.Audit;
+import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.company.setting.po.CurrencyExchangeRate;
 import so.wwb.gamebox.model.company.setting.po.SysCurrency;
 import so.wwb.gamebox.model.company.setting.vo.CurrencyExchangeRateVo;
@@ -46,7 +45,6 @@ import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositListVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerTransactionVo;
-import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.IpRegionTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
@@ -114,9 +112,7 @@ public class CompanyDepositController extends BaseDepositController {
             TimeZone timeZone = SessionManagerCommon.getTimeZone();
             Locale locale = SessionManagerCommon.getLocale();
             Map<String, Map<String, String>> views = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views");
-            Map<String ,String> dictsRechargeTypeMap = I18nTool.getDictMapByEnum(SessionManager.getLocale().toString(), DictEnum.FUND_RECHARGE_TYPE);
-            Map<String ,String> dictsRechargeStatusMap  = I18nTool.getDictMapByEnum(SessionManager.getLocale().toString(),DictEnum.FUND_RECHARGE_STATUS);
-            Map<String ,String> dictsbankMap = I18nTool.getDictMapByEnum(SessionManager.getLocale().toString(),DictEnum.BANKNAME);
+            Map<String, Map<String, Map<String, String>>> dictsMap = I18nTool.getDictsMap(SessionManagerCommon.getLocale().toString());
             Map<String, SysCurrency> sysCurrencys = Cache.getSysCurrency();
             for (VPlayerDeposit deposit : result) {
                 String url = RechargeStatusEnum.DEAL.getCode().equals(deposit.getRechargeStatus()) ?
@@ -126,9 +122,9 @@ public class CompanyDepositController extends BaseDepositController {
                 deposit.set_soulFn_formatTimeMemo_createTime(LocaleDateTool.formatTimeMemo(deposit.getCreateTime(), locale));
                 deposit.set_soulFn_formatDateTz_checkTime(LocaleDateTool.formatDate(deposit.getCheckTime(), dateFormat.getDAY_SECOND(),timeZone));
                 deposit.set_soulFn_formatTimeMemo_checkTime(LocaleDateTool.formatTimeMemo(deposit.getCheckTime(), locale));
-                deposit.set_dicts_common_bankname_bankCode(dictsbankMap.get(deposit.getBankCode()));
+                deposit.set_dicts_common_bankname_bankCode(dictsMap.get("common").get("bankname").get(deposit.getBankCode()));
                 String rechargeType = deposit.getRechargeType();
-                deposit.set_recharge_type_dict(dictsRechargeTypeMap.get(rechargeType));
+                deposit.set_recharge_type_dict(dictsMap.get("fund").get("recharge_type").get(rechargeType));
                 String fundAutoData = getFundAutoData(deposit,views);
                 if(StringTool.isNotBlank(deposit.getBankOrder())&& !DepositWayEnum.BITCOIN_FAST.getCode().equals(rechargeType)){
                     if(DepositWayEnum.ALIPAY_FAST.getCode().equals(rechargeType)||DepositWayEnum.WECHATPAY_FAST.getCode().equals(rechargeType)||
@@ -150,7 +146,7 @@ public class CompanyDepositController extends BaseDepositController {
                 deposit.set_soulFn_formatInteger_rechargeAmount(CurrencyTool.formatInteger(deposit.getRechargeAmount()));
                 deposit.set_soulFn_formatDecimals_rechargeAmount(CurrencyTool.formatDecimals(deposit.getRechargeAmount()));
                 deposit.set_bitAmount_formatNumber(getBitFormat(deposit));
-                deposit.set_recharge_status_dicts(dictsRechargeStatusMap.get(deposit.getRechargeStatus()));
+                deposit.set_recharge_status_dicts(dictsMap.get("fund").get("recharge_status").get(deposit.getRechargeStatus()));
                 Long ipDeposit = deposit.getIpDeposit();
                 if(ipDeposit!=null){
                     deposit.set_ipDeposit_ipv4LongToString(IpTool.ipv4LongToString(ipDeposit));
@@ -326,35 +322,12 @@ public class CompanyDepositController extends BaseDepositController {
      */
     @RequestMapping("/confirmCheck")
     @ResponseBody
-    @Audit(module = Module.FUND, moduleType = ModuleType.FUN_CHECK_SUCCESS, opType = OpType.AUDIT,desc = "刷新首页面")
     public Map confirmCompanyCheck(PlayerRechargeVo vo) {
         vo.setAcbKeyParam(ParamTool.getSysParam(SiteParamEnum.SITE_PAY_KEY));
         Map map = confirmCheck(vo);
 //        fundCheckReminder("fund/deposit/company/confirmCheck.html",vo.getSearch().getRechargeTypeParent());
         //取消上分订单
-        addConfirmCheckLog(vo,map);
         return map;
-    }
-
-
-    /**
-     * 入款审核日志
-     * @param vo
-     * @param map
-     */
-    public void addConfirmCheckLog(PlayerRechargeVo vo,Map map ) {
-        try {
-            if (map.get("state") != null && (Boolean) map.get("state")) {
-                if ("success".equals(vo.getSearch().getCheckStatus())) {
-                    BussAuditLogTool.addBussLog(Module.FUND, ModuleType.FUN_CHECK_SUCCESS, OpType.AUDIT,
-                            "COMPANY_DEPOSIT_CHECK_SUCCESS", vo.getSearch().getTransactionNo());
-                } else if ("failure".equals(vo.getSearch().getCheckStatus())) {
-                    BussAuditLogTool.addBussLog(Module.FUND, ModuleType.FUN_CHECK_FAILURE, OpType.AUDIT,
-                            "COMPANY_DEPOSIT_CHECK_FAILURE", vo.getSearch().getTransactionNo());
-                }
-            }
-        } catch (Exception ex) {
-        }
     }
 
     /**

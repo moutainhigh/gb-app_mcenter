@@ -26,7 +26,6 @@ import so.wwb.gamebox.mcenter.report.form.OperateReportSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.SubSysCodeEnum;
 import so.wwb.gamebox.model.WeekTool;
-import so.wwb.gamebox.model.boss.enums.ExportFileTypeEnum;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
@@ -346,22 +345,16 @@ public class OperateReportController extends BaseOperateController {
         if(SubSysCodeEnum.MCENTER.getCode().equals(vo.getSubSysCode())){
             vo.getResult().setService(ISiteOperateService.class.getName());
             vo.getResult().setParam(SiteOperateListVo.class.getName());
-            vo.setExportFileType(ExportFileTypeEnum.MASTER_OPERATE_REPORT.getCode());
-
         }else if(SubSysCodeEnum.MCENTER_TOP_AGENT.getCode().equals(vo.getSubSysCode())){
             vo.getResult().setService(IOperateTopagentService.class.getName());
             vo.getResult().setParam(OperateTopagentListVo.class.getName());
-            vo.setExportFileType(ExportFileTypeEnum.TOPAGENT_OPERATE_REPORT.getCode());
         }else if(SubSysCodeEnum.MCENTER_AGENT.getCode().equals(vo.getSubSysCode())){
             vo.getResult().setService(IOperateAgentService.class.getName());
             vo.getResult().setParam(OperateAgentListVo.class.getName());
-            vo.setExportFileType(ExportFileTypeEnum.AGENT_OPERATE_REPORT.getCode());
         }else if(SubSysCodeEnum.PCENTER.getCode().equals(vo.getSubSysCode())){
             vo.getResult().setService(IOperatePlayerService.class.getName());
             vo.getResult().setParam(OperatePlayerListVo.class.getName());
-            vo.setExportFileType(ExportFileTypeEnum.PLAYER_OPERATE_REPORT.getCode());
         }
-        vo.setExportLocale(SessionManager.getLocale().toString());
         vo.getResult().setFileName(LocaleTool.tranView("export","operate_report")+"-"+ DateTool.formatDate(DateQuickPicker.getInstance().getNow(), SessionManager.getLocale(),SessionManager.getTimeZone(),"yyyyMMddHHmmss"));
         vo.getResult().setMethod("queryOperateReportByCustomer");
         vo.getResult().setUsername(SessionManager.getUserName());

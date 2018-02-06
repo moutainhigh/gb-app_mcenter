@@ -36,6 +36,11 @@
             <th>
                 <gb:select name="search.status" value="${command.search.status}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}" list="${dictCommonStatus}" listKey="key" listValue="${dicts.common.status[key]}" callback="query"/>
             </th>
+            <c:if test="${isWithdraw}">
+                <th>
+                    <gb:select name="" value="${command.search.status}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}" list="${onlineWithdrawStatus}" listKey="key" listValue="${dicts.common.status[key]}" callback="query"/>
+                </th>
+            </c:if>
             <th>${views.report_auto['操作']}</th>
         </tr>
         </thead>
@@ -202,6 +207,18 @@
                     </c:choose>
                     <span class="${status_class}" title="${dicts.common.status[pt.status]}">${dicts.common.status[pt.status]}</span>
                 </td>
+                <c:if test="${isWithdraw}">
+                    <td>
+                        <c:set value="" var="status_class"></c:set>
+                        <c:choose>
+                            <c:when test='${pt.status eq "process"}'> 	<%--状态：处理中 --%> <c:set var="status_class" value="label label-info"></c:set></c:when>
+                            <c:when test='${pt.status eq "success"}'> 	<%--状态：成功 --%> <c:set var="status_class" value="label label-success"></c:set></c:when>
+                            <c:when test='${pt.status eq "failure" || pt.status eq "cancel"}'> 	<%--状态：失败 --%> <c:set var="status_class" value="label"></c:set></c:when>
+                            <c:otherwise>--</c:otherwise>
+                        </c:choose>
+                        <span class="${status_class}" title="${dicts.common.status[pt.status]}">${dicts.common.status[pt.status]}</span>
+                    </td>
+                </c:if>
                 <td>
                     <c:choose>
                         <c:when test="${not empty view_url}">
