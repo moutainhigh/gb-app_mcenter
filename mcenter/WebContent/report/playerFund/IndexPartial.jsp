@@ -3,6 +3,14 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <c:set value="<%=UserPlayerFund.class%>" var="poType"></c:set>
+<c:set value="" var="agent"></c:set>
+<c:set value="" var="topagent"></c:set>
+<c:if test="${empty command.search.fundSearch.agentName && command.search.userTypes == 'search.fundSearch.agentName'}">
+    <c:set value="agent" var="agent"></c:set>
+</c:if>
+<c:if test="${empty command.search.fundSearch.topagentName && command.search.userTypes == 'search.fundSearch.topagentName'}">
+    <c:set value="topagent" var="topagent"></c:set>
+</c:if>
 <!--//region your codes 1-->
 <div class="dataTables_wrapper white-bg" role="grid">
     <div class="tab-content">
@@ -56,7 +64,9 @@
             <tr role="row" class="bg-gray">
                 <th>${views.common['number']}</th>
                 <th>${views.fund['账号']}</th>
-                <soul:orderColumn poType="${poType}" property="createTime" column="${views.player_auto['注册时间']}"></soul:orderColumn>
+                <c:if test="${empty agent && empty topagent}">
+                    <soul:orderColumn poType="${poType}" property="createTime" column="${views.player_auto['注册时间']}"></soul:orderColumn>
+                </c:if>
                 <soul:orderColumn poType="${poType}" property="depositCount" column="${views.player_auto['存款次数']}"></soul:orderColumn>
                 <soul:orderColumn poType="${poType}" property="depositAmount" column="${views.player_auto['存款金额']}"></soul:orderColumn>
                 <soul:orderColumn poType="${poType}" property="withdrawCount" column="${views.player_auto['取款次数']}"></soul:orderColumn>
@@ -72,7 +82,9 @@
                 <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                     <td>${p.playerName}</td>
-                    <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND, timeZone)}</td>
+                    <c:if test="${empty agent && empty topagent}">
+                        <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND, timeZone)}</td>
+                    </c:if>
                     <th>${p.depositCount}</th>
                     <th>${soulFn:formatCurrency(p.depositAmount)}</th>
                     <th>${p.withdrawCount}</th>
