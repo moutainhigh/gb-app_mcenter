@@ -319,13 +319,13 @@
                     </soul:button>
                 </div>
 
-                <div class="operate-btn">
-                    <soul:button target="${root}/rebateSet/persist.html" refresh="true" callback="goToLastPage"
-                                 cssClass="btn btn-filter btn-lg m-r" post="getCurrentFormData" text="" opType="ajax"
-                                 tag="button" precall="validateForm">
-                        ${views.common['OK']}
-                    </soul:button>
-                </div>
+                    <div class="operate-btn">
+                        <soul:button target="${root}/rebateSet/persist.html" refresh="true" callback="goToLastPage"
+                                     cssClass="btn btn-filter btn-lg m-r" post="getCurrentFormData" text="" opType="ajax"
+                                     tag="button" precall="validateForm">
+                            ${views.common['OK']}
+                        </soul:button>
+                    </div>
             </div>
         </div>
     </div>
