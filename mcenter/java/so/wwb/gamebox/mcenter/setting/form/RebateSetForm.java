@@ -3,9 +3,11 @@ package so.wwb.gamebox.mcenter.setting.form;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.commons.validation.form.constraints.Series;
 import org.soul.commons.validation.form.support.SeriesType;
 import org.soul.web.support.IForm;
+import so.wwb.gamebox.mcenter.setting.controller.RebateSetController;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -129,6 +131,7 @@ public class RebateSetForm implements IForm {
     @NotNull()
     @Range(max = 100,min = 0,message = "setting.rakeback.edit.ratioRange")
     @Digits(integer = 3,fraction = 2,message = "setting.rakeback.edit.ratioDigits")
+    @Remote(checkClass = RebateSetController.class, checkMethod = "checkRakebackRatio", message = "setting.check.rakeback.ratio")
     public BigDecimal[] get$rebateGrads$$_rakebackRatio() {
         return $rebateGrads$$_rakebackRatio;
     }
@@ -139,6 +142,7 @@ public class RebateSetForm implements IForm {
     @NotNull()
     @Range(max = 100,min = 0,message = "setting.rakeback.edit.ratioRange")
     @Digits(integer = 3,fraction = 2,message = "setting.rakeback.edit.ratioDigits")
+    @Remote(checkClass = RebateSetController.class, checkMethod = "checkFavorableRatio", message = "setting.check.favorable.ratio")
     public BigDecimal[] get$rebateGrads$$_favorableRatio() {
         return $rebateGrads$$_favorableRatio;
     }
@@ -149,6 +153,7 @@ public class RebateSetForm implements IForm {
     @NotNull()
     @Range(max = 100,min = 0,message = "setting.rakeback.edit.ratioRange")
     @Digits(integer = 3,fraction = 2,message = "setting.rakeback.edit.ratioDigits")
+    @Remote(checkClass = RebateSetController.class, checkMethod = "checkOtherRatio", message = "setting.check.other.ratio")
     public BigDecimal[] get$rebateGrads$$_otherRatio() {
         return $rebateGrads$$_otherRatio;
     }

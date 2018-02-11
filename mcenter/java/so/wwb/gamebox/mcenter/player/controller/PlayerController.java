@@ -586,7 +586,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             }
             Date today = SessionManager.getDate().getToday();
             Date now = SessionManager.getDate().getNow();
-            Date weekStartDate = WeekTool.getWeekStartDate(today);
+            Date weekStartDate = WeekTool.getWeekStartDate(today,null);
             Date monthStartDate = WeekTool.getMonthStartDate(today);
             switch (outer) {
                 case 1: // 今日

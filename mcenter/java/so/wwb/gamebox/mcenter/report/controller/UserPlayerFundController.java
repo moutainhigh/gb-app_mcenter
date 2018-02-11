@@ -63,7 +63,6 @@ public class UserPlayerFundController{
 
     @RequestMapping(value = "search")
     public String search(VPlayerFundsRecordListVo listVo, Model model, HttpServletRequest request){
-
         String templateCode = TemplateCodeEnum.USER_PLAYER_FUND.getCode();
         model.addAttribute("searchTempCode", templateCode);
         model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManager.getUserId(), templateCode));
@@ -72,7 +71,6 @@ public class UserPlayerFundController{
         String queryParamsJson = JsonTool.toJson(listVo.getSearch());
         model.addAttribute("queryParamsJson", queryParamsJson);
         model.addAttribute("validateRule", JsRuleCreator.create(UserPlayerFundSearchForm.class));
-
         Date today = DateQuickPicker.getInstance().getTomorrow();
         if(listVo.getSearch().getFundSearch().getSearchStartDate()==null){
             Date startDate = DateTool.addDays(today, -7);

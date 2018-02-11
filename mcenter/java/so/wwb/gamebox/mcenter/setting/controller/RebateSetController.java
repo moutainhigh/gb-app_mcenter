@@ -20,12 +20,11 @@ import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.setting.IRebateSetService;
+import so.wwb.gamebox.mcenter.player.form.UserBankcardForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.RebateSetFeeForm;
 import so.wwb.gamebox.mcenter.setting.form.RebateSetForm;
@@ -51,9 +50,11 @@ import so.wwb.gamebox.web.common.token.TokenHandler;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static so.wwb.gamebox.model.ParamTool.getSysParam;
+import static so.wwb.gamebox.model.ParamTool.getSysParams;
 
 
 /**
@@ -585,6 +586,75 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     public Map checkFee(RebateSetListVo listVo) {
         listVo = ServiceSiteTool.rebateSetService().checkRadio(listVo);
         return listVo.getCheckResultMap();
+    }
+
+    @RequestMapping(value = "/checkRakebackRatio")
+    @ResponseBody
+    public boolean checkRakebackRatio(@FormModel RebateSetForm rebateSetForm, HttpServletRequest request) {
+        if (rebateSetForm == null) {
+            return false;
+        }
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
+        if (sysParam == null) {
+            return false;
+        }
+        String topagentRatio = sysParam.getParamValue() == null ? sysParam.getDefaultValue() : sysParam.getParamValue();
+        BigDecimal[] rakebackRatios = rebateSetForm.get$rebateGrads$$_rakebackRatio();
+        if (rakebackRatios.length == 0) {
+            return false;
+        }
+        for (int i=0; i<rakebackRatios.length; i++) {
+            if (Double.valueOf(topagentRatio) + rakebackRatios[i].doubleValue() >100){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @RequestMapping(value = "/checkFavorableRatio")
+    @ResponseBody
+    public boolean checkFavorableRatio(@FormModel RebateSetForm rebateSetForm, HttpServletRequest request) {
+        if (rebateSetForm == null) {
+            return false;
+        }
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
+        if (sysParam == null) {
+            return false;
+        }
+        String topagentRatio = sysParam.getParamValue() == null ? sysParam.getDefaultValue() : sysParam.getParamValue();
+        BigDecimal[] favorableRatios = rebateSetForm.get$rebateGrads$$_favorableRatio();
+        if (favorableRatios.length == 0) {
+            return false;
+        }
+        for (int i=0; i<favorableRatios.length; i++) {
+            if (Double.valueOf(topagentRatio) + favorableRatios[i].doubleValue() >100){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @RequestMapping(value = "/checkOtherRatio")
+    @ResponseBody
+    public boolean checkOtherRatio(@FormModel RebateSetForm rebateSetForm, HttpServletRequest request) {
+        if (rebateSetForm == null) {
+            return false;
+        }
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_OTHER_PERCENT);
+        if (sysParam == null) {
+            return false;
+        }
+        String topagentRatio = sysParam.getParamValue() == null ? sysParam.getDefaultValue() : sysParam.getParamValue();
+        BigDecimal[] otherRatios = rebateSetForm.get$rebateGrads$$_otherRatio();
+        if (otherRatios.length == 0) {
+            return false;
+        }
+        for (int i=0; i<otherRatios.length; i++) {
+            if (Double.valueOf(topagentRatio) + otherRatios[i].doubleValue() >100){
+                return false;
+            }
+        }
+        return true;
     }
     //endregion your codes 3
 

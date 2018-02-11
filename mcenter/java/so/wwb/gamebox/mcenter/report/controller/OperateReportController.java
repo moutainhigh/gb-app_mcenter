@@ -124,7 +124,7 @@ public class OperateReportController extends BaseOperateController {
         Integer outer = listVo.getOuter() == null ? 0 : listVo.getOuter();
         if (outer != 0) {
             Date today = SessionManager.getDate().getToday();
-            Date weekStartDate = WeekTool.getWeekStartDate(today);
+            Date weekStartDate = WeekTool.getWeekStartDate(today,null);
             Date monthStartDate = WeekTool.getMonthStartDate(today);
             Date tomorrow = DateQuickPicker.getInstance().getTomorrow();
             Date yestoday = DateQuickPicker.getInstance().getYestoday();
