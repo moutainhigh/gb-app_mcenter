@@ -81,7 +81,22 @@
             <c:forEach items="${command.fundList}" var="p" varStatus="status">
                 <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
-                    <td>${p.playerName}</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${!empty agent}">
+                                <a href="/userAgent/agent/detail.html?search.id=${p.agentId}" nav-target="mainFrame">${p.playerName}</a>
+                            </c:when>
+                            <c:when test="${!empty topagent}">
+                                <a href="/userAgent/topagent/detail.html?search.id=${p.topagentId}" nav-target="mainFrame">${p.playerName}</a>
+                            </c:when>
+                            <c:otherwise>
+                                <shiro:hasPermission name="role:player_detail">
+                                    <a href="/player/playerView.html?search.id=${p.id}" nav-target="mainFrame">${p.playerName}</a>
+                                </shiro:hasPermission>
+                            </c:otherwise>
+                        </c:choose>
+
+                    </td>
                     <c:if test="${empty agent && empty topagent}">
                         <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND, timeZone)}</td>
                     </c:if>

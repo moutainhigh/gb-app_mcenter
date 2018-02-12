@@ -52,8 +52,10 @@
                     <span id="moneyTotal"><i class="fa fa-refresh fa-spin"></i></span>
                     <b class="m-l">，清算额度：</b>
                     <span id="liquidation"><i class="fa fa-refresh fa-spin"></i></span>
-                    <b class="m-l">，实际充值总额：</b>
+                    <b class="m-l">，线上充值：</b>
                     <span id="actualRecharge"><i class="fa fa-refresh fa-spin"></i></span>
+                    <b class="m-l">，线下充值：</b>
+                    <span id="artificial"><i class="fa fa-refresh fa-spin"></i></span>
                 </div>
                 <div class="dataTables_wrapper search-list-container">
                     <%@ include file="IndexPartial.jsp" %>
