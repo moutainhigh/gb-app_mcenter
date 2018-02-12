@@ -328,7 +328,6 @@ public class CompanyDepositController extends BaseDepositController {
     @ResponseBody
     @Audit(module = Module.FUND, moduleType = ModuleType.FUN_CHECK_SUCCESS, opType = OpType.AUDIT,desc = "刷新首页面")
     public Map confirmCompanyCheck(PlayerRechargeVo vo) {
-        vo.setAcbKeyParam(ParamTool.getSysParam(SiteParamEnum.SITE_PAY_KEY));
         Map map = confirmCheck(vo);
 //        fundCheckReminder("fund/deposit/company/confirmCheck.html",vo.getSearch().getRechargeTypeParent());
         //取消上分订单
