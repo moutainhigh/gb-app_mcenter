@@ -6,6 +6,7 @@
 <!--//endregion your codes 1-->
 <div class="row">
     <form action="${root}/rebateAgent/list.html" method="post">
+        <input type="hidden" name="search.agentIds" value="${command.search.agentIds}">
         <div id="validateRule" style="display: none">${command.validateRule}</div>
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
@@ -66,6 +67,13 @@
                             <soul:button target="query" opType="function" tag="button" text="${views.common['search']}" cssClass="btn btn-filter" precall="validateForm">
                                 <i class="fa fa-search"></i>
                                 <span class="hd">&nbsp;${views.common['search']}</span>
+                            </soul:button>
+
+                            <soul:button tag="button" cssClass="btn btn-export-btn btn-primary-hide"
+                                         text="${views.common['export']}" callback="gotoExportHistory"
+                                         precall="validExportCount" post="getCurrentFormData" title="${views.role['player.dataExport']}"
+                                         target="${root}/rebateAgent/exportRecords.html" opType="ajax">
+                                <i class="fa fa-sign-out"></i><span class="hd">${views.common['export']}</span>
                             </soul:button>
 
                             <%--<a href="/fund/rebate/list.html" nav-target="mainFrame" class="btn btn-filter btn-outline pull-right">${views.fund_auto['旧版入口']}</a>--%>

@@ -1,6 +1,8 @@
 <%--@elvariable id="command" type="so.wwb.gamebox.model.master.operation.vo.RebateAgentListVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
+<input type="hidden" id="conditionJson" value="${params}">
+<div class="search-params-div hide"></div>
 <!--//region your codes 1-->
     <div class="table-responsive table-min-h">
     <table class="table table-striped table-hover dataTable table-multiple-header-row table-bordered m-b-none" id="editable" aria-describedby="editable_info">
