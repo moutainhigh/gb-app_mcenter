@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.taskReminder;
 
+import org.soul.commons.collections.MapTool;
 import org.soul.commons.spring.PropertiesLoader;
 
 import java.util.Collection;
@@ -12,9 +13,10 @@ import java.util.Set;
  */
 public class TaskReminderHelp {
 
-    private static Map<String,TaskReminder> taskReminderTypeMap = new HashMap<>();
+    private static Map<String, TaskReminder> taskReminderTypeMap = new HashMap<>();
 
-    private TaskReminderHelp() {}
+    private TaskReminderHelp() {
+    }
 
     static {
         PropertiesLoader propertiesLoader = new PropertiesLoader("/conf/app/taskReminder.properties");
@@ -22,7 +24,7 @@ public class TaskReminderHelp {
         for (Map.Entry<Object, Object> entry : entries) {
             String key = (String) entry.getKey();
             try {
-                taskReminderTypeMap.put(key,(TaskReminder)Class.forName((String) entry.getValue()).newInstance());
+                taskReminderTypeMap.put(key, (TaskReminder) Class.forName((String) entry.getValue()).newInstance());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -31,7 +33,7 @@ public class TaskReminderHelp {
     }
 
     public static TaskReminder getInstance(String taskRemindType) {
-        return  taskReminderTypeMap.get(taskRemindType);
+        return taskReminderTypeMap.get(taskRemindType);
     }
 
     public static Integer countTask() {
@@ -41,5 +43,21 @@ public class TaskReminderHelp {
             countTask += taskReminder.countTask();
         }
         return countTask;
+    }
+
+    /**
+     * 返回当前任务情况
+     *
+     * @return
+     */
+    public static Map<String, Integer> taskSituation() {
+        if (MapTool.isEmpty(taskReminderTypeMap)) {
+            return new HashMap<>(0);
+        }
+        Map<String, Integer> taskMap = new HashMap<>(taskReminderTypeMap.size(), 1f);
+        for (Map.Entry<String, TaskReminder> entry : taskReminderTypeMap.entrySet()) {
+            taskMap.put(entry.getKey(), entry.getValue().countTask());
+        }
+        return taskMap;
     }
 }

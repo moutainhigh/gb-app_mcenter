@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.controller;
 import org.json.JSONObject;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionQueryTool;
+import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.init.context.CommonContext;
@@ -70,7 +71,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 
 
 /**
@@ -520,6 +520,21 @@ public class IndexController extends BaseIndexController {
         return TaskReminderHelp.countTask();
     }
 
+    @RequestMapping("/index/timingCountTask")
+    @ResponseBody
+    public Map<String, Object> timingCountTask() {
+        Map<String, Integer> taskSituationMap = TaskReminderHelp.taskSituation();
+        Map<String, Object> map = new HashMap<>();
+        int taskCount = 0;
+        for (Integer count : taskSituationMap.values()) {
+            taskCount = taskCount + count;
+        }
+        //任务数量
+        map.put("taskCount", taskCount);
+        map.put("tasks", taskSituationMap);
+        return map;
+    }
+
     @RequestMapping("/index/countPendingRecord")
     @ResponseBody
     public Map countPendingRecord() {
@@ -674,9 +689,9 @@ public class IndexController extends BaseIndexController {
         //站长账号显示盈利上限，非站长账号不显示
         if (isMaster) {
             Double creditLine = getProfitLimit().getCreditLine();
-            if (creditLine!=null){
-                map.put("profitLimit", getProfitLimit().getMaxProfit()+getProfitLimit().getCreditLine());//额度上限值
-            }else {
+            if (creditLine != null) {
+                map.put("profitLimit", getProfitLimit().getMaxProfit() + getProfitLimit().getCreditLine());//额度上限值
+            } else {
                 map.put("profitLimit", getProfitLimit().getMaxProfit());
             }
             //统一一个地方
@@ -688,13 +703,14 @@ public class IndexController extends BaseIndexController {
             double transferIntoSum = getProfitLimit().getTransferIntoSum() == null ? 0 : getProfitLimit().getTransferIntoSum();
             double currentProfit = transferOutSum - transferIntoSum;
             map.put("currentProfit", CurrencyTool.formatCurrency(currentProfit));
-            map.put("currentProfitNumber",currentProfit);
+            map.put("currentProfitNumber", currentProfit);
         }
         return map;
     }
 
     /**
      * 查询额度
+     *
      * @return
      */
     @RequestMapping("/index/profitLimitDialog")
@@ -705,12 +721,12 @@ public class IndexController extends BaseIndexController {
         sysSiteVo.getSearch().setId(SessionManager.getSiteId());
         double creditLine = 0.0;
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
-        if (sysSiteVo.getResult()!=null){
+        if (sysSiteVo.getResult() != null) {
             creditLine = sysSiteVo.getResult().getCreditLine() != null ? sysSiteVo.getResult().getCreditLine() : 0;
         }
         Double profit = fetchSiteHasUseProfit();
         map.put("profit", profit);//本月使用额度值
-        map.put("profitLimit", getProfitLimit().getMaxProfit()+creditLine);//额度上限值
+        map.put("profitLimit", getProfitLimit().getMaxProfit() + creditLine);//额度上限值
         Date profitTime = getProfitLimit().getProfitTime();
         if (profitTime != null) {
             Date time = new Date();
@@ -721,14 +737,15 @@ public class IndexController extends BaseIndexController {
 
     /**
      * 已使用额度
+     *
      * @return
      */
-    private double fetchSiteHasUseProfit(){
+    private double fetchSiteHasUseProfit() {
         SysSiteVo sysSiteVo = new SysSiteVo();
         sysSiteVo.getSearch().setId(SessionManager.getSiteId());
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
-        if(sysSiteVo.getResult()!=null){
-            return sysSiteVo.getResult().getHasUseProfit()==null?0d:sysSiteVo.getResult().getHasUseProfit();
+        if (sysSiteVo.getResult() != null) {
+            return sysSiteVo.getResult().getHasUseProfit() == null ? 0d : sysSiteVo.getResult().getHasUseProfit();
         }
         return 0d;
     }
