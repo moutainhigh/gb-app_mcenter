@@ -102,10 +102,6 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.TRANSACTION.getCode()));
 
         }
-        //是否开启易收付出款
-        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
-        model.addAttribute("isWithdraw",sysParam.getIsSwitch());
-        model.addAttribute("onlineWithdrawStatus",DictTool.get(DictEnum.ONLINE_WITHDRAW_STATUS));
 
         //表头的状态和资金类型列表
         model.addAttribute("dictCommonStatus", DictTool.get(DictEnum.COMMON_STATUS));
