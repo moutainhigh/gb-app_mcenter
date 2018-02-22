@@ -365,7 +365,6 @@
                                                     <div class="col-sm-5">
                                                         <div  class="input-group date">
                                                             <input type="text" class="form-control m-b" value="${command.sysUser.realName}" name="sysUser.${f.name}">
-                                                            <span class="input-group-addon abroder-no "><i class="fa fa-exclamation-circle co-orange"></i>&nbsp;&nbsp;${views.role['agent.realname.tips']}</span>
                                                         </div>
                                                     </div>
                                                 </div>
