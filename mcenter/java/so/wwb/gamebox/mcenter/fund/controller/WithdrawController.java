@@ -159,8 +159,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     //站长中心-玩家取款审核url
     private static final String MCENTER_PLAYER_WITHDRAW_URL = "fund/withdraw/withdrawAuditView.html";
-    //保存出款账户
-    public static final String WITHDRAW_ACCOUNT = "fund/withdraw/WithdrawAccount";
 
     @Override
     protected String getViewBasePath() {
@@ -209,7 +207,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         }
 
-        withdrawAccountIsSwitch(model);//是否开启出款账户
         handleVoice(vo, model);// 公司入款声音参数
         handleWithdrawStatus(model);//处理取款状态
         Map<String, Serializable> bankName = getBankList();//DictTool.get(DictEnum.BANKNAME);
@@ -224,15 +221,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         handleEscape(search);
         vo.setSearch(search);
         return ServletTool.isAjaxSoulRequest(request) ? WITHDRAW_INDEX_PARIAL_URl : WITHDRAW_INDEX_URL;
-    }
-
-    /**
-     * 是否开启出款账户
-     * @param model
-     */
-    private void withdrawAccountIsSwitch(Model model){
-        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
-        model.addAttribute("isSwitch",sysParam.getIsSwitch());
     }
 
     /**
@@ -374,8 +362,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             TimeZone timeZone = SessionManagerCommon.getTimeZone();
             Map<String, Map<String, Map<String, String>>> dictsMap = I18nTool.getDictsMap(SessionManagerCommon.getLocale().toString());
             Map<String, Map<String, String>> views = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views");
-            SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
-            Boolean isSwitch = sysParam.getIsSwitch();
             List<VPlayerWithdraw> result = vo.getResult();
             for (VPlayerWithdraw vPlayerWithdraw : result) {
                 vPlayerWithdraw.set_formatDateTz_createTime(LocaleDateTool.formatDate(vPlayerWithdraw.getCreateTime(), dateFormat.getDAY_SECOND(), timeZone));
@@ -418,7 +404,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 if(ipWithdraw!=null){
                     vPlayerWithdraw.set_ipWithdraw_ipv4LongToString(IpTool.ipv4LongToString(ipWithdraw));
                 }
-                vPlayerWithdraw.set_isSwitch(isSwitch);
                 vPlayerWithdraw.set_islockPersonId(SessionManager.getAuditUserId().equals(vPlayerWithdraw.getLockPersonId()));
             }
         }
@@ -2184,49 +2169,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         rateVo.setRate(rate);
         rateVo.setResult(currencyExchangeRate);
         ServiceTool.getCurrencyExchangeRateService().saveOrUpdateRate(rateVo);
-    }
-
-    /**
-     * 出款账号
-     *
-     * @param
-     * @return
-     */
-    @RequestMapping("/withdrawAccount")
-    private String withdrawAccount(SysParamVo sysParamVo,Model model) {
-        SysParam siteParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
-        sysParamVo.setResult(siteParam);
-        Map<String,Object> paramValueMap = JsonTool.fromJson(siteParam.getParamValue(),Map.class);
-        model.addAttribute("paramValueMap",paramValueMap);
-        model.addAttribute("command",sysParamVo);
-//        model.addAttribute("validateRule", JsRuleCreator.create(PlayerWithdrawForm.class));
-        return WITHDRAW_ACCOUNT;
-    }
-
-    /**
-     * 保存出款账户
-     * @param sysParamVo
-     * @return
-     */
-
-    @RequestMapping("/saveWithdrawAccount")
-    @ResponseBody
-    public Map saveWithdrawAccount(SysParamVo sysParamVo) {
-        String paramValues =sysParamVo.getResult().getParamValue();
-        String[] array = paramValues.split(",");
-        Map<String,Object> paramValueMap = new HashMap<>();
-        paramValueMap.put("withdrawChannel",array[0]);
-        paramValueMap.put("merchantCode",array[1]);
-        paramValueMap.put("platformId",array[2]);
-        paramValueMap.put("key",array[3]);
-        String paramValueJosn = JsonTool.toJson(paramValueMap);
-        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
-        sysParam.setParamValue(paramValueJosn);
-        sysParam.setIsSwitch(sysParamVo.getResult().getIsSwitch());
-        sysParamVo.setResult(sysParam);
-        sysParamVo = ServiceSiteTool.siteSysParamService().update(sysParamVo);
-        ParamTool.refresh(SiteParamEnum.WITHDRAW_ACCOUNT);
-        return this.getVoMessage(sysParamVo);
     }
 
 }
