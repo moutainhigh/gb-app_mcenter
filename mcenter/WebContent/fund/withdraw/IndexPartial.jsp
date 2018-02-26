@@ -216,7 +216,12 @@
                 </td>
                 <td>
                     {{if withdrawCheckTime!=null&&withdrawCheckTime!=''}}
-                        {{:withdrawCheckTime}}
+                        <span data-content="{{:_formatDateTz_withdrawCheckTime}}" data-placement="top" data-trigger="focus" data-toggle="popover"
+                          data-container="body" role="button" class="help-popover" tabindex="0">
+                        <a name="copy" data-clipboard-text="{{:_formatDateTz_withdrawCheckTime}}">
+                            <span class="co-grayc2">{{:withdrawCheckTimeMemo}}</span>
+                        </a>
+                </span>
                     {{else}}
                         --
                     {{/if}}
