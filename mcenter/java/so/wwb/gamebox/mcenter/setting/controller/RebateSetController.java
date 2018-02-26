@@ -592,11 +592,11 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @ResponseBody
     public boolean checkRakebackRatio(@FormModel RebateSetForm rebateSetForm, HttpServletRequest request) {
         if (rebateSetForm == null) {
-            return false;
+            return true;
         }
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_RAKEBACK_PERCENT);
         if (sysParam == null) {
-            return false;
+            return true;
         }
         String topagentRatio = sysParam.getParamValue() == null ? sysParam.getDefaultValue() : sysParam.getParamValue();
         BigDecimal[] rakebackRatios = rebateSetForm.get$rebateGrads$$_rakebackRatio();
@@ -615,11 +615,11 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @ResponseBody
     public boolean checkFavorableRatio(@FormModel RebateSetForm rebateSetForm, HttpServletRequest request) {
         if (rebateSetForm == null) {
-            return false;
+            return true;
         }
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_PREFERENTIAL_PERCENT);
         if (sysParam == null) {
-            return false;
+            return true;
         }
         String topagentRatio = sysParam.getParamValue() == null ? sysParam.getDefaultValue() : sysParam.getParamValue();
         BigDecimal[] favorableRatios = rebateSetForm.get$rebateGrads$$_favorableRatio();
@@ -638,11 +638,11 @@ public class RebateSetController extends BaseCrudController<IRebateSetService, R
     @ResponseBody
     public boolean checkOtherRatio(@FormModel RebateSetForm rebateSetForm, HttpServletRequest request) {
         if (rebateSetForm == null) {
-            return false;
+            return true;
         }
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_APPORTIONSETTING_TOPAGENT_OTHER_PERCENT);
         if (sysParam == null) {
-            return false;
+            return true;
         }
         String topagentRatio = sysParam.getParamValue() == null ? sysParam.getDefaultValue() : sysParam.getParamValue();
         BigDecimal[] otherRatios = rebateSetForm.get$rebateGrads$$_otherRatio();
