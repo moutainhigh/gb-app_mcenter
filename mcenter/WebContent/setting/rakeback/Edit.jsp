@@ -46,16 +46,12 @@
                             <c:when test="${empty command.rakebackGrads}">
                                 <table class="table table-striped table-bordered table-hover dataTable m-b-none" >
                                     <tr role="row" class="bg-color">
-                                        <td rowspan="2">&nbsp;</td>
-                                        <td rowspan="2"><h3>${views.setting['rakeback.edit.validValue']}</h3></td>
-                                        <td rowspan="2"><h3>${views.setting['rakeback.edit.maxRakeback']}</h3></td>
+                                        <td style="width: 150px">&nbsp;</td>
+                                        <td style="width: 150px"><h3>${views.setting['rakeback.edit.validValue']}</h3></td>
+                                        <td style="width: 150px"><h3>${views.setting['rakeback.edit.maxRakeback']}</h3></td>
                                         <td colspan="${command.apiIds.size()}"><h3>${views.setting['rakeback.edit.grads']}</h3></td>
                                     </tr>
-                                    <tr class="bg-color">
-                                        <c:forEach items="${command.apiIds}" var="api">
-                                            <td class="bg-gray"><b>${gbFn:getSiteApiName(api.toString())}</b></td>
-                                        </c:forEach>
-                                    </tr>
+
                                     <tr class="bg-color apiGrad">
                                         <td>
                                             <div class="ratio_area"></div>
@@ -66,18 +62,27 @@
                                         </td>
                                         <td><input type="text" class="form-control content-width-limit-8" placeholder="" name="rakebackGrads[0].validValue" data-name="rakebackGrads[{n}].validValue"></td>
                                         <td><input type="text" class="form-control content-width-limit-8" placeholder="${views.setting['rakeback.edit.laveBlank']}" name="rakebackGrads[0].maxRakeback" data-name="rakebackGrads[{n}].maxRakeback"></td>
-                                        <c:set var="game_status_index" value="0"/>
-                                        <c:forEach items="${command.apiIds}" var="api">
-                                            <td>
-                                                <c:forEach items="${command.someGames}" var="game" varStatus="game_status">
-                                                    <c:if test="${game['apiId'] eq api}">
-                                                        <div class="input-group date m-b-xs content-width-limit-200 _game">
-                                                            <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
-                                                            <input type="hidden" value="${api}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].apiId" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].apiId">
-                                                            <input type="hidden" value="${game['gameType']}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].gameType" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].gameType">
-                                                            <input type="text" class="form-control _ratio" value="${rga.ratio}" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].ratio"  data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].ratio">
-                                                            <span class="input-group-addon border-left-n">%</span>
-                                                            <span class="input-group-addon adjust">
+                                        <td>
+                                            <div class="scrollInner hide" style="overflow-x: auto;overflow-y: hidden">
+                                                <table class="table table-bordered">
+                                                    <tr class="bg-color">
+                                                        <c:forEach items="${command.apiIds}" var="api">
+                                                            <td class="bg-gray"><b>${gbFn:getSiteApiName(api.toString())}</b></td>
+                                                        </c:forEach>
+                                                    </tr>
+                                                    <tr>
+                                                    <c:set var="game_status_index" value="0"/>
+                                                    <c:forEach items="${command.apiIds}" var="api">
+                                                        <td>
+                                                            <c:forEach items="${command.someGames}" var="game" varStatus="game_status">
+                                                                <c:if test="${game['apiId'] eq api}">
+                                                                    <div class="input-group date m-b-xs content-width-limit-200 _game">
+                                                                        <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
+                                                                        <input type="hidden" value="${api}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].apiId" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].apiId">
+                                                                        <input type="hidden" value="${game['gameType']}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].gameType" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].gameType">
+                                                                        <input type="text" class="form-control _ratio" value="${rga.ratio}" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].ratio"  data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].ratio">
+                                                                        <span class="input-group-addon border-left-n">%</span>
+                                                                        <span class="input-group-addon adjust">
                                                                 <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
                                                                     <i class="fa fa-angle-up"></i>
                                                                 </soul:button>
@@ -85,13 +90,17 @@
                                                                     <i class="fa fa-angle-down"></i>
                                                                 </soul:button>
                                                             </span>
-                                                        </div>
-                                                        <c:set var="game_status_index" value="${game_status_index+1}"/>
-                                                    </c:if>
-                                                </c:forEach>
+                                                                    </div>
+                                                                    <c:set var="game_status_index" value="${game_status_index+1}"/>
+                                                                </c:if>
+                                                            </c:forEach>
 
-                                            </td>
-                                        </c:forEach>
+                                                        </td>
+                                                    </c:forEach>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
 
                                     </tr>
                                 </table>
@@ -99,16 +108,12 @@
                             <c:otherwise>
                                 <table class="table table-striped table-bordered table-hover dataTable m-b-none" ${rake.id} ${rake.maxRakeback}>
                                     <tr role="row" class="bg-color">
-                                        <td rowspan="2">&nbsp;</td>
-                                        <td rowspan="2"><h3>${views.setting['rakeback.edit.validValue']}</h3></td>
-                                        <td rowspan="2"><h3>${views.setting['rakeback.edit.maxRakeback']}</h3></td>
+                                        <td style="width: 150px">&nbsp;</td>
+                                        <td style="width: 150px"><h3>${views.setting['rakeback.edit.validValue']}</h3></td>
+                                        <td style="width: 150px"><h3>${views.setting['rakeback.edit.maxRakeback']}</h3></td>
                                         <td colspan="${command.apiIds.size()}"><h3>${views.setting['rakeback.edit.grads']}</h3></td>
                                     </tr>
-                                    <tr class="bg-color">
-                                        <c:forEach items="${command.apiIds}" var="api">
-                                            <td class="bg-gray"><b>${gbFn:getSiteApiName(api.toString())}</b></td>
-                                        </c:forEach>
-                                    </tr>
+
                                     <c:forEach items="${command.rakebackGrads}" var="rake" varStatus="status">
                                         <tr class="bg-color apiGrad">
                                             <input value="${rake.rakebackId}" name="rakebackGrads[${status.index}].rakebackId" data-name="rakebackGrads[{n}].rakebackId" type="hidden">
@@ -121,40 +126,31 @@
                                             </td>
                                             <td><input type="text" class="form-control content-width-limit-8" value="${rake.validValue}" name="rakebackGrads[${status.index}].validValue" data-name="rakebackGrads[{n}].validValue"></td>
                                             <td><input type="text" class="form-control content-width-limit-8" placeholder="${views.setting['rakeback.edit.laveBlank']}" value="${rake.maxRakeback}" name="rakebackGrads[${status.index}].maxRakeback" data-name="rakebackGrads[{n}].maxRakeback"></td>
-                                            <c:set var="game_status_index" value="0"/>
-                                            <c:forEach items="${command.apiIds}" var="api">
-                                                <td>
-                                                    <c:forEach items="${command.someGames}" var="game">
-                                                        <c:set value="0" var="_someGame"></c:set>
-                                                        <c:if test="${game['apiId'] eq api}">
-                                                            <c:forEach items="${rake.rakebackGradsApis}" var="rga" varStatus="apiStatus">
-                                                                <c:if test="${game['apiId'] eq rga.apiId && game['gameType'] eq rga.gameType}">
-                                                                    <c:set value="1" var="_someGame"></c:set>
-                                                                    <div class="input-group date m-b-xs content-width-limit-200 _game">
-                                                                        <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
-                                                                        <input type="hidden" value="${api}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].apiId" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].apiId">
-                                                                        <input type="hidden" value="${game['gameType']}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].gameType" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].gameType">
-                                                                        <input type="text" class="form-control _ratio" value="${rga.ratio}" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].ratio"  data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].ratio">
-                                                                        <span class="input-group-addon border-left-n">%</span>
-                                                                        <span class="input-group-addon adjust">
-                                                                    <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
-                                                                        <i class="fa fa-angle-up"></i>
-                                                                    </soul:button>
-                                                                    <soul:button tag="a" target="changeRatio" post="sub" text="" cssClass="adjust down" opType="function">
-                                                                        <i class="fa fa-angle-down"></i>
-                                                                    </soul:button>
-                                                                </span>
-                                                                    </div>
-                                                                </c:if>
+                                            <td>
+                                                <div class="scrollInner hide" style="overflow-x: auto;overflow-y: hidden">
+                                                    <table class="table table-bordered">
+                                                        <tr class="bg-color">
+                                                            <c:forEach items="${command.apiIds}" var="api">
+                                                                <td class="bg-gray"><b>${gbFn:getSiteApiName(api.toString())}</b></td>
                                                             </c:forEach>
-                                                            <c:if test="${_someGame eq 0}">
-                                                                <div class="input-group date m-b-xs content-width-limit-200 _game">
-                                                                    <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
-                                                                    <input type="hidden" value="${api}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].apiId" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].apiId">
-                                                                    <input type="hidden" value="${game['gameType']}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].gameType" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].gameType">
-                                                                    <input type="text" class="form-control _ratio" value="${rga.ratio}" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].ratio"  data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].ratio">
-                                                                    <span class="input-group-addon border-left-n">%</span>
-                                                                    <span class="input-group-addon adjust">
+                                                        </tr>
+                                                        <tr>
+                                                            <c:set var="game_status_index" value="0"/>
+                                                            <c:forEach items="${command.apiIds}" var="api">
+                                                                <td>
+                                                                    <c:forEach items="${command.someGames}" var="game">
+                                                                        <c:set value="0" var="_someGame"></c:set>
+                                                                        <c:if test="${game['apiId'] eq api}">
+                                                                            <c:forEach items="${rake.rakebackGradsApis}" var="rga" varStatus="apiStatus">
+                                                                                <c:if test="${game['apiId'] eq rga.apiId && game['gameType'] eq rga.gameType}">
+                                                                                    <c:set value="1" var="_someGame"></c:set>
+                                                                                    <div class="input-group date m-b-xs content-width-limit-200 _game">
+                                                                                        <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
+                                                                                        <input type="hidden" value="${api}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].apiId" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].apiId">
+                                                                                        <input type="hidden" value="${game['gameType']}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].gameType" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].gameType">
+                                                                                        <input type="text" class="form-control _ratio" value="${rga.ratio}" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].ratio"  data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].ratio">
+                                                                                        <span class="input-group-addon border-left-n">%</span>
+                                                                                        <span class="input-group-addon adjust">
                                                                     <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
                                                                         <i class="fa fa-angle-up"></i>
                                                                     </soul:button>
@@ -162,13 +158,35 @@
                                                                         <i class="fa fa-angle-down"></i>
                                                                     </soul:button>
                                                                 </span>
-                                                                </div>
-                                                            </c:if>
-                                                            <c:set var="game_status_index" value="${game_status_index+1}"/>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </td>
-                                            </c:forEach>
+                                                                                    </div>
+                                                                                </c:if>
+                                                                            </c:forEach>
+                                                                            <c:if test="${_someGame eq 0}">
+                                                                                <div class="input-group date m-b-xs content-width-limit-200 _game">
+                                                                                    <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
+                                                                                    <input type="hidden" value="${api}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].apiId" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].apiId">
+                                                                                    <input type="hidden" value="${game['gameType']}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].gameType" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].gameType">
+                                                                                    <input type="text" class="form-control _ratio" value="${rga.ratio}" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].ratio"  data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].ratio">
+                                                                                    <span class="input-group-addon border-left-n">%</span>
+                                                                                    <span class="input-group-addon adjust">
+                                                                    <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
+                                                                        <i class="fa fa-angle-up"></i>
+                                                                    </soul:button>
+                                                                    <soul:button tag="a" target="changeRatio" post="sub" text="" cssClass="adjust down" opType="function">
+                                                                        <i class="fa fa-angle-down"></i>
+                                                                    </soul:button>
+                                                                </span>
+                                                                                </div>
+                                                                            </c:if>
+                                                                            <c:set var="game_status_index" value="${game_status_index+1}"/>
+                                                                        </c:if>
+                                                                    </c:forEach>
+                                                                </td>
+                                                            </c:forEach>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
 
                                         </tr>
                                     </c:forEach>
@@ -193,20 +211,16 @@
 </div>
 <table class="table table-striped table-bordered table-hover dataTable m-b-none hide" id="foolishlyTable" >
     <tr role="row" class="bg-color">
-        <td rowspan="3">
+        <td style="width: 150px">
             <soul:button target="deletePlan" text="" opType="function" cssClass="btn btn-w-m btn-danger" tag="button">
                 ${views.common['delete']}
             </soul:button>
         </td>
-        <td rowspan="2"><h3>${views.setting['rakeback.edit.validValue']}</h3></td>
-        <td rowspan="2"><h3>${views.setting['rakeback.edit.maxRakeback']}</h3></td>
+        <td style="width: 150px"><h3>${views.setting['rakeback.edit.validValue']}</h3></td>
+        <td style="width: 150px"><h3>${views.setting['rakeback.edit.maxRakeback']}</h3></td>
         <td colspan="${command.apiIds.size()}"><h3>${views.setting['rakeback.edit.grads']}</h3></td>
     </tr>
-    <tr class="bg-color">
-        <c:forEach items="${command.apiIds}" var="api">
-            <td class="bg-gray"><b>${gbFn:getSiteApiName(api.toString())}</b></td>
-        </c:forEach>
-    </tr>
+
     <tr class="bg-color apiGrad">
         <td>
             <div class="ratio_area"></div>
@@ -217,18 +231,27 @@
         </td>
         <td><input type="text" class="form-control content-width-limit-8" placeholder="" name="rakebackGrads[0].validValue" data-name="rakebackGrads[{n}].validValue"></td>
         <td><input type="text" class="form-control content-width-limit-8" placeholder="${views.setting['rakeback.edit.laveBlank']}" name="rakebackGrads[0].maxRakeback" data-name="rakebackGrads[{n}].maxRakeback"></td>
-        <c:set var="game_status_index" value="0"/>
-        <c:forEach items="${command.apiIds}" var="api">
-            <td>
-                <c:forEach items="${command.someGames}" var="game" varStatus="game_status">
-                    <c:if test="${game['apiId'] eq api}">
-                        <div class="input-group date m-b-xs content-width-limit-200 _game">
-                            <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
-                            <input type="hidden" value="${api}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].apiId" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].apiId">
-                            <input type="hidden" value="${game['gameType']}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].gameType" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].gameType">
-                            <input type="text" class="form-control _ratio" value="${rga.ratio}" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].ratio"  data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].ratio">
-                            <span class="input-group-addon border-left-n">%</span>
-                            <span class="input-group-addon adjust">
+        <td>
+            <div class="scrollInner hide" style="overflow-x: auto;overflow-y: hidden">
+                <table class="table table-bordered">
+                    <tr class="bg-color">
+                        <c:forEach items="${command.apiIds}" var="api">
+                            <td class="bg-gray"><b>${gbFn:getSiteApiName(api.toString())}</b></td>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <c:set var="game_status_index" value="0"/>
+                        <c:forEach items="${command.apiIds}" var="api">
+                            <td>
+                                <c:forEach items="${command.someGames}" var="game" varStatus="game_status">
+                                    <c:if test="${game['apiId'] eq api}">
+                                        <div class="input-group date m-b-xs content-width-limit-200 _game">
+                                            <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
+                                            <input type="hidden" value="${api}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].apiId" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].apiId">
+                                            <input type="hidden" value="${game['gameType']}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].gameType" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].gameType">
+                                            <input type="text" class="form-control _ratio" value="${rga.ratio}" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].ratio"  data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].ratio">
+                                            <span class="input-group-addon border-left-n">%</span>
+                                            <span class="input-group-addon adjust">
                                 <soul:button tag="a" target="changeRatio" post="add" text="" cssClass="adjust up" opType="function">
                                     <i class="fa fa-angle-up"></i>
                                 </soul:button>
@@ -236,13 +259,17 @@
                                     <i class="fa fa-angle-down"></i>
                                 </soul:button>
                             </span>
-                        </div>
-                        <c:set var="game_status_index" value="${game_status_index+1}"/>
-                    </c:if>
-                </c:forEach>
+                                        </div>
+                                        <c:set var="game_status_index" value="${game_status_index+1}"/>
+                                    </c:if>
+                                </c:forEach>
 
-            </td>
-        </c:forEach>
+                            </td>
+                        </c:forEach>
+                    </tr>
+                </table>
+            </div>
+        </td>
     </tr>
 </table>
 <soul:import res="site/setting/rakeback/Edit"/>

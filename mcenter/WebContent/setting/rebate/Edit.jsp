@@ -143,7 +143,7 @@
                                         </td>
                                         <td>
                                             <div class="scrollInner hide" style="overflow-x: auto;overflow-y: hidden">
-                                                <table>
+                                                <table class="table table-bordered">
                                                     <tr class="bg-color">
                                                         <c:forEach items="${command.apiIds}" var="api">
                                                             <td class="bg-gray"><b>${gbFn:getSiteApiName(api.toString())}</b></td>
