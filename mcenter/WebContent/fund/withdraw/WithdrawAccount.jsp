@@ -37,7 +37,10 @@
         <div class="form-group over clearfix">
             <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>出款渠道：</label>
             <div class="col-xs-8 p-x">
-                <input type="text" name="result.paramValue" class="form-control" value="${p.get("withdrawChannel")}"/>
+                <%--<input type="text" name="result.paramValue" class="form-control" value="${p.get("withdrawChannel")}"/>--%>
+                <select name="result.paramValue" class="btn btn-group btn-default dropdown-toggle" style="height: 35px">
+                    <option value="${PayTypeCode}" ${p.get("withdrawChannel") == PayTypeCode?'selected':''}>易收付自动出款</option>
+                </select>
             </div>
         </div>
         <div class="form-group over clearfix">

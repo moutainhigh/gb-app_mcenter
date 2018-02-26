@@ -72,6 +72,7 @@ import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.NoticeParamEnum;
+import so.wwb.gamebox.model.company.enums.BankPayTypeEnum;
 import so.wwb.gamebox.model.company.po.Bank;
 import so.wwb.gamebox.model.company.setting.po.CurrencyExchangeRate;
 import so.wwb.gamebox.model.company.setting.vo.CurrencyExchangeRateVo;
@@ -426,6 +427,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 }
                 vPlayerWithdraw.set_isSwitch(isSwitch);
                 vPlayerWithdraw.set_islockPersonId(SessionManager.getAuditUserId().equals(vPlayerWithdraw.getLockPersonId()));
+                vPlayerWithdraw.set_formatDateTz_withdrawCheckTime(LocaleDateTool.formatDate(vPlayerWithdraw.getWithdrawCheckTime(), dateFormat.getDAY_SECOND(), timeZone));
             }
         }
     }
@@ -2210,6 +2212,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         Map<String, Object> paramValueMap = JsonTool.fromJson(siteParam.getParamValue(), Map.class);
         model.addAttribute("paramValueMap", paramValueMap);
         model.addAttribute("command", sysParamVo);
+        model.addAttribute("PayTypeCode", BankPayTypeEnum.YISHOUFU.getCode());
+
 //        model.addAttribute("validateRule", JsRuleCreator.create(PlayerWithdrawForm.class));
         return WITHDRAW_ACCOUNT;
     }
@@ -2250,6 +2254,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @RequestMapping("/payment")
     @ResponseBody
     public Map<String, Object> payment(PlayerWithdrawVo playerWithdrawVo) {
+        playerWithdrawVo.getSearch().setWithdrawCheckUserId(SessionManager.getUserId());
         try {
             playerWithdrawVo = ServiceSiteTool.playerWithdrawService().payment(playerWithdrawVo);
         } catch (Exception e) {
