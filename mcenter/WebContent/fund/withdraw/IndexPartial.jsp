@@ -194,15 +194,18 @@
             <%--出款列表--%>
             {{if _isSwitch}}
                 <td>
-                {{if withdrawStatus=='4' && checkStatus=='success'}}
-                    <soul:button target="${root}/fund/withdraw/payment.html?search.transactionNo={{:transactionNo}" confirm="确认出款？" cssClass="label label-danger p-x-md" text="出款" opType="ajax" />
-                {{else if checkStatus=='payment_processing'}}
-                    <soul:button target="withdrawAuditView" dataId="{{:id}}" size="auditLogCss" cssClass="label label-danger p-x-md" text="出款处理中" opType="function" />
-                {{else if checkStatus=='payment_success'}}
-                    <span class="label label-success p-x-md">出款成功</span>
-                {{else if checkStatus=='payment_success'}}
-                    <span class="label label-dange p-x-md">出款失败</span>
-                {{/if}}
+                    {{if withdrawStatus=='4' && checkStatus=='success'}}
+                        <soul:button target="${root}/fund/withdraw/payment.html?search.transactionNo={{:transactionNo}}" callback="query" confirm="确认出款？" cssClass="label label-info p-x-md" text="出款" opType="ajax" />
+                    {{/if}}
+                    {{if checkStatus=='payment_processing'}}
+                        <soul:button target="withdrawAuditView" dataId="{{:id}}" size="auditLogCss" cssClass="label label-danger p-x-md" text="出款处理中" opType="function" />
+                    {{/if}}
+                    {{if checkStatus=='payment_success'}}
+                        <span class="label label-success p-x-md">出款成功</span>
+                    {{/if}}
+                    {{if checkStatus=='payment_fail'}}
+                        <span class="label label-dange p-x-md">出款失败</span>
+                    {{/if}}
                 </td>
                 <td>
                     {{if withdrawCheckUsername!=null&&withdrawCheckUsername!=''}}
