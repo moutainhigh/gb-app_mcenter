@@ -692,8 +692,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             accountType = PayAccountAccountType.WECHAT_MICROPAY.getCode();
         } else if (BankPayTypeEnum.ALIPAY_MICROPAY.getCode().equals(payType)) {
             accountType = PayAccountAccountType.ALIPAY_MICROPAY.getCode();
-        } else if(BankPayTypeEnum.QQ_MICROPAY.getCode().equals(payType)) {
+        } else if (BankPayTypeEnum.QQ_MICROPAY.getCode().equals(payType)) {
             accountType = PayAccountAccountType.QQ_MICROPAY.getCode();
+        } else if (BankPayTypeEnum.EASY_PAY.getCode().equals(payType)) {
+            accountType = PayAccountAccountType.EASY_PAY.getCode();
         }
         vo.getResult().setAccountType(accountType);
     }
