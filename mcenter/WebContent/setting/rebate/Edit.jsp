@@ -152,7 +152,7 @@
                                                     <tr>
                                                         <c:set var="game_status_index" value="0"/>
                                                         <c:forEach items="${command.apiIds}" var="api">
-                                                            <td>
+                                                            <td style="vertical-align: top">
                                                                 <c:forEach items="${command.someGames}" var="game" varStatus="game_status">
                                                                     <c:if test="${game['apiId'] eq api}">
 
@@ -298,9 +298,10 @@
                                                                 <td class="bg-gray"><b>${gbFn:getSiteApiName(api.toString())}</b></td>
                                                             </c:forEach>
                                                         </tr>
+                                                        <tr>
                                                         <c:set var="game_status_index" value="0"/>
                                                         <c:forEach items="${command.apiIds}" var="api">
-                                                            <td>
+                                                            <td style="vertical-align: top">
                                                                 <c:forEach items="${command.someGames}" var="game" varStatus="game_status">
                                                                     <c:set var="_someGame" value="0" />
                                                                     <c:if test="${game['apiId'] eq api}">
@@ -350,7 +351,7 @@
 
                                                             </td>
                                                         </c:forEach>
-
+                                                        </tr>
 
 
                                                     </table>
@@ -454,9 +455,10 @@
                             <td class="bg-gray"><b>${gbFn:getSiteApiName(api.toString())}</b></td>
                         </c:forEach>
                     </tr>
+                    <tr>
                     <c:set var="game_status_index" value="0"/>
                     <c:forEach items="${command.apiIds}" var="api">
-                        <td>
+                        <td style="vertical-align: top">
                             <c:forEach items="${command.someGames}" var="game" varStatus="game_status">
                                 <c:if test="${game['apiId'] eq api}">
 
@@ -487,6 +489,7 @@
                             </c:forEach>
                         </td>
                     </c:forEach>
+                    </tr>
                 </table>
             </div>
         </td>
