@@ -23,12 +23,12 @@
         <input type="hidden" name="search.checkRemark" />
         <div class="modal-body clearfix">
             <div class="m-b">${views.fund['despoit.check.player']}： <span class="co-blue" id="userName">${r.username}</span>
-                <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-target="userName" data-clipboard-text="${r.username}" name="copy">
+                <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${r.username}" name="copy">
                     <i class="fa fa-copy" title="${views.common['copy']}"></i>
                 </a>
             </div>
             <div class="m-b">${views.column['VPlayerRecharge.realName']}：<span id="realName">${command.realName}</span>
-                <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-target="realName" data-clipboard-text="Default clipboard text from attribute" name="copy">
+                <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${command.realName}" name="copy">
                     <i class="fa fa-copy" title="${views.common['copy']}"></i>
                 </a>
             </div>
@@ -38,7 +38,7 @@
                         ${views.column['VPlayerRecharge.rechargeAmount']}${r.defaultCurrency}：
 
                     <b class="co-yellow" id="rechargeAmount">${soulFn:formatCurrency(r.rechargeAmount)}</b>
-                    <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-target="rechargeAmount" data-clipboard-text="Default clipboard text from attribute" name="copy">
+                    <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${soulFn:formatCurrency(r.rechargeAmount)}" name="copy">
                         <i class="fa fa-copy" title="${views.common['copy']}"></i>
                     </a>
                 </div>
