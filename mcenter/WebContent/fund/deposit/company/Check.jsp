@@ -32,7 +32,7 @@
                             <td colspan="2" class="text-right">
                                 ${views.fund['交易号：']}
                                 <span id="transaction">${r.transactionNo}</span>
-                                <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-target="transaction" data-clipboard-text="Default clipboard text from attribute" name="copy">
+                                <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${r.transactionNo}" name="copy">
                                     <i class="fa fa-copy" title="${views.common['copy']}"></i>
                                 </a>
                             </td>
@@ -75,7 +75,7 @@
                                             <td>
                                                 <span id="rechargeAddress">${empty r.rechargeAddress?'--':r.rechargeAddress}</span>
                                                 <c:if test="${!empty r.rechargeAddress}">
-                                                    <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-target="rechargeAddress" data-clipboard-text="Default clipboard text from attribute" name="copy">
+                                                    <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${r.rechargeAddress}" name="copy">
                                                         <i class="fa fa-copy" title="${views.common['copy']}"></i>
                                                     </a>
                                                 </c:if>
@@ -109,7 +109,7 @@
                                             <th scope="row" class="text-right active">${data}</th>
                                             <td>
                                                 <span id="wechatBankcard">${empty r.payerBankcard?'--':r.payerBankcard}</span>
-                                                <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-target="wechatBankcard" data-clipboard-text="${r.payerBankcard}" name="copy"><i class="fa fa-copy" title="${views.common['copy']}"></i></a>
+                                                <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${r.payerBankcard}" name="copy"><i class="fa fa-copy" title="${views.common['copy']}"></i></a>
                                             </td>
                                         </tr>
                                         <tr>
@@ -117,7 +117,7 @@
                                             <td>
                                                 <span class="co-green" id="bankOrder">${r.bankOrder}</span>
                                                 <c:if test="${!empty r.bankOrder}">
-                                                    <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-target="bankOrder" data-clipboard-text="${r.bankOrder}" name="copy"><i class="fa fa-copy" title="${views.common['copy']}"></i></a>
+                                                    <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${r.bankOrder}" name="copy"><i class="fa fa-copy" title="${views.common['copy']}"></i></a>
                                                 </c:if>
                                             </td>
                                         </tr>
