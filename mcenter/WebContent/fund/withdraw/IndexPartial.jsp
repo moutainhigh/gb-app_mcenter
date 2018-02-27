@@ -196,7 +196,12 @@
                 <td>
                     {{if withdrawStatus=='4'}}
                         {{if checkStatus=='success'}}
+                        <shiro:hasPermission name="fund:withdraw_payment">
                             <soul:button target="${root}/fund/withdraw/payment.html?search.transactionNo={{:transactionNo}}" callback="query" confirm="确认出款？" cssClass="label label-info p-x-md" text="出款" opType="ajax" />
+                        </shiro:hasPermission>
+                        <shiro:lacksPermission name="fund:withdraw_payment">
+                            <span class="label p-x-md">出款</span>
+                        </shiro:lacksPermission>
                         {{/if}}
                         {{if checkStatus=='payment_processing'}}
                             <soul:button target="withdrawAuditView" dataId="{{:id}}" size="auditLogCss" cssClass="label label-danger p-x-md" text="出款处理中" opType="function" />
