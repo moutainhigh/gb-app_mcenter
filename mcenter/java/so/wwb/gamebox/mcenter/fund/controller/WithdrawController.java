@@ -72,6 +72,7 @@ import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.NoticeParamEnum;
+import so.wwb.gamebox.model.company.enums.BankEnum;
 import so.wwb.gamebox.model.company.enums.BankPayTypeEnum;
 import so.wwb.gamebox.model.company.po.Bank;
 import so.wwb.gamebox.model.company.setting.po.CurrencyExchangeRate;
@@ -2212,10 +2213,39 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         Map<String, Object> paramValueMap = JsonTool.fromJson(siteParam.getParamValue(), Map.class);
         model.addAttribute("paramValueMap", paramValueMap);
         model.addAttribute("command", sysParamVo);
-        model.addAttribute("PayTypeCode", BankPayTypeEnum.EASY_PAY.getCode());
-
 //        model.addAttribute("validateRule", JsRuleCreator.create(PlayerWithdrawForm.class));
+        List<Bank> list = new ArrayList();
+        List<Bank> bankList = getBankList(BankPayTypeEnum.EASY_PAY.getCode());
+        if (bankList != null && bankList.size() > 0) {
+            for (Bank bank : bankList) {
+                //bankName国际化处理
+                String interlingua = LocaleTool.tranDict(DictEnum.BANKNAME, bank.getBankName());
+                if (StringTool.isNotEmpty(interlingua)) {
+                    bank.setInterlinguaBankName(interlingua);
+                } else {
+                    bank.setInterlinguaBankName(bank.getBankShortName());
+                }
+                list.add(bank);
+            }
+        }
+        model.addAttribute("bankList",list);
         return WITHDRAW_ACCOUNT;
+    }
+
+    /**
+     * 获取银行列表
+     * @param paytype
+     * @return
+     */
+    private List<Bank> getBankList(String paytype) {
+        BankListVo bankListVo = new BankListVo();
+        bankListVo.getSearch().setType(BankEnum.TYPE_ONLINE.getCode());
+        bankListVo.getSearch().setIsUse(true);
+        bankListVo.setPaging(null);
+        bankListVo.getSearch().setPayType(paytype);
+        bankListVo.getQuery().addOrder(Bank.PROP_ORDER_NUM, Direction.ASC).addOrder(Bank.PROP_BANK_NAME, Direction.ASC);
+        bankListVo = ServiceTool.bankService().queryBankByPayType(bankListVo);
+        return bankListVo.getResult();
     }
 
     /**
