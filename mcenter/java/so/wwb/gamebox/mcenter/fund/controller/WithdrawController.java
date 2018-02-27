@@ -2212,7 +2212,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         Map<String, Object> paramValueMap = JsonTool.fromJson(siteParam.getParamValue(), Map.class);
         model.addAttribute("paramValueMap", paramValueMap);
         model.addAttribute("command", sysParamVo);
-        model.addAttribute("PayTypeCode", BankPayTypeEnum.YISHOUFU.getCode());
+        model.addAttribute("PayTypeCode", BankPayTypeEnum.EASY_PAY.getCode());
 
 //        model.addAttribute("validateRule", JsRuleCreator.create(PlayerWithdrawForm.class));
         return WITHDRAW_ACCOUNT;

@@ -164,6 +164,10 @@
                                                         <input type="checkbox" class="i-checks tranType deposit checkCompany" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="other_fast">
                                                         <span class="m-l-xs">${views.report_auto['其他电子支付']}</span>
                                                     </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType deposit checkOnline" transaction-type="${depositType}" data-type="1" name="search.transactionWays" value="easy_pay">
+                                                        <span class="m-l-xs">${dicts.common.fund_type['easy_pay']}</span>
+                                                    </label>
                                                     <%--<label class="fwn m-r-sm">
                                                         <input type="checkbox" class="i-checks tranType" data-type="1" name="search.transactionWays">
                                                         <span class="m-l-xs">${views.report_auto['点卡支付']}</span>
