@@ -73,10 +73,10 @@
                                                     <tr>
                                                     <c:set var="game_status_index" value="0"/>
                                                     <c:forEach items="${command.apiIds}" var="api">
-                                                        <td>
+                                                        <td style="vertical-align: top">
                                                             <c:forEach items="${command.someGames}" var="game" varStatus="game_status">
                                                                 <c:if test="${game['apiId'] eq api}">
-                                                                    <div class="input-group date m-b-xs content-width-limit-200 _game">
+                                                                    <div class="input-group m-b-xs content-width-limit-200 _game">
                                                                         <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
                                                                         <input type="hidden" value="${api}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].apiId" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].apiId">
                                                                         <input type="hidden" value="${game['gameType']}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].gameType" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].gameType">
@@ -137,14 +137,14 @@
                                                         <tr>
                                                             <c:set var="game_status_index" value="0"/>
                                                             <c:forEach items="${command.apiIds}" var="api">
-                                                                <td>
+                                                                <td style="vertical-align: top">
                                                                     <c:forEach items="${command.someGames}" var="game">
                                                                         <c:set value="0" var="_someGame"></c:set>
                                                                         <c:if test="${game['apiId'] eq api}">
                                                                             <c:forEach items="${rake.rakebackGradsApis}" var="rga" varStatus="apiStatus">
                                                                                 <c:if test="${game['apiId'] eq rga.apiId && game['gameType'] eq rga.gameType}">
                                                                                     <c:set value="1" var="_someGame"></c:set>
-                                                                                    <div class="input-group date m-b-xs content-width-limit-200 _game">
+                                                                                    <div class="input-group m-b-xs content-width-limit-200 _game">
                                                                                         <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
                                                                                         <input type="hidden" value="${api}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].apiId" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].apiId">
                                                                                         <input type="hidden" value="${game['gameType']}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].gameType" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].gameType">
@@ -162,7 +162,7 @@
                                                                                 </c:if>
                                                                             </c:forEach>
                                                                             <c:if test="${_someGame eq 0}">
-                                                                                <div class="input-group date m-b-xs content-width-limit-200 _game">
+                                                                                <div class="input-group m-b-xs content-width-limit-200 _game">
                                                                                     <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
                                                                                     <input type="hidden" value="${api}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].apiId" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].apiId">
                                                                                     <input type="hidden" value="${game['gameType']}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].gameType" name="rakebackGrads[${status.index}].rakebackGradsApis[${game_status_index}].gameType">
@@ -242,10 +242,10 @@
                     <tr>
                         <c:set var="game_status_index" value="0"/>
                         <c:forEach items="${command.apiIds}" var="api">
-                            <td>
+                            <td style="vertical-align: top">
                                 <c:forEach items="${command.someGames}" var="game" varStatus="game_status">
                                     <c:if test="${game['apiId'] eq api}">
-                                        <div class="input-group date m-b-xs content-width-limit-200 _game">
+                                        <div class="input-group m-b-xs content-width-limit-200 _game">
                                             <span class="input-group-addon abroder-no" style="padding-left: 0;"><b>${dicts.game.game_type[game['gameType']]}<%--${gbFn:getGameTypeName(game['gameType'])}--%></b></span>
                                             <input type="hidden" value="${api}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].apiId" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].apiId">
                                             <input type="hidden" value="${game['gameType']}" data-name="rakebackGrads[{n}].rakebackGradsApis[${game_status_index}].gameType" name="rakebackGrads[0].rakebackGradsApis[${game_status_index}].gameType">
