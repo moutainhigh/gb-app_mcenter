@@ -17,7 +17,7 @@
     <div class="modal-body clearfix">
         <div class="m-b">
         ${views.fund['withdraw.edit.AgentWithdraw.agent']}：<span class="co-blue">${command.result.username}</span>
-            <a name="copy" data-clipboard-text="${command.result.username}"
+            <a name="copy" data-clipboard-placement="bottom" data-clipboard-text="${command.result.username}"
                class="btn btn-sm btn-info btn-stroke m-l-sm"><li class="fa fa-copy" title="${views.fund_auto['复制']}"></li></a>
         </div>
         <div class="m-b">${views.column['realName']}：${command.result.agentRealname}
@@ -26,9 +26,10 @@
         </div>
         <div class="m-b">${views.column['VPlayerWithdraw.payeeBank']}：${dicts.common.bankname[command.result.agentBank]}</div>
         <div class="m-b">
-                ${views.fund_auto['开户行']}：${agentBankCard.bankDeposit}
-            <a name="copy" data-clipboard-text="${agentBankCard.bankDeposit}"
-               class="btn btn-sm btn-info btn-stroke m-l-sm"><li class="fa fa-copy" title="${views.fund_auto['复制']}"></li></a>
+            ${views.fund_auto['开户行']}：${agentBankCard.bankDeposit}
+            <c:if test="${!empty agentBankCard.bankDeposit}">
+                <a name="copy" data-clipboard-text="${agentBankCard.bankDeposit}" class="btn btn-sm btn-info btn-stroke m-l-sm"><li class="fa fa-copy" title="${views.fund_auto['复制']}"></li></a>
+            </c:if>
         </div>
         <div class="m-b">
             ${views.fund['withdraw.edit.AgentWithdraw.agentWithdrawAccount']}：${command.result.agentBankcard}
