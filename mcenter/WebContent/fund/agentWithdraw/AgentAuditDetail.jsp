@@ -41,7 +41,7 @@
                                             </div>
                                             <div class="pull-right">
                                                     ${views.fund['交易号：']}${vo.result.transactionNo}
-                                                <a name="copy" data-clipboard-text="${vo.result.transactionNo}" id="transactionNo-copy"
+                                                <a name="copy" data-clipboard-placement="left" data-clipboard-text="${vo.result.transactionNo}" id="transactionNo-copy"
                                                    class="btn btn-sm btn-info btn-stroke m-l-sm" ><li class="fa fa-copy" ></li></a>
                                             </div>
                                         </td>
@@ -63,7 +63,7 @@
                                                     </div>
                                                     <div class="pull-right">
                                                             ${views.fund['交易号：']}${vo.result.transactionNo}
-                                                        <a name="copy" data-clipboard-text="${vo.result.transactionNo}" id="transactionNo-copy"
+                                                        <a name="copy" data-clipboard-placement="left" data-clipboard-text="${vo.result.transactionNo}" id="transactionNo-copy"
                                                            class="btn btn-sm btn-info btn-stroke m-l-sm" ><li class="fa fa-copy" ></li></a>
                                                     </div>
                                                 </td>
@@ -78,7 +78,7 @@
                                                     </div>
                                                     <div class="pull-right">
                                                             ${views.fund['交易号：']}${vo.result.transactionNo}
-                                                        <a name="copy" data-clipboard-text="${vo.result.transactionNo}" id="transactionNo-copy"
+                                                        <a name="copy" data-clipboard-placement="left" data-clipboard-text="${vo.result.transactionNo}" id="transactionNo-copy"
                                                            class="btn btn-sm btn-info btn-stroke m-l-sm" ><li class="fa fa-copy" ></li></a>
                                                     </div>
                                                 </td>
