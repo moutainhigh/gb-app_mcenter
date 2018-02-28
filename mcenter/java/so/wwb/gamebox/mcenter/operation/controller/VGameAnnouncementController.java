@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.operation.controller;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.locale.DateQuickPicker;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.math.NumberTool;
 import org.soul.commons.net.ServletTool;
@@ -229,7 +230,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
     public String systemNoticeHistory(HttpServletRequest request, VPlayerAdvisoryListVo aListVo, VSystemAnnouncementListVo vListVo, Model model) {
         if (vListVo.getSearch().getStartTime() == null && vListVo.getSearch().getEndTime() == null) {
             vListVo.getSearch().setStartTime(DateTool.addMonths(SessionManager.getDate().getNow(), -1));
-            vListVo.getSearch().setEndTime(SessionManager.getDate().getNow());
+            vListVo.getSearch().setEndTime(SessionManager.getDate().getTomorrow());
         }
         vListVo.setIsAgent("true");
         vListVo.getSearch().setLocal(SessionManager.getLocale().toString());
@@ -237,7 +238,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         vListVo.getSearch().setReceiveUserType(UserTypeEnum.MASTER.getCode());
         vListVo = ServiceTool.vSystemAnnouncementService().searchMasterSystemNotice(vListVo);
         model.addAttribute("command", vListVo);
-        model.addAttribute("maxDate", new Date());
+        model.addAttribute("maxDate", DateQuickPicker.getInstance().getTomorrow());
         //未读数量
         this.unReadCount(aListVo, model);
 
