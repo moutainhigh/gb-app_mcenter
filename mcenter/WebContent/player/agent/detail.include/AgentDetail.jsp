@@ -132,7 +132,7 @@
                         <c:forEach var="item" items="${indexDomains}" varStatus="vs">
                             <c:if test="${vs.index==0}">
                                 http://${item.domain}
-                                <a data-clipboard-target="p${vs.index}" data-clipboard-text="http://${item.domain}" name="copy">
+                                <a data-clipboard-text="http://${item.domain}" name="copy">
                                         ${views.common['copy']}
                                 </a>
                             </c:if>
@@ -144,7 +144,7 @@
                             <c:forEach var="item" items="${domains}" varStatus="vs">
                                 <c:if test="${vs.index==0}">
                                     http://${item.domain}/?c=${invitationCode}
-                                    <a data-clipboard-target="p${vs.index}" data-clipboard-text="http://${item.domain}/?c=${invitationCode}" name="copy">
+                                    <a data-clipboard-text="http://${item.domain}/?c=${invitationCode}" name="copy">
                                             ${views.common['copy']}
                                     </a>
                                 </c:if>
@@ -165,7 +165,7 @@
                             <c:forEach var="item" items="${domains}" varStatus="vs">
                                 <c:if test="${vs.index==0}">
                                     http://${item.domain}/commonPage/signUp-agent.html?c=${invitationCode}
-                                    <a data-clipboard-target="p${vs.index}" data-clipboard-text="http://${item.domain}/commonPage/signUp-agent.html?c=${invitationCode}" name="copy">
+                                    <a data-clipboard-text="http://${item.domain}/commonPage/signUp-agent.html?c=${invitationCode}" name="copy">
                                             ${views.common['copy']}
                                     </a>
                                 </c:if>
