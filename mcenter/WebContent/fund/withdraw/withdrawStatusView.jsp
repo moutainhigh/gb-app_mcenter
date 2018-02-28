@@ -132,9 +132,11 @@
                         【${dicts.fund.check_status[command.result.checkStatus]}】
                     </span>
                     <c:if test="${command.result.checkStatus eq 'payment_fail'}">
-                    <soul:button target="${root}/fund/withdraw/checkWithdrawStatus.html?search.transactionNo=${command.result.transactionNo}" callback="refreshBack" text="重新出款" opType="dialog" title="出款查询" cssClass="label label-info p-x-md"/>
-                        &nbsp;
-                        <soul:button target="${root}/fund/withdraw/setPaymentSuccess.html?search.transactionNo=${command.result.transactionNo}" callback="closePage" confirm="确认将该笔订单手动置为出款成功？" cssClass="label label-info p-x-md" text="手动置为成功" opType="ajax" />
+                        <shiro:hasPermission name="fund:withdraw_payment">
+                            <soul:button target="${root}/fund/withdraw/checkWithdrawStatus.html?search.transactionNo=${command.result.transactionNo}" callback="refreshBack" text="重新出款" opType="dialog" title="出款查询" cssClass="label label-info p-x-md"/>
+                            &nbsp;
+                            <soul:button target="${root}/fund/withdraw/setPaymentSuccess.html?search.transactionNo=${command.result.transactionNo}" callback="closePage" confirm="确认将该笔订单手动置为出款成功？" cssClass="label label-info p-x-md" text="手动置为成功" opType="ajax" />
+                        </shiro:hasPermission>
                     </c:if>
                     <c:if test="${command.result.origin eq 'MOBILE'}">
                         <span class="fa fa-mobile mobile" data-content="${views.fund_auto['手机取款']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
