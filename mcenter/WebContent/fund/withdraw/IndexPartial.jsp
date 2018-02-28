@@ -204,13 +204,18 @@
                         </shiro:lacksPermission>
                         {{/if}}
                         {{if checkStatus=='payment_processing'}}
-                            <soul:button target="withdrawAuditView" dataId="{{:id}}" size="auditLogCss" cssClass="label label-danger p-x-md" text="出款处理中" opType="function" />
+                            <soul:button target="withdrawStatusView" dataId="{{:id}}" size="auditLogCss" callback="query" cssClass="label label-danger p-x-md" text="出款处理中" opType="function" />
                         {{/if}}
                         {{if checkStatus=='payment_success'}}
                             <span class="label label-success p-x-md">出款成功</span>
                         {{/if}}
                         {{if checkStatus=='payment_fail'}}
-                            <span class="label label-dange p-x-md">出款失败</span>
+                            <shiro:hasPermission name="fund:withdraw_payment">
+                                <soul:button target="withdrawStatusView" dataId="{{:id}}" size="auditLogCss" callback="query" cssClass="label label-danger p-x-md" text="出款失败" opType="function" />
+                            </shiro:hasPermission>
+                            <shiro:lacksPermission name="fund:withdraw_payment">
+                                <span class="label p-x-md">出款失败</span>
+                            </shiro:lacksPermission>
                         {{/if}}
                     {{else}}
                         --

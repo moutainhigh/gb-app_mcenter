@@ -163,7 +163,10 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     private static final String MCENTER_PLAYER_WITHDRAW_URL = "fund/withdraw/withdrawAuditView.html";
     //保存出款账户
     public static final String WITHDRAW_ACCOUNT = "fund/withdraw/WithdrawAccount";
-
+    //出款详细页面
+    private static final String WITHDRAW_STATUS_VIEW_URl = "/fund/withdraw/withdrawStatusView";
+    //确认重新出款页面
+    private static final String WITHDRAW_STATUS_REVIEW_URl = "/fund/withdraw/withdrawStatusReview";
     @Override
     protected String getViewBasePath() {
         return "fund/withdraw/";
@@ -2293,4 +2296,64 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         return getVoMessage(playerWithdrawVo);
     }
 
+    /**
+     * 出款状态/重新出款页面
+     *
+     * @param vo
+     * @return
+     */
+    @RequestMapping({"/withdrawStatusView"})
+    public String withdrawFailView(VPlayerWithdrawVo vo, Model model) {
+        vo = ServiceSiteTool.getVPlayerWithdrawService().get(vo);
+        if (vo.getResult() == null) {
+            return null;
+        }
+        //查询玩家银行
+        getPlayerBank(vo, model);
+        vo.setThisUserId(SessionManager.getAuditUserId());
+        model.addAttribute("command", vo);
+        model.addAttribute("validateRule", JsRuleCreator.create(PlayerTransactionForm.class));
+        return WITHDRAW_STATUS_VIEW_URl;
+    }
+
+    /**
+     * 手动置订单状态为出款成功
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping("/setPaymentSuccess")
+    @ResponseBody
+    public Map<String, Object> setPaymentSuccess(VPlayerWithdrawVo vo) {
+        PlayerWithdrawVo playerWithdrawVo = new PlayerWithdrawVo();
+        playerWithdrawVo.getSearch().setTransactionNo(vo.getSearch().getTransactionNo());
+        playerWithdrawVo.getSearch().setWithdrawCheckUserId(SessionManager.getUserId());
+        try {
+            playerWithdrawVo = ServiceSiteTool.playerWithdrawService().setPaymentSuccess(playerWithdrawVo);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
+        return getVoMessage(playerWithdrawVo);
+    }
+
+    /**
+     * 查询出款状态
+     *
+     * @param vo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/checkWithdrawStatus")
+    public String checkWithdrawStatus(VPlayerWithdrawVo vo, Model model) {
+        PlayerWithdrawVo playerWithdrawVo = new PlayerWithdrawVo();
+        playerWithdrawVo.getSearch().setTransactionNo(vo.getSearch().getTransactionNo());
+        playerWithdrawVo.getSearch().setWithdrawCheckUserId(SessionManager.getUserId());
+        try {
+            playerWithdrawVo = ServiceSiteTool.playerWithdrawService().checkWithdrawStatus(playerWithdrawVo);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
+        model.addAttribute("command", playerWithdrawVo);
+        return WITHDRAW_STATUS_REVIEW_URl;
+    }
 }
