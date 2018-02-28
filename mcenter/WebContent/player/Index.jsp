@@ -574,7 +574,7 @@
                 <div class="filter-wraper clearfix">
                         <%--<a nav-target="mainFrame" href="/player/list.html" class="btn btn-primary-hide" ><i class="fa fa-refresh"></i><span class="hd">${views.common['refresh']}</span></a>--%>
                     <div class="function-menu-show">
-                        <c:if test="${queryparamValue.paramValue}">
+                        <%--<c:if test="${queryparamValue.paramValue}">
                             <div class="btn-group" style="padding-right: 10px">
                                 <soul:button permission="role:player_export" tag="button"
                                              cssClass="btn btn-export-btn btn-primary-hide"
@@ -585,7 +585,7 @@
                                     <i class="fa fa-sign-out"></i><span class="hd">${views.common['export']}</span>
                                 </soul:button>
                             </div>
-                        </c:if>
+                        </c:if>--%>
 
                             <%--层级--%>
                         <div class="btn-group" id="player_rank" style="padding-right: 10px">
