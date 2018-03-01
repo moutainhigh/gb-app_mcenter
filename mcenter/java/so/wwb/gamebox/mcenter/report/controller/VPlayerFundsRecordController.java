@@ -111,6 +111,9 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
 
         Map<String, SiteApi> siteApiMaps = Cache.getSiteApi(SessionManager.getSiteId());
         model.addAttribute("siteApiMaps", siteApiMaps);
+        withdrawAccountIsSwitch(model);//是否开启出款账户
+        model.addAttribute("withdrawCkeckStatus", DictTool.get(DictEnum.WITHDRAW_CHECK_STATUS));
+
         //默认搜索成功订单:列表页面
         if (listVo.getSearch().getStatus() == null) {
             listVo.getSearch().setStatus(CommonStatusEnum.SUCCESS.getCode());
@@ -464,6 +467,16 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
         if (StringTool.isNotBlank(so.getTransactionNo())) {
             so.setTransactionNo(so.getTransactionNo());
         }
+    }
+
+    /**
+     * 是否开启出款账户
+     *
+     * @param model
+     */
+    private void withdrawAccountIsSwitch(Model model) {
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
+        model.addAttribute("isSwitch", sysParam.getIsSwitch());
     }
 
     //endregion your codes 3
