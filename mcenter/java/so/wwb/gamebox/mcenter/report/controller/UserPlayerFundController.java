@@ -136,6 +136,8 @@ public class UserPlayerFundController{
         vo.getResult().setService(IVPlayerFundsRecordService.class.getName());
 
         vo.getResult().setMethod("queryExportData");
+        vo.setConfigKey("UserPlayerFundSearch");
+        vo.setConfigPoClass("so.wwb.gamebox.model.master.report.vo.UserPlayerFund");
         vo.getResult().setParam(VPlayerFundsRecordListVo.class.getName());
         vo.getResult().setUsername(SessionManager.getUserName());
         vo.getResult().setExportUserId(SessionManager.getUserId());
