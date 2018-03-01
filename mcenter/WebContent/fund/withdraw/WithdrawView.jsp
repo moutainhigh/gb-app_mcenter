@@ -343,6 +343,7 @@
                                     <soul:button target="cancelEdit" opType="function" cssClass="btn btn-link co-blue cancel-btn-css hide" text="${views.common['cancel']}">
                                         <span class="fa fa-undo"></span> ${views.common['cancel']}
                                     </soul:button>
+                                    <input name="checkRemark" value="${command.result.checkRemark}" type="hidden"/>
                                 </div>
                             </td>
                         </tr>
