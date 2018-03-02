@@ -26,7 +26,7 @@
                 <td scope="row" class="text-right">${views.column['realName']}：</td>
                 <td>
                     ${command.result.realName}
-                    <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-target="" data-clipboard-text="${command.result.realName}" name="copy">
+                    <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${command.result.realName}" name="copy">
                         <i class="fa fa-copy" title="${views.fund_auto['复制']}"></i>
                     </a>
                 </td>
@@ -41,7 +41,7 @@
                 <td scope="row" class="text-right">${views.fund_auto['开户行']}：</td>
                 <td>
                     ${userBankcard.bankDeposit}
-                    <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-target="" data-clipboard-text="${userBankcard.bankDeposit}" name="copy">
+                    <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${userBankcard.bankDeposit}" name="copy">
                         <i class="fa fa-copy" title="${views.fund_auto['复制']}"></i>
                     </a>
                 </td>
@@ -50,7 +50,7 @@
                 <td scope="row" class="text-right">${views.column['VPlayerWithdraw.payeeBankcard']}：</td>
                 <td>
                     ${command.result.payeeBankcard}
-                    <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-target="" data-clipboard-text="${command.result.payeeBankcard}" name="copy">
+                    <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${command.result.payeeBankcard}" name="copy">
                         <i class="fa fa-copy" title="${views.fund_auto['复制']}"></i>
                     </a>
                 </td>
