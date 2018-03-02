@@ -2261,17 +2261,21 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @RequestMapping("/saveWithdrawAccount")
     @ResponseBody
     public Map saveWithdrawAccount(SysParamVo sysParamVo) {
-        String paramValues = sysParamVo.getResult().getParamValue();
-        String[] array = paramValues.split(",");
-        Map<String, Object> paramValueMap = new HashMap<>();
-        paramValueMap.put("withdrawChannel", array[0]);
-        paramValueMap.put("merchantCode", array[1]);
-        paramValueMap.put("platformId", array[2]);
-        paramValueMap.put("key", array[3]);
-        String paramValueJosn = JsonTool.toJson(paramValueMap);
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
-        sysParam.setParamValue(paramValueJosn);
-        sysParam.setIsSwitch(sysParamVo.getResult().getIsSwitch());
+        Boolean isSwitch = sysParamVo.getResult().getIsSwitch();
+        //只有启用状态才保存更新账户信息，否则只更新启用/禁用状态
+        if (isSwitch) {
+            String paramValues = sysParamVo.getResult().getParamValue();
+            String[] array = paramValues.split(",");
+            Map<String, Object> paramValueMap = new HashMap<>();
+            paramValueMap.put("withdrawChannel", array[0]);
+            paramValueMap.put("merchantCode", array[1]);
+            paramValueMap.put("platformId", array[2]);
+            paramValueMap.put("key", array[3]);
+            String paramValueJosn = JsonTool.toJson(paramValueMap);
+            sysParam.setParamValue(paramValueJosn);
+        }
+        sysParam.setIsSwitch(isSwitch);
         sysParamVo.setResult(sysParam);
         sysParamVo = ServiceSiteTool.siteSysParamService().update(sysParamVo);
         ParamTool.refresh(SiteParamEnum.WITHDRAW_ACCOUNT);

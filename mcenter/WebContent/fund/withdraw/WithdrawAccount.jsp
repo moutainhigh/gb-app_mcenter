@@ -37,7 +37,7 @@
         <div class="form-group over clearfix">
             <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>出款渠道：</label>
             <div class="col-xs-8 p-x">
-                <select name="result.paramValue" class="btn btn-group btn-default dropdown-toggle" style="height: 35px">
+                <select  id="withdrawChannel" name="result.paramValue" class="btn btn-group btn-default dropdown-toggle" style="height: 35px">
                         <option value="">${views.common['pleaseSelect']}</option>
                         <c:forEach items="${bankList}" var="b">
                             <option value="${b.bankName}" ${p.get("withdrawChannel")==b.bankName?'selected':''}>${(dicts.common.bankname[b.bankName]==null)?b.bankShortName:dicts.common.bankname[b.bankName]}</option>
@@ -48,24 +48,24 @@
         <div class="form-group over clearfix">
             <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>商户号：</label>
             <div class="col-xs-8 p-x">
-                <input type="text" name="result.paramValue" class="form-control" value="${p.get("merchantCode")}"/>
+                <input id="merchantCode" type="text" name="result.paramValue" class="form-control" value="${p.get("merchantCode")}"/>
             </div>
         </div>
         <div class="form-group over clearfix">
-            <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>平台号：</label>
+            <label class="col-xs-3 al-right"><span class="co-red m-r-sm"></span>平台号：</label>
             <div class="col-xs-8 p-x">
-                <input type="text" name="result.paramValue" class="form-control" value="${p.get("platformId")}"/>
+                <input id="platformId" type="text" name="result.paramValue" class="form-control" value="${p.get("platformId")}"/>
             </div>
         </div>
         <div class="form-group over clearfix">
             <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>秘钥：</label>
             <div class="col-xs-8 p-x">
-                <input type="text" name="result.paramValue" class="form-control" value="${p.get("key")}"/>
+                <input id="key" type="text" name="result.paramValue" class="form-control" value="${p.get("key")}"/>
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <soul:button precall="" cssClass="btn btn-filter" opType="ajax" dataType="json" text="${views.common['OK']}" target="${root}/fund/withdraw/saveWithdrawAccount.html" post="getCurrentFormData" callback="saveCallbak"/>
+        <soul:button precall="accountValidateForm" cssClass="btn btn-filter" opType="ajax" dataType="json" text="${views.common['OK']}" target="${root}/fund/withdraw/saveWithdrawAccount.html" post="getCurrentFormData" callback="saveCallbak"/>
         <soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter" opType="function"/>
     </div>
 </form:form>
