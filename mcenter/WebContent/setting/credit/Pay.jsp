@@ -169,7 +169,7 @@
                             </table>
                         </div>
                         <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 limit-tips">
-                            ${views.setting['credit.creditPay.help']}
+                            ${fn:replace(views.setting['credit.creditPay.help'],'#{defaultProfit}',soulFn:formatCurrency(defaultProfit/10000))}
                             <%--<ul>
                             <li>1、系统默认每月赠送50万额度；</li>
                             <li>2、当系统提示额度已使用完时，请在本页面自助充值，即可提升额度；</li>
