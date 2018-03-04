@@ -195,7 +195,7 @@
             {{if _isSwitch}}
                 <td>
                     {{if withdrawStatus=='4'}}
-                        {{if checkStatus=='success'}}
+                        {{if checkStatus=='success' &&  checkTime >= _withdrawAccountEnableTime}}
                         <shiro:hasPermission name="fund:withdraw_payment">
                             <soul:button target="${root}/fund/withdraw/payment.html?search.transactionNo={{:transactionNo}}" callback="query" confirm="确认出款？" cssClass="label label-info p-x-md" text="出款" opType="ajax" />
                         </shiro:hasPermission>
@@ -203,11 +203,14 @@
                             <span class="label p-x-md">出款</span>
                         </shiro:lacksPermission>
                         {{/if}}
+                        {{if checkStatus=='success' &&  checkTime < _withdrawAccountEnableTime}}
+                        --
+                        {{/if}}
                         {{if checkStatus=='payment_processing'}}
                             <soul:button target="withdrawStatusView" dataId="{{:id}}" size="auditLogCss" callback="query" cssClass="label label-timeout p-x-md" text="出款处理中" opType="function" />
                         {{/if}}
                         {{if checkStatus=='payment_success'}}
-                            <span class="label label-success p-x-md">出款成功</span>
+                            <soul:button target="withdrawStatusView" dataId="{{:id}}" size="auditLogCss" callback="query" cssClass="label label-success p-x-md" text="出款成功" opType="function" />
                         {{/if}}
                         {{if checkStatus=='payment_fail'}}
                             <%--<shiro:hasPermission name="fund:withdraw_payment">--%>

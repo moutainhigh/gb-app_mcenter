@@ -386,6 +386,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             Map<String, Map<String, Map<String, String>>> dictsMap = I18nTool.getDictsMap(SessionManagerCommon.getLocale().toString());
             Map<String, Map<String, String>> views = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views");
             SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
+            Map<String, String> paramValueMap = JsonTool.fromJson(sysParam.getParamValue(), Map.class);
             Boolean isSwitch = sysParam.getIsSwitch();
             List<VPlayerWithdraw> result = vo.getResult();
             for (VPlayerWithdraw vPlayerWithdraw : result) {
@@ -430,6 +431,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                     vPlayerWithdraw.set_ipWithdraw_ipv4LongToString(IpTool.ipv4LongToString(ipWithdraw));
                 }
                 vPlayerWithdraw.set_isSwitch(isSwitch);
+                vPlayerWithdraw.set_withdrawAccountEnableTime(new Date(Long.valueOf(paramValueMap.get("accountEnableTime"))));
                 vPlayerWithdraw.set_islockPersonId(SessionManager.getAuditUserId().equals(vPlayerWithdraw.getLockPersonId()));
                 vPlayerWithdraw.set_formatDateTz_withdrawCheckTime(LocaleDateTool.formatDate(vPlayerWithdraw.getWithdrawCheckTime(), dateFormat.getDAY_SECOND(), timeZone));
             }
@@ -2262,20 +2264,26 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @ResponseBody
     public Map saveWithdrawAccount(SysParamVo sysParamVo) {
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
-        Boolean isSwitch = sysParamVo.getResult().getIsSwitch();
-        //只有启用状态才保存更新账户信息，否则只更新启用/禁用状态
-        if (isSwitch) {
+        Map<String, Object> paramValueMap = JsonTool.fromJson(sysParam.getParamValue(), Map.class);
+
+        Boolean isSwitchOld = sysParam.getIsSwitch();//原来的出款账户状态
+        Boolean isSwitchNew = sysParamVo.getResult().getIsSwitch();//要保存的出款账户状态
+        //只有启用状态才保存更新账户信息，否则只更新状态
+        if (isSwitchNew) {
             String paramValues = sysParamVo.getResult().getParamValue();
             String[] array = paramValues.split(",");
-            Map<String, Object> paramValueMap = new HashMap<>();
+//            Map<String, Object> paramValueMap = new HashMap<>();
             paramValueMap.put("withdrawChannel", array[0]);
             paramValueMap.put("merchantCode", array[1]);
             paramValueMap.put("platformId", array[2]);
             paramValueMap.put("key", array[3]);
+            if (!isSwitchOld || isSwitchOld == null) {//如果原来的出款账户状态为false，更新开启时间为当前时间
+                paramValueMap.put("accountEnableTime", String.valueOf(new Date().getTime()));
+            }
             String paramValueJosn = JsonTool.toJson(paramValueMap);
             sysParam.setParamValue(paramValueJosn);
         }
-        sysParam.setIsSwitch(isSwitch);
+        sysParam.setIsSwitch(isSwitchNew);
         sysParamVo.setResult(sysParam);
         sysParamVo = ServiceSiteTool.siteSysParamService().update(sysParamVo);
         ParamTool.refresh(SiteParamEnum.WITHDRAW_ACCOUNT);
