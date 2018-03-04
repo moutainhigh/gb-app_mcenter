@@ -90,7 +90,7 @@
                                                             <c:if test="${vo.result.lockPersonId == vo.thisUserId}">
                                                                 ${vo.result.agentBankcard}
                                                                 &nbsp;
-                                                                <a data-clipboard-target="p0_agentBankcard" data-clipboard-text="${vo.result.agentBankcard}" name="copy">${views.fund['withdraw.edit.AgentWithdraw.copy']}</a>
+                                                                <a data-clipboard-text="${vo.result.agentBankcard}" name="copy">${views.fund['withdraw.edit.AgentWithdraw.copy']}</a>
                                                             </c:if>
                                                             <c:if test="${vo.result.lockPersonId != vo.thisUserId}">
                                                                 ${soulFn:overlayString(vo.result.agentBankcard)}

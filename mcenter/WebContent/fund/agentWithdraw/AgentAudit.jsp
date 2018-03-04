@@ -117,7 +117,7 @@
                                                         ${command.result.agentBankcard}
                                                     </c:if>
                                                     &nbsp;
-                                                    <a data-clipboard-target="p0_agentBankcard" data-clipboard-text="${command.result.agentBankcard}" name="copy">${views.fund['withdraw.edit.playerWithdraw.copy']}</a>
+                                                    <a data-clipboard-text="${command.result.agentBankcard}" name="copy">${views.fund['withdraw.edit.playerWithdraw.copy']}</a>
                                                 </c:if>
                                                 <c:if test="${command.result.lockPersonId != command.thisUserId}">
                                                     <c:if test="${userBankcardVo.result.useCount=='0'}">
