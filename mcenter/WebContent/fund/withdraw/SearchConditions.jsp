@@ -205,11 +205,13 @@
             <div>
                 <soul:button target="query" opType="function" text="${views.fund_auto['搜索']}" cssClass="btn btn-filter search_btn pull-left m-r-sm playerWithdrawSearch"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.fund_auto['搜索']}</span></soul:button>
             </div>
+                <c:if test="${isSwitch}">
                 <div>
                     <shiro:hasPermission name="fund:withdraw_account">
                         <soul:button callback="reloadMainFrame" text="易收付出款" opType="dialog" cssClass="btn btn-filter btn-outline pull-left" target="${root}/fund/withdraw/withdrawAccount.html">易收付出款</soul:button>
                     </shiro:hasPermission>
                 </div>
+                </c:if>
                 <span class="btn btn-filter btn-outline pull-left show-demand-b m-r-sm" id="openSearch">
                 <i class="fa fa-chevron-down"></i>${views.common['advancedFilter']}
             </span>
