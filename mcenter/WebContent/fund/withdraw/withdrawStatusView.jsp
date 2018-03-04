@@ -38,7 +38,7 @@
                     <div class="pull-right">
                         ${views.column["VPlayerWithdraw.transactionNo"]}：
                             <span id="transactionNo">${command.result.transactionNo}</span>
-                            <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" id="transactionNo-copy" data-clipboard-target="transactionNo" data-clipboard-text="${command.result.transactionNo}" name="copy"><i class="fa fa-copy"></i></a>
+                            <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-placement="left" data-clipboard-text="${command.result.transactionNo}" name="copy"><i class="fa fa-copy"></i></a>
                     </div>
                 </td>
             </tr>
@@ -74,7 +74,7 @@
                         <tr>
                             <th scope="row" class="text-right active" width="33%">${views.fund_auto['真实姓名']}：</th>
                             <td><span class="co-black" id="realName">${command.result.realName}</span>
-                                <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-target="realName" data-clipboard-text="${command.result.realName}" name="copy"><i class="fa fa-copy"></i></a>
+                                <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${command.result.realName}" name="copy"><i class="fa fa-copy"></i></a>
                             </td>
                         </tr>
                         <tr>
@@ -86,7 +86,7 @@
                             <td>
                                 <c:if test="${!empty userBankcard.bankDeposit}">
                                     <span id="depositBank">${userBankcard.bankDeposit}</span>
-                                    <a type="button" class="btn btn-sm btn-info btn-stroke m-l-sm"  data-clipboard-target="depositBank" data-clipboard-text="${userBankcard.bankDeposit}" name="copy"><i class="fa fa-copy"></i></a>
+                                    <a type="button" class="btn btn-sm btn-info btn-stroke m-l-sm" data-clipboard-text="${userBankcard.bankDeposit}" name="copy"><i class="fa fa-copy"></i></a>
                                 </c:if>
                             </td>
                         </tr>
