@@ -24,6 +24,7 @@ import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.company.credit.po.CreditRecord;
 import so.wwb.gamebox.model.company.credit.vo.CreditRecordListVo;
 import so.wwb.gamebox.model.company.credit.vo.CreditRecordVo;
+import so.wwb.gamebox.model.company.enums.CreditRecordStatusEnum;
 import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.common.token.Token;
 
@@ -104,6 +105,8 @@ public class CreditRecordController extends NoMappingCrudController<ICreditRecor
         Map map=new HashMap(2,1f);
         creditRecordVo.getSearch().setSiteId(SessionManager.getSiteId());
         try {
+            creditRecordVo.getSearch().setRecordStatus(new String[]{CreditRecordStatusEnum.DEAL.getCode(),
+                    CreditRecordStatusEnum.SUCCESS.getCode(),CreditRecordStatusEnum.FAIL.getCode()});
             map = ServiceTool.creditRecordService().queryTotalAndMoney(creditRecordVo);
         }catch (Exception e){
             LOG.error(e,"统计数据超时！");

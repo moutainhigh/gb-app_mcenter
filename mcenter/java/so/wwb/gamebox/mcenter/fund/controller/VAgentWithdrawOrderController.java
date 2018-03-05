@@ -134,7 +134,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
             search.setAuditname(search.getAuditname().replaceAll("_","\\\\_"));
         }
         if(StringTool.isNotBlank(search.getRealName())){
-            search.setRealName(search.getRealName().replaceAll("_","\\\\_"));
+            search.setAgentRealname(search.getRealName().replaceAll("_","\\\\_"));
         }
         if(StringTool.isNotBlank(search.getAgentBankcard())){
             search.setAgentBankcard(search.getAgentBankcard().replaceAll("_","\\\\_"));
