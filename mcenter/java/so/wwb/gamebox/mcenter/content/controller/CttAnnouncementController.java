@@ -2,12 +2,14 @@ package so.wwb.gamebox.mcenter.content.controller;
 
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.enums.EnumTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.query.sort.Direction;
 import org.soul.commons.support._Module;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.sys.po.SysDict;
+import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -19,16 +21,13 @@ import so.wwb.gamebox.iservice.master.content.ICttAnnouncementService;
 import so.wwb.gamebox.mcenter.content.form.CttAnnouncementForm;
 import so.wwb.gamebox.mcenter.content.form.CttAnnouncementSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.Module;
-import so.wwb.gamebox.model.ModuleType;
+import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
-import so.wwb.gamebox.model.company.site.vo.VSiteApiTypeRelationListVo;
-import so.wwb.gamebox.model.company.site.vo.VSiteApiTypeRelationVo;
 import so.wwb.gamebox.model.master.content.enums.CttAnnouncementTypeEnum;
+import so.wwb.gamebox.model.master.content.enums.IntervalTimeEnum;
 import so.wwb.gamebox.model.master.content.po.CttAnnouncement;
 import so.wwb.gamebox.model.master.content.vo.CttAnnouncementListVo;
 import so.wwb.gamebox.model.master.content.vo.CttAnnouncementVo;
@@ -127,52 +126,11 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
     @ResponseBody
     @Token(valid = true)
     public Map batchSave(CttAnnouncementListVo listVo) {
-        //判断是否需要生成一个uuid；
-        if (StringTool.isBlank(listVo.getUuid())) {
-            listVo.setUuid(UUID.randomUUID().toString());
-        }
-        Date timing = listVo.getTiming();
-        boolean isTask = timing != null;
-        Date publishTime;
-        //通过判断时间是否有值决定是否定时发送;
-        if (isTask) {
-            publishTime = timing;
-        } else {
-            publishTime = new Date();
-        }
-        for (CttAnnouncement cttAnnouncement : listVo.getResult()) {
-            //判断新增还是编辑，编辑需要加上更新时间和更新者；
-            if (cttAnnouncement.getId() == null) {
-                cttAnnouncement.setCode(listVo.getUuid().toString());
-            } else {
-                cttAnnouncement.setUpdateUser(SessionManager.getUserId());
-                cttAnnouncement.setUpdateTime(new Date());
-            }
-            String announcementType = listVo.getAnnouncementType();
-            cttAnnouncement.setPublishTime(publishTime);
-            cttAnnouncement.setCreateUser(SessionManager.getUserId());
-            cttAnnouncement.setCreateTime(new Date());
-            cttAnnouncement.setIsTask(isTask);
-            cttAnnouncement.setDisplay(true);
-            cttAnnouncement.setAnnouncementType(announcementType);
-            if(CttAnnouncementTypeEnum.REGISTER_ANNOUNCEMENT.getCode().equals(announcementType) || CttAnnouncementTypeEnum.LOGIN_ANNOUNCEMENT.getCode().equals(announcementType)){
-                CttAnnouncementVo vo = new CttAnnouncementVo();
-                vo.setResult(cttAnnouncement);
-                //典型错误，两次service
-               getService().changeOtherAnnouncementStatus(vo);
-            }
-            //新增银行公告默认排序设置为0
-            if (CttAnnouncementTypeEnum.BANK_ANNOOUNCEMENT.getCode().equals(announcementType)&&cttAnnouncement.getOrderNum()==null){
-                cttAnnouncement.setOrderNum(0);
-            }
-
-        }
-        //TODO:kobe 典型错误，两次service,如果这里异常。。。。
-        listVo = getService().batchSave(listVo);
-        //
+        listVo.setUserId(SessionManager.getUserId());
+        listVo = ServiceTool.cttAnnouncementService().updateAnnouncement(listVo);
         Cache.refreshSiteAnnouncement();
         Cache.refreshCurrentSitePageCache();
-
+        ParamTool.refresh(SiteParamEnum.CAROUSEL_LOGIN_ANNOUNCEMENT);
         Map<String, Object> map = getVoMessage(listVo);
         if (!listVo.isSuccess()) {
             map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
@@ -248,6 +206,9 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         model.addAttribute("types", types);
         Map<Object, CttAnnouncement> cttAnnouncementMap = CollectionTool.toEntityMap(cttAnnouncementListVo.getResult(), CttAnnouncement.PROP_LANGUAGE);
         model.addAttribute("cttAnnouncementMap",cttAnnouncementMap);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.CAROUSEL_LOGIN_ANNOUNCEMENT);
+        model.addAttribute("loginAnnouncementParam", sysParam);
+        model.addAttribute("intervalTime", EnumTool.getEnumList(IntervalTimeEnum.class));
         return EDIT;
     }
 
