@@ -24,9 +24,9 @@
             <div class="clearfix">
                 <label style="float: left;">${views.content['展示时间']}：</label>
                 <div class="col-xs-1" style="margin-top: -9px;">
-                    <select class="chosen-select-no-single params_data" name="paramValue" data-value="${loginAnnouncementParam.paramValue}">
+                    <select class="chosen-select-no-single params_data" name="countdown">
                         <c:forEach items="${intervalTime}" var="it">
-                            <option <c:if test="${it.time eq loginAnnouncementParam.paramValue}"> selected </c:if> value="${it.time}">${it.content}</option>
+                            <option <c:if test="${it.time eq countdown}"> selected </c:if> value="${it.time}">${it.content}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -110,7 +110,7 @@
             </div>
             <div class="clearfix">
                 <label>${views.content['展示时间']}：</label>
-                <label id="loginAnnouncementTime"></label>
+                <label id="countdown"></label>
             </div>
             <div class="clearfix save lgg-version">
                 <c:forEach items="${languageList}" var="p" varStatus="status">
