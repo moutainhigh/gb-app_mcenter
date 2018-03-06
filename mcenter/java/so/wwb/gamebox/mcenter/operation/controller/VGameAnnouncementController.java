@@ -143,19 +143,30 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
      * @return
      */
     @RequestMapping("/announcementDetail")
-    public String announcementDetail(VNoticeReceivedTextVo vo, NoticeReceiveVo noticeReceiveVo, Model model, HttpServletRequest request) {
+    public String announcementDetail(VNoticeReceivedTextVo vo,VNoticeReceivedTextListVo listVo, NoticeReceiveVo noticeReceiveVo, Model model, HttpServletRequest request) {
+        //使用个分页的方法查找到信息，方便显示上一个下一个，即为上一页，下一页
+        listVo.getPaging().setPageSize(1);
+        listVo.getSearch().setReceiverId(SessionManager.getUserId());
+        listVo = ServiceTool.noticeService().fetchReceivedSiteMsg(listVo);
+        if(listVo.getResult().size()>0){
+            vo.setResult(listVo.getResult().get(0));
+            noticeReceiveVo.getSearch().setId(listVo.getResult().get(0).getId());
+        }
+
         List list = new ArrayList();
         list.add(noticeReceiveVo.getSearch().getId());
         noticeReceiveVo.setIds(list);
         boolean read = ServiceTool.noticeService().markSiteMsg(noticeReceiveVo);
 
-        vo = ServiceTool.noticeService().fetchReceivedSiteMsgDetail(vo);
+
+//        vo = ServiceTool.noticeService().fetchReceivedSiteMsgDetail(vo);
         /*替换内容包含${user}的内容 */
-        if (vo.getResult().getContent().contains("${user}")) {
+        if (vo.getResult() != null && StringTool.isNotBlank(vo.getResult().getContent()) && vo.getResult().getContent().contains("${user}")) {
             String replace = vo.getResult().getContent().replace("${user}", SessionManager.getUserName());
             vo.getResult().setContent(replace);
         }
         model.addAttribute("command", vo);
+        model.addAttribute("commandList", listVo);
         model.addAttribute("read", read);
         return ANNOUNCEMENT_DETAIL_URL;
     }
@@ -254,8 +265,19 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
      */
     @RequestMapping("/systemNoticeDetail")
     public String systemNoticeDetail(Model model, VSystemAnnouncementListVo vSystemAnnouncementListVo) {
+        //pageSize为１，上一条即为上一页
+        vSystemAnnouncementListVo.getPaging().setPageSize(1);
+        if (vSystemAnnouncementListVo.getSearch().getStartTime() == null && vSystemAnnouncementListVo.getSearch().getEndTime() == null) {
+            vSystemAnnouncementListVo.getSearch().setStartTime(DateTool.addMonths(SessionManager.getDate().getNow(), -1));
+            vSystemAnnouncementListVo.getSearch().setEndTime(SessionManager.getDate().getTomorrow());
+        }
+        vSystemAnnouncementListVo.setIsAgent("true");
         vSystemAnnouncementListVo.getSearch().setLocal(SessionManager.getLocale().toString());
-        vSystemAnnouncementListVo = ServiceTool.vSystemAnnouncementService().search(vSystemAnnouncementListVo);
+        vSystemAnnouncementListVo.getSearch().setPublishTime(SessionManager.getUser().getCreateTime());
+        vSystemAnnouncementListVo.getSearch().setReceiveUserType(UserTypeEnum.MASTER.getCode());
+        
+        vSystemAnnouncementListVo.getSearch().setLocal(SessionManager.getLocale().toString());
+        vSystemAnnouncementListVo = ServiceTool.vSystemAnnouncementService().searchMasterSystemNotice(vSystemAnnouncementListVo);
         model.addAttribute("vSystemAnnouncementListVo", vSystemAnnouncementListVo);
         return SYSTEM_NOTICE_DETAIL_URL;
     }
@@ -387,9 +409,37 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
      */
     @RequestMapping("/messageDetail")
     public String messageDetail(VSystemAnnouncementListVo vo, Model model) {
+
+        //pageSize为１，上一条即为上一页
+        vo.getPaging().setPageSize(1);
+        if (vo.getSearch().getStartTime() == null && vo.getSearch().getEndTime() == null) {
+            vo.getSearch().setStartTime(DateTool.addMonths(SessionManager.getDate().getNow(), -1));
+            vo.getSearch().setEndTime(SessionManager.getDate().getNow());
+        }
         vo.getSearch().setLocal(SessionManager.getLocale().toString());
-        vo = ServiceTool.vSystemAnnouncementService().search(vo);
+        vo.getSearch().setAnnouncementType(AnnouncementTypeEnum.GAME.getCode());
+        vo.getSearch().setPublishTime(SessionManager.getUser().getCreateTime());
+        Map apiMap = new HashMap();
+        //纯彩票只保留龙头彩票游戏公告
+        if (ParamTool.isLotterySite()) {
+            String apiId = ApiProviderEnum.PL.getCode();
+            vo.getSearch().setApiId(NumberTool.toInt(apiId));
+            SiteApi siteApi = new SiteApi();
+            siteApi.setApiId(NumberTool.toInt(apiId));
+            apiMap.put(apiId, siteApi);
+        } else {
+            apiMap = Cache.getSiteApiI18n();
+        }
+        vo = ServiceTool.vSystemAnnouncementService().searchMasterSystemNotice(vo);
+        for (VSystemAnnouncement vSystemAnnouncement : vo.getResult()) {
+            vSystemAnnouncement.setContent(StringTool.replaceHtml(vSystemAnnouncement.getContent()));
+        }
         model.addAttribute("command", vo);
+
+
+//        vo.getSearch().setLocal(SessionManager.getLocale().toString());
+//        vo = ServiceTool.vSystemAnnouncementService().search(vo);
+//        model.addAttribute("command", vo);
         return MESSAGE_DETAIL_URL;
     }
 

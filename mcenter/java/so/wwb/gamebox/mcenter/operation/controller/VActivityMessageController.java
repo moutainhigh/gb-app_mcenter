@@ -122,6 +122,9 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
             listVo.getSearch().setCheckStatus(ContentCheckEnum.PASS.getCode());
         }*/
 
+        //增加按照状态排序
+        listVo.getQuery().addOrder(VActivityMessage.PROP_LIST_ORDER_NUM,Direction.ASC).addOrder(VActivityMessage.PROP_START_TIME,Direction.DESC);
+
         VActivityMessageListVo vActivityMessageListVo = this.getService().search(listVo);
         /*if (vActivityMessageListVo.getResult() != null) {
             for (VActivityMessage vActivityMessage : vActivityMessageListVo.getResult()) {

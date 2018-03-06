@@ -43,6 +43,9 @@
                     href="/player/list.html?search.registerIp=${command1.result.registerIp}&search.hasReturn=true"
                     nav-target="mainFrame">${soulFn:formatIp(command1.result.registerIp)}</a>
                 </b>
+                <span class="co-gray">
+                        ${gbFn:getShortIpRegion(command1.result.registerIpDictCode)}
+                </span>
                 (${views.fund['fund.playerDetect.index.sameIP']}
                 <c:choose>
                     <c:when test="${command1.repeatMap.registerIp gt 0}">

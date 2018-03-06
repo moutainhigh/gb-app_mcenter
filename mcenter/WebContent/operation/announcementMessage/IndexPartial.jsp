@@ -28,20 +28,20 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${command.result}" var="s">
+        <c:forEach items="${command.result}" var="s" varStatus="status" >
             <tr>
                 <td style="width: 40px"><input type="checkbox" value="${s.id}" class="i-checks"></td>
                 <td>
                     <c:if test="${s.receiveStatus=='12'}">
                         <div class="elli hide">
-                            <a href="/operation/announcementMessage/announcementDetail.html?search.id=${s.id}" nav-target="mainFrame" class="co-gray6">
+                            <a href="/operation/announcementMessage/announcementDetail.html?search.id=${s.id}&paging.pageNumber=${(command.paging.pageNumber-1)*command.paging.pageSize+status.index+1}" nav-target="mainFrame" class="co-gray6">
                                     ${s.title}
                             </a>
                         </div>
 
                     </c:if>
                     <c:if test="${s.receiveStatus=='01'}">
-                        <div class="elli hide"><a href="/operation/announcementMessage/announcementDetail.html?search.id=${s.id}" nav-target="mainFrame" class="co-gray6">
+                        <div class="elli hide"><a href="/operation/announcementMessage/announcementDetail.html?search.id=${s.id}&paging.pageNumber=${(command.paging.pageNumber-1)*command.paging.pageSize+status.index+1}" nav-target="mainFrame" class="co-gray6">
                             <b>${s.title}</b>
                         </a>
                         </div>

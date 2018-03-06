@@ -12,6 +12,19 @@
     </div>
     <div class="col-lg-12">
         <div class="wrapper white-bg shadow">
+            <br>
+            <div class="al-right pull-right">
+                &lt;
+                <c:if test="${vSystemAnnouncementListVo.paging.pageNumber != 1}">
+                    <a href="/operation/announcementMessage/systemNoticeDetail.html?search.id=&search.startTime=${soulFn:formatDateTz(vSystemAnnouncementListVo.search.startTime, DateFormat.DAY_SECOND,timeZone)}&search.endTime=${soulFn:formatDateTz(vSystemAnnouncementListVo.search.endTime, DateFormat.DAY_SECOND,timeZone)}&paging.pageNumber=${vSystemAnnouncementListVo.paging.pageNumber-1}"  nav-target="mainFrame" class="co-gray6">${views.column['上一条']}</a>
+                </c:if>
+                &nbsp;
+                <c:if test="${vSystemAnnouncementListVo.paging.pageNumber != vSystemAnnouncementListVo.paging.totalCount}">
+                    <a href="/operation/announcementMessage/systemNoticeDetail.html?search.id=&search.startTime=${soulFn:formatDateTz(vSystemAnnouncementListVo.search.startTime, DateFormat.DAY_SECOND,timeZone)}&search.endTime=${soulFn:formatDateTz(vSystemAnnouncementListVo.search.endTime, DateFormat.DAY_SECOND,timeZone)}&paging.pageNumber=${vSystemAnnouncementListVo.paging.pageNumber+1}"  nav-target="mainFrame" class="co-gray6">${views.column['下一条']}</a>
+                </c:if>
+
+                &gt;&nbsp;&nbsp;&nbsp;
+            </div>
             <div class="line-34 m-t-md p-sm">
                 <pre style="white-space: pre-wrap;word-wrap: break-word;border: 0px;background-color: white"><p>${vSystemAnnouncementListVo.result.get(0).content}</p></pre>
                 <div class="al-right co-grayc2 m-b">${soulFn:formatDateTz(vSystemAnnouncementListVo.result.get(0).publishTime, DateFormat.DAY_SECOND,timeZone)}</div>
