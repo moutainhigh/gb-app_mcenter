@@ -95,6 +95,7 @@ import so.wwb.gamebox.model.master.fund.enums.*;
 import so.wwb.gamebox.model.master.fund.po.PlayerRecharge;
 import so.wwb.gamebox.model.master.fund.po.PlayerWithdraw;
 import so.wwb.gamebox.model.master.fund.po.VPlayerWithdraw;
+import so.wwb.gamebox.model.master.fund.so.PlayerWithdrawSo;
 import so.wwb.gamebox.model.master.fund.so.VPlayerWithdrawSo;
 import so.wwb.gamebox.model.master.fund.vo.PlayerRechargeVo;
 import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawVo;
@@ -214,7 +215,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         }
 
-        withdrawAccountIsSwitch(model);//是否开启出款账户
+        withdrawAccountIsActive(model);//是否开启出款账户
+        easyPaymentStatus(model);//是否开启易收付出款入口
         handleVoice(vo, model);// 公司入款声音参数
         handleWithdrawStatus(model);//处理取款状态
         Map<String, Serializable> bankName = getBankList();//DictTool.get(DictEnum.BANKNAME);
@@ -236,9 +238,18 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      *
      * @param model
      */
-    private void withdrawAccountIsSwitch(Model model) {
+    private void withdrawAccountIsActive(Model model) {
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
-        model.addAttribute("isSwitch", sysParam.getIsSwitch());
+        model.addAttribute("isActive", sysParam.getActive());
+    }
+    /**
+     * 是否开启易收付出款入口
+     *
+     * @param model
+     */
+    private void easyPaymentStatus(Model model) {
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.EASY_PAYMENT);
+        model.addAttribute("easyPaymentStatus", sysParam.getParamValue());
     }
 
     /**
@@ -387,7 +398,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             Map<String, Map<String, String>> views = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views");
             SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
             Map<String, String> paramValueMap = JsonTool.fromJson(sysParam.getParamValue(), Map.class);
-            Boolean isSwitch = sysParam.getIsSwitch();
+            Boolean isActive = sysParam.getActive();
             List<VPlayerWithdraw> result = vo.getResult();
             for (VPlayerWithdraw vPlayerWithdraw : result) {
                 vPlayerWithdraw.set_formatDateTz_createTime(LocaleDateTool.formatDate(vPlayerWithdraw.getCreateTime(), dateFormat.getDAY_SECOND(), timeZone));
@@ -430,7 +441,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 if (ipWithdraw != null) {
                     vPlayerWithdraw.set_ipWithdraw_ipv4LongToString(IpTool.ipv4LongToString(ipWithdraw));
                 }
-                vPlayerWithdraw.set_isSwitch(isSwitch);
+                vPlayerWithdraw.set_isActive(isActive);
                 vPlayerWithdraw.set_withdrawAccountEnableTime(new Date(Long.valueOf(paramValueMap.get("accountEnableTime"))));
                 vPlayerWithdraw.set_islockPersonId(SessionManager.getAuditUserId().equals(vPlayerWithdraw.getLockPersonId()));
                 vPlayerWithdraw.set_formatDateTz_withdrawCheckTime(LocaleDateTool.formatDate(vPlayerWithdraw.getWithdrawCheckTime(), dateFormat.getDAY_SECOND(), timeZone));
@@ -2266,10 +2277,10 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
         Map<String, Object> paramValueMap = JsonTool.fromJson(sysParam.getParamValue(), Map.class);
 
-        Boolean isSwitchOld = sysParam.getIsSwitch();//原来的出款账户状态
-        Boolean isSwitchNew = sysParamVo.getResult().getIsSwitch();//要保存的出款账户状态
+        Boolean isActiveOld = sysParam.getActive();//原来的出款账户状态
+        Boolean isActiveNew = sysParamVo.getResult().getActive();//要保存的出款账户状态
         //只有启用状态才保存更新账户信息，否则只更新状态
-        if (isSwitchNew) {
+        if (isActiveNew) {
             String paramValues = sysParamVo.getResult().getParamValue();
             String[] array = paramValues.split(",");
 //            Map<String, Object> paramValueMap = new HashMap<>();
@@ -2277,13 +2288,13 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             paramValueMap.put("merchantCode", array[1]);
             paramValueMap.put("platformId", array[2]);
             paramValueMap.put("key", array[3]);
-            if (!isSwitchOld || isSwitchOld == null) {//如果原来的出款账户状态为false，更新开启时间为当前时间
+            if (!isActiveOld || isActiveOld == null) {//如果原来的出款账户状态为false，更新开启时间为当前时间
                 paramValueMap.put("accountEnableTime", String.valueOf(new Date().getTime()));
             }
             String paramValueJosn = JsonTool.toJson(paramValueMap);
             sysParam.setParamValue(paramValueJosn);
         }
-        sysParam.setIsSwitch(isSwitchNew);
+        sysParam.setActive(isActiveNew);
         sysParamVo.setResult(sysParam);
         sysParamVo = ServiceSiteTool.siteSysParamService().update(sysParamVo);
         ParamTool.refresh(SiteParamEnum.WITHDRAW_ACCOUNT);
@@ -2329,19 +2340,21 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     }
 
     /**
-     * 手动置订单状态为出款成功
+     * 手动置订单状态为出款成功/出款失败
      *
      * @param
      * @return
      */
-    @RequestMapping("/setPaymentSuccess")
+    @RequestMapping("/setPaymentStatus")
     @ResponseBody
-    public Map<String, Object> setPaymentSuccess(VPlayerWithdrawVo vo) {
+    public Map<String, Object> setPaymentStatus(VPlayerWithdrawVo vo) {
         PlayerWithdrawVo playerWithdrawVo = new PlayerWithdrawVo();
-        playerWithdrawVo.getSearch().setTransactionNo(vo.getSearch().getTransactionNo());
-        playerWithdrawVo.getSearch().setWithdrawCheckUserId(SessionManager.getUserId());
+        PlayerWithdrawSo playerWithdrawSo = playerWithdrawVo.getSearch();
+        playerWithdrawSo.setTransactionNo(vo.getSearch().getTransactionNo());
+        playerWithdrawSo.setCheckStatus(vo.getSearch().getCheckStatus());
+        playerWithdrawSo.setWithdrawCheckUserId(SessionManager.getUserId());
         try {
-            playerWithdrawVo = ServiceSiteTool.playerWithdrawService().setPaymentSuccess(playerWithdrawVo);
+            playerWithdrawVo = ServiceSiteTool.playerWithdrawService().setPaymentStatus(playerWithdrawVo);
         } catch (Exception e) {
             LOG.error(e);
         }

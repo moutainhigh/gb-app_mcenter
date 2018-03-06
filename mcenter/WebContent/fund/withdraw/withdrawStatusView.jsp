@@ -135,7 +135,14 @@
                         <shiro:hasPermission name="fund:withdraw_payment">
                             <soul:button target="${root}/fund/withdraw/checkWithdrawStatus.html?search.transactionNo=${command.result.transactionNo}" callback="refreshBack" text="重新出款" opType="dialog" title="出款查询" cssClass="label label-info p-x-md"/>
                             &nbsp;
-                            <soul:button target="${root}/fund/withdraw/setPaymentSuccess.html?search.transactionNo=${command.result.transactionNo}" callback="closePage" confirm="确认将该笔订单手动置为出款成功？" cssClass="label label-info p-x-md" text="手动置为成功" opType="ajax" />
+                            <soul:button target="${root}/fund/withdraw/setPaymentStatus.html?search.transactionNo=${command.result.transactionNo}&search.checkStatus=payment_success" callback="closePage" confirm="确认将该笔订单手动置为出款成功？" cssClass="label label-info p-x-md" text="手动置为成功" opType="ajax" />
+                        </shiro:hasPermission>
+                    </c:if>
+                    <c:if test="${command.result.checkStatus eq 'payment_processing'}">
+                        <shiro:hasPermission name="fund:withdraw_payment">
+                            <soul:button target="${root}/fund/withdraw/setPaymentStatus.html?search.transactionNo=${command.result.transactionNo}&search.checkStatus=payment_fail" callback="closePage" confirm="确认将该笔订单手动置为出款失败？" cssClass="label label-info p-x-md" text="手动置为失败" opType="ajax" />
+                            &nbsp;
+                            <soul:button target="${root}/fund/withdraw/setPaymentStatus.html?search.transactionNo=${command.result.transactionNo}&search.checkStatus=payment_success" callback="closePage" confirm="确认将该笔订单手动置为出款成功？" cssClass="label label-info p-x-md" text="手动置为成功" opType="ajax" />
                         </shiro:hasPermission>
                     </c:if>
                     <c:if test="${command.result.origin eq 'MOBILE'}">
@@ -147,7 +154,7 @@
 
             <tr>
                 <th scope="row" class="text-right" style="vertical-align: top;">${views.fund_auto['失败原因']}：</th>
-                <td style="max-width:400px;">${command.result.reasonContent}</td>
+                <td style="max-width:400px;">${command.result.withdrawFailureReason}</td>
             </tr>
 
             <tr>
