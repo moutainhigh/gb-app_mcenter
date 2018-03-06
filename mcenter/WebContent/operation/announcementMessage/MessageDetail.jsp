@@ -12,6 +12,19 @@
     </div>
     <div class="col-lg-12">
         <div class="wrapper white-bg shadow">
+            <br>
+            <div class="al-right pull-right">
+                &lt;
+                <c:if test="${command.paging.pageNumber != 1}">
+                    <a href="/operation/announcementMessage/messageDetail.html?search.id=&search.apiId=${command.search.apiId}&search.startTime=${soulFn:formatDateTz(command.search.startTime, DateFormat.DAY_SECOND,timeZone)}&search.endTime=${soulFn:formatDateTz(command.search.endTime, DateFormat.DAY_SECOND,timeZone)}&paging.pageNumber=${command.paging.pageNumber-1}"  nav-target="mainFrame" class="co-gray6">上一条</a>
+                </c:if>
+                &nbsp;
+                <c:if test="${command.paging.pageNumber != command.paging.totalCount}">
+                    <a href="/operation/announcementMessage/messageDetail.html?search.id=&search.apiId=${command.search.apiId}&search.startTime=${soulFn:formatDateTz(command.search.startTime, DateFormat.DAY_SECOND,timeZone)}&search.endTime=${soulFn:formatDateTz(command.search.endTime, DateFormat.DAY_SECOND,timeZone)}&paging.pageNumber=${command.paging.pageNumber+1}"  nav-target="mainFrame" class="co-gray6">下一条</a>
+                </c:if>
+
+                &gt;&nbsp;&nbsp;&nbsp;
+            </div>
             <div class="line-34 m-t-md p-sm">
                 <%--<h3 class="al-center">${command.result.get(0).title}</h3>--%>
                     <pre style="white-space: pre-wrap;word-wrap: break-word;border: 0px;background-color: white">${command.result.get(0).content}</pre>

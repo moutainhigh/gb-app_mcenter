@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <div class="table-responsive table-min-h">
-    <c:forEach items="${command.result}" var="s">
+    <c:forEach items="${command.result}" var="s" varStatus="status">
         <c:forEach items="${apiMap}" var="apis">
             <c:if test="${apis.value.apiId==s.apiId}">
                 <ul class="game-announcement-list warningRecord-wrap">
@@ -13,7 +13,7 @@
                                 <c:if test="${s.gameId!=null}">——${gbFn:getSiteGameName((s.gameId).toString())}</c:if>
                             </span>
                             <p>
-                                <a href="/operation/announcementMessage/messageDetail.html?search.id=${s.id}"
+                                <a href="/operation/announcementMessage/messageDetail.html?search.id=&search.apiId=${command.search.apiId}&search.startTime=${soulFn:formatDateTz(command.search.startTime, DateFormat.DAY_SECOND,timeZone)}&search.endTime=${soulFn:formatDateTz(command.search.endTime, DateFormat.DAY_SECOND,timeZone)}&paging.pageNumber=${(command.paging.pageNumber-1)*command.paging.pageSize+status.index+1}"
                                    nav-target="mainFrame"
                                    class="co-gray6">${s.shortContentText50}</a>
                                 <span class="co-gray pull-right">${soulFn:formatDateTz(s.publishTime, DateFormat.DAY_SECOND,timeZone)}</span>
