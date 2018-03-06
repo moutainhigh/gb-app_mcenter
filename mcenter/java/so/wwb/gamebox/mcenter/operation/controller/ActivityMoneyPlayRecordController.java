@@ -1,7 +1,10 @@
 package so.wwb.gamebox.mcenter.operation.controller;
 
 import org.soul.web.controller.BaseCrudController;
+import org.soul.web.validation.form.annotation.FormModel;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.iservice.master.operation.IActivityMoneyPlayRecordService;
 import so.wwb.gamebox.mcenter.operation.form.ActivityMoneyPlayRecordForm;
@@ -9,6 +12,10 @@ import so.wwb.gamebox.mcenter.operation.form.ActivityMoneyPlayRecordSearchForm;
 import so.wwb.gamebox.model.master.operation.po.ActivityMoneyPlayRecord;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMoneyPlayRecordListVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMoneyPlayRecordVo;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 
 /**
@@ -26,11 +33,17 @@ public class ActivityMoneyPlayRecordController extends BaseCrudController<IActiv
     @Override
     protected String getViewBasePath() {
         //region your codes 2
-        return "/operation/";
+        return "/operation/activityMoneyPlayRecord/";
         //endregion your codes 2
     }
 
     //region your codes 3
+
+    @Override
+    public String list(ActivityMoneyPlayRecordListVo listVo, @FormModel("search") @Valid ActivityMoneyPlayRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
+        return super.list(listVo, form, result, model, request, response);
+    }
+
 
     //endregion your codes 3
 

@@ -30,7 +30,12 @@
                     </c:if>
                 </td>
                 <td>${p.winAmount}
-                        <%--${soulFn:formatCurrency(p.winAmount)}--%>
+                    <c:if test="${p.winAmount le 0}">
+                        ${views.column['未中奖']}
+                    </c:if>
+                    <c:if test="${p.winAmount gt 0}">
+                        ${p.winAmount}
+                    </c:if>
                 </td>
             </tr>
         </c:forEach>
