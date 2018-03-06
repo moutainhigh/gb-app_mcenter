@@ -32,7 +32,7 @@
                 <th>${views.fund_auto['审核人']}</th>
                 <th>${views.fund_auto['审核时间']}</th>
                 <%--出款--%>
-                <c:if test="${isSwitch}">
+                <c:if test="${isActive}">
                     <th>出款确认</th>
                     <th>确认人</th>
                     <th>确认时间</th>
@@ -192,7 +192,7 @@
                 </span>
             </td>
             <%--出款列表--%>
-            {{if _isSwitch}}
+            {{if _isActive}}
                 <td>
                     {{if withdrawStatus=='4'}}
                         {{if checkStatus=='success' &&  checkTime >= _withdrawAccountEnableTime}}

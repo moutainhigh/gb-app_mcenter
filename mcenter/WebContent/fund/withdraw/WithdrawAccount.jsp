@@ -28,8 +28,8 @@
         <div class="form-group over clearfix">
             <label class="col-xs-3 al-right">是否启用：</label>
             <div class="col-xs-8 p-x">
-                <input type="checkbox" name="my-checkbox" data-size="mini" ${command.result.isSwitch?'checked':''}>
-                <input type="hidden" name="result.isSwitch" value="${not empty command.result.isSwitch && command.result.isSwitch?'true':'false'}">
+                <input type="checkbox" name="my-checkbox" data-size="mini" ${command.result.active?'checked':''}>
+                <input type="hidden" name="result.active" value="${not empty command.result.active && command.result.active?'true':'false'}">
             </div>
         </div>
 
