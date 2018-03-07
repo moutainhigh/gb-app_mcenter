@@ -21,12 +21,12 @@
     <%--<div id="validateRule" style="display: none">${validateRule}</div>--%>
     <div class="modal-body">
         <div class="form-group over clearfix">
-            <label class="">启用后，出款审核列表将显示出款相关信息及选项；<br>
-                玩家点击入口并进行存款行为，系统将自动判断存款是否成功；</label>
+            <label class="">${views.fund_auto['启用提示信息1']}<br>
+                    ${views.fund_auto['启用提示信息2']}</label>
         </div>
 
         <div class="form-group over clearfix">
-            <label class="col-xs-3 al-right">是否启用：</label>
+            <label class="col-xs-3 al-right">${views.fund_auto['是否启用']}：</label>
             <div class="col-xs-8 p-x">
                 <input type="checkbox" name="my-checkbox" data-size="mini" ${command.result.active?'checked':''}>
                 <input type="hidden" name="result.active" value="${not empty command.result.active && command.result.active?'true':'false'}">
@@ -35,7 +35,7 @@
 
         <c:set value="${paramValueMap}" var="p"></c:set>
         <div class="form-group over clearfix">
-            <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>出款渠道：</label>
+            <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['出款渠道']}：</label>
             <div class="col-xs-8 p-x">
                 <select  id="withdrawChannel" name="result.paramValue" class="btn btn-group btn-default dropdown-toggle" style="height: 35px">
                         <option value="">${views.common['pleaseSelect']}</option>
@@ -46,19 +46,19 @@
             </div>
         </div>
         <div class="form-group over clearfix">
-            <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>商户号：</label>
+            <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['商户号']}：</label>
             <div class="col-xs-8 p-x">
                 <input id="merchantCode" type="text" name="result.paramValue" class="form-control" value="${p.get("merchantCode")}"/>
             </div>
         </div>
         <div class="form-group over clearfix">
-            <label class="col-xs-3 al-right"><span class="co-red m-r-sm"></span>平台号：</label>
+            <label class="col-xs-3 al-right"><span class="co-red m-r-sm"></span>${views.fund_auto['平台号']}：</label>
             <div class="col-xs-8 p-x">
                 <input id="platformId" type="text" name="result.paramValue" class="form-control" value="${p.get("platformId")}"/>
             </div>
         </div>
         <div class="form-group over clearfix">
-            <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>秘钥：</label>
+            <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['秘钥']}：</label>
             <div class="col-xs-8 p-x">
                 <input id="key" type="text" name="result.paramValue" class="form-control" value="${p.get("key")}"/>
             </div>

@@ -33,9 +33,9 @@
                 <th>${views.fund_auto['审核时间']}</th>
                 <%--出款--%>
                 <c:if test="${isActive}">
-                    <th>出款确认</th>
-                    <th>确认人</th>
-                    <th>确认时间</th>
+                    <th>${views.fund_auto['出款确认']}</th>
+                    <th>${views.fund_auto['确认人']}</th>
+                    <th>${views.fund_auto['确认时间']}</th>
                 </c:if>
                 <th>${views.fund_auto['备注']}</th>
             </tr>
@@ -197,24 +197,24 @@
                     {{if withdrawStatus=='4'}}
                         {{if checkStatus=='success' &&  checkTime >= _withdrawAccountEnableTime}}
                         <shiro:hasPermission name="fund:withdraw_payment">
-                            <soul:button target="${root}/fund/withdraw/payment.html?search.transactionNo={{:transactionNo}}" callback="query" confirm="确认出款？" cssClass="label label-info p-x-md" text="出款" opType="ajax" />
+                            <soul:button target="${root}/fund/withdraw/payment.html?search.transactionNo={{:transactionNo}}" callback="query" confirm="${views.fund_auto['确认出款？']}" cssClass="label label-info p-x-md" text="${views.fund_auto['出款']}" opType="ajax" />
                         </shiro:hasPermission>
                         <shiro:lacksPermission name="fund:withdraw_payment">
-                            <span class="label p-x-md">出款</span>
+                            <span class="label p-x-md">${views.fund_auto['出款']}</span>
                         </shiro:lacksPermission>
                         {{/if}}
                         {{if checkStatus=='success' &&  checkTime < _withdrawAccountEnableTime}}
                         --
                         {{/if}}
                         {{if checkStatus=='payment_processing'}}
-                            <soul:button target="withdrawStatusView" dataId="{{:id}}" size="auditLogCss" callback="query" cssClass="label label-timeout p-x-md" text="出款处理中" opType="function" />
+                            <soul:button target="withdrawStatusView" dataId="{{:id}}" size="auditLogCss" callback="query" cssClass="label label-timeout p-x-md" text="${views.fund_auto['出款处理中']}" opType="function" />
                         {{/if}}
                         {{if checkStatus=='payment_success'}}
-                            <soul:button target="withdrawStatusView" dataId="{{:id}}" size="auditLogCss" callback="query" cssClass="label label-success p-x-md" text="出款成功" opType="function" />
+                            <soul:button target="withdrawStatusView" dataId="{{:id}}" size="auditLogCss" callback="query" cssClass="label label-success p-x-md" text="${views.fund_auto['出款成功']}" opType="function" />
                         {{/if}}
                         {{if checkStatus=='payment_fail'}}
                             <%--<shiro:hasPermission name="fund:withdraw_payment">--%>
-                                <soul:button target="withdrawStatusView" dataId="{{:id}}" size="auditLogCss" callback="query" cssClass="label label-danger p-x-md" text="出款失败" opType="function" />
+                                <soul:button target="withdrawStatusView" dataId="{{:id}}" size="auditLogCss" callback="query" cssClass="label label-danger p-x-md" text="${views.fund_auto['出款失败']}" opType="function" />
                             <%--</shiro:hasPermission>--%>
                             <%--<shiro:lacksPermission name="fund:withdraw_payment">--%>
                                 <%--<span class="label p-x-md">出款失败</span>--%>
