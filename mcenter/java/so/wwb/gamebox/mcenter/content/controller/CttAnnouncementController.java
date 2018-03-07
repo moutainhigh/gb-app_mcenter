@@ -130,7 +130,6 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         listVo = ServiceTool.cttAnnouncementService().updateAnnouncement(listVo);
         Cache.refreshSiteAnnouncement();
         Cache.refreshCurrentSitePageCache();
-        ParamTool.refresh(SiteParamEnum.CAROUSEL_LOGIN_ANNOUNCEMENT);
         Map<String, Object> map = getVoMessage(listVo);
         if (!listVo.isSuccess()) {
             map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
@@ -206,8 +205,7 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         model.addAttribute("types", types);
         Map<Object, CttAnnouncement> cttAnnouncementMap = CollectionTool.toEntityMap(cttAnnouncementListVo.getResult(), CttAnnouncement.PROP_LANGUAGE);
         model.addAttribute("cttAnnouncementMap",cttAnnouncementMap);
-        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.CAROUSEL_LOGIN_ANNOUNCEMENT);
-        model.addAttribute("loginAnnouncementParam", sysParam);
+        model.addAttribute("countdown", cttAnnouncementListVo.getResult().get(0).getCountdown());
         model.addAttribute("intervalTime", EnumTool.getEnumList(IntervalTimeEnum.class));
         return EDIT;
     }

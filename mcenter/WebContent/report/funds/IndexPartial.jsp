@@ -36,7 +36,7 @@
             <th>
                 <gb:select name="search.status" value="${command.search.status}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}" list="${dictCommonStatus}" listKey="key" listValue="${dicts.common.status[key]}" callback="query"/>
             </th>
-            <c:if test="${isSwitch}">
+            <c:if test="${isActive}">
                 <th>
                     <gb:select name="search.checkStatus" value="${command.search.checkStatus}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
                                list="${withdrawCkeckStatus}" listKey="key" listValue="value" callback="query"/>
@@ -208,7 +208,7 @@
                     </c:choose>
                     <span class="${status_class}" title="${dicts.common.status[pt.status]}">${dicts.common.status[pt.status]}</span>
                 </td>
-                <c:if test="${isSwitch}">
+                <c:if test="${isActive}">
                     <td>
                         <c:set value="" var="status_class"></c:set>
                         <c:choose>

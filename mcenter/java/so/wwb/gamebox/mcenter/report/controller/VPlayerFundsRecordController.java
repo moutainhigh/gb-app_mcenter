@@ -111,7 +111,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
 
         Map<String, SiteApi> siteApiMaps = Cache.getSiteApi(SessionManager.getSiteId());
         model.addAttribute("siteApiMaps", siteApiMaps);
-        withdrawAccountIsSwitch(model);//是否开启出款账户
+        withdrawAccountIsActive(model);//是否开启出款账户
         model.addAttribute("withdrawCkeckStatus", DictTool.get(DictEnum.WITHDRAW_CHECK_STATUS));
 
         //默认搜索成功订单:列表页面
@@ -474,9 +474,9 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
      *
      * @param model
      */
-    private void withdrawAccountIsSwitch(Model model) {
+    private void withdrawAccountIsActive(Model model) {
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
-        model.addAttribute("isSwitch", sysParam.getIsSwitch());
+        model.addAttribute("isActive", sysParam.getActive());
     }
 
     //endregion your codes 3
