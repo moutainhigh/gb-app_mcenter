@@ -12,11 +12,36 @@
             <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         </div>
 
-        <div class="detect-wrap clearfix p-sm">
-        </div>
-
         <div class="col-lg-12">
             <div class="wrapper white-bg shadow">
+                <div class="detect-wrap clearfix p-sm">
+
+                    <div class="pull-left col-sm-5 p-x">
+                        <div class="line-hi25 col-sm-12">
+                            <b>${views.column['红包']}：</b>
+
+                        </div>
+                        <div class="line-hi25 col-sm-12">
+                            ${views.column['通过抢红包,玩家有一定几率获取优惠']}
+
+                        </div>
+                    </div>
+
+                    <div class="pull-left col-sm-5 p-x">
+                        <div class="line-hi25 col-sm-12">
+                            <b>${views.operation_auto['活动名称']}：</b>
+
+                        </div>
+                        <div class="line-hi25 col-sm-12">
+                            <b>${views.operation_auto['活动时间']}：</b>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
                 <div class="clearfix filter-wraper border-b-1">
                     <div class="search-wrapper btn-group pull-left m-r-n-xs">
                         <div class="input-group">
@@ -30,9 +55,18 @@
                             </span>
                         </div>
                     </div>
-
-
                 </div>
+
+                <div class="detect-wrap clearfix p-sm">
+                    <b>${views.column['玩家参与红包活动记录']}</b>
+                    <br>
+                    <br>
+                        &nbsp;&nbsp;    ${views.column['参与人数：']}　　${statisticsRecode.allPlayerCount}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        ${views.column['中奖总金额：']}   ${siteCurrencySign}${statisticsRecode.allWinAmount}
+                </div>
+
+
                 <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
                     <div class="search-list-container">
                         <%@ include file="IndexPartial.jsp" %>
