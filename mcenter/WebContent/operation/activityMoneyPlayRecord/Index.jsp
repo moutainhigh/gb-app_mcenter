@@ -3,6 +3,7 @@
 
 <div class="row">
     <form:form action="${root}/activityMoneyPlayRecord/list.html" method="post" name="playerOnlineForm">
+        <input type="hidden" name="search.activityMessageId" class="form-control" value="${command.search.activityMessageId}"/>
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
             <span>${views.sysResource['运营']}&nbsp;&nbsp;/</span><span>${views.sysResource['活动管理']}</span>
@@ -29,11 +30,11 @@
 
                     <div class="pull-left col-sm-5 p-x">
                         <div class="line-hi25 col-sm-12">
-                            <b>${views.operation_auto['活动名称']}：</b>
+                            <b>${views.operation_auto['活动名称']}：${command.activityMessage.activityName}</b>
 
                         </div>
                         <div class="line-hi25 col-sm-12">
-                            <b>${views.operation_auto['活动时间']}：</b>
+                            <b>${views.operation_auto['活动时间']}：${soulFn:formatDateTz(command.activityMessage.startTime, DateFormat.DAY_SECOND,timeZone)}~${soulFn:formatDateTz(command.activityMessage.endTime, DateFormat.DAY_SECOND,timeZone)}</b>
 
                         </div>
                     </div>
@@ -42,11 +43,52 @@
                 </div>
 
 
+
+
+                <div class="detect-wrap clearfix p-sm">
+                     <b>
+                     ${views.column['参与人数：']}　　${command.statisticsRecord.allPlayerCount}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        ${views.column['中奖总金额：']}   ${siteCurrencySign}${command.statisticsRecord.allWinAmount}
+                     </b>
+                </div>
+                <div class="detect-wrap clearfix p-sm">
+                <b>开放时间段统计</b>
+
+
+                <div class="clearfix filter-wraper border-b-1">
+                    <div class="search-wrapper btn-group pull-left m-r-n-xs">
+                        <div class="input-group">
+                            <%--<input type="text" name="search.username" class="form-control" placeholder="${views.fund['playerDetect.view.playerAccount']}" value="${command1.search.username}"/>--%>
+
+                            <span class="input-group-addon bg-gray">${views.fund['创建时间']}</span>
+                            <%--<gb:dateRange format="${DateFormat.DAY}" minDate="${minDate}" maxDate="${maxDate}" useRange="true" style="width:42%;" useToday="true" btnClass="search" startName="search.startTime" endName="search.endTime" startDate="" endDate=""/>--%>
+
+                            <span class="input-group-btn">
+                                <soul:button target="query" opType="function" cssClass="btn btn-filter btn-query-css" tag="button" text="">
+                                    <i class="fa fa-search"></i>
+                                    <span class="hd">&nbsp;${views.common['search']}</span>
+                                </soul:button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div id="editable_wrapper2" class="dataTables_wrapper" role="grid">
+                    <div class="search-list-container2">
+                        <%@ include file="IndexPartialTime.jsp" %>
+                    </div>
+                </div>
+                </div>
+                <div class="detect-wrap clearfix p-sm">
+
+                <b>玩家参与记录</b>
+
+
                 <div class="clearfix filter-wraper border-b-1">
                     <div class="search-wrapper btn-group pull-left m-r-n-xs">
                         <div class="input-group">
                             <input type="text" name="search.username" class="form-control" placeholder="${views.fund['playerDetect.view.playerAccount']}" value="${command1.search.username}"/>
-                            <input type="hidden" name="search.activityMessageId" class="form-control" value="${command1.search.activityMessageId}"/>
+
                             <span class="input-group-btn">
                                 <soul:button target="query" opType="function" cssClass="btn btn-filter btn-query-css" tag="button" text="">
                                     <i class="fa fa-search"></i>
@@ -57,20 +99,11 @@
                     </div>
                 </div>
 
-                <div class="detect-wrap clearfix p-sm">
-                    <b>${views.column['玩家参与红包活动记录']}</b>
-                    <br>
-                    <br>
-                        &nbsp;&nbsp;    ${views.column['参与人数：']}　　${statisticsRecode.allPlayerCount}
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        ${views.column['中奖总金额：']}   ${siteCurrencySign}${statisticsRecode.allWinAmount}
-                </div>
-
-
                 <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
                     <div class="search-list-container">
                         <%@ include file="IndexPartial.jsp" %>
                     </div>
+                </div>
                 </div>
             </div>
         </div>
