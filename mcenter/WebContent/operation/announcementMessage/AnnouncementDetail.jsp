@@ -10,9 +10,12 @@
             <span>${views.sysResource['系统设置']}</span><span>/</span><span>${views.sysResource['消息公告']}</span>
             <%--<a href="/operation/announcementMessage/messageList.html" nav-target="mainFrame" class="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn">--%>
             <%--<em class="fa fa-caret-left"></em>${views.common['return']}</a>--%>
-            <soul:button target="goToLastPage" text="${views.common['return']}" opType="function" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" refresh="true">
-                <em class="fa fa-caret-left"></em>${views.common['return']}
-            </soul:button>
+            <%--低级多次下一页后，一键返回列表页面，需要直接访问列表页--%>
+            <%--<soul:button target="/operation/announcementMessage/messageList.html" text="${views.common['return']}" opType="function" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" refresh="true">--%>
+                <%--<em class="fa fa-caret-left"></em>${views.common['return']}--%>
+            <%--</soul:button>--%>
+            <a href="/operation/announcementMessage/messageList.html" nav-target="mainFrame" class="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn"><em class="fa fa-caret-left"></em>${views.common['return']}</a>
+
         </div>
         <div class="col-lg-12">
             <div class="wrapper white-bg shadow">
