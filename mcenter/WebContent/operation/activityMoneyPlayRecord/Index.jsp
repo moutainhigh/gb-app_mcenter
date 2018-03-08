@@ -66,8 +66,11 @@
                             <div class="input-group">
                                     <%--<input type="text" name="search.username" class="form-control" placeholder="${views.fund['playerDetect.view.playerAccount']}" value="${command1.search.username}"/>--%>
 
-                                <%--<span class="input-group-addon bg-gray">${views.fund['创建时间']}${maxDate}</span>--%>
-                                    <%--<gb:dateRange format="${DateFormat.DAY}"  useRange="true" style="width:42%;" useToday="true" btnClass="search" startName="searchStartTime" endName="searchEndTime" />--%>
+                                <span class="input-group-addon bg-gray">${views.fund['创建时间']}${maxDate}</span>
+                                    <gb:dateRange format="${DateFormat.DAY_SECOND}"  useRange="true" style="width:42%;" useToday="true" btnClass="search"
+                                                  minDate="${command.activityMessage.startTime}" maxDate="${command.activityMessage.endTime}"
+                                                  startDate="${command.activityMessage.startTime}" endDate="${command.activityMessage.endTime}"
+                                                  startName="searchStartTime" endName="searchEndTime" />
 
                                 <span class="input-group-btn">
                                 <soul:button  target="query" opType="function" cssClass="btn btn-filter btn-query-css"
