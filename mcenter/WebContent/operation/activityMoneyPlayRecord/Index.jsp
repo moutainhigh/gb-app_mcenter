@@ -2,7 +2,8 @@
 <%@ include file="/include/include.inc.jsp" %>
 
 <div class="row">
-
+    <%--第一个form是因为return按钮必须在form中才能起作用--%>
+<form:form action="${root}/activityMoneyPlayRecord/statisticsRecordListByTime.html" method="post" name="playerOnlineForm">
     <div class="position-wrap clearfix">
         <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
         <span>${views.sysResource['运营']}&nbsp;&nbsp;/</span><span>${views.sysResource['活动管理']}</span>
@@ -13,6 +14,7 @@
         </soul:button>
         <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
     </div>
+</form:form>
 
     <div class="col-lg-12">
         <div class="wrapper white-bg shadow">
