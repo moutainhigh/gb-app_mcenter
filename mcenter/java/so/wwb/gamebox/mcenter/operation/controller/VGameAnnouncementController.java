@@ -308,7 +308,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
     public String gameAnnouncement(VSystemAnnouncementListVo listVo, VPlayerAdvisoryListVo aListVo, Model model, HttpServletRequest request) {
         if (listVo.getSearch().getStartTime() == null && listVo.getSearch().getEndTime() == null) {
             listVo.getSearch().setStartTime(DateTool.addMonths(SessionManager.getDate().getNow(), -1));
-            listVo.getSearch().setEndTime(SessionManager.getDate().getNow());
+            listVo.getSearch().setEndTime(SessionManager.getDate().getTomorrow());
         }
         listVo.getSearch().setLocal(SessionManager.getLocale().toString());
         listVo.getSearch().setAnnouncementType(AnnouncementTypeEnum.GAME.getCode());
@@ -330,7 +330,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         }
         model.addAttribute("command", listVo);
         model.addAttribute("apiMap", apiMap);
-        model.addAttribute("maxDate", new Date());
+        model.addAttribute("maxDate", DateQuickPicker.getInstance().getTomorrow());
         //未读数量
         this.unReadCount(aListVo, model);
 
