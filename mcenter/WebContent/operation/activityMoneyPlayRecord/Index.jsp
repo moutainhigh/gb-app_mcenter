@@ -60,7 +60,7 @@
                        value="${command.search.activityMessageId}"/>
 
                 <div class="detect-wrap clearfix p-sm">
-                    <b>开放时间段统计</b>
+                    <b>${views.column['开放时间段统计']}</b>
                     <div class="clearfix filter-wraper border-b-1">
                         <div class="search-wrapper btn-group pull-left m-r-n-xs">
                             <div class="input-group">
@@ -81,6 +81,7 @@
                             </span>
                             </div>
                         </div>
+                        <a href="/activityMoneyPlayRecord/list.html?search.activityMessageId=${command.search.activityMessageId}" nav-target="mainFrame" class="btn  btn-filter pull-right">${views.common['refresh']}</a>
                     </div>
                     <div id="editable_wrapper2" class="dataTables_wrapper" role="grid">
                         <div class="search-list-container">
@@ -99,7 +100,7 @@
                        value="${command.search.activityMessageId}"/>
 
                 <div class="detect-wrap clearfix p-sm">
-                    <b>玩家参与记录</b>
+                    <b>${views.column['玩家参与记录']}</b>
                     <div class="clearfix filter-wraper border-b-1">
                         <div class="search-wrapper btn-group pull-left m-r-n-xs">
                             <div class="input-group">
