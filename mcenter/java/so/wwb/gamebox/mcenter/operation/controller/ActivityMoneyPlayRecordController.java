@@ -61,6 +61,29 @@ public class ActivityMoneyPlayRecordController extends BaseCrudController<IActiv
         return ServletTool.isAjaxSoulRequest(request) ? INDEXPARTIAL  : INDEX;
     }
 
+    @RequestMapping("/getRecordListByPlayer")
+    public String getRecordListByPlayer(ActivityMoneyPlayRecordListVo listVo, @FormModel("search") @Valid ActivityMoneyPlayRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
+        Integer activityMessageId = listVo.getSearch().getActivityMessageId();
+        VActivityMessage vActivityMessage = new VActivityMessage();
+        listVo.setActivityMessage(vActivityMessage);
+        listVo.getActivityMessage().setActivityVersion(SessionManager.getLocale().toString());//查询活动需要设定语言
+        listVo = ServiceActivityTool.activityMoneyPlayRecordService().getRecordListByPlayer(listVo);
+        model.addAttribute("command", listVo);
+        //ServletTool.isAjaxSoulRequest(request) ? OPERATION_REBATE_VIEW + "Partial" : OPERATION_REBATE_VIEW;
+        return ServletTool.isAjaxSoulRequest(request) ? INDEXPARTIAL  : INDEX;
+    }
+
+    @RequestMapping("/statisticsRecordListByTime")
+    public String statisticsRecordListByTime(ActivityMoneyPlayRecordListVo listVo, @FormModel("search") @Valid ActivityMoneyPlayRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
+        Integer activityMessageId = listVo.getSearch().getActivityMessageId();
+        VActivityMessage vActivityMessage = new VActivityMessage();
+        listVo.setActivityMessage(vActivityMessage);
+        listVo.getActivityMessage().setActivityVersion(SessionManager.getLocale().toString());//查询活动需要设定语言
+        listVo = ServiceActivityTool.activityMoneyPlayRecordService().statisticsRecordListByTime(listVo);
+        model.addAttribute("command", listVo);
+        //ServletTool.isAjaxSoulRequest(request) ? OPERATION_REBATE_VIEW + "Partial" : OPERATION_REBATE_VIEW;
+        return ServletTool.isAjaxSoulRequest(request) ? INDEXPARTIALTIME  : INDEX;
+    }
 
 
 
