@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>出款状态</title>
+    <title>${views.fund_auto['出款状态']}</title>
     <%@ include file="/include/include.head.jsp" %>
 </head>
 <body>
@@ -13,11 +13,11 @@
         <table class="table no-border table-desc-list">
             <tbody>
             <tr>
-                <th scope="row" class="text-right">订单号：</th>
+                <th scope="row" class="text-right">${views.fund_auto['订单号']}：</th>
                 <td><span>${command.result.transactionNo}</span></td>
             </tr>
             <tr>
-                <th scope="row" class="text-right">出款状态：</th>
+                <th scope="row" class="text-right">${views.fund_auto['出款状态']}：</th>
                 <td>
                     <span class="'co-red">
                         【${dicts.fund.check_status[command.result.checkStatus]}】

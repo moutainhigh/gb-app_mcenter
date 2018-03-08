@@ -125,6 +125,9 @@
                             <span class="disabled">${views.common['delete']}</span>
                         </c:otherwise>--%>
                     </c:choose>
+                    <c:if test="${p.code eq 'money'}">
+                        <a href="/activityMoneyPlayRecord/list.html?search.activityMessageId=${p.id}" nav-target="mainFrame">${views.content['vSiteApi.record']}</a>
+                    </c:if>
                 </td>
             </tr>
         </c:forEach>

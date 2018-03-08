@@ -2353,6 +2353,11 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         playerWithdrawSo.setTransactionNo(vo.getSearch().getTransactionNo());
         playerWithdrawSo.setCheckStatus(vo.getSearch().getCheckStatus());
         playerWithdrawSo.setWithdrawCheckUserId(SessionManager.getUserId());
+        //如果手动置为失败需保存失败原因
+        if (CheckStatusEnum.PAYMENT_FAIL.getCode().equals(vo.getSearch().getCheckStatus())){
+            String errorLog = LocaleTool.tranMessage(_Module.COMMON,"manual_failure");
+            playerWithdrawSo.setWithdrawFailureReason(errorLog);
+        }
         try {
             playerWithdrawVo = ServiceSiteTool.playerWithdrawService().setPaymentStatus(playerWithdrawVo);
         } catch (Exception e) {

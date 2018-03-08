@@ -16,8 +16,8 @@
         <tbody>
         <c:forEach items="${command.result}" var="p" varStatus="status">
             <tr class="tab-detail">
-                <td>${status.index}</td>
-                <td>${p.playerId}</td>
+                <td>${status.index+1}</td>
+                <td>${p.username}</td>
                 <td>
                         ${soulFn:formatDateTz(p.operateTime, DateFormat.DAY_SECOND,timeZone)}
                 </td>
