@@ -20,6 +20,7 @@
 
                 <div class="pull-left col-sm-5 p-x">
                     <div class="line-hi25 col-sm-12">
+                        <img src="${resRoot}/images/activity/events-img-10.jpg">
                         <b>${views.column['红包']}：</b>
 
                     </div>
