@@ -21,16 +21,18 @@
                 <label>${views.content['类型']}：</label>
                 <label>${dicts.content.ctt_announcement_type[command.announcementType]}</label>
             </div>
-            <div class="clearfix">
-                <label style="float: left;">${views.content['展示时间']}：</label>
-                <div class="col-xs-1" style="margin-top: -9px;">
-                    <select class="chosen-select-no-single params_data" name="countdown">
-                        <c:forEach items="${intervalTime}" var="it">
-                            <option <c:if test="${it.time eq countdown}"> selected </c:if> value="${it.time}">${it.content}</option>
-                        </c:forEach>
-                    </select>
+            <c:if test="${command.announcementType=='4'}">
+                <div class="clearfix">
+                    <label style="float: left;">${views.content['展示时间']}：</label>
+                    <div class="col-xs-1" style="margin-top: -9px;">
+                        <select class="chosen-select-no-single params_data" name="countdown">
+                            <c:forEach items="${intervalTime}" var="it">
+                                <option <c:if test="${it.time eq countdown}"> selected </c:if> value="${it.time}">${it.content}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
                 </div>
-            </div>
+            </c:if>
             <div class="clearfix save lgg-version">
                 <c:forEach items="${languageList}" var="p" varStatus="status">
                     <a id="tag${status.index+1}" aria-expanded="${index.index==0?'true':'false'}" name="tag" tagIndex="${status.index+1}" class="${status.index=='0'?'current':''} a_${p.language} tag${status.index+1}"
@@ -108,10 +110,12 @@
             <div class="clearfix save lgg-version">
                 <label>${views.content['类型']}：</label><label id="targetType"></label>
             </div>
-            <div class="clearfix">
-                <label>${views.content['展示时间']}：</label>
-                <label id="countdown"></label>
-            </div>
+            <c:if test="${command.announcementType=='4'}">
+                <div class="clearfix">
+                    <label>${views.content['展示时间']}：</label>
+                    <label id="countdown"></label>
+                </div>
+            </c:if>
             <div class="clearfix save lgg-version">
                 <c:forEach items="${languageList}" var="p" varStatus="status">
                     <a href="javascript:void(0)" name="targetTag" class="target${status.index}" local="${p.language}">${dicts.common.local[p.language]}</a>
