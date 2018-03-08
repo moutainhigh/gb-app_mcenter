@@ -27,15 +27,16 @@
 
                     </div>
                     <div class="line-hi25 col-sm-12">
-                        ${views.column['通过抢红包,玩家有一定几率获取优惠']}
-
+                        ${command.activityMessage.introduce}
                     </div>
                 </div>
 
                 <div class="pull-left col-sm-5 p-x">
                     <div class="line-hi25 col-sm-12">
+                        &nbsp;
+                    </div>
+                    <div class="line-hi25 col-sm-12">
                         <b>${views.operation_auto['活动名称']}：${command.activityMessage.activityName}</b>
-
                     </div>
                     <div class="line-hi25 col-sm-12">
                         <b>${views.operation_auto['活动时间']}：${soulFn:formatDateTz(command.activityMessage.startTime, DateFormat.DAY_SECOND,timeZone)}~${soulFn:formatDateTz(command.activityMessage.endTime, DateFormat.DAY_SECOND,timeZone)}</b>
@@ -59,8 +60,11 @@
             <form:form action="${root}/activityMoneyPlayRecord/statisticsRecordListByTime.html" method="post" name="playerOnlineForm">
                 <input type="hidden" name="search.activityMessageId" class="form-control"
                        value="${command.search.activityMessageId}"/>
-                <input type="hidden" name="search.xxxx" class="form-control"
-                       value="${command.search.activityMessageId}"/>
+                <%--活动时间--%>
+                <input type="hidden" name="search.startTime" class="form-control"
+                       value="${soulFn:formatDateTz(command.activityMessage.startTime, DateFormat.DAY_SECOND,timeZone)}"/>
+                <input type="hidden" name="search.endTime" class="form-control"
+                       value="${soulFn:formatDateTz(command.activityMessage.endTime, DateFormat.DAY_SECOND,timeZone)}"/>
 
                 <div class="detect-wrap clearfix p-sm">
                     <b>${views.column['开放时间段统计']}</b>
@@ -98,9 +102,11 @@
             <form:form action="${root}/activityMoneyPlayRecord/getRecordListByPlayer.html" method="post" name="playerOnlineForm">
                 <input type="hidden" name="search.activityMessageId" class="form-control"
                        value="${command.search.activityMessageId}"/>
-
-                <input type="hidden" name="search.yyyy" class="form-control"
-                       value="${command.search.activityMessageId}"/>
+                <%--活动时间--%>
+                <input type="hidden" name="search.startTime" class="form-control"
+                       value="${soulFn:formatDateTz(command.activityMessage.startTime, DateFormat.DAY_SECOND,timeZone)}"/>
+                <input type="hidden" name="search.endTime" class="form-control"
+                       value="${soulFn:formatDateTz(command.activityMessage.endTime, DateFormat.DAY_SECOND,timeZone)}"/>
 
                 <div class="detect-wrap clearfix p-sm">
                     <b>${views.column['玩家参与记录']}</b>
