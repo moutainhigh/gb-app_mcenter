@@ -49,6 +49,16 @@ public class ActivityMoneyPlayRecordController extends BaseCrudController<IActiv
     private static final String INDEXPARTIALTIME = "/operation/activityMoneyPlayRecord/IndexPartialTime";
 
 
+    /**
+     * 统计红包记录
+     * @param listVo
+     * @param form
+     * @param result
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
     public String list(ActivityMoneyPlayRecordListVo listVo, @FormModel("search") @Valid ActivityMoneyPlayRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
         Integer activityMessageId = listVo.getSearch().getActivityMessageId();
@@ -61,24 +71,36 @@ public class ActivityMoneyPlayRecordController extends BaseCrudController<IActiv
         return ServletTool.isAjaxSoulRequest(request) ? INDEXPARTIAL  : INDEX;
     }
 
+    /**
+     * 玩家红包统计
+     * @param listVo
+     * @param form
+     * @param result
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/getRecordListByPlayer")
     public String getRecordListByPlayer(ActivityMoneyPlayRecordListVo listVo, @FormModel("search") @Valid ActivityMoneyPlayRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
-        Integer activityMessageId = listVo.getSearch().getActivityMessageId();
-        VActivityMessage vActivityMessage = new VActivityMessage();
-        listVo.setActivityMessage(vActivityMessage);
-        listVo.getActivityMessage().setActivityVersion(SessionManager.getLocale().toString());//查询活动需要设定语言
         listVo = ServiceActivityTool.activityMoneyPlayRecordService().getRecordListByPlayer(listVo);
         model.addAttribute("command", listVo);
         //ServletTool.isAjaxSoulRequest(request) ? OPERATION_REBATE_VIEW + "Partial" : OPERATION_REBATE_VIEW;
         return ServletTool.isAjaxSoulRequest(request) ? INDEXPARTIAL  : INDEX;
     }
 
+    /**
+     * 时间段内在红包统计
+     * @param listVo
+     * @param form
+     * @param result
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/statisticsRecordListByTime")
     public String statisticsRecordListByTime(ActivityMoneyPlayRecordListVo listVo, @FormModel("search") @Valid ActivityMoneyPlayRecordSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
-        Integer activityMessageId = listVo.getSearch().getActivityMessageId();
-        VActivityMessage vActivityMessage = new VActivityMessage();
-        listVo.setActivityMessage(vActivityMessage);
-        listVo.getActivityMessage().setActivityVersion(SessionManager.getLocale().toString());//查询活动需要设定语言
         listVo = ServiceActivityTool.activityMoneyPlayRecordService().statisticsRecordListByTime(listVo);
         model.addAttribute("command", listVo);
         //ServletTool.isAjaxSoulRequest(request) ? OPERATION_REBATE_VIEW + "Partial" : OPERATION_REBATE_VIEW;
