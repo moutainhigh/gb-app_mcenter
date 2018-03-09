@@ -207,7 +207,9 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         Map<Object, CttAnnouncement> cttAnnouncementMap = CollectionTool.toEntityMap(cttAnnouncementListVo.getResult(), CttAnnouncement.PROP_LANGUAGE);
         model.addAttribute("cttAnnouncementMap",cttAnnouncementMap);
         model.addAttribute("countdown", cttAnnouncementListVo.getResult().get(0).getCountdown());
-        model.addAttribute("intervalTime", EnumTool.getEnumList(IntervalTimeEnum.class));
+        List intervalTime = EnumTool.getEnumList(IntervalTimeEnum.class);
+        intervalTime.remove(0);
+        model.addAttribute("intervalTime", intervalTime);
         return EDIT;
     }
 
