@@ -61,10 +61,10 @@
             <hr class="m-t-xs">
             <div class="clearfix m-b limit_title_wrap">
                 <h3 class="limit_title divSelect div1 cur" tt="fee" ff="return" dd="isReturnFee">
-                    <i class="fa fa-check-square-o m-r-sm" }></i>${views.column['开放时间段统计']}
+                    ${views.column['开放时间段统计']}
                 </h3>
                 <h3 class="limit_title divSelect div2 default" tt="return" ff="fee" dd="isFee">
-                    <i class="" }></i>${views.column['玩家参与记录']}
+                    ${views.column['玩家参与记录']}
                 </h3>
             </div>
 
