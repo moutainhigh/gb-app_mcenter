@@ -10,6 +10,7 @@
             <th>${views.column['ActivityMoneyOpenPeriod.startTime']}</th>
             <th>${views.column['ActivityMoneyOpenPeriod.endTime']}</th>
             <th>${views.column['参与人数']}</th>
+            <th>${views.column['参与人次']}</th>
             <th>${views.column['中奖金额']}</th>
         </tr>
         </thead>
@@ -22,7 +23,10 @@
                     ${soulFn:formatDateTz(p.endTime, DateFormat.DAY_SECOND,timeZone)}
                 </td>
                 <td>
-　　　　　　　　　　　　　${p.allPlayerCount}
+　　　　　　　　　　　　　${p.distinctPlayerCount}
+                </td>
+                <td>
+                    ${p.allPlayerCount}
                 </td>
                 <td>
                     ${siteCurrencySign}${p.allWinAmount}
