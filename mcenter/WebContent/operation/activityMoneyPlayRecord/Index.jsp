@@ -82,7 +82,7 @@
 
                     <div class="detect-wrap clearfix p-sm">
                         <div class="clearfix filter-wraper border-b-1">
-                            <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="form-group clearfix pull-left col-md-5 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group">
                                         <%--<input type="text" name="search.username" class="form-control" placeholder="${views.fund['playerDetect.view.playerAccount']}" value="${command1.search.username}"/>--%>
 
