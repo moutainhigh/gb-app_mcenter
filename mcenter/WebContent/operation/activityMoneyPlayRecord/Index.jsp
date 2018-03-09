@@ -3,18 +3,19 @@
 
 <div class="row">
     <%--第一个form是因为return按钮必须在form中才能起作用--%>
-<form:form action="${root}/activityMoneyPlayRecord/statisticsRecordListByTime.html" method="post" name="playerOnlineForm">
-    <div class="position-wrap clearfix">
-        <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
-        <span>${views.sysResource['运营']}&nbsp;&nbsp;/</span><span>${views.sysResource['活动管理']}</span>
-        <soul:button target="goToLastPage" refresh="false"
-                     cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text=""
-                     opType="function">
-            <em class="fa fa-caret-left"></em>${views.common['return']}
-        </soul:button>
-        <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
-    </div>
-</form:form>
+    <form:form action="${root}/activityMoneyPlayRecord/statisticsRecordListByTime.html" method="post"
+               name="playerOnlineForm">
+        <div class="position-wrap clearfix">
+            <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
+            <span>${views.sysResource['运营']}&nbsp;&nbsp;/</span><span>${views.sysResource['活动管理']}</span>
+            <soul:button target="goToLastPage" refresh="false"
+                         cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text=""
+                         opType="function">
+                <em class="fa fa-caret-left"></em>${views.common['return']}
+            </soul:button>
+            <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
+        </div>
+    </form:form>
 
     <div class="col-lg-12">
         <div class="wrapper white-bg shadow">
@@ -57,85 +58,107 @@
             </div>
 
 
-            <form:form action="${root}/activityMoneyPlayRecord/statisticsRecordListByTime.html" method="post" name="playerOnlineForm">
-                <input type="hidden" name="search.activityMessageId" class="form-control"
-                       value="${command.search.activityMessageId}"/>
-                <%--活动时间--%>
-                <input type="hidden" name="search.startTime" class="form-control"
-                       value="${soulFn:formatDateTz(command.activityMessage.startTime, DateFormat.DAY_SECOND,timeZone)}"/>
-                <input type="hidden" name="search.endTime" class="form-control"
-                       value="${soulFn:formatDateTz(command.activityMessage.endTime, DateFormat.DAY_SECOND,timeZone)}"/>
+            <hr class="m-t-xs">
+            <div class="clearfix m-b limit_title_wrap">
+                <h3 class="limit_title divSelect div1 cur" tt="fee" ff="return" dd="isReturnFee">
+                    <i class="fa fa-check-square-o m-r-sm" }></i>${views.column['开放时间段统计']}
+                </h3>
+                <h3 class="limit_title divSelect div2 default" tt="return" ff="fee" dd="isFee">
+                    <i class="" }></i>${views.column['玩家参与记录']}
+                </h3>
+            </div>
 
-                <div class="detect-wrap clearfix p-sm">
-                    <b>${views.column['开放时间段统计']}</b>
-                    <div class="clearfix filter-wraper border-b-1">
-                        <div class="search-wrapper btn-group pull-left m-r-n-xs">
-                            <div class="input-group">
-                                    <%--<input type="text" name="search.username" class="form-control" placeholder="${views.fund['playerDetect.view.playerAccount']}" value="${command1.search.username}"/>--%>
+            <div class="div_css" id="div_fee" }>
 
-                                <span class="input-group-addon bg-gray">${views.fund['创建时间']}${maxDate}</span>
-                                    <gb:dateRange format="${DateFormat.DAY_SECOND}"  useRange="true" style="width:42%;" useToday="true" btnClass="search"
-                                                  minDate="${command.activityMessage.startTime}" maxDate="${command.activityMessage.endTime}"
-                                                  startDate="${command.activityMessage.startTime}" endDate="${command.activityMessage.endTime}"
-                                                  startName="searchStartTime" endName="searchEndTime" />
+                <form:form action="${root}/activityMoneyPlayRecord/statisticsRecordListByTime.html" method="post"
+                           name="playerOnlineForm">
+                    <input type="hidden" name="search.activityMessageId" class="form-control"
+                           value="${command.search.activityMessageId}"/>
+                    <%--活动时间--%>
+                    <input type="hidden" name="search.startTime" class="form-control"
+                           value="${soulFn:formatDateTz(command.activityMessage.startTime, DateFormat.DAY_SECOND,timeZone)}"/>
+                    <input type="hidden" name="search.endTime" class="form-control"
+                           value="${soulFn:formatDateTz(command.activityMessage.endTime, DateFormat.DAY_SECOND,timeZone)}"/>
 
-                                <span class="input-group-btn">
-                                <soul:button  target="query" opType="function" cssClass="btn btn-filter btn-query-css"
-                                             tag="button" text="">
-                                    <i class="fa fa-search"></i>
-                                    <span class="hd">&nbsp;${views.common['search']}</span>
-                                </soul:button>
-                            </span>
-                            </div>
-                        </div>
-                        <a href="/activityMoneyPlayRecord/list.html?search.activityMessageId=${command.search.activityMessageId}" nav-target="mainFrame" class="btn  btn-filter pull-right">${views.common['refresh']}</a>
-                    </div>
-                    <div id="editable_wrapper2" class="dataTables_wrapper" role="grid">
-                        <div class="search-list-container">
-                            <%@ include file="IndexPartialTime.jsp" %>
-                        </div>
-                    </div>
-                </div>
-            </form:form>
+                    <div class="detect-wrap clearfix p-sm">
+                        <div class="clearfix filter-wraper border-b-1">
+                            <div class="search-wrapper btn-group pull-left m-r-n-xs">
+                                <div class="input-group">
+                                        <%--<input type="text" name="search.username" class="form-control" placeholder="${views.fund['playerDetect.view.playerAccount']}" value="${command1.search.username}"/>--%>
 
+                                    <span class="input-group-addon bg-gray">${views.fund['创建时间']}${maxDate}</span>
+                                    <gb:dateRange format="${DateFormat.DAY_SECOND}" useRange="true" style="width:42%;"
+                                                  useToday="true" btnClass="search"
+                                                  minDate="${command.activityMessage.startTime}"
+                                                  maxDate="${command.activityMessage.endTime}"
+                                                  startDate="${command.activityMessage.startTime}"
+                                                  endDate="${command.activityMessage.endTime}"
+                                                  startName="searchStartTime" endName="searchEndTime"/>
 
-            <form:form action="${root}/activityMoneyPlayRecord/getRecordListByPlayer.html" method="post" name="playerOnlineForm">
-                <input type="hidden" name="search.activityMessageId" class="form-control"
-                       value="${command.search.activityMessageId}"/>
-                <%--活动时间--%>
-                <input type="hidden" name="search.startTime" class="form-control"
-                       value="${soulFn:formatDateTz(command.activityMessage.startTime, DateFormat.DAY_SECOND,timeZone)}"/>
-                <input type="hidden" name="search.endTime" class="form-control"
-                       value="${soulFn:formatDateTz(command.activityMessage.endTime, DateFormat.DAY_SECOND,timeZone)}"/>
-
-                <div class="detect-wrap clearfix p-sm">
-                    <b>${views.column['玩家参与记录']}</b>
-                    <div class="clearfix filter-wraper border-b-1">
-                        <div class="search-wrapper btn-group pull-left m-r-n-xs">
-                            <div class="input-group">
-                                <input type="text" name="search.username" class="form-control"
-                                       placeholder="${views.fund['playerDetect.view.playerAccount']}"
-                                       value="${command.search.username}"/>
-
-
-                                <span class="input-group-btn">
+                                    <span class="input-group-btn">
                                 <soul:button target="query" opType="function" cssClass="btn btn-filter btn-query-css"
                                              tag="button" text="">
                                     <i class="fa fa-search"></i>
                                     <span class="hd">&nbsp;${views.common['search']}</span>
                                 </soul:button>
                             </span>
+                                </div>
+                            </div>
+                            <a href="/activityMoneyPlayRecord/list.html?search.activityMessageId=${command.search.activityMessageId}"
+                               nav-target="mainFrame" class="btn  btn-filter pull-right">${views.common['refresh']}</a>
+                        </div>
+                        <div id="editable_wrapper2" class="dataTables_wrapper" role="grid">
+                            <div class="search-list-container">
+                                <%@ include file="IndexPartialTime.jsp" %>
                             </div>
                         </div>
                     </div>
+                </form:form>
+            </div>
 
-                    <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
-                        <div class="search-list-container">
-                            <%@ include file="IndexPartial.jsp" %>
+
+
+
+            <div class="div_css" id="div_return" style="display:none" }>
+                <form:form action="${root}/activityMoneyPlayRecord/getRecordListByPlayer.html" method="post"
+                           name="playerOnlineForm">
+                    <input type="hidden" name="search.activityMessageId" class="form-control"
+                           value="${command.search.activityMessageId}"/>
+                    <%--活动时间--%>
+                    <input type="hidden" name="search.startTime" class="form-control"
+                           value="${soulFn:formatDateTz(command.activityMessage.startTime, DateFormat.DAY_SECOND,timeZone)}"/>
+                    <input type="hidden" name="search.endTime" class="form-control"
+                           value="${soulFn:formatDateTz(command.activityMessage.endTime, DateFormat.DAY_SECOND,timeZone)}"/>
+
+                    <div class="detect-wrap clearfix p-sm">
+                        <div class="clearfix filter-wraper border-b-1">
+                            <div class="search-wrapper btn-group pull-left m-r-n-xs">
+                                <div class="input-group">
+                                    <input type="text" name="search.username" class="form-control"
+                                           placeholder="${views.fund['playerDetect.view.playerAccount']}"
+                                           value="${command.search.username}"/>
+
+
+                                    <span class="input-group-btn">
+                                <soul:button target="query" opType="function" cssClass="btn btn-filter btn-query-css"
+                                             tag="button" text="">
+                                    <i class="fa fa-search"></i>
+                                    <span class="hd">&nbsp;${views.common['search']}</span>
+                                </soul:button>
+                            </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
+                            <div class="search-list-container">
+                                <%@ include file="IndexPartial.jsp" %>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form:form>
+                </form:form>
+            </div>
+
 
         </div>
     </div>
