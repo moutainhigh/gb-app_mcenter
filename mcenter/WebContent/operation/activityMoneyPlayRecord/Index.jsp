@@ -117,8 +117,6 @@
             </div>
 
 
-
-
             <div class="div_css" id="div_return" style="display:none" }>
                 <form:form action="${root}/activityMoneyPlayRecord/getRecordListByPlayer.html" method="post"
                            name="playerOnlineForm">
@@ -130,30 +128,44 @@
                     <input type="hidden" name="search.endTime" class="form-control"
                            value="${soulFn:formatDateTz(command.activityMessage.endTime, DateFormat.DAY_SECOND,timeZone)}"/>
 
-                    <div class="detect-wrap clearfix p-sm">
-                        <div class="clearfix filter-wraper border-b-1">
-                            <div class="search-wrapper btn-group pull-left m-r-n-xs">
-                                <div class="input-group">
-                                    <input type="text" name="search.username" class="form-control"
-                                           placeholder="${views.fund['playerDetect.view.playerAccount']}"
-                                           value="${command.search.username}"/>
-
-
-                                    <span class="input-group-btn">
-                                <soul:button target="query" opType="function" cssClass="btn btn-filter btn-query-css"
-                                             tag="button" text="">
-                                    <i class="fa fa-search"></i>
-                                    <span class="hd">&nbsp;${views.common['search']}</span>
-                                </soul:button>
+                    <div class="clearfix filter-wraper border-b-1">
+                        <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="input-group">
+                                <span class="input-group-addon bg-gray">${views.fund['playerDetect.view.playerAccount']}</span>
+                                <input type="text" name="search.username" class="form-control"
+                                       placeholder="${views.fund['playerDetect.view.playerAccount']}"
+                                       value="${command.search.username}"/>
                             </span>
-                                </div>
+
                             </div>
                         </div>
 
-                        <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
-                            <div class="search-list-container">
-                                <%@ include file="IndexPartial.jsp" %>
+                        <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="input-group">
+                                <span class="input-group-addon bg-gray">${views.fund['创建时间']}${maxDate}</span>
+                                <gb:dateRange format="${DateFormat.DAY_SECOND}" useRange="true" style="width:42%;"
+                                              useToday="true" btnClass="search"
+                                              minDate="${command.activityMessage.startTime}"
+                                              maxDate="${command.activityMessage.endTime}"
+                                              startDate="${command.activityMessage.startTime}"
+                                              endDate="${command.activityMessage.endTime}"
+                                              startName="searchStartTime" endName="searchEndTime"/>
                             </div>
+                        </div>
+
+                        <span class="input-group-btn">
+                        <soul:button target="query" precall="" opType="function" cssClass="btn btn-filter btn-query-css"
+                                     tag="button" text="">
+                            <i class="fa fa-search"></i>
+                            <span class="hd">&nbsp;${views.common['search']}</span>
+                        </soul:button>
+                    </span>
+
+
+                    </div>
+                    <div id="editable_wrapper2" class="dataTables_wrapper" role="grid">
+                        <div class="search-list-container">
+                            <%@ include file="IndexPartial.jsp" %>
                         </div>
                     </div>
                 </form:form>
