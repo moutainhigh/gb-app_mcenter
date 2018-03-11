@@ -111,7 +111,7 @@
                         </div>
                     </div>
                     <span class="input-group-btn">
-                        <soul:button target="query" precall="" opType="function" cssClass="btn btn-filter btn-query-css" tag="button" text="">
+                        <soul:button target="query" precall="" opType="function" cssClass="btn btn-filter btn-query-css enter-submit" tag="button" text="">
                             <i class="fa fa-search"></i>
                             <span class="hd">&nbsp;${views.common['search']}</span>
                         </soul:button>

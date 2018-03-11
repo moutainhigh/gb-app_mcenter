@@ -39,7 +39,7 @@
                             </div>
                             <input type="text" class="form-control list-search-input-text" id="searchtext" name="search.username">
                             <span class="input-group-btn">
-                                <soul:button cssClass="btn btn-filter" precall="checksearch" tag="button" opType="function" text="${views.common['search']}" target="query">
+                                <soul:button cssClass="btn btn-filter enter-submit" precall="checksearch" tag="button" opType="function" text="${views.common['search']}" target="query">
                                     <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                                 </soul:button>
                             </span>
