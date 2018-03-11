@@ -111,7 +111,8 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
 
         Map<String, SiteApi> siteApiMaps = Cache.getSiteApi(SessionManager.getSiteId());
         model.addAttribute("siteApiMaps", siteApiMaps);
-        withdrawAccountIsActive(model);//是否开启出款账户
+        withdrawAccountIsActive(model);//是否开启易收付出款账户
+        model.addAttribute("easyPaymentStatus",ParamTool.getSysParam(SiteParamEnum.EASY_PAYMENT).getParamValue());//易收付出款入口开启状态
         model.addAttribute("withdrawCkeckStatus", DictTool.get(DictEnum.WITHDRAW_CHECK_STATUS));
 
         //默认搜索成功订单:列表页面
