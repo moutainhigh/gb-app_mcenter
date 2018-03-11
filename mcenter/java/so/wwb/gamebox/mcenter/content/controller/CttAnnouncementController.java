@@ -114,7 +114,9 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         model.addAttribute("languageList", languageList);
         model.addAttribute("command", listVo);
         List intervalTime = EnumTool.getEnumList(IntervalTimeEnum.class);
-        intervalTime.remove(0);
+        if(CttAnnouncementTypeEnum.LOGIN_ANNOUNCEMENT.getCode().equals(listVo.getAnnouncementType())){
+            intervalTime.remove(0);
+        }
         model.addAttribute("intervalTime", intervalTime);
         return EDIT;
     }
