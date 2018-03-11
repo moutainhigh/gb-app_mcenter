@@ -161,7 +161,7 @@
                 <th></th>
                 <td>
                     <div class="btn-groups text-left">
-                        <soul:button target="submit" precall="validateForm" msg="${views.fund['确认提交？']}" text="${views.fund_auto['确定']}" opType="function" cssClass="btn btn-filter p-x-lg m-r-md"/>
+                        <soul:button target="submit" precall="validateForm" msg="${views.fund['确认提交？']}" text="${views.fund_auto['确定']}" opType="function" cssClass="btn btn-filter p-x-lg m-r-md enter-submit"/>
                     </div>
                 </td>
             </tr>
