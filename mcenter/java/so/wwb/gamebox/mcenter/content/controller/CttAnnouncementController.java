@@ -113,7 +113,9 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         model.addAttribute("cttAnnouncementMap",cttAnnouncementMap);
         model.addAttribute("languageList", languageList);
         model.addAttribute("command", listVo);
-        model.addAttribute("intervalTime", EnumTool.getEnumList(IntervalTimeEnum.class));
+        List intervalTime = EnumTool.getEnumList(IntervalTimeEnum.class);
+        intervalTime.remove(0);
+        model.addAttribute("intervalTime", intervalTime);
         return EDIT;
     }
 
