@@ -76,7 +76,7 @@
             <div class="search-wrapper btn-group pull-right m-r-n-xs">
               <div class="input-group">
                 <form:input class="form-control" path="search.content" placeholder="${views.content['cttAnnouncement.search.content']}"/>
-                <span class="input-group-btn"><soul:button target="query" opType="function" text="" cssClass="btn btn-filter" title="search"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span></soul:button></span>
+                <span class="input-group-btn"><soul:button target="query" opType="function" text="" cssClass="btn btn-filter enter-submit" title="search"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span></soul:button></span>
               </div>
             </div>
             <!--//endregion your codes 2-->
