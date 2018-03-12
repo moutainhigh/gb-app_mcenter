@@ -58,7 +58,9 @@
                              <a href="javascript:void(0)" class="ico-lock co-red3" tabindex="0" data-content="${views.fund_auto['危险层级']}"
                                 data-placement="right" data-trigger="focus" data-toggle="popover" data-container="body" role="button"><i class="fa fa-warning"></i></a>
                             {{/if}}
+                            {{:_views_riskDataType}}
                         </div>
+
                     </td>
                     <td>
                         <a href="/vPlayerRankStatistics/view.html?id={{:rankId}}" nav-target="mainFrame">

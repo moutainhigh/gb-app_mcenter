@@ -72,6 +72,7 @@
                     role="button" class="ico-lock help-popover" tabindex="0"
                     data-original-title="" title=""><i class="fa fa-flash"></i></span>
                 {{/if}}
+                 {{:_views_riskDataType}}
             <td>
                 <a href="/vPlayerRankStatistics/view.html?id={{:rankId}}" nav-target="mainFrame">
                 {{if riskMarker}}
