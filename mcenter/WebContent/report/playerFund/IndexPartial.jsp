@@ -71,7 +71,8 @@
             <c:forEach items="${command.fundList}" var="p" varStatus="status">
                 <tr class="tab-detail">
                     <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
-                    <td>${p.playerName}</td>
+                    <td>${p.playerName}${gbFn:riskImgByName(p.playerName)}
+                    </td>
                     <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND, timeZone)}</td>
                     <th>${p.depositCount}</th>
                     <th>${soulFn:formatCurrency(p.depositAmount)}</th>

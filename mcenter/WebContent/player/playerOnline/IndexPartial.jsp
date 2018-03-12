@@ -28,7 +28,9 @@
                             <shiro:hasPermission name="role:player_detail"><a href="/player/playerView.html?search.id=${p.id}" nav-Target="mainFrame"></shiro:hasPermission>
                             ${p.username }
                             <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
+                            ${gbFn:riskImgById(p.id)}
                         </div>
+
                     </td>
                     <td>${p.realName}</td>
                     <td>${soulFn:formatInteger(p.assets)}${soulFn:formatDecimals(p.assets)}</td>
