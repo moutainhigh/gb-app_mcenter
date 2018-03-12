@@ -31,7 +31,7 @@
                                 </div>
                             </div>
 
-                            <soul:button precall="" target="query" text="" cssClass="btn btn-filter"
+                            <soul:button precall="" target="query" text="" cssClass="btn btn-filter _enter_submit"
                                          opType="function">
                                 <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                             </soul:button>

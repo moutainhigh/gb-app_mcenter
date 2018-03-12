@@ -43,7 +43,7 @@
                     </div>
 
 
-                    <soul:button text="" target="query" opType="function" cssClass="btn btn-outline btn-filter queryAnalyze"
+                    <soul:button text="" target="query" opType="function" cssClass="btn btn-outline btn-filter queryAnalyze _enter_submit"
                                  tag="button">
                         <i class="fa fa-search"></i>
                         <span class="hd">&nbsp;${views.common['search']}</span>

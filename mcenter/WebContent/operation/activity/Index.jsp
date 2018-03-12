@@ -35,7 +35,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control list-search-input-text" placeholder="${views.operation['Activity.name']}" name="search.activityName">
                                 <span class="input-group-btn">
-                                    <soul:button target="query" opType="function" tag="button" text="${views.common['search']}" cssClass="btn btn-filter"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span></soul:button>
+                                    <soul:button target="query" opType="function" tag="button" text="${views.common['search']}" cssClass="btn btn-filter _enter_submit"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span></soul:button>
                                 </span>
                             </div>
                         </div>

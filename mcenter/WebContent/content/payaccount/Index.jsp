@@ -69,7 +69,7 @@
                                     </div>
                                     <input type="text" class="form-control list-search-input-text" id="searchtext" name="${firstSelectKey}">
                                     <span class="input-group-btn">
-                                        <soul:button cssClass="btn btn-filter btn-query-css" precall="checksearch" tag="button" opType="function" text="${views.common['search']}" target="query">
+                                        <soul:button cssClass="btn btn-filter btn-query-css _enter_submit" precall="checksearch" tag="button" opType="function" text="${views.common['search']}" target="query">
                                             <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                                         </soul:button>
                                         <%--<button type="button" class="btn btn-filter"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.column['search']}</span></button>--%>

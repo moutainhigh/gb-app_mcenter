@@ -82,7 +82,7 @@
                             </div>
                         </div>
                     </div>
-                    <soul:button target="query" text="" opType="function" cssClass="btn btn-filter pull-left search_btn btnleft"><i class="fa fa-search"></i>&nbsp;搜索</soul:button>
+                    <soul:button target="query" text="" opType="function" cssClass="btn btn-filter pull-left search_btn btnleft _enter_submit"><i class="fa fa-search"></i>&nbsp;搜索</soul:button>
                     <div style="margin-top: 9px">
                     <span class="co-yellow"><i class="fa fa-exclamation-circle"></i></span>
                     本功能只统计已结算注单。

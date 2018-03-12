@@ -161,7 +161,7 @@
                     </div>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                         <%-- 搜索--%>
-                    <soul:button text="" target="query" opType="function" cssClass="btn btn-filter" tag="button">
+                    <soul:button text="" target="query" opType="function" cssClass="btn btn-filter _enter_submit" tag="button">
                         <i class="fa fa-search"></i>
                         <span class="hd">&nbsp;${views.common['search']}</span>
                     </soul:button>

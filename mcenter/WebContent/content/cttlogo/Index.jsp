@@ -31,7 +31,7 @@
             <div class="search-wrapper btn-group pull-right m-r-n-xs">
                 <div class="input-group">
                     <form:input class="form-control" path="search.name" placeholder="${views.content['cttlogo.pleaseLogoName']}"/>
-                    <span class="input-group-btn"><soul:button target="query" opType="function" text="" cssClass="btn btn-filter"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span></soul:button></span>
+                    <span class="input-group-btn"><soul:button target="query" opType="function" text="" cssClass="btn btn-filter _enter_submit"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span></soul:button></span>
                 </div>
             </div>
 

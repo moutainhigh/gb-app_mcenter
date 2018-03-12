@@ -10,6 +10,7 @@ import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceActivityTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
@@ -35,10 +36,8 @@ import so.wwb.gamebox.model.master.setting.vo.RakebackSetListVo;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 
 /**
@@ -520,6 +519,19 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
      */
     private List<DepositWayEnum> getDepositWays() {
         return EnumTool.getEnumList(DepositWayEnum.class);
+    }
+
+    /**
+     * 判断开始时间 结束时间
+     * @param request
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @RequestMapping("/checkTime")
+    @ResponseBody
+    public String checkTime(HttpServletRequest request, @RequestParam("activityMessage.startTime")Date startTime, @RequestParam("activityMessage.endTime")Date endTime){
+        return startTime.getTime() >= endTime.getTime() ? "false" : "true";
     }
 
     //endregion your codes 3

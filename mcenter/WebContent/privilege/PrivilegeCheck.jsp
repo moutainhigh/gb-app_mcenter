@@ -38,7 +38,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <soul:button cssClass="btn btn-filter btn-check-ok" precall="validateForm"
+        <soul:button cssClass="btn btn-filter btn-check-ok _enter_submit" precall="validateForm"
                      target="${root}/privilege/valiPrivilege.html" opType="ajax" tag="button"
                      post="getCurrentFormData" dataType="json" text="${views.common.OK}" callback="showTips"/>
         <soul:button tag="button" cssClass="btn btn-filter" target="closePage" opType="function" text="${views.common.cancel}"/>

@@ -65,7 +65,7 @@
                             <c:if test="${command.search.entityUserId!=null && command.search.entityUserId!=''}">
                                 <input type="hidden" name="search.entityUserId" value="${command.search.entityUserId}"/>
                             </c:if>
-                            <soul:button target="query" opType="function" text="${views.common['query']}" cssClass="btn btn-filter pull-right btnQuery" />
+                            <soul:button target="query" opType="function" text="${views.common['query']}" cssClass="btn btn-filter pull-right btnQuery _enter_submit" />
                         </div>
                     </div>
                 </div>

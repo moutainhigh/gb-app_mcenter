@@ -26,7 +26,7 @@
                         <div class="input-group">
                             <input type="text" name="search.username" class="form-control" placeholder="${views.fund['playerDetect.view.playerAccount']}" value="${command1.search.username}"/>
                             <span class="input-group-btn">
-                                <soul:button target="checkQuery" opType="function" cssClass="btn btn-filter btn-query-css" tag="button" text="">
+                                <soul:button target="checkQuery" opType="function" cssClass="btn btn-filter btn-query-css _enter_submit" tag="button" text="">
                                     <i class="fa fa-search"></i>
                                     <span class="hd">&nbsp;${views.common['detection']}</span>
                                 </soul:button>

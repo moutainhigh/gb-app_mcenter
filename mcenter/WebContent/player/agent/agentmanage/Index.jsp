@@ -50,7 +50,7 @@
                                 <input type="hidden" name="search.startTime" value="${soulFn:formatDateTz(command.search.startTime, DateFormat.DAY_SECOND, timeZone)}" />
                                 <input type="hidden" name="search.endTime" value="${soulFn:formatDateTz(command.search.endTime, DateFormat.DAY_SECOND, timeZone)}" />
                                 <input type="hidden" name="search.parentId" value="${command.search.parentId}" />
-                                <soul:button cssClass="btn btn-filter btn-query-css" precall="checksearch" tag="button" opType="function" text="${views.common['search']}" target="query">
+                                <soul:button cssClass="btn btn-filter btn-query-css _enter_submit" precall="checksearch" tag="button" opType="function" text="${views.common['search']}" target="query">
                                     <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                                 </soul:button>
                             </span>

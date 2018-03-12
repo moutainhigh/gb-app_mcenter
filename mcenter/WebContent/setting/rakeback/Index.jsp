@@ -28,7 +28,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="${views.column['VRakebackSet.name']}" name="search.name" value="${command.search.name}">
                             <span class="input-group-btn">
-                                <soul:button target="query" tag="button" text="" cssClass="btn btn-filter" opType="function">
+                                <soul:button target="query" tag="button" text="" cssClass="btn btn-filter _enter_submit" opType="function">
                                     <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                                 </soul:button>
                         </div>

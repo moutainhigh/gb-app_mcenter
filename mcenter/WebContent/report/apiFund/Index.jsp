@@ -171,7 +171,7 @@
                             <button type="button" class="btn btn-filter btn-outline pull-right  show-demand-b"><i
                                     class="fa fa-chevron-down"></i> ${views.common['advancedFilter']}
                             </button>
-                            <soul:button precall="validateForm" target="query" text="" cssClass="btn btn-filter mediate-search-btn"
+                            <soul:button precall="validateForm" target="query" text="" cssClass="btn btn-filter mediate-search-btn _enter_submit"
                                          opType="function">
                                 <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                             </soul:button>

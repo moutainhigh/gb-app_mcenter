@@ -201,7 +201,7 @@
                     </soul:button>
                 </div>
                 <div class="operate-btn">
-                    <soul:button target="${root}/setting/rakebackSet/backWaterSave.html" refresh="true" callback="goToLastPage"  cssClass="btn btn-filter btn-lg m-r" post="getCurrentFormData" text="" opType="ajax" tag="button" precall="validateForm">
+                    <soul:button target="${root}/setting/rakebackSet/backWaterSave.html" refresh="true" callback="goToLastPage"  cssClass="btn btn-filter btn-lg m-r _enter_submit" post="getCurrentFormData" text="" opType="ajax" tag="button" precall="validateForm">
                         ${views.common['OK']}
                     </soul:button>
                 </div>

@@ -514,7 +514,7 @@
                                     class="fa fa-chevron-down"></i> ${views.report_auto['高级搜索']}
                             </button>
                             <soul:button target="resetFundsLog" text="${views.report_auto['重置']}" opType="function" cssClass="btn btn-filter reset-condition-button" />
-                            <soul:button precall="validateForm" target="query" text="" cssClass="btn btn-filter mediate-search-btn"
+                            <soul:button precall="validateForm" target="query" text="" cssClass="btn btn-filter mediate-search-btn _enter_submit"
                                          opType="function">
                                 <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                             </soul:button>
