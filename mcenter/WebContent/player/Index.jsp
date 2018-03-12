@@ -546,7 +546,7 @@
                                     class="fa fa-chevron-down"></i> ${views.player_auto['高级搜索']}
                             </button>
 
-                            <soul:button cssClass="btn btn-filter mediate-search-btn enter-submit" tag="button" opType="function"
+                            <soul:button cssClass="btn btn-filter mediate-search-btn _enter_submit" tag="button" opType="function"
                                          text="${views.common['search']}" target="query" precall="validateForm">
                                 <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                             </soul:button>

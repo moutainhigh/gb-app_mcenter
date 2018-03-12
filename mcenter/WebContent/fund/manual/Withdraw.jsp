@@ -57,7 +57,7 @@
             <th></th>
             <td>
                 <div class="btn-groups text-left">
-                    <soul:button precall="validateForm" target="submit" callback="back" msg="${views.fund_auto['确认提交']}？" text="${views.fund_auto['确定']}" opType="function" cssClass="btn btn-filter p-x-lg m-r-md enter-submit"></soul:button>
+                    <soul:button precall="validateForm" target="submit" callback="back" msg="${views.fund_auto['确认提交']}？" text="${views.fund_auto['确定']}" opType="function" cssClass="btn btn-filter p-x-lg m-r-md _enter_submit"></soul:button>
                 </div>
             </td>
         </tr>

@@ -197,7 +197,7 @@
             <div class="pull-right line-hi34 m-r-sm" hidden>${views.fund['共']}<span class="co-red3">${siteCurrencySign}<span id="totalSumTarget">${command.totalSum}</span></span></div>
             <div class="pull-right line-hi34 m-r-sm" hidden>${views.fund['今日成功']}<span class="co-red3">${siteCurrencySign}<span id="todayTotal">0</span></span></div>
             <div>
-                <soul:button target="query" opType="function" text="${views.fund_auto['搜索']}" cssClass="btn btn-filter search_btn pull-left m-r-sm onlineSearchSpan enter-submit"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.fund['搜索']}</span></soul:button>
+                <soul:button target="query" opType="function" text="${views.fund_auto['搜索']}" cssClass="btn btn-filter search_btn pull-left m-r-sm onlineSearchSpan _enter_submit"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.fund['搜索']}</span></soul:button>
             </div>
             <span class="btn btn-filter btn-outline pull-left show-demand-b m-r-sm">
                 <i class="fa fa-chevron-down"></i>${views.common['advancedFilter']}

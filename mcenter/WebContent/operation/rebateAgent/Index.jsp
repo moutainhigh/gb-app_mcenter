@@ -64,7 +64,7 @@
                                 </soul:button>
                             </div>
 
-                            <soul:button target="query" opType="function" tag="button" text="${views.common['search']}" cssClass="btn btn-filter enter-submit" precall="validateForm">
+                            <soul:button target="query" opType="function" tag="button" text="${views.common['search']}" cssClass="btn btn-filter _enter_submit" precall="validateForm">
                                 <i class="fa fa-search"></i>
                                 <span class="hd">&nbsp;${views.common['search']}</span>
                             </soul:button>

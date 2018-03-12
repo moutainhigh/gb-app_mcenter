@@ -192,7 +192,7 @@
                     </div>
                 </div>
                 <div class="operate-btn">
-                    <soul:button cssClass="btn btn-filter btn-lg" text="${views.common['OK']}" dataType="json" opType="ajax"
+                    <soul:button cssClass="btn btn-filter btn-lg _enter_submit" text="${views.common['OK']}" dataType="json" opType="ajax"
                                  target="${root}/param/saveRecommended.html" precall="validateForm" post="getCurrentFormData"
                                  callback="saveCallbak"/>
                 </div>
