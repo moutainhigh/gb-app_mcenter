@@ -38,7 +38,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="${views.operation['Bill.distributor.list.topAgentName']}" name="search.topagentName">
                             <span class="input-group-btn">
-                                <soul:button target="query" text="${views.common['search']}" opType="function" cssClass="btn btn-filter"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span></soul:button>
+                                <soul:button target="query" text="${views.common['search']}" opType="function" cssClass="btn btn-filter _enter_submit"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span></soul:button>
                             </span>
 
                         </div>

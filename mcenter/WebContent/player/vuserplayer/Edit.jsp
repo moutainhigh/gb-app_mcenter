@@ -537,7 +537,7 @@
             <!--表格内容 结束-->
         </div>
         <div class="operate-btn">
-            <soul:button cssClass="btn btn-filter btn-lg" text="${views.common['OK']}" opType="ajax" dataType="json"
+            <soul:button cssClass="btn btn-filter btn-lg _enter_submit" text="${views.common['OK']}" opType="ajax" dataType="json"
                          target="${root}/player/updateUserPlayerAndPlayerTag.html" precall="savePlayer"
                          post="getCurrentFormData"
                          callback="myCallback"/>

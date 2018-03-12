@@ -39,7 +39,7 @@
                          </span>
                         <input type="text" name="search.name" value="${command.search.name}" class="form-control">
                         <span class="input-group-btn">
-                            <soul:button cssClass="btn btn-filter" tag="button" target="query" text="${views.common['search']}" opType="function">
+                            <soul:button cssClass="btn btn-filter _enter_submit" tag="button" target="query" text="${views.common['search']}" opType="function">
                                 <i class="fa fa-search"></i>
                                 <span class="hd">&nbsp;${views.common['search']}</span>
                             </soul:button>

@@ -26,7 +26,7 @@
 		<tr>
 			<td style="padding: 50px 0px 0px 0px;">
 				<soul:button target="returnEdit" text="${views.content_auto['返回修改']}" opType="function" cssClass="btn btn-filter btn-lg m-r"></soul:button>
-				<soul:button cssClass="btn btn-filter btn-lg m-r" text="${views.content_auto['发布']}"
+				<soul:button cssClass="btn btn-filter btn-lg m-r _enter_submit" text="${views.content_auto['发布']}"
 							 opType="ajax" dataType="json" target="${root}/cttFloatPic/persist.html"
 							 precall="valiDateFormAndSubmit" post="getCurrentFormData" callback="goToLastPage" refresh="true"/>
 			</td>

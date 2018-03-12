@@ -34,7 +34,7 @@
                                 </div>
                                 <input type="text" id="searchName" name="search.name" class="form-control">
                                 <span class="input-group-btn">
-                                    <soul:button text="${views.setting['common.query']}" tag="button" cssClass="btn btn-filter" opType="function" target="query"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.setting['common.query']}</span></soul:button>
+                                    <soul:button text="${views.setting['common.query']}" tag="button" cssClass="btn btn-filter _enter_submit" opType="function" target="query"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.setting['common.query']}</span></soul:button>
                                 </span>
                             </div>
                         </div>

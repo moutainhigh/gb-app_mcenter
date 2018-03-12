@@ -40,7 +40,7 @@
                                 <input type="text" class="form-control" name="search.ownerName" placeholder="${views.wc_fund['代理账号']}">
                             </div>
                             <span class="input-group-btn">
-                                        <soul:button cssClass="btn btn-filter" tag="button" opType="function" text="${views.common['search']}" target="query">
+                                        <soul:button cssClass="btn btn-filter _enter_submit" tag="button" opType="function" text="${views.common['search']}" target="query">
                                             <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                                         </soul:button>
                                     </span>

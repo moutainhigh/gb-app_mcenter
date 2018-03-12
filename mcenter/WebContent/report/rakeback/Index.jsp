@@ -75,7 +75,7 @@
                     </div>
                     <div class="col-lg-2">
                         <div class="form-group clearfix m-t-sm m-b-none">
-                            <soul:button target="query" opType="function" text="${views.common['query']}" cssClass="btn btn-filter pull-right" />
+                            <soul:button target="query" opType="function" text="${views.common['query']}" cssClass="btn btn-filter pull-right _enter_submit" />
                         </div>
                     </div>
                 </div>
