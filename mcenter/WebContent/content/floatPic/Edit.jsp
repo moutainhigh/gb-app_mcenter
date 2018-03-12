@@ -413,7 +413,7 @@
                             &nbsp;&nbsp;
                             <soul:button target="goToLastPage" cssClass="btn btn-outline btn-filter btn-lg" text="${views.common['return']}" opType="function" refresh="false"></soul:button>
                             &nbsp;
-                            <soul:button target="previewFloatPic" precall="valiDateFormAndUploadFile" text="${views.common['previewAndSave']}" cssClass="btn btn-filter btn-lg m-r" opType="function"/>
+                            <soul:button target="previewFloatPic" precall="valiDateFormAndUploadFile" text="${views.common['previewAndSave']}" cssClass="btn btn-filter btn-lg m-r _enter_submit" opType="function"/>
 
                 </div>
             </div>

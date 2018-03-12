@@ -117,7 +117,7 @@
 
     </div>
     <div class="modal-footer">
-        <soul:button target="${root}/content/sysDomain/updateName.html" post="getCurrentFormData"  precall="validateForm" text="" opType="ajax" dataType="json" cssClass="btn btn-filter" callback="saveCallbak" tag="button">${views.common['confirm']}</soul:button>
+        <soul:button target="${root}/content/sysDomain/updateName.html" post="getCurrentFormData"  precall="validateForm" text="" opType="ajax" dataType="json" cssClass="btn btn-filter _enter_submit" callback="saveCallbak" tag="button">${views.common['confirm']}</soul:button>
         <soul:button target="closePage" text="" opType="function" cssClass="btn btn-outline btn-filter" tag="button">${views.common['cancel']}</soul:button>
     </div>
 </form:form>

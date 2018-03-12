@@ -57,7 +57,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <soul:button cssClass="btn btn-filter" text="${views.setting['common.ok']}" opType="ajax" dataType="json"
+        <soul:button cssClass="btn btn-filter _enter_submit" text="${views.setting['common.ok']}" opType="ajax" dataType="json"
                      target="${root}/vSiteContacts/save.html" precall="validateForm" post="getCurrentFormData"
                      callback="saveCallbak"/>
         <soul:button target="closePage" text="${views.setting['common.cancel']}" cssClass="btn btn-outline btn-filter" opType="function"/>

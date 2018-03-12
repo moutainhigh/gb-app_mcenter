@@ -87,7 +87,7 @@
         <%--<soul:button cssClass="btn btn-filter" text="${views.setting['common.ok']}" opType="ajax" dataType="json"--%>
                      <%--target="${root}/vNoticeEmailInterface/save.html" precall="saveValid" post="getCurrentFormData"--%>
                      <%--callback="saveCallbak"/>--%>
-        <soul:button cssClass="btn btn-default" text="${views.common['commit']}" opType="ajax" dataType="json" target="${root}/vNoticeEmailInterface/save.html" precall="saveValid" post="getCurrentFormData" callback="saveCallbak" />
+        <soul:button cssClass="btn btn-default _enter_submit" text="${views.common['commit']}" opType="ajax" dataType="json" target="${root}/vNoticeEmailInterface/save.html" precall="saveValid" post="getCurrentFormData" callback="saveCallbak" />
         <soul:button target="closePage" text="${views.setting['common.cancel']}" cssClass="btn btn-outline btn-filter"
                      opType="function"/>
     </div>

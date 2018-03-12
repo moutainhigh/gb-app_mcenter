@@ -102,7 +102,7 @@
 
     </div>
     <div class="modal-footer">
-        <soul:button cssClass="btn btn-filter" text="${views.common['OK']}" dataType="json" opType="ajax" target="${root}/siteConfineArea/persist.html?type=${type}" precall="validateForm"  post="getCurrentFormData" callback="saveCallbak"/>
+        <soul:button cssClass="btn btn-filter _enter_submit" text="${views.common['OK']}" dataType="json" opType="ajax" target="${root}/siteConfineArea/persist.html?type=${type}" precall="validateForm"  post="getCurrentFormData" callback="saveCallbak"/>
         <soul:button cssClass="btn btn-outline btn-filter" text="${views.common['cancel']}" opType="function" target="closePage"/>
     </div>    </div>
 
