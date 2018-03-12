@@ -4,8 +4,11 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.validation.form.constraints.Depends;
+import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.commons.validation.form.support.Comment;
 import org.soul.web.support.IForm;
+import so.wwb.gamebox.mcenter.content.controller.CttCarouselController;
+import so.wwb.gamebox.mcenter.operation.controller.ActivityTypeController;
 
 /**
  * Created by eagle on 15-9-1.
@@ -25,6 +28,7 @@ public class ActivityContentStepForm implements IForm {
 
     @NotBlank(message = "operation_auto.结束时间不能为空")
     @Comment("结束时间")
+    @Remote(message = "operation_auto.结束时间需大于开始时间",checkClass = ActivityTypeController.class,checkMethod = "checkTime",additionalProperties = {"activityMessage_startTime"})
     public String getActivityMessage_endTime() {
         return activityMessage_endTime;
     }
