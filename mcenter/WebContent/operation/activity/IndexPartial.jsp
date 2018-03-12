@@ -125,11 +125,12 @@
                             <span class="disabled">${views.common['delete']}</span>
                         </c:otherwise>--%>
                     </c:choose>
-                    <c:if test="${p.code eq 'money'}">
-                        <shiro:hasPermission name="operate:activity_moneyrecord">
-                            <a href="/activityMoneyPlayRecord/list.html?search.activityMessageId=${p.id}" nav-target="mainFrame">${views.content['vSiteApi.record']}</a>
-                        </shiro:hasPermission>
-                    </c:if>
+                    <%--暂时隐藏，不发测试线--%>
+                    <%--<c:if test="${p.code eq 'money'}">--%>
+                        <%--<shiro:hasPermission name="operate:activity_moneyrecord">--%>
+                            <%--<a href="/activityMoneyPlayRecord/list.html?search.activityMessageId=${p.id}" nav-target="mainFrame">${views.content['vSiteApi.record']}</a>--%>
+                        <%--</shiro:hasPermission>--%>
+                    <%--</c:if>--%>
                 </td>
             </tr>
         </c:forEach>

@@ -399,6 +399,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
             Map<String, String> paramValueMap = JsonTool.fromJson(sysParam.getParamValue(), Map.class);
             Boolean isActive = sysParam.getActive();
+            String easyPaymentStatus = ParamTool.getSysParam(SiteParamEnum.EASY_PAYMENT).getParamValue();
             List<VPlayerWithdraw> result = vo.getResult();
             for (VPlayerWithdraw vPlayerWithdraw : result) {
                 vPlayerWithdraw.set_formatDateTz_createTime(LocaleDateTool.formatDate(vPlayerWithdraw.getCreateTime(), dateFormat.getDAY_SECOND(), timeZone));
@@ -442,6 +443,9 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                     vPlayerWithdraw.set_ipWithdraw_ipv4LongToString(IpTool.ipv4LongToString(ipWithdraw));
                 }
                 vPlayerWithdraw.set_isActive(isActive);
+                if (StringTool.isNotBlank(easyPaymentStatus)) {
+                    vPlayerWithdraw.set_easyPaymentStatus(easyPaymentStatus);
+                }
                 vPlayerWithdraw.set_withdrawAccountEnableTime(new Date(Long.valueOf(paramValueMap.get("accountEnableTime"))));
                 vPlayerWithdraw.set_islockPersonId(SessionManager.getAuditUserId().equals(vPlayerWithdraw.getLockPersonId()));
                 vPlayerWithdraw.set_formatDateTz_withdrawCheckTime(LocaleDateTool.formatDate(vPlayerWithdraw.getWithdrawCheckTime(), dateFormat.getDAY_SECOND(), timeZone));
