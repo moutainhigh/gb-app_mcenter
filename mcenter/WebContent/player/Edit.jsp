@@ -81,7 +81,7 @@
         </div>
 
         <div class="modal-footer">
-            <soul:button target="${root}/player/saveNewPlayer.html" text="" cssClass="btn btn-filter"
+            <soul:button target="${root}/player/saveNewPlayer.html" text="" cssClass="btn btn-filter _enter_submit"
                          precall="validateForm" opType="ajax" post="getCurrentFormData" callback="closePage">${views.common['OK']}</soul:button>
             <soul:button target="closePage" text="${views.common['cancel']}" opType="function" cssClass="btn btn-outline btn-filter"></soul:button>
         </div>
