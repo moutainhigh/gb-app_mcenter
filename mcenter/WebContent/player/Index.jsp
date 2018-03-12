@@ -467,6 +467,16 @@
                                     </div>
                                 </div>
 
+                                <%--  --%>
+                                <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                                    <div class="input-group">
+                                        <span class="input-group-addon bg-gray">${views.player_auto['风控标识']}</span>
+                                        <gb:select name="search.riskDataType" value="" prompt="${views.content['全部']}" list="${riskDicts}"/>
+
+                                    </div>
+                                </div>
+
+
                                     <%--总盈亏--ok--%>
                                 <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm"
                                      style="display: none">

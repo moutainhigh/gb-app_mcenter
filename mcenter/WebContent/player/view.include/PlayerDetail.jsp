@@ -27,6 +27,7 @@
                     <ul class="new-detail-list">
                         <li class="detail-list-name">
                             <span class="player-name" style="font-size: 30px;">${command.result.username}</span>
+<%--<soul:riskTag playerId="34015"></soul:riskTag>yy--%>
                             <c:if test="${command.result.riskMarker == true}">
                                 <span data-content="${views.player_auto['危险层级']}" style="padding: 3px;"
                                       data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
@@ -44,7 +45,7 @@
                             <c:if test="${command.result.onLineId<=0}">
                                 <span class="co-gray">${views.player_auto['离线']}</span>
                             </c:if>
-
+k
 
                             <c:if test="${command.result.playerStatus eq '2'}">
                                 <c:set value="true" var="option_btn_disabled"></c:set>
@@ -691,6 +692,24 @@
                                              cssClass="btn btn-link co-blue" tag="a" opType="dialog" text="${views.role['Player.list.tagManager']}">
                                     ${views.common['manage']}
                                 </soul:button>
+                            </div>
+                        </li>
+                        <li class="detail-list-cow">
+                            <span class="title">${views.player_auto['风控标识']}</span>
+                            <div class="content">
+                                <c:set var="riskCount" value="${fn:length(riskSet)}"></c:set>
+                                <c:forEach items="${riskSet}" var="risk" varStatus="vs">
+                                    <span class="label-del">${dicts.player.risk_data_type[risk]}</span>
+                                    <c:if test="${(vs.index+1)<riskCount}">、</c:if>
+                                </c:forEach>
+                                <c:if test="${command.result.playerStatus!='2'}">
+                                    <soul:button target="${root}/player/editRiskLabel.html?search.id=${command.result.id}" callback="queryView"
+                                                 text="${dicts.log.op_type['update']}" opType="dialog" cssClass="btn btn-link co-blue"/>
+                                </c:if>
+                                <c:if test="${not empty command.result.riskDataType}">
+                                    <soul:button text="${views.player_auto['添加风控人员至总控']}" opType="ajax"
+                                             target="${root}/player/addRiskToBoss.html?search.id=${command.result.id}" />
+                                </c:if>
                             </div>
                         </li>
                         <li class="detail-list-cow">

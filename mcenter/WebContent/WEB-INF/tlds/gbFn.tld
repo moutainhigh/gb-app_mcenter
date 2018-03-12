@@ -179,4 +179,35 @@
         <function-class>so.wwb.gamebox.web.RebateAgentTool</function-class>
         <function-signature>java.lang.String formatParentArrayToAgentName(java.lang.Integer[])</function-signature>
     </function>
+    <function>
+        <description>
+            /**
+            * 通过id查询玩家的风控标识展示成图片标签
+            */
+        </description>
+        <name>riskImgByName</name>
+        <function-class>so.wwb.gamebox.web.RiskTagTool</function-class>
+        <function-signature>java.lang.String getRiskImgByUsername(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <description>
+            /**
+            * 通过id查询玩家的风控标识展示成图片标签
+            */
+        </description>
+        <name>riskImgById</name>
+        <function-class>so.wwb.gamebox.web.RiskTagTool</function-class>
+        <function-signature>java.lang.String getRiskImg(java.lang.Integer)</function-signature>
+    </function>
+    <function>
+        <description>
+            /**
+            * 通过id查询玩家的风控标识展示成图片标签
+            */
+        </description>
+        <name>showRiskImg</name>
+        <function-class>so.wwb.gamebox.web.RiskTagTool</function-class>
+        <function-signature>java.lang.String showRiskImg(java.lang.String)</function-signature>
+    </function>
 </taglib>

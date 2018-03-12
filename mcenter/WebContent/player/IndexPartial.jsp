@@ -62,7 +62,6 @@
         <tbody>
         </tbody>
             <script id="VUserPlayerListVo" type="text/x-jsrender">
-
             {{for data}}
                  <tr class="tab-detail">
                     <td>
@@ -109,6 +108,15 @@
                         role="button" class="ico-lock" tabindex="0"
                         data-original-title="" title=""><i class="fa icon-houtaixinzengwanjia iconfont"></i></span>
                     {{/if}}
+                    <%--${gbFn:riskImgById(id)}--%>
+                    <%--{{:_gbFn_riskImgById_id}}aaa--%>
+                        {{if riskDataType !=null}}
+                        <span class="dividing-line m-r-xs m-l-xs">|</span>
+                        {{:_gbFn_riskImgById_id}}
+                            {{:_gbFn_showRiskImg_riskDataType}}
+                            {{: riskDataType}}
+                        {{/if}}
+
                     </td>
 
                     <%--真实姓名--%>
@@ -214,6 +222,14 @@
                             <a href="/player/playerView.html?search.id={{:id}}"
                             nav-target="mainFrame">{{:_views_common_detail}}</a>
                         </shiro:hasPermission>
+                        {{if riskDataType !=null}}
+                        <span class="dividing-line m-r-xs m-l-xs">|</span>
+                            <soul:button text="${views.player_auto['添加风控人员至总控']}" opType="ajax"
+                                         target="${root}/player/addRiskToBoss.html?search.id={{:id}}" />
+                        {{/if}}
+
+
+
                     </td>
                 </tr>
             {{/for}}

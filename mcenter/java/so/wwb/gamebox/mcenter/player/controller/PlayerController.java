@@ -87,6 +87,8 @@ import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
+import so.wwb.gamebox.model.company.risk.po.RiskManagementCheck;
+import so.wwb.gamebox.model.company.risk.vo.RiskManagementCheckVo;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.company.site.po.SiteCurrency;
@@ -104,6 +106,7 @@ import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawVo;
 import so.wwb.gamebox.model.master.operation.po.PlayerAdvisoryRead;
 import so.wwb.gamebox.model.master.operation.vo.PlayerAdvisoryReadVo;
 import so.wwb.gamebox.model.master.player.enums.PlayerAdvisoryEnum;
+import so.wwb.gamebox.model.master.player.enums.PlayerRiskDataTypeEnum;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
 import so.wwb.gamebox.model.master.player.enums.UserBankcardTypeEnum;
 import so.wwb.gamebox.model.master.player.po.*;
@@ -188,6 +191,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     /*返水方案*/
     private static final String RAKEBACK_INDEX = "player/player/rakeback/Index";
 
+    private static final String EDIT_RISK_LABEL = "/player/risk/EditRiskLabel";
+
     private String root;
 
     public String getRoot() {
@@ -229,6 +234,11 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
         model.addAttribute("tagIds",listVo.getSearch().getTagId());
+
+        //获得字典中的风控标识列表
+        Map<String, SysDict> riskDicts = DictTool.get(DictEnum.PLAYER_RISK_DATA_TYPE);
+        model.addAttribute("riskDicts", riskDicts);
+
         /*玩家检测真是姓名*/
         if (listVo.getSearch().isHasReturn() && StringTool.isNotBlank(listVo.getSearch().getRealName())) {
             try {
@@ -922,6 +932,13 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         sysUserProtectionVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
         SysUserProtectionVo protectionVo = ServiceTool.sysUserProtectionService().get(sysUserProtectionVo);
         model.addAttribute("saferQuestion", protectionVo);
+        //风控标识
+        UserPlayerVo userPlayerVo = new UserPlayerVo();
+        userPlayerVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
+        userPlayerVo = ServiceSiteTool.userPlayerService().get(userPlayerVo);
+        getRisk2Set(userPlayerVo);
+        model.addAttribute("riskSet", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskSet():null);
+
         return "/player/view.include/PlayerDetail";
     }
 
@@ -1415,6 +1432,12 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
             LOG.error(ex, "保存银行卡出错");
         }
+        //保存银行卡成功，添加风控标识
+        if (objVo.isSuccess()){
+            UserBankcardVo userBankcardVo = ServiceSiteTool.userPlayerService().addRiskByBankCardNumber(objVo);
+            map.put("state", userBankcardVo.isSuccess());
+        }
+
         return map;
     }
 
@@ -3223,6 +3246,141 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         Map map = fetchStartEndIp(ip);
         return MapTool.getBoolean(map,"state");
     }
+
+    /**
+     * 添加修改玩家风控标识
+     * Created by orange
+     *
+     * @param userPlayerVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/editRiskLabel")
+    public String editRiskLabel(UserPlayerVo userPlayerVo, Model model) {
+        //查询玩家风控标识
+        userPlayerVo = ServiceSiteTool.userPlayerService().get(userPlayerVo);
+        //数据库中的字符串00000111的代码转化成Set<String>方便页面展示
+        getRisk2Set(userPlayerVo);
+
+        //获得字典中的风控标识列表
+        Map<String, SysDict> riskDicts = DictTool.get(DictEnum.PLAYER_RISK_DATA_TYPE);
+        model.addAttribute("command", userPlayerVo);
+        model.addAttribute("riskDicts", riskDicts);
+        return EDIT_RISK_LABEL;
+    }
+
+    /**
+     * 保存玩家风控标识
+     * Created by orange
+     *
+     * @param userPlayerVo
+     * @return
+     */
+    @RequestMapping("/saveRiskLabel")
+    @ResponseBody
+    public Map saveRiskLabel(UserPlayerVo userPlayerVo) {
+        Map regMap = MapTool.newHashMap();
+        //把页面传入的xx;yy;zz;转成数据库中的字符串00000111的代码方便存储
+        setRiskSet(userPlayerVo);
+        userPlayerVo.setProperties(UserPlayer.PROP_RISK_DATA_TYPE);
+        userPlayerVo = ServiceSiteTool.userPlayerService().updateOnly(userPlayerVo);
+
+        if (userPlayerVo.isSuccess()){
+            regMap.put("status",true);
+        }else{
+            regMap.put("status",false);
+        }
+        return regMap;
+    }
+
+
+    /**
+     * 数据库中风控标识的字符串00000111的代码转化成Set<String>方便页面展示
+     * @param userPlayerVo
+     */
+    public void getRisk2Set(UserPlayerVo userPlayerVo) {
+        String riskDataType = userPlayerVo.getResult().getRiskDataType();
+        Set<String> riskSet = new HashSet<>();
+        if (StringTool.isNotBlank(riskDataType)) {
+            if (riskDataType.charAt(7) != '0') {
+                riskSet.add(PlayerRiskDataTypeEnum.MALICIOUS.getCode());
+            }
+            if (riskDataType.charAt(6) != '0') {
+                riskSet.add(PlayerRiskDataTypeEnum.MONEY_LAUNDERING.getCode());
+            }
+            if (riskDataType.charAt(5) != '0') {
+                riskSet.add(PlayerRiskDataTypeEnum.INTEREST_ARBITRAGE.getCode());
+            }
+        }
+        userPlayerVo.getResult().setRiskSet(riskSet);
+    }
+
+    /**
+     * 把页面传入的风控标识xx;yy;zz;转成数据库中的字符串00000111的风控标识代码方便存储
+     * @param userPlayerVo
+     */
+    public void setRiskSet(UserPlayerVo userPlayerVo) {
+        String riskDataType = userPlayerVo.getResult().getRiskDataType();
+        if (StringTool.isNotBlank(riskDataType)) {
+            StringBuilder str = new StringBuilder();
+            Set<String> set = new HashSet<>(Arrays.asList(riskDataType.split(";")));
+            if (set.contains(PlayerRiskDataTypeEnum.INTEREST_ARBITRAGE.getCode())) {
+                str.append("1");
+            } else {
+                str.append("0");
+            }
+            if (set.contains(PlayerRiskDataTypeEnum.MONEY_LAUNDERING.getCode())) {
+                str.append("1");
+            } else {
+                str.append("0");
+            }
+            if (set.contains(PlayerRiskDataTypeEnum.MALICIOUS.getCode())) {
+                str.append("1");
+            } else {
+                str.append("0");
+            }
+            //补足8位
+            while (str.length() < 8) {
+                str.insert(0, "0");
+            }
+            userPlayerVo.getResult().setRiskDataType(str.toString());
+        }
+    }
+
+    /**
+     * 添加风控人员至总控
+     * Created by orange
+     *
+     * @param vUserPlayerVo
+     * @return
+     */
+    @RequestMapping("/addRiskToBoss")
+    @ResponseBody
+    public Map addRiskToBoss(VUserPlayerVo vUserPlayerVo) {
+        Map regMap = MapTool.newHashMap();
+
+        //设置风控审核数据内容
+        RiskManagementCheckVo riskManagementVo = new RiskManagementCheckVo();
+        RiskManagementCheck riskManagement = new RiskManagementCheck();
+        riskManagement.setCreateTime(DateQuickPicker.getInstance().getNow());
+        riskManagement.setCreateUserId(SessionManager.getUserId());
+        riskManagement.setCreateUserName(SessionManager.getUserName());
+        riskManagement.setSiteId(SessionManager.getSiteId());
+        riskManagementVo.setResult(riskManagement);
+        //查询其他按数据并发送
+        vUserPlayerVo = ServiceSiteTool.vUserPlayerService().addRiskToBoss(vUserPlayerVo,riskManagementVo);
+
+        if (vUserPlayerVo.isSuccess()){
+            regMap.put("state",true);
+            regMap.put("msg", "success");
+        }else{
+            regMap.put("status",false);
+            regMap.put("msg", vUserPlayerVo.getOkMsg());
+        }
+        return regMap;
+    }
+
+
 
     //endregion
 }

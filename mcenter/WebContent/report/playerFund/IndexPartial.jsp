@@ -95,6 +95,7 @@
                                 </shiro:hasPermission>
                             </c:otherwise>
                         </c:choose>
+                        ${gbFn:riskImgByName(p.playerName)}
 
                     </td>
                     <c:if test="${empty agent && empty topagent}">
