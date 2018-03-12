@@ -94,12 +94,12 @@
                 <%--站长语言  大于1时 有下一步--%>
             <c:if test="${siteLang.size() > 1}">
                 <%--上一步--%>
-                <soul:button target="previous" opType="function" cssClass="btn btn-filter previous_lang hide _enter_submit" text="${views.common['previous']}"></soul:button>
+                <soul:button target="previous" opType="function" cssClass="btn btn-filter previous_lang hide" text="${views.common['previous']}"></soul:button>
                 <%--下一步--%>
-                <soul:button target="next" opType="function" cssClass="btn btn-filter next_step next_lang _enter_submit" text="${views.common['next']}"></soul:button>
+                <soul:button target="next" opType="function" cssClass="btn btn-filter next_step next_lang" text="${views.common['next']}"></soul:button>
             </c:if>
 
-                    <soul:button target="Preview" cssClass="btn btn-filter preview hide _enter_submit" opType="function" text="${views.common['previewAndSave']}" post="getCurrentFormData" precall="saveValid" callback="saveCallbak"></soul:button>
+                    <soul:button target="Preview" cssClass="btn btn-filter preview hide" opType="function" text="${views.common['previewAndSave']}" post="getCurrentFormData" precall="saveValid" callback="saveCallbak"></soul:button>
 
                     <soul:button target="closePage" opType="function" cssClass="btn btn-outline btn-filter" text="${views.common['cancel']}"></soul:button>
         </div>
@@ -138,7 +138,7 @@
         <c:set var="siteLang" value="${languageList}" />
         <input type="hidden" placeholder="" class="form-control m-b" name="langSize" value="${siteLang.size()}">
         <div class="modal-footer">
-            <soul:button target="${root}/cttAnnouncement/batchSave.html" dataType="json" cssClass="btn btn-filter preview hide _enter_submit"
+            <soul:button target="${root}/cttAnnouncement/batchSave.html" dataType="json" cssClass="btn btn-filter preview hide"
                          opType="ajax" text="${views.common['release']}" precall="saveValid" post="getCurrentFormData" callback="saveCallbak"></soul:button>
             <soul:button target="returnEdit" opType="function" cssClass="btn btn-outline btn-filter" text="${views.content['announcement.returnEdit']}"></soul:button>
         </div>
