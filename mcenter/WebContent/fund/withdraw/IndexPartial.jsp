@@ -32,7 +32,7 @@
                 <th>${views.fund_auto['审核人']}</th>
                 <th>${views.fund_auto['审核时间']}</th>
                 <%--出款--%>
-                <c:if test="${isActive}">
+                <c:if test="${isActive && easyPaymentStatus eq 'true'}">
                     <th>${views.fund_auto['出款确认']}</th>
                     <th>${views.fund_auto['确认人']}</th>
                     <th>${views.fund_auto['确认时间']}</th>
@@ -191,8 +191,8 @@
                     {{/if}}
                 </span>
             </td>
-            <%--出款列表--%>
-            {{if _isActive}}
+            <%--出款列表: 同时满足开启易收付出款账户和易收付出款入口才展示--%>
+            {{if _isActive && _easyPaymentStatus=='true'}}
                 <td>
                     {{if withdrawStatus=='4'}}
                         {{if checkStatus=='success' &&  checkTime >= _withdrawAccountEnableTime}}
