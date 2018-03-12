@@ -122,6 +122,7 @@ import so.wwb.gamebox.model.master.setting.vo.RakebackSetVo;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderVo;
 import so.wwb.gamebox.model.report.vo.AddLogVo;
 import so.wwb.gamebox.web.BussAuditLogTool;
+import so.wwb.gamebox.web.RiskTagTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.bank.BankHelper;
 import so.wwb.gamebox.web.cache.Cache;
@@ -361,7 +362,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 player.set_soulFn_formatDateTz_loginTime(LocaleDateTool.formatDate(player.getLoginTime(), dateFormat.getDAY_SECOND(), timeZone));
                 player.set_soulFn_formatDateTz_createTime(LocaleDateTool.formatDate(player.getCreateTime(), dateFormat.getDAY_SECOND(), timeZone));
                 player.set_soulFn_formatDateTz_createTimeDay(LocaleDateTool.formatDate(player.getCreateTime(), dateFormat.getDAY(), timeZone));
-
+                player.set_views_riskDataType(RiskTagTool.getRiskImg(player.getId()));
                 orderNumber++;
                 player.set_paging_orderNumber(orderNumber);
             }

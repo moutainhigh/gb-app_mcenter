@@ -110,12 +110,8 @@
                     {{/if}}
                     <%--${gbFn:riskImgById(id)}--%>
                     <%--{{:_gbFn_riskImgById_id}}aaa--%>
-                        {{if riskDataType !=null}}
-                        <span class="dividing-line m-r-xs m-l-xs">|</span>
-                        {{:_gbFn_riskImgById_id}}
-                            {{:_gbFn_showRiskImg_riskDataType}}
-                            {{: riskDataType}}
-                        {{/if}}
+
+                        {{:_views_riskDataType}}
 
                     </td>
 
