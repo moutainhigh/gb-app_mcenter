@@ -42,7 +42,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group clearfix m-b-none">
-                <soul:button target="query" opType="function" text="" cssClass="btn btn-filter pull-right">
+                <soul:button target="query" opType="function" text="" cssClass="btn btn-filter pull-right _enter_submit">
                     <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                 </soul:button>
             </div>

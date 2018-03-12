@@ -207,7 +207,7 @@
             <span class="btn btn-filter btn-outline pull-right show-demand-b ${flag?'open':''}">
                 <i class="fa fa-chevron-down"></i>${views.common['advancedFilter']}
             </span>
-            <soul:button precall="validateForm" target="queryByCondition" opType="function" text="${views.report_auto['搜索']}" cssClass="btn btn-filter mediate-search-btn"/>
+            <soul:button precall="validateForm" target="queryByCondition" opType="function" text="${views.report_auto['搜索']}" cssClass="btn btn-filter mediate-search-btn _enter_submit"/>
             <soul:button target="resetCondition" opType="function" text="${views.report_auto['重置']}" cssClass="btn btn-filter reset-condition-button"/>
             <%@include file="/sysSearchTemplate/SearchTemplate.jsp"%>
         </div>

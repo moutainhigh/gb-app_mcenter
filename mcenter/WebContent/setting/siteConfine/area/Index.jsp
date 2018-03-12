@@ -63,7 +63,7 @@
 
                             <span class="input-group-btn">
                                 <soul:button target="query" opType="function" text="${views.common['query']}"
-                                             cssClass="btn btn-filter">
+                                             cssClass="btn btn-filter _enter_submit">
                                     <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['query']}</span>
                                 </soul:button>
                             </span>

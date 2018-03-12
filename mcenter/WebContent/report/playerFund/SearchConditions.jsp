@@ -186,7 +186,7 @@
 
 
             <soul:button precall="validateForm" target="query" opType="function"
-                         text="${views.report_auto['搜索']}" cssClass="btn btn-filter mediate-search-btn"/>
+                         text="${views.report_auto['搜索']}" cssClass="btn btn-filter mediate-search-btn _enter_submit"/>
             <soul:button target="reset" opType="function" text="${views.report_auto['重置']}"
                          cssClass="btn btn-filter reset-condition-button"/>
             <%@include file="/sysSearchTemplate/SearchTemplate.jsp" %>

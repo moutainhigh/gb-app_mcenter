@@ -36,7 +36,7 @@
                         <div class="input-group">
                             <form:input class="form-control" path="search.searchIp" placeholder="${views.common['pleaseEnter']}IP"/>
                                 <span class="input-group-btn">
-                                    <soul:button target="query" opType="function" text="${views.common['query']}"  cssClass="btn btn-filter">
+                                    <soul:button target="query" opType="function" text="${views.common['query']}"  cssClass="btn btn-filter _enter_submit">
                                         <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['query']}</span>
                                     </soul:button>
                                 </span>
