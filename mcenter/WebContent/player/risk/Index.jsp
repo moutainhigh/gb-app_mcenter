@@ -5,7 +5,7 @@
     <form:form action="${root}/riskManagementSite/list.html" method="post" name="playerOnlineForm">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
-            <span>${views.sysResource['角色']}</span><span>/</span><span>${views.column['风控数据']}</span>
+            <span>${views.sysResource['角色']}</span><span>/</span><span>${views.common['风控数据']}</span>
             <soul:button target="goToLastPage" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
                 <em class="fa fa-caret-left"></em>${views.common['return']}
             </soul:button>
