@@ -706,10 +706,7 @@ k
                                     <soul:button target="${root}/player/editRiskLabel.html?search.id=${command.result.id}" callback="queryView"
                                                  text="${dicts.log.op_type['update']}" opType="dialog" cssClass="btn btn-link co-blue"/>
                                 </c:if>
-                                <c:if test="${not empty command.result.riskDataType}">
-                                    <soul:button text="${views.player_auto['添加风控人员至总控']}" opType="ajax"
-                                             target="${root}/player/addRiskToBoss.html?search.id=${command.result.id}" />
-                                </c:if>
+
                             </div>
                         </li>
                         <li class="detail-list-cow">

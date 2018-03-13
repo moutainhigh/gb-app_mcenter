@@ -21,10 +21,7 @@
                     <i class="fa fa-flash" title="${views.fund_auto['在线']}"></i>
                 </c:if>
                 ${gbFn:riskImgById(command1.result.id)}
-                <c:if test="${not empty command1.result.riskDataType}">
-                    <soul:button text="${views.player_auto['添加风控人员至总控']}" opType="ajax"
-                             target="${root}/player/addRiskToBoss.html?search.id=${command1.result.id}" />
-                </c:if>
+
             </div>
                 <%--<div class="line-hi25 col-sm-12"><b>${views.fund['playerDetect.view.area']}：</b>
                     ${dicts.region.region[command1.result.country]}-${dicts.state[command1.result.country][command1.result.region]}

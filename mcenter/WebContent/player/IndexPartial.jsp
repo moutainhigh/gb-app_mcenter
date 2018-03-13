@@ -218,13 +218,6 @@
                             <a href="/player/playerView.html?search.id={{:id}}"
                             nav-target="mainFrame">{{:_views_common_detail}}</a>
                         </shiro:hasPermission>
-                        {{if riskDataType !=null}}
-                        <span class="dividing-line m-r-xs m-l-xs">|</span>
-                            <soul:button text="${views.player_auto['添加风控人员至总控']}" opType="ajax"
-                                         target="${root}/player/addRiskToBoss.html?search.id={{:id}}" />
-                        {{/if}}
-
-
 
                     </td>
                 </tr>
