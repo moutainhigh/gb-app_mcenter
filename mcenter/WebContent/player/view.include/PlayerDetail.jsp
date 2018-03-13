@@ -703,7 +703,7 @@ k
                                     <c:if test="${(vs.index+1)<riskCount}">、</c:if>
                                 </c:forEach>
                                 <c:if test="${command.result.playerStatus!='2'}">
-                                    <soul:button target="${root}/player/editRiskLabel.html?search.id=${command.result.id}" callback="queryView"
+                                    <soul:button target="${root}/player/editRiskLabel.html?search.id=${command.result.id}" callback="queryView" precall="hasBankcard"
                                                  text="${dicts.log.op_type['update']}" opType="dialog" cssClass="btn btn-link co-blue"/>
                                 </c:if>
 
