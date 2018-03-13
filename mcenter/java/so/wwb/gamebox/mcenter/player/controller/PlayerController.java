@@ -3285,11 +3285,27 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         setRiskSet(userPlayerVo);
         userPlayerVo.setProperties(UserPlayer.PROP_RISK_DATA_TYPE);
         userPlayerVo = ServiceSiteTool.userPlayerService().updateOnly(userPlayerVo);
+        //推送到总控
+        if (userPlayerVo.isSuccess()) {
 
-        if (userPlayerVo.isSuccess()){
-            regMap.put("status",true);
-        }else{
-            regMap.put("status",false);
+            //设置风控审核数据内容
+            RiskManagementCheckVo riskManagementVo = new RiskManagementCheckVo();
+            RiskManagementCheck riskManagement = new RiskManagementCheck();
+            riskManagement.setCreateTime(DateQuickPicker.getInstance().getNow());
+            riskManagement.setCreateUserId(SessionManager.getUserId());
+            riskManagement.setCreateUserName(SessionManager.getUserName());
+            riskManagement.setSiteId(SessionManager.getSiteId());
+            riskManagementVo.setResult(riskManagement);
+            //查询其他按数据并发送
+            VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
+            vUserPlayerVo.getSearch().setId(userPlayerVo.getResult().getId());
+            userPlayerVo = ServiceSiteTool.vUserPlayerService().addRiskToBoss(userPlayerVo, riskManagementVo);
+        }
+
+        if (userPlayerVo.isSuccess()) {
+            regMap.put("status", true);
+        } else {
+            regMap.put("status", false);
         }
         return regMap;
     }
@@ -3347,41 +3363,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             userPlayerVo.getResult().setRiskDataType(str.toString());
         }
     }
-
-    /**
-     * 添加风控人员至总控
-     * Created by orange
-     *
-     * @param vUserPlayerVo
-     * @return
-     */
-    @RequestMapping("/addRiskToBoss")
-    @ResponseBody
-    public Map addRiskToBoss(VUserPlayerVo vUserPlayerVo) {
-        Map regMap = MapTool.newHashMap();
-
-        //设置风控审核数据内容
-        RiskManagementCheckVo riskManagementVo = new RiskManagementCheckVo();
-        RiskManagementCheck riskManagement = new RiskManagementCheck();
-        riskManagement.setCreateTime(DateQuickPicker.getInstance().getNow());
-        riskManagement.setCreateUserId(SessionManager.getUserId());
-        riskManagement.setCreateUserName(SessionManager.getUserName());
-        riskManagement.setSiteId(SessionManager.getSiteId());
-        riskManagementVo.setResult(riskManagement);
-        //查询其他按数据并发送
-        vUserPlayerVo = ServiceSiteTool.vUserPlayerService().addRiskToBoss(vUserPlayerVo,riskManagementVo);
-
-        if (vUserPlayerVo.isSuccess()){
-            regMap.put("state",true);
-            regMap.put("msg", "success");
-        }else{
-            regMap.put("status",false);
-            regMap.put("msg", vUserPlayerVo.getOkMsg());
-        }
-        return regMap;
-    }
-
-
 
     //endregion
 }
