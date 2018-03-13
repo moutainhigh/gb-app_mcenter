@@ -231,7 +231,7 @@
 
                 <input id="isReminderTask" type="hidden" value="${isReminderTask}"/>
 
-                <a href="javascript:void(0)" class="locate" data-toggle="dropdown"  data-href="${root}/index/task.html"><i
+                <a href="javascript:void(0)" class="locate" data-toggle="dropdown"  data-href="${root}/index/task.html?_t=${random}"><i
                         class="icon iconfont"></i><span class="label label-orange" id="unReadTaskCount">${empty unReadTaskCount?0:unReadTaskCount}</span></a>
                 <dl class="infos_list tasks_list nav-shadow">
                     <dt>${views.common['任务提醒']}</dt>
