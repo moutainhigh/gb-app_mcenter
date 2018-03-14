@@ -3303,11 +3303,11 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
 
         if (userPlayerVo.isSuccess()) {
-            regMap.put("status", true);
+            regMap.put("state", true);
         } else {
-            regMap.put("status", false);
+            regMap.put("state", false);
         }
-        return regMap;
+        return this.getVoMessage(userPlayerVo);
     }
 
 
