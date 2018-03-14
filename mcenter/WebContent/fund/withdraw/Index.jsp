@@ -7,6 +7,7 @@
     </form:form>
     <form:form name="withdrawForm" action="${root}/fund/withdraw/withdrawData.html" method="post">
         <div id="validateRule" style="display: none">${command.validateRule}</div>
+        <input type="hidden" id="playerRanksMemory" value="">
         <span id="open" hidden>${command.open}</span>
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
