@@ -34,7 +34,7 @@
                 </c:forEach>
         </div>
         <input id="riskDataType" name="result.riskDataType" value="" type="hidden"/>
-        <input name="result.oldRiskDataType" value="${result.riskDataType}" type="hidden"/>
+        <input name="result.oldRiskDataType" value="${command.result.riskDataType}" type="hidden"/>
         <form:hidden path="result.id" value="${command.search.id}"/>
 
     </div>
