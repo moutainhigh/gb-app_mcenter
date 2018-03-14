@@ -5,7 +5,7 @@
 <form name="companyDepositForm" action="${root}/fund/deposit/company/doData.html" templateUrl="${root}/fund/deposit/company/list.html" method="post">
     <div class="row">
         <div id="validateRule" style="display: none">${command.validateRule}</div>
-
+        <input type="hidden" id="playerRanksMemory" value="">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
             <span>${views.sysResource['资金']}</span>
