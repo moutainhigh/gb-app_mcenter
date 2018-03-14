@@ -69,6 +69,16 @@
                                 </div>
                             </td>
                         </tr>
+                        <tr>
+                            <th scope="row" class="text-right">${views.fund_auto['自动计算优惠']}：</th>
+                            <td>
+                               <div class="table-desc-right-t" style="display: block; width:100px;">
+                                   <input id="discountRatio" name="discountRatio" type="text" class="form-control" disabled="true" placeholder="${views.fund_auto['优惠比例']}"/>
+                                   <span class="right-flo co-grayc2">%</span>
+                               </div>
+                                <div class="right-flo co-grayc2 line-hi34">${views.fund_auto['自动计算优惠提示']}</div>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -89,8 +99,8 @@
                     <tr>
                         <th scope="row" class="text-right">${views.fund_auto['类型']}：</th>
                         <td>
-                            <div class="table-desc-right-t" style="width:30%;">
-                                <select name="favorableType" class="btn-group chosen-select-no-single">
+                            <div class="table-desc-right-t" id="favorableTypeDiv" style="width:30%;">
+                                <select name="favorableType" id="favorableType" class="btn-group chosen-select-no-single">
                                     <c:forEach items="${rechargeType}" var="i">
                                         <c:if test="${i.dictCode != manualDeposit}">
                                             <option value="${i.dictCode}" ${i.dictCode == manualFavorable?'selected':''}>${dicts.fund.recharge_type[i.dictCode]}</option>
@@ -111,7 +121,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    <%--<tr>
                         <th scope="row" class="text-right">${views.fund_auto['稽核']}：</th>
                         <td>
                             <div class="line-hi34 m-b-sm min-w">
@@ -125,7 +135,7 @@
                                 <span class="right-flo co-grayc2">${views.fund['倍']}</span>
                             </div>
                         </td>
-                    </tr>
+                    </tr>--%>
                     <tr id="favorableTr">
                         <th scope="row" class="text-right">${views.fund_auto['活动名称']}：</th>
                         <td>
@@ -142,6 +152,21 @@
                                     </span>
                                 </div>
                                 <div class="right-flo co-grayc2 line-hi34">${views.fund['请填写活动名称，不得超过50个字符，活动名称将在玩家中心-优惠记录页面显示']}</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-right">${views.fund_auto['稽核']}：</th>
+                        <td>
+                            <div class="line-hi34 m-b-sm min-w">
+                                <label class="m-r"><input type="radio"  value="false" name="playerFavorable.isAuditFavorable">${views.fund['免稽核']}</label>
+                                <label><input type="radio" value="true" name="playerFavorable.isAuditFavorable">${views.fund['优惠稽核']}</label>
+                                <span tabindex="0" class=" help-popover m-r" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" data-content="1、${views.fund_auto['玩家在取款时']}<br>2、${views.fund_auto['当没有通过存款申请获得优惠']}" title=""><i class="fa fa-question-circle"></i></span>
+                                <span id="fav_tip" class="right-flo co-grayc2" style="display: none"></span>
+                            </div>
+                            <div class="table-desc-right-t" id="favorableAuditMultipleDiv" style="display: block; width:100px;">
+                                <input type="text" class="form-control" name="playerFavorable.auditFavorableMultiple" placeholder="${views.fund_auto['稽核倍数']}"/>
+                                <span class="right-flo co-grayc2">${views.fund['倍']}</span>
                             </div>
                         </td>
                     </tr>
