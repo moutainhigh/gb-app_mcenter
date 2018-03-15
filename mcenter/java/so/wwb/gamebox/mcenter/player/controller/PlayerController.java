@@ -25,6 +25,7 @@ import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.Paging;
 import org.soul.commons.query.enums.Operator;
+import org.soul.commons.query.sort.Direction;
 import org.soul.commons.query.sort.Order;
 import org.soul.commons.security.Base36;
 import org.soul.commons.security.CryptoTool;
@@ -87,6 +88,8 @@ import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
+import so.wwb.gamebox.model.company.risk.po.RiskManagementCheck;
+import so.wwb.gamebox.model.company.risk.vo.RiskManagementCheckVo;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.company.site.po.SiteCurrency;
@@ -104,6 +107,7 @@ import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawVo;
 import so.wwb.gamebox.model.master.operation.po.PlayerAdvisoryRead;
 import so.wwb.gamebox.model.master.operation.vo.PlayerAdvisoryReadVo;
 import so.wwb.gamebox.model.master.player.enums.PlayerAdvisoryEnum;
+import so.wwb.gamebox.model.master.player.enums.PlayerRiskDataTypeEnum;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
 import so.wwb.gamebox.model.master.player.enums.UserBankcardTypeEnum;
 import so.wwb.gamebox.model.master.player.po.*;
@@ -119,6 +123,7 @@ import so.wwb.gamebox.model.master.setting.vo.RakebackSetVo;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderVo;
 import so.wwb.gamebox.model.report.vo.AddLogVo;
 import so.wwb.gamebox.web.BussAuditLogTool;
+import so.wwb.gamebox.web.RiskTagTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.bank.BankHelper;
 import so.wwb.gamebox.web.cache.Cache;
@@ -188,6 +193,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     /*返水方案*/
     private static final String RAKEBACK_INDEX = "player/player/rakeback/Index";
 
+    private static final String EDIT_RISK_LABEL = "/player/risk/EditRiskLabel";
+
     private String root;
 
     public String getRoot() {
@@ -229,6 +236,11 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
         model.addAttribute("tagIds",listVo.getSearch().getTagId());
+
+        //获得字典中的风控标识列表
+        Map<String, SysDict> riskDicts = DictTool.get(DictEnum.PLAYER_RISK_DATA_TYPE);
+        model.addAttribute("riskDicts", riskDicts);
+
         /*玩家检测真是姓名*/
         if (listVo.getSearch().isHasReturn() && StringTool.isNotBlank(listVo.getSearch().getRealName())) {
             try {
@@ -351,7 +363,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 player.set_soulFn_formatDateTz_loginTime(LocaleDateTool.formatDate(player.getLoginTime(), dateFormat.getDAY_SECOND(), timeZone));
                 player.set_soulFn_formatDateTz_createTime(LocaleDateTool.formatDate(player.getCreateTime(), dateFormat.getDAY_SECOND(), timeZone));
                 player.set_soulFn_formatDateTz_createTimeDay(LocaleDateTool.formatDate(player.getCreateTime(), dateFormat.getDAY(), timeZone));
-
+                player.set_views_riskDataType(RiskTagTool.getRiskImg(player.getId()));
                 orderNumber++;
                 player.set_paging_orderNumber(orderNumber);
             }
@@ -880,6 +892,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //vUserPlayerVo = fetchTotalProfitLoss(vUserPlayerVo);
 //        vUserPlayerVo = fetchTotalTradeAmount(vUserPlayerVo);
 //        vUserPlayerVo = fetchTotalEffectTradeAmount(vUserPlayerVo);
+        //代理修改日志
         SysAuditLogListVo sysAuditLogListVo = new SysAuditLogListVo();
         sysAuditLogListVo.getSearch().setEntityUserId(vUserPlayerVo.getSearch().getId());
         sysAuditLogListVo.getSearch().setModuleType(ModuleType.PLAYER_UPDATEAGENTLINE_SUCCESS.getCode());
@@ -887,6 +900,17 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         List logList = sysAuditLogListVo.getResult();
         if (logList != null && logList.size() > 0) {
             model.addAttribute("sysAuditLog", logList.get(0));
+        }
+        //风控修改日志
+        SysAuditLogListVo riskLogListVo = new SysAuditLogListVo();
+        riskLogListVo.getSearch().setEntityUserId(vUserPlayerVo.getSearch().getId());
+        riskLogListVo.getSearch().setModuleType(ModuleType.PLAYER_RISK_SUCCESS.getCode());
+        riskLogListVo.getPaging().setPageSize(1);
+        riskLogListVo.getQuery().addOrder(SysAuditLog.PROP_OPERATE_TIME, Direction.DESC);
+        riskLogListVo = ServiceSiteTool.auditLogService().queryLogs(riskLogListVo);
+        List riskLogList = riskLogListVo.getResult();
+        if (riskLogList != null && riskLogList.size() > 0) {
+            model.addAttribute("riskLog", riskLogList.get(0));
         }
 
         //银行卡列表
@@ -922,6 +946,13 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         sysUserProtectionVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
         SysUserProtectionVo protectionVo = ServiceTool.sysUserProtectionService().get(sysUserProtectionVo);
         model.addAttribute("saferQuestion", protectionVo);
+        //风控标识
+        UserPlayerVo userPlayerVo = new UserPlayerVo();
+        userPlayerVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
+        userPlayerVo = ServiceSiteTool.userPlayerService().get(userPlayerVo);
+        getRisk2Set(userPlayerVo);
+        model.addAttribute("riskSet", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskSet():null);
+
         return "/player/view.include/PlayerDetail";
     }
 
@@ -1415,6 +1446,12 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
             LOG.error(ex, "保存银行卡出错");
         }
+        //保存银行卡成功，添加风控标识
+        if (objVo.isSuccess()){
+            UserBankcardVo userBankcardVo = ServiceSiteTool.userPlayerService().addRiskByBankCardNumber(objVo);
+            map.put("state", userBankcardVo.isSuccess());
+        }
+
         return map;
     }
 
@@ -3222,6 +3259,157 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     public boolean checkLoginIp(@RequestParam("search.lastLoginIpv4") String ip){
         Map map = fetchStartEndIp(ip);
         return MapTool.getBoolean(map,"state");
+    }
+
+    /**
+     * 添加修改玩家风控标识
+     * Created by orange
+     *
+     * @param userPlayerVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/editRiskLabel")
+    public String editRiskLabel(UserPlayerVo userPlayerVo, Model model) {
+        //查询玩家风控标识
+        userPlayerVo = ServiceSiteTool.userPlayerService().get(userPlayerVo);
+        //数据库中的字符串00000111的代码转化成Set<String>方便页面展示
+        getRisk2Set(userPlayerVo);
+
+        //获得字典中的风控标识列表
+        Map<String, SysDict> riskDicts = DictTool.get(DictEnum.PLAYER_RISK_DATA_TYPE);
+        model.addAttribute("command", userPlayerVo);
+        model.addAttribute("riskDicts", riskDicts);
+        return EDIT_RISK_LABEL;
+    }
+
+    /**
+     * 保存玩家风控标识
+     * Created by orange
+     *
+     * @param userPlayerVo
+     * @return
+     */
+    @RequestMapping("/saveRiskLabel")
+    @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.PLAYER_RISK_SUCCESS, opType = OpType.UPDATE)
+    public Map saveRiskLabel(UserPlayerVo userPlayerVo) {
+
+        Map regMap = MapTool.newHashMap();
+        //把页面传入的xx;yy;zz;转成数据库中的字符串00000111的代码方便存储
+        setRiskSet(userPlayerVo);
+        userPlayerVo.setProperties(UserPlayer.PROP_RISK_DATA_TYPE);
+        userPlayerVo = ServiceSiteTool.userPlayerService().updateOnly(userPlayerVo);
+
+        //日志;添加完日志后，userPlayerVo的risk值有改变，后续使用注意
+        addModifyRiskLog(userPlayerVo);
+
+        //推送到总控
+        if (userPlayerVo.isSuccess()) {
+
+            //设置风控审核数据内容
+            RiskManagementCheckVo riskManagementVo = new RiskManagementCheckVo();
+            RiskManagementCheck riskManagement = new RiskManagementCheck();
+            riskManagement.setCreateTime(DateQuickPicker.getInstance().getNow());
+            riskManagement.setCreateUserId(SessionManager.getUserId());
+            riskManagement.setCreateUserName(SessionManager.getUserName());
+            riskManagement.setSiteId(SessionManager.getSiteId());
+            riskManagementVo.setResult(riskManagement);
+            //查询其他按数据并发送
+            VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
+            vUserPlayerVo.getSearch().setId(userPlayerVo.getResult().getId());
+            userPlayerVo = ServiceSiteTool.vUserPlayerService().addRiskToBoss(userPlayerVo, riskManagementVo);
+        }
+
+        if (userPlayerVo.isSuccess()) {
+            regMap.put("state", true);
+        } else {
+            regMap.put("state", false);
+        }
+        return this.getVoMessage(userPlayerVo);
+    }
+
+
+    /**
+     * 风控修改日志
+     * <br>添加完日志后，userPlayerVo的risk值有改变，后续使用注意
+     * @param userPlayerVo
+     *
+     */
+    private void addModifyRiskLog(UserPlayerVo userPlayerVo){
+
+        //修改后的数据国际化
+        getRisk2Set(userPlayerVo);
+        String risk = "";
+        for(String str:userPlayerVo.getResult().getRiskSet()){
+            risk+=I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("common").get(str);
+            risk+=" ";
+        }
+        //旧数据国际化
+        String oldRisk = "";
+        userPlayerVo.getResult().setRiskDataType(userPlayerVo.getResult().getOldRiskDataType());
+        getRisk2Set(userPlayerVo);
+        for(String str:userPlayerVo.getResult().getRiskSet()){
+            oldRisk+=I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("common").get(str);
+            oldRisk+=" ";
+        }
+//        setRisk
+//        setRiskSet(oldUserPlayerVo);
+        BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS",userPlayerVo.getResult().getId(),oldRisk,risk);
+    }
+
+
+    /**
+     * 数据库中风控标识的字符串00000111的代码转化成Set<String>方便页面展示
+     * @param userPlayerVo
+     */
+    public void getRisk2Set(UserPlayerVo userPlayerVo) {
+        String riskDataType = userPlayerVo.getResult().getRiskDataType();
+        Set<String> riskSet = new HashSet<>();
+        if (StringTool.isNotBlank(riskDataType)) {
+            if (riskDataType.charAt(7) != '0') {
+                riskSet.add(PlayerRiskDataTypeEnum.MALICIOUS.getCode());
+            }
+            if (riskDataType.charAt(6) != '0') {
+                riskSet.add(PlayerRiskDataTypeEnum.MONEY_LAUNDERING.getCode());
+            }
+            if (riskDataType.charAt(5) != '0') {
+                riskSet.add(PlayerRiskDataTypeEnum.INTEREST_ARBITRAGE.getCode());
+            }
+        }
+        userPlayerVo.getResult().setRiskSet(riskSet);
+    }
+
+    /**
+     * 把页面传入的风控标识xx;yy;zz;转成数据库中的字符串00000111的风控标识代码方便存储
+     * @param userPlayerVo
+     */
+    public void setRiskSet(UserPlayerVo userPlayerVo) {
+        String riskDataType = userPlayerVo.getResult().getRiskDataType();
+        if (StringTool.isNotBlank(riskDataType)) {
+            StringBuilder str = new StringBuilder();
+            Set<String> set = new HashSet<>(Arrays.asList(riskDataType.split(";")));
+            if (set.contains(PlayerRiskDataTypeEnum.INTEREST_ARBITRAGE.getCode())) {
+                str.append("1");
+            } else {
+                str.append("0");
+            }
+            if (set.contains(PlayerRiskDataTypeEnum.MONEY_LAUNDERING.getCode())) {
+                str.append("1");
+            } else {
+                str.append("0");
+            }
+            if (set.contains(PlayerRiskDataTypeEnum.MALICIOUS.getCode())) {
+                str.append("1");
+            } else {
+                str.append("0");
+            }
+            //补足8位
+            while (str.length() < 8) {
+                str.insert(0, "0");
+            }
+            userPlayerVo.getResult().setRiskDataType(str.toString());
+        }
     }
 
     //endregion

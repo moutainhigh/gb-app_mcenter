@@ -110,6 +110,7 @@ import so.wwb.gamebox.model.master.report.so.VPlayerTransactionSo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionVo;
 import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.IpRegionTool;
+import so.wwb.gamebox.web.RiskTagTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
 
@@ -449,6 +450,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 vPlayerWithdraw.set_withdrawAccountEnableTime(new Date(Long.valueOf(paramValueMap.get("accountEnableTime"))));
                 vPlayerWithdraw.set_islockPersonId(SessionManager.getAuditUserId().equals(vPlayerWithdraw.getLockPersonId()));
                 vPlayerWithdraw.set_formatDateTz_withdrawCheckTime(LocaleDateTool.formatDate(vPlayerWithdraw.getWithdrawCheckTime(), dateFormat.getDAY_SECOND(), timeZone));
+                vPlayerWithdraw.set_views_riskDataType(RiskTagTool.getRiskImgByUsername(vPlayerWithdraw.getUsername()));
             }
         }
     }

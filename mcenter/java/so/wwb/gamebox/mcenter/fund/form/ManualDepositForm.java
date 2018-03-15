@@ -24,6 +24,8 @@ public class ManualDepositForm implements IForm {
     private String result_checkRemark;
     private String playerFavorable_favorable;
     private String playerFavorable_auditFavorableMultiple;
+    //优惠比例
+    private String discountRatio;
 
     @NotBlank(message = "fund.ManualDepositForm.userNames.notBlank")
     @Pattern(message = "fund.ManualDepositForm.userNames.Pattern", regexp = FormValidRegExps.ENGLISH_NUMBER_COMMA)
@@ -86,6 +88,16 @@ public class ManualDepositForm implements IForm {
 
     public void setPlayerFavorable_auditFavorableMultiple(String playerFavorable_auditFavorableMultiple) {
         this.playerFavorable_auditFavorableMultiple = playerFavorable_auditFavorableMultiple;
+    }
+
+    @Pattern(regexp = FormValidRegExps.MONEY, message = "fund_auto.优惠比例不正确")
+    @Max(value = 100, message = "fund.ManualDepositForm.discountRatio.Max")
+    public String getDiscountRatio() {
+        return discountRatio;
+    }
+
+    public void setDiscountRatio(String discountRatio) {
+        this.discountRatio = discountRatio;
     }
 
     interface rechargeFavorableAtLeast {

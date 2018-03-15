@@ -20,6 +20,8 @@
                 <c:if test="${command1.result.onLineId>0}">
                     <i class="fa fa-flash" title="${views.fund_auto['在线']}"></i>
                 </c:if>
+                ${gbFn:riskImgById(command1.result.id)}
+
             </div>
                 <%--<div class="line-hi25 col-sm-12"><b>${views.fund['playerDetect.view.area']}：</b>
                     ${dicts.region.region[command1.result.country]}-${dicts.state[command1.result.country][command1.result.region]}

@@ -125,6 +125,9 @@
                         </c:if>
                         <c:if test="${!p.isReturnFee}">${views.role['PlayerRank.list.none']}</c:if>
                     </c:if>
+                    <c:if test="${empty p.isFee&& empty p.isReturnFee}">
+                        ${views.role['PlayerRank.list.none']}
+                    </c:if>
                 </td>
                 <td>
                     <%--存款手续费收取--%>

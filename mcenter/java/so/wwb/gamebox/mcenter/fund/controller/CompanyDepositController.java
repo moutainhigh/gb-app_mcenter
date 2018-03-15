@@ -28,8 +28,6 @@ import so.wwb.gamebox.iservice.master.fund.IPlayerRechargeService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.company.setting.po.CurrencyExchangeRate;
 import so.wwb.gamebox.model.company.setting.po.SysCurrency;
 import so.wwb.gamebox.model.company.setting.vo.CurrencyExchangeRateVo;
@@ -46,6 +44,7 @@ import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositListVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerTransactionVo;
 import so.wwb.gamebox.web.IpRegionTool;
+import so.wwb.gamebox.web.RiskTagTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
 
@@ -162,6 +161,8 @@ public class CompanyDepositController extends BaseDepositController {
                         deposit.set_checkRemark_sub(checkRemark.substring(0,20));
                     }
                 }
+                //风控
+                deposit.set_views_riskDataType(RiskTagTool.getRiskImgByUsername(deposit.getUsername()));
             }
         }
     }

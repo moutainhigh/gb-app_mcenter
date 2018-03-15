@@ -57,7 +57,9 @@
                                         <i class="fa fa-warning"></i>
                                     </a>
                                 {{/if}}
+                                {{:_views_riskDataType}}
                             </div>
+
                         </td>
                         <%--层级--%>
                         <td>

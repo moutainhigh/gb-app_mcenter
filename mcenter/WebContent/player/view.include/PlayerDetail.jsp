@@ -27,6 +27,7 @@
                     <ul class="new-detail-list">
                         <li class="detail-list-name">
                             <span class="player-name" style="font-size: 30px;">${command.result.username}</span>
+<%--<soul:riskTag playerId="34015"></soul:riskTag>yy--%>
                             <c:if test="${command.result.riskMarker == true}">
                                 <span data-content="${views.player_auto['危险层级']}" style="padding: 3px;"
                                       data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
@@ -44,7 +45,7 @@
                             <c:if test="${command.result.onLineId<=0}">
                                 <span class="co-gray">${views.player_auto['离线']}</span>
                             </c:if>
-
+k
 
                             <c:if test="${command.result.playerStatus eq '2'}">
                                 <c:set value="true" var="option_btn_disabled"></c:set>
@@ -692,6 +693,32 @@
                                     ${views.common['manage']}
                                 </soul:button>
                             </div>
+                        </li>
+                        <li class="detail-list-cow">
+                            <span class="title">${views.player_auto['风控标识']}</span>
+                            <div class="content">
+                                <c:set var="riskCount" value="${fn:length(riskSet)}"></c:set>
+                                <c:forEach items="${riskSet}" var="risk" varStatus="vs">
+                                    <span class="label-del">${dicts.player.risk_data_type[risk]}</span>
+                                    <c:if test="${(vs.index+1)<riskCount}">、</c:if>
+                                </c:forEach>
+                                <c:if test="${command.result.playerStatus!='2'}">
+                                    <c:if test="${command.result.riskDataType.contains('2')}">
+                                        ${views.player_auto['由系统风控大数据识别']}
+                                    </c:if>
+                                    <soul:button target="${root}/player/editRiskLabel.html?search.id=${command.result.id}" callback="queryView" precall="hasBankcard"
+                                                 text="${dicts.log.op_type['update']}" opType="dialog" cssClass="btn btn-link co-blue"/>
+
+                                </c:if>
+
+                            </div>
+                            <c:if test="${not empty riskLog}">
+                                    <span data-content="<div>${views.common['content.editUser']}：${riskLog.operator}</div>
+                                <div>${views.common['content.editTime']}：${soulFn:formatDateTz(riskLog.operateTime, DateFormat.DAY_SECOND,timeZone)}-${soulFn:formatTimeMemo(riskLog.operateTime, locale)}</div>"
+                                          data-placement="bottom" data-trigger="focus" data-toggle="popover" data-container="body" data-html="true"
+                                          role="button" class="ico-lock" tabindex="0"
+                                          data-original-title="" title="" style="font-size: 14px;color: #9c9c9c; display: inline-block;">${soulFn:formatLogDesc(riskLog)}</span>
+                            </c:if>
                         </li>
                         <li class="detail-list-cow">
                             <div class="content">${views.player_auto['最后一次登入IP为']}

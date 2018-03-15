@@ -62,6 +62,7 @@
                     <shiro:hasPermission name="role:player_detail"><a href="/player/playerView.html?search.id=${pt.playerId}" nav-target="mainFrame"></shiro:hasPermission>
                     ${pt.username}
                     <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
+                    ${gbFn:riskImgByName(pt.username)}
                 </td>
                 <td>
                     <c:set value="${soulFn:formatDateTz(pt.createTime, DateFormat.DAY_SECOND,timeZone)}" var="createTime"></c:set>

@@ -62,7 +62,6 @@
         <tbody>
         </tbody>
             <script id="VUserPlayerListVo" type="text/x-jsrender">
-
             {{for data}}
                  <tr class="tab-detail">
                     <td>
@@ -109,6 +108,11 @@
                         role="button" class="ico-lock" tabindex="0"
                         data-original-title="" title=""><i class="fa icon-houtaixinzengwanjia iconfont"></i></span>
                     {{/if}}
+                    <%--${gbFn:riskImgById(id)}--%>
+                    <%--{{:_gbFn_riskImgById_id}}aaa--%>
+
+                        {{:_views_riskDataType}}
+
                     </td>
 
                     <%--真实姓名--%>
@@ -214,6 +218,7 @@
                             <a href="/player/playerView.html?search.id={{:id}}"
                             nav-target="mainFrame">{{:_views_common_detail}}</a>
                         </shiro:hasPermission>
+
                     </td>
                 </tr>
             {{/for}}
