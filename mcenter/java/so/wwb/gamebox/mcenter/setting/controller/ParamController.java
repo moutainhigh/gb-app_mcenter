@@ -50,10 +50,7 @@ import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
-import so.wwb.gamebox.model.company.site.po.SiteConfineArea;
-import so.wwb.gamebox.model.company.site.po.SiteI18n;
-import so.wwb.gamebox.model.company.site.po.SiteLanguage;
-import so.wwb.gamebox.model.company.site.po.SiteOperateArea;
+import so.wwb.gamebox.model.company.site.po.*;
 import so.wwb.gamebox.model.company.site.vo.*;
 import so.wwb.gamebox.model.company.sys.po.SysDomain;
 import so.wwb.gamebox.model.company.sys.po.SysSite;
@@ -510,15 +507,12 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SmsInterfaceVo smsInterfaceVo = new SmsInterfaceVo();
         smsInterfaceVo._setDataSourceId(SessionManager.getSiteId());
         smsInterfaceVo = ServiceTool.smsInterfaceService().search(smsInterfaceVo);
-        setSelectList(smsInterfaceVo);
         model.addAttribute("smsInterfaceVo", smsInterfaceVo);
-    }
 
-    private void setSelectList(SmsInterfaceVo objectVo) {
         SmsInterfaceListVo interfaceListVo = new SmsInterfaceListVo();
-        interfaceListVo.setProperties(SmsInterface.PROP_ID, SmsInterface.PROP_FULL_NAME);
-        interfaceListVo._setDataSourceId(0);
-        objectVo.setQueryList(ServiceTool.smsInterfaceService().searchProperties(interfaceListVo));
+        interfaceListVo._setDataSourceId(Integer.valueOf(UserTypeEnum.BOSS.getCode()));
+        interfaceListVo = ServiceTool.smsInterfaceService().search(interfaceListVo);
+        model.addAttribute("interfaceListVo", interfaceListVo.getResult());
     }
 
     private NoticeEmailInterface getDefaultEmailInterface() {
