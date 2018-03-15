@@ -25,6 +25,7 @@ import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.Paging;
 import org.soul.commons.query.enums.Operator;
+import org.soul.commons.query.sort.Direction;
 import org.soul.commons.query.sort.Order;
 import org.soul.commons.security.Base36;
 import org.soul.commons.security.CryptoTool;
@@ -891,6 +892,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //vUserPlayerVo = fetchTotalProfitLoss(vUserPlayerVo);
 //        vUserPlayerVo = fetchTotalTradeAmount(vUserPlayerVo);
 //        vUserPlayerVo = fetchTotalEffectTradeAmount(vUserPlayerVo);
+        //代理修改日志
         SysAuditLogListVo sysAuditLogListVo = new SysAuditLogListVo();
         sysAuditLogListVo.getSearch().setEntityUserId(vUserPlayerVo.getSearch().getId());
         sysAuditLogListVo.getSearch().setModuleType(ModuleType.PLAYER_UPDATEAGENTLINE_SUCCESS.getCode());
@@ -898,6 +900,17 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         List logList = sysAuditLogListVo.getResult();
         if (logList != null && logList.size() > 0) {
             model.addAttribute("sysAuditLog", logList.get(0));
+        }
+        //风控修改日志
+        SysAuditLogListVo riskLogListVo = new SysAuditLogListVo();
+        riskLogListVo.getSearch().setEntityUserId(vUserPlayerVo.getSearch().getId());
+        riskLogListVo.getSearch().setModuleType(ModuleType.PLAYER_RISK_SUCCESS.getCode());
+        riskLogListVo.getPaging().setPageSize(1);
+        riskLogListVo.getQuery().addOrder(SysAuditLog.PROP_OPERATE_TIME, Direction.DESC);
+        riskLogListVo = ServiceSiteTool.auditLogService().queryLogs(riskLogListVo);
+        List riskLogList = riskLogListVo.getResult();
+        if (riskLogList != null && riskLogList.size() > 0) {
+            model.addAttribute("riskLog", riskLogList.get(0));
         }
 
         //银行卡列表
@@ -3279,12 +3292,18 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      */
     @RequestMapping("/saveRiskLabel")
     @ResponseBody
+    @Audit(module = Module.PLAYER, moduleType = ModuleType.PLAYER_RISK_SUCCESS, opType = OpType.UPDATE)
     public Map saveRiskLabel(UserPlayerVo userPlayerVo) {
+
         Map regMap = MapTool.newHashMap();
         //把页面传入的xx;yy;zz;转成数据库中的字符串00000111的代码方便存储
         setRiskSet(userPlayerVo);
         userPlayerVo.setProperties(UserPlayer.PROP_RISK_DATA_TYPE);
         userPlayerVo = ServiceSiteTool.userPlayerService().updateOnly(userPlayerVo);
+
+        //日志;添加完日志后，userPlayerVo的risk值有改变，后续使用注意
+        addModifyRiskLog(userPlayerVo);
+
         //推送到总控
         if (userPlayerVo.isSuccess()) {
 
@@ -3308,6 +3327,35 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             regMap.put("state", false);
         }
         return this.getVoMessage(userPlayerVo);
+    }
+
+
+    /**
+     * 风控修改日志
+     * <br>添加完日志后，userPlayerVo的risk值有改变，后续使用注意
+     * @param userPlayerVo
+     *
+     */
+    private void addModifyRiskLog(UserPlayerVo userPlayerVo){
+
+        //修改后的数据国际化
+        getRisk2Set(userPlayerVo);
+        String risk = "";
+        for(String str:userPlayerVo.getResult().getRiskSet()){
+            risk+=I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("common").get(str);
+            risk+=" ";
+        }
+        //旧数据国际化
+        String oldRisk = "";
+        userPlayerVo.getResult().setRiskDataType(userPlayerVo.getResult().getOldRiskDataType());
+        getRisk2Set(userPlayerVo);
+        for(String str:userPlayerVo.getResult().getRiskSet()){
+            oldRisk+=I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("common").get(str);
+            oldRisk+=" ";
+        }
+//        setRisk
+//        setRiskSet(oldUserPlayerVo);
+        BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS",userPlayerVo.getResult().getId(),oldRisk,risk);
     }
 
 
