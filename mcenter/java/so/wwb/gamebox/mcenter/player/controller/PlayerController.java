@@ -909,7 +909,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         riskLogListVo.getQuery().addOrder(SysAuditLog.PROP_OPERATE_TIME, Direction.DESC);
         riskLogListVo = ServiceSiteTool.auditLogService().queryLogs(riskLogListVo);
         List riskLogList = riskLogListVo.getResult();
-        if (logList != null && logList.size() > 0) {
+        if (riskLogList != null && riskLogList.size() > 0) {
             model.addAttribute("riskLog", riskLogList.get(0));
         }
 
