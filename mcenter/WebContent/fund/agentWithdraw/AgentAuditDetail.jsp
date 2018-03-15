@@ -7,7 +7,7 @@
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
             <span>${views.sysResource['资金']}</span>
             <span>/</span><span>${views.sysResource['代理取款审核']}</span>
-            <soul:button target="goToLastPage" refresh="true" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn"
+            <soul:button  target="goToLastPage" refresh="" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn"
                          text="" opType="function">
                 <em class="fa fa-caret-left"></em>${views.common['return']}
             </soul:button>
