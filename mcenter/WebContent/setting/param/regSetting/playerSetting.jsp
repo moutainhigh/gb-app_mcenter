@@ -107,7 +107,7 @@
             </div>
         </c:if>
 
-        <div class="panel blank-panel p-b-sm hide">
+        <div class="panel blank-panel p-b-sm">
 
             <div class="">
                 <div class="panel-options">
@@ -116,7 +116,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="panel-body hide">
+            <div class="panel-body">
                 <div class="tab-content">
                     <div class="tab-pane active">
                         <div class="form-group clearfix line-hi34 m-b-none">
