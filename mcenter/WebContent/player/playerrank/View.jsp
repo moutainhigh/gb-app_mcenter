@@ -9,7 +9,7 @@
 		<span>${views.sysResource['角色']}</span><span>/</span>
 		<span>${views.sysResource['层级设置']}</span>
 		<%--<a href="/vPlayerRankStatistics/list.html" class="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" nav-target="mainFrame"><em class="fa fa-caret-left"></em>${views.common['return']}</a>--%>
-		<soul:button target="goToLastPage" refresh="true" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
+		<soul:button target="goToLastPage" refresh="" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
 			<em class="fa fa-caret-left"></em>${views.common['return']}
 		</soul:button>
 	</div>
