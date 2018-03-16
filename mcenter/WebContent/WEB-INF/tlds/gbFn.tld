@@ -203,7 +203,7 @@
     <function>
         <description>
             /**
-            * 通过id查询玩家的风控标识展示成图片标签
+            * 通过username查询玩家的风控标识展示成图片标签
             */
         </description>
         <name>showRiskImg</name>

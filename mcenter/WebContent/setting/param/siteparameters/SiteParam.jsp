@@ -634,7 +634,6 @@
 
                             <div id="smsInterface" class="col-lg-6 site-switch">
                                 <h3>${views.setting_auto['短信接口设置']}</h3>
-                                    <%--<input type="hidden" name="sms.id" value="${smsInterfaceVo.result.id}">--%>
                                 <ul class="content clearfix" style="padding-top: 10px">
                                     <div class="clearfix m-b">
                                         <div class="ft-bold pull-left line-hi34"
