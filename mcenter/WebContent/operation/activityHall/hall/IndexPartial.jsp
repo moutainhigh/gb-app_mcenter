@@ -9,23 +9,24 @@
         <tr role="row" class="bg-gray">
             <th>${views.common['number']}</th>
             <th>${views.column['VActivityMessage.activityName']}</th>
-            <%--<th class="inline">--%>
-                <%--<gb:select name="search.code" value="${command.search.code}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['Activity.list.allType']}" list="${activityType}"></gb:select>--%>
-            <%--</th>--%>
             <th class="inline">
-                <gb:select name="search.activityClassifyKey" value="${command.search.activityClassifyKey}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.column['VActivityMessage.code']}" list="${siteI18ns}" listKey="key" listValue="value"></gb:select>
+                <gb:select name="search.code" value="${command.search.code}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['Activity.list.allType']}" list="${activityType}"></gb:select>
+            </th>
+            <th class="inline">
+                <gb:select name="search.activityClassifyKey" value="${command.search.activityClassifyKey}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['Activity.list.allCategory']}" list="${siteI18ns}" listKey="key" listValue="value"></gb:select>
             </th>
             <th>${views.column['VSportRecommended.showStartTime']}</th>
             <%--<th>${views.column['VActivityMessage.checkStatus']}</th>--%>
+            <th>${views.content['发布时间']}</th>
             <th class="inline">
-                <gb:select name="search.states" value="${command.search.states}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.column['VActivityMessageUser.activityState']}" list="${activityState}"></gb:select>
+                <gb:select name="search.states" value="${command.search.states}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.common['all']}" list="${activityState}"></gb:select>
             </th>
-            <th>${views.operation['Activity.step.isAudit']}</th>
             <th>${views.column['VActivityMessage.isDisplay']}</th>
-
-            <%--<shiro:hasPermission name="operate:activity_defaultSet">
+            <th>${views.operation['Activity.step.isAudit']}</th>
+            <th>${views.column['VActivityMessage.acount']}</th>
+            <shiro:hasPermission name="operate:activity_defaultSet">
                 <th>${views.column['VActivityMessage.defaultSet']}</th>
-            </shiro:hasPermission>--%>
+            </shiro:hasPermission>
             <th>${views.common['operate']}</th>
         </tr>
         </thead>
@@ -34,24 +35,15 @@
             <tr class="tab-detail">
                 <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                 <td><a href="/operation/activityType/viewActivityDetail.html?search.id=${p.id}" nav-target="mainFrame">${p.activityName}</a></td>
-                <%--<td>${views.operation[p.code]}</td>--%>
+                <td>${views.operation[p.code]}</td>
                 <td>
                         ${siteI18nMap[p.activityClassifyKey].value}
                 </td>
                 <td>${soulFn:formatDateTz(p.startTime,DateFormat.DAY_SECOND,timeZone)}${views.common['TO']}${soulFn:formatDateTz(p.endTime,DateFormat.DAY_SECOND,timeZone)}</td>
                     <%--<td>${views.operation[p.approvalStatus]}</td>--%>
+                <td>${soulFn:formatDateTz(p.createTime,DateFormat.DAY_SECOND,timeZone)}</td>
                 <td>
                     <span class="${p.activityStatesShow.cssClass}">${views.operation[p.activityStatesShow.activityState]}</span>
-                </td>
-                <td>
-                    <c:choose>
-                        <c:when test="${p.isAudit && p.acount ge 0}">
-                            ${p.acount}
-                        </c:when>
-                        <c:otherwise>
-                            ---
-                        </c:otherwise>
-                    </c:choose>
                 </td>
                 <td>
                     <shiro:hasPermission name="operate:activity_edit">
@@ -70,8 +62,27 @@
                     </shiro:lacksPermission>
 
                 </td>
-
-                <%--<shiro:hasPermission name="operate:activity_defaultSet">
+                <td>
+                    <c:choose>
+                        <c:when test="${p.isAudit}">
+                            ${views.operation['前端申领']}
+                        </c:when>
+                        <c:otherwise>
+                            ${views.operation['系统自动']}
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${p.isAudit && p.acount ge 0}">
+                            ${p.acount}
+                        </c:when>
+                        <c:otherwise>
+                            ---
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <shiro:hasPermission name="operate:activity_defaultSet">
                 <th>
                     <c:if test="${p.code eq 'money'}">
                         <soul:button target="${root}/operation/activity/setDefaultWin.html?search.id=${p.id}" title="${views.operation_auto['内定玩家设置']}"
@@ -81,7 +92,7 @@
                         <span class="co-gray">----</span>
                     </c:if>
                 </th>
-                </shiro:hasPermission>--%>
+                </shiro:hasPermission>
                 <td>
 
                     <shiro:hasPermission name="operate:activity_edit">
