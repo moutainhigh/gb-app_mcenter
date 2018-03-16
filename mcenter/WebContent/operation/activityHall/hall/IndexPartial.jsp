@@ -19,10 +19,18 @@
             <%--<th>${views.column['VActivityMessage.checkStatus']}</th>--%>
             <th>${views.content['发布时间']}</th>
             <th class="inline">
-                <gb:select name="search.states" value="${command.search.states}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.common['all']}" list="${activityState}"></gb:select>
+                <gb:select name="search.states" value="${command.search.states}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['状态']}" list="${activityState}"></gb:select>
             </th>
             <th>${views.column['VActivityMessage.isDisplay']}</th>
-            <th>${views.operation['Activity.step.isAudit']}</th>
+            <th>
+                <select name="search.isAudit" callback="query" class="btn-group chosen-select-no-single">
+                    <option value="1" ${empty command.search.isAudit?'selected':''}>${views.operation['Activity.step.isAudit']}</option>
+                    <option value="1" ${command.search.isAudit?'selected':''}>${views.operation['前端申领']}</option>
+                    <option value="0" ${not empty command.search.isAudit && !command.search.isAudit?'selected':''}>${views.operation['系统自动']}</option>
+                </select>
+
+
+            </th>
             <th>${views.column['VActivityMessage.acount']}</th>
             <shiro:hasPermission name="operate:activity_defaultSet">
                 <th>${views.column['VActivityMessage.defaultSet']}</th>
