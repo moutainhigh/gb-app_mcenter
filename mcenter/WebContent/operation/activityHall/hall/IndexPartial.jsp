@@ -13,15 +13,16 @@
                 <%--<gb:select name="search.code" value="${command.search.code}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['Activity.list.allType']}" list="${activityType}"></gb:select>--%>
             <%--</th>--%>
             <th class="inline">
-                <gb:select name="search.activityClassifyKey" value="${command.search.activityClassifyKey}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['Activity.list.allCategory']}" list="${siteI18ns}" listKey="key" listValue="value"></gb:select>
+                <gb:select name="search.activityClassifyKey" value="${command.search.activityClassifyKey}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.column['VActivityMessage.code']}" list="${siteI18ns}" listKey="key" listValue="value"></gb:select>
             </th>
-            <th>${views.column['VActivityMessage.startAndEndTime']}</th>
+            <th>${views.column['VSportRecommended.showStartTime']}</th>
             <%--<th>${views.column['VActivityMessage.checkStatus']}</th>--%>
             <th class="inline">
-                <gb:select name="search.states" value="${command.search.states}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.common['all']}" list="${activityState}"></gb:select>
+                <gb:select name="search.states" value="${command.search.states}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.column['VActivityMessageUser.activityState']}" list="${activityState}"></gb:select>
             </th>
+            <th>${views.operation['Activity.step.isAudit']}</th>
             <th>${views.column['VActivityMessage.isDisplay']}</th>
-            <th>${views.column['VActivityMessage.acount']}</th>
+
             <%--<shiro:hasPermission name="operate:activity_defaultSet">
                 <th>${views.column['VActivityMessage.defaultSet']}</th>
             </shiro:hasPermission>--%>
@@ -40,7 +41,17 @@
                 <td>${soulFn:formatDateTz(p.startTime,DateFormat.DAY_SECOND,timeZone)}${views.common['TO']}${soulFn:formatDateTz(p.endTime,DateFormat.DAY_SECOND,timeZone)}</td>
                     <%--<td>${views.operation[p.approvalStatus]}</td>--%>
                 <td>
-                    <%--<span class="${p.activityStatesShow.cssClass}">${views.operation[p.activityStatesShow.activityState]}</span>--%>
+                    <span class="${p.activityStatesShow.cssClass}">${views.operation[p.activityStatesShow.activityState]}</span>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${p.isAudit && p.acount ge 0}">
+                            ${p.acount}
+                        </c:when>
+                        <c:otherwise>
+                            ---
+                        </c:otherwise>
+                    </c:choose>
                 </td>
                 <td>
                     <shiro:hasPermission name="operate:activity_edit">
@@ -59,16 +70,7 @@
                     </shiro:lacksPermission>
 
                 </td>
-                <td>
-                    <c:choose>
-                        <c:when test="${p.isAudit && p.acount ge 0}">
-                            ${p.acount}
-                        </c:when>
-                        <c:otherwise>
-                            ---
-                        </c:otherwise>
-                    </c:choose>
-                </td>
+
                 <%--<shiro:hasPermission name="operate:activity_defaultSet">
                 <th>
                     <c:if test="${p.code eq 'money'}">
