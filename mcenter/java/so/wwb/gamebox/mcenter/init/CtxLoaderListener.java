@@ -18,7 +18,7 @@ public class CtxLoaderListener extends CommonCtxLoaderListener {
     public void contextInitialized(ServletContextEvent event) {
 
         super.contextInitialized(event);
-        if (NotifyTool.isInited()) {
+        if (!NotifyTool.isInited()) {
             LOG.debug("MCenter-Context上下文启动失败...");
             super.stopService();
         }else {
