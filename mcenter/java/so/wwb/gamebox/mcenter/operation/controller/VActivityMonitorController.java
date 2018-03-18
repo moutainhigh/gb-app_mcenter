@@ -36,6 +36,9 @@ public class VActivityMonitorController extends BaseCrudController<IVActivityMon
 
     @Override
     protected VActivityMonitorListVo doList(VActivityMonitorListVo listVo, VActivityMonitorSearchForm form, BindingResult result, Model model) {
+
+        VActivityMessageHallController.setActivitySelectBtnDicts(model);
+
         return super.doList(listVo, form, result, model);
     }
 
