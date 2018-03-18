@@ -78,7 +78,7 @@ public class VActivityMessageHallController extends BaseCrudController<IVActivit
         listVo.getSearch().setIsDeleted(Boolean.FALSE);
 
         listVo.getQuery().addOrder(VActivityMessageHall.PROP_LIST_ORDER_NUM, Direction.ASC).addOrder(VActivityMessageHall.PROP_START_TIME,Direction.DESC);
-        VActivityMessageHallListVo search = this.getService().search(listVo);
+//        VActivityMessageHallListVo search = this.getService().search(listVo);
         return super.doList(listVo, form, result, model);
     }
 
