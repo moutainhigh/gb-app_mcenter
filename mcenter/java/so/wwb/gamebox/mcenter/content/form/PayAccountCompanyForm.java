@@ -98,6 +98,11 @@ public class PayAccountCompanyForm implements IForm {
     private String bitCoinChannelVo_apiSecret;
     /*别名*/
     private String result_aliasName;
+    /**自定义账号信息*/
+    private String result_accountInformation;
+    /**自定义账号提示*/
+    private String result_accountPrompt;
+
 
     @Depends(property = {"result_type"}, operator = {Operator.EQ}, value = {PayAccountType.COMMPANY_ACCOUNT_CODE})
     @Length(min = 2, max = 30)
@@ -238,7 +243,7 @@ public class PayAccountCompanyForm implements IForm {
         return result_remark;
     }
 
-    @Length(min = 1,max = 20)
+    @Length(min = 1,max = 10)
     @Remote(checkClass = PayAccountController.class, checkMethod = "checkAliasName", additionalProperties = {"result.id"}, message = "别名已存在")
     public String getResult_aliasName() {
         return result_aliasName;
@@ -351,6 +356,24 @@ public class PayAccountCompanyForm implements IForm {
 
     public void setBitCoinChannelVo_apiSecret(String bitCoinChannelVo_apiSecret) {
         this.bitCoinChannelVo_apiSecret = bitCoinChannelVo_apiSecret;
+    }
+
+    @Length(min = 1,max = 10)
+    public String getResult_accountInformation() {
+        return result_accountInformation;
+    }
+
+    public void setResult_accountInformation(String result_accountInformation) {
+        this.result_accountInformation = result_accountInformation;
+    }
+
+    @Length(min = 1,max = 10)
+    public String getResult_accountPrompt() {
+        return result_accountPrompt;
+    }
+
+    public void setResult_accountPrompt(String result_accountPrompt) {
+        this.result_accountPrompt = result_accountPrompt;
     }
     //endregion your codes 2
 
