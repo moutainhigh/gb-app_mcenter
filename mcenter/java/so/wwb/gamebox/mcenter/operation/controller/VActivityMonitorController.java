@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.iservice.master.operation.IVActivityMonitorService;
 import so.wwb.gamebox.mcenter.operation.form.VActivityMonitorForm;
 import so.wwb.gamebox.mcenter.operation.form.VActivityMonitorSearchForm;
+import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.master.operation.po.VActivityMonitor;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMonitorListVo;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMonitorVo;
@@ -38,7 +39,7 @@ public class VActivityMonitorController extends BaseCrudController<IVActivityMon
     protected VActivityMonitorListVo doList(VActivityMonitorListVo listVo, VActivityMonitorSearchForm form, BindingResult result, Model model) {
 
         VActivityMessageHallController.setActivitySelectBtnDicts(model);
-
+        listVo.getSearch().setActivityVersion(SessionManager.getLocale().toString());
         return super.doList(listVo, form, result, model);
     }
 
