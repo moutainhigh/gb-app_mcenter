@@ -21,34 +21,48 @@
             <div class="wrapper white-bg shadow">
                 <!--筛选条件-->
                 <div class="clearfix filter-wraper border-b-1">
-                    <shiro:hasPermission name="operate:activity_add">
-                        <a href="/operation/activityType/customList.html" nav-target="mainFrame"
-                           class="btn btn-info btn-addon pull-left　m-r-sm">
-                            <i class="fa fa-plus"></i><span class="hd">${views.operation['Activity.create']}</span>
-                        </a>
-                    </shiro:hasPermission>
-                        <%--TODO 增加权限--%>
-                    <a class="btn btn-outline btn-filter pull-left　m-r-sm" nav-target="mainFrame"
-                       href="/operation/activity/order/list.html">
-                        <i class="fa fa-sort-amount-desc m-r-xs"></i>${views.operation['活动归类顺序']}
-                    </a>
-                    <a class="btn btn-outline btn-filter pull-left　m-r-sm" nav-target="mainFrame"
-                       href="/operation/activity/order/list.html">
-                        <i class="fa fa-sort-amount-desc m-r-xs"></i>${views.operation['活动效果监控']}
-                    </a>
-                    <div class="search-wrapper btn-group pull-right">
-                        <div class="input-group">
-                            <input type="text" class="form-control list-search-input-text"
-                                   placeholder="${views.operation['Activity.name']}" name="search.activityName">
-                            <span class="input-group-btn">
-                                    <soul:button target="query" opType="function" tag="button"
-                                                 text="${views.common['search']}"
-                                                 cssClass="btn btn-filter _enter_submit"><i
-                                            class="fa fa-search"></i><span
-                                            class="hd">&nbsp;${views.common['search']}</span></soul:button>
+
+                    <div class="clearfix filter-wraper border-b-1">
+                        <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="input-group">
+                                <span class="input-group-addon bg-gray">${views.fund['playerDetect.view.playerAccount']}</span>
+                                <input type="text" name="search.playerName" class="form-control"
+                                       placeholder="${views.player_auto['多个账号，用半角逗号隔开']}"
+                                       value="${command.search.playerName}"/>
                                 </span>
+
+                            </div>
                         </div>
-                    </div>
+
+
+                        <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="input-group">
+                                <span class="input-group-addon bg-gray">${views.column['VActivityPlayerApply.applyTime']}</span>
+                                <gb:dateRange format="${DateFormat.DAY_SECOND}" useRange="true" style="width:42%;"
+                                              useToday="true" btnClass="search"
+                                              startDate="${command.search.startApplyTime}"
+                                              endDate="${command.search.endApplyTime}"
+                                              startName="search.startApplyTime" endName="search.endApplyTime"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="input-group">
+                                <span class="input-group-addon bg-gray">${views.column['VActivityMessage.activityName']}</span>
+                                <input type="text" name="search.activityName" class="form-control"
+                                       placeholder="${views.column['VActivityMessage.activityName']}"
+                                       value="${command.search.activityName}"/>
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <span class="input-group-btn">
+                        <soul:button target="query" precall="" opType="function" cssClass="btn btn-filter btn-query-css"
+                                     tag="button" text="">
+                            <i class="fa fa-search"></i>
+                            <span class="hd">&nbsp;${views.common['search']}</span>
+                        </soul:button>
                 </div>
                 <!--表格内容-->
                 <div id="editable_wrapper" class="dataTables_wrapper search-list-container" role="grid">

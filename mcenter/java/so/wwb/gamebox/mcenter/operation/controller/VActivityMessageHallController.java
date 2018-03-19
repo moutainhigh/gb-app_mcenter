@@ -51,6 +51,21 @@ public class VActivityMessageHallController extends BaseCrudController<IVActivit
 
     @Override
     protected VActivityMessageHallListVo doList(VActivityMessageHallListVo listVo, VActivityMessageHallSearchForm form, BindingResult result, Model model) {
+        setActivitySelectBtnDicts(model);
+
+        listVo.getSearch().setActivityVersion(SessionManager.getLocale().toString());
+        listVo.getSearch().setIsDeleted(Boolean.FALSE);
+
+        listVo.getQuery().addOrder(VActivityMessageHall.PROP_LIST_ORDER_NUM, Direction.ASC).addOrder(VActivityMessageHall.PROP_START_TIME,Direction.DESC);
+//        VActivityMessageHallListVo search = this.getService().search(listVo);
+        return super.doList(listVo, form, result, model);
+    }
+
+    /**
+     * 在attribute中设置活动模块下拉框的值
+     * @param model
+     */
+    public static void setActivitySelectBtnDicts(Model model) {
         String localLanguage = SessionManager.getLocale().toString();
 
         //活动状态
@@ -74,12 +89,6 @@ public class VActivityMessageHallController extends BaseCrudController<IVActivit
         model.addAttribute("siteI18ns", new ArrayList<>(tempMap.values()));
 
         model.addAttribute("localLanguage", localLanguage);
-        listVo.getSearch().setActivityVersion(localLanguage);
-        listVo.getSearch().setIsDeleted(Boolean.FALSE);
-
-        listVo.getQuery().addOrder(VActivityMessageHall.PROP_LIST_ORDER_NUM, Direction.ASC).addOrder(VActivityMessageHall.PROP_START_TIME,Direction.DESC);
-//        VActivityMessageHallListVo search = this.getService().search(listVo);
-        return super.doList(listVo, form, result, model);
     }
 
     @Override
