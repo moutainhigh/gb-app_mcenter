@@ -686,11 +686,11 @@
                                                      target="${root}/smsInterface/saveSmsInterface.html"
                                                      precall="validSmsInterface"
                                                      post="getSmsInterfaceDateForm" callback="saveCallbak"/>
-                                        <soul:button cssClass="btn btn-filter" text="查询余额"
+                                        <%--<soul:button cssClass="btn btn-filter" text="查询余额"
                                                      opType="ajax"
                                                      dataType="json"
                                                      target="${root}/smsInterface/searchBalance.html"
-                                                    />
+                                                    />--%>
                                     </div>
 
                                 </ul>
