@@ -33,7 +33,7 @@
                         <i class="fa fa-sort-amount-desc m-r-xs"></i>${views.operation['活动归类顺序']}
                     </a>
                     <a class="btn btn-outline btn-filter pull-left　m-r-sm" nav-target="mainFrame"
-                       href="/operation/activity/order/list.html">
+                       href="/vActivityMonitor/list.html">
                         <i class="fa fa-sort-amount-desc m-r-xs"></i>${views.operation['活动效果监控']}
                     </a>
                     <div class="search-wrapper btn-group pull-right">

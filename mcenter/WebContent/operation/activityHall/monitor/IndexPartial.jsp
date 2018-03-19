@@ -10,14 +10,14 @@
             <th>${views.common['number']}</th>
             <th>${views.column['VActivityPlayerApply.playerName']}</th>
             <th>${views.column['VActivityMessage.activityName']}</th>
-            <th>${views.column['VActivityPlayerApply.applyTime']}</th>
+            <th>${views.column['VActivityPlayerApplyactivityPlayerApply.applyTime']}</th>
             <th>${views.operation['申请优惠金额']}</th>
             <th>${views.operation['Activity.step.audit']}</th>
             <th>${views.operation['脚本校验情况']}</th>
             <th class="inline">
                 <gb:select name="search.code" value="${command.search.code}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['Activity.list.allType']}" list="${activityType}"></gb:select>
             </th>
-            <th class="inline">`
+            <th class="inline">
                 <gb:select name="search.activityClassifyKey" value="${command.search.activityClassifyKey}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['Activity.list.allCategory']}" list="${siteI18ns}" listKey="key" listValue="value"></gb:select>
             </th>
             <th>${views.operation['活动审批']}</th>
@@ -28,10 +28,12 @@
         <c:forEach items="${command.result}" var="p" varStatus="status">
             <tr class="tab-detail">
                 <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
-                <td>${p.playerName}</td>
+                <td>
+                    <a href="/player/playerView.html?search.id=${p.playerId}" nav-Target="mainFrame">${p.playerName}</a>
+                </td>
                 <td>${p.activityName}</td>
                 <td>${soulFn:formatDateTz(p.applyTime,DateFormat.DAY_SECOND,timeZone)}</td>
-                <td></td>
+                <td>${p.preferentialValue}</td>
                 <td>${p.preferentialAudit}</td>
                 <td></td>
                 <td>${views.operation[p.code]}</td>
