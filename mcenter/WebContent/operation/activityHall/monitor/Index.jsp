@@ -48,6 +48,17 @@
 
                         <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group">
+                                <span class="input-group-addon bg-gray">${views.operation['申请时ip']}</span>
+                                <input type="text" name="search.ipApply" class="form-control"
+                                       placeholder="${views.申请ip['申请时ip']}"
+                                       value="${command.search.ipApply}"/>
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="input-group">
                                 <span class="input-group-addon bg-gray">${views.column['VActivityMessage.activityName']}</span>
                                 <input type="text" name="search.activityName" class="form-control"
                                        placeholder="${views.column['VActivityMessage.activityName']}"

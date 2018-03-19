@@ -10,7 +10,7 @@
             <th><input type="checkbox" class="i-checks"></th>
             <th>${views.column['VActivityPlayerApply.playerName']}</th>
             <th>${views.column['VActivityMessage.activityName']}</th>
-            <th>${views.column['VActivityPlayerApplyactivityPlayerApply.applyTime']}</th>
+            <th>${views.column['VActivityPlayerApply.applyTime']}</th>
             <th>${views.operation['申请优惠金额']}</th>
             <th>${views.operation['Activity.step.audit']}</th>
             <th>${views.operation['脚本校验情况']}</th>
@@ -25,7 +25,9 @@
                            prompt="${views.operation['Activity.list.allCategory']}" list="${siteI18ns}" listKey="key"
                            listValue="value"></gb:select>
             </th>
-            <th>${views.operation['活动审批']}</th>
+            <th>
+                <gb:select name="search.checkState" value="${command.search.checkState}" prompt="${views.operation['活动审批']}" list="${checkStatusDicts}" callback="query"/>
+            </th>
             <th>${views.operation['backwater.settlement.view.operator']}</th>
         </tr>
         </thead>
