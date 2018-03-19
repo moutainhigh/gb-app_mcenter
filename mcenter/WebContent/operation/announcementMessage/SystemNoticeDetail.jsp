@@ -16,7 +16,6 @@
         <div class="wrapper white-bg shadow">
             <br>
             <div class="al-right pull-right">
-                ${command.paging.pageSize}
                 <c:if test="${vSystemAnnouncementListVo.paging.pageNumber != 1}">
                     <a href="/operation/announcementMessage/systemNoticeDetail.html?search.id=&search.startTime=${soulFn:formatDateTz(vSystemAnnouncementListVo.search.startTime, DateFormat.DAY_SECOND,timeZone)}&search.endTime=${soulFn:formatDateTz(vSystemAnnouncementListVo.search.endTime, DateFormat.DAY_SECOND,timeZone)}&paging.pageNumber=${vSystemAnnouncementListVo.paging.pageNumber-1}"  nav-target="mainFrame" class="co-gray6">${views.column['上一条']}</a>
                 </c:if>
