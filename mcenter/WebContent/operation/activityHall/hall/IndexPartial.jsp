@@ -24,7 +24,7 @@
             <th>${views.column['VActivityMessage.isDisplay']}</th>
             <th>
                 <select name="search.isAudit" callback="query" class="btn-group chosen-select-no-single">
-                    <option value="1" ${empty command.search.isAudit?'selected':''}>${views.operation['Activity.step.isAudit']}</option>
+                    <option value="" ${empty command.search.isAudit?'selected':''}>${views.operation['Activity.step.isAudit']}</option>
                     <option value="1" ${command.search.isAudit?'selected':''}>${views.operation['前端申领']}</option>
                     <option value="0" ${not empty command.search.isAudit && !command.search.isAudit?'selected':''}>${views.operation['系统自动']}</option>
                 </select>
