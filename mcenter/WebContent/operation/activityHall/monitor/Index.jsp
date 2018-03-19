@@ -23,7 +23,7 @@
                 <div class="clearfix filter-wraper border-b-1">
 
                     <div class="clearfix filter-wraper border-b-1">
-                        <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
+                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group">
                                 <span class="input-group-addon bg-gray">${views.fund['playerDetect.view.playerAccount']}</span>
                                 <input type="text" name="search.playerName" class="form-control"
@@ -46,7 +46,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
+                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group">
                                 <span class="input-group-addon bg-gray">${views.column['VActivityMessage.activityName']}</span>
                                 <input type="text" name="search.activityName" class="form-control"
@@ -56,13 +56,25 @@
 
                             </div>
                         </div>
+                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                            <soul:button target="query" precall="" opType="function"
+                                         cssClass="btn btn-filter btn-query-css"
+                                         tag="button" text="">
+                                <i class="fa fa-search"></i>
+                                <span class="hd">&nbsp;${views.common['search']}</span>
+                            </soul:button>
+                        </div>
+                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm function-menu-show hide">
+                            <div class="function-menu-show hide" code="${command1.get(0).code}" sumPerson="${command.result.size()}">
+                                <soul:button target="successDialog" text="${views.common['checkPass']}" opType="function" cssClass="btn btn-outline btn-filter"/>
+                                <soul:button target="${root}/operation/vActivityPlayerApply/auditStatus.html?&result.checkState=3&activityType=${command1.get(0).code}"
+                                             text="${views.common['checkFailure']}" opType="ajax" post="getSelectIds" precall="hasFailReason" callback="query"
+                                             cssClass="btn btn-outline btn-filter"/>
+                            </div>
+                        </div>
 
-                        <span class="input-group-btn">
-                        <soul:button target="query" precall="" opType="function" cssClass="btn btn-filter btn-query-css"
-                                     tag="button" text="">
-                            <i class="fa fa-search"></i>
-                            <span class="hd">&nbsp;${views.common['search']}</span>
-                        </soul:button>
+                    </div>
+
                 </div>
                 <!--表格内容-->
                 <div id="editable_wrapper" class="dataTables_wrapper search-list-container" role="grid">
@@ -75,5 +87,5 @@
 </form:form>
 
 <!--//region your codes 3-->
-<soul:import res="site/operation/activity/Activity"/>
+<soul:import res="site/operation/activity/activityPlayerApply"/>
 <!--//endregion your codes 3-->
