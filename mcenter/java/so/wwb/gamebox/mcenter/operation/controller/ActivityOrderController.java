@@ -40,9 +40,7 @@ import java.util.Map;
 @RequestMapping("/operation/activity/order")
 public class ActivityOrderController extends BaseCrudController<IActivityMessageService,ActivityMessageListVo,ActivityMessageVo,VActivityMessageSearchForm, VActivityMessageForm,ActivityMessage,Integer>{
 
-    private static String classifyBasePath ="/operation/activityHall/classifyOrder/Index";
-
-    private static String basePath ="/operation/activity/order/Index";
+    private static String BASE_PATH ="/operation/activity/order/Index";
 
 
     @Override
@@ -55,9 +53,9 @@ public class ActivityOrderController extends BaseCrudController<IActivityMessage
         ActivityMessageListVo cmd = doList(listVo, form, result, model);
         model.addAttribute("command", cmd);
         if(ServletTool.isAjaxSoulRequest(request)) {
-            return basePath + "Partial";
+            return BASE_PATH + "Partial";
         }else{
-            return basePath ;
+            return BASE_PATH ;
         }
     }
 
