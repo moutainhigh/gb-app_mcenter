@@ -24,17 +24,17 @@
             <th>${views.column['VActivityMessage.isDisplay']}</th>
             <th>
                 <select name="search.isAudit" callback="query" class="btn-group chosen-select-no-single">
-                    <option value="1" ${empty command.search.isAudit?'selected':''}>${views.operation['Activity.step.isAudit']}</option>
+                    <option value="" ${empty command.search.isAudit?'selected':''}>${views.operation['Activity.step.isAudit']}</option>
                     <option value="1" ${command.search.isAudit?'selected':''}>${views.operation['前端申领']}</option>
                     <option value="0" ${not empty command.search.isAudit && !command.search.isAudit?'selected':''}>${views.operation['系统自动']}</option>
                 </select>
 
 
             </th>
-            <th>${views.column['VActivityMessage.acount']}</th>
-            <shiro:hasPermission name="operate:activity_defaultSet">
-                <th>${views.column['VActivityMessage.defaultSet']}</th>
-            </shiro:hasPermission>
+            <%--<th>${views.column['VActivityMessage.acount']}</th>--%>
+            <%--<shiro:hasPermission name="operate:activity_defaultSet">--%>
+                <%--<th>${views.column['VActivityMessage.defaultSet']}</th>--%>
+            <%--</shiro:hasPermission>--%>
             <th>${views.common['operate']}</th>
         </tr>
         </thead>
@@ -80,27 +80,27 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
-                <td>
-                    <c:choose>
-                        <c:when test="${p.isAudit && p.acount ge 0}">
-                            ${p.acount}
-                        </c:when>
-                        <c:otherwise>
-                            ---
-                        </c:otherwise>
-                    </c:choose>
-                </td>
-                <shiro:hasPermission name="operate:activity_defaultSet">
-                <th>
-                    <c:if test="${p.code eq 'money'}">
-                        <soul:button target="${root}/operation/activity/setDefaultWin.html?search.id=${p.id}" title="${views.operation_auto['内定玩家设置']}"
-                                     size="open-dialog-1000" text="${views.operation_auto['内定']}" opType="dialog"></soul:button>
-                    </c:if>
-                    <c:if test="${p.code ne 'money'}">
-                        <span class="co-gray">----</span>
-                    </c:if>
-                </th>
-                </shiro:hasPermission>
+                <%--<td>--%>
+                    <%--<c:choose>--%>
+                        <%--<c:when test="${p.isAudit && p.acount ge 0}">--%>
+                            <%--${p.acount}--%>
+                        <%--</c:when>--%>
+                        <%--<c:otherwise>--%>
+                            <%-------%>
+                        <%--</c:otherwise>--%>
+                    <%--</c:choose>--%>
+                <%--</td>--%>
+                <%--<shiro:hasPermission name="operate:activity_defaultSet">--%>
+                <%--<th>--%>
+                    <%--<c:if test="${p.code eq 'money'}">--%>
+                        <%--<soul:button target="${root}/operation/activity/setDefaultWin.html?search.id=${p.id}" title="${views.operation_auto['内定玩家设置']}"--%>
+                                     <%--size="open-dialog-1000" text="${views.operation_auto['内定']}" opType="dialog"></soul:button>--%>
+                    <%--</c:if>--%>
+                    <%--<c:if test="${p.code ne 'money'}">--%>
+                        <%--<span class="co-gray">----</span>--%>
+                    <%--</c:if>--%>
+                <%--</th>--%>
+                <%--</shiro:hasPermission>--%>
                 <td>
 
                     <shiro:hasPermission name="operate:activity_edit">

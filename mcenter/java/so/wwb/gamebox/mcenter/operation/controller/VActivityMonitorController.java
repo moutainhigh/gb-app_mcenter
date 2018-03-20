@@ -1,5 +1,8 @@
 package so.wwb.gamebox.mcenter.operation.controller;
 
+import org.soul.commons.dict.DictTool;
+import org.soul.commons.query.sort.Direction;
+import org.soul.model.sys.po.SysDict;
 import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,9 +12,12 @@ import so.wwb.gamebox.iservice.master.operation.IVActivityMonitorService;
 import so.wwb.gamebox.mcenter.operation.form.VActivityMonitorForm;
 import so.wwb.gamebox.mcenter.operation.form.VActivityMonitorSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.master.operation.po.VActivityMonitor;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMonitorListVo;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMonitorVo;
+
+import java.util.Map;
 
 
 /**
@@ -40,6 +46,12 @@ public class VActivityMonitorController extends BaseCrudController<IVActivityMon
 
         VActivityMessageHallController.setActivitySelectBtnDicts(model);
         listVo.getSearch().setActivityVersion(SessionManager.getLocale().toString());
+        //状态列表
+
+        //审核状态字典
+        Map<String, SysDict> checkStatusDicts = DictTool.get(DictEnum.ACTIVITY_APPLY_CHECK_STATUS);
+        model.addAttribute("checkStatusDicts",checkStatusDicts);
+        listVo.getQuery().addOrder(VActivityMonitor.PROP_APPLY_TIME, Direction.DESC);
         return super.doList(listVo, form, result, model);
     }
 
