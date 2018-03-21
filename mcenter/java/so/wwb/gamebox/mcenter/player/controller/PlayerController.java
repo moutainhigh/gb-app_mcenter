@@ -3366,7 +3366,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     public void getRisk2Set(UserPlayerVo userPlayerVo) {
         String riskDataType = userPlayerVo.getResult().getRiskDataType();
         Set<String> riskSet = new HashSet<>();
-        if (StringTool.isNotBlank(riskDataType)) {
+        if (StringTool.isNotBlank(riskDataType) && riskDataType.length()==8) {
             if (riskDataType.charAt(7) != '0') {
                 riskSet.add(PlayerRiskDataTypeEnum.MALICIOUS.getCode());
             }

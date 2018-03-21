@@ -21,7 +21,6 @@
             <div class="wrapper white-bg shadow">
                 <br>
                 <div class="al-right pull-right">
-                    &lt;
                     <c:if test="${commandList.paging.pageNumber != 1}">
                         <a href="/operation/announcementMessage/announcementDetail.html?search.id=${s.id}&paging.pageNumber=${commandList.paging.pageNumber-1}"  nav-target="mainFrame" class="co-gray6">${views.column['上一条']}</a>
                     </c:if>
@@ -29,8 +28,7 @@
                     <c:if test="${commandList.paging.pageNumber != commandList.paging.totalCount}">
                         <a href="/operation/announcementMessage/announcementDetail.html?search.id=${s.id}&paging.pageNumber=${commandList.paging.pageNumber+1}"  nav-target="mainFrame" class="co-gray6">${views.column['下一条']}</a>
                     </c:if>
-
-                    &gt;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;
                 </div>
                 <div class="line-34 m-t-md p-sm">
                     <h3 class="al-center">${command.result.title}</h3>
