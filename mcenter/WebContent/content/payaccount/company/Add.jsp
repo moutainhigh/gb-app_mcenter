@@ -350,7 +350,7 @@
                     </div>
                     <hr class="m-t-sm m-b">
                     <div class="operate-btn">
-                        <soul:button cssClass="btn btn-filter btn-lg disabled _search " text="${views.common['commit']}" opType="ajax"
+                        <soul:button cssClass="btn btn-filter btn-lg disabled _search _enter_submit " text="${views.common['commit']}" opType="ajax"
                                      dataType="json"
                                      target="${root}/payAccount/saveCompany.html" precall="savePlayer"
                                      post="getCurrentFormData"
