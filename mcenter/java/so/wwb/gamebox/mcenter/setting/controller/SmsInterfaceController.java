@@ -10,9 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.iservice.boss.sms_api.ISmsApi;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.SmsInterfaceForm;
 import so.wwb.gamebox.mcenter.setting.form.SmsInterfaceSearchForm;
+import so.wwb.gamebox.web.cache.Cache;
 
 import java.util.Map;
 
@@ -43,14 +45,31 @@ public class SmsInterfaceController extends BaseCrudController<ISmsInterfaceServ
         smsInterfaceVo._setDataSourceId(SessionManager.getSiteId());
         SmsInterface sms = smsInterfaceVo.getSms();
         smsInterfaceVo.setResult(sms);
-        if(sms.getId()==null){
-            ServiceTool.smsInterfaceService().insert(smsInterfaceVo);
-        }else{
+        smsInterfaceVo.getSearch().setId(sms.getId());
+        SmsInterfaceVo vo = ServiceTool.smsInterfaceService().get(smsInterfaceVo);
+        if(vo != null && vo.getResult() != null){
             smsInterfaceVo.setProperties(SmsInterface.PROP_REQUEST_URL,SmsInterface.PROP_USERNAME,SmsInterface.PROP_PASSWORD,SmsInterface.PROP_DATA_KEY);
             ServiceTool.smsInterfaceService().updateOnly(smsInterfaceVo);
+        }else{
+            ServiceTool.smsInterfaceService().insert(smsInterfaceVo);
+        }
+        return getVoMessage(smsInterfaceVo);
+    }
+
+    @RequestMapping("/searchBalance")
+    @ResponseBody
+    public String searchBalance(){
+        Map<String, SmsInterface> smsMap = Cache.getCommonSmsInterfaces();
+        SmsInterface smsInterface = new SmsInterface();
+        if(!smsMap.isEmpty()){
+            smsInterface = smsMap.get(SessionManager.getSiteId().toString());
         }
 
-        return getVoMessage(smsInterfaceVo);
+        SmsInterfaceVo smsInterfaceVo = new SmsInterfaceVo();
+        smsInterfaceVo._setDataSourceId(SessionManager.getSiteId());
+        smsInterfaceVo = ServiceTool.smsInterfaceService().search(smsInterfaceVo);
+
+        return null;
     }
     //endregion your codes 3
 

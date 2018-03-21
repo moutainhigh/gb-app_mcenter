@@ -21,7 +21,6 @@ import org.soul.model.msg.notice.enums.NoticePublishMethod;
 import org.soul.model.msg.notice.po.NoticeEmailInterface;
 import org.soul.model.msg.notice.vo.NoticeEmailInterfaceVo;
 import org.soul.model.msg.notice.vo.NoticeVo;
-import org.soul.model.sms_interface.po.SmsInterface;
 import org.soul.model.sms_interface.vo.SmsInterfaceListVo;
 import org.soul.model.sms_interface.vo.SmsInterfaceVo;
 import org.soul.model.sys.po.SysDict;
