@@ -71,7 +71,7 @@
 
                         <div class="col-sm-2 clearfix">
                             <div class="pull-left">
-                                <soul:button cssClass="btn btn-filter btn-query-css" tag="button" opType="function"
+                                <soul:button cssClass="btn btn-filter btn-query-css _enter_submit" tag="button" opType="function"
                                              text="${views.common['search']}" target="query">
                                     <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                                 </soul:button>

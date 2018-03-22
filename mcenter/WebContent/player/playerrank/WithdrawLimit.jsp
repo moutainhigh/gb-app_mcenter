@@ -344,7 +344,7 @@
                                 </div>
                 -->
                 <div class="modal-footer">
-                    <soul:button cssClass="btn btn-filter btn-lg" text="${views.common['commit']}" opType="ajax"
+                    <soul:button cssClass="btn btn-filter btn-lg _enter_submit" text="${views.common['commit']}" opType="ajax"
                                  target="${root}/playerRank/updateWithdrawLimit.html" precall="saveWithdrawLimit"
                                  post="getCurrentFormData" callback="saveReturnCallbak"/>
                     <soul:button target="goToLastPage" refresh="true" cssClass="btn btn-outline btn-filter btn-lg m-r"

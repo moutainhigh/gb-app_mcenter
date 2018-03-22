@@ -644,7 +644,7 @@
                                                        list="${interfaceListVo}" listKey="id" listValue="fullName"/>
                                         </div>
                                     </div>
-                                    <div class="clearfix m-b">
+                                    <%--<div class="clearfix m-b">
                                         <div class="ft-bold pull-left line-hi34"
                                              style="width: 100px;text-align: right;">
                                                 ${views.setting_auto['请求接口地址']}：
@@ -652,7 +652,7 @@
                                         <div class="col-xs-5"><input type="text" name="sms.requestUrl"
                                                                      value="${smsInterfaceVo.result.requestUrl}"
                                                                      class="form-control"></div>
-                                    </div>
+                                    </div>--%>
                                     <div class="clearfix m-b">
                                         <div class="ft-bold pull-left line-hi34"
                                              style="width: 100px;text-align: right;">
@@ -686,6 +686,11 @@
                                                      target="${root}/smsInterface/saveSmsInterface.html"
                                                      precall="validSmsInterface"
                                                      post="getSmsInterfaceDateForm" callback="saveCallbak"/>
+                                        <%--<soul:button cssClass="btn btn-filter" text="查询余额"
+                                                     opType="ajax"
+                                                     dataType="json"
+                                                     target="${root}/smsInterface/searchBalance.html"
+                                                    />--%>
                                     </div>
 
                                 </ul>
