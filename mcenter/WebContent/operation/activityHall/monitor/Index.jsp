@@ -25,6 +25,17 @@
                     <div class="clearfix filter-wraper border-b-1">
                         <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group">
+                                <span class="input-group-addon bg-gray">${views.operation['优惠订单号']}</span>
+                                <input type="text" name="search.id" class="form-control"
+                                       placeholder="${views.operation['优惠订单号']}"
+                                       value=""/>
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                            <div class="input-group">
                                 <span class="input-group-addon bg-gray">${views.fund['playerDetect.view.playerAccount']}</span>
                                 <input type="text" name="search.playerName" class="form-control"
                                        placeholder="${views.player_auto['多个账号，用半角逗号隔开']}"
@@ -45,7 +56,6 @@
                                               startName="search.startApplyTime" endName="search.endApplyTime"/>
                             </div>
                         </div>
-
                         <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group">
                                 <span class="input-group-addon bg-gray">${views.operation['申请IP']}</span>
@@ -67,7 +77,7 @@
 
                             </div>
                         </div>
-                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                        <div class="form-group clearfix pull-rigth col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                             <soul:button target="query" precall="" opType="function"
                                          cssClass="btn btn-filter btn-query-css search_btn"
                                          tag="button" text="">
@@ -75,7 +85,7 @@
                                 <span class="hd">&nbsp;${views.common['search']}</span>
                             </soul:button>
                         </div>
-                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm function-menu-show hide">
+                        <div class="form-group clearfix pull-right col-md-2 col-sm-12 m-b-sm padding-r-none-sm function-menu-show hide">
                             <div class="function-menu-show hide">
                                 <soul:button target="successDialog" text="${views.common['checkPass']}" opType="function" cssClass="btn btn-outline btn-filter"/>
                                 <soul:button target="${root}/operation/vActivityPlayerApply/auditStatus.html?&result.checkState=3&activityType="

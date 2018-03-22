@@ -8,7 +8,7 @@
         <thead>
         <tr role="row" class="bg-gray">
             <th><input type="checkbox" class="i-checks"></th>
-            <th>${views.operation['优惠申请订单号']}</th>
+            <th>${views.operation['优惠订单号']}</th>
             <th>${views.column['VActivityPlayerApply.playerName']}</th>
             <th>${views.column['VActivityMessage.activityName']}</th>
             <th>${views.operation['申请IP']}</th>
