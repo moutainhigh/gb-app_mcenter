@@ -48,9 +48,9 @@
 
                         <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group">
-                                <span class="input-group-addon bg-gray">${views.operation['申请时ip']}</span>
+                                <span class="input-group-addon bg-gray">${views.operation['申请IP']}</span>
                                 <input type="text" name="search.ipApplyStr" class="form-control"
-                                       placeholder="${views.申请ip['申请时ip']}"
+                                       placeholder="${views.operation['申请IP']}"
                                        value="${command.search.ipApply}"/>
                                 </span>
 

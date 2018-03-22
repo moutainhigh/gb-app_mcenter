@@ -8,8 +8,10 @@
         <thead>
         <tr role="row" class="bg-gray">
             <th><input type="checkbox" class="i-checks"></th>
+            <th>${views.operation['优惠申请订单号']}</th>
             <th>${views.column['VActivityPlayerApply.playerName']}</th>
             <th>${views.column['VActivityMessage.activityName']}</th>
+            <th>${views.operation['申请IP']}</th>
             <th>${views.column['VActivityPlayerApply.applyTime']}</th>
             <th>${views.operation['申请优惠金额']}</th>
             <th>${views.operation['Activity.step.audit']}</th>
@@ -39,9 +41,15 @@
                     <label>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</label>
                 </td>
                 <td>
+                    ${p.id}
+                </td>
+                <td>
                     <a href="/player/playerView.html?search.id=${p.playerId}" nav-Target="mainFrame">${p.playerName}</a>
                 </td>
                 <td>${p.activityName}</td>
+                <td>
+                    ${soulFn:formatIp(p.ipApply)}
+                </td>
                 <td>${soulFn:formatDateTz(p.applyTime,DateFormat.DAY_SECOND,timeZone)}</td>
                 <td>${p.preferentialValue}</td>
                 <td>${p.preferentialAudit}</td>
