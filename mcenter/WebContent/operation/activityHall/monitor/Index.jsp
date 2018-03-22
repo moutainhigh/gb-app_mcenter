@@ -69,7 +69,7 @@
                         </div>
                         <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                             <soul:button target="query" precall="" opType="function"
-                                         cssClass="btn btn-filter btn-query-css"
+                                         cssClass="btn btn-filter btn-query-css search_btn"
                                          tag="button" text="">
                                 <i class="fa fa-search"></i>
                                 <span class="hd">&nbsp;${views.common['search']}</span>
