@@ -9,6 +9,7 @@ import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.math.NumberTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.support._Module;
 import org.soul.model.msg.notice.vo.NoticeLocaleTmpl;
@@ -38,10 +39,7 @@ import so.wwb.gamebox.model.master.player.po.Remark;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -171,7 +169,8 @@ public class VActivityPlayerApplyController extends BaseCrudController<IVActivit
         model.addAttribute("command", vMessageListVo.getResult().get(0));
         model.addAttribute("total", total);
         model.addAttribute("length", id.length);
-        model.addAttribute("sumPerson", Integer.valueOf(sumPerson));
+        model.addAttribute("sumPerson", NumberTool.isNumber(sumPerson)?Integer.valueOf(sumPerson):sumPerson);
+
 
         return PROP_ACTIVITY_SUCCESS_DIALOG;
     }
@@ -231,6 +230,10 @@ public class VActivityPlayerApplyController extends BaseCrudController<IVActivit
 
         String paramValue = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_DISCOUNT).getParamValue();
         String[] id = ids.split(",");
+
+        //活动类型
+        Set<String> activityTypeKeySet = DictTool.get(DictEnum.ACTIVITY_TYPE).keySet();
+
         for (String activityPlayerApplyId : id) {
             //活动玩家申请表
             ActivityPlayerApplyVo activityPlayerApplyVo = new ActivityPlayerApplyVo();
@@ -255,6 +258,15 @@ public class VActivityPlayerApplyController extends BaseCrudController<IVActivit
             if (StringTool.isNotBlank(vo.getResult().getRemark())) {
                 activityPlayerApplyVo.setRemark(addRemark(vo.getResult().getRemark(),activityPlayerApplyId,
                         activityPlayerApplyVo.getResult().getUserId()));
+            }
+
+            if (StringTool.isBlank(activityType) || !activityTypeKeySet.contains(activityType)) {//活动大厅--活动监控页面中的请求需要对不同活动审核，没有传送activityType的值，所以查询出来
+                VActivityMonitorVo vActivityMonitorVo = new VActivityMonitorVo();
+                vActivityMonitorVo.getSearch().setId(Integer.valueOf(activityPlayerApplyId));
+                vActivityMonitorVo = ServiceActivityTool.vActivityMonitorService().get(vActivityMonitorVo);
+                if(vActivityMonitorVo.getResult() != null){
+                    activityType = vActivityMonitorVo.getResult().getActivityTypeCode();
+                }
             }
 
             vo = ServiceActivityTool.activityPlayerApplyService().auditStatus(vo, activityPlayerApplyVo, activityType, paramValue);

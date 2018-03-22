@@ -35,7 +35,7 @@
         <c:forEach items="${command.result}" var="p" varStatus="status">
             <tr class="tab-detail">
                 <td>
-                    <input type="checkbox" class="i-checks" value="${p.id}">
+                    <input type="checkbox" class="i-checks" value="${p.id}" ${p.checkState ne '1'?'disabled="disabled"':''}>
                     <label>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</label>
                 </td>
                 <td>

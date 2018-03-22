@@ -76,9 +76,9 @@
                             </soul:button>
                         </div>
                         <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm function-menu-show hide">
-                            <div class="function-menu-show hide" code="${command1.get(0).code}" sumPerson="${command.result.size()}">
+                            <div class="function-menu-show hide">
                                 <soul:button target="successDialog" text="${views.common['checkPass']}" opType="function" cssClass="btn btn-outline btn-filter"/>
-                                <soul:button target="${root}/operation/vActivityPlayerApply/auditStatus.html?&result.checkState=3&activityType=${command1.get(0).code}"
+                                <soul:button target="${root}/operation/vActivityPlayerApply/auditStatus.html?&result.checkState=3&activityType="
                                              text="${views.common['checkFailure']}" opType="ajax" post="getSelectIds" precall="hasFailReason" callback="query"
                                              cssClass="btn btn-outline btn-filter"/>
                             </div>
