@@ -238,7 +238,7 @@
                         <%--<button class="btn btn-filter btn-lg" data-toggle="modal"  data-dismiss="modal" data-target="#audit">下一步，设置占成</button>--%>
                         <c:choose>
                             <c:when test="${empty command.result.id}">
-                                <soul:button target="openSetRatio" cssClass="btn btn-filter btn-lg" text="" opType="function" precall="validateForm">
+                                <soul:button target="openSetRatio" cssClass="btn btn-filter btn-lg  " text="" opType="function" precall="validateForm">
                                     ${views.role['topAgent.edit.nextStep']}
                                 </soul:button>
                                 <%--//测试用--%>
@@ -246,11 +246,11 @@
                                              text="${views.role['topAgent.edit.nextStep']}" opType="dialog"/>--%>
                             </c:when>
                             <c:otherwise>
-                                <soul:button target="${root}/userAgent/persistTopAgent.html" text="" cssClass="btn btn-filter btn-lg" precall="validateForm" opType="ajax" post="getCurrentFormData" callback="goToLastPage" refresh="true">${views.common['completed']}</soul:button>
+                                <soul:button target="${root}/userAgent/persistTopAgent.html" text="" cssClass="btn btn-filter btn-lg _enter_submit" precall="validateForm" opType="ajax" post="getCurrentFormData" callback="goToLastPage" refresh="true">${views.common['completed']}</soul:button>
                             </c:otherwise>
                         </c:choose>
                         <%--<a href="javascript:void(0)" class="btn btn-outline btn-filter btn-lg">${views.common_report['取消']}</a>--%>
-                        <soul:button target="goToLastPage" text="" cssClass="btn btn-outline btn-filter btn-lg" opType="function" >${views.common['cancel']}</soul:button>
+                        <soul:button target="goToLastPage" text="" cssClass="btn btn-outline btn-filter btn-lg " opType="function" >${views.common['cancel']}</soul:button>
                     </div>
                 </div>
         </div>
@@ -288,7 +288,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <%--为预览准备--%>
-                                    <soul:button target="savePreview" text="" cssClass="btn btn-filter btn-lg" opType="function" refresh="true" precall="validateForm">${views.common['previewAndSave']}</soul:button>
+                                    <soul:button target="savePreview" text="" cssClass="btn btn-filter btn-lg " opType="function" refresh="true" precall="validateForm">${views.common['previewAndSave']}</soul:button>
                                     <%--<soul:button target="${root}/userAgent/persistTopAgent.html" text="" cssClass="btn btn-filter btn-lg" precall="myValidateForm" opType="ajax" post="getCurrentFormData" callback="goToLastPage" refresh="true">${views.common['OK']}</soul:button>--%>
                                         <%--<button type="button" class="btn btn-filter">${views.player_auto['确定']}</button>--%>
                                     <soul:button target="cancelSetting"  text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter btn-lg" opType="function">${views.common['cancel']}</soul:button>

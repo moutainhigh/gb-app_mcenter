@@ -45,7 +45,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <soul:button target="${root}/rebateAgent/settled.html" text="${views.common['OK']}" opType="ajax" cssClass="btn btn-filter"
+        <soul:button target="${root}/rebateAgent/settled.html" text="${views.common['OK']}" opType="ajax" cssClass="btn btn-filter _enter_submit"
                      post="getCurrentFormData" callback="saveCallbak" precall="myValidateForm" tag="button">${views.common['OK']}</soul:button>
         <soul:button target="closePage" text="${views.common['cancel']}" opType="function" cssClass="btn btn-outline btn-filter"/>
     </div>

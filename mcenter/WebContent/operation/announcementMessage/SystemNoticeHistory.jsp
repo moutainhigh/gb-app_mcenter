@@ -22,7 +22,7 @@
                                       startName="search.startTime" endName="search.endTime" maxDate="${maxDate}"
                                       startDate="${command.search.startTime}" endDate="${command.search.endTime}"/>
                     </div>
-                    <soul:button text="" target="query" opType="function" cssClass="btn btn-outline btn-filter" tag="button">
+                    <soul:button text="" target="query" opType="function" cssClass="btn btn-outline btn-filter _enter_submit" tag="button">
                         <i class="fa fa-search"></i>
                         <span class="hd">&nbsp;${views.common['search']}</span>
                     </soul:button>

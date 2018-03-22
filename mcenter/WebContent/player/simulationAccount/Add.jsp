@@ -56,7 +56,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<soul:button precall="validateForm" cssClass="btn btn-filter" callback="saveCallbak" text="${views.common['OK']}" opType="ajax" dataType="json" target="${root}/simulationAccount/savePlayer.html" post="getCurrentFormData"/>
+			<soul:button precall="validateForm" cssClass="btn btn-filter _enter_submit" callback="saveCallbak" text="${views.common['OK']}" opType="ajax" dataType="json" target="${root}/simulationAccount/savePlayer.html" post="getCurrentFormData"/>
 			<soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter" opType="function"/>
 		</div>
 	</form:form>
