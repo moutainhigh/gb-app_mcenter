@@ -110,8 +110,12 @@
                     {{/if}}
                     <%--${gbFn:riskImgById(id)}--%>
                     <%--{{:_gbFn_riskImgById_id}}aaa--%>
-
                         {{:_views_riskDataType}}
+                    {{if mobilePhone != null && mobilePhone != '' }}
+                        <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="{{:id}}">
+                            <img src="${resRoot}/images/call.png" width="15" height="15">
+                        </soul:button>
+                    {{/if}}
 
                     </td>
 

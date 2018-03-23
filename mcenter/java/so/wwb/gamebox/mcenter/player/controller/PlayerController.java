@@ -3430,7 +3430,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
          <i class="fa fa-flash"></i>
          </soul:button>
          */
-        resMap.put("domain","47.52.0.17:8089");
+
+        resMap.put("domain","http://47.52.0.17:8089/atstar/index.php/status-op");
         resMap.put("zxNo",SessionManager.getUser().getIdcard());
         return resMap;
     }
