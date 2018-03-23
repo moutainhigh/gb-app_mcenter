@@ -9,20 +9,28 @@
                 <%--<soul:button target="basicSettingIndex" text="${views.setting['setting.parameter.basic']}" opType="function"></soul:button>--%>
         </li>
     </shiro:hasPermission>
+    <li id="li_top_2" class="<c:if test="${'4'.equals(webtype)}">active</c:if>">
+        <a href="/param/frontEnd.html" nav-target="mainFrame">${views.setting['setting.parameter.front']}</a>
+        <%--<soul:button target="basicSettingIndex" text="${views.setting['setting.parameter.basic']}" opType="function"></soul:button>--%>
+    </li>
+    <li id="li_top_3" class="<c:if test="${'5'.equals(webtype)}">active</c:if>">
+        <a href="/param/parameterSetting.html" nav-target="mainFrame">${views.setting['setting.parameter.Parameter.setting']}</a>
+        <%--<soul:button target="basicSettingIndex" text="${views.setting['setting.parameter.basic']}" opType="function"></soul:button>--%>
+    </li>
     <shiro:hasPermission name="system:siteparam_preference">
-        <li id="li_top_2" class="<c:if test="${'2'.equals(webtype)}">active</c:if>">
+        <li id="li_top_4" class="<c:if test="${'2'.equals(webtype)}">active</c:if>">
             <a href="/setting/preference/index.html" nav-target="mainFrame">${views.setting['setting.parameter.preference']}</a>
                 <%--<soul:button target="preferenceIndex" text="${views.setting['setting.parameter.preference']}" opType="function"></soul:button>--%>
         </li>
     </shiro:hasPermission>
     <shiro:hasPermission name="system:siteparam_playerimport">
         <c:if test="${isEnableImport=='1'}">
-
-            <li id="li_top_3" class="<c:if test="${'3'.equals(webtype)}">active</c:if>">
+            <li id="li_top_6" class="<c:if test="${'3'.equals(webtype)}">active</c:if>">
                 <a href="/vUserPlayerImport/list.html" nav-target="mainFrame">${views.setting['setting.parameter.importPlayer']}</a>
                     <%--<soul:button target="playerImportIndex" text="${views.setting['setting.parameter.importPlayer']}" opType="function"></soul:button>--%>
             </li>
         </c:if>
     </shiro:hasPermission>
+
 </ul>
 <!--//endregion your codes 1-->
