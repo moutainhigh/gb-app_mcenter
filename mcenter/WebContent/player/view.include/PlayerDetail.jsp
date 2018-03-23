@@ -698,6 +698,7 @@ k
                         <li class="detail-list-cow">
                             <span class="title">${views.player_auto['风控标识']}</span>
                             <div class="content">
+                                <c:set var="riskCount" value="${fn:length(riskSet)}"></c:set>
                                 <c:forEach items="${riskSet}" var="risk" varStatus="vs">
                                     <span class="label-del">${dicts.player.risk_data_type[risk]}</span>
                                     <c:if test="${(vs.index+1)<riskCount}">、</c:if>
