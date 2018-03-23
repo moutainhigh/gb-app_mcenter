@@ -40,10 +40,7 @@ import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.log.audit.vo.BaseLog;
 import org.soul.model.log.audit.vo.LogVo;
 import org.soul.model.msg.notice.po.VNoticeSendText;
-import org.soul.model.msg.notice.vo.NoticeLocaleTmpl;
-import org.soul.model.msg.notice.vo.NoticeVo;
-import org.soul.model.msg.notice.vo.VNoticeReceivedTextVo;
-import org.soul.model.msg.notice.vo.VNoticeSendTextListVo;
+import org.soul.model.msg.notice.vo.*;
 import org.soul.model.security.privilege.po.SysUser;
 import org.soul.model.security.privilege.po.SysUserStatus;
 import org.soul.model.security.privilege.vo.SysUserProtectionVo;
@@ -3410,6 +3407,19 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             }
             userPlayerVo.getResult().setRiskDataType(str.toString());
         }
+    }
+
+    @RequestMapping(value = "/fetchPlayerPhoneNumber")
+    @ResponseBody
+    public Map fetchPlayerPhoneNumber(SysUserVo sysUserVo){
+        Map resMap = new HashMap(3,1f);
+        Integer userId = sysUserVo.getSearch().getId();
+        if(userId == null){
+            resMap.put("state",false);
+            return resMap;
+        }
+        resMap = getService().queryPlayerPhoneMessage(sysUserVo);
+        return resMap;
     }
 
     //endregion
