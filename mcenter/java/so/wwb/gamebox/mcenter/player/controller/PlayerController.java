@@ -951,6 +951,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         userPlayerVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
         userPlayerVo = ServiceSiteTool.userPlayerService().get(userPlayerVo);
         getRisk2Set(userPlayerVo);
+        model.addAttribute("riskDataType", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskDataType():null);
         model.addAttribute("riskSet", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskSet():null);
 
         return "/player/view.include/PlayerDetail";
@@ -3301,11 +3302,14 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         userPlayerVo.setProperties(UserPlayer.PROP_RISK_DATA_TYPE);
         userPlayerVo = ServiceSiteTool.userPlayerService().updateOnly(userPlayerVo);
 
+        //是否推送总控
+        Boolean is2Boss = StringTool.isNotBlank(userPlayerVo.getResult().getRiskDataType());
+
         //日志;添加完日志后，userPlayerVo的risk值有改变，后续使用注意
         addModifyRiskLog(userPlayerVo);
 
         //推送到总控
-        if (userPlayerVo.isSuccess()) {
+        if (userPlayerVo.isSuccess() && is2Boss) {
 
             //设置风控审核数据内容
             RiskManagementCheckVo riskManagementVo = new RiskManagementCheckVo();
@@ -3316,8 +3320,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             riskManagement.setSiteId(SessionManager.getSiteId());
             riskManagementVo.setResult(riskManagement);
             //查询其他按数据并发送
-            VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
-            vUserPlayerVo.getSearch().setId(userPlayerVo.getResult().getId());
             userPlayerVo = ServiceSiteTool.vUserPlayerService().addRiskToBoss(userPlayerVo, riskManagementVo);
         }
 
@@ -3340,22 +3342,25 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
         //修改后的数据国际化
         getRisk2Set(userPlayerVo);
-        String risk = "";
+        String risk = " ";
         for(String str:userPlayerVo.getResult().getRiskSet()){
             risk+=I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("common").get(str);
             risk+=" ";
         }
         //旧数据国际化
-        String oldRisk = "";
+        String oldRisk = " ";
         userPlayerVo.getResult().setRiskDataType(userPlayerVo.getResult().getOldRiskDataType());
         getRisk2Set(userPlayerVo);
         for(String str:userPlayerVo.getResult().getRiskSet()){
             oldRisk+=I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("common").get(str);
             oldRisk+=" ";
         }
+//        if(StringTool.isBlank(risk)){
+//            risk = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("player_auto").get("空");
+//        }
 //        setRisk
 //        setRiskSet(oldUserPlayerVo);
-        BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS",userPlayerVo.getResult().getId(),oldRisk,risk);
+        BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS", userPlayerVo.getResult().getId(), SessionManager.getUserName(), oldRisk, risk);
     }
 
 

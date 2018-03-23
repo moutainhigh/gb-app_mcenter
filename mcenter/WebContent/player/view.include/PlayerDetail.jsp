@@ -34,6 +34,7 @@
                                       role="button" class="help-popover co-red3" tabindex="0"
                                       data-original-title="" title=""><i class="fa fa-warning"></i></span>
                             </c:if>
+                            ${gbFn:showRiskImg(riskDataType)}
                             <a href="javascript:void(0)" class="btn btn-outline btn-filter btn-sm m-l-sm" style="opacity: 0.6">ID ${command.result.id}</a>
                             <c:if test="${command.result.onLineId>0}">
                                 <span data-content="${views.player_auto['在线']}" style="padding: 3px;"
