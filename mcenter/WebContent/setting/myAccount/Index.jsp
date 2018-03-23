@@ -26,7 +26,7 @@
                             <span>${command.result.realName}</span>
                             <c:choose>
                                 <c:when test="${command.result.sex eq 'male'}">
-                                    <img src="${resRoot}/images/sex-man.png" class="m-l-xs m-r-sm">
+                                    `
                                 </c:when>
                                 <c:when test="${command.result.sex eq 'female'}">
                                     <img src="${resRoot}/images/sex-woman.png" class="m-l-xs m-r-sm">

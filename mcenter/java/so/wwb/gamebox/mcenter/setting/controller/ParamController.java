@@ -406,6 +406,9 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     }
 
 
+
+
+
     /**
      * 加载站点参数-基本设置信息
      *
@@ -415,6 +418,65 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
      */
     @RequestMapping({"/basicSettingIndex"})
     public String basicSettingEdit(SysSiteVo sysSiteVo, Model model) {
+        Integer siteId = SessionManagerBase.getSiteId();
+        sysSiteVo.getSearch().setId(siteId);
+        sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
+        //计算开站至今
+        Date openingTime = sysSiteVo.getResult().getOpeningTime();
+        sysSiteVo.setYear(DateTool.yearsBetween(new Date(), openingTime));
+        sysSiteVo.setMonth(DateTool.monthsBetween(new Date(), openingTime) % 12);
+        sysSiteVo.setDay(DateTool.daysBetween(new Date(), openingTime) % 30);
+        //国旗
+        sysSiteVo.setCttLogo(ServiceSiteTool.getCttLogService().getCttlog(new CttLogoVo()));
+        //货币 和 语言
+        sysSiteVo = ServiceTool.siteOperateAreaService().getAreaCurrancyLang(new SiteOperateAreaListVo(), sysSiteVo);
+        sysSiteVo.setValidateRule(JsRuleCreator.create(TrafficStatisticsForm.class, "result"));
+        //查询货币使用的玩家数
+        //增加设置languageListVo的查询条件 siteId 开始--cogo
+        SiteLanguageListVo languageListVo = new SiteLanguageListVo();
+        languageListVo.getSearch().setSiteId(siteId);
+        //增加设置languageListVo的查询条件 siteId 结束--cogo
+        languageListVo = ServiceTool.siteLanguageService().search(languageListVo);
+        transLangByLocale(languageListVo, sysSiteVo.getResult().getMainLanguage());
+        sysSiteVo.setSiteLanguageList(languageListVo.getResult());
+        sysSiteVo.setSiteI18nMap(Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_NAME));
+        sysSiteVo = ServiceSiteTool.vUserPlayerService().queryCurrencyPlayerNum(sysSiteVo);
+        findEnableImportPlayerParam(model);
+        model.addAttribute("command", sysSiteVo);
+        model.addAttribute("siteTile", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_TITLE));
+        model.addAttribute("siteKeywords", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_KEYWORDS));
+        model.addAttribute("siteDescription", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_DESCRIPTION));
+        //该运营商下站长开通的语言
+        List<String> list = ServiceTool.siteLanguageService().masterIsUse(sysSiteVo);
+        model.addAttribute("masterIsUseLanguage", list);
+        //查询多语言站点名称
+        setVerificationData(model);
+        setEmailInterface(model);
+        getSmsInterface(model);
+        //获取客服信息
+        model.addAttribute("pcCustomerService", SiteCustomerServiceHelper.getDefaultCustomerService());
+        model.addAttribute("mobileCustomerService", SiteCustomerServiceHelper.getMobileCustomerService());
+        //取款方式
+        withdrawTypeParam(model);
+        SysParam mobileTraffic = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
+        model.addAttribute("mobile_traffic",mobileTraffic.getParamValue());
+        model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
+        model.addAttribute("rankAppDomain",ServiceSiteTool.playerRankAppDomainService().search(new PlayerRankAppDomainListVo()));
+        return "/setting/param/siteparameters/BasicSetting";
+    }
+
+
+
+
+    /**
+     * 前端展示
+     *
+     * @param sysSiteVo
+     * @param model
+     * @return
+     */
+    @RequestMapping({"/frontEnd"})
+    public String basicSettingEdits(SysSiteVo sysSiteVo, Model model) {
         Integer siteId = SessionManagerBase.getSiteId();
         sysSiteVo.getSearch().setId(siteId);
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
@@ -481,8 +543,83 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("appDomain",result);
         model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         model.addAttribute("rankAppDomain",ServiceSiteTool.playerRankAppDomainService().search(new PlayerRankAppDomainListVo()));
-        return "/setting/param/siteparameters/BasicSetting";
+        model.addAttribute("webtype", "4");
+        return "/setting/param/siteparameters/FrontEnd";
     }
+
+
+
+
+
+    /**
+     * 参数设置
+     *
+     * @param sysSiteVo
+     * @param model
+     * @return
+     */
+    @RequestMapping({"/parameterSetting"})
+    public String parameterSetting(SysSiteVo sysSiteVo, Model model) {
+        Integer siteId = SessionManagerBase.getSiteId();
+        sysSiteVo.getSearch().setId(siteId);
+        sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
+        //计算开站至今
+        Date openingTime = sysSiteVo.getResult().getOpeningTime();
+        sysSiteVo.setYear(DateTool.yearsBetween(new Date(), openingTime));
+        sysSiteVo.setMonth(DateTool.monthsBetween(new Date(), openingTime) % 12);
+        sysSiteVo.setDay(DateTool.daysBetween(new Date(), openingTime) % 30);
+        //国旗
+        sysSiteVo.setCttLogo(ServiceSiteTool.getCttLogService().getCttlog(new CttLogoVo()));
+        //货币 和 语言
+        sysSiteVo = ServiceTool.siteOperateAreaService().getAreaCurrancyLang(new SiteOperateAreaListVo(), sysSiteVo);
+        sysSiteVo.setValidateRule(JsRuleCreator.create(TrafficStatisticsForm.class, "result"));
+        //查询货币使用的玩家数
+        //增加设置languageListVo的查询条件 siteId 开始--cogo
+        SiteLanguageListVo languageListVo = new SiteLanguageListVo();
+        languageListVo.getSearch().setSiteId(siteId);
+        //增加设置languageListVo的查询条件 siteId 结束--cogo
+        languageListVo = ServiceTool.siteLanguageService().search(languageListVo);
+        transLangByLocale(languageListVo, sysSiteVo.getResult().getMainLanguage());
+        sysSiteVo.setSiteLanguageList(languageListVo.getResult());
+        sysSiteVo.setSiteI18nMap(Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_NAME));
+        sysSiteVo = ServiceSiteTool.vUserPlayerService().queryCurrencyPlayerNum(sysSiteVo);
+        findEnableImportPlayerParam(model);
+        model.addAttribute("command", sysSiteVo);
+        model.addAttribute("siteTile", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_TITLE));
+        model.addAttribute("siteKeywords", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_KEYWORDS));
+        model.addAttribute("siteDescription", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_DESCRIPTION));
+        //该运营商下站长开通的语言
+        List<String> list = ServiceTool.siteLanguageService().masterIsUse(sysSiteVo);
+        model.addAttribute("masterIsUseLanguage", list);
+        //查询多语言站点名称
+        setVerificationData(model);
+        setEmailInterface(model);
+        getSmsInterface(model);
+        //获取客服信息
+        model.addAttribute("pcCustomerService", SiteCustomerServiceHelper.getDefaultCustomerService());
+        model.addAttribute("mobileCustomerService", SiteCustomerServiceHelper.getMobileCustomerService());
+        //取款方式
+        withdrawTypeParam(model);
+        //APP下载域名
+        SysDomainListVo sysDomainListVo = new SysDomainListVo();
+        sysDomainListVo.getSearch().setSiteId(SessionManager.getSiteId());
+        sysDomainListVo = ServiceTool.sysDomainService().updateAppDomain(sysDomainListVo);
+        List<SysDomain> result = sysDomainListVo.getResult();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
+        SysParam param = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
+        SysParam mobileTraffic = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
+        SysParam personalInformation= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
+        model.addAttribute("personal_information",personalInformation);
+        model.addAttribute("access_domain",param);
+        model.addAttribute("select_domain",sysParam);
+        model.addAttribute("mobile_traffic",mobileTraffic.getParamValue());
+        model.addAttribute("appDomain",result);
+        model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
+        model.addAttribute("rankAppDomain",ServiceSiteTool.playerRankAppDomainService().search(new PlayerRankAppDomainListVo()));
+        model.addAttribute("webtype", "5");
+        return "/setting/param/siteparameters/Parameters";
+    }
+
 
     /**
      * 设置取款打款方式

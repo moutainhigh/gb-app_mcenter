@@ -3424,6 +3424,15 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             return resMap;
         }
         resMap = getService().queryPlayerPhoneMessage(sysUserVo);
+        //TODO 获取本站点的呼叫中心地址 如果是缓存，从这里设置，如果取表，在service设置
+        /** soulButton使用主法，只需要传和玩家ID
+         * <soul:button target="callPlayer" text="拔打电话" opType="function" playerId="${command.result.id}">
+         <i class="fa fa-flash"></i>
+         </soul:button>
+         */
+
+        resMap.put("domain","http://47.52.0.17:8089/atstar/index.php/status-op");
+        resMap.put("zxNo",SessionManager.getUser().getIdcard());
         return resMap;
     }
 
