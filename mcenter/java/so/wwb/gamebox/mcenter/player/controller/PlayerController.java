@@ -40,10 +40,7 @@ import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.log.audit.vo.BaseLog;
 import org.soul.model.log.audit.vo.LogVo;
 import org.soul.model.msg.notice.po.VNoticeSendText;
-import org.soul.model.msg.notice.vo.NoticeLocaleTmpl;
-import org.soul.model.msg.notice.vo.NoticeVo;
-import org.soul.model.msg.notice.vo.VNoticeReceivedTextVo;
-import org.soul.model.msg.notice.vo.VNoticeSendTextListVo;
+import org.soul.model.msg.notice.vo.*;
 import org.soul.model.security.privilege.po.SysUser;
 import org.soul.model.security.privilege.po.SysUserStatus;
 import org.soul.model.security.privilege.vo.SysUserProtectionVo;
@@ -951,6 +948,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         userPlayerVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
         userPlayerVo = ServiceSiteTool.userPlayerService().get(userPlayerVo);
         getRisk2Set(userPlayerVo);
+        model.addAttribute("riskDataType", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskDataType():null);
         model.addAttribute("riskSet", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskSet():null);
 
         return "/player/view.include/PlayerDetail";
@@ -3301,11 +3299,14 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         userPlayerVo.setProperties(UserPlayer.PROP_RISK_DATA_TYPE);
         userPlayerVo = ServiceSiteTool.userPlayerService().updateOnly(userPlayerVo);
 
+        //是否推送总控
+        Boolean is2Boss = StringTool.isNotBlank(userPlayerVo.getResult().getRiskDataType());
+
         //日志;添加完日志后，userPlayerVo的risk值有改变，后续使用注意
         addModifyRiskLog(userPlayerVo);
 
         //推送到总控
-        if (userPlayerVo.isSuccess()) {
+        if (userPlayerVo.isSuccess() && is2Boss) {
 
             //设置风控审核数据内容
             RiskManagementCheckVo riskManagementVo = new RiskManagementCheckVo();
@@ -3316,8 +3317,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             riskManagement.setSiteId(SessionManager.getSiteId());
             riskManagementVo.setResult(riskManagement);
             //查询其他按数据并发送
-            VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
-            vUserPlayerVo.getSearch().setId(userPlayerVo.getResult().getId());
             userPlayerVo = ServiceSiteTool.vUserPlayerService().addRiskToBoss(userPlayerVo, riskManagementVo);
         }
 
@@ -3340,22 +3339,25 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
         //修改后的数据国际化
         getRisk2Set(userPlayerVo);
-        String risk = "";
+        String risk = " ";
         for(String str:userPlayerVo.getResult().getRiskSet()){
             risk+=I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("common").get(str);
             risk+=" ";
         }
         //旧数据国际化
-        String oldRisk = "";
+        String oldRisk = " ";
         userPlayerVo.getResult().setRiskDataType(userPlayerVo.getResult().getOldRiskDataType());
         getRisk2Set(userPlayerVo);
         for(String str:userPlayerVo.getResult().getRiskSet()){
             oldRisk+=I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("common").get(str);
             oldRisk+=" ";
         }
+//        if(StringTool.isBlank(risk)){
+//            risk = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("player_auto").get("空");
+//        }
 //        setRisk
 //        setRiskSet(oldUserPlayerVo);
-        BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS",userPlayerVo.getResult().getId(),oldRisk,risk);
+        BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS", userPlayerVo.getResult().getId(), SessionManager.getUserName(), oldRisk, risk);
     }
 
 
@@ -3410,6 +3412,27 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             }
             userPlayerVo.getResult().setRiskDataType(str.toString());
         }
+    }
+
+    @RequestMapping(value = "/fetchPlayerPhoneNumber")
+    @ResponseBody
+    public Map fetchPlayerPhoneNumber(SysUserVo sysUserVo){
+        Map resMap = new HashMap(3,1f);
+        Integer userId = sysUserVo.getSearch().getId();
+        if(userId == null){
+            resMap.put("state",false);
+            return resMap;
+        }
+        resMap = getService().queryPlayerPhoneMessage(sysUserVo);
+        //TODO 获取本站点的呼叫中心地址 如果是缓存，从这里设置，如果取表，在service设置
+        /** soulButton使用主法，只需要传和玩家ID
+         * <soul:button target="callPlayer" text="拔打电话" opType="function" playerId="${command.result.id}">
+         <i class="fa fa-flash"></i>
+         </soul:button>
+         */
+        resMap.put("domain","47.52.0.17:8089");
+        resMap.put("zxNo",SessionManager.getUser().getIdcard());
+        return resMap;
     }
 
     //endregion
