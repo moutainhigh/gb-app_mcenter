@@ -721,6 +721,7 @@ k
 
                             </div>
                             <c:if test="${not empty riskLog}">
+                                &nbsp;&nbsp;
                                     <span data-content="<div>${views.common['content.editUser']}：${riskLog.operator}</div>
                                 <div>${views.common['content.editTime']}：${soulFn:formatDateTz(riskLog.operateTime, DateFormat.DAY_SECOND,timeZone)}-${soulFn:formatTimeMemo(riskLog.operateTime, locale)}</div>"
                                           data-placement="bottom" data-trigger="focus" data-toggle="popover" data-container="body" data-html="true"
