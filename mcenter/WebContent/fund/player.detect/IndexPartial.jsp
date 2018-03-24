@@ -22,7 +22,7 @@
                 </c:if>
                 ${gbFn:riskImgById(command1.result.id)}
                 <c:if test="${not empty command1.result.mobilePhone}">
-                    <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${command.result.id}">
+                    <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${command1.result.id}">
                         <img src="${resRoot}/images/call.png" width="15" height="15">
                     </soul:button>
                 </c:if>
@@ -104,7 +104,7 @@
                         </c:otherwise>
                     </c:choose>
                     ${views.fund['fund.playerDetect.index.individual']})
-                    <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${command.result.id}">
+                    <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${command1.result.id}">
                         <img src="${resRoot}/images/call.png" width="15" height="15">
                     </soul:button>
                 </c:if>
