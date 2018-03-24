@@ -21,7 +21,11 @@
                     <i class="fa fa-flash" title="${views.fund_auto['在线']}"></i>
                 </c:if>
                 ${gbFn:riskImgById(command1.result.id)}
-
+                <c:if test="${not empty command1.result.mobilePhone}">
+                    <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${command.result.id}">
+                        <img src="${resRoot}/images/call.png" width="15" height="15">
+                    </soul:button>
+                </c:if>
             </div>
                 <%--<div class="line-hi25 col-sm-12"><b>${views.fund['playerDetect.view.area']}：</b>
                     ${dicts.region.region[command1.result.country]}-${dicts.state[command1.result.country][command1.result.region]}
@@ -86,20 +90,24 @@
                        nav-target="mainFrame">
                             ${soulFn:overlayTel(command1.result.mobilePhone)}
                     </a>
+
+                    (${views.fund['fund.playerDetect.index.sameNumber']}
+                    <c:choose>
+                        <c:when test="${command1.repeatMap.mobilePhone gt 0}">
+                            <a href="/player/list.html?search.mobilePhone=${command1.result.mobilePhone}&search.hasReturn=true"
+                               nav-target="mainFrame">
+                                <b class="fs13">${command1.repeatMap.mobilePhone}</b>
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <b class="fs13">&nbsp;${command1.repeatMap.mobilePhone}&nbsp;</b>
+                        </c:otherwise>
+                    </c:choose>
+                    ${views.fund['fund.playerDetect.index.individual']})
+                    <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${command.result.id}">
+                        <img src="${resRoot}/images/call.png" width="15" height="15">
+                    </soul:button>
                 </c:if>
-                (${views.fund['fund.playerDetect.index.sameNumber']}
-                <c:choose>
-                    <c:when test="${command1.repeatMap.mobilePhone gt 0}">
-                        <a href="/player/list.html?search.mobilePhone=${command1.result.mobilePhone}&search.hasReturn=true"
-                           nav-target="mainFrame">
-                            <b class="fs13">${command1.repeatMap.mobilePhone}</b>
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        <b class="fs13">&nbsp;${command1.repeatMap.mobilePhone}&nbsp;</b>
-                    </c:otherwise>
-                </c:choose>
-                ${views.fund['fund.playerDetect.index.individual']})
             </div>
 
             <div class="line-hi25 col-sm-12"><b>${views.fund['playerDetect.view.mail']}：</b>

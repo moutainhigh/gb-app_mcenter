@@ -328,6 +328,9 @@ k
                                                         </c:if>
                                                     </c:otherwise>
                                                 </c:choose>
+                                                <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${command.result.id}">
+                                                    <img src="${resRoot}/images/call.png" width="15" height="15">
+                                                </soul:button>
                                                 <c:if test="${command.result.mobilePhoneWayStatus!=22}">
                                                     <span class="btn btn-xs btn-danger btn-stroke m-l-sm pull-right">
                                                             ${dicts.notice.contact_way_status[command.result.mobilePhoneWayStatus]}
