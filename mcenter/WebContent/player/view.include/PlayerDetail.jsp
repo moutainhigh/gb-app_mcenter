@@ -45,7 +45,7 @@
                             <c:if test="${command.result.onLineId<=0}">
                                 <span class="co-gray">${views.player_auto['离线']}</span>
                             </c:if>
-k
+
 
                             <c:if test="${command.result.playerStatus eq '2'}">
                                 <c:set value="true" var="option_btn_disabled"></c:set>
