@@ -3364,7 +3364,21 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 //        }
 //        setRisk
 //        setRiskSet(oldUserPlayerVo);
-        BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS", userPlayerVo.getResult().getId(), SessionManager.getUserName(), oldRisk, risk);
+
+        //空改成有
+        if(StringTool.isBlank(oldRisk) && StringTool.isNotBlank(risk)){
+            BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS_NULL2", userPlayerVo.getResult().getId(), SessionManager.getUserName(), risk);
+        }
+        //有改成空
+        else if (StringTool.isBlank(risk)&& StringTool.isNotBlank(oldRisk)){
+            BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS_2NULL", userPlayerVo.getResult().getId(), SessionManager.getUserName(), oldRisk);
+        }
+        //修改为其他
+        else if (StringTool.isNotBlank(risk)&& StringTool.isNotBlank(oldRisk)){
+            BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS", userPlayerVo.getResult().getId(), SessionManager.getUserName(), oldRisk, risk);
+        }else{
+            return;
+        }
     }
 
 
