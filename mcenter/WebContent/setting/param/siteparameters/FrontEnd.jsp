@@ -179,7 +179,7 @@
                                                      opType="ajax"
                                                      dataType="json"
                                                      target="${root}/param/savePlayerItem.html"
-                                                     post="getPlayerItemForm" confirm="${views.common['confirm.modify']}" callback="saveCallbak"/>
+                                                     post="getPlayerItemForm"  callback="saveCallbak"/>
                                     </div>
                                 </ul>
                             </div>
