@@ -98,6 +98,9 @@
                             </shiro:hasPermission>
                         </td>
                     </c:if>
+                    <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${command.search.id}">
+                        <img src="${resRoot}/images/call.png" width="15" height="15">
+                    </soul:button>
                 </c:otherwise>
             </c:choose>
             <td class="bg-tbcolor">${views.role['Player.detail.info.defaultCurrency']}</td>

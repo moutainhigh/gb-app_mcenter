@@ -59,7 +59,9 @@
                                    href="/player/playerView.html?search.id=${command.result.playerId}"
                                    nav-target="mainFrame"></shiro:hasPermission>
                                    ${command.result.username}
-                                <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
+                                <shiro:hasPermission name="role:player_detail"></a>
+                                        ${gbFn:riskImgByName(command.result.username)}
+                                    </shiro:hasPermission>
                                 <a type="button" class="btn btn-link"
                                    href="/report/fundsTrans/apiTrans.html?search.username=${command.result.username}&search.fundTypes=transfer_into&search.fundTypes=transfer_out&search.type=playerDetail"
                                    nav-target="mainFrame"><i class="iconfont icon-wanjiaguanli"></i>${views.report_auto['查看所有订单']}</a>

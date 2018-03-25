@@ -27,7 +27,9 @@
                     <td>
                         <shiro:hasPermission name="role:player_detail"><a href="/player/playerView.html?search.id=${command.result.playerId}" nav-target="mainFrame" class="btn btn-link co-blue"></shiro:hasPermission>
                         ${command.result.username}
-                        <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
+                        <shiro:hasPermission name="role:player_detail"></a>
+                                ${gbFn:riskImgByName(command.result.username)}
+                            </shiro:hasPermission>
                         <soul:button target="${root}/fund/withdraw/detect.html?playerId=${command.result.playerId}" text="${views.report_auto['检测']}" opType="dialog" cssClass="btn btn-sm btn-filter btn-outline">
                         </soul:button>
                         <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.userTypes=username&search.usernames=${command.result.username}&search.transactionWays=<%=TransactionWayEnum.FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.DEPOSIT_SEND.getCode()%>,<%=TransactionWayEnum.REGIST_SEND.getCode()%>,<%=TransactionWayEnum.RELIEF_FUND.getCode()%>,<%=TransactionWayEnum.PROFIT_LOSS.getCode()%>,<%=TransactionWayEnum.EFFECTIVE_TRANSACTION.getCode()%>,&search.hasReturn=true" nav-target="mainFrame" class="btn btn-link" ><i class="iconfont icon-wanjiaguanli"></i>${views.report_auto['查询所有订单']}</a>
