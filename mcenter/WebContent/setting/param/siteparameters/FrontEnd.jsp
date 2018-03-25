@@ -83,7 +83,106 @@
                                     </div>
                                 </div>
                             </div>
+                            <div id="smsInterface" class="col-lg-6 site-switch">
+                                <h3>${views.setting_auto['个人信息显示设置']}</h3>
+                                <ul class="content clearfix" style="padding-top: 10px">
+                                    <div class="clearfix m-b"  >
+                                        <div class="ft-bold pull-left line-hi34">
+                                                ${views.setting_auto['真实姓名']}：
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <input type="checkbox" data-size="mini" name="showRealName"
+                                                ${playerItemMessage.showRealName=='1'?'checked':''} value="${playerItemMessage.showRealName}"
+                                                   <%--value="${personal_information.paramValue}"--%>
+                                                   class="form-control _player_item_message">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix m-b">
+                                        <div class="ft-bold pull-left line-hi34">
+                                                ${views.setting_auto['主语言']}：
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <input type="checkbox"data-size="mini" name="showMainLanguage"
+                                                ${playerItemMessage.showMainLanguage=='1'?'checked':''}
+                                                   value="${playerItemMessage.showMainLanguage}"
+                                                   class="form-control _player_item_message">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix m-b">
+                                        <div class="ft-bold pull-left line-hi34">${views.setting_auto['性别']}：
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <input type="checkbox" data-size="mini" name="showSex"
+                                                ${playerItemMessage.showSex=='1'?'checked':''}
+                                                   value="${playerItemMessage.showSex}"
+                                                   class="form-control _player_item_message">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix m-b">
+                                        <div class="ft-bold pull-left line-hi34"
+                                        >${views.setting_auto['生日']}：
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <input type="checkbox" data-size="mini" name="showBirthday"
+                                                ${playerItemMessage.showBirthday=='1'?'checked':''}
+                                                   value="${playerItemMessage.showBirthday}"
+                                                   class="form-control _player_item_message">
+                                        </div>
+                                    </div>
 
+                                    <div class="clearfix m-b">
+                                        <div class="ft-bold pull-left line-hi34"
+                                             >${views.setting_auto['手机']}：
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <input type="checkbox" data-size="mini" name="showMobilePhone"
+                                                ${playerItemMessage.showMobilePhone=='1'?'checked':''}
+                                                   value="${playerItemMessage.showMobilePhone}"
+                                                   class="form-control _player_item_message">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix m-b">
+                                        <div class="ft-bold pull-left line-hi34"
+                                             >${views.setting_auto['邮箱']}：
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <input type="checkbox" data-size="mini" name="showMail"
+                                                ${playerItemMessage.showMail=='1'?'checked':''}
+                                                   value="${playerItemMessage.showMail}"
+                                                   class="form-control _player_item_message">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix m-b">
+                                        <div class="ft-bold pull-left line-hi34"
+                                             >${views.setting_auto['微信']}：
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <input type="checkbox" data-size="mini" name="showWechat"
+                                                ${playerItemMessage.showWechat=='1'?'checked':''}
+                                                   value="${playerItemMessage.showWechat}"
+                                                   class="form-control _player_item_message">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix m-b" style="margin-right: 300px">
+                                                <div class=" pull-left line-hi34"
+                                                     >${views.setting_auto['QQ']}：
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <input type="checkbox" data-size="mini"  name="showQq"
+                                                        ${playerItemMessage.showQq=='1'?'checked':''}
+                                                           value="${playerItemMessage.showQq}"
+                                                           class="form-control _player_item_message">
+                                                </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
+                                                     opType="ajax"
+                                                     dataType="json"
+                                                     target="${root}/param/savePlayerItem.html"
+                                                     post="getPlayerItemForm"  callback="saveCallbak"/>
+                                    </div>
+                                </ul>
+                            </div>
 
                         </div>
                         <div class="clearfix">

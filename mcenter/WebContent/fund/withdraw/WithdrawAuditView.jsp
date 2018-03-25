@@ -66,6 +66,8 @@
                 <th scope="row" class="text-right" width="25%">${views.fund['withdraw.edit.playerWithdraw.playerAccount']}：</th>
                 <td>
                     <soul:button target="userDetail" text="${command.result.username}" opType="function">${command.result.username}</soul:button>
+                    ${gbFn:riskImgByName(command.result.username)}
+
                     <c:choose>
                         <c:when test="${command.result.riskMarker}">
                             <span style="margin-right:0px 5px" data-content="${views.fund_auto['危险层级']}" data-placement="right" data-trigger="focus" data-toggle="popover"

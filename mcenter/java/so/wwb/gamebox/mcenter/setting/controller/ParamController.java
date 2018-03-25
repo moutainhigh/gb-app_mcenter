@@ -64,6 +64,7 @@ import so.wwb.gamebox.model.master.operation.vo.PlayerRankAppDomainListVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.setting.po.FieldSort;
 import so.wwb.gamebox.model.master.setting.po.GradientTemp;
+import so.wwb.gamebox.model.master.setting.vo.PlayerItemMessage;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.SiteCustomerServiceHelper;
 
@@ -531,6 +532,11 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam sysParamEmail= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
         SysParam sysParamCopyright= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_COPYRIGHT_INFORMATION);
         SysParam sysParamQrSwitch= ParamTool.getSysParam(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
+        ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
+        SysParam personalInformation= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
+        PlayerItemMessage playerItemMessage = new PlayerItemMessage(personalInformation.getParamValue());
+        model.addAttribute("personal_information",personalInformation);
+        model.addAttribute("playerItemMessage",playerItemMessage);
         model.addAttribute("qrSwitch",sysParamQrSwitch);
         model.addAttribute("phone",sysParamPhone);
         model.addAttribute("qq",sysParamQq);
@@ -545,6 +551,32 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("rankAppDomain",ServiceSiteTool.playerRankAppDomainService().search(new PlayerRankAppDomainListVo()));
         model.addAttribute("webtype", "4");
         return "/setting/param/siteparameters/FrontEnd";
+    }
+
+    /***
+     * 个人信息
+     * @param itemMessage
+     * @return
+     */
+
+    @RequestMapping({"/savePlayerItem"})
+    @ResponseBody
+    public Map savePlayerItem(PlayerItemMessage itemMessage){
+        Map map = new HashMap();
+        String paramValue = itemMessage.toParamString();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
+        if (sysParam!=null){
+            sysParam.setParamValue(paramValue);
+            SysParamVo sysParamVo = new SysParamVo();
+            sysParamVo.setResult(sysParam);
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
+            map.put("state", true);
+        }else {
+            map.put("state",false);
+        }
+        return map;
     }
 
 
@@ -608,8 +640,6 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
         SysParam param = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
         SysParam mobileTraffic = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
-        SysParam personalInformation= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
-        model.addAttribute("personal_information",personalInformation);
         model.addAttribute("access_domain",param);
         model.addAttribute("select_domain",sysParam);
         model.addAttribute("mobile_traffic",mobileTraffic.getParamValue());

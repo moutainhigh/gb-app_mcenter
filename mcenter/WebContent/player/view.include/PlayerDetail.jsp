@@ -328,6 +328,9 @@ k
                                                         </c:if>
                                                     </c:otherwise>
                                                 </c:choose>
+                                                <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${command.result.id}">
+                                                    <img src="${resRoot}/images/call.png" width="15" height="15">
+                                                </soul:button>
                                                 <c:if test="${command.result.mobilePhoneWayStatus!=22}">
                                                     <span class="btn btn-xs btn-danger btn-stroke m-l-sm pull-right">
                                                             ${dicts.notice.contact_way_status[command.result.mobilePhoneWayStatus]}
@@ -698,6 +701,7 @@ k
                         <li class="detail-list-cow">
                             <span class="title">${views.player_auto['风控标识']}</span>
                             <div class="content">
+                                <c:set var="riskCount" value="${fn:length(riskSet)}"></c:set>
                                 <c:forEach items="${riskSet}" var="risk" varStatus="vs">
                                     <span class="label-del">${dicts.player.risk_data_type[risk]}</span>
                                     <c:if test="${(vs.index+1)<riskCount}">、</c:if>
@@ -720,11 +724,15 @@ k
 
                             </div>
                             <c:if test="${not empty riskLog}">
+                                &nbsp;&nbsp;
                                     <span data-content="<div>${views.common['content.editUser']}：${riskLog.operator}</div>
                                 <div>${views.common['content.editTime']}：${soulFn:formatDateTz(riskLog.operateTime, DateFormat.DAY_SECOND,timeZone)}-${soulFn:formatTimeMemo(riskLog.operateTime, locale)}</div>"
                                           data-placement="bottom" data-trigger="focus" data-toggle="popover" data-container="body" data-html="true"
                                           role="button" class="ico-lock" tabindex="0"
-                                          data-original-title="" title="" style="font-size: 14px;color: #9c9c9c; display: inline-block;">${soulFn:formatLogDesc(riskLog)}</span>
+                                          data-original-title="" title="" style="font-size: 14px;color: #9c9c9c; display: inline-block;">
+                                          ${views.player_auto['由']}${riskLog.operator}${views.player_auto['于']}
+                                          ${soulFn:formatDateTz(riskLog.operateTime, DateFormat.DAY_SECOND,timeZone)}-${soulFn:formatTimeMemo(riskLog.operateTime, locale)}&nbsp;
+                                            ${soulFn:formatLogDesc(riskLog)}</span>
                             </c:if>
                         </li>
                         <li class="detail-list-cow">
