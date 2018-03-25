@@ -729,7 +729,10 @@ k
                                 <div>${views.common['content.editTime']}：${soulFn:formatDateTz(riskLog.operateTime, DateFormat.DAY_SECOND,timeZone)}-${soulFn:formatTimeMemo(riskLog.operateTime, locale)}</div>"
                                           data-placement="bottom" data-trigger="focus" data-toggle="popover" data-container="body" data-html="true"
                                           role="button" class="ico-lock" tabindex="0"
-                                          data-original-title="" title="" style="font-size: 14px;color: #9c9c9c; display: inline-block;">${soulFn:formatLogDesc(riskLog)}</span>
+                                          data-original-title="" title="" style="font-size: 14px;color: #9c9c9c; display: inline-block;">
+                                          ${views.player_auto['由']}${riskLog.operator}${views.player_auto['于']}
+                                          ${soulFn:formatDateTz(riskLog.operateTime, DateFormat.DAY_SECOND,timeZone)}-${soulFn:formatTimeMemo(riskLog.operateTime, locale)}&nbsp;
+                                            ${soulFn:formatLogDesc(riskLog)}</span>
                             </c:if>
                         </li>
                         <li class="detail-list-cow">
