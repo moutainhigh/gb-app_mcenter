@@ -531,13 +531,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam sysParamSkyep = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_SKYPE);
         SysParam sysParamEmail= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
         SysParam sysParamCopyright= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_COPYRIGHT_INFORMATION);
-        SysParam sysParamQrSwitch= ParamTool.getSysParam(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
-        ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
         SysParam personalInformation= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
         PlayerItemMessage playerItemMessage = new PlayerItemMessage(personalInformation.getParamValue());
         model.addAttribute("personal_information",personalInformation);
         model.addAttribute("playerItemMessage",playerItemMessage);
-        model.addAttribute("qrSwitch",sysParamQrSwitch);
         model.addAttribute("phone",sysParamPhone);
         model.addAttribute("qq",sysParamQq);
         model.addAttribute("skyep",sysParamSkyep);
@@ -640,6 +637,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
         SysParam param = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
         SysParam mobileTraffic = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
+        SysParam sysParamQrSwitch= ParamTool.getSysParam(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("qrSwitch",sysParamQrSwitch);
+        model.addAttribute("electric_pin",telemarketing);
         model.addAttribute("access_domain",param);
         model.addAttribute("select_domain",sysParam);
         model.addAttribute("mobile_traffic",mobileTraffic.getParamValue());
@@ -1310,6 +1311,25 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         return  map;
     }
 
+    /***
+     * 电销开关
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/telemarketing")
+    @ResponseBody
+    public  Map telemarketing(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        ParamTool.refresh(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        if (sysParam!=null) {
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            ParamTool.refresh(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        }
+        return  map;
+    }
     /*
     * 提示音设置开关
     *
