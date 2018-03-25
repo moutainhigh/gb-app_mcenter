@@ -3464,7 +3464,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             resMap.put("state",false);
             return resMap;
         }
-        String url = "http://47.52.0.17:8089/atstar/index.php/status-op";
+//        String url = "http://47.52.0.17:8089/atstar/index.php/status-op";
+        String url = "http://3rd.game.api.com/phone-api/atstar/index.php/status-op";
         if(StringTool.isBlank(url)){
             String message = LocaleTool.tranMessage("player_auto", "您的系统还未配置电销系统");
             resMap.put("msg",message);
@@ -3478,9 +3479,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         map.put("ext_no",extNo);
         HttpClientParam param = getHttpClientParam(url, map);
         String resultString = HttpClientTool.sync(param, String.class);
-        LOG.info("账号{2}从分机号{3}请求拔打电话{1}返回结算串：{0}",resultString,phoneNumber,userId.toString(),extNo);
+        LOG.info("账号{2}从分机号{3}往{4}请求拔打电话{1}返回结算串：{0}",resultString,phoneNumber,userId.toString(),extNo,url);
         resMap.put("resultCode",resultString);
-
+        /*resMap.put("extNo",extNo);
+        resMap.put("phoneNumber",phoneNumber);*/
         return resMap;
     }
 
