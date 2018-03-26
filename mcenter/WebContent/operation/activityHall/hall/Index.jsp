@@ -22,7 +22,7 @@
                 <!--筛选条件-->
                 <div class="clearfix filter-wraper border-b-1">
                     <shiro:hasPermission name="operate:activity_add">
-                        <a href="/operation/activityType/customList.html" nav-target="mainFrame"
+                        <a href="/activityHall/activityType/customList.html" nav-target="mainFrame"
                            class="btn btn-info btn-addon pull-left　m-r-sm">
                             <i class="fa fa-plus"></i><span class="hd">${views.operation['Activity.create']}</span>
                         </a>
@@ -61,5 +61,5 @@
 </form:form>
 
 <!--//region your codes 3-->
-<soul:import res="site/operation/activity/Activity"/>
+<soul:import res="site/operation/activityHall/Activity"/>
 <!--//endregion your codes 3-->

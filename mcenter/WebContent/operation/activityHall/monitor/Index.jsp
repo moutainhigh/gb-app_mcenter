@@ -108,5 +108,5 @@
 </form:form>
 
 <!--//region your codes 3-->
-<soul:import res="site/operation/activity/activityPlayerApply"/>
+<soul:import res="site/operation/activityHall/activityPlayerApply"/>
 <!--//endregion your codes 3-->

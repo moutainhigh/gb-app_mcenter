@@ -40,9 +40,9 @@
                 </div>
                 <div class="operate-btn">
                     <shiro:hasPermission name="operate:activity_add">
-                        <a href="/operation/activityType/customList.html" nav-target="mainFrame" class="btn btn-filter btn-lg m-l">${views.operation['operation.continue']}</a>
+                        <a href="/activityHall/activityType/customList.html" nav-target="mainFrame" class="btn btn-filter btn-lg m-l">${views.operation['operation.continue']}</a>
                     </shiro:hasPermission>
-                    <a nav-target="mainFrame" href="/operation/activity/list.html" class="btn btn-filter btn-lg m-l">${views.operation['operation.searchList']}</a>
+                    <a nav-target="mainFrame" href="/activityHall/activity/list.html" class="btn btn-filter btn-lg m-l">${views.operation['operation.searchList']}</a>
                 </div>
             </div>
         </div>
@@ -74,9 +74,9 @@
             </div>
             <div class="operate-btn">
                 <shiro:hasPermission name="operate:activity_add">
-                    <a href="/operation/activityType/customList.html" nav-target="mainFrame" class="btn btn-filter btn-lg m-l">${views.operation['operation.retry']}</a>
+                    <a href="/activityHall/activityType/customList.html" nav-target="mainFrame" class="btn btn-filter btn-lg m-l">${views.operation['operation.retry']}</a>
                 </shiro:hasPermission>
-                <a nav-target="mainFrame" href="/operation/activity/list.html" class="btn btn-filter btn-lg m-l">${views.operation['operation.abandonOperations']}</a>
+                <a nav-target="mainFrame" href="/activityHall/activity/list.html" class="btn btn-filter btn-lg m-l">${views.operation['operation.abandonOperations']}</a>
             </div>
         </div>
     </div>

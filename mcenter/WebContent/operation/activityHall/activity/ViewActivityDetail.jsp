@@ -633,4 +633,4 @@
     </div>
 </div>
 </form:form>
-<soul:import res="site/operation/activity/ViewActivityDetail"/>
+<soul:import res="site/operation/activityHall/ViewActivityDetail"/>

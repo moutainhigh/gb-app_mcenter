@@ -4,7 +4,7 @@
 <!--//region your codes 1-->
 
 <!--//endregion your codes 1-->
-<form:form action="${root}/operation/activityType/customList.html" method="post">
+<form:form action="${root}/activityHall/activityType/customList.html" method="post">
     <!--//region your codes 2-->
     <div class="row">
         <div class="position-wrap clearfix">
@@ -38,12 +38,12 @@
                                         <a href="/operation/activityType/choose.html?result.code=${p.code}" nav-target="mainFrame" class="btn btn-filter cj">${views.operation['Activity.create']}</a>
                                     </c:otherwise>
                                 </c:choose>--%>
-                                <a href="/operation/activityType/choose.html?result.code=${p.code}" nav-target="mainFrame" class="btn btn-filter cj">
+                                <a href="/activityHall/activityType/choose.html?result.code=${p.code}" nav-target="mainFrame" class="btn btn-filter cj">
                                         ${views.operation['Activity.create']}
                                 </a>
 
                                 <c:if test="${p.code ne 'content' && p.code ne 'money'}">
-                                    <a href="/operation/activityType/chooseCase.html?result.code=${p.code}"
+                                    <a href="/activityHall/activityType/chooseCase.html?result.code=${p.code}"
                                        nav-target="mainFrame" class="btn js">${views.operation['Activity.introduction']}</a>
                                 </c:if>
                             </div>
@@ -57,5 +57,5 @@
 </form:form>
 
 <!--//region your codes 3-->
-<soul:import res="site/operation/activity/Create"/>
+<soul:import res="site/operation/activityHall/Create"/>
 <!--//endregion your codes 3-->

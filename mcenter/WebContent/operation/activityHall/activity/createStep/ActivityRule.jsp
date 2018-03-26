@@ -226,7 +226,7 @@
             </c:if>
             <div class="operate-btn">
                 <c:if test="${!(activityMessageVo.result.checkStatus eq '1' && (activityMessageVo.states eq 'processing' || activityMessageVo.states eq 'notStarted')) || activityMessageVo.result.checkStatus eq '2'}">
-                    <soul:button callback="getActivityMessageId" precall="uploadFile" target="${root}/operation/activity/activityRuleDraft.html?activityState=draft" text="${views.operation['Activity.step.saveAndDraft']}" opType="ajax" cssClass="btn btn-filter btn-lg" post="getCurrentFormData"/>
+                    <soul:button callback="getActivityMessageId" precall="uploadFile" target="${root}/activityHall/activity/activityRuleDraft.html?activityState=draft" text="${views.operation['Activity.step.saveAndDraft']}" opType="ajax" cssClass="btn btn-filter btn-lg" post="getCurrentFormData"/>
                 </c:if>
                 <soul:button opType="function" target="activityRulePre" cssClass="btn btn-filter btn-lg" text="${views.common['previous']}"/>
                 <soul:button precall="activityRuleNextValidate" opType="function" target="activityRuleNext" code="${activityType.result.code}"

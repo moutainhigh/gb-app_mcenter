@@ -76,5 +76,5 @@
         </tr>
     </table>
 </div>
-<soul:import res="site/operation/activity/ActivityContent"/>
+<soul:import res="site/operation/activityHall/ActivityContent"/>
 <!--//endregion your codes 4-->

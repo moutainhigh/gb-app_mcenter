@@ -42,7 +42,7 @@
         <c:forEach items="${command.result}" var="p" varStatus="status">
             <tr class="tab-detail">
                 <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
-                <td><a href="/operation/activityType/viewActivityDetail.html?search.id=${p.id}" nav-target="mainFrame">${p.activityName}</a></td>
+                <td><a href="/activityHall/activityType/viewActivityDetail.html?search.id=${p.id}" nav-target="mainFrame">${p.activityName}</a></td>
                 <td>${views.operation[p.code]}</td>
                 <td>
                         ${siteI18nMap[p.activityClassifyKey].value}
@@ -110,7 +110,7 @@
                                 <span class="co-gray">${p.activityState eq "draft"?views.common['continueEditing']:views.common['edit']}</span>
                             </c:when>
                             <c:otherwise>
-                                <a href="/operation/activityType/activityEdit.html?search.id=${p.id}&states=${p.states}" nav-target="mainFrame">${(p.activityState eq "draft")?views.common['continueEditing']:views.common['edit']}</a>
+                                <a href="/activityHall/activityType/activityEdit.html?search.id=${p.id}&states=${p.states}" nav-target="mainFrame">${(p.activityState eq "draft")?views.common['continueEditing']:views.common['edit']}</a>
                             </c:otherwise>
                         </c:choose>
                     </shiro:hasPermission>
@@ -128,7 +128,7 @@
                     </c:choose>--%>
                         <%--改成全部可以查看审核--%>
                     <shiro:hasPermission name="operate:activity_checkapply">
-                        <a href="/operation/vActivityPlayerApply/activityPlayerApply.html?search.id=${p.id}" nav-target="mainFrame" name="returnView">${views.common['audit']}</a>
+                        <a href="/activityHall/vActivityPlayerApply/activityPlayerApply.html?search.id=${p.id}" nav-target="mainFrame" name="returnView">${views.common['audit']}</a>
                     </shiro:hasPermission>
                     <c:choose>
                         <%--进行中且有待审核需要审核的不能删除--%>

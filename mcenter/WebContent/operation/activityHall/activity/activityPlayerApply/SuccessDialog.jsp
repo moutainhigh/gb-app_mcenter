@@ -40,6 +40,6 @@
 </form:form>
 </body>
 <%@ include file="/include/include.js.jsp" %>
-<soul:import res="site/operation/activity/editActivityPlayerApply"/>
+<soul:import res="site/operation/activityHall/editActivityPlayerApply"/>
 </html>
 

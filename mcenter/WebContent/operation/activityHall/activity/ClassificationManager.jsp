@@ -58,7 +58,7 @@
     <div class="modal-footer">
         <soul:button precall="validateForm" cssClass="btn btn-filter" callback="saveCallbak"
                      text="${views.common['OK']}" opType="ajax" dataType="json"
-                     target="${root}/operation/activity/saveClassification.html" post="saveClassificationData"/>
+                     target="${root}/activityHall/activity/saveClassification.html" post="saveClassificationData"/>
         <soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter"
                      opType="function"/>
     </div>
@@ -84,5 +84,5 @@
 </div>
 </body>
 <%@ include file="/include/include.js.jsp" %>
-<soul:import res="site/operation/activity/ClassificationManager"/>
+<soul:import res="site/operation/activityHall/ClassificationManager"/>
 </html>

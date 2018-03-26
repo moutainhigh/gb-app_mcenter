@@ -32,7 +32,7 @@
         <c:forEach items="${command.result}" var="p" varStatus="status">
             <tr class="tab-detail">
                 <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
-                <td><a href="/operation/activityType/viewActivityDetail.html?search.id=${p.id}" nav-target="mainFrame">${p.activityName}</a></td>
+                <td><a href="/activityHall/activityType/viewActivityDetail.html?search.id=${p.id}" nav-target="mainFrame">${p.activityName}</a></td>
                 <td>${views.operation[p.code]}</td>
                 <td>
                         ${siteI18nMap[p.activityClassifyKey].value}
@@ -72,7 +72,7 @@
                 <shiro:hasPermission name="operate:activity_defaultSet">
                 <th>
                     <c:if test="${p.code eq 'money'}">
-                        <soul:button target="${root}/operation/activity/setDefaultWin.html?search.id=${p.id}" title="${views.operation_auto['内定玩家设置']}"
+                        <soul:button target="${root}/activityHall/activity/setDefaultWin.html?search.id=${p.id}" title="${views.operation_auto['内定玩家设置']}"
                                      size="open-dialog-1000" text="${views.operation_auto['内定']}" opType="dialog"></soul:button>
                     </c:if>
                     <c:if test="${p.code ne 'money'}">
@@ -107,7 +107,7 @@
                     </c:choose>--%>
                         <%--改成全部可以查看审核--%>
                     <shiro:hasPermission name="operate:activity_checkapply">
-                        <a href="/operation/vActivityPlayerApply/activityPlayerApply.html?search.id=${p.id}" nav-target="mainFrame" name="returnView">${views.common['audit']}</a>
+                        <a href="/activityHall/vActivityPlayerApply/activityPlayerApply.html?search.id=${p.id}" nav-target="mainFrame" name="returnView">${views.common['audit']}</a>
                     </shiro:hasPermission>
                     <c:choose>
                         <%--进行中且有待审核需要审核的不能删除--%>

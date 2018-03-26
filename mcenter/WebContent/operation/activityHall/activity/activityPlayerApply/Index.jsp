@@ -2,7 +2,7 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 
-<form:form action="${root}/operation/vActivityPlayerApply/activityPlayerApply.html" method="post">
+<form:form action="${root}/activityHall/vActivityPlayerApply/activityPlayerApply.html" method="post">
     <input type="hidden" value="${command1.get(0).id}" name="search.id">
     <div class="row">
         <div class="position-wrap clearfix">
@@ -44,7 +44,7 @@
                     <div class="clearfix filter-wraper border-b-1">
                         <div class="function-menu-show hide" code="${command1.get(0).code}" sumPerson="${command.result.size()}">
                             <soul:button target="successDialog" text="${views.common['checkPass']}" opType="function" cssClass="btn btn-outline btn-filter"/>
-                            <soul:button target="${root}/operation/vActivityPlayerApply/auditStatus.html?&result.checkState=3&activityType=${command1.get(0).code}"
+                            <soul:button target="${root}/activityHall/vActivityPlayerApply/auditStatus.html?&result.checkState=3&activityType=${command1.get(0).code}"
                                          text="${views.common['checkFailure']}" opType="ajax" post="getSelectIds" precall="hasFailReason" callback="query"
                                          cssClass="btn btn-outline btn-filter"/>
                         </div>
@@ -63,4 +63,4 @@
         </div>
     </div>
 </form:form>
-<soul:import res="site/operation/activity/activityPlayerApply"/>
+<soul:import res="site/operation/activityHall/activityPlayerApply"/>

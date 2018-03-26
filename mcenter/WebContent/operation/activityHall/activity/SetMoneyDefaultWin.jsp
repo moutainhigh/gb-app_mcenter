@@ -121,12 +121,12 @@
     <div class="modal-footer">
         <soul:button precall="myValidateFrom" cssClass="btn btn-filter btn-save-defaultwin" callback="saveCallbak"
                      text="${views.common['OK']}" opType="ajax" dataType="json"
-                     target="${root}/activityMoneyDefaultWin/persist.html" post="getCurrentFormData"/>
+                     target="${root}/activityHall/activityMoneyDefaultWin/persist.html" post="getCurrentFormData"/>
         <soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter"
                      opType="function"/>
     </div>
 </form>
 </body>
 <%@ include file="/include/include.js.jsp" %>
-<soul:import res="site/operation/activity/SetMoneyDefaultWin"/>
+<soul:import res="site/operation/activityHall/SetMoneyDefaultWin"/>
 </html>

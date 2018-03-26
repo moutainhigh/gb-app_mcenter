@@ -89,7 +89,7 @@
 </body>
 <%@ include file="/include/include.js.jsp" %>
 <script type="text/javascript">
-    curl(['site/operation/activity/editActivityPlayerApply', "site/share/ReasonPreviewMore"], function (Page, ReasonPreviewMore) {
+    curl(['site/operation/activityHall/editActivityPlayerApply', "site/share/ReasonPreviewMore"], function (Page, ReasonPreviewMore) {
         page = new Page();
         page.bindButtonEvents();
         page.reasonPreviewMore = new ReasonPreviewMore();

@@ -4,7 +4,7 @@
 <!--//region your codes 1-->
 
 <!--//endregion your codes 1-->
-<form:form action="${root}/operation/activity/list.html" method="post">
+<form:form action="${root}/activityHall/activity/list.html" method="post">
     <div id="validateRule" style="display: none">${command.validateRule}</div>
     <!--//region your codes 2-->
     <div class="row">
@@ -23,12 +23,12 @@
                 <!--筛选条件-->
                 <div class="clearfix filter-wraper border-b-1">
                     <shiro:hasPermission name="operate:activity_add">
-                        <a href="/operation/activityType/customList.html" nav-target="mainFrame" class="btn btn-info btn-addon pull-left　m-r-sm">
+                        <a href="/activityHall/activityType/customList.html" nav-target="mainFrame" class="btn btn-info btn-addon pull-left　m-r-sm">
                             <i class="fa fa-plus"></i><span class="hd">${views.operation['Activity.create']}</span>
                         </a>
                     </shiro:hasPermission>
                     <%--TODO 增加权限--%>
-                    <a class="btn btn-outline btn-filter pull-left　m-r-sm" nav-target="mainFrame" href="/operation/activity/order/list.html">
+                    <a class="btn btn-outline btn-filter pull-left　m-r-sm" nav-target="mainFrame" href="/activityHall/activity/order/list.html">
                         <i class="fa fa-sort-amount-desc m-r-xs"></i>${views.operation['Activity.order']}
                     </a>
                         <div class="search-wrapper btn-group pull-right">
@@ -51,5 +51,5 @@
 </form:form>
 
 <!--//region your codes 3-->
-<soul:import res="site/operation/activity/Activity"/>
+<soul:import res="site/operation/activityHall/Activity"/>
 <!--//endregion your codes 3-->
