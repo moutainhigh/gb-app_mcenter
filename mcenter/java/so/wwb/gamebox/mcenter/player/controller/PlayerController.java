@@ -240,7 +240,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
         model.addAttribute("tagIds",listVo.getSearch().getTagId());
-
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         //获得字典中的风控标识列表
         Map<String, SysDict> riskDicts = DictTool.get(DictEnum.PLAYER_RISK_DATA_TYPE);
         model.addAttribute("riskDicts", riskDicts);
@@ -955,6 +956,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         userPlayerVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
         userPlayerVo = ServiceSiteTool.userPlayerService().get(userPlayerVo);
         getRisk2Set(userPlayerVo);
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         model.addAttribute("riskDataType", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskDataType():null);
         model.addAttribute("riskSet", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskSet():null);
 
@@ -1151,6 +1154,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         vUserPlayerVo = doView(vUserPlayerVo, model);
         model.addAttribute("unencryption", SessionManager.checkPrivilegeStatus());
         model.addAttribute("command", vUserPlayerVo);
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         return "/player/view.include/PlayerPersonalData";
     }
 
@@ -2901,6 +2906,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("command", userPlayerVo);
         baseInfoRepeatNum(model, userPlayerVo.getResult());
         model.addAttribute("unencryption", SessionManager.checkPrivilegeStatus());
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         return "/player/view.include/PlayerDetectionData";
     }
 

@@ -21,8 +21,8 @@
                     <i class="fa fa-flash" title="${views.fund_auto['在线']}"></i>
                 </c:if>
                 ${gbFn:riskImgById(command1.result.id)}
-                <c:if test="${not empty command1.result.mobilePhone}">
-                    <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${command1.result.id}">
+                <c:if test="${not empty command1.result.mobilePhone && electric_pin.paramValue==true}">
+                    <soul:button target="callPlayer" text="${messages.player_auto['拨打电话']}" opType="function" playerId="${command1.result.id}">
                         <img src="${resRoot}/images/call.png" width="15" height="15">
                     </soul:button>
                 </c:if>
@@ -103,10 +103,12 @@
                             <b class="fs13">&nbsp;${command1.repeatMap.mobilePhone}&nbsp;</b>
                         </c:otherwise>
                     </c:choose>
-                    ${views.fund['fund.playerDetect.index.individual']})
-                    <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${command1.result.id}">
+                    ${views.fund['fund.playerDetect.index.individual']}
+                    <c:if test="${electric_pin.paramValue==true}">
+                    <soul:button target="callPlayer" text="${messages.player_auto['拨打电话']}" opType="function" playerId="${command1.result.id}">
                         <img src="${resRoot}/images/call.png" width="15" height="15">
                     </soul:button>
+                    </c:if>
                 </c:if>
             </div>
 
