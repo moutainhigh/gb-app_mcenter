@@ -3456,7 +3456,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
         String extNo = SessionManager.getUser().getIdcard();
         if(StringTool.isBlank(extNo)){
-            String message = LocaleTool.tranMessage("player_auto", "您没有相关电话配置");
+            String message = LocaleTool.tranMessage("player_auto", "no_extNo_error");
             resMap.put("msg",message);
             resMap.put("state",false);
             return resMap;
