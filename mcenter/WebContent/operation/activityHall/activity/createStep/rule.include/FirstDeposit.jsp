@@ -10,15 +10,17 @@
         <div class="tab-content table-responsive">
             <table class="table border" id="first_deposit">
                 <tr>
-                    <td class="bg-gray ft-bold" colspan="1">${views.operation['Activity.rule']}</td>
-                    <td class="bg-gray ft-bold" colspan="3">${views.operation['Activity.step.offerForm']}</td>
-                    <td class="bg-gray ft-bold" rowspan="2">${views.common['operate']}</td>
+                    <td colspan="5">
+                        <input id="percentageHandsel" type="radio" class="i-checks" name="ｍosaicGold" value="true" checked="checked">${views.operation['Activity.step.proportion']}
+                        <input id="regularHandsel" type="radio" class="i-checks" name="ｍosaicGold" value="false">${views.operation['Activity.step.fixed']}${siteCurrency}
+                    </td>
+
                 </tr>
                 <tr>
-                    <td>${views.operation['Activity.step.depositAmount']}${siteCurrency}</td>
-                    <td><input id="percentageHandsel" type="radio" class="i-checks" name="ｍosaicGold" value="true" checked="checked">${views.operation['Activity.step.proportion']}</td>
-                    <td><input id="regularHandsel" type="radio" class="i-checks" name="ｍosaicGold" value="false">${views.operation['Activity.step.fixed']}${siteCurrency}</td>
-                    <td>${views.operation['Activity.step.audit']}<span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-html="true" data-trigger="focus" data-placement="top" data-content=" ${views.operation['Activity.step.message9']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span></td>
+                    <td class="bg-gray ft-bold">${views.operation['Activity.step.depositAmount']}${siteCurrency}</td>
+                    <td class="bg-gray ft-bold"></td>
+                    <td class="bg-gray ft-bold"></td>
+                    <td class="bg-gray ft-bold">${views.operation['Activity.step.audit']}<span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-html="true" data-trigger="focus" data-placement="top" data-content=" ${views.operation['Activity.step.message9']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span></td>
                 </tr>
                 <c:forEach items="${activitypreferentialList}" var="f" varStatus="status">
                     <tr class="fd">

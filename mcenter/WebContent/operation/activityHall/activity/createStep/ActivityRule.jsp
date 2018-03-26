@@ -88,6 +88,28 @@
                     <%--</div>--%>
                 <%--</div>--%>
             <%--</c:if>--%>
+            <div class="clearfix m-t-md" id="">
+                <label class="ft-bold col-sm-3 al-right line-hi34">领取方式:</label>
+                <div class="col-sm-5 input-group">
+                    <select name="search.isAudit"  class="btn-group chosen-select-no-single">
+                        <option value="" >${views.operation['Activity.step.isAudit']}</option>
+                        <option value="1" >${views.operation['前端申领']}</option>
+                        <option value="0" >${views.operation['系统自动']}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="clearfix m-t-md" id="">
+                <label class="ft-bold col-sm-3 al-right line-hi34">申领有效期:</label>
+                <div class="col-sm-5 input-group">
+                    <select name="search.isAudit"  class="btn-group chosen-select-no-single">
+                        <option value="" ></option>
+                        <option value="1" >1</option>
+                        <option value="2" >2</option>
+                    </select>
+                </div>
+            </div>
+
 
 
             <%--优惠条件--%>
