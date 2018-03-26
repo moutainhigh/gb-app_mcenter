@@ -640,6 +640,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam mobileTraffic = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
         SysParam sysParamQrSwitch= ParamTool.getSysParam(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
         SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        SysParam encryption = ParamTool.getSysParam(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
+        model.addAttribute("encryption_switch",encryption);
         model.addAttribute("qrSwitch",sysParamQrSwitch);
         model.addAttribute("electric_pin",telemarketing);
         model.addAttribute("access_domain",param);
@@ -1341,6 +1343,25 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
             ServiceTool.getSysParamService().updateOnly(sysParamVo);
             ParamTool.refresh(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        }
+        return  map;
+    }
+    /***
+     * 电话是否加密
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/encryptionSwitch")
+    @ResponseBody
+    public  Map encryptionSwitch(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
+        if (sysParam!=null) {
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            ParamTool.refresh(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
+            map.put("state",true);
         }
         return  map;
     }
