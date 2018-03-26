@@ -110,7 +110,7 @@
                                             <div class="col-xs-5">
                                                     <input name="recoverPasswordParam.id" type="hidden" value="${recoverPasswordParam.id}">
                                                     <input id="recoverPasswordParam" name="recoverPasswordParam.active" type="hidden" value="${recoverPasswordParam.active}">
-                                                    <input type="checkbox" class="_switch" data-size="mini" ${recoverPasswordParam.active?"checked":""}>
+                                                    <input type="checkbox" class="_switch recoverPasswordParam" data-size="mini" ${recoverPasswordParam.active?"checked":""}>
                                             </div>
                                         </div>
                                         <div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">

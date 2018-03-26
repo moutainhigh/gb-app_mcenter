@@ -1412,6 +1412,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         ServiceSiteTool.siteSysParamService().saveSmsInterfaceParam(siteParamVo);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_SMS_SWITCH);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION);
+        ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_RECOVER_PASSWORD);
         return getVoMessage(siteParamVo);
     }
     //endregion your codes 3
