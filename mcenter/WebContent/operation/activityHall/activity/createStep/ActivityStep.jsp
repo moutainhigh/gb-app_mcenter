@@ -16,7 +16,6 @@
         <input id="activityMessageId" type="hidden" name="activityMessageId" value="${activityMessageVo.result.id}">
         <input id="states" type="hidden" name="states" value="${activityMessageVo.states}">
         <gb:token/>
-
         <jsp:include page="ActivityContent.jsp"/>
         <c:if test="${activityType.result.code ne 'content'}">
             <jsp:include page="ActivityRule.jsp"/>
