@@ -107,7 +107,7 @@
             </div>
         </c:if>
 
-        <div class="panel blank-panel p-b-sm">
+        <div class="panel blank-panel p-b-sm hide">
 
             <div class="">
                 <div class="panel-options">
