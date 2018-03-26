@@ -3452,7 +3452,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         String phoneNumber = MapTool.getString(phoneMap,"phoneNumber");
 
         if(StringTool.isBlank(phoneNumber)){
-            String message = LocaleTool.tranMessage("player_auto", "玩家没有设置电话号码");
+            String message = LocaleTool.tranMessage("player_auto", "玩家没有设置电话号码或未被激活");
             resMap.put("msg",message);
             resMap.put("state",false);
             return resMap;
