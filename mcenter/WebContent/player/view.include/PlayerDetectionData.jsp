@@ -54,9 +54,11 @@
                         </c:if>
                     </c:otherwise>
                 </c:choose>
-                <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${command.result.id}">
+                <c:if test="${electric_pin.paramValue==true && command.result.mobilePhoneWayStatus =='11'}">
+                <soul:button target="callPlayer" text="${messages.player_auto['拨打电话']}" opType="function" playerId="${command.result.id}">
                     <img src="${resRoot}/images/call.png" width="15" height="15">
                 </soul:button>
+                </c:if>
                 <c:set var="phoneCount" value="${empty repeatNum['mobile'] ? 0 : repeatNum['mobile']}"></c:set>
                 <span class="co-gray pull-right">
                     <c:if test="${phoneCount>0}">${views.player_auto['相同']} <a class="co-red" href="/player/list.html?search.mobilePhone=${command.result.mobilePhone}&search.hasReturn=true" nav-target="mainFrame">${phoneCount}</a> ${views.player_auto['位']}</c:if>
