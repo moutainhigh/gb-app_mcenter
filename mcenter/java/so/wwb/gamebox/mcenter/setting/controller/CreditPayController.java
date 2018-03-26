@@ -93,13 +93,15 @@ public class CreditPayController {
             model.addAttribute("profit", sysSiteCredit.getMaxProfit());
         }
         model.addAttribute("creditLine", sysSiteCredit.getCreditLine());
-        model.addAttribute("defaultProfit", sysSiteCredit.getDefaultProfit()/10000);
+        double defaultProfit = sysSiteCredit.getDefaultProfit()== null ? 0d :sysSiteCredit.getDefaultProfit();
+        model.addAttribute("defaultProfit", defaultProfit/10000);
         double transferOutSum = sysSiteCredit.getTransferOutSum() == null ? 0 : sysSiteCredit.getTransferOutSum();
         double transferIntoSum = sysSiteCredit.getTransferIntoSum() == null ? 0 : sysSiteCredit.getTransferIntoSum();
         //转入api余额扣除（转出到api金额-转入到钱包余额）
         model.addAttribute("transferLimit", transferOutSum - transferIntoSum);
         model.addAttribute("currentTransferLimit", sysSiteCredit.getCurrentTransferLimit());
-        model.addAttribute("defaultTransferLimit", sysSiteCredit.getDefaultTransferLimit()/10000);
+        double defaultTransferLimit = sysSiteCredit.getDefaultTransferLimit()== null ? 0d :sysSiteCredit.getDefaultTransferLimit();
+        model.addAttribute("defaultTransferLimit", defaultTransferLimit/10000);
         Date profitTime = sysSiteCredit.getProfitTime();
         Date transferTime = sysSiteCredit.getTransferLimitTime();
         if (profitTime != null || transferTime != null) { //如果时间为空就说明还没有提醒无需显示倒计时
