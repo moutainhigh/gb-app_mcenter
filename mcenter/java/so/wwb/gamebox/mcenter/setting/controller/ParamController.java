@@ -21,6 +21,7 @@ import org.soul.model.msg.notice.enums.NoticePublishMethod;
 import org.soul.model.msg.notice.po.NoticeEmailInterface;
 import org.soul.model.msg.notice.vo.NoticeEmailInterfaceVo;
 import org.soul.model.msg.notice.vo.NoticeVo;
+import org.soul.model.sms_interface.po.SmsInterface;
 import org.soul.model.sms_interface.vo.SmsInterfaceListVo;
 import org.soul.model.sms_interface.vo.SmsInterfaceVo;
 import org.soul.model.sys.po.SysDict;
@@ -594,7 +595,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         //查询多语言站点名称
         setVerificationData(model);
         setEmailInterface(model);
-        getSmsInterface(model);
+        getSmsInterface(model);//短信参数设置
         //获取客服信息
         model.addAttribute("pcCustomerService", SiteCustomerServiceHelper.getDefaultCustomerService());
         model.addAttribute("mobileCustomerService", SiteCustomerServiceHelper.getMobileCustomerService());
@@ -640,6 +641,19 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     }
 
     private void getSmsInterface(Model model) {
+        SysParam smsSwitch = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_SMS_SWITCH);
+        model.addAttribute("smsSwitch", smsSwitch);
+
+        SysParam phone = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION);
+        model.addAttribute("phoneParam", phone);
+
+        Map<String, SmsInterface> smsMap = Cache.getCommonSmsInterfaces();
+        model.addAttribute("smsInterfaceSize", smsMap.size());
+
+        getSmsInterfaceMessage(model);
+    }
+
+    public void getSmsInterfaceMessage(Model model) {
         SmsInterfaceVo smsInterfaceVo = new SmsInterfaceVo();
         smsInterfaceVo._setDataSourceId(SessionManager.getSiteId());
         smsInterfaceVo = ServiceTool.smsInterfaceService().search(smsInterfaceVo);
@@ -1299,6 +1313,26 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         ParamTool.refresh(SiteParamEnum.WARMING_TONE_WARM);
         ParamTool.refresh(SiteParamEnum.WARMING_TONE_NOTICE);
         return  map;
+    }
+
+    /**
+     * 设置短信接口
+     * @param model
+     * @return
+     */
+    @RequestMapping("/editSmsInterface")
+    public String editSmsInterface(Model model){
+        getSmsInterfaceMessage(model);
+        return  "/setting/param/siteparameters/EditSmsInterface";
+    }
+
+    public String saveSmsInterfaceParam(SiteParamVo siteParamVo){
+/*        List<SysParam> sysParamList1 = new ArrayList<>();
+        sysParamList1.add(siteConfineAreaVo.getPhoneParam());
+        sysParamList1.add(siteConfineAreaVo.getMailParam());
+        mapper.batchUpdateOnly(sysParamList1, SysParam.PROP_PARAM_VALUE, SysParam.PROP_ACTIVE);*/
+//        ServiceTool.sysParamService().
+        return null;
     }
     //endregion your codes 3
 }
