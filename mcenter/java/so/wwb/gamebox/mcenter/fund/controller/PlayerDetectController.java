@@ -10,6 +10,7 @@ import org.soul.commons.net.ServletTool;
 import org.soul.commons.security.CryptoTool;
 import org.soul.commons.security.key.CryptoKey;
 import org.soul.model.sys.po.SysAuditLog;
+import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.so.SysAuditLogSo;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.session.RedisSessionDao;
@@ -25,6 +26,8 @@ import so.wwb.gamebox.mcenter.player.form.VUserPlayerSearchForm;
 import so.wwb.gamebox.mcenter.share.controller.ShareController;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ModuleType;
+import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.enums.CommonStatusEnum;
 import so.wwb.gamebox.model.master.fund.enums.TransactionTypeEnum;
@@ -100,6 +103,8 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
     @RequestMapping("/userPlayView")
     public String userPlayView(VUserPlayerVo objVo, Model model, HttpServletRequest request) {
         VUserPlayerSo so = objVo.getSearch();
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         if (StringTool.isBlank(so.getUsername())) {
             objVo = new VUserPlayerVo();
         } else {
