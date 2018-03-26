@@ -154,7 +154,7 @@
                                                                  value="${activityMessageI18ns['1'][siteLang.value.language].activityName}">
                                     </div>
                                 </div>
-                                <div class="clearfix m-t-md" id="secondary${index.index}">
+                                <div class="clearfix m-t-md" id="main${index.index}">
                                     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
                                     <div class="col-sm-5">
                                         <div class="form-group m-b-sm">
@@ -185,7 +185,7 @@
                                 </div>
 
                                     <%--附图--%>
-                                <div class="clearfix m-t-md" id="main${index.index}">
+                                <div class="clearfix m-t-md" id="secondary${index.index}">
                                     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.affiliated']}：</label>
                                     <div class="col-sm-5">
                                         <div class="form-group m-b-sm">
@@ -237,7 +237,7 @@
                             <c:forEach var="siteLang" items="${languageList}" varStatus="index">
                                 <li class=" ${index.index+length==length?'active':''}">
                                     <a id="a_${index.index+length}" data-toggle="tab" href="#tab${index.index+length}"
-                                       aria-expanded="${index.index+length==0?'true':'false'}">
+                                       aria-expanded="false">
                                             ${fn:substringBefore(dicts.common.language[siteLang.value.language], '#')}11111
                                         <span class="_editStatus${index.index+length}">
                                             <c:choose>
@@ -274,7 +274,9 @@
                                                                  value="${activityMessageI18ns['2'][siteLang.value.language].activityName}">
                                     </div>
                                 </div>
-                                <div class="clearfix m-t-md" id="secondary${index.index+length}">
+
+                                <%--主图--%>
+                                <div class="clearfix m-t-md" id="main${index.index+length}">
                                     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
                                     <div class="col-sm-5">
                                         <div class="form-group m-b-sm">
@@ -301,6 +303,37 @@
                                                  style="display: none;width: 100%;height: auto;"/>
                                         </div>
                                         <div>${views.operation['Activity.step.message13']}</div>
+                                    </div>
+                                </div>
+
+                                <%--附图--%>
+                                <div class="clearfix m-t-md" id="secondary${index.index}" style="display: none">
+                                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.affiliated']}：</label>
+                                    <div class="col-sm-5">
+                                        <div class="form-group m-b-sm">
+                                            <div id="activityAffiliatedImage${index.index}">
+                                                <c:if test="${not empty activityMessageI18ns['1'][siteLang.value.language].activityAffiliated}">
+                                                    <img id="cc_${index.index}"
+                                                         src="${soulFn:getThumbPath(domain, activityMessageI18ns['1'][siteLang.value.language].activityAffiliated,0,0)}"
+                                                         class="logo-size-h100"
+                                                         style="margin: 10px 0; width: auto;height: 130px;"/>
+                                                </c:if>
+                                            </div>
+                                            <input id="" bbb="${index.index}" class="file file2"
+                                                   type="file"
+                                                   target="activityMessageI18ns[${index.index}].activityAffiliated"
+                                                   accept="image/*" name="activityAffiliated">
+                                            <input type="hidden" class="activityAffiliated" bbb="${index.index}"
+                                                   name="activityMessageI18ns[${index.index}].activityAffiliated"
+                                                   value="${activityMessageI18ns['1'][siteLang.value.language].activityAffiliated}">
+                                            <input type="hidden"
+                                                   value="${activityMessageI18ns['1'][siteLang.value.language].activityAffiliated}">
+                                        </div>
+                                        <div id="activityAffiliatedImg${index.index}">
+                                            <img id="dd_${index.index}" src=""
+                                                 style="display: none;width:100%;height: auto;"/>
+                                        </div>
+                                        <div>${views.operation['Activity.step.message2']}</div>
                                     </div>
                                 </div>
 
