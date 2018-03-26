@@ -1376,13 +1376,16 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         return  "/setting/param/siteparameters/EditSmsInterface";
     }
 
-    public String saveSmsInterfaceParam(SiteParamVo siteParamVo){
-/*        List<SysParam> sysParamList1 = new ArrayList<>();
-        sysParamList1.add(siteConfineAreaVo.getPhoneParam());
-        sysParamList1.add(siteConfineAreaVo.getMailParam());
-        mapper.batchUpdateOnly(sysParamList1, SysParam.PROP_PARAM_VALUE, SysParam.PROP_ACTIVE);*/
-//        ServiceTool.sysParamService().
-        return null;
+    /**
+     * 保存短信开关
+     * @param siteParamVo
+     * @return
+     */
+    @RequestMapping("/saveSmsInterfaceParam")
+    public Map saveSmsInterfaceParam(SiteParamVo siteParamVo){
+        siteParamVo._setDataSourceId(SessionManager.getSiteId());
+        ServiceSiteTool.siteSysParamService().saveSmsInterfaceParam(siteParamVo);
+        return getVoMessage(siteParamVo);
     }
     //endregion your codes 3
 }

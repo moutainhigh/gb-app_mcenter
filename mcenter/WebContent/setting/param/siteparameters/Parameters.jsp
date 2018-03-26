@@ -56,6 +56,7 @@
                                 <ul class="content clearfix" style="padding-top: 10px">
                                     <c:if test="${smsInterfaceSize>0}">
                                         <div class="clearfix m-b" style="border-bottom: 1px solid #dfdfdf;">
+                                            <input name="smsSwitch.id" type="hidden" value="${smsSwitch.id}">
                                             <input id="smsSwitch" name="smsSwitch.active" type="hidden" value="">
                                             <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">短信开关：</div>
                                             <div class="col-xs-8" style="line-height: 30px;">
@@ -75,6 +76,7 @@
 
                                         <div class="clearfix m-b ${smsSwitch.active?"":"hidden"} _smsSwitchIsShow">
                                             <input id="phoneParam" name="phoneParam.active" type="hidden" value="">
+                                            <input name="phoneParam.id" type="hidden" value="${phoneParam.id}">
                                             <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
                                                 手机验证：
                                             </div>
