@@ -51,7 +51,87 @@
                                 </div>
                             </div>
 
-                            <div id="smsInterface" class="col-lg-6 site-switch">
+                            <div id="smsSetting" class="col-lg-6 site-switch">
+                                <h3>${views.setting_auto['短信参数设置']}</h3>
+                                <ul class="content clearfix" style="padding-top: 10px">
+                                    <c:if test="${smsInterfaceSize>0}">
+                                        <div class="clearfix m-b" style="border-bottom: 1px solid #dfdfdf;">
+                                            <input name="smsSwitch.id" type="hidden" value="${smsSwitch.id}">
+                                            <input id="smsSwitch" name="smsSwitch.active" type="hidden" value="${smsSwitch.active}">
+                                            <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">短信开关：</div>
+                                            <div class="col-xs-8" style="line-height: 30px;">
+                                                <input type="checkbox" class="_switch" name="sms-switch" data-size="mini" ${smsSwitch.active?"checked":""}>
+                                                <c:choose>
+                                                    <c:when test="${smsSwitch.active==true}">
+                                                        <span class="smsTips0"><soul:button target="${root}/param/editSmsInterface.html" text="设置短信接口" opType="dialog"/></span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span class="smsTips0">您还未接入短信接口，请<a href='javascript:'>联系客服</a>进行设置</span>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <span class="smsTips1 hidden">您还未接入短信接口，请<a href='javascript:'>联系客服</a>进行设置</span>
+                                                <span class="smsTips2 hidden"><soul:button target="${root}/param/editSmsInterface.html" text="设置短信接口" opType="dialog"/></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
+                                            <input name="phoneParam.id" type="hidden" value="${phoneParam.id}">
+                                            <input id="phoneParam" name="phoneParam.active" type="hidden" value="${phoneParam.active}">
+                                            <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                                                手机验证：
+                                            </div>
+                                            <div class="col-xs-5">
+                                                    <%--暂时隐藏，当开启手机验证时开启--%>
+                                                <input type="checkbox" class="_switch" name="sms-checkbox" typeName="phoneParam" data-size="mini" ${phoneParam.active?"checked":""}>
+                                                    <%--暂时隐藏，当开启手机验证时开启--%>
+                                                <span id="isShowphoneParam" ${phoneParam.active?"":"hidden"}>
+                                                    <label  class="m-r-sm"><input type="radio" class="i-checks" name="phoneParam.paramValue" value="before" ${phoneParam.paramValue=="before"?"checked":""}> ${views.setting['PlayerReg.before']}</label>
+                                                    <span tabindex="0" class=" help-popover" role="button" data-container="body"
+                                                          data-toggle="popover" data-trigger="focus" data-placement="top"
+                                                          data-content="${views.setting['PlayerReg.help.phone.befor']}">
+                                                        <i class="fa fa-question-circle"></i>
+                                                    </span>
+                                                    <label class="m-r-sm m-l-xs">
+                                                        <input type="radio" class="i-checks" value="after" ${phoneParam.paramValue=="after"?"checked":""} name="phoneParam.paramValue">
+                                                         ${views.setting['PlayerReg.after']}
+                                                    </label>
+                                                    <span tabindex="0" class=" help-popover" role="button" data-container="body"
+                                                          data-toggle="popover" data-trigger="focus" data-placement="top"
+                                                          data-content="${views.setting['PlayerReg.help.phone.last']}">
+                                                        <i class="fa fa-question-circle"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
+                                            <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                                                找回密码：
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <input type="checkbox" class="_switch" name="" data-size="mini">
+                                            </div>
+                                        </div>
+                                        <div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
+                                            <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                                                短信模板：
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <input type="checkbox" class="_switch" name="" data-size="mini">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
+                                                         opType="ajax"
+                                                         dataType="json"
+                                                         target="${root}/param/saveSmsInterfaceParam.html"
+                                                         precall="validSmsInterfaceParam"
+                                                         post="getSmsInterfaceParamDateForm" callback="saveCallbak"/>
+                                        </div>
+                                    </c:if>
+                                </ul>
+                            </div>
+
+                            <%--<div id="smsInterface" class="col-lg-6 site-switch">
                                 <h3>${views.setting_auto['短信接口设置']}</h3>
                                 <ul class="content clearfix" style="padding-top: 10px">
                                     <div class="clearfix m-b">
@@ -63,15 +143,6 @@
                                                        list="${interfaceListVo}" listKey="id" listValue="fullName"/>
                                         </div>
                                     </div>
-                                        <%--<div class="clearfix m-b">
-                                            <div class="ft-bold pull-left line-hi34"
-                                                 style="width: 100px;text-align: right;">
-                                                    ${views.setting_auto['请求接口地址']}：
-                                            </div>
-                                            <div class="col-xs-5"><input type="text" name="sms.requestUrl"
-                                                                         value="${smsInterfaceVo.result.requestUrl}"
-                                                                         class="form-control"></div>
-                                        </div>--%>
                                     <div class="clearfix m-b">
                                         <div class="ft-bold pull-left line-hi34"
                                              style="width: 100px;text-align: right;">
@@ -105,15 +176,9 @@
                                                      target="${root}/smsInterface/saveSmsInterface.html"
                                                      precall="validSmsInterface"
                                                      post="getSmsInterfaceDateForm" callback="saveCallbak"/>
-                                            <%--<soul:button cssClass="btn btn-filter" text="查询余额"
-                                                         opType="ajax"
-                                                         dataType="json"
-                                                         target="${root}/smsInterface/searchBalance.html"
-                                                        />--%>
                                     </div>
-
                                 </ul>
-                            </div>
+                            </div>--%>
                         </div>
                         <div class="clearfix">
                             <div id="pcCustomService" class="col-lg-6 site-switch">
@@ -300,7 +365,14 @@
                                                    style='float:left;margin-top: 10px'> ${views.setting_auto['电销开关']}：</label>
                                             <input type="checkbox" name="electric_pin" objId="${qrSwitch.id}"
                                                 ${electric_pin.paramValue =="true" ?'checked':''} />
-                                            <label>${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>
+                                            <label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>
+                                        </div>
+                                        <div style="padding-top: 10px">
+                                            <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
+                                                    ${views.setting_auto['是否加密']}：</label>
+                                            <input type="checkbox" name="encryption_switch" objId="${qrSwitch.id}"
+                                                ${encryption_switch.paramValue =="true" ?'checked':''} />
+                                            <label class="m-r-md ">${views.setting_auto['您拨打的电话号码是否加密']}</label>
                                         </div>
                                     </div>
                                 </div>

@@ -111,10 +111,12 @@
                     <%--${gbFn:riskImgById(id)}--%>
                     <%--{{:_gbFn_riskImgById_id}}aaa--%>
                         {{:_views_riskDataType}}
-                    {{if mobilePhone != null && mobilePhone != '' }}
-                        <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="{{:id}}">
+                    {{if mobilePhone != null && mobilePhone != '' && mobilePhoneWayStatus=='11'}}
+                     <c:if test="${electric_pin.paramValue==true}">
+                        <soul:button target="callPlayer" text="${messages.player_auto['拨打电话']}" opType="function" playerId="{{:id}}">
                             <img src="${resRoot}/images/call.png" width="15" height="15">
                         </soul:button>
+                    </c:if>
                     {{/if}}
 
                     </td>

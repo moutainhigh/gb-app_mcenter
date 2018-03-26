@@ -240,7 +240,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
         model.addAttribute("tagIds",listVo.getSearch().getTagId());
-
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         //获得字典中的风控标识列表
         Map<String, SysDict> riskDicts = DictTool.get(DictEnum.PLAYER_RISK_DATA_TYPE);
         model.addAttribute("riskDicts", riskDicts);
@@ -955,6 +956,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         userPlayerVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
         userPlayerVo = ServiceSiteTool.userPlayerService().get(userPlayerVo);
         getRisk2Set(userPlayerVo);
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         model.addAttribute("riskDataType", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskDataType():null);
         model.addAttribute("riskSet", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskSet():null);
 
@@ -1151,6 +1154,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         vUserPlayerVo = doView(vUserPlayerVo, model);
         model.addAttribute("unencryption", SessionManager.checkPrivilegeStatus());
         model.addAttribute("command", vUserPlayerVo);
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         return "/player/view.include/PlayerPersonalData";
     }
 
@@ -2901,6 +2906,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("command", userPlayerVo);
         baseInfoRepeatNum(model, userPlayerVo.getResult());
         model.addAttribute("unencryption", SessionManager.checkPrivilegeStatus());
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         return "/player/view.include/PlayerDetectionData";
     }
 
@@ -3447,24 +3454,26 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             resMap.put("state",false);
             return resMap;
         }
+        String extNo = SessionManager.getUser().getIdcard();
+        if(StringTool.isBlank(extNo)){
+            String message = LocaleTool.tranMessage("player_auto", "no_extNo_error");
+            resMap.put("msg",message);
+            resMap.put("state",false);
+            return resMap;
+        }
         Map phoneMap = getService().queryPlayerPhoneMessage(sysUserVo);
 
         String phoneNumber = MapTool.getString(phoneMap,"phoneNumber");
 
         if(StringTool.isBlank(phoneNumber)){
-            String message = LocaleTool.tranMessage("player_auto", "玩家没有设置电话号码");
+            String message = LocaleTool.tranMessage("player_auto", "玩家没有设置电话号码或未被激活");
             resMap.put("msg",message);
             resMap.put("state",false);
             return resMap;
         }
-        String extNo = SessionManager.getUser().getIdcard();
-        if(StringTool.isBlank(extNo)){
-            String message = LocaleTool.tranMessage("player_auto", "您没有相关电话配置");
-            resMap.put("msg",message);
-            resMap.put("state",false);
-            return resMap;
-        }
-        String url = "http://47.52.0.17:8089/atstar/index.php/status-op";
+
+//        String url = "http://47.52.0.17:8089/atstar/index.php/status-op";
+        String url = "http://3rd.game.api.com/phone-api/atstar/index.php/status-op";
         if(StringTool.isBlank(url)){
             String message = LocaleTool.tranMessage("player_auto", "您的系统还未配置电销系统");
             resMap.put("msg",message);
@@ -3478,9 +3487,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         map.put("ext_no",extNo);
         HttpClientParam param = getHttpClientParam(url, map);
         String resultString = HttpClientTool.sync(param, String.class);
-        LOG.info("账号{2}从分机号{3}请求拔打电话{1}返回结算串：{0}",resultString,phoneNumber,userId.toString(),extNo);
+        LOG.info("账号{2}从分机号{3}往{4}请求拔打电话{1}返回结算串：{0}",resultString,phoneNumber,userId.toString(),extNo,url);
         resMap.put("resultCode",resultString);
-
+        /*resMap.put("extNo",extNo);
+        resMap.put("phoneNumber",phoneNumber);*/
         return resMap;
     }
 
