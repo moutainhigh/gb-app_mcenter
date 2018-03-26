@@ -22,6 +22,10 @@ import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.IpTool;
 import org.soul.commons.net.ServletTool;
+import org.soul.commons.net.http.HttpClientParam;
+import org.soul.commons.net.http.HttpClientTool;
+import org.soul.commons.net.http.HttpContentType;
+import org.soul.commons.net.http.HttpRequestMethod;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.Paging;
 import org.soul.commons.query.enums.Operator;
@@ -40,7 +44,10 @@ import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.log.audit.vo.BaseLog;
 import org.soul.model.log.audit.vo.LogVo;
 import org.soul.model.msg.notice.po.VNoticeSendText;
-import org.soul.model.msg.notice.vo.*;
+import org.soul.model.msg.notice.vo.NoticeLocaleTmpl;
+import org.soul.model.msg.notice.vo.NoticeVo;
+import org.soul.model.msg.notice.vo.VNoticeReceivedTextVo;
+import org.soul.model.msg.notice.vo.VNoticeSendTextListVo;
 import org.soul.model.security.privilege.po.SysUser;
 import org.soul.model.security.privilege.po.SysUserStatus;
 import org.soul.model.security.privilege.vo.SysUserProtectionVo;
@@ -3357,7 +3364,21 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 //        }
 //        setRisk
 //        setRiskSet(oldUserPlayerVo);
-        BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS", userPlayerVo.getResult().getId(), SessionManager.getUserName(), oldRisk, risk);
+
+        //空改成有
+        if(StringTool.isBlank(oldRisk) && StringTool.isNotBlank(risk)){
+            BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS_NULL2", userPlayerVo.getResult().getId(), SessionManager.getUserName(), risk);
+        }
+        //有改成空
+        else if (StringTool.isBlank(risk)&& StringTool.isNotBlank(oldRisk)){
+            BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS_2NULL", userPlayerVo.getResult().getId(), SessionManager.getUserName(), oldRisk);
+        }
+        //修改为其他
+        else if (StringTool.isNotBlank(risk)&& StringTool.isNotBlank(oldRisk)){
+            BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS", userPlayerVo.getResult().getId(), SessionManager.getUserName(), oldRisk, risk);
+        }else{
+            return;
+        }
     }
 
 
@@ -3418,22 +3439,60 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     @ResponseBody
     public Map fetchPlayerPhoneNumber(SysUserVo sysUserVo){
         Map resMap = new HashMap(3,1f);
+        resMap.put("state",true);
         Integer userId = sysUserVo.getSearch().getId();
         if(userId == null){
+            String message = LocaleTool.tranMessage("player_auto", "玩家没有设置电话号码");
+            resMap.put("msg",message);
             resMap.put("state",false);
             return resMap;
         }
-        resMap = getService().queryPlayerPhoneMessage(sysUserVo);
-        //TODO 获取本站点的呼叫中心地址 如果是缓存，从这里设置，如果取表，在service设置
-        /** soulButton使用主法，只需要传和玩家ID
-         * <soul:button target="callPlayer" text="拔打电话" opType="function" playerId="${command.result.id}">
-         <i class="fa fa-flash"></i>
-         </soul:button>
-         */
+        Map phoneMap = getService().queryPlayerPhoneMessage(sysUserVo);
 
-        resMap.put("domain","http://47.52.0.17:8089/atstar/index.php/status-op");
-        resMap.put("zxNo",SessionManager.getUser().getIdcard());
+        String phoneNumber = MapTool.getString(phoneMap,"phoneNumber");
+
+        if(StringTool.isBlank(phoneNumber)){
+            String message = LocaleTool.tranMessage("player_auto", "玩家没有设置电话号码");
+            resMap.put("msg",message);
+            resMap.put("state",false);
+            return resMap;
+        }
+        String extNo = SessionManager.getUser().getIdcard();
+        if(StringTool.isBlank(extNo)){
+            String message = LocaleTool.tranMessage("player_auto", "您没有相关电话配置");
+            resMap.put("msg",message);
+            resMap.put("state",false);
+            return resMap;
+        }
+//        String url = "http://47.52.0.17:8089/atstar/index.php/status-op";
+        String url = "http://3rd.game.api.com/phone-api/atstar/index.php/status-op";
+        if(StringTool.isBlank(url)){
+            String message = LocaleTool.tranMessage("player_auto", "您的系统还未配置电销系统");
+            resMap.put("msg",message);
+            resMap.put("state",false);
+            return resMap;
+        }
+
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("op", "dialv2");
+        map.put("dia_num", phoneNumber);
+        map.put("ext_no",extNo);
+        HttpClientParam param = getHttpClientParam(url, map);
+        String resultString = HttpClientTool.sync(param, String.class);
+        LOG.info("账号{2}从分机号{3}往{4}请求拔打电话{1}返回结算串：{0}",resultString,phoneNumber,userId.toString(),extNo,url);
+        resMap.put("resultCode",resultString);
+        /*resMap.put("extNo",extNo);
+        resMap.put("phoneNumber",phoneNumber);*/
         return resMap;
+    }
+
+
+    private HttpClientParam getHttpClientParam(String url, Map<String, Object> map) {
+        HttpClientParam param = new HttpClientParam(url);
+        param.setParams(map);
+        param.setMethod(HttpRequestMethod.POST);
+        param.setReqContentType(HttpContentType.FORM);
+        return param;
     }
 
     //endregion
