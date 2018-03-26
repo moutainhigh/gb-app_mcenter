@@ -1403,9 +1403,12 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
      * @return
      */
     @RequestMapping("/saveSmsInterfaceParam")
+    @ResponseBody
     public Map saveSmsInterfaceParam(SiteParamVo siteParamVo){
         siteParamVo._setDataSourceId(SessionManager.getSiteId());
         ServiceSiteTool.siteSysParamService().saveSmsInterfaceParam(siteParamVo);
+        ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_SMS_SWITCH);
+        ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION);
         return getVoMessage(siteParamVo);
     }
     //endregion your codes 3
