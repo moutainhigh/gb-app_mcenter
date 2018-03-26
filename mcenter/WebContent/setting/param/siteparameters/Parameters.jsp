@@ -62,7 +62,7 @@
                                             <div class="col-xs-8" style="line-height: 30px;">
                                                 <input type="checkbox" class="_switch" name="sms-switch" data-size="mini" ${smsSwitch.active?"checked":""}>
                                                 <c:choose>
-                                                    <c:when test="${smsSwitch.active!=null}">
+                                                    <c:when test="${smsSwitch.active==true}">
                                                         <span class="smsTips0"><soul:button target="${root}/param/editSmsInterface.html" text="设置短信接口" opType="dialog"/></span>
                                                     </c:when>
                                                     <c:otherwise>
@@ -74,7 +74,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="clearfix m-b ${smsSwitch.active?"":"hidden"} _smsSwitchIsShow">
+                                        <div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
                                             <input name="phoneParam.id" type="hidden" value="${phoneParam.id}">
                                             <input id="phoneParam" name="phoneParam.active" type="hidden" value="${phoneParam.active}">
                                             <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
@@ -103,7 +103,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="clearfix m-b _smsSwitchIsShow">
+                                        <div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
                                             <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
                                                 找回密码：
                                             </div>
@@ -111,7 +111,7 @@
                                                 <input type="checkbox" class="_switch" name="" data-size="mini">
                                             </div>
                                         </div>
-                                        <div class="clearfix m-b _smsSwitchIsShow">
+                                        <div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
                                             <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
                                                 短信模板：
                                             </div>
