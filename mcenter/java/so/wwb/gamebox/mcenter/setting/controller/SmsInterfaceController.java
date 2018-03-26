@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
-import so.wwb.gamebox.iservice.boss.sms_api.ISmsApi;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.SmsInterfaceForm;
 import so.wwb.gamebox.mcenter.setting.form.SmsInterfaceSearchForm;
@@ -39,6 +38,13 @@ public class SmsInterfaceController extends BaseCrudController<ISmsInterfaceServ
     }
 
     //region your codes 3
+
+    /**
+     * 保存短信接口配置
+     * @param smsInterfaceVo
+     * @param model
+     * @return
+     */
     @RequestMapping({"/saveSmsInterface"})
     @ResponseBody
     public Map saveSmsInterface(SmsInterfaceVo smsInterfaceVo,Model model){
@@ -56,6 +62,10 @@ public class SmsInterfaceController extends BaseCrudController<ISmsInterfaceServ
         return getVoMessage(smsInterfaceVo);
     }
 
+    /**
+     * 暂未使用
+     * @return
+     */
     @RequestMapping("/searchBalance")
     @ResponseBody
     public String searchBalance(){
