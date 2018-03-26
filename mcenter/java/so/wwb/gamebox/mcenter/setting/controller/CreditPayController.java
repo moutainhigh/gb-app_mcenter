@@ -377,14 +377,14 @@ public class CreditPayController {
     }
     @RequestMapping(value = "disableTransfer")
     @ResponseBody
-    public Map disableTransfer(SysSiteVo sysSiteVo){
+    public Map disableTransfer(SysSiteCreditVo sysSiteCreditVo){
         Map resMap = new HashedMap(2,1f);
         try{
             Integer siteId = SessionManager.getSiteId();
-            sysSiteVo.getSearch().setId(siteId);
-            sysSiteVo = ServiceTool.sysSiteService().openDisableTransfer(sysSiteVo);
-            resMap.put("state",sysSiteVo.isSuccess());
-            if(!sysSiteVo.isSuccess()){
+            sysSiteCreditVo.getSearch().setId(siteId);
+            sysSiteCreditVo = ServiceTool.sysSiteCreditService().openDisableTransfer(sysSiteCreditVo);
+            resMap.put("state",sysSiteCreditVo.isSuccess());
+            if(!sysSiteCreditVo.isSuccess()){
                 resMap.put("msg","开启禁用转账功能失败");
             }
         }catch (Exception ex){
