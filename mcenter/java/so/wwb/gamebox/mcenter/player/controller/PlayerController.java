@@ -3447,16 +3447,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             resMap.put("state",false);
             return resMap;
         }
-        Map phoneMap = getService().queryPlayerPhoneMessage(sysUserVo);
-
-        String phoneNumber = MapTool.getString(phoneMap,"phoneNumber");
-
-        if(StringTool.isBlank(phoneNumber)){
-            String message = LocaleTool.tranMessage("player_auto", "玩家没有设置电话号码");
-            resMap.put("msg",message);
-            resMap.put("state",false);
-            return resMap;
-        }
         String extNo = SessionManager.getUser().getIdcard();
         if(StringTool.isBlank(extNo)){
             String message = LocaleTool.tranMessage("player_auto", "您没有相关电话配置");
@@ -3464,6 +3454,17 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             resMap.put("state",false);
             return resMap;
         }
+        Map phoneMap = getService().queryPlayerPhoneMessage(sysUserVo);
+
+        String phoneNumber = MapTool.getString(phoneMap,"phoneNumber");
+
+        if(StringTool.isBlank(phoneNumber)){
+            String message = LocaleTool.tranMessage("player_auto", "玩家没有设置电话号码或未被激活");
+            resMap.put("msg",message);
+            resMap.put("state",false);
+            return resMap;
+        }
+
 //        String url = "http://47.52.0.17:8089/atstar/index.php/status-op";
         String url = "http://3rd.game.api.com/phone-api/atstar/index.php/status-op";
         if(StringTool.isBlank(url)){
