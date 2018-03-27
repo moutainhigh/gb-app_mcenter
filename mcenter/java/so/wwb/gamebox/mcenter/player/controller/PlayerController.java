@@ -3464,6 +3464,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         Map phoneMap = getService().queryPlayerPhoneMessage(sysUserVo);
 
         String phoneNumber = MapTool.getString(phoneMap,"phoneNumber");
+        String op = MapTool.getString(phoneMap,"op");
 
         if(StringTool.isBlank(phoneNumber)){
             String message = LocaleTool.tranMessage("player_auto", "玩家没有设置电话号码或未被激活");
@@ -3482,7 +3483,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
 
         Map<String, Object> map = new LinkedHashMap<>();
-        map.put("op", "dialv2");
+        map.put("op", op);
         map.put("dia_num", phoneNumber);
         map.put("ext_no",extNo);
         HttpClientParam param = getHttpClientParam(url, map);

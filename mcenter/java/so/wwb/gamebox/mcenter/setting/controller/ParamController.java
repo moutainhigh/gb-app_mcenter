@@ -680,6 +680,9 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam phone = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION);
         model.addAttribute("phoneParam", phone);
 
+        SysParam recoverPassword = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_RECOVER_PASSWORD);
+        model.addAttribute("recoverPasswordParam", recoverPassword);
+
         Map<String, SmsInterface> smsMap = Cache.getCommonSmsInterfaces();
         model.addAttribute("smsInterfaceSize", smsMap.size());
 
@@ -1409,6 +1412,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         ServiceSiteTool.siteSysParamService().saveSmsInterfaceParam(siteParamVo);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_SMS_SWITCH);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION);
+        ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_RECOVER_PASSWORD);
         return getVoMessage(siteParamVo);
     }
     //endregion your codes 3

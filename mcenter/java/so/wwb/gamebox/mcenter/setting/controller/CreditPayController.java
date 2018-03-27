@@ -93,13 +93,15 @@ public class CreditPayController {
             model.addAttribute("profit", sysSiteCredit.getMaxProfit());
         }
         model.addAttribute("creditLine", sysSiteCredit.getCreditLine());
-        model.addAttribute("defaultProfit", sysSiteCredit.getDefaultProfit()/10000);
+        double defaultProfit = sysSiteCredit.getDefaultProfit()== null ? 0d :sysSiteCredit.getDefaultProfit();
+        model.addAttribute("defaultProfit", defaultProfit/10000);
         double transferOutSum = sysSiteCredit.getTransferOutSum() == null ? 0 : sysSiteCredit.getTransferOutSum();
         double transferIntoSum = sysSiteCredit.getTransferIntoSum() == null ? 0 : sysSiteCredit.getTransferIntoSum();
         //转入api余额扣除（转出到api金额-转入到钱包余额）
         model.addAttribute("transferLimit", transferOutSum - transferIntoSum);
         model.addAttribute("currentTransferLimit", sysSiteCredit.getCurrentTransferLimit());
-        model.addAttribute("defaultTransferLimit", sysSiteCredit.getDefaultTransferLimit()/10000);
+        double defaultTransferLimit = sysSiteCredit.getDefaultTransferLimit()== null ? 0d :sysSiteCredit.getDefaultTransferLimit();
+        model.addAttribute("defaultTransferLimit", defaultTransferLimit/10000);
         Date profitTime = sysSiteCredit.getProfitTime();
         Date transferTime = sysSiteCredit.getTransferLimitTime();
         if (profitTime != null || transferTime != null) { //如果时间为空就说明还没有提醒无需显示倒计时
@@ -375,14 +377,14 @@ public class CreditPayController {
     }
     @RequestMapping(value = "disableTransfer")
     @ResponseBody
-    public Map disableTransfer(SysSiteVo sysSiteVo){
+    public Map disableTransfer(SysSiteCreditVo sysSiteCreditVo){
         Map resMap = new HashedMap(2,1f);
         try{
             Integer siteId = SessionManager.getSiteId();
-            sysSiteVo.getSearch().setId(siteId);
-            sysSiteVo = ServiceTool.sysSiteService().openDisableTransfer(sysSiteVo);
-            resMap.put("state",sysSiteVo.isSuccess());
-            if(!sysSiteVo.isSuccess()){
+            sysSiteCreditVo.getSearch().setId(siteId);
+            sysSiteCreditVo = ServiceTool.sysSiteCreditService().openDisableTransfer(sysSiteCreditVo);
+            resMap.put("state",sysSiteCreditVo.isSuccess());
+            if(!sysSiteCreditVo.isSuccess()){
                 resMap.put("msg","开启禁用转账功能失败");
             }
         }catch (Exception ex){
