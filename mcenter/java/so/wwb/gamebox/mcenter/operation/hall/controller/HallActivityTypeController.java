@@ -185,8 +185,14 @@ public class HallActivityTypeController extends HallActivityController<IActivity
 
         activityMessageVo = ServiceActivityTool.activityMessageService().get(activityMessageVo);
         List<ActivityMessageI18n> activityMessageI18ns = ServiceActivityTool.activityMessageI18nService().activityMessageI18ns(activityMessageVo);
+        Map<String, Map<String, ActivityMessageI18n>> activityMessageI18nsMap = new LinkedHashMap<>();
         if (activityMessageI18ns != null && activityMessageI18ns.size() > 0) {
-            Map activityMessageI18nsMap = CollectionTool.toEntityMap(activityMessageI18ns, ActivityMessageI18n.PROP_ACTIVITY_VERSION, String.class);
+            Map <String, List<ActivityMessageI18n>> groupByTerminal = CollectionTool.groupByProperty(activityMessageI18ns, ActivityMessageI18n.PROP_ACTIVITY_TERMINAL_TYPE, String.class);
+            for (String key : groupByTerminal.keySet()) {
+                LinkedHashMap<String, ActivityMessageI18n> map = (LinkedHashMap)CollectionTool.toEntityMap(groupByTerminal.get(key), ActivityMessageI18n.PROP_ACTIVITY_VERSION, String.class);
+                activityMessageI18nsMap.put(key, map);
+            }
+
             model.addAttribute("activityMessageI18ns", activityMessageI18nsMap);
         }
 
