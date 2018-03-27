@@ -88,16 +88,21 @@
                     <%--</div>--%>
                 <%--</div>--%>
             <%--</c:if>--%>
-            <div class="clearfix m-t-md" id="">
-                <label class="ft-bold col-sm-3 al-right line-hi34">领取方式:</label>
-                <div class="col-sm-5 input-group">
-                    <select name="search.isAudit"  class="btn-group chosen-select-no-single">
-                        <option value="" >${views.operation['Activity.step.isAudit']}</option>
-                        <option value="1" >${views.operation['前端申领']}</option>
-                        <option value="0" >${views.operation['系统自动']}</option>
-                    </select>
+            <c:if test="${activityType.result.code ne 'back_water'}">
+                <div class="clearfix m-t-md">
+                    <label class="ft-bold col-sm-3 al-right line-hi34">
+                    <span tabindex="0" class=" help-popover m-l-sm"
+                          role="button" data-container="body"
+                          data-toggle="popover" data-trigger="focus"
+                          data-placement="top" data-html="true" data-content="${views.operation['领取方式提示']}"
+                          data-original-title="" title=""><i
+                            class="fa fa-question-circle"></i></span> ${views.operation['领取方式']}：</label>
+
+                    <div class="col-sm-3 input-group">
+                        <gb:select name="activityRule.isAudit" value="${activityRule.isAudit}" list="{'true':'${views.operation['前端申领（审核）']}','false':'${views.operation['前端申领（免审）']}'}" prompt="${views.common['pleaseSelect']}"/>
+                    </div>
                 </div>
-            </div>
+            </c:if>
 
             <div class="clearfix m-t-md" id="">
                 <label class="ft-bold col-sm-3 al-right line-hi34">申领有效期:</label>
