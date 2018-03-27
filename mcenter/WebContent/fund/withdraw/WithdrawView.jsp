@@ -76,8 +76,10 @@
                             <td>
                                 <shiro:hasPermission name="role:player_detail">
                                     <a class="btn btn-link co-blue" id="showPlayerDetail" href="/player/playerView.html?search.id=${command.result.playerId}" nav-target="mainFrame">
+
                                 </shiro:hasPermission>
-                                 ${command.result.username}<shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
+                                 ${command.result.username}<shiro:hasPermission name="role:player_detail"></a>${gbFn:riskImgById(command.result.playerId)}&nbsp;&nbsp;</shiro:hasPermission>
+
                                 <c:if test="${command.result.withdrawStatus =='1'||command.result.withdrawStatus =='2'}">
                                     <soul:button target="${root}/fund/withdraw/detect.html?playerId=${command.result.playerId}" text="${views.fund_auto['检测']}" opType="dialog" cssClass="btn btn-info-hide">
                                         <i class="fa fa-search"></i>${views.fund_auto['检测']}
