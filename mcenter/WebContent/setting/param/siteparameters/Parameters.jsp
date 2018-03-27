@@ -108,7 +108,9 @@
                                                 找回密码：
                                             </div>
                                             <div class="col-xs-5">
-                                                <input type="checkbox" class="_switch" name="" data-size="mini">
+                                                    <input name="recoverPasswordParam.id" type="hidden" value="${recoverPasswordParam.id}">
+                                                    <input id="recoverPasswordParam" name="recoverPasswordParam.active" type="hidden" value="${recoverPasswordParam.active}">
+                                                    <input type="checkbox" class="_switch recoverPasswordParam" data-size="mini" ${recoverPasswordParam.active?"checked":""}>
                                             </div>
                                         </div>
                                         <div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
