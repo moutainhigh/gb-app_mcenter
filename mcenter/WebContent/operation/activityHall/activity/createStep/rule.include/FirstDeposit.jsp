@@ -8,19 +8,19 @@
     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.conditions']}：</label>
     <div class="col-sm-9" id="bb">
         <div class="tab-content table-responsive">
+            <label>
+                <input id="percentageHandsel" type="radio" class="i-checks" name="ｍosaicGold" value="true" checked="checked">${views.operation['Activity.step.proportion']}
+            </label>
+            <label>
+                <input id="regularHandsel" type="radio" class="i-checks" name="ｍosaicGold" value="false">${views.operation['Activity.step.fixed']}${siteCurrency}
+            </label>
             <table class="table border" id="first_deposit">
                 <tr>
-                    <td colspan="5">
-                        <input id="percentageHandsel" type="radio" class="i-checks" name="ｍosaicGold" value="true" checked="checked">${views.operation['Activity.step.proportion']}
-                        <input id="regularHandsel" type="radio" class="i-checks" name="ｍosaicGold" value="false">${views.operation['Activity.step.fixed']}${siteCurrency}
-                    </td>
-
-                </tr>
-                <tr>
                     <td class="bg-gray ft-bold">${views.operation['Activity.step.depositAmount']}${siteCurrency}</td>
-                    <td class="bg-gray ft-bold"></td>
-                    <td class="bg-gray ft-bold"></td>
+                    <td class="bg-gray ft-bold fd_percentageHandsel_column">${views.operation['Activity.step.proportion']}</td>
+                    <td class="bg-gray ft-bold fd_regularHandsel_column">${views.operation['Activity.step.fixed']}</td>
                     <td class="bg-gray ft-bold">${views.operation['Activity.step.audit']}<span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-html="true" data-trigger="focus" data-placement="top" data-content=" ${views.operation['Activity.step.message9']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span></td>
+                    <td class="bg-gray ft-bold">${views.operation['操作']}</td>
                 </tr>
                 <c:forEach items="${activitypreferentialList}" var="f" varStatus="status">
                     <tr class="fd">
@@ -31,13 +31,13 @@
                                 <span class="input-group-addon">${views.operation['Activity.step.more']}</span>
                             </div>
                         </td>
-                        <td>
+                        <td class="fd_percentageHandsel_column">
                             <div class="content-width-limit-10 input-group">
                                 <input type="text" class="form-control fd_percentageHandsel" value="${f.preferential_form eq 'percentage_handsel'?f.preferential_val:''}" name="percentageHandsel[${status.index}].preferentialValue" data-name="percentageHandsel[{n}].preferentialValue" >
                                 <span class="input-group-addon">%</span>
                             </div>
                         </td>
-                        <td>
+                        <td class="fd_regularHandsel_column">
                             <div class="content-width-limit-10 input-group">
                                 <span class="input-group-addon">${views.operation['Activity.step.send']}</span>
                                 <input type="text" disabled="disabled" class="form-control fd_regularHandsel" value="${f.preferential_form eq 'regular_handsel'?f.preferential_val:''}" name="regularHandsel[${status.index}].preferentialValue" data-name="regularHandsel[{n}].preferentialValue">
@@ -61,12 +61,12 @@
                                 <span class="input-group-addon">${views.operation['Activity.step.more']}</span>
                             </div>
                         </td>
-                        <td>
+                        <td class="fd_percentageHandsel_column">
                             <div class="content-width-limit-10 input-group">
                                 <input type="text" class="form-control fd_percentageHandsel" name="percentageHandsel[0].preferentialValue" data-name="percentageHandsel[{n}].preferentialValue" >
                                 <span class="input-group-addon">%</span>
                             </div></td>
-                        <td>
+                        <td class="fd_regularHandsel_column">
                             <div class="content-width-limit-10 input-group">
                                 <span class="input-group-addon">${views.operation['Activity.step.send']}</span>
                                 <input type="text" disabled="disabled" class="form-control fd_regularHandsel" placeholder="" name="regularHandsel[0].preferentialValue" data-name="regularHandsel[{n}].preferentialValue">
