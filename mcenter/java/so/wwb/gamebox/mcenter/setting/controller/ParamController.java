@@ -641,6 +641,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam sysParamQrSwitch= ParamTool.getSysParam(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
         SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
         SysParam encryption = ParamTool.getSysParam(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
+        SysParam stationmaster = ParamTool.getSysParam(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
+        model.addAttribute("player_stationmaster",stationmaster);
         model.addAttribute("encryption_switch",encryption);
         model.addAttribute("qrSwitch",sysParamQrSwitch);
         model.addAttribute("electric_pin",telemarketing);
@@ -1364,6 +1366,25 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
             ServiceTool.getSysParamService().updateOnly(sysParamVo);
             ParamTool.refresh(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
+            map.put("state",true);
+        }
+        return  map;
+    }
+    /***
+     * 玩家联系站长
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/playerStationMaster")
+    @ResponseBody
+    public  Map playerStationMaster(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
+        if (sysParam!=null) {
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            ParamTool.refresh(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
             map.put("state",true);
         }
         return  map;

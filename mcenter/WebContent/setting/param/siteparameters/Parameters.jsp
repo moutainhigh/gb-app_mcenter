@@ -375,9 +375,18 @@
                                             <shiro:hasPermission name="system:electricpin_switch ">
                                             <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
                                                     ${views.setting_auto['是否加密']}：</label>
-                                            <input type="checkbox" name="encryption_switch" objId="${qrSwitch.id}"
+                                            <input type="checkbox" name="encryption_switch"
                                                 ${encryption_switch.paramValue =="true" ?'checked':''} />
                                             <label class="m-r-md ">${views.setting_auto['您拨打的电话号码是否加密']}</label>
+                                            </shiro:hasPermission>
+                                        </div>
+                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric" style="padding-top: 10px">
+                                            <shiro:hasPermission name="system:electricpin_switch ">
+                                                <label class="ft-bold pull-left m-r"
+                                                       style='float:left;margin-top: 10px'> ${views.setting_auto['联系站长']}：</label>
+                                                <input type="checkbox" name="player_stationmaster"
+                                                    ${player_stationmaster.paramValue =="true" ?'checked':''} />
+                                                <label class="m-r-md ">${views.setting_auto['是否允许玩家联系站长']}</label>
                                             </shiro:hasPermission>
                                         </div>
                                     </div>
