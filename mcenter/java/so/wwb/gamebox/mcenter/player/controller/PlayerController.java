@@ -98,6 +98,7 @@ import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.company.site.po.SiteCurrency;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
+import so.wwb.gamebox.model.company.siteTelemarketing.po.SiteTelemarketing;
 import so.wwb.gamebox.model.company.vo.BankListVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.listop.FilterRow;
@@ -3444,10 +3445,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
     @RequestMapping(value = "/fetchPlayerPhoneNumber")
     @ResponseBody
-    public Map fetchPlayerPhoneNumber(SysUserVo sysUserVo){
-        Map resMap = new HashMap(3,1f);
+    public Map fetchPlayerPhoneNumber(VUserPlayerVo userPlayerVo){
+        Map resMap = new HashMap(5,1f);
         resMap.put("state",true);
-        Integer userId = sysUserVo.getSearch().getId();
+        Integer userId = userPlayerVo.getSearch().getId();
         if(userId == null){
             String message = LocaleTool.tranMessage("player_auto", "玩家没有设置电话号码");
             resMap.put("msg",message);
@@ -3461,9 +3462,22 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             resMap.put("state",false);
             return resMap;
         }
-        Map phoneMap = getService().queryPlayerPhoneMessage(sysUserVo);
-
-        String phoneNumber = MapTool.getString(phoneMap,"phoneNumber");
+        Cache.refreshSiteTelemarketing();
+        String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManager.getSiteId());
+        if(StringTool.isBlank(phoneUrl)){
+            String message = LocaleTool.tranMessage("player_auto", "您的系统还未配置电销系统");
+            resMap.put("msg",message);
+            resMap.put("state",false);
+            return resMap;
+        }
+        userPlayerVo.setPhoneServerUrl(phoneUrl);
+        SysUser sysUser = new SysUser();
+        sysUser.setId(userId);
+        sysUser.setIdcard(extNo);
+        userPlayerVo.setSysUser(sysUser);
+        Map phoneMap = getService().queryPlayerPhoneMessage(userPlayerVo);
+        resMap.putAll(phoneMap);
+        /*String phoneNumber = MapTool.getString(phoneMap,"phoneNumber");
         String op = MapTool.getString(phoneMap,"op");
 
         if(StringTool.isBlank(phoneNumber)){
@@ -3475,12 +3489,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
 //        String url = "http://47.52.0.17:8089/atstar/index.php/status-op";
         String url = "http://3rd.game.api.com/phone-api/atstar/index.php/status-op";
-        if(StringTool.isBlank(url)){
-            String message = LocaleTool.tranMessage("player_auto", "您的系统还未配置电销系统");
-            resMap.put("msg",message);
-            resMap.put("state",false);
-            return resMap;
-        }
+
 
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("op", op);
@@ -3489,20 +3498,13 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         HttpClientParam param = getHttpClientParam(url, map);
         String resultString = HttpClientTool.sync(param, String.class);
         LOG.info("账号{2}从分机号{3}往{4}请求拔打电话{1}返回结算串：{0}",resultString,phoneNumber,userId.toString(),extNo,url);
-        resMap.put("resultCode",resultString);
+        resMap.put("resultCode",resultString);*/
         /*resMap.put("extNo",extNo);
         resMap.put("phoneNumber",phoneNumber);*/
         return resMap;
     }
 
 
-    private HttpClientParam getHttpClientParam(String url, Map<String, Object> map) {
-        HttpClientParam param = new HttpClientParam(url);
-        param.setParams(map);
-        param.setMethod(HttpRequestMethod.POST);
-        param.setReqContentType(HttpContentType.FORM);
-        return param;
-    }
 
     //endregion
 }
