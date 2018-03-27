@@ -9,14 +9,18 @@
                 <%--<soul:button target="basicSettingIndex" text="${views.setting['setting.parameter.basic']}" opType="function"></soul:button>--%>
         </li>
     </shiro:hasPermission>
+    <shiro:hasPermission name="system:frontend_setting">
     <li id="li_top_2" class="<c:if test="${'4'.equals(webtype)}">active</c:if>">
         <a href="/param/frontEnd.html" nav-target="mainFrame">${views.setting['setting.parameter.front']}</a>
         <%--<soul:button target="basicSettingIndex" text="${views.setting['setting.parameter.basic']}" opType="function"></soul:button>--%>
     </li>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="system:frontend_setting">
     <li id="li_top_3" class="<c:if test="${'5'.equals(webtype)}">active</c:if>">
         <a href="/param/parameterSetting.html" nav-target="mainFrame">${views.setting['setting.parameter.Parameter.setting']}</a>
         <%--<soul:button target="basicSettingIndex" text="${views.setting['setting.parameter.basic']}" opType="function"></soul:button>--%>
     </li>
+    </shiro:hasPermission>
     <shiro:hasPermission name="system:siteparam_preference">
         <li id="li_top_4" class="<c:if test="${'2'.equals(webtype)}">active</c:if>">
             <a href="/setting/preference/index.html" nav-target="mainFrame">${views.setting['setting.parameter.preference']}</a>

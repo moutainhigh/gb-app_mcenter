@@ -361,18 +361,22 @@
                                 <div class="content clearfix" style="padding-top: 10px">
                                     <div class="clearfix m-b">
                                         <div style="padding-top: 10px">
+                                            <shiro:hasPermission name="system:electricpin_switch ">
                                             <label class="ft-bold pull-left m-r"
                                                    style='float:left;margin-top: 10px'> ${views.setting_auto['电销开关']}：</label>
                                             <input type="checkbox" name="electric_pin" objId="${qrSwitch.id}"
                                                 ${electric_pin.paramValue =="true" ?'checked':''} />
                                             <label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>
+                                            </shiro:hasPermission>
                                         </div>
-                                        <div style="padding-top: 10px">
+                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric" style="padding-top: 10px" >
+                                            <shiro:hasPermission name="system:electricpin_switch ">
                                             <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
                                                     ${views.setting_auto['是否加密']}：</label>
                                             <input type="checkbox" name="encryption_switch" objId="${qrSwitch.id}"
                                                 ${encryption_switch.paramValue =="true" ?'checked':''} />
                                             <label class="m-r-md ">${views.setting_auto['您拨打的电话号码是否加密']}</label>
+                                            </shiro:hasPermission>
                                         </div>
                                     </div>
                                 </div>
