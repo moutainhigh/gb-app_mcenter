@@ -3438,42 +3438,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
     }
 
-    @RequestMapping(value = "/fetchPlayerPhoneNumber")
-    @ResponseBody
-    public Map fetchPlayerPhoneNumber(VUserPlayerVo userPlayerVo){
-        Map resMap = new HashMap(5,1f);
-        resMap.put("state",true);
-        Integer userId = userPlayerVo.getSearch().getId();
-        if(userId == null){
-            String message = LocaleTool.tranMessage("player_auto", "玩家没有设置电话号码");
-            resMap.put("msg",message);
-            resMap.put("state",false);
-            return resMap;
-        }
-        String extNo = SessionManager.getUser().getIdcard();
-        if(StringTool.isBlank(extNo)){
-            String message = LocaleTool.tranMessage("player_auto", "no_extNo_error");
-            resMap.put("msg",message);
-            resMap.put("state",false);
-            return resMap;
-        }
-        Cache.refreshSiteTelemarketing();
-        String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManager.getSiteId());
-        if(StringTool.isBlank(phoneUrl)){
-            String message = LocaleTool.tranMessage("player_auto", "您的系统还未配置电销系统");
-            resMap.put("msg",message);
-            resMap.put("state",false);
-            return resMap;
-        }
-        userPlayerVo.setPhoneServerUrl(phoneUrl);
-        SysUser sysUser = new SysUser();
-        sysUser.setId(userId);
-        sysUser.setIdcard(extNo);
-        userPlayerVo.setSysUser(sysUser);
-        Map phoneMap = getService().doPhoneCall(userPlayerVo);
-        resMap.putAll(phoneMap);
-        return resMap;
-    }
+
 
 
 
