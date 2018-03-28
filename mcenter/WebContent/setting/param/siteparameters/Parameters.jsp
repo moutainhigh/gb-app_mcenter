@@ -381,7 +381,8 @@
                                             <%--<label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>--%>
                                             </shiro:hasPermission>
                                         </div>
-                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric" style="padding-top: 10px" >
+                                        <h3>${views.setting_auto['电销功能开关']}电销功能开关:</h3>
+                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md "  >
                                             <shiro:hasPermission name="system:electricpin_switch ">
                                             <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
                                                     ${views.setting_auto['是否加密']}：</label>
@@ -391,7 +392,7 @@
                                             </shiro:hasPermission>
                                         </div>
 
-                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric" style="padding-top: 10px">
+                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px">
                                             <shiro:hasPermission name="system:electricpin_switch ">
                                                 <label class="ft-bold pull-left m-r"
                                                        style='margin-top: 10px'> ${views.setting_auto['前端回call']}：</label>
@@ -400,7 +401,7 @@
                                                 <label class="m-r-md ">${views.setting_auto['启用后需设置坐席号方可使用']}</label>
                                             </shiro:hasPermission>
                                         </div>
-                                        <div id="phone" class="${electric_pin.paramValue?"":"hidden"} _swElectric" style="padding-top: 10px" >
+                                        <div id="phone" class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px" >
                                                 <shiro:hasPermission name="system:electricpin_switch ">
                                                     <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
                                                             ${views.setting_auto['坐席号设置']}：</label>
