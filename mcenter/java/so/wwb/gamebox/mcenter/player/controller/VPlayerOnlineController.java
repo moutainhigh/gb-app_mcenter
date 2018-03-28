@@ -6,6 +6,7 @@ import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.net.IpTool;
 import org.soul.model.session.SessionKey;
+import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.session.RedisSessionDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import so.wwb.gamebox.iservice.master.player.IVPlayerOnlineService;
 import so.wwb.gamebox.mcenter.player.form.VPlayerOnlineForm;
 import so.wwb.gamebox.mcenter.player.form.VPlayerOnlineSearchForm;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.player.po.VPlayerOnline;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
@@ -72,7 +75,8 @@ public class VPlayerOnlineController extends BaseCrudController<IVPlayerOnlineSe
         model.addAttribute("userType",map);
         model.addAttribute("channelTerminal", terminal);
         model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
-
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         for (int i = 0; i < list.size(); i++) {
             Long hours = DateTool.hoursBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime());
             Long minutes = DateTool.minutesBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime()) - hours * 60;
