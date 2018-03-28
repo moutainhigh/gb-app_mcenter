@@ -643,7 +643,9 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
         SysParam encryption = ParamTool.getSysParam(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
         SysParam stationmaster = ParamTool.getSysParam(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
+        SysParam phoneNumber = ParamTool.getSysParam(SiteParamEnum.EXTENSION_NUMBER_SETTING);
         String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManagerCommon.getSiteId());
+        model.addAttribute("poone_number",phoneNumber);
         model.addAttribute("phone_url",phoneUrl);
         model.addAttribute("player_stationmaster",stationmaster);
         model.addAttribute("encryption_switch",encryption);
@@ -1388,6 +1390,25 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
             ServiceTool.getSysParamService().updateOnly(sysParamVo);
             ParamTool.refresh(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
+            map.put("state",true);
+        }
+        return  map;
+    }
+    /***
+     * 设置分机号码
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/savePhone")
+    @ResponseBody
+    public  Map savePhone(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.EXTENSION_NUMBER_SETTING);
+        if (sysParam!=null) {
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            ParamTool.refresh(SiteParamEnum.EXTENSION_NUMBER_SETTING);
             map.put("state",true);
         }
         return  map;
