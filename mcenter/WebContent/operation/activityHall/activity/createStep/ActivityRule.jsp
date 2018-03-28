@@ -28,7 +28,7 @@
                 <li class="col-sm-3 col-xs-12 p-x"><a href="javascript:void(0)"><span class="no">4</span><span class="con">${views.operation['Activity.finish']}</span></a></li>
             </ul>
             <%@include file="rule.include/ActivityType.jsp" %>
-            <c:if test="${activityType.result.code eq 'first_deposit'}"><%--首存一存二存三存申领周期--%>
+            <c:if test="${activityType.result.code eq 'first_deposit' || activityType.result.code eq 'second_deposit' || activityType.result.code eq 'third_deposit'}"><%--首存一存二存三存申领周期--%>
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>
                     <div class="col-sm-5">
@@ -119,7 +119,7 @@
             <c:if test="${activityType.result.code eq 'back_water'}">
                 <%@ include file="rule.include/BackWater.jsp" %>
             </c:if>
-            <c:if test="${activityType.result.code eq 'first_deposit'|| activityType.result.code eq 'deposit_send'}">
+            <c:if test="${activityType.result.code eq 'first_deposit'|| activityType.result.code eq 'deposit_send' || activityType.result.code eq 'second_deposit' || activityType.result.code eq 'third_deposit'|| activityType.result.code eq 'everyday_first_deposit'}">
                 <%@ include file="rule.include/FirstDeposit.jsp" %>
             </c:if>
             <c:if test="${activityType.result.code eq 'regist_send'}">
@@ -138,7 +138,7 @@
                 <%@ include file="rule.include/Money.jsp" %>
             </c:if>
 
-            <c:if test="${activityType.result.code eq 'first_deposit' || activityType.result.code eq 'deposit_send'}">
+            <c:if test="${activityType.result.code eq 'first_deposit' || activityType.result.code eq 'deposit_send' || activityType.result.code eq 'second_deposit' || activityType.result.code eq 'third_deposit'|| activityType.result.code eq 'everyday_first_deposit'}">
                 <div class="clearfix m-t-md" id="preferentialAmountLimit">
                     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.preferentialAmountLimit']}${siteCurrency}：</label>
                     <div class="col-sm-5 input-group">
