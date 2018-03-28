@@ -46,6 +46,15 @@
                     <shiro:hasPermission name="role:player_detail"><a href="/player/playerView.html?search.id=${s.playerId}" nav-target="mainFrame"></shiro:hasPermission>
                     ${s.username}
                     <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
+                    <c:if test="${not empty s.mobilePhone && s.mobilePhoneWayStatus == '11'}">
+
+                        <c:if test="${electric_pin.paramValue==true}">
+                            <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${s.playerId}">
+                                <img src="${resRoot}/images/call.png" width="15" height="15">
+                            </soul:button>
+                        </c:if>
+
+                    </c:if>
                 </td>
                 <td>
 
