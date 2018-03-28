@@ -19,7 +19,7 @@
         <div class="wrapper white-bg shadow">
             <%@include file="rule.include/ActivityStepTitle.jsp" %>
             <%@include file="rule.include/ActivityType.jsp" %>
-            <div class="clearfix m-t-sm line-hi34">
+            <div class="clearfix m-t-sm line-hi34" style="display: none;">
                 <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.isDisplay']}：</label>
                 <div class="col-sm-5">
                     <c:if test="${activityType.result.code ne 'money'}">
@@ -42,6 +42,36 @@
                     </c:if>
                 </div>
             </div>
+
+
+            <c:if test="${activityType.result.code eq 'money'}">
+                <div class="clearfix m-t-sm line-hi34" style="display: none;">
+                    <label class="ft-bold col-sm-3 al-right">浮窗PC端展示：</label>
+                    <div class="col-sm-5">
+                            <label><input type="radio" value="true" name="activityMessage.isDisplay"
+                                          class="i-checks" ${(empty activityMessageVo.result || activityMessageVo.result.isDisplay) eq 'true'? "checked":""}>${views.operation['Activity.step.isDisplay.true']}
+                            </label>
+                            <label><input type="radio" value="false" name="activityMessage.isDisplay"
+                                          class="i-checks" ${activityMessageVo.result.isDisplay eq 'false'? "checked":""}>${views.operation['Activity.step.isDisplay.false']}
+                            </label>
+
+                    </div>
+                </div>
+
+                <div class="clearfix m-t-sm line-hi34" style="display: none;">
+                    <label class="ft-bold col-sm-3 al-right">浮窗手机端展示：</label>
+                    <div class="col-sm-5">
+                        <label><input type="radio" value="true" name="activityMessage.isDisplay"
+                                      class="i-checks" ${(empty activityMessageVo.result || activityMessageVo.result.isDisplay) eq 'true'? "checked":""}>${views.operation['Activity.step.isDisplay.true']}
+                        </label>
+                        <label><input type="radio" value="false" name="activityMessage.isDisplay"
+                                      class="i-checks" ${activityMessageVo.result.isDisplay eq 'false'? "checked":""}>${views.operation['Activity.step.isDisplay.false']}
+                        </label>
+
+                    </div>
+                </div>
+            </c:if>
+
             <%--红包首页浮层弹窗--%>
             <c:if test="${activityType.result.code eq 'money'}">
                 <div class="clearfix m-t-sm">
@@ -105,7 +135,7 @@
             <div class="clearfix m-t-sm line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.isDisplay']}：</label>
                 <div class="col-sm-5">
-                    <a class="btn btn-filter" id="pc-terminal" href="javascript:void(0)">PC端</a>
+                    <a class="btn btn-filter disabled" id="pc-terminal" href="javascript:void(0)">PC端</a>
                     <a class="btn btn-filter" id="mb-terminal" href="javascript:void(0)">手机端</a>
                 </div>
             </div>
@@ -238,7 +268,7 @@
                                 <li class=" ${index.index+length==length?'active':''}">
                                     <a id="a_${index.index+length}" data-toggle="tab" href="#tab${index.index+length}"
                                        aria-expanded="false">
-                                            ${fn:substringBefore(dicts.common.language[siteLang.value.language], '#')}11111
+                                            ${fn:substringBefore(dicts.common.language[siteLang.value.language], '#')}mobile
                                         <span class="_editStatus${index.index+length}">
                                             <c:choose>
                                                 <c:when test="${(not empty activityMessageI18ns['2'][siteLang.value.language].activityCover) and (not empty activityMessageI18ns['2'][siteLang.value.language].activityName) and (not empty activityMessageI18ns['2'][siteLang.value.language].activityDescription)}">
@@ -307,35 +337,35 @@
                                 </div>
 
                                 <%--附图--%>
-                                <div class="clearfix m-t-md" id="secondary${index.index}" style="display: none">
+                                <%--<div class="clearfix m-t-md" id="secondary${index.index+length}" style="display: none">
                                     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.affiliated']}：</label>
                                     <div class="col-sm-5">
                                         <div class="form-group m-b-sm">
-                                            <div id="activityAffiliatedImage${index.index}">
+                                            <div id="activityAffiliatedImage${index.index+length}">
                                                 <c:if test="${not empty activityMessageI18ns['1'][siteLang.value.language].activityAffiliated}">
-                                                    <img id="cc_${index.index}"
+                                                    <img id="cc_${index.index+length}"
                                                          src="${soulFn:getThumbPath(domain, activityMessageI18ns['1'][siteLang.value.language].activityAffiliated,0,0)}"
                                                          class="logo-size-h100"
                                                          style="margin: 10px 0; width: auto;height: 130px;"/>
                                                 </c:if>
                                             </div>
-                                            <input id="" bbb="${index.index}" class="file file2"
+                                            <input id="" bbb="${index.index+length}" class="file file2"
                                                    type="file"
-                                                   target="activityMessageI18ns[${index.index}].activityAffiliated"
+                                                   target="activityMessageI18ns[${index.index+length}].activityAffiliated"
                                                    accept="image/*" name="activityAffiliated">
-                                            <input type="hidden" class="activityAffiliated" bbb="${index.index}"
-                                                   name="activityMessageI18ns[${index.index}].activityAffiliated"
+                                            <input type="hidden" class="activityAffiliated" bbb="${index.index+length}"
+                                                   name="activityMessageI18ns[${index.index+length}].activityAffiliated"
                                                    value="${activityMessageI18ns['1'][siteLang.value.language].activityAffiliated}">
                                             <input type="hidden"
                                                    value="${activityMessageI18ns['1'][siteLang.value.language].activityAffiliated}">
                                         </div>
-                                        <div id="activityAffiliatedImg${index.index}">
-                                            <img id="dd_${index.index}" src=""
+                                        <div id="activityAffiliatedImg${index.index+length}">
+                                            <img id="dd_${index.index+length}" src=""
                                                  style="display: none;width:100%;height: auto;"/>
                                         </div>
                                         <div>${views.operation['Activity.step.message2']}</div>
                                     </div>
-                                </div>
+                                </div>--%>
 
                                 <div class="clearfix m-t-md">
                                     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityDescription']}：</label>

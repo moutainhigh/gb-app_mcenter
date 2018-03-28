@@ -89,7 +89,7 @@
                                 <span class="co-gray">${p.activityState eq "draft"?views.common['continueEditing']:views.common['edit']}</span>
                             </c:when>
                             <c:otherwise>
-                                <a href="/operation/activityType/activityEdit.html?search.id=${p.id}&states=${p.states}" nav-target="mainFrame">${(p.activityState eq "draft")?views.common['continueEditing']:views.common['edit']}</a>
+                                <a href="/activityHall/activityType/activityEdit.html?search.id=${p.id}&states=${p.states}" nav-target="mainFrame">${(p.activityState eq "draft")?views.common['continueEditing']:views.common['edit']}</a>
                             </c:otherwise>
                         </c:choose>
                     </shiro:hasPermission>
