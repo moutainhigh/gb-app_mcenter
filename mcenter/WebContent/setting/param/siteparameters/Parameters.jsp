@@ -379,9 +379,10 @@
                                                     <input type="checkbox" name="electric_pin"
                                                         ${electric_pin.paramValue =="true" ?'checked':''} />
                                             <%--<label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>--%>
+                                                <h3>${views.setting_auto['电销功能开关']}电销功能开关:</h3>
                                             </shiro:hasPermission>
                                         </div>
-                                        <h3>${views.setting_auto['电销功能开关']}电销功能开关:</h3>
+
                                         <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md "  >
                                             <shiro:hasPermission name="system:electricpin_switch ">
                                             <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
