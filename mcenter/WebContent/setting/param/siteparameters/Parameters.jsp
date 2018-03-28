@@ -413,7 +413,7 @@
                                                                  target="${root}/param/savePhone.html"
                                                                  confirm="${views.common['confirm.modify']}"
                                                                  post="getPhoneNumber"
-                                                                 callback="saveCallbak"/>
+                                                                 callback="save"/>
                                                 </shiro:hasPermission>
                                         </div>
                                 </div>
