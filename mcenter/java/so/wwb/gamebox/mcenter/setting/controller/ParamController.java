@@ -66,6 +66,7 @@ import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.setting.po.FieldSort;
 import so.wwb.gamebox.model.master.setting.po.GradientTemp;
 import so.wwb.gamebox.model.master.setting.vo.PlayerItemMessage;
+import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.SiteCustomerServiceHelper;
 
@@ -642,6 +643,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
         SysParam encryption = ParamTool.getSysParam(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
         SysParam stationmaster = ParamTool.getSysParam(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
+        String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManagerCommon.getSiteId());
+        model.addAttribute("phone_url",phoneUrl);
         model.addAttribute("player_stationmaster",stationmaster);
         model.addAttribute("encryption_switch",encryption);
         model.addAttribute("qrSwitch",sysParamQrSwitch);

@@ -361,14 +361,24 @@
                             <div id="accessDomains" class="col-lg-6 site-switch">
                                 <h3>${views.setting_auto['电销参数设置']}</h3>
                                 <div class="content clearfix" style="padding-top: 10px">
+                                    <c:if test="${ empty phone_url}">
+                                        <div class="clearfix m-b">
+                                    <div style="padding-top: 10px">
+                                            <label class="ft-bold pull-left m-r-xl"
+                                                   style='float:left;margin-top: 10px'> ${views.setting_auto['电销开关']}： ${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>
+                                            <label class="m-r-md "></label>
+                                        <div class="clearfix m-b">
+                                    </div>
+                                    </c:if>
+                                <c:if test="${not empty phone_url}">
                                     <div class="clearfix m-b">
                                         <div style="padding-top: 10px">
                                             <shiro:hasPermission name="system:electricpin_switch ">
                                             <label class="ft-bold pull-left m-r"
                                                    style='float:left;margin-top: 10px'> ${views.setting_auto['电销开关']}：</label>
-                                            <input type="checkbox" name="electric_pin" objId="${qrSwitch.id}"
-                                                ${electric_pin.paramValue =="true" ?'checked':''} />
-                                            <label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>
+                                                    <input type="checkbox" name="electric_pin"
+                                                        ${electric_pin.paramValue =="true" ?'checked':''} />
+                                            <%--<label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>--%>
                                             </shiro:hasPermission>
                                         </div>
                                         <div class="${electric_pin.paramValue?"":"hidden"} _swElectric" style="padding-top: 10px" >
@@ -391,6 +401,7 @@
                                         </div>
                                     </div>
                                 </div>
+                              </c:if>
                             </div>
                         </div>
                     </div>
