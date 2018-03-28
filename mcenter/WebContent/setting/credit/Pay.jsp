@@ -175,7 +175,7 @@
                         </div>
                         <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 limit-tips">
                             <ul>
-                                <li>1、系统默认每月赠送${soulFn:formatCurrency(defaultProfit)}万额度,转账额度${defaultTransferLimit}万；
+                                <li>1、系统默认每月赠送买分额度${soulFn:formatCurrency(defaultProfit)}万,转账额度${defaultTransferLimit}万；
                                 </li>
                             ${views.setting['credit.creditPay.help']}
                             </ul>
