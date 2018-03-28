@@ -45,27 +45,27 @@
 
 
             <c:if test="${activityType.result.code eq 'money'}">
-                <div class="clearfix m-t-sm line-hi34" style="display: none;">
-                    <label class="ft-bold col-sm-3 al-right">浮窗PC端展示：</label>
+                <div class="clearfix m-t-sm line-hi34">
+                    <label class="ft-bold col-sm-3 al-right">${views.operation['浮窗PC端展示']}</label>
                     <div class="col-sm-5">
-                            <label><input type="radio" value="true" name="activityMessage.isDisplay"
-                                          class="i-checks" ${(empty activityMessageVo.result || activityMessageVo.result.isDisplay) eq 'true'? "checked":""}>${views.operation['Activity.step.isDisplay.true']}
+                            <label><input type="radio" value="true" name="activityMessage.floatPicShowInPc"
+                                          class="i-checks" ${(empty activityMessageVo.result || activityMessageVo.result.floatPicShowInPc) eq 'true'? "checked":""}>${views.operation['Activity.step.isDisplay.true']}
                             </label>
-                            <label><input type="radio" value="false" name="activityMessage.isDisplay"
-                                          class="i-checks" ${activityMessageVo.result.isDisplay eq 'false'? "checked":""}>${views.operation['Activity.step.isDisplay.false']}
+                            <label><input type="radio" value="false" name="activityMessage.floatPicShowInPc"
+                                          class="i-checks" ${activityMessageVo.result.floatPicShowInPc eq 'false'? "checked":""}>${views.operation['Activity.step.isDisplay.false']}
                             </label>
 
                     </div>
                 </div>
 
-                <div class="clearfix m-t-sm line-hi34" style="display: none;">
-                    <label class="ft-bold col-sm-3 al-right">浮窗手机端展示：</label>
+                <div class="clearfix m-t-sm line-hi34">
+                    <label class="ft-bold col-sm-3 al-right">${views.operation['浮窗手机端展示']}</label>
                     <div class="col-sm-5">
-                        <label><input type="radio" value="true" name="activityMessage.isDisplay"
-                                      class="i-checks" ${(empty activityMessageVo.result || activityMessageVo.result.isDisplay) eq 'true'? "checked":""}>${views.operation['Activity.step.isDisplay.true']}
+                        <label><input type="radio" value="true" name="activityMessage.floatPicShowInMobile"
+                                      class="i-checks" ${(empty activityMessageVo.result || activityMessageVo.result.floatPicShowInMobile) eq 'true'? "checked":""}>${views.operation['Activity.step.isDisplay.true']}
                         </label>
-                        <label><input type="radio" value="false" name="activityMessage.isDisplay"
-                                      class="i-checks" ${activityMessageVo.result.isDisplay eq 'false'? "checked":""}>${views.operation['Activity.step.isDisplay.false']}
+                        <label><input type="radio" value="false" name="activityMessage.floatPicShowInMobile"
+                                      class="i-checks" ${activityMessageVo.result.floatPicShowInMobile eq 'false'? "checked":""}>${views.operation['Activity.step.isDisplay.false']}
                         </label>
 
                     </div>
@@ -140,7 +140,7 @@
                 </div>
             </div>
             <%--语言版本--%>
-            <div class="pc">
+            <div class="pc terminal">
                 <div class="form-group clearfix">
                     <div class="clearfix save lgg-version lang_label">
                         <ul class="nav nav-tabs">
@@ -259,7 +259,7 @@
                 </div>
             </div>
             <c:set var="length" value="${languageList.size()}"></c:set>
-            <div class="mb" style="display: none;">
+            <div class="mb terminal" style="display: none;">
                 <div class="form-group clearfix">
                     <div class="clearfix save lgg-version lang_label">
                         <ul class="nav nav-tabs">
