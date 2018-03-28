@@ -143,12 +143,9 @@
 
                             <div class="clearfix m-t-md">
                                 <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
-                                <div class="col-sm-5" id="previewActivityCoverImg${index.index}"></div>
-                            </div>
-
-                            <div class="clearfix m-t-md">
-                                <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityAffiliated']}：</label>
-                                <div class="col-sm-5" id="previewActivityAffiliatedImg${index.index}"></div>
+                                <div class="col-sm-5" id="previewActivityCoverImg${index.index}">
+                                    <img src="" alt="">
+                                </div>
                             </div>
 
                             <div class="clearfix m-t-md line-hi34">
@@ -166,12 +163,9 @@
 
                             <div class="clearfix m-t-md">
                                 <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
-                                <div class="col-sm-5" id="previewActivityCoverImg${index.index+length}"></div>
-                            </div>
-
-                            <div class="clearfix m-t-md">
-                                <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityAffiliated']}：</label>
-                                <div class="col-sm-5" id="previewActivityAffiliatedImg${index.index+length}"></div>
+                                <div class="col-sm-5" id="previewActivityCoverImg${index.index+length}">
+                                    <img src="" alt="">
+                                </div>
                             </div>
 
                             <div class="clearfix m-t-md line-hi34">
