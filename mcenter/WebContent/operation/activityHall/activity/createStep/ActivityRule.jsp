@@ -13,7 +13,7 @@
         <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
         <span>${views.sysResource['运营']}</span>
         <span>/</span>
-        <span>${views.sysResource['活动管理']}</span>
+        <span>${views.sysResource['活动大厅']}</span>
         <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         <soul:button target="goToLastPage" refresh="false" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
             <em class="fa fa-caret-left"></em>${views.common['return']}
@@ -28,6 +28,17 @@
                 <li class="col-sm-3 col-xs-12 p-x"><a href="javascript:void(0)"><span class="no">4</span><span class="con">${views.operation['Activity.finish']}</span></a></li>
             </ul>
             <%@include file="rule.include/ActivityType.jsp" %>
+            <c:if test="${activityType.result.code eq 'first_deposit'}"><%--首存一存二存三存申领周期--%>
+                <div class="clearfix m-t-md line-hi34">
+                    <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>
+                    <div class="col-sm-5">
+                        <span class="input-group pull-left line-hi25 m-r">
+                            <gb:select name="activityRule.claimPeriod" list="<%=DictTool.get(DictEnum.CLAIM_PERIOD)%>" prompt="${views.common['pleaseSelect']}" value="${activityRule.claimPeriod}"/>
+                        </span>
+                        <%--<span class="m-l co-grayc2">${views.operation['Activity.step.message4']}</span>--%>
+                    </div>
+                </div>
+            </c:if>
             <c:if test="${activityType.result.code eq 'effective_transaction' || activityType.result.code eq 'profit_loss'}">
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>
@@ -103,19 +114,6 @@
                     </div>
                 </div>
             </c:if>
-
-            <div class="clearfix m-t-md" id="">
-                <label class="ft-bold col-sm-3 al-right line-hi34">申领有效期:</label>
-                <div class="col-sm-5 input-group">
-                    <select name="search.isAudit"  class="btn-group chosen-select-no-single">
-                        <option value="" ></option>
-                        <option value="1" >1</option>
-                        <option value="2" >2</option>
-                    </select>
-                </div>
-            </div>
-
-
 
             <%--优惠条件--%>
             <c:if test="${activityType.result.code eq 'back_water'}">
@@ -224,7 +222,7 @@
                     </div>
                 </div>
             </c:if>
-            <c:if test="${activityType.result.code ne 'back_water'}">
+            <%--<c:if test="${activityType.result.code ne 'back_water'}">
                 <div class="clearfix m-t-md">
                     <label class="ft-bold col-sm-3 al-right line-hi34">
                     <span tabindex="0" class=" help-popover m-l-sm"
@@ -238,7 +236,7 @@
                         <gb:select name="activityRule.isAudit" value="${activityRule.isAudit}" list="{'true':'${views.operation['Activity.step.true']}','false':'${views.operation['Activity.step.false']}'}" prompt="${views.common['pleaseSelect']}"/>
                     </div>
 
-                    <%--<div class="clearfix m-t-md">
+                    &lt;%&ndash;<div class="clearfix m-t-md">
                         <label class="ft-bold col-sm-3 al-right line-hi34">
                             <span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-trigger="focus"
                               data-placement="top" data-html="true" data-content="否：玩家注册后，视为默认参与；<br/>是：玩家注册后，需手动申请参与；"
@@ -248,9 +246,9 @@
                         <div class="col-sm-3 input-group">
                             <gb:select name="activityRule.isNeedApply" value="${activityRule.isNeedApply}" list="{'true':'${views.operation['Activity.step.true']}','false':'${views.operation['Activity.step.false']}'}" prompt="${views.common['pleaseSelect']}"/>
                         </div>
-                    </div>--%>
+                    </div>&ndash;%&gt;
                 </div>
-            </c:if>
+            </c:if>--%>
             <div class="operate-btn">
                 <c:if test="${!(activityMessageVo.result.checkStatus eq '1' && (activityMessageVo.states eq 'processing' || activityMessageVo.states eq 'notStarted')) || activityMessageVo.result.checkStatus eq '2'}">
                     <soul:button callback="getActivityMessageId" precall="uploadFile" target="${root}/activityHall/activity/activityRuleDraft.html?activityState=draft" text="${views.operation['Activity.step.saveAndDraft']}" opType="ajax" cssClass="btn btn-filter btn-lg" post="getCurrentFormData"/>
