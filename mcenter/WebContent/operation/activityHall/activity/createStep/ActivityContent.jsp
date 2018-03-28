@@ -140,7 +140,7 @@
                 </div>
             </div>
             <%--语言版本--%>
-            <div class="pc">
+            <div class="pc terminal">
                 <div class="form-group clearfix">
                     <div class="clearfix save lgg-version lang_label">
                         <ul class="nav nav-tabs">
@@ -259,7 +259,7 @@
                 </div>
             </div>
             <c:set var="length" value="${languageList.size()}"></c:set>
-            <div class="mb" style="display: none;">
+            <div class="mb terminal" style="display: none;">
                 <div class="form-group clearfix">
                     <div class="clearfix save lgg-version lang_label">
                         <ul class="nav nav-tabs">
