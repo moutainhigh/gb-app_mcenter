@@ -137,7 +137,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
      * @return
      */
     @RequestMapping("/createNoticeTmpl")
-    @Token(generate = true)
+//    @Token(generate = true)
     public String createNoticeTmpl(Model model) {
         siteLang(model);
         model.addAttribute("reasonType", DictTool.get(DictEnum.NOTICE_REASON_TMPL_TYPE));
@@ -217,7 +217,7 @@ public class NoticeTmplController extends BaseCrudController<INoticeTmplService,
      */
     @RequestMapping("/saveNoticeTmpl")
     @ResponseBody
-    @Token(valid = true)
+//    @Token(valid = true)
     public Map saveNoticeTmpl(NoticeTmplVo vo, HttpServletRequest request) {
         vo.getSearch().setCreateUser(SessionManager.getUserId());
         vo = ServiceSiteTool.noticeTmplService().saveNoticeTmpl(vo);
