@@ -31,7 +31,7 @@
     </table>
 </c:if>
 <!--    首存送 存就送-->
-<c:if test="${activityType.result.code eq 'first_deposit' || activityType.result.code eq 'deposit_send'}">
+<c:if test="${ is123Deposit || activityType.result.code eq 'deposit_send'}">
     <table class="table  table-bordered" id="firstAndDeposit">
         <tr>
             <th>${views.operation['Activity.rule']}</th>

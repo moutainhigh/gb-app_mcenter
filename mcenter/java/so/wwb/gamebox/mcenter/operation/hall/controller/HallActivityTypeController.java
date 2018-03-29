@@ -131,8 +131,8 @@ public class HallActivityTypeController extends HallActivityController<IActivity
                 model.addAttribute("playerRanks", playerRanks);
             }
 
-            if (ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code) || ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
-                model.addAttribute("activityDepositWays",getDepositWays());
+            if ( VActivityMessageVo.is123Deposit(code) || ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
+                model.addAttribute("activityDepositWays", getDepositWays());
             }
         }
 
@@ -212,7 +212,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             //根据活动类型组装数据
             String code = activityMessageVo.getResult().getActivityTypeCode();
             if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code)
-                    || ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code)
+                    || VActivityMessageVo.is123Deposit(code)
                     || ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
                 List activitypreferentialList = ServiceActivityTool.activityPreferentialRelationService().queryPreferential(vActivityMessageVo);
                 model.addAttribute("activitypreferentialList", activitypreferentialList);
@@ -249,7 +249,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
                 getNormalRakebackSet(model);
             }
 
-            if (ActivityTypeEnum.REGIST_SEND.getCode().equals(code) || ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code)) {
+            if (ActivityTypeEnum.REGIST_SEND.getCode().equals(code) ||  VActivityMessageVo.is123Deposit(code)) {
                 List<VActivityMessage> vActivityMessages = loadActivityMessageByActivityType(code,activityMessageVo.getResult().getId());
                 String combinedRanks = getCombinedRanks(vActivityMessages);
                 Map<String, Object> objectMap = isAllRank(combinedRanks);
@@ -261,14 +261,14 @@ public class HallActivityTypeController extends HallActivityController<IActivity
                 model.addAttribute("type","edit");
             }
 
-            if (ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code) || ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
-                model.addAttribute("activityDepositWays",getDepositWays());
-            }
 
-            if(ActivityTypeEnum.MONEY.getCode().equals(code)){
-                buildActivityMoneyData(model);
-                getActivityMoneyDetail(model,activityMessageVo.getSearch().getId());
-            }
+        if (VActivityMessageVo.is123Deposit(code) || ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
+            model.addAttribute("activityDepositWays", getDepositWays());
+        }
+        if (ActivityTypeEnum.MONEY.getCode().equals(code)) {
+            buildActivityMoneyData(model);
+            getActivityMoneyDetail(model, activityMessageVo.getSearch().getId());
+        }
 
 //        }
 
@@ -304,8 +304,12 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         }
         model.addAttribute("isPicType",isExist);
 
+        model.addAttribute("is123Deposit",VActivityMessageVo.is123Deposit(code));
         return OPERATION_ACTIVITY_STEP;
     }
+
+
+
 
     /**
      * 活动详情
@@ -336,6 +340,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         activityMessageVo = ServiceActivityTool.activityMessageService().get(activityMessageVo);
         activityMessageVo.setTotalPeriods(queryTotalCount(activityMessageVo.getResult().getId()));
         model.addAttribute("command", activityMessageVo);
+        model.addAttribute("is123Deposit", VActivityMessageVo.is123Deposit(activityMessageVo.getResult().getActivityTypeCode()));
 
         Integer activityMessageId = activityMessageVo.getSearch().getId();
         //获取国际话信息

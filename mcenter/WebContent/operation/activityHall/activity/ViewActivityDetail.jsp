@@ -169,7 +169,7 @@
                                         </table>
                                     </c:if>
                                     <!--    首存送 存就送-->
-                                    <c:if test="${p.activityTypeCode eq 'first_deposit' || p.activityTypeCode eq 'deposit_send'}">
+                                    <c:if test="${ is123Deposit || p.activityTypeCode eq 'deposit_send'}">
                                         <table class="table  table-bordered">
                                             <tr>
                                                 <th>${views.operation['Activity.rule']}</th>

@@ -13,7 +13,7 @@
         <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
         <span>${views.sysResource['运营']}</span>
         <span>/</span>
-        <span>${views.sysResource['活动大厅']}</span>
+        <span>${views.sysResource['活动大厅']}"</span>
         <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         <soul:button target="goToLastPage" refresh="false" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
             <em class="fa fa-caret-left"></em>${views.common['return']}
@@ -28,12 +28,12 @@
                 <li class="col-sm-3 col-xs-12 p-x"><a href="javascript:void(0)"><span class="no">4</span><span class="con">${views.operation['Activity.finish']}</span></a></li>
             </ul>
             <%@include file="rule.include/ActivityType.jsp" %>
-            <c:if test="${activityType.result.code eq 'first_deposit'}"><%--首存一存二存三存申领周期--%>
+            <c:if test="${ is123Deposit }"><%--首存一存二存三存申领周期--%>
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>
                     <div class="col-sm-5">
                         <span class="input-group pull-left line-hi25 m-r">
-                            <gb:select name="activityRule.claimPeriod" list="<%=DictTool.get(DictEnum.CLAIM_PERIOD)%>" prompt="${views.common['pleaseSelect']}" value="${activityRule.claimPeriod}"/>
+                            <gb:select name="activityRule.claimPeriod" list="<%=DictTool.get(DictEnum.EFFECTIVE_TIME)%>" prompt="${views.common['pleaseSelect']}" value="${activityRule.claimPeriod}"/>
                         </span>
                         <%--<span class="m-l co-grayc2">${views.operation['Activity.step.message4']}</span>--%>
                     </div>
@@ -119,7 +119,7 @@
             <c:if test="${activityType.result.code eq 'back_water'}">
                 <%@ include file="rule.include/BackWater.jsp" %>
             </c:if>
-            <c:if test="${activityType.result.code eq 'first_deposit'|| activityType.result.code eq 'deposit_send'}">
+            <c:if test="${is123Deposit|| activityType.result.code eq 'deposit_send' }">
                 <%@ include file="rule.include/FirstDeposit.jsp" %>
             </c:if>
             <c:if test="${activityType.result.code eq 'regist_send'}">
@@ -138,7 +138,7 @@
                 <%@ include file="rule.include/Money.jsp" %>
             </c:if>
 
-            <c:if test="${activityType.result.code eq 'first_deposit' || activityType.result.code eq 'deposit_send'}">
+            <c:if test="${ is123Deposit || activityType.result.code eq 'deposit_send' }">
                 <div class="clearfix m-t-md" id="preferentialAmountLimit">
                     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.preferentialAmountLimit']}${siteCurrency}：</label>
                     <div class="col-sm-5 input-group">
@@ -153,7 +153,7 @@
                     </div>
                 </div>
             </c:if>
-            <c:if test="${activityType.result.code eq 'first_deposit' || activityType.result.code eq 'deposit_send'}">
+            <c:if test="${ is123Deposit || activityType.result.code eq 'deposit_send' }">
 
                 <div class="clearfix m-t-md line-hi34" id="depositWay">
                     <label class="ft-bold col-sm-3 al-right line-hi34">
@@ -187,7 +187,7 @@
                         <c:forEach items="${playerRanks}" var="a">
                             <c:set value="${a.id}," var="b"></c:set>
                             <label class="m-r-sm">
-                                <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${!(activityType.result.code eq 'first_deposit' || activityType.result.code eq 'regist_send') ? "":fn:contains(playerRank,b)?" disabled":""}>
+                                <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${!( is123Deposit || activityType.result.code eq 'regist_send') ? "":fn:contains(playerRank,b)?" disabled":""}>
                                 ${a.rankName}
                             </label>
                         </c:forEach>
@@ -199,7 +199,7 @@
                                 &lt;%&ndash;</c:forEach>&ndash;%&gt;
                             </c:forEach>--%>
 
-                        <c:if test="${activityType.result.code eq 'first_deposit' || activityType.result.code eq 'regist_send'}">
+                        <c:if test="${ is123Deposit || activityType.result.code eq 'regist_send'}">
                             <div id="getRankActivityMessage">
                                 <%@include file="rule.include/GetRankActivityMessage.jsp"%>
                             </div>
