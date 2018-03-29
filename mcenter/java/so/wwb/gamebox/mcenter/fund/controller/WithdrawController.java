@@ -33,6 +33,8 @@ import org.soul.model.comet.vo.MessageVo;
 import org.soul.model.listop.po.SysListOperator;
 import org.soul.model.listop.vo.SysListOperatorListVo;
 import org.soul.model.log.audit.enums.OpType;
+import org.soul.model.msg.notice.po.NoticeContactWay;
+import org.soul.model.msg.notice.vo.NoticeContactWayListVo;
 import org.soul.model.msg.notice.vo.NoticeLocaleTmpl;
 import org.soul.model.msg.notice.vo.NoticeVo;
 import org.soul.model.security.privilege.po.SysUser;
@@ -89,6 +91,7 @@ import so.wwb.gamebox.model.master.dataRight.DataRightModuleType;
 import so.wwb.gamebox.model.master.dataRight.po.SysUserDataRight;
 import so.wwb.gamebox.model.master.dataRight.vo.SysUserDataRightVo;
 import so.wwb.gamebox.model.master.enums.CurrencyEnum;
+import so.wwb.gamebox.model.master.enums.PublishMethodEnum;
 import so.wwb.gamebox.model.master.enums.RankFeeType;
 import so.wwb.gamebox.model.master.enums.RemarkEnum;
 import so.wwb.gamebox.model.master.fund.enums.*;
@@ -108,10 +111,8 @@ import so.wwb.gamebox.model.master.player.po.VUserPlayer;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.model.master.report.so.VPlayerTransactionSo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionVo;
-import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.web.IpRegionTool;
-import so.wwb.gamebox.web.RiskTagTool;
-import so.wwb.gamebox.web.SessionManagerCommon;
+import so.wwb.gamebox.model.master.setting.vo.NoticeTmplVo;
+import so.wwb.gamebox.web.*;
 import so.wwb.gamebox.web.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
@@ -1859,6 +1860,25 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         }
     }
 
+    public void sendSms(PlayerWithdrawVo vo){
+        //联系方式
+        NoticeContactWayListVo listVo = new NoticeContactWayListVo();
+        listVo.getSearch().setUserId(vo.getResult().getPlayerId());
+        Map<String, List<NoticeContactWay>> contactWays = ServiceTool.noticeContactWayService().fetchByUserId(listVo);
+
+        NoticeTmplVo noticeTmplVo = new NoticeTmplVo();
+        noticeTmplVo.getSearch().setEventType(AutoNoticeEvent.PLAYER_WITHDRAWAL_AUDIT_SUCCESS.getCode());
+        noticeTmplVo.getSearch().setLocale(SessionManagerCommon.getLocale().toString());
+        noticeTmplVo.getSearch().setPublishMethod(PublishMethodEnum.SMS.getCode());
+        noticeTmplVo = ServiceSiteTool.noticeTmplService().search(noticeTmplVo);
+        if(noticeTmplVo.getResult()!=null && noticeTmplVo.getResult().getActive()){
+            Map map = new HashMap();
+            map.put("mobile","");
+            map.put("content",noticeTmplVo.getResult().getContent());
+            vo.getResult().getPlayerId();
+            SmsTool.sendSmsContent(map);
+        }
+    }
 
     /**
      * 修改稽核页面
