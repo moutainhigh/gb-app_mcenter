@@ -74,6 +74,15 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
         model.addAttribute("langs", siteLanguages);
         //因为调用doList的时候，listvo原因赋值的hasReturn会变为null，所以需重新赋值
         String hasReturn = listVo.getHasReturn();
+        String floatType = listVo.getFloatType();
+        model.addAttribute("floatType", floatType);
+        List<String> list = new ArrayList<>();
+        if ("activity".equals(floatType)) {
+            list.add("2");
+        } else {
+            list.add("1");
+        }
+        listVo.getSearch().setPicTypeList(list);
         listVo = super.doList(listVo, form, result, model);
         listVo = previewFloatPic(listVo);
         listVo.setHasReturn(hasReturn);
