@@ -389,7 +389,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      */
     private void handleTempleData(VPlayerWithdrawListVo vo) {
         if (CollectionTool.isNotEmpty(vo.getResult())) {
-            RedisSessionDao redisSessionDao = (RedisSessionDao) SpringTool.getBean("redisSessionDao");
             DateFormat dateFormat = new DateFormat();
             TimeZone timeZone = SessionManagerCommon.getTimeZone();
             Map<String, Map<String, Map<String, String>>> dictsMap = I18nTool.getDictsMap(SessionManagerCommon.getLocale().toString());
