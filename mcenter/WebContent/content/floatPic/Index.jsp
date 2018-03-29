@@ -36,6 +36,13 @@
                         </soul:button>--%>
                         <a href="/cttFloatPic/create.html?editType=1&floatType=${floatType}" nav-target="mainFrame" class="btn btn-info btn-addon pull-left" style="margin: 0px 10px 5px 0px">
                             <i class="fa fa-plus"></i><span class="hd">${views.common['newFloatPic']}</span></a>
+
+                        <c:if test="${not empty floatType}">
+                            <a class="btn btn-outline btn-filter" nav-target="mainFrame"
+                               href="/cttFloatPic/FloatOrder.html">
+                                <i class="fa fa-sort-amount-desc m-r-xs"></i>${views.common['order']}
+                            </a>
+                        </c:if>
                         <div class="function-menu-show hide">
                             <soul:button tag="button" cssClass="btn btn-danger-hide" target="batchDelete"
                                          text="${views.common['delete']}" opType="function" dataType="json" callback="query">

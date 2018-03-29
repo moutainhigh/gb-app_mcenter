@@ -6,12 +6,14 @@ import org.soul.commons.enums.EnumTool;
 import org.soul.commons.lang.ArrayTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.commons.query.sort.Direction;
 import org.soul.commons.support._Module;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,11 +33,10 @@ import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
 import so.wwb.gamebox.model.master.content.enums.CttFloatTemplateTypeEnums;
+import so.wwb.gamebox.model.master.content.po.CttAnnouncement;
 import so.wwb.gamebox.model.master.content.po.CttFloatPic;
 import so.wwb.gamebox.model.master.content.po.CttFloatPicItem;
-import so.wwb.gamebox.model.master.content.vo.CttFloatPicItemListVo;
-import so.wwb.gamebox.model.master.content.vo.CttFloatPicListVo;
-import so.wwb.gamebox.model.master.content.vo.CttFloatPicVo;
+import so.wwb.gamebox.model.master.content.vo.*;
 import so.wwb.gamebox.model.master.enums.FloatPicInteractivityEnum;
 import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
@@ -64,7 +65,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
     }
 
     //region your codes 3
-
+    private final static String ORDER_URL = "/content/floatPic/FloatOrder";
 
     @Override
     protected CttFloatPicListVo doList(CttFloatPicListVo listVo, CttFloatPicSearchForm form, BindingResult result, Model model) {
@@ -397,6 +398,31 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
         return map;
     }
 
+    @RequestMapping("/FloatOrder")
+    public String FloatOrder(CttFloatPicListVo cttFloatPicListVo, Model model){
+        cttFloatPicListVo.setPaging(null);
+        String s = SessionManager.getLocale().toString();
+        cttFloatPicListVo.getSearch().setLanguage(s);
+        List<String> list = new ArrayList<>();
+        list.add("2");
+        list.add("3");
+        list.add("4");
+        cttFloatPicListVo.getSearch().setPicTypeList(list);
+        /*cttFloatPicListVo.getSearch().setStatus(true);*/
+        cttFloatPicListVo.getQuery().addOrder(CttFloatPic.PROP_FLOAT_ORDER_NUM, Direction.ASC);
+        cttFloatPicListVo = this.getService().search(cttFloatPicListVo);
+        model.addAttribute("command",cttFloatPicListVo);
+        return ORDER_URL;
+    }
+
+    @RequestMapping(value = "/saveFloatOrder",method = RequestMethod.POST ,headers = {"Content-type=application/json"})
+    @ResponseBody
+    public boolean saveFloatOrder(@RequestBody CttFloatPicVo cttFloatPicVo, Model model){
+        this.getService().saveCttFloatOrder(cttFloatPicVo);
+        Cache.refreshFloatPic();
+        Cache.refreshCurrentSitePageCache();
+        return true;
+    }
     //endregion your codes 3
 
 }
