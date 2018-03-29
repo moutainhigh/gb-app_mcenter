@@ -168,6 +168,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             model.addAttribute("id", id);
         }
         model.addAttribute("isPicType",isExist);
+        model.addAttribute("is123Deposit",VActivityMessageVo.is123Deposit(code));
         return OPERATION_ACTIVITY_STEP;
     }
 
@@ -380,6 +381,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             getActivityMoneyDetail(model, activityMessageId);
 
         }
+        model.addAttribute("is123Deposit",VActivityMessageVo.is123Deposit(activityMessageVo.getResult().getActivityTypeCode()));
         return OPERATION_ACTIVITY_VIEW_ACTIVITY_DETAIL;
     }
 
