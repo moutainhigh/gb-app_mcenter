@@ -91,7 +91,7 @@
                             data-toggle="popover" data-container="body" role="button" class="help-popover"
                             tabindex="0"><em>[{{:bankOrder}}]</em></span>
                          {{/if}}
-                         {{if _recharge_type_dict == 'atm_money'}}
+                         {{if rechargeAddress!=null && rechargeAddress!=''}}
                                 <span data-content="${views.fund_auto['交易地点']}" data-placement="bottom" data-trigger="focus"
                                 data-toggle="popover" data-container="body" role="button" class="help-popover"
                                 tabindex="0">{{:rechargeAddress}}</span>

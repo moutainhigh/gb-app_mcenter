@@ -3,7 +3,6 @@ package so.wwb.gamebox.mcenter.controller;
 import org.json.JSONObject;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionQueryTool;
-import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.init.context.CommonContext;
@@ -26,7 +25,6 @@ import org.soul.model.security.privilege.vo.SysResourceVo;
 import org.soul.model.session.SessionKey;
 import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
-import org.soul.web.controller.BaseIndexController;
 import org.soul.web.security.privilege.controller.SysResourceController;
 import org.soul.web.session.SessionManagerBase;
 import org.springframework.stereotype.Controller;
@@ -66,6 +64,7 @@ import so.wwb.gamebox.model.master.tasknotify.po.UserTaskReminder;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderListVo;
 import so.wwb.gamebox.model.report.vo.OperationProfileVo;
 import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.phoneapi.controller.BasePhoneApiController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -77,7 +76,7 @@ import java.util.*;
  * Created by tony on 15-4-29.
  */
 @Controller
-public class IndexController extends BaseIndexController {
+public class IndexControllerBase extends BasePhoneApiController {
     private static final String INDEX_URI = "index";
     private static final String INDEX_CONTENT_URI = "index.include/content";
     private static final String INDEX_MESSAGE_URI = "index.include/Message";
@@ -89,7 +88,7 @@ public class IndexController extends BaseIndexController {
     private static final String ONE_MINUTE_AGO = "@ONE_MINUTE_AGO";//分钟
     private static final String ONE_HOUR_AGO = "@ONE_HOUR_AGO";//小时
     private static final String ONE_DAY_AGO = "@ONE_DAY_AGO";//天
-    private static final Log LOG = LogFactory.getLog(IndexController.class);
+    private static final Log LOG = LogFactory.getLog(IndexControllerBase.class);
 
     @Override
     protected String content(Integer parentId, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -115,6 +114,7 @@ public class IndexController extends BaseIndexController {
     @Audit(module = Module.MASTER_INDEX, moduleType = ModuleType.PASSPORT_LOGIN, desc = "刷新首页面")
     @RequestMapping(value = "index")
     protected String index(HttpServletRequest request, Model model) {
+        Cache.refreshSiteTelemarketing();
          /* 获取当前用户未接收的站内信 */
         if (SessionManager.getFirstLogin()) {
             ServiceTool.noticeService().fetchUnReceivedMsgs(new NoticeVo());
@@ -793,5 +793,10 @@ public class IndexController extends BaseIndexController {
         playerGameOrderVo.getSearch().setEndPayoutTime(DateTool.addDays(today, 1));
         Double todayProfit = ServiceSiteTool.playerGameOrderService().queryProfit(playerGameOrderVo);
         return todayProfit == null ? 0d : -todayProfit;
+    }
+
+    @Override
+    protected String fetchExtNo() {
+        return SessionManager.getUser().getIdcard();
     }
 }

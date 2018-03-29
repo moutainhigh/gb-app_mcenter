@@ -74,21 +74,6 @@
             <artifactId>webcommon</artifactId>
             <version>${gamebox.version}</version>
         </dependency>
-        <dependency>
-            <groupId>so.wwb.gamebox</groupId>
-            <artifactId>model</artifactId>
-            <version>${gamebox.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>so.wwb.gamebox</groupId>
-            <artifactId>iservice</artifactId>
-            <version>${gamebox.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>so.wwb.gamebox</groupId>
-            <artifactId>common</artifactId>
-            <version>${gamebox.version}</version>
-        </dependency>
         <!--Gamebox引用-->
         <!--Pay引用-->
         <dependency>
@@ -97,18 +82,7 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <!--Pay引用-->
-        <!--Soul引用-->
-        <dependency>
-            <groupId>org.soul</groupId>
-            <artifactId>soul-commons</artifactId>
-            <version>${soul.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.soul</groupId>
-            <artifactId>soul-web</artifactId>
-            <version>${soul.version}</version>
-        </dependency>
-        <!--Soul引用-->
+
         <!--ThirdParty引用-->
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
