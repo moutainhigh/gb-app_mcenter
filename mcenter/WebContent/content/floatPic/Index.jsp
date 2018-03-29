@@ -16,6 +16,7 @@
                     <em class="fa fa-caret-left"></em>${views.common['return']}
                 </soul:button>
                 <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
+                <input type="hidden" name="floatType" value="${floatType}">
             </div>
             <div class="col-lg-12">
                 <div class="wrapper white-bg shadow">

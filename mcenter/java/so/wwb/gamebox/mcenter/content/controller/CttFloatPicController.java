@@ -113,7 +113,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
      */
     @Override
     protected CttFloatPicVo doCreate(CttFloatPicVo objectVo, Model model) {
-        setBaseData(model);
+        setBaseData(objectVo, model);
         getCustomerService(model);
         Map map =new HashMap(2,1f);
         map.put("http://","http://");
@@ -304,7 +304,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
      */
     @Override
     protected CttFloatPicVo doEdit(CttFloatPicVo objectVo, Model model) {
-        setBaseData(model);
+        setBaseData(objectVo, model);
         getCustomerService(model);
         Map map =new HashMap(2,1f);
         map.put("http://","http://");
@@ -363,7 +363,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
         model.addAttribute("SiteCustomerService", SiteCustomerService);
     }
 
-    private void setBaseData(Model model) {
+    private void setBaseData(CttFloatPicVo objectVo, Model model) {
         SiteLanguageListVo siteLanguageListVo = new SiteLanguageListVo();
         siteLanguageListVo.getSearch().setSiteId(SessionManager.getSiteId());
         List<SiteLanguage> siteLanguages = ServiceTool.siteLanguageService().availableLanguage(siteLanguageListVo);
@@ -373,7 +373,15 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
         Map<String, Serializable> linkTypeMaps = DictTool.get(DictEnum.FLOAT_PIC_LINK_TYPE);
         model.addAttribute("floatPicLinkTypeMaps", linkTypeMaps);
         LinkedHashMap<String, Serializable> displayInMaps = (LinkedHashMap<String, Serializable>) DictTool.get(DictEnum.FLOAT_PIC_DISPLAY_IN);
-        displayInMaps.remove("2");
+        if (StringTool.isBlank(objectVo.getFloatType())) {
+            displayInMaps.remove("2");
+            displayInMaps.remove("6");
+        }else {
+            displayInMaps.remove("2");
+            displayInMaps.remove("3");
+            displayInMaps.remove("4");
+            displayInMaps.remove("5");
+        }
         model.addAttribute("floatPicDisplayInMaps", displayInMaps);
     }
 
