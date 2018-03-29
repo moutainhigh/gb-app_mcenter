@@ -1,7 +1,7 @@
 <%-- @elvariable id="command" type="so.wwb.gamebox.model.master.setting.vo.NoticeTmplListVo" --%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
-<form:form action="${root}/param/siteParam.html" method="post" id="siteParam">
+<form:form action="${root}/param/parameterSetting.html" method="post" id="parameterSetting">
     <div class="row">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
@@ -376,7 +376,7 @@
                                             <shiro:hasPermission name="system:electricpin_switch ">
                                             <label class="ft-bold pull-left m-r"
                                                    style='float:left;margin-top: 10px'> ${views.setting_auto['电销开关']}：</label>
-                                                    <input type="checkbox" name="electric_pin"
+                                                    <input id="phonePin" type="checkbox" name="electric_pin"
                                                         ${electric_pin.paramValue =="true" ?'checked':''} />
                                             <%--<label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>--%>
                                                 <h3>${views.setting_auto['电销功能开关']}电销功能开关:</h3>
@@ -397,7 +397,7 @@
                                             <shiro:hasPermission name="system:electricpin_switch ">
                                                 <label class="ft-bold pull-left m-r"
                                                        style='margin-top: 10px'> ${views.setting_auto['前端回call']}：</label>
-                                                <input type="checkbox" name="player_stationmaster"
+                                                <input id="playerCall" type="checkbox" name="player_stationmaster"
                                                     ${player_stationmaster.paramValue =="true" ?'checked':''} />
                                                 <label class="m-r-md ">${views.setting_auto['启用后需设置坐席号方可使用']}</label>
                                             </shiro:hasPermission>
@@ -406,14 +406,14 @@
                                                 <shiro:hasPermission name="system:electricpin_switch ">
                                                     <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
                                                             ${views.setting_auto['坐席号设置']}：</label>
-                                                    <input type="text" placeholder="请填写回Call坐席号" name="result.paramValue" value="${poone_number.paramValue}">
+                                                    <input type="text" id="callMunber"  placeholder="请填写回Call坐席号" name="result.paramValue" value="${poone_number.paramValue}">
                                                     <soul:button cssClass="btn btn-filter" text="${views.common['saveNumber']}"
                                                                  opType="ajax"
                                                                  dataType="json"
                                                                  target="${root}/param/savePhone.html"
                                                                  confirm="${views.common['confirm.modify']}"
                                                                  post="getPhoneNumber"
-                                                                 callback="saveCallbak"/>
+                                                                 callback="save"/>
                                                 </shiro:hasPermission>
                                         </div>
                                 </div>
