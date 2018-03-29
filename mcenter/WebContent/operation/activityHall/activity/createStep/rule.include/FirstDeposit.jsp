@@ -84,7 +84,7 @@
             </table>
         </div>
         <soul:button target="systemRecommendCase" text="" opType="function" cssClass="btn btn-info btn-addon pull-right m-t">
-            <i class="fa fa-plus"></i><span class="hd">系统推荐</span>
+            <i class="fa fa-plus"></i><span class="hd">${views.operation['系统推荐']}</span>
         </soul:button>
         <soul:button target="addActivityRule" text="" opType="function" cssClass="btn btn-info btn-addon pull-right m-t">
             <i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span>
