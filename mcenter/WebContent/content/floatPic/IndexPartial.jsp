@@ -71,7 +71,7 @@
                 <td><input type="checkbox" name="my-checkbox" data-size="mini" ${p.status ? 'checked' : ''} st="${p.status}" picType="${p.picType}"></td>
                 <td>
                     <div class="joy-list-row-operations">
-                        <a href="/cttFloatPic/edit.html?id=${p.id}&editType=2" nav-target="mainFrame">${views.common['edit']}</a>
+                        <a href="/cttFloatPic/edit.html?id=${p.id}&editType=2&floatType=${floatType}" nav-target="mainFrame">${views.common['edit']}</a>
                     </div>
                 </td>
             </tr>
