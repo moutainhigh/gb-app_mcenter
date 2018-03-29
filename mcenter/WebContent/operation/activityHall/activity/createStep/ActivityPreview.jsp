@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </c:if>
-            <c:if test="${activityType.result.code eq 'first_deposit' || activityType.result.code eq 'deposit_send' }">
+            <c:if test="${ is123Deposit || activityType.result.code eq 'deposit_send' }">
                 <div class="clearfix line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.preferentialAmountLimit']}：</label>
                     <div class="col-sm-5" id="previewPAL"></div>
@@ -73,7 +73,7 @@
                     <div class="col-sm-5" id="previewRakeback"></div>
                 </div>
             </c:if>
-            <c:if test="${activityType.result.code eq 'first_deposit' || activityType.result.code eq 'deposit_send' }">
+            <c:if test="${ is123Deposit || activityType.result.code eq 'deposit_send' }">
                 <div class="clearfix line-hi34" id="preDepositWay">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.depositWay']}</label>
                     <div class="col-sm-5" id="previewDepositWay"></div>
