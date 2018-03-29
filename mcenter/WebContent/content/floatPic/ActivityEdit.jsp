@@ -69,7 +69,7 @@
                     <%-- 边距 --%>
                     <div class="form-group clearfix">
                         <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.location']}</label>
-                        <div class="col-sm-5">
+                        <div class="col-sm-3">
                             <label><input type="radio" class="i-checks" name="result.location" value="left" ${(command.result.location != 'right') ? 'checked' : ''}>${views.column['CttFloatPic.left']}</label>
                             <label><input type="radio" class="i-checks" name="result.location" value="right" ${(command.result.location == 'right') ? 'checked' : ''}>${views.column['CttFloatPic.right']}</label>
                             <div class="input-group date tooltip-demo">
@@ -110,14 +110,14 @@
                     <%-- 鼠标移入效果开关 --%>
                     <div class="form-group clearfix" id="content_float_pic_mouseInEffect_div">
                         <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.mouseInEffect']}</label>
-                        <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="mouseInEffect" value="${empty command.result.mouseInEffect?false:command.result.mouseInEffect}" data-size="mini" ${empty command.result.id || command.result.mouseInEffect ? 'checked' : ''}></div>
+                        <div class="col-sm-3"><input type="checkbox" switch="boostrapSwitch" name="mouseInEffect" value="${empty command.result.mouseInEffect?false:command.result.mouseInEffect}" data-size="mini" ${empty command.result.id || command.result.mouseInEffect ? 'checked' : ''}></div>
                         <form:hidden path="result.mouseInEffect" value="${empty command.result.mouseInEffect?false:command.result.mouseInEffect}"/>
                     </div>
 
                     <%-- 关闭按钮开关 --%>
                     <div class="form-group clearfix">
                         <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.hideCloseButton']}</label>
-                        <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="hideCloseButton" value="${empty command.result.hideCloseButton?false:command.result.hideCloseButton}" data-size="mini" ${empty command.result.id || command.result.hideCloseButton ? 'checked' : ''}></div>
+                        <div class="col-sm-3"><input type="checkbox" switch="boostrapSwitch" name="hideCloseButton" value="${empty command.result.hideCloseButton?false:command.result.hideCloseButton}" data-size="mini" ${empty command.result.id || command.result.hideCloseButton ? 'checked' : ''}></div>
                         <form:hidden path="result.hideCloseButton" value="${empty command.result.hideCloseButton?false:command.result.hideCloseButton}"/>
                     </div>
 
@@ -127,7 +127,7 @@
                     <div class="form-group clearfix">
                         <div class="form-group clearfix">
                             <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.type']}</label>
-                            <div class="col-sm-5">
+                            <div class="col-sm-3">
                                 <input type="radio" class="i-checks" name="result.picType" value="2" ${command.result.picType == '2' ? 'checked' : ''}>${views.column['CttFloatPic.template.type.promo']}
                                 <input type="radio" class="i-checks" name="result.picType" value="3" ${command.result.picType == '3' || empty command.result.picType? 'checked' : ''}>老虎机
                             </div>
@@ -135,7 +135,7 @@
 
                         <div class="form-group clearfix">
                             <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.display.style']}</label>
-                            <div class="col-sm-5">
+                            <div class="col-sm-3">
                                 <input type="radio" class="i-checks" name="result.singleMode" value="true" ${command.result.singleMode==true||empty command.result.singleMode ? 'checked' : ''}>${views.column['CttFloatPic.template.style.system']}
                                 <input type="radio" class="i-checks" name="result.singleMode" value="false" ${command.result.singleMode==false ? 'checked' : ''}>${views.column['CttFloatPic.template.style.custom']}
                             </div>
@@ -196,7 +196,7 @@
 
                     <div class="form-group clearfix hide" id="">
                             <label class="ft-bold col-sm-3 al-right line-hi34">${views.column['CttFloatPic.image.link']}</label>
-                            <div class="col-sm-5">
+                            <div class="col-sm-3">
                                 <div class="input-group date">
                                     <div class="input-group" style="width:100%;">
                                         <div class="input-group-btn">

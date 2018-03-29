@@ -79,6 +79,8 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
         List<String> list = new ArrayList<>();
         if ("activity".equals(floatType)) {
             list.add("2");
+            list.add("3");
+            list.add("4");
         } else {
             list.add("1");
         }

@@ -22,10 +22,10 @@
                 <div class="wrapper white-bg shadow">
                     <ul class="clearfix sys_tab_wrap">
                         <li id="li_top_1" class="<c:if test="${empty floatType}">active</c:if>">
-                            <a href="/cttFloatPic/list.html" nav-target="mainFrame">客服浮动图</a>
+                            <a href="/cttFloatPic/list.html" nav-target="mainFrame">${views.common['客服浮动图']}</a>
                         </li>
                         <li id="li_top_2" class="<c:if test="${'activity'.equals(floatType)}">active</c:if>">
-                            <a href="/cttFloatPic/list.html?floatType=activity" nav-target="mainFrame">活动浮动图</a>
+                            <a href="/cttFloatPic/list.html?floatType=activity" nav-target="mainFrame">${views.common['活动浮动图']}</a>
                         </li>
                     </ul>
                     <!--筛选条件-->
