@@ -85,7 +85,7 @@
                     <div class="col-sm-5" id="previewRank"></div>
                 </div>
             </c:if>
-            <c:if test="${activityType.result.code eq 'regist_send'}">
+            <c:if test="${activityType.result.code eq 'regist_send'   || is123Deposit  }">
                 <div class="clearfix line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.effectiveTime']}：</label>
                     <div class="col-sm-5" id="previewEffectiveTime"></div>

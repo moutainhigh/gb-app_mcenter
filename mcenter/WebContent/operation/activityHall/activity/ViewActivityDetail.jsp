@@ -498,7 +498,7 @@
                             </div>
                         </c:if>
 
-                        <c:if test="${(p.activityTypeCode eq 'first_deposit' || p.activityTypeCode eq 'deposit_send') && not empty activityRuleVo.result.preferentialAmountLimit}">
+                        <c:if test="${( is123Deposit || p.activityTypeCode eq 'deposit_send') && not empty activityRuleVo.result.preferentialAmountLimit}">
                             <div class="clearfix m-l-lg line-hi34">
                                 <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.preferentialAmountLimit']}：</label>
                                 <div class="col-sm-5">${activityRuleVo.result.preferentialAmountLimit}</div>
@@ -547,7 +547,7 @@
                                 </div>
                             </div>
                         </c:if>
-                        <c:if test="${p.activityTypeCode eq 'regist_send'}">
+                        <c:if test="${p.activityTypeCode eq 'regist_send' || is123Deposit }">
                             <div class="clearfix m-l-lg line-hi34">
                                 <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.effectiveTime']}：</label>
                                 <div class="col-sm-5">
@@ -573,14 +573,14 @@
                         </c:if>
                         <c:if test="${activityType.result.code ne 'content'}">
                             <div class="clearfix m-l-lg line-hi34">
-                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.isAudit']}：</label>
+                                <label class="ft-bold col-sm-3 al-right">${views.operation['领取方式']}：</label>
                                 <div class="col-sm-5">
                                     <c:choose>
                                         <c:when test="${activityRuleVo.result.isAudit}">
-                                            ${views.operation['Activity.step.true']}
+                                            ${views.operation['前端申领（审核）']}
                                         </c:when>
                                         <c:otherwise>
-                                            ${views.operation['Activity.step.false']}
+                                            ${views.operation['前端申领（免审）']}
                                         </c:otherwise>
                                     </c:choose>
                                 </div>

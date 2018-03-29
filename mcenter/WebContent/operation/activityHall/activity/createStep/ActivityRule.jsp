@@ -28,17 +28,17 @@
                 <li class="col-sm-3 col-xs-12 p-x"><a href="javascript:void(0)"><span class="no">4</span><span class="con">${views.operation['Activity.finish']}</span></a></li>
             </ul>
             <%@include file="rule.include/ActivityType.jsp" %>
-            <c:if test="${ is123Deposit }"><%--首存一存二存三存申领周期--%>
-                <div class="clearfix m-t-md line-hi34">
-                    <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>
-                    <div class="col-sm-5">
-                        <span class="input-group pull-left line-hi25 m-r">
-                            <gb:select name="activityRule.claimPeriod" list="<%=DictTool.get(DictEnum.EFFECTIVE_TIME)%>" prompt="${views.common['pleaseSelect']}" value="${activityRule.claimPeriod}"/>
-                        </span>
-                        <%--<span class="m-l co-grayc2">${views.operation['Activity.step.message4']}</span>--%>
-                    </div>
-                </div>
-            </c:if>
+            <%--<c:if test="${ is123Deposit }">&lt;%&ndash;首存一存二存三存申领周期&ndash;%&gt;--%>
+                <%--<div class="clearfix m-t-md line-hi34">--%>
+                    <%--<label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>--%>
+                    <%--<div class="col-sm-5">--%>
+                        <%--<span class="input-group pull-left line-hi25 m-r">--%>
+                            <%--<gb:select name="activityRule.claimPeriod" list="<%=DictTool.get(DictEnum.EFFECTIVE_TIME)%>" prompt="${views.common['pleaseSelect']}" value="${activityRule.claimPeriod}"/>--%>
+                        <%--</span>--%>
+                        <%--&lt;%&ndash;<span class="m-l co-grayc2">${views.operation['Activity.step.message4']}</span>&ndash;%&gt;--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</c:if>--%>
             <c:if test="${activityType.result.code eq 'effective_transaction' || activityType.result.code eq 'profit_loss'}">
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </c:if>
-            <c:if test="${activityType.result.code eq 'regist_send'}">
+            <c:if test="${activityType.result.code eq 'regist_send' || is123Deposit }">
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.effectiveTime']}：</label>
                     <div class="col-sm-5">
