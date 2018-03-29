@@ -105,7 +105,7 @@
             </c:if>
             <c:if test="${activityType.result.code ne 'content'}">
                 <div class="clearfix line-hi34">
-                    <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.isAudit']}：</label>
+                    <label class="ft-bold col-sm-3 al-right">${views.operation['领取方式']}：</label>
                     <div class="col-sm-5" id="previewIsAudit"></div>
                 </div>
                 <%--<div class="clearfix line-hi34">
