@@ -33,6 +33,10 @@
             </table>
         </div>
     </div>
+
+    <soul:button target="registSystemRecommendCase" text="" opType="function" cssClass="btn btn-info btn-addon pull-right m-t">
+        <i class="fa fa-plus"></i><span class="hd">${views.operation['系统推荐']}</span>
+    </soul:button>
 </div>
 <!--//endregion your codes 1-->
 
