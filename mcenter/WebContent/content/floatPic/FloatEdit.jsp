@@ -36,7 +36,7 @@
         </div>
         <div class="col-lg-12" id="editContent">
             <div class="wrapper white-bg shadow clearfix">
-                <div class="present_wrap"><b>${command.editType=='1' ? views.common['newFloatPic'] : views.common['editFloatPic']}</b></div>
+                <div class="present_wrap"><b>${command.editType=='1' ? views.common['service.newFloatPic'] : views.common['service.ditFloatPic']}</b></div>
                 <div class="m-t">
                         <%-- 标题 --%>
                     <div class="form-group clearfix">
@@ -139,7 +139,7 @@
                             <div class="col-sm-8">
                                 <%-- 单图模式的模板 --%>
                             <div class="${command.result.singleMode==false?'hide':''}" id="singleMode_templateType_div">
-                                <ul class="tempstyle clearfix ${command.result.picType=='1' || empty command.result.picType ? '' : 'hide'}" id="singleMode_service_pic">
+                                <ul class="tempstyle clearfix" id="singleMode_service_pic">
                                     <li>
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-red.png")}" data-image=""
                                              alt="${command.result.title}" class="singleModeTemplateImageType">

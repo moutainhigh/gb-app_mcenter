@@ -36,7 +36,7 @@
         </div>
         <div class="col-lg-12" id="editContent">
             <div class="wrapper white-bg shadow clearfix">
-                <div class="present_wrap"><b>${command.editType=='1' ? views.common['newFloatPic'] : views.common['editFloatPic']}</b></div>
+                <div class="present_wrap"><b>${command.editType=='1' ? views.common['activity.newFloatPic'] : views.common['activity.editFloatPic']}</b></div>
                 <div class="m-t">
                     <%-- 标题 --%>
                     <div class="form-group clearfix">
@@ -69,7 +69,7 @@
                     <%-- 边距 --%>
                     <div class="form-group clearfix">
                         <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.location']}</label>
-                        <div class="col-sm-5">
+                        <div class="col-sm-3">
                             <label><input type="radio" class="i-checks" name="result.location" value="left" ${(command.result.location != 'right') ? 'checked' : ''}>${views.column['CttFloatPic.left']}</label>
                             <label><input type="radio" class="i-checks" name="result.location" value="right" ${(command.result.location == 'right') ? 'checked' : ''}>${views.column['CttFloatPic.right']}</label>
                             <div class="input-group date tooltip-demo">
@@ -110,19 +110,16 @@
                     <%-- 鼠标移入效果开关 --%>
                     <div class="form-group clearfix" id="content_float_pic_mouseInEffect_div">
                         <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.mouseInEffect']}</label>
-                        <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="mouseInEffect" value="${empty command.result.mouseInEffect?false:command.result.mouseInEffect}" data-size="mini" ${empty command.result.id || command.result.mouseInEffect ? 'checked' : ''}></div>
+                        <div class="col-sm-3"><input type="checkbox" switch="boostrapSwitch" name="mouseInEffect" value="${empty command.result.mouseInEffect?false:command.result.mouseInEffect}" data-size="mini" ${empty command.result.id || command.result.mouseInEffect ? 'checked' : ''}></div>
                         <form:hidden path="result.mouseInEffect" value="${empty command.result.mouseInEffect?false:command.result.mouseInEffect}"/>
                     </div>
 
                     <%-- 关闭按钮开关 --%>
                     <div class="form-group clearfix">
                         <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.hideCloseButton']}</label>
-                        <div class="col-sm-5"><input type="checkbox" switch="boostrapSwitch" name="hideCloseButton" value="${empty command.result.hideCloseButton?false:command.result.hideCloseButton}" data-size="mini" ${empty command.result.id || command.result.hideCloseButton ? 'checked' : ''}></div>
+                        <div class="col-sm-3"><input type="checkbox" switch="boostrapSwitch" name="hideCloseButton" value="${empty command.result.hideCloseButton?false:command.result.hideCloseButton}" data-size="mini" ${empty command.result.id || command.result.hideCloseButton ? 'checked' : ''}></div>
                         <form:hidden path="result.hideCloseButton" value="${empty command.result.hideCloseButton?false:command.result.hideCloseButton}"/>
                     </div>
-
-
-
 
 
 
@@ -130,15 +127,15 @@
                     <div class="form-group clearfix">
                         <div class="form-group clearfix">
                             <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.type']}</label>
-                            <div class="col-sm-5">
-                                <input type="radio" class="i-checks" name="result.picType" value="1" ${command.result.picType == '1' || empty command.result.picType? 'checked' : ''}>${views.column['CttFloatPic.template.type.server']}
+                            <div class="col-sm-3">
                                 <input type="radio" class="i-checks" name="result.picType" value="2" ${command.result.picType == '2' ? 'checked' : ''}>${views.column['CttFloatPic.template.type.promo']}
+                                <input type="radio" class="i-checks" name="result.picType" value="3" ${command.result.picType == '3' || empty command.result.picType? 'checked' : ''}>老虎机
                             </div>
                         </div>
 
                         <div class="form-group clearfix">
                             <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.display.style']}</label>
-                            <div class="col-sm-5">
+                            <div class="col-sm-3">
                                 <input type="radio" class="i-checks" name="result.singleMode" value="true" ${command.result.singleMode==true||empty command.result.singleMode ? 'checked' : ''}>${views.column['CttFloatPic.template.style.system']}
                                 <input type="radio" class="i-checks" name="result.singleMode" value="false" ${command.result.singleMode==false ? 'checked' : ''}>${views.column['CttFloatPic.template.style.custom']}
                             </div>
@@ -149,28 +146,6 @@
                             <div class="col-sm-8">
                                 <%-- 单图模式的模板 --%>
                             <div class="${command.result.singleMode==false?'hide':''}" id="singleMode_templateType_div">
-                                <ul class="tempstyle clearfix ${command.result.picType=='1' || empty command.result.picType ? '' : 'hide'}" id="singleMode_service_pic">
-                                    <li>
-                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-red.png")}" data-image=""
-                                             alt="${command.result.title}" class="singleModeTemplateImageType">
-                                            <%--<img src="${resRoot}/images/floatpic/panel-red.png" class="singleModeTemplateImageType">--%>
-                                        <input type="radio" name="templateType" class="i-checks" value="1" ${empty command.result.tempId || command.result.tempId==1 || !(command.result.tempId>0&&command.result.tempId<10)?"checked":""}>
-                                    </li>
-                                    <li>
-                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-gold.png")}"
-                                             alt="${command.result.title}" class="singleModeTemplateImageType">
-                                            <%--<img src="${resRoot}/images/floatpic/panel-gold.png" class="singleModeTemplateImageType">--%>
-                                        <input type="radio" name="templateType" class="i-checks" value="2" ${command.result.tempId==2?"checked":""}>
-                                    </li>
-                                    <li>
-                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-green.png")}"
-                                             alt="${command.result.title}" class="singleModeTemplateImageType">
-                                            <%--<img src="${resRoot}/images/floatpic/panel-green.png" class="singleModeTemplateImageType">--%>
-                                        <input type="radio" name="templateType" class="i-checks" value="3" ${command.result.tempId==3?"checked":""}>
-                                    </li>
-                                </ul>
-
-                                    <%-- 新增bykobefor优惠浮动图单图模式 --%>
                                 <ul class="tempstyle clearfix ${command.result.picType=='2' ? '' : 'hide'}" id="singleMode_promo_pic">
                                     <li>
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-first.png")}" data-image=""
@@ -191,16 +166,77 @@
                                         <input type="radio" name="templateType" class="i-checks" value="9" ${command.result.tempId==9?"checked":""}>
                                     </li>
                                 </ul>
+
+                                <ul class="tempstyle clearfix ${command.result.picType=='3' || empty command.result.picType ? '' : 'hide'}" id="singleMode_service_pic">
+                                    <li>
+                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-red.png")}" data-image=""
+                                             alt="${command.result.title}" class="singleModeTemplateImageType">
+                                            <%--<img src="${resRoot}/images/floatpic/panel-red.png" class="singleModeTemplateImageType">--%>
+                                        <input type="radio" name="templateType" class="i-checks" value="1" ${empty command.result.tempId || command.result.tempId==1 || !(command.result.tempId>0&&command.result.tempId<10)?"checked":""}>
+                                    </li>
+                                    <li>
+                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-gold.png")}"
+                                             alt="${command.result.title}" class="singleModeTemplateImageType">
+                                            <%--<img src="${resRoot}/images/floatpic/panel-gold.png" class="singleModeTemplateImageType">--%>
+                                        <input type="radio" name="templateType" class="i-checks" value="2" ${command.result.tempId==2?"checked":""}>
+                                    </li>
+                                    <li>
+                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-green.png")}"
+                                             alt="${command.result.title}" class="singleModeTemplateImageType">
+                                            <%--<img src="${resRoot}/images/floatpic/panel-green.png" class="singleModeTemplateImageType">--%>
+                                        <input type="radio" name="templateType" class="i-checks" value="3" ${command.result.tempId==3?"checked":""}>
+                                    </li>
+                                </ul>
                             </div>
 
                         </div>
                         </div>
                     </div>
+                        <%--end模板模式--%>
 
-                    <%-- 单图模式的链接 --%>
-                                <%--end模板模式--%>
+                    <div class="form-group clearfix hide" id="">
+                            <label class="ft-bold col-sm-3 al-right line-hi34">${views.column['CttFloatPic.image.link']}</label>
+                            <div class="col-sm-3">
+                                <div class="input-group date">
+                                    <div class="input-group" style="width:100%;">
+                                        <div class="input-group-btn">
+                                            <div class="bg-gray">
+                                                <select class="chosen-select-no-single" name="floatPicItem.imgLinkType" callback="changeSelect">
+                                                    <c:forEach items="${floatPicLinkTypeMaps}" var="map">
+                                                        <c:if test="${map.key ne 'close_btn'}">
+                                                            <option value="${map.key}" ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == map.key) ? 'selected' : '' }>${views.content['floatPic.linkType.'.concat(map.key)]}</option>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <select name="imgServiceValue" class="btn-group chosen-select-no-single content_float_pic_image_service_value ${empty command.floatPicItem.imgLinkType || (command.floatPicItem.imgLinkType == 'customer_service') ? '' : 'hide'}">
+                                            <c:if test="${fn:length(SiteCustomerService) > 0}">
+                                                <c:forEach items="${SiteCustomerService}" var="cs">
+                                                    <option value="${cs.id}" ${not empty command.floatPicItem.imgLinkValue && (command.floatPicItem.imgLinkValue.toString() == cs.id.toString()) ? 'selected' : '' }>${cs.name}</option>
+                                                </c:forEach>
+                                            </c:if>
+                                        </select>
+                                    <span class="input-group-btn ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}" id="content_float_pic_type_http">
+                                        <gb:select name="floatPicItem.imgLinkProtocol" prompt="" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                                    </span>
+                                        <input type="text" name="imgLinkTypeValue" class="form-control ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}" value="${command.floatPicItem.imgLinkType == 'link' ? command.floatPicItem.imgLinkValue : ''}">
+                                    <span class="input-group-addon bdn _editTags">
+                                        <a href="javascript:void(0)" name="placeholder"
+                                           class="variable ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}">
+                                                ${views.operation['MassInformation.step3.website']}<span>{website}</span>
+                                        </a>
+                                    </span>
+                                        <input type="hidden" name="floatPicItem.imgLinkValue" class="float_pic_list_item_link_type_value" value="${command.floatPicItem.imgLinkType == 'link' ? (empty command.floatPicItem.imgLinkType ? SiteCustomerService[0].id : command.floatPicItem.imgLinkValue) : ''}"/>
+                                    <span class="input-group-addon bdn ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? 'hide' : '' }" id="content_float_pic_type_custom_service_setting_link">
+                                        <a href="/param/siteParam.html?hasReturn=true&index=li_top_1" nav-target="mainFrame" class="m-l-sm">${views.column['CttFloatPic.image.setting']}</a>
+                                    </span>
+                                    </div>
 
-                                <%--自定义模板--%>
+                                </div>
+                            </div>
+                        </div>
+                        <%--自定义模板--%>
                     <div class="form-group clearfix ${empty command.result.singleMode || command.result.singleMode==true?'hide':''}" id="float_template_list_div">
                         <label class="ft-bold col-sm-3 al-right line-hi34"></label>
                         <div class="col-sm-5">
@@ -231,38 +267,6 @@
                                             </div>
                                             <input class="file" type="file" accept="image/*" target="itemList[${vs.index}].mouseInEffect">
                                             <input type="hidden" name="itemList[${vs.index}].mouseInEffect" value="${item.mouseInEffect}">
-                                        </div>
-                                        <div class="input-group select_float_pic_link_type" style="width:100%;">
-                                            <div class="input-group-btn">
-                                                <div class="bg-gray">
-                                                    <select class="chosen-select-no-single float_pic_list_item_link_type" name="itemList[${vs.index}].imgLinkType">
-                                                        <c:forEach items="${floatPicLinkTypeMaps}" var="map">
-                                                            <option value="${map.key}" ${not empty item.imgLinkType && (item.imgLinkType == map.key) ? 'selected' : '' }>${views.content['floatPic.linkType.'.concat(map.key)]}</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <select name="imgServiceValue${vs.index+1}" class="btn-group chosen-select-no-single float_pic_list_item_service_value ${empty item.imgLinkType || (item.imgLinkType == 'customer_service') ? '' : 'hide'}">
-                                                <c:if test="${fn:length(SiteCustomerService) > 0}">
-                                                    <c:forEach items="${SiteCustomerService}" var="cs">
-                                                        <option value="${cs.id}" ${not empty item.imgLinkValue && (item.imgLinkValue.toString() == cs.id.toString()) ? 'selected' : '' }>${cs.name}</option>
-                                                    </c:forEach>
-                                                </c:if>
-                                            </select>
-                                            <span class="input-group-btn float_pic_list_item_http ${not empty item.imgLinkType && (item.imgLinkType == 'link') ? '' : 'hide'}" id="content_float_pic_type_http${vs.index+1}">
-                                                <gb:select name="itemList[${vs.index}].imgLinkProtocol" prompt="" value="${item.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
-                                            </span>
-                                            <input type="text" name="imgLinkTypeValue${vs.index+1}" class="form-control float_pic_list_item_link_value ${not empty item.imgLinkType && (item.imgLinkType == 'link') ? '' : 'hide'}" value="${item.imgLinkType == 'link' ? item.imgLinkValue : ''}">
-                                            <span class="input-group-addon ${command.result.singleMode ?'hide':''} bdn _editTags">
-                                                <a href="javascript:void(0)" name="float_pic_list_item_placeholder"
-                                                   class="variable ${not empty item.imgLinkType && (item.imgLinkType == 'link') ? '' : 'hide'}">
-                                                        ${views.operation['MassInformation.step3.website']}<span>{website}</span>
-                                                </a>
-                                            </span>
-                                            <input type="hidden" name="itemList[${vs.index}].imgLinkValue" class="float_pic_list_item_link_type_value" value="${item.imgLinkType == 'link' ? item.imgLinkValue : (empty item.imgLinkType ? SiteCustomerService[0].id : item.imgLinkValue)}"/>
-                                            <span class="input-group-addon bdn ${vs.index > 0 || (item.imgLinkType != 'customer_service') ? 'hide' : '' } setting">
-                                                <a href="/param/siteParam.html?hasReturn=true&index=li_top_1" nav-target="mainFrame" class="m-l-sm">${views.column['CttFloatPic.image.setting']}</a>
-                                            </span>
                                         </div>
                                     </li>
                                 </c:forEach>
@@ -317,7 +321,7 @@
                         <div class="col-sm-5">
                             <div id="service_show_page" class="<%--${command.result.picType=='1'? '' : 'hide'}--%>">
                                 <c:forEach items="${floatPicDisplayInMaps}" var="map">
-                                    <input type="checkbox" class="i-checks show_page_${map.key}" name="result.displayInPages" value="${map.key}" ${fn:contains(command.result.displayInPages, map.key) ? 'checked' : ''}><span class="show_page_span_${map.key}">${views.content['floatPic.displayIn.'.concat(map.key)]}</span>&nbsp;
+                                    <input type="checkbox" class="i-checks show_page_${map.key}" name="result.displayInPages" value="${map.key}" checked><span class="show_page_span_${map.key}">${views.content['floatPic.displayIn.'.concat(map.key)]}</span>&nbsp;
                                 </c:forEach>
                             </div>
                         </div>
