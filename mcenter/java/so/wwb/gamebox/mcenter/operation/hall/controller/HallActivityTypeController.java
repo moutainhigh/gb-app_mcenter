@@ -222,6 +222,14 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             if (ActivityTypeEnum.REGIST_SEND.getCode().equals(code)) {
                 ActivityWayRelation activityWayRelation = ServiceActivityTool.activityWayRelationService().getActivityWayRelation(vActivityMessageVo);
                 model.addAttribute("activityWayRelation", activityWayRelation);
+                //注册送有效条件
+                ActivityPreferentialRelationListVo activityPreferentialRelationListVo = new ActivityPreferentialRelationListVo();
+                activityPreferentialRelationListVo.getSearch().setActivityMessageId(vActivityMessageVo.getActivityMessageId());
+                ActivityPreferentialRelationListVo effectiveCondition = ServiceActivityTool.activityPreferentialRelationService().search(activityPreferentialRelationListVo);
+                @SuppressWarnings("deprecation")
+                Set effectiveConditionSet = CollectionTool.extractToMap(effectiveCondition.getResult(), ActivityPreferentialRelation.PROP_PREFERENTIAL_CODE, ActivityPreferentialRelation.PROP_PREFERENTIAL_VALUE).keySet();
+                model.addAttribute("effectiveConditionSet", effectiveConditionSet);
+
             }
 
             if (ActivityTypeEnum.RELIEF_FUND.getCode().equals(code)) {
