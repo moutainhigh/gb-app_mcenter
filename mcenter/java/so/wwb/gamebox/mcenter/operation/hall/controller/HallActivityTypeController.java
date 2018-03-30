@@ -372,6 +372,15 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         Map<Integer, List<Map<String, Object>>> preferentialWayRelation = ServiceActivityTool.vActivityMessageService().getPreferentialRelation(vActivityMessageVo);
         model.addAttribute("preferentialWayRelation", preferentialWayRelation);
 
+        //注册送,有效条件,(不想多加字段,就放在了PreferentialRelation表,只要有code=xx标识就算有这个条件了)
+        if (ActivityTypeEnum.REGIST_SEND.getCode().equals(activityMessageVo.getResult().getActivityTypeCode())) {
+            ActivityPreferentialRelationListVo activityPreferentialRelationListVo = new ActivityPreferentialRelationListVo();
+            activityPreferentialRelationListVo.getSearch().setActivityMessageId(activityMessageVo.getSearch().getId());
+            ActivityPreferentialRelationListVo registeEffectiveListVo = ServiceActivityTool.activityPreferentialRelationService().search(activityPreferentialRelationListVo);
+            model.addAttribute("registeEffectiveList", registeEffectiveListVo.getResult());
+        }
+
+
         //获取返水
         if (ActivityTypeEnum.BACK_WATER.getCode().equals(activityMessageVo.getResult().getActivityTypeCode())) {
             RakebackSetListVo rakebackSetListVo = new RakebackSetListVo();

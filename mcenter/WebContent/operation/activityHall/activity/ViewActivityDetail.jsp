@@ -54,6 +54,15 @@
                             </div>
                         </div>
 
+                        <div class="clearfix m-l-lg line-hi34">
+                            <label class="ft-bold col-sm-3 al-right">${views.operation['有效条件']}：</label>
+                            <div class="col-sm-5 ">
+                                <c:forEach items="${registeEffectiveList}" var="effective" >
+                                    ${views.operation[effective.preferentialCode]} &nbsp;&nbsp;
+                                </c:forEach>
+                            </div>
+                        </div>
+
                         <c:if test="${p.activityTypeCode ne 'content'}">
                             <div class="clearfix m-l-lg line-hi34">
                                 <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.conditions']}：</label>
@@ -259,8 +268,7 @@
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </td>
-                                                </tr>
-                                            </c:forEach>
+                                                </tr>table table-bordered     </c:forEach>
 
                                         </table>
                                     </c:if>

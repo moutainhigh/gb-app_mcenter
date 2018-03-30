@@ -16,19 +16,19 @@
 
         <div class="col-sm-3 input-group">
             <label class="m-r-sm">
-                <input type="checkbox" class="i-checks" name="effectiveCondition[0].preferentialCode" value="bankcard_unique" ${effectiveConditionSet.contains('bankcard_unique')?'checked':''}>
+                <input type="checkbox" class="i-checks" name="effectiveCondition[0].preferentialCode" data-name="effectiveCondition[{n}].preferentialCode" value="bankcard_unique" ${effectiveConditionSet.contains('bankcard_unique')?'checked':''}>
                     ${views.operation['bankcard_unique']}
             </label>
             <label class="m-r-sm">
-                <input type="checkbox" class="i-checks" name="effectiveCondition[1].preferentialCode" value="real_name_unique" ${effectiveConditionSet.contains('real_name_unique')?'checked':''}>
+                <input type="checkbox" class="i-checks" name="effectiveCondition[1].preferentialCode" data-name="effectiveCondition[{n}].preferentialCode" value="real_name_unique" ${effectiveConditionSet.contains('real_name_unique')?'checked':''}>
                 ${views.operation['real_name_unique']}
             </label>
             <label class="m-r-sm">
-                <input type="checkbox" class="i-checks" name="effectiveCondition[2].preferentialCode" value="register_ip_unique" ${effectiveConditionSet.contains('register_ip_unique')?'checked':''}>
+                <input type="checkbox" class="i-checks" name="effectiveCondition[2].preferentialCode" data-name="effectiveCondition[{n}].preferentialCode" value="register_ip_unique" ${effectiveConditionSet.contains('register_ip_unique')?'checked':''}>
                 ${views.operation['register_ip_unique']}
             </label>
             <label class="m-r-sm">
-                <input type="checkbox" class="i-checks" name="effectiveCondition[3].preferentialCode" value="device_no_unique" ${effectiveConditionSet.contains('device_no_unique')?'checked':''}>
+                <input type="checkbox" class="i-checks" name="effectiveCondition[3].preferentialCode" data-name="effectiveCondition[{n}].preferentialCode" value="device_no_unique" ${effectiveConditionSet.contains('device_no_unique')?'checked':''}>
                 ${views.operation['device_no_unique']}
             </label>
         </div>
