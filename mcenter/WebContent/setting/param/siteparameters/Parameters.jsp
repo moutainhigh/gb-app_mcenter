@@ -66,10 +66,10 @@
                                                         <span class="smsTips0"><soul:button target="${root}/param/editSmsInterface.html" text="设置短信接口" opType="dialog"/></span>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <span class="smsTips0">您还未接入短信接口，请<a href='javascript:'>联系客服</a>进行设置</span>
+                                                        <span class="smsTips0">您还未设置短信接口，请先进行设置</span>
                                                     </c:otherwise>
                                                 </c:choose>
-                                                <span class="smsTips1 hidden">您还未接入短信接口，请<a href='javascript:'>联系客服</a>进行设置</span>
+                                                <span class="smsTips1 hidden">您还未设置短信接口，请先进行设置</span>
                                                 <span class="smsTips2 hidden"><soul:button target="${root}/param/editSmsInterface.html" text="设置短信接口" opType="dialog"/></span>
                                             </div>
                                         </div>
