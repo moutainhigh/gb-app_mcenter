@@ -77,7 +77,7 @@
 									<!--柜台现金-展示交易地点-->
 									<c:if test="${!empty r.rechargeAddress}">
 										<tr>
-											<th scope="row" class="text-right">${views.fund['交易地点']}</th>
+											<th scope="row" class="text-right">${views.fund['交易地点']}:</th>
 											<td>
 												<span id="rechargeAddress">${r.rechargeAddress}</span>
 												<a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${r.rechargeAddress}" name="copy">

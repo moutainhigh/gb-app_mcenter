@@ -170,6 +170,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     private static final String WITHDRAW_STATUS_VIEW_URl = "/fund/withdraw/withdrawStatusView";
     //确认重新出款页面
     private static final String WITHDRAW_STATUS_REVIEW_URl = "/fund/withdraw/withdrawStatusReview";
+
     @Override
     protected String getViewBasePath() {
         return "fund/withdraw/";
@@ -205,7 +206,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     @RequestMapping({"/withdrawList"})
     protected String withdrawList(HttpServletRequest request, VPlayerWithdrawListVo vo, Model model) {
         vo.setValidateRule(JsRuleCreator.create(VPlayerWithdrawSearchForm.class, "search"));
-
         initListVo(vo);
         if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
             List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
@@ -221,17 +221,12 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         easyPaymentStatus(model);//是否开启易收付出款入口
         handleVoice(vo, model);// 公司入款声音参数
         handleWithdrawStatus(model);//处理取款状态
-        Map<String, Serializable> bankName = getBankList();//DictTool.get(DictEnum.BANKNAME);
+        Map<String, Serializable> bankName = getBankList();
         model.addAttribute("bankName", bankName);
 
         handleTemple(model);//筛选模板
         vo.setThisUserId(SessionManager.getAuditUserId());
         model.addAttribute("command", vo);
-
-        VPlayerWithdrawSo search = vo.getSearch();
-        //把转义符合去掉
-        handleEscape(search);
-        vo.setSearch(search);
         return ServletTool.isAjaxSoulRequest(request) ? WITHDRAW_INDEX_PARIAL_URl : WITHDRAW_INDEX_URL;
     }
 
@@ -244,6 +239,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
         model.addAttribute("isActive", sysParam.getActive());
     }
+
     /**
      * 是否开启易收付出款入口
      *
@@ -393,7 +389,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      */
     private void handleTempleData(VPlayerWithdrawListVo vo) {
         if (CollectionTool.isNotEmpty(vo.getResult())) {
-            RedisSessionDao redisSessionDao = (RedisSessionDao) SpringTool.getBean("redisSessionDao");
             DateFormat dateFormat = new DateFormat();
             TimeZone timeZone = SessionManagerCommon.getTimeZone();
             Map<String, Map<String, Map<String, String>>> dictsMap = I18nTool.getDictsMap(SessionManagerCommon.getLocale().toString());
@@ -632,14 +627,10 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     }
 
     private Map<String, Serializable> getBankList() {
-        BankListVo bankListVo = new BankListVo();
-        bankListVo._setDataSourceId(SessionManager.getSiteParentId());
-        bankListVo.getSearch().setIsUse(true);
-        bankListVo.setPaging(null);
-        bankListVo = ServiceTool.bankService().search(bankListVo);
+        Map<String, Bank> bankCache = Cache.getBank();
         Map<String, Serializable> bankMap = new LinkedHashMap<>();
-        if (bankListVo.getResult() != null) {
-            for (Bank bank : bankListVo.getResult()) {
+        if (MapTool.isNotEmpty(bankCache)) {
+            for (Bank bank : bankCache.values()) {
                 SysDict dict = new SysDict();
                 dict.setModule("common");
                 dict.setDictType("bankname");
@@ -2270,12 +2261,13 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 list.add(bank);
             }
         }
-        model.addAttribute("bankList",list);
+        model.addAttribute("bankList", list);
         return WITHDRAW_ACCOUNT;
     }
 
     /**
      * 获取银行列表
+     *
      * @param paytype
      * @return
      */
@@ -2380,8 +2372,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         playerWithdrawSo.setCheckStatus(vo.getSearch().getCheckStatus());
         playerWithdrawSo.setWithdrawCheckUserId(SessionManager.getUserId());
         //如果手动置为失败需保存失败原因
-        if (CheckStatusEnum.PAYMENT_FAIL.getCode().equals(vo.getSearch().getCheckStatus())){
-            String errorLog = LocaleTool.tranMessage(_Module.COMMON,"manual_failure");
+        if (CheckStatusEnum.PAYMENT_FAIL.getCode().equals(vo.getSearch().getCheckStatus())) {
+            String errorLog = LocaleTool.tranMessage(_Module.COMMON, "manual_failure");
             playerWithdrawSo.setWithdrawFailureReason(errorLog);
         }
         try {

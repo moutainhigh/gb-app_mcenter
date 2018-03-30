@@ -358,55 +358,50 @@
                                     </div>
                                 </div>
                             </div>
+            <shiro:hasPermission name="system:electricpin_switch ">
                             <div id="accessDomains" class="col-lg-6 site-switch">
                                 <h3>${views.setting_auto['电销参数设置']}</h3>
-                                <div class="content clearfix" style="padding-top: 10px">
+                                <div class="content clearfix" style="padding-top: 15px">
                                     <c:if test="${ empty phone_url}">
                                         <div class="clearfix m-b">
                                     <div style="padding-top: 10px">
                                             <label class="ft-bold pull-left m-r-xl"
-                                                   style='float:left;margin-top: 10px'> ${views.setting_auto['电销开关']}： ${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>
+                                                   style='float:left;margin-top:4px'> ${views.setting_auto['电销开关']}：${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>
                                             <label class="m-r-md "></label>
-                                        <div class="clearfix m-b">
                                     </div>
                                     </c:if>
                                 <c:if test="${not empty phone_url}">
                                     <div class="clearfix m-b">
                                         <div style="padding-top: 10px">
-                                            <shiro:hasPermission name="system:electricpin_switch ">
                                             <label class="ft-bold pull-left m-r"
-                                                   style='float:left;margin-top: 10px'> ${views.setting_auto['电销开关']}：</label>
-                                                    <input id="phonePin" type="checkbox" name="electric_pin"
+                                                   style='float:left;margin-top:4px'> ${views.setting_auto['电销开关']}：</label>
+                                                    <input id="phonePin" type="checkbox" name="electric_pin" data-size="mini"
                                                         ${electric_pin.paramValue =="true" ?'checked':''} />
                                             <%--<label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>--%>
-                                                <h3>${views.setting_auto['电销功能开关']}电销功能开关:</h3>
-                                            </shiro:hasPermission>
-                                        </div>
 
+                                        </div>
+                                        <div style="padding-top: 10px">
+                                        <h3>${views.setting_auto['电销功能开关']}:</h3>
+                                        </div>
                                         <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md "  >
-                                            <shiro:hasPermission name="system:electricpin_switch ">
                                             <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
                                                     ${views.setting_auto['是否加密']}：</label>
-                                            <input type="checkbox" name="encryption_switch"
+                                            <input type="checkbox" name="encryption_switch" data-size="mini"
                                                 ${encryption_switch.paramValue =="true" ?'checked':''} />
                                             <label class="m-r-md ">${views.setting_auto['启用后拨打的号码将加密']}</label>
-                                            </shiro:hasPermission>
                                         </div>
 
                                         <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px">
-                                            <shiro:hasPermission name="system:electricpin_switch ">
                                                 <label class="ft-bold pull-left m-r"
                                                        style='margin-top: 10px'> ${views.setting_auto['前端回call']}：</label>
-                                                <input id="playerCall" type="checkbox" name="player_stationmaster"
+                                                <input id="playerCall" data-size="mini" type="checkbox" name="player_stationmaster"
                                                     ${player_stationmaster.paramValue =="true" ?'checked':''} />
                                                 <label class="m-r-md ">${views.setting_auto['启用后需设置坐席号方可使用']}</label>
-                                            </shiro:hasPermission>
                                         </div>
-                                        <div id="phone" class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px" >
-                                                <shiro:hasPermission name="system:electricpin_switch ">
+                                        <div id="phone" data-size="mini" class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px" >
                                                     <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
                                                             ${views.setting_auto['坐席号设置']}：</label>
-                                                    <input type="text" id="callMunber"  placeholder="请填写回Call坐席号" name="result.paramValue" value="${poone_number.paramValue}">
+                                                    <input type="text" id="callMunber" style="height: 35px"  placeholder="请填写回Call坐席号" name="result.paramValue" value="${poone_number.paramValue}">
                                                     <soul:button cssClass="btn btn-filter" text="${views.common['saveNumber']}"
                                                                  opType="ajax"
                                                                  dataType="json"
@@ -414,7 +409,6 @@
                                                                  confirm="${views.common['confirm.modify']}"
                                                                  post="getPhoneNumber"
                                                                  callback="save"/>
-                                                </shiro:hasPermission>
                                         </div>
                                 </div>
                               </c:if>
@@ -422,6 +416,7 @@
                         </div>
                     </div>
                 </div>
+               </shiro:hasPermission>
             </div>
         </div>
     </div>
