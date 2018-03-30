@@ -389,7 +389,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      */
     private void handleTempleData(VPlayerWithdrawListVo vo) {
         if (CollectionTool.isNotEmpty(vo.getResult())) {
-            RedisSessionDao redisSessionDao = (RedisSessionDao) SpringTool.getBean("redisSessionDao");
             DateFormat dateFormat = new DateFormat();
             TimeZone timeZone = SessionManagerCommon.getTimeZone();
             Map<String, Map<String, Map<String, String>>> dictsMap = I18nTool.getDictsMap(SessionManagerCommon.getLocale().toString());
@@ -629,11 +628,14 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     private Map<String, Serializable> getBankList() {
         Map<String, Bank> bankCache = Cache.getBank();
-        Map<String, SysDict> sysDictMap = DictTool.get(DictEnum.BANKNAME);
         Map<String, Serializable> bankMap = new LinkedHashMap<>();
         if (MapTool.isNotEmpty(bankCache)) {
             for (Bank bank : bankCache.values()) {
-                SysDict dict = sysDictMap.get(bank.getBankName());
+                SysDict dict = new SysDict();
+                dict.setModule("common");
+                dict.setDictType("bankname");
+                dict.setDictCode(bank.getBankName());
+                dict.setActive(true);
                 dict.setRemark(bank.getBankShortName());
                 dict.setOrderNum(bank.getOrderNum());
                 bankMap.put(bank.getBankName(), dict);
