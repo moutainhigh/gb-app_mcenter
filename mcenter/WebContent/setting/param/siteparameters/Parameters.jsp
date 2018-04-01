@@ -120,7 +120,7 @@
                                             <div class="col-xs-5">
                                                 <input type="checkbox" class="_switch" name="" data-size="mini">
                                             </div>
-                                        </div>
+                                        </div>--%>
                                         <div class="modal-footer">
                                             <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
                                                          opType="ajax"
@@ -128,7 +128,7 @@
                                                          target="${root}/param/saveSmsInterfaceParam.html"
                                                          precall="validSmsInterfaceParam"
                                                          post="getSmsInterfaceParamDateForm" callback="saveCallbak"/>
-                                        </div>--%>
+                                        </div>
                                     </c:if>
                                 </ul>
                             </div>
