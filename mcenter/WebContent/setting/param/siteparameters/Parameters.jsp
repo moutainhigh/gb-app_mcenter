@@ -256,8 +256,8 @@
                                 <div id="appDownloadDomain" class="content clearfix">
                                     <div style="padding-top: 10px">
                                         <label class="ft-bold pull-left m-r"
-                                               style='float:left;margin-top: 10px'> ${views.setting_auto['登录后显示二维码']}：</label>
-                                        <input type="checkbox" name="active" objId="${qrSwitch.id}"
+                                               style='float:left'> ${views.setting_auto['登录后显示二维码']}：</label>
+                                        <input type="checkbox" name="active" objId="${qrSwitch.id}" data-size="mini"
                                             ${qrSwitch.paramValue =="true" ?'checked':''} />
                                         <label>${views.setting_auto['开启后，玩家需要登录方可查看二维码！']}</label>
                                     </div>
