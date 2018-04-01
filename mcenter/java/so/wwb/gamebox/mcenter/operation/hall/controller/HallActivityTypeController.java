@@ -311,7 +311,27 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         isSetFloat(model);
 
         model.addAttribute("is123Deposit",VActivityMessageVo.is123Deposit(code));
+
+        if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code)) {
+            getApiGameTypeRelation(model);
+        }
+
+        if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code)) {
+            getActivityRuleIncludeGameMap(activityMessageVo, model);
+        }
         return OPERATION_ACTIVITY_STEP;
+    }
+
+    private void getActivityRuleIncludeGameMap(ActivityMessageVo activityMessageVo, Model model) {
+        ActivityRuleIncludeGameListVo activityRuleIncludeGameListVo = new ActivityRuleIncludeGameListVo();
+        activityRuleIncludeGameListVo.getSearch().setActivityMessageId(activityMessageVo.getResult().getId());
+        activityRuleIncludeGameListVo.setPaging(null);
+        activityRuleIncludeGameListVo = ServiceActivityTool.activityRuleIncludeGameService().search(activityRuleIncludeGameListVo);
+        List<ActivityRuleIncludeGame> activityRuleIncludeGameList = activityRuleIncludeGameListVo.getResult();
+        if (CollectionTool.isNotEmpty(activityRuleIncludeGameList)){
+            Map<String, List<ActivityRuleIncludeGame>> activityRIGMap = CollectionTool.groupByProperty(activityRuleIncludeGameList, ActivityRuleIncludeGame.PROP_GAME_TYPE, String.class);
+            model.addAttribute("activityRIGMap", activityRIGMap);
+        }
     }
 
     /*是否设置红包--首页浮层弹窗*/

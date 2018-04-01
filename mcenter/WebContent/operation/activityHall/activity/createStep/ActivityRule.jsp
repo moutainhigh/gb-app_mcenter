@@ -145,11 +145,10 @@
                         <span class="col-sm-3"></span>
                             <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
                                 <li class="${index.index==0?'active':''}">
-                                    <a data-toggle="tab" href="#tab${index.index}" aria-expanded="${index.index==0?'true':'false'}">
+                                    <a data-toggle="tab" href="#game_tab${index.index}" aria-expanded="${index.index==0?'true':'false'}">
                                         ${apiGametypeRelations.key}
                                     </a>
                                 </li>
-                                <input type="hidden" name="ActivityRuleIncludeGames[${index.index}].gameType" value="${apiGametypeRelations.key}">
                             </c:forEach>
                         </ul>
                     </div>
@@ -158,9 +157,16 @@
                     <div class="tab-content">
                         <span class="col-sm-3"></span>
                         <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
-                            <div id="tab${index.index}" class="tab-pane ${index.index==0?'active':''}">
-                                <c:forEach items="${apiGametypeRelations.value}" var="apiGametypeRelation">
-                                    <input type="checkbox" value="${apiGametypeRelation.apiId}" name="ActivityRuleIncludeGames[${index.index}].apiId"/>${gbFn:getApiName(apiGametypeRelation.apiId)}
+                            <div id="game_tab${index.index}" class="tab-pane ${index.index==0?'active':''}">
+                                <c:forEach items="${apiGametypeRelations.value}" var="apiGametypeRelation" varStatus="v">
+
+                                        <input type="checkbox" value="${apiGametypeRelation.apiId}" name="ActivityRuleIncludeGames[${index.index}][${v.index}].apiId"
+                                        <c:forEach items="${activityRIGMap[apiGametypeRelations.key]}" var="activityRIG">
+                                                ${apiGametypeRelation.apiId == activityRIG.apiId ? 'checked':''}
+                                        </c:forEach>
+                                        />${gbFn:getApiName(apiGametypeRelation.apiId)}
+                                        <input type="hidden" name="ActivityRuleIncludeGames[${index.index}][${v.index}].gameType" value="${apiGametypeRelations.key}">
+
                                 </c:forEach>
                             </div>
                         </c:forEach>
