@@ -138,6 +138,36 @@
                 <%@ include file="rule.include/Money.jsp" %>
             </c:if>
 
+            <c:if test="${activityType.result.code eq 'effective_transaction'}">
+                <div class="form-group clearfix">
+                    <div class="clearfix save lgg-version lang_label">
+                        <ul class="nav nav-tabs">
+                        <span class="col-sm-3"></span>
+                            <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
+                                <li class="${index.index==0?'active':''}">
+                                    <a data-toggle="tab" href="#tab${index.index}" aria-expanded="${index.index==0?'true':'false'}">
+                                        ${apiGametypeRelations.key}
+                                    </a>
+                                </li>
+                                <input type="hidden" name="ActivityRuleIncludeGames[${index.index}].gameType" value="${apiGametypeRelations.key}">
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <span class="col-sm-3"></span>
+                        <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
+                            <div id="tab${index.index}" class="tab-pane ${index.index==0?'active':''}">
+                                <c:forEach items="${apiGametypeRelations.value}" var="apiGametypeRelation">
+                                    <input type="checkbox" value="${apiGametypeRelation.apiId}" name="ActivityRuleIncludeGames[${index.index}].apiId"/>${gbFn:getApiName(apiGametypeRelation.apiId)}
+                                </c:forEach>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+            </c:if>
+
             <c:if test="${ is123Deposit || activityType.result.code eq 'deposit_send' }">
                 <div class="clearfix m-t-md" id="preferentialAmountLimit">
                     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.preferentialAmountLimit']}${siteCurrency}：</label>
