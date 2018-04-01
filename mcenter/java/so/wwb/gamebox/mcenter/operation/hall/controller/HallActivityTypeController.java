@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceActivityTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.operation.ActivityMoneyPeriodTool;
 import so.wwb.gamebox.iservice.master.operation.IActivityTypeService;
 import so.wwb.gamebox.mcenter.operation.form.ActivityContentStepForm;
@@ -22,6 +23,8 @@ import so.wwb.gamebox.mcenter.operation.form.ActivityTypeSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.company.setting.po.ApiGametypeRelation;
+import so.wwb.gamebox.model.company.setting.vo.ApiGametypeRelationListVo;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.master.content.po.CttFloatPic;
@@ -156,22 +159,26 @@ public class HallActivityTypeController extends HallActivityController<IActivity
 
         //创建活动时间最小为当前时间
         model.addAttribute("minDate",SessionManager.getDate().getNow());
-        //是否设置红包--首页浮层弹窗
-        CttFloatPicVo cttFloatPicVo=new CttFloatPicVo();
-        cttFloatPicVo.getSearch().setPicType("2");
-        cttFloatPicVo.getSearch().setStatus(true);
-        List<CttFloatPic> cttFloatPics = ServiceSiteTool.cttFloatPicService().isExistAgent(cttFloatPicVo);
-        String isExist = "true";
-        if (CollectionTool.isNotEmpty(cttFloatPics) && cttFloatPics.size() > 0) {
-            isExist = "false";
-            Integer id = cttFloatPics.get(0).getId();
-            model.addAttribute("id", id);
-        }
-        model.addAttribute("isPicType",isExist);
+        isSetFloat(model);
+
         model.addAttribute("is123Deposit",VActivityMessageVo.is123Deposit(code));
+
+        if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code)) {
+            getApiGameTypeRelation(model);
+        }
         return OPERATION_ACTIVITY_STEP;
     }
 
+    private void getApiGameTypeRelation(Model model) {
+        ApiGametypeRelationListVo apiGametypeRelationListVo = new ApiGametypeRelationListVo();
+        apiGametypeRelationListVo.setPaging(null);
+        apiGametypeRelationListVo = ServiceTool.apiGametypeRelationService().search(apiGametypeRelationListVo);
+        List<ApiGametypeRelation> list = apiGametypeRelationListVo.getResult();
+        if (CollectionTool.isNotEmpty(list)) {
+            Map<String, List<ApiGametypeRelation>> apiGametypeRelationMap = CollectionTool.groupByProperty(list, ApiGametypeRelation.PROP_GAME_TYPE, String.class);
+            model.addAttribute("apiGametypeRelationMap", apiGametypeRelationMap);
+        }
+    }
 
     /**
      * 活动信息编辑
@@ -293,6 +300,14 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         model.addAttribute("activityMessageVo", activityMessageVo);
         model.addAttribute("validateRule", JsRuleCreator.create(ActivityContentStepForm.class));
 
+        isSetFloat(model);
+
+        model.addAttribute("is123Deposit",VActivityMessageVo.is123Deposit(code));
+        return OPERATION_ACTIVITY_STEP;
+    }
+
+    /*是否设置红包--首页浮层弹窗*/
+    private void isSetFloat(Model model) {
         CttFloatPicVo cttFloatPicVo=new CttFloatPicVo();
         cttFloatPicVo.getSearch().setPicType("2");
         cttFloatPicVo.getSearch().setStatus(true);
@@ -303,10 +318,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             Integer id = cttFloatPics.get(0).getId();
             model.addAttribute("id", id);
         }
-        model.addAttribute("isPicType",isExist);
-
-        model.addAttribute("is123Deposit",VActivityMessageVo.is123Deposit(code));
-        return OPERATION_ACTIVITY_STEP;
+        model.addAttribute("isPicType", isExist);
     }
 
 
