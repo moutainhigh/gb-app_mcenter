@@ -229,6 +229,14 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             if (ActivityTypeEnum.REGIST_SEND.getCode().equals(code)) {
                 ActivityWayRelation activityWayRelation = ServiceActivityTool.activityWayRelationService().getActivityWayRelation(vActivityMessageVo);
                 model.addAttribute("activityWayRelation", activityWayRelation);
+                //注册送有效条件
+                ActivityPreferentialRelationListVo activityPreferentialRelationListVo = new ActivityPreferentialRelationListVo();
+                activityPreferentialRelationListVo.getSearch().setActivityMessageId(vActivityMessageVo.getActivityMessageId());
+                ActivityPreferentialRelationListVo effectiveCondition = ServiceActivityTool.activityPreferentialRelationService().search(activityPreferentialRelationListVo);
+                @SuppressWarnings("deprecation")
+                Set effectiveConditionSet = CollectionTool.extractToMap(effectiveCondition.getResult(), ActivityPreferentialRelation.PROP_PREFERENTIAL_CODE, ActivityPreferentialRelation.PROP_PREFERENTIAL_VALUE).keySet();
+                model.addAttribute("effectiveConditionSet", effectiveConditionSet);
+
             }
 
             if (ActivityTypeEnum.RELIEF_FUND.getCode().equals(code)) {
@@ -375,6 +383,15 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         vActivityMessageVo.setResult(vActivityMessage);
         Map<Integer, List<Map<String, Object>>> preferentialWayRelation = ServiceActivityTool.vActivityMessageService().getPreferentialRelation(vActivityMessageVo);
         model.addAttribute("preferentialWayRelation", preferentialWayRelation);
+
+        //注册送,有效条件,(不想多加字段,就放在了PreferentialRelation表,只要有code=xx标识就算有这个条件了)
+        if (ActivityTypeEnum.REGIST_SEND.getCode().equals(activityMessageVo.getResult().getActivityTypeCode())) {
+            ActivityPreferentialRelationListVo activityPreferentialRelationListVo = new ActivityPreferentialRelationListVo();
+            activityPreferentialRelationListVo.getSearch().setActivityMessageId(activityMessageVo.getSearch().getId());
+            ActivityPreferentialRelationListVo registeEffectiveListVo = ServiceActivityTool.activityPreferentialRelationService().search(activityPreferentialRelationListVo);
+            model.addAttribute("registeEffectiveList", registeEffectiveListVo.getResult());
+        }
+
 
         //获取返水
         if (ActivityTypeEnum.BACK_WATER.getCode().equals(activityMessageVo.getResult().getActivityTypeCode())) {
