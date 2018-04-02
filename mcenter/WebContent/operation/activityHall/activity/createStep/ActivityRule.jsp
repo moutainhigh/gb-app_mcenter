@@ -148,6 +148,7 @@
                                     <a data-toggle="tab" href="#game_tab${index.index}" aria-expanded="${index.index==0?'true':'false'}">
                                         ${apiGametypeRelations.key}
                                     </a>
+                                    <span class="${index.index}"></span>
                                 </li>
                             </c:forEach>
                         </ul>
@@ -157,10 +158,10 @@
                     <div class="tab-content">
                         <span class="col-sm-3"></span>
                         <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
-                            <div id="game_tab${index.index}" class="tab-pane ${index.index==0?'active':''}">
+                            <div id="game_tab${index.index}" class="tab-pane ${index.index==0?'active':''} game_div" aaa="${index.index}">
                                 <c:forEach items="${apiGametypeRelations.value}" var="apiGametypeRelation" varStatus="v">
 
-                                        <input type="checkbox" value="${apiGametypeRelation.apiId}" name="ActivityRuleIncludeGames[${index.index}][${v.index}].apiId"
+                                        <input type="checkbox" value="${apiGametypeRelation.apiId}" name="ActivityRuleIncludeGames[${index.index}][${v.index}].apiId"  aaa="${index.index}" class="game"
                                         <c:forEach items="${activityRIGMap[apiGametypeRelations.key]}" var="activityRIG">
                                                 ${apiGametypeRelation.apiId == activityRIG.apiId ? 'checked':''}
                                         </c:forEach>
