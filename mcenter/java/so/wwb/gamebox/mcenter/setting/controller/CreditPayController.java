@@ -99,7 +99,11 @@ public class CreditPayController {
         double transferIntoSum = sysSiteCredit.getTransferIntoSum() == null ? 0 : sysSiteCredit.getTransferIntoSum();
         //转入api余额扣除（转出到api金额-转入到钱包余额）
         model.addAttribute("transferLimit", transferOutSum - transferIntoSum);
-        model.addAttribute("currentTransferLimit", sysSiteCredit.getCurrentTransferLimit());
+        if (sysSiteCredit.getTransferLine() != null){
+            model.addAttribute("currentTransferLimit", sysSiteCredit.getCurrentTransferLimit()+sysSiteCredit.getTransferLine());
+        }else {
+            model.addAttribute("currentTransferLimit", sysSiteCredit.getCurrentTransferLimit());
+        }
         double defaultTransferLimit = sysSiteCredit.getDefaultTransferLimit()== null ? 0d :sysSiteCredit.getDefaultTransferLimit();
         model.addAttribute("defaultTransferLimit", defaultTransferLimit/10000);
         Date profitTime = sysSiteCredit.getProfitTime();

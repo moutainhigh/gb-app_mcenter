@@ -66,6 +66,7 @@ import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.setting.po.FieldSort;
 import so.wwb.gamebox.model.master.setting.po.GradientTemp;
 import so.wwb.gamebox.model.master.setting.vo.PlayerItemMessage;
+import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.SiteCustomerServiceHelper;
 
@@ -568,8 +569,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             SysParamVo sysParamVo = new SysParamVo();
             sysParamVo.setResult(sysParam);
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-            ServiceTool.getSysParamService().updateOnly(sysParamVo);
-            ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
+            SysParamVo sysparam = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            if (sysparam.isSuccess()) {
+                ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
+            }
             map.put("state", true);
         }else {
             map.put("state",false);
@@ -642,6 +645,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
         SysParam encryption = ParamTool.getSysParam(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
         SysParam stationmaster = ParamTool.getSysParam(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
+        SysParam phoneNumber = ParamTool.getSysParam(SiteParamEnum.EXTENSION_NUMBER_SETTING);
+        String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManagerCommon.getSiteId());
+        model.addAttribute("poone_number",phoneNumber);
+        model.addAttribute("phone_url",phoneUrl);
         model.addAttribute("player_stationmaster",stationmaster);
         model.addAttribute("encryption_switch",encryption);
         model.addAttribute("qrSwitch",sysParamQrSwitch);
@@ -1283,7 +1290,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
       if (sysParam!=null){
           for (SysParam sysParam1:sysParam){
               sysParamVo.setResult(sysParam1);
-              ServiceTool.getSysParamService().updateOnly(sysParamVo);
+              SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
           }
           ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PHONE_NUMBER);
           ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
@@ -1308,8 +1315,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         if (sysParam!=null) {
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-            ServiceTool.getSysParamService().updateOnly(sysParamVo);
-            ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_POPUP_SWITCH);
+            SysParamVo ParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+           if (ParamVo.isSuccess()){
+               ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_POPUP_SWITCH);
+           }
         }
         return  map;
     }
@@ -1326,8 +1335,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         if (sysParam!=null) {
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-            ServiceTool.getSysParamService().updateOnly(sysParamVo);
-            ParamTool.refresh(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
+            SysParamVo Param= ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            if (Param.isSuccess()){
+                ParamTool.refresh(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
+            }
         }
         return  map;
     }
@@ -1346,8 +1357,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         if (sysParam!=null) {
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-            ServiceTool.getSysParamService().updateOnly(sysParamVo);
-            ParamTool.refresh(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+            SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+          if (Param.isSuccess()){
+              ParamTool.refresh(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+          }
         }
         return  map;
     }
@@ -1364,9 +1377,11 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         if (sysParam!=null) {
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-            ServiceTool.getSysParamService().updateOnly(sysParamVo);
-            ParamTool.refresh(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
-            map.put("state",true);
+            SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            if (Param.isSuccess()) {
+                ParamTool.refresh(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
+                map.put("state",true);
+            }
         }
         return  map;
     }
@@ -1383,8 +1398,31 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         if (sysParam!=null) {
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-            ServiceTool.getSysParamService().updateOnly(sysParamVo);
-            ParamTool.refresh(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
+            SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+          if (Param.isSuccess()){
+              ParamTool.refresh(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
+              map.put("state",true);
+          }
+        }
+        return  map;
+    }
+    /***
+     * 设置分机号码
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/savePhone")
+    @ResponseBody
+    public  Map savePhone(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.EXTENSION_NUMBER_SETTING);
+        if (sysParam!=null) {
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            if (Param.isSuccess()){
+                ParamTool.refresh(SiteParamEnum.EXTENSION_NUMBER_SETTING);
+            }
             map.put("state",true);
         }
         return  map;
@@ -1401,12 +1439,14 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             return  null;
         }
         sysParamVo.setProperties(SysParam.PROP_ACTIVE);
-        ServiceTool.getSysParamService().updateOnly(sysParamVo);
-        ParamTool.refresh(SiteParamEnum.WARMING_TONE_ONLINEPAY);
-        ParamTool.refresh(SiteParamEnum.WARMING_TONE_DRAW);
-        ParamTool.refresh(SiteParamEnum.WARMING_TONE_AUDIT);
-        ParamTool.refresh(SiteParamEnum.WARMING_TONE_WARM);
-        ParamTool.refresh(SiteParamEnum.WARMING_TONE_NOTICE);
+        SysParamVo sysParam = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+        if (sysParam.isSuccess()) {
+            ParamTool.refresh(SiteParamEnum.WARMING_TONE_ONLINEPAY);
+            ParamTool.refresh(SiteParamEnum.WARMING_TONE_DRAW);
+            ParamTool.refresh(SiteParamEnum.WARMING_TONE_AUDIT);
+            ParamTool.refresh(SiteParamEnum.WARMING_TONE_WARM);
+            ParamTool.refresh(SiteParamEnum.WARMING_TONE_NOTICE);
+        }
         return  map;
     }
 

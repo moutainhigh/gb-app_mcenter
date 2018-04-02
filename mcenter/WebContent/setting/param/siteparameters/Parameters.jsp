@@ -1,7 +1,7 @@
 <%-- @elvariable id="command" type="so.wwb.gamebox.model.master.setting.vo.NoticeTmplListVo" --%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
-<form:form action="${root}/param/siteParam.html" method="post" id="siteParam">
+<form:form action="${root}/param/parameterSetting.html" method="post" id="parameterSetting">
     <div class="row">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
@@ -66,10 +66,10 @@
                                                         <span class="smsTips0"><soul:button target="${root}/param/editSmsInterface.html" text="设置短信接口" opType="dialog"/></span>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <span class="smsTips0">您还未接入短信接口，请<a href='javascript:'>联系客服</a>进行设置</span>
+                                                        <span class="smsTips0">您还未设置短信接口，请先进行设置</span>
                                                     </c:otherwise>
                                                 </c:choose>
-                                                <span class="smsTips1 hidden">您还未接入短信接口，请<a href='javascript:'>联系客服</a>进行设置</span>
+                                                <span class="smsTips1 hidden">您还未设置短信接口，请先进行设置</span>
                                                 <span class="smsTips2 hidden"><soul:button target="${root}/param/editSmsInterface.html" text="设置短信接口" opType="dialog"/></span>
                                             </div>
                                         </div>
@@ -113,14 +113,14 @@
                                                     <input type="checkbox" class="_switch recoverPasswordParam" data-size="mini" ${recoverPasswordParam.active?"checked":""}>
                                             </div>
                                         </div>
-                                        <div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
+                                        <%--<div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
                                             <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
                                                 短信模板：
                                             </div>
                                             <div class="col-xs-5">
                                                 <input type="checkbox" class="_switch" name="" data-size="mini">
                                             </div>
-                                        </div>
+                                        </div>--%>
                                         <div class="modal-footer">
                                             <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
                                                          opType="ajax"
@@ -132,55 +132,6 @@
                                     </c:if>
                                 </ul>
                             </div>
-
-                            <%--<div id="smsInterface" class="col-lg-6 site-switch">
-                                <h3>${views.setting_auto['短信接口设置']}</h3>
-                                <ul class="content clearfix" style="padding-top: 10px">
-                                    <div class="clearfix m-b">
-                                        <div class="ft-bold pull-left line-hi34"
-                                             style="width: 100px;text-align: right;">${views.setting_auto['接口名称']}：
-                                        </div>
-                                        <div class="col-xs-5">
-                                            <gb:select name="sms.id" value="${smsInterfaceVo.result.id}"
-                                                       list="${interfaceListVo}" listKey="id" listValue="fullName"/>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix m-b">
-                                        <div class="ft-bold pull-left line-hi34"
-                                             style="width: 100px;text-align: right;">
-                                                ${views.setting_auto['接口用户名']}：
-                                        </div>
-                                        <div class="col-xs-5"><input type="text" name="sms.username"
-                                                                     value="${smsInterfaceVo.result.username}"
-                                                                     class="form-control"></div>
-                                    </div>
-                                    <div class="clearfix m-b">
-                                        <div class="ft-bold pull-left line-hi34"
-                                             style="width: 100px;text-align: right;">${views.setting_auto['接口密码']}：
-                                        </div>
-                                        <div class="col-xs-5"><input type="password" name="sms.password"
-                                                                     value="${smsInterfaceVo.result.password}"
-                                                                     class="form-control"></div>
-                                    </div>
-                                    <div class="clearfix m-b">
-                                        <div class="ft-bold pull-left line-hi34"
-                                             style="width: 100px;text-align: right;">${views.setting_auto['接口密钥']}：
-                                        </div>
-                                        <div class="col-xs-5">
-                                            <textarea name="sms.dataKey"
-                                                      class="form-control">${smsInterfaceVo.result.dataKey}</textarea>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
-                                                     opType="ajax"
-                                                     dataType="json"
-                                                     target="${root}/smsInterface/saveSmsInterface.html"
-                                                     precall="validSmsInterface"
-                                                     post="getSmsInterfaceDateForm" callback="saveCallbak"/>
-                                    </div>
-                                </ul>
-                            </div>--%>
                         </div>
                         <div class="clearfix">
                             <div id="pcCustomService" class="col-lg-6 site-switch">
@@ -256,8 +207,8 @@
                                 <div id="appDownloadDomain" class="content clearfix">
                                     <div style="padding-top: 10px">
                                         <label class="ft-bold pull-left m-r"
-                                               style='float:left;margin-top: 10px'> ${views.setting_auto['登录后显示二维码']}：</label>
-                                        <input type="checkbox" name="active" objId="${qrSwitch.id}"
+                                               style='float:left'> ${views.setting_auto['登录后显示二维码']}：</label>
+                                        <input type="checkbox" name="active" objId="${qrSwitch.id}" data-size="mini"
                                             ${qrSwitch.paramValue =="true" ?'checked':''} />
                                         <label>${views.setting_auto['开启后，玩家需要登录方可查看二维码！']}</label>
                                     </div>
@@ -358,43 +309,65 @@
                                     </div>
                                 </div>
                             </div>
+            <shiro:hasPermission name="system:electricpin_switch ">
                             <div id="accessDomains" class="col-lg-6 site-switch">
                                 <h3>${views.setting_auto['电销参数设置']}</h3>
-                                <div class="content clearfix" style="padding-top: 10px">
+                                <div class="content clearfix" style="padding-top: 15px">
+                                    <c:if test="${ empty phone_url}">
+                                        <div class="clearfix m-b">
+                                    <div style="padding-top: 10px">
+                                            <label class="ft-bold pull-left m-r-xl"
+                                                   style='float:left;margin-top:4px'> ${views.setting_auto['电销开关']}：${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>
+                                            <label class="m-r-md "></label>
+                                    </div>
+                                    </c:if>
+                                <c:if test="${not empty phone_url}">
                                     <div class="clearfix m-b">
                                         <div style="padding-top: 10px">
-                                            <shiro:hasPermission name="system:electricpin_switch ">
                                             <label class="ft-bold pull-left m-r"
-                                                   style='float:left;margin-top: 10px'> ${views.setting_auto['电销开关']}：</label>
-                                            <input type="checkbox" name="electric_pin" objId="${qrSwitch.id}"
-                                                ${electric_pin.paramValue =="true" ?'checked':''} />
-                                            <label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>
-                                            </shiro:hasPermission>
+                                                   style='float:left;margin-top:4px'> ${views.setting_auto['电销开关']}：</label>
+                                                    <input id="phonePin" type="checkbox" name="electric_pin" data-size="mini"
+                                                        ${electric_pin.paramValue =="true" ?'checked':''} />
+                                            <%--<label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>--%>
+
                                         </div>
-                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric" style="padding-top: 10px" >
-                                            <shiro:hasPermission name="system:electricpin_switch ">
+                                        <div style="padding-top: 10px">
+                                        <h3>${views.setting_auto['电销功能开关']}:</h3>
+                                        </div>
+                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md "  >
                                             <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
                                                     ${views.setting_auto['是否加密']}：</label>
-                                            <input type="checkbox" name="encryption_switch"
+                                            <input type="checkbox" name="encryption_switch" data-size="mini"
                                                 ${encryption_switch.paramValue =="true" ?'checked':''} />
-                                            <label class="m-r-md ">${views.setting_auto['您拨打的电话号码是否加密']}</label>
-                                            </shiro:hasPermission>
+                                            <label class="m-r-md ">${views.setting_auto['启用后拨打的号码将加密']}</label>
                                         </div>
-                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric" style="padding-top: 10px">
-                                            <shiro:hasPermission name="system:electricpin_switch ">
+
+                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px">
                                                 <label class="ft-bold pull-left m-r"
-                                                       style='float:left;margin-top: 10px'> ${views.setting_auto['联系站长']}：</label>
-                                                <input type="checkbox" name="player_stationmaster"
+                                                       style='margin-top: 10px'> ${views.setting_auto['前端回call']}：</label>
+                                                <input id="playerCall" data-size="mini" type="checkbox" name="player_stationmaster"
                                                     ${player_stationmaster.paramValue =="true" ?'checked':''} />
-                                                <label class="m-r-md ">${views.setting_auto['是否允许玩家联系站长']}</label>
-                                            </shiro:hasPermission>
+                                                <label class="m-r-md ">${views.setting_auto['启用后需设置坐席号方可使用']}</label>
                                         </div>
-                                    </div>
+                                        <div id="phone" data-size="mini" class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px" >
+                                                    <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
+                                                            ${views.setting_auto['坐席号设置']}：</label>
+                                                    <input type="text" id="callMunber" style="height: 35px"  placeholder="请填写回Call坐席号" name="result.paramValue" value="${poone_number.paramValue}">
+                                                    <soul:button cssClass="btn btn-filter" text="${views.common['saveNumber']}"
+                                                                 opType="ajax"
+                                                                 dataType="json"
+                                                                 target="${root}/param/savePhone.html"
+                                                                 confirm="${views.common['confirm.modify']}"
+                                                                 post="getPhoneNumber"
+                                                                 callback="save"/>
+                                        </div>
                                 </div>
+                              </c:if>
                             </div>
                         </div>
                     </div>
                 </div>
+               </shiro:hasPermission>
             </div>
         </div>
     </div>
