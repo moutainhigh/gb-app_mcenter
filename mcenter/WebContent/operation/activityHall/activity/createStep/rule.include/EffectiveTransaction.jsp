@@ -5,7 +5,18 @@
 <!--//region your codes 1-->
 <%--有效交易量--%>
 <div class="clearfix m-t-md">
-    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.conditions']}：</label>
+    <div class="clearfix m-t-sm line-hi34">
+        <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.conditions']}：</label>
+        <div class="col-sm-5">
+            <label><input type="radio" value="1" name="activityRule.promoType"
+                          class="i-checks" ${(empty activityRule || activityRule.promoType eq '1')? "checked":""}>${views.operation['单次奖励']}
+            </label>
+            <label><input type="radio" value="2" name="activityRule.promoType"
+                          class="i-checks" ${activityRule.promoType eq '2'? "checked":""}>${views.operation['闯关奖励']}
+            </label>
+        </div>
+    </div>
+    <label class="ft-bold col-sm-3 al-right"></label>
     <div class="col-sm-9">
         <div class="tab-content table-responsive">
             <table class="table border" id="first_deposit">
