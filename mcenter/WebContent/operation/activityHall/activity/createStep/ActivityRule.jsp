@@ -138,11 +138,11 @@
                 <%@ include file="rule.include/Money.jsp" %>
             </c:if>
 
-            <c:if test="${activityType.result.code eq 'effective_transaction'}">
+            <c:if test="${activityType.result.code eq 'effective_transaction' || activityType.result.code eq 'profit_loss' || activityType.result.code eq 'relief_fund'}">
                 <div class="form-group clearfix">
                     <div class="clearfix save lgg-version lang_label">
                         <ul class="nav nav-tabs">
-                        <span class="col-sm-3"></span>
+                        <label class="col-sm-3 al-right">${views.operation['指定游戏分类']}:</label>
                             <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
                                 <li class="${index.index==0?'active':''}">
                                     <a data-toggle="tab" href="#game_tab${index.index}" aria-expanded="${index.index==0?'true':'false'}">

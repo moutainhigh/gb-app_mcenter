@@ -4,8 +4,21 @@
 
 <!--//region your codes 1-->
 <%--盈亏返利--%>
-<div class="clearfix m-t-md">
+<div class="clearfix m-t-sm line-hi34">
     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.conditions']}：</label>
+    <div class="col-sm-5">
+        <label>
+            <input type="checkbox" value="profit" name="profitPreferential"
+                   class="i-checks profit" ${!empty profitPreferential || (empty profitPreferential && empty lossPreferential) ? "checked":""}>${views.operation['盈利送']}
+        </label>
+        <label>
+            <input type="checkbox" value="loss" name="lossPreferential"
+                   class="i-checks loss" ${empty lossPreferential? "":"checked"}>${views.operation['亏损送']}
+        </label>
+    </div>
+</div>
+<div class="clearfix m-t-md" id="profit_preferential">
+    <label class="ft-bold col-sm-3 al-right line-hi34"></label>
     <div class="col-sm-9">
         <div class="tab-content table-responsive">
             <table class="table border" id="first_deposit">
@@ -74,8 +87,8 @@
         </soul:button>
     </div>
 </div>
-<div class="clearfix m-t-md">
-    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.conditions']}：</label>
+<div class="clearfix m-t-md" id="loss_preferential">
+    <label class="ft-bold col-sm-3 al-right line-hi34"></label>
     <div class="col-sm-9">
         <div class="tab-content table-responsive">
             <table class="table border" id="loss">
