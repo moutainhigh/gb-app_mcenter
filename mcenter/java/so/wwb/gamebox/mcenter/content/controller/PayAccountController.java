@@ -364,7 +364,6 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         PayAccountVo objectVo = new PayAccountVo();
         List<Bank> list = new ArrayList();
         List<Bank> onlineBank = getOnlineBank(payType);
-        Map<String, String> i18n = I18nTool.getDictMapByEnum(SessionManager.getLocale(), DictEnum.BANKNAME);
         if (onlineBank != null && onlineBank.size() > 0) {
             Map<String, String> i18n = I18nTool.getDictMapByEnum(SessionManager.getLocale(), DictEnum.BANKNAME);
             for (Bank bank : onlineBank) {
