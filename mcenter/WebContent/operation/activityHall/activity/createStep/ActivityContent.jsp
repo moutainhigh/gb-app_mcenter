@@ -390,11 +390,11 @@
                 </c:if>
                 <c:choose>
                     <c:when test="${activityType.result.code eq 'content'}">
-                        <soul:button precall="" opType="function" target="activityContentTypeNext"
+                        <soul:button precall="validateForm" opType="function" target="activityContentTypeNext"
                                      cssClass="btn btn-filter btn-lg" text="${views.common['next']}"/>
                     </c:when>
                     <c:otherwise>
-                        <soul:button precall="" opType="function" target="activityContentNext"
+                        <soul:button precall="validateForm" opType="function" target="activityContentNext"
                                      cssClass="btn btn-filter btn-lg" text="${views.common['next']}"/>
                     </c:otherwise>
                 </c:choose>
