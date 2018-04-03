@@ -380,7 +380,7 @@
                                             <%--<label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>--%>
 
                                         </div>
-                                        <div style="padding-top: 10px">
+                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md " style="padding-top: 10px">
                                         <h3>${views.setting_auto['电销功能开关']}:</h3>
                                         </div>
                                         <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md "  >
