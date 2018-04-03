@@ -3226,6 +3226,26 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
         return map;
     }
+    /**
+     * 批量重置存送
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping("/resetStorage")
+    @ResponseBody
+    public Map resetStorage(Integer[] ids) {
+     UserPlayerListVo userPlayerListVo=new UserPlayerListVo();
+     Map map = new HashMap(2, 1f);
+        userPlayerListVo.getSearch().setIds(Arrays.asList(ids));
+        UserPlayerListVo userPlayer = ServiceSiteTool.userPlayerService().batchresetAccount(userPlayerListVo);
+        if (userPlayer.isSuccess()){
+            map.put("state",true);
+        }else {
+            map.put("state",false);
+        }
+        return map;
+    }
 
     /**
      * 时间格式更改

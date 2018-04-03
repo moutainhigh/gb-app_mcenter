@@ -4,7 +4,7 @@
 <!--//region your codes 1-->
 
 <!--//endregion your codes 1-->
-<form:form action="${root}/operation/activity/list.html" method="post">
+<form:form action="${root}/operation/activity/order/list.html" method="post">
     <div id="validateRule" style="display: none">${command.validateRule}</div>
     <!--//region your codes 2-->
     <div class="row">
@@ -20,6 +20,14 @@
             <div class="wrapper white-bg shadow">
                 <div class="sys_tab_wrap clearfix">
                     <div class=" clearfix m-sm">
+                        <%--从活动大厅进入，展示下拉框--%>
+                        <c:if test="${command.search.classify}">
+                            <gb:select name="search.activityClassifyKey" value="${command.search.activityClassifyKey}"
+                                       cssClass="btn-group chosen-select-no-single" callback="query"
+                                       prompt="${views.operation['Activity.list.allCategory']}" list="${siteI18ns}" listKey="key"
+                                       listValue="value"></gb:select>
+                        </c:if>
+                        &nbsp;&nbsp;&nbsp;
                         <i class="fa fa-exclamation-circle"></i><span class="co-yellow m-l-sm">${views.common['DynamicLie.draggingSort']}</span>
                     </div>
                 </div>

@@ -146,7 +146,9 @@
                                     </tr>
                                     <tr>
                                         <th scope="row" class="text-right active">${views.fund_auto['银行']}：</th>
-                                        <td><span>${dicts.common.bankname[command.result.payeeBank]}</span> </td>
+                                        <td><span>${dicts.common.bankname[command.result.payeeBank]}</span>
+                                            <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${dicts.common.bankname[command.result.payeeBank]}" name="copy"><i class="fa fa-copy"></i></a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="text-right active">${views.fund_auto['开户行']}：</th>
