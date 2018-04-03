@@ -8,11 +8,11 @@
     <div class="clearfix m-t-sm line-hi34">
         <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.conditions']}：</label>
         <div class="col-sm-5">
-            <label><input type="radio" value="1" name="activityRule.promoType"
-                          class="i-checks" ${(empty activityRule || activityRule.promoType eq '1')? "checked":""}>${views.operation['单次奖励']}
+            <label><input type="radio" value="4" name="activityRule.conditionType"
+                          class="i-checks" ${(empty activityRule || activityRule.conditionType eq '4')? "checked":""}>${views.operation['单次奖励']}
             </label>
-            <label><input type="radio" value="2" name="activityRule.promoType"
-                          class="i-checks" ${activityRule.promoType eq '2'? "checked":""}>${views.operation['闯关奖励']}
+            <label><input type="radio" value="5" name="activityRule.conditionType"
+                          class="i-checks" ${activityRule.conditionType eq '5'? "checked":""}>${views.operation['闯关奖励']}
             </label>
         </div>
     </div>
