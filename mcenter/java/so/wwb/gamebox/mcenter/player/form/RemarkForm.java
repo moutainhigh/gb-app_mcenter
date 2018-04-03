@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.player.form;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.soul.commons.validation.form.support.Comment;
 import org.soul.web.support.IForm;
@@ -13,19 +14,21 @@ import org.soul.web.support.IForm;
 //region your codes 1
 public class RemarkForm implements IForm {
 
-    private String remarkTitle;
+    private String result_remarkTitle;
     private String result_remarkContent;
-
     @Comment("备注标题")
     @NotBlank(message = "fund.fund.playerRemarkForm.remarkTitle.notBlank")
-//    @Max(value = 256)
-    public String getRemarkTitle() {
-        return remarkTitle;
+    @Length(max = 256,min = 1)
+    public String getResult_remarkTitle() {
+        return result_remarkTitle;
     }
 
-    public void setRemarkTitle(String remarkTitle) {
-        this.remarkTitle = remarkTitle;
+    public void setResult_remarkTitle(String result_remarkTitle) {
+        this.result_remarkTitle = result_remarkTitle;
     }
+
+
+
 
     @Comment("备注内容")
     @NotBlank(message = "fund.fund.playerRemarkForm.remarkContent.notBlank")

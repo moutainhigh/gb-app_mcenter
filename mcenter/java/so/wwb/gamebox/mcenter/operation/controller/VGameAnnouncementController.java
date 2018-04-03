@@ -12,6 +12,7 @@ import org.soul.model.msg.notice.vo.NoticeReceiveVo;
 import org.soul.model.msg.notice.vo.VNoticeReceivedTextListVo;
 import org.soul.model.msg.notice.vo.VNoticeReceivedTextVo;
 import org.soul.model.security.privilege.po.SysUser;
+import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,7 @@ import so.wwb.gamebox.mcenter.operation.form.SystemAnnouncementSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.operator.po.SystemAnnouncement;
 import so.wwb.gamebox.model.company.operator.po.VSystemAnnouncement;
@@ -352,6 +354,8 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         if (StringTool.isNotBlank(hasReturn)) {
             model.addAttribute("hasReturn", true);
         }
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         return ServletTool.isAjaxSoulRequest(request) ? ADVISORY_MESSAGE_LIST_URL + "Partial" : ADVISORY_MESSAGE_LIST_URL;
     }
 

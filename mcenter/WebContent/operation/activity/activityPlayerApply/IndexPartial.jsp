@@ -43,6 +43,7 @@
                 <a href="/fund/playerDetect/userPlayView.html?search.username=${s.playerName}"
                    nav-target="mainFrame"
                    class="btn btn-outline btn-filter btn-sm">${views.fund['despoit.check.detect']}</a>
+                        ${gbFn:riskImgByName(s.playerName)}
             </td>
             <td>${soulFn:formatDateTz(s.applyTime,DateFormat.DAY_SECOND,timeZone)}</td>
             <td>${soulFn:formatDateTz(s.registerTime,DateFormat.DAY_SECOND,timeZone)}</td>

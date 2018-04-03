@@ -1,24 +1,16 @@
 package so.wwb.gamebox.mcenter.operation.controller;
 
 
-import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.dict.DictTool;
-import org.soul.commons.lang.ArrayTool;
-import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.ServletTool;
-import org.soul.commons.query.enums.Operator;
 import org.soul.model.sys.po.SysDict;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.sys.IVDomainCheckResultStatisticsService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -26,10 +18,7 @@ import so.wwb.gamebox.model.BossParamEnum;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.company.enums.DomainCheckResultStatusEnum;
-import so.wwb.gamebox.model.company.sys.po.DomainCheckResult;
-import so.wwb.gamebox.model.company.sys.po.DomainCheckResultBatchLog;
 import so.wwb.gamebox.model.company.sys.po.VDomainCheckResultStatistics;
-import so.wwb.gamebox.model.company.sys.vo.DomainCheckResultBatchLogListVo;
 import so.wwb.gamebox.model.company.sys.vo.DomainCheckResultListVo;
 import so.wwb.gamebox.model.company.sys.vo.VDomainCheckResultStatisticsListVo;
 import so.wwb.gamebox.model.company.sys.vo.VDomainCheckResultStatisticsVo;
@@ -40,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.Serializable;
 import java.util.*;
 
 

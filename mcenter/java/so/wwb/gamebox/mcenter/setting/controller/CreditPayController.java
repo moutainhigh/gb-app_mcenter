@@ -38,9 +38,11 @@ import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
 import so.wwb.gamebox.model.company.credit.po.CreditAccount;
 import so.wwb.gamebox.model.company.credit.po.CreditRecord;
+import so.wwb.gamebox.model.company.credit.po.SysSiteCredit;
 import so.wwb.gamebox.model.company.credit.po.VSysCredit;
 import so.wwb.gamebox.model.company.credit.vo.CreditAccountVo;
 import so.wwb.gamebox.model.company.credit.vo.CreditRecordVo;
+import so.wwb.gamebox.model.company.credit.vo.SysSiteCreditVo;
 import so.wwb.gamebox.model.company.credit.vo.VSysCreditVo;
 import so.wwb.gamebox.model.company.enums.CreditAccountPayTypeEnum;
 import so.wwb.gamebox.model.company.enums.CreditRecordStatusEnum;
@@ -79,27 +81,33 @@ public class CreditPayController {
     @Token(generate = true)
     public String pay(Model model) {addPayLog(null);
         //站点信息
-        SysSiteVo sysSiteVo = new SysSiteVo();
-        sysSiteVo.getSearch().setId(SessionManager.getSiteId());
-        SysSite sysSite = ServiceTool.sysSiteService().get(sysSiteVo).getResult();
-        if (sysSite.getCreditLine() == null) {
-            sysSite.setCreditLine(0.0);
+        SysSiteCreditVo sysSiteCreditVo = new SysSiteCreditVo();
+        sysSiteCreditVo.getSearch().setId(SessionManager.getSiteId());
+        SysSiteCredit sysSiteCredit = ServiceTool.sysSiteCreditService().get(sysSiteCreditVo).getResult();
+        if (sysSiteCredit.getCreditLine() == null) {
+            sysSiteCredit.setCreditLine(0.0);
         }
-        if (sysSite.getCreditLine() != null) {
-            model.addAttribute("profit", sysSite.getMaxProfit() + sysSite.getCreditLine());
+        if (sysSiteCredit.getCreditLine() != null) {
+            model.addAttribute("profit", sysSiteCredit.getMaxProfit() + sysSiteCredit.getCreditLine());
         } else {
-            model.addAttribute("profit", sysSite.getMaxProfit());
+            model.addAttribute("profit", sysSiteCredit.getMaxProfit());
         }
-        model.addAttribute("creditLine", sysSite.getCreditLine());
-        model.addAttribute("defaultProfit", sysSite.getDefaultProfit());
-        double transferOutSum = sysSite.getTransferOutSum() == null ? 0 : sysSite.getTransferOutSum();
-        double transferIntoSum = sysSite.getTransferIntoSum() == null ? 0 : sysSite.getTransferIntoSum();
+        model.addAttribute("creditLine", sysSiteCredit.getCreditLine());
+        double defaultProfit = sysSiteCredit.getDefaultProfit()== null ? 0d :sysSiteCredit.getDefaultProfit();
+        model.addAttribute("defaultProfit", defaultProfit/10000);
+        double transferOutSum = sysSiteCredit.getTransferOutSum() == null ? 0 : sysSiteCredit.getTransferOutSum();
+        double transferIntoSum = sysSiteCredit.getTransferIntoSum() == null ? 0 : sysSiteCredit.getTransferIntoSum();
         //转入api余额扣除（转出到api金额-转入到钱包余额）
         model.addAttribute("transferLimit", transferOutSum - transferIntoSum);
-        model.addAttribute("currentTransferLimit", sysSite.getCurrentTransferLimit());
-        model.addAttribute("defaultTransferLimit", sysSite.getDefaultTransferLimit());
-        Date profitTime = sysSite.getProfitTime();
-        Date transferTime = sysSite.getTransferLimitTime();
+        if (sysSiteCredit.getTransferLine() != null){
+            model.addAttribute("currentTransferLimit", sysSiteCredit.getCurrentTransferLimit()+sysSiteCredit.getTransferLine());
+        }else {
+            model.addAttribute("currentTransferLimit", sysSiteCredit.getCurrentTransferLimit());
+        }
+        double defaultTransferLimit = sysSiteCredit.getDefaultTransferLimit()== null ? 0d :sysSiteCredit.getDefaultTransferLimit();
+        model.addAttribute("defaultTransferLimit", defaultTransferLimit/10000);
+        Date profitTime = sysSiteCredit.getProfitTime();
+        Date transferTime = sysSiteCredit.getTransferLimitTime();
         if (profitTime != null || transferTime != null) { //如果时间为空就说明还没有提醒无需显示倒计时
             Date time;
             if (profitTime == null || (transferTime != null && profitTime.getTime() >= transferTime.getTime())) {
@@ -110,16 +118,17 @@ public class CreditPayController {
             //倒计时
             model.addAttribute("leftTime", DateTool.secondsBetween(time, SessionManager.getDate().getNow()));
         }
-        SysParam scaleParam = ParamTool.getSysParam(BossParamEnum.SETTING_CREDIT_SCALE);
-        model.addAttribute("scaleParam", scaleParam);
-
+        /*SysParam scaleParam = ParamTool.getSysParam(BossParamEnum.SETTING_CREDIT_SCALE);
+        model.addAttribute("scaleParam", scaleParam);*/
+        model.addAttribute("profitRatio",sysSiteCredit.getProfitRatio());
+        model.addAttribute("transferRatio",sysSiteCredit.getTransferRatio());
         CreditAccountVo creditAccountVo = new CreditAccountVo();
         creditAccountVo.setCurrency(CurrencyEnum.CNY.getCode());
         creditAccountVo.getSearch().setUseSites(SessionManager.getSiteId().toString());
         getAuthorizeStatus(model);//获取授权状态
         model.addAttribute("accountMap", ServiceTool.creditAccountService().getBankAccount(creditAccountVo));
         model.addAttribute("validateRule", JsRuleCreator.create(CreditRecordForm.class));
-        model.addAttribute("useProfit", sysSite.getHasUseProfit() == null ? 0d : sysSite.getHasUseProfit());//CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone()));
+        model.addAttribute("useProfit", sysSiteCredit.getHasUseProfit() == null ? 0d : sysSiteCredit.getHasUseProfit());//CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone()));
         model.addAttribute("disableTransfer", ParamTool.disableTransfer(SessionManager.getSiteId()));
         model.addAttribute("PAY_LIMIT_PERSENT", VSysCredit.PAY_LIMIT_PERSENT);
         return CREDIT_PAY_URI;
@@ -142,11 +151,25 @@ public class CreditPayController {
         creditRecord.setIpDictCode(SessionManagerBase.getIpDictCode());
         //买分默认使用人民币 不区分站长的主货币是什么币种
         creditRecord.setCurrency(CurrencyEnum.CNY.getCode());
-        SysParam scaleParam = ParamTool.getSysParam(BossParamEnum.SETTING_CREDIT_SCALE);
+        /*SysParam scaleParam = ParamTool.getSysParam(BossParamEnum.SETTING_CREDIT_SCALE);
         if (scaleParam != null && StringTool.isNotBlank(scaleParam.getParamValue()) && NumberTool.isNumber(scaleParam.getParamValue())) {
             creditRecord.setPayScale(NumberTool.toDouble(scaleParam.getParamValue()));
         } else {
             creditRecord.setPayScale(DEFAULT_SCALE);
+        }*/
+        SysSiteCreditVo sysSiteCreditVo = new SysSiteCreditVo();
+        sysSiteCreditVo.getSearch().setId(SessionManager.getSiteId());
+        sysSiteCreditVo = ServiceTool.sysSiteCreditService().get(sysSiteCreditVo);
+        SysSiteCredit sysSiteCredit = sysSiteCreditVo.getResult();
+        if(sysSiteCredit.getProfitRatio()!=null){
+            creditRecord.setPayScale(sysSiteCredit.getProfitRatio());
+        }else {
+            creditRecord.setPayScale(DEFAULT_SCALE);
+        }
+        if (sysSiteCredit.getTransferRatio()!=null){
+            creditRecord.setTransferScale(sysSiteCredit.getTransferRatio());
+        }else {
+            creditRecord.setTransferScale(20d);
         }
         creditRecord.setPayUserId(SessionManager.getUserId());
         creditRecord.setSiteId(SessionManager.getSiteId());
@@ -358,14 +381,14 @@ public class CreditPayController {
     }
     @RequestMapping(value = "disableTransfer")
     @ResponseBody
-    public Map disableTransfer(SysSiteVo sysSiteVo){
+    public Map disableTransfer(SysSiteCreditVo sysSiteCreditVo){
         Map resMap = new HashedMap(2,1f);
         try{
             Integer siteId = SessionManager.getSiteId();
-            sysSiteVo.getSearch().setId(siteId);
-            sysSiteVo = ServiceTool.sysSiteService().openDisableTransfer(sysSiteVo);
-            resMap.put("state",sysSiteVo.isSuccess());
-            if(!sysSiteVo.isSuccess()){
+            sysSiteCreditVo.getSearch().setId(siteId);
+            sysSiteCreditVo = ServiceTool.sysSiteCreditService().openDisableTransfer(sysSiteCreditVo);
+            resMap.put("state",sysSiteCreditVo.isSuccess());
+            if(!sysSiteCreditVo.isSuccess()){
                 resMap.put("msg","开启禁用转账功能失败");
             }
         }catch (Exception ex){

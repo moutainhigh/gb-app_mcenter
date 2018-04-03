@@ -236,7 +236,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("operateIp", listVo.getSearch().getIp());
         model.addAttribute("hasReturn", listVo.getSearch().isHasReturn());
         model.addAttribute("tagIds",listVo.getSearch().getTagId());
-
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         //获得字典中的风控标识列表
         Map<String, SysDict> riskDicts = DictTool.get(DictEnum.PLAYER_RISK_DATA_TYPE);
         model.addAttribute("riskDicts", riskDicts);
@@ -951,6 +952,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         userPlayerVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
         userPlayerVo = ServiceSiteTool.userPlayerService().get(userPlayerVo);
         getRisk2Set(userPlayerVo);
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
+        model.addAttribute("riskDataType", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskDataType():null);
         model.addAttribute("riskSet", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskSet():null);
 
         return "/player/view.include/PlayerDetail";
@@ -1146,6 +1150,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         vUserPlayerVo = doView(vUserPlayerVo, model);
         model.addAttribute("unencryption", SessionManager.checkPrivilegeStatus());
         model.addAttribute("command", vUserPlayerVo);
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         return "/player/view.include/PlayerPersonalData";
     }
 
@@ -2896,6 +2902,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("command", userPlayerVo);
         baseInfoRepeatNum(model, userPlayerVo.getResult());
         model.addAttribute("unencryption", SessionManager.checkPrivilegeStatus());
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        model.addAttribute("electric_pin",telemarketing);
         return "/player/view.include/PlayerDetectionData";
     }
 
@@ -3301,11 +3309,14 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         userPlayerVo.setProperties(UserPlayer.PROP_RISK_DATA_TYPE);
         userPlayerVo = ServiceSiteTool.userPlayerService().updateOnly(userPlayerVo);
 
+        //是否推送总控
+        Boolean is2Boss = StringTool.isNotBlank(userPlayerVo.getResult().getRiskDataType());
+
         //日志;添加完日志后，userPlayerVo的risk值有改变，后续使用注意
         addModifyRiskLog(userPlayerVo);
 
         //推送到总控
-        if (userPlayerVo.isSuccess()) {
+        if (userPlayerVo.isSuccess() && is2Boss) {
 
             //设置风控审核数据内容
             RiskManagementCheckVo riskManagementVo = new RiskManagementCheckVo();
@@ -3316,8 +3327,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             riskManagement.setSiteId(SessionManager.getSiteId());
             riskManagementVo.setResult(riskManagement);
             //查询其他按数据并发送
-            VUserPlayerVo vUserPlayerVo = new VUserPlayerVo();
-            vUserPlayerVo.getSearch().setId(userPlayerVo.getResult().getId());
             userPlayerVo = ServiceSiteTool.vUserPlayerService().addRiskToBoss(userPlayerVo, riskManagementVo);
         }
 
@@ -3340,22 +3349,39 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 
         //修改后的数据国际化
         getRisk2Set(userPlayerVo);
-        String risk = "";
+        String risk = " ";
         for(String str:userPlayerVo.getResult().getRiskSet()){
             risk+=I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("common").get(str);
             risk+=" ";
         }
         //旧数据国际化
-        String oldRisk = "";
+        String oldRisk = " ";
         userPlayerVo.getResult().setRiskDataType(userPlayerVo.getResult().getOldRiskDataType());
         getRisk2Set(userPlayerVo);
         for(String str:userPlayerVo.getResult().getRiskSet()){
             oldRisk+=I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("common").get(str);
             oldRisk+=" ";
         }
+//        if(StringTool.isBlank(risk)){
+//            risk = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("player_auto").get("空");
+//        }
 //        setRisk
 //        setRiskSet(oldUserPlayerVo);
-        BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS",userPlayerVo.getResult().getId(),oldRisk,risk);
+
+        //空改成有
+        if(StringTool.isBlank(oldRisk) && StringTool.isNotBlank(risk)){
+            BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS_NULL2", userPlayerVo.getResult().getId(), SessionManager.getUserName(), risk);
+        }
+        //有改成空
+        else if (StringTool.isBlank(risk)&& StringTool.isNotBlank(oldRisk)){
+            BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS_2NULL", userPlayerVo.getResult().getId(), SessionManager.getUserName(), oldRisk);
+        }
+        //修改为其他
+        else if (StringTool.isNotBlank(risk)&& StringTool.isNotBlank(oldRisk)){
+            BussAuditLogTool.addLog("PLAYER_RISK_SUCCESS", userPlayerVo.getResult().getId(), SessionManager.getUserName(), oldRisk, risk);
+        }else{
+            return;
+        }
     }
 
 
@@ -3366,7 +3392,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     public void getRisk2Set(UserPlayerVo userPlayerVo) {
         String riskDataType = userPlayerVo.getResult().getRiskDataType();
         Set<String> riskSet = new HashSet<>();
-        if (StringTool.isNotBlank(riskDataType)) {
+        if (StringTool.isNotBlank(riskDataType) && riskDataType.length()==8) {
             if (riskDataType.charAt(7) != '0') {
                 riskSet.add(PlayerRiskDataTypeEnum.MALICIOUS.getCode());
             }
@@ -3411,6 +3437,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             userPlayerVo.getResult().setRiskDataType(str.toString());
         }
     }
+
+
+
+
 
     //endregion
 }

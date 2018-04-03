@@ -29,7 +29,17 @@
                             ${p.username }
                             <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                             ${gbFn:riskImgById(p.id)}
+                            <c:if test="${not empty p.mobilePhone && p.mobilePhoneWayStatus == '11'}">
+
+                                <c:if test="${electric_pin.paramValue==true}">
+                                    <soul:button target="callPlayer" text="${messages.player_auto['拔打电话']}" opType="function" playerId="${p.id}">
+                                        <img src="${resRoot}/images/call.png" width="15" height="15">
+                                    </soul:button>
+                                </c:if>
+
+                            </c:if>
                         </div>
+
 
                     </td>
                     <td>${p.realName}</td>

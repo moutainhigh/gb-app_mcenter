@@ -17,7 +17,7 @@
                 ${views.sysResource['线上支付账户']}
             </c:if>
 		</span>
-            <soul:button target="goToLastPage" refresh="true"
+            <soul:button target="goToLastPage" refresh=""
                          cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text=""
                          opType="function">
                 <em class="fa fa-caret-left"></em>${views.common['return']}

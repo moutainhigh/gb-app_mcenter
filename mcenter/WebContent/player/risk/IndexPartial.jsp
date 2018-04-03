@@ -23,7 +23,7 @@
                 <tr class="tab-detail">
                     <td>${status.index+1}</td>
                     <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
-                    <td>${gbFn:showRiskImg(p.dataType)}</td>
+                    <td>${gbFn:getRiskString(p.dataType)}</td>
                     <td>${dicts.common.bankname[p.bankName]}</td>
                     <td>${p.bankcardNumber}</td>
                     <td>${p.realName}</td>
