@@ -39,6 +39,8 @@ import so.wwb.gamebox.mcenter.taskReminder.TaskReminder;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminderHelp;
 import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.common.Audit;
+import so.wwb.gamebox.model.company.credit.po.SysSiteCredit;
+import so.wwb.gamebox.model.company.credit.vo.SysSiteCreditVo;
 import so.wwb.gamebox.model.company.enums.DomainPageUrlEnum;
 import so.wwb.gamebox.model.company.enums.SiteStatusEnum;
 import so.wwb.gamebox.model.company.operator.po.VSystemAnnouncement;
@@ -698,7 +700,11 @@ public class IndexControllerBase extends BasePhoneApiController {
             Double profit = fetchSiteHasUseProfit();//CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone());
             map.put("profit", profit);//本月使用额度值
             map.put("profitCur", CurrencyTool.formatCurrency(profit));
-            map.put("transferLimit", getProfitLimit().getCurrentTransferLimit());//转账上限值
+            if (getProfitLimit().getTransferLine()!=null){
+                map.put("transferLimit", getProfitLimit().getCurrentTransferLimit() + getProfitLimit().getTransferLine());//转账上限值
+            }else {
+                map.put("transferLimit", getProfitLimit().getCurrentTransferLimit());//转账上限值
+            }
             double transferOutSum = getProfitLimit().getTransferOutSum() == null ? 0 : getProfitLimit().getTransferOutSum();
             double transferIntoSum = getProfitLimit().getTransferIntoSum() == null ? 0 : getProfitLimit().getTransferIntoSum();
             double currentProfit = transferOutSum - transferIntoSum;
@@ -717,12 +723,12 @@ public class IndexControllerBase extends BasePhoneApiController {
     @ResponseBody
     public Map<String, Object> profitLimitDialog() {
         Map<String, Object> map = new HashMap<>(2, 1f);
-        SysSiteVo sysSiteVo = new SysSiteVo();
-        sysSiteVo.getSearch().setId(SessionManager.getSiteId());
+        SysSiteCreditVo sysSiteCreditVo = new SysSiteCreditVo();
+        sysSiteCreditVo.getSearch().setId(SessionManager.getSiteId());
         double creditLine = 0.0;
-        sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
-        if (sysSiteVo.getResult() != null) {
-            creditLine = sysSiteVo.getResult().getCreditLine() != null ? sysSiteVo.getResult().getCreditLine() : 0;
+        sysSiteCreditVo = ServiceTool.sysSiteCreditService().get(sysSiteCreditVo);
+        if (sysSiteCreditVo.getResult() != null) {
+            creditLine = sysSiteCreditVo.getResult().getCreditLine() != null ? sysSiteCreditVo.getResult().getCreditLine() : 0;
         }
         Double profit = fetchSiteHasUseProfit();
         map.put("profit", profit);//本月使用额度值
@@ -741,11 +747,11 @@ public class IndexControllerBase extends BasePhoneApiController {
      * @return
      */
     private double fetchSiteHasUseProfit() {
-        SysSiteVo sysSiteVo = new SysSiteVo();
-        sysSiteVo.getSearch().setId(SessionManager.getSiteId());
-        sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
-        if (sysSiteVo.getResult() != null) {
-            return sysSiteVo.getResult().getHasUseProfit() == null ? 0d : sysSiteVo.getResult().getHasUseProfit();
+        SysSiteCreditVo sysSiteCreditVo = new SysSiteCreditVo();
+        sysSiteCreditVo.getSearch().setId(SessionManager.getSiteId());
+        sysSiteCreditVo = ServiceTool.sysSiteCreditService().get(sysSiteCreditVo);
+        if (sysSiteCreditVo.getResult() != null) {
+            return sysSiteCreditVo.getResult().getHasUseProfit() == null ? 0d : sysSiteCreditVo.getResult().getHasUseProfit();
         }
         return 0d;
     }
@@ -755,16 +761,16 @@ public class IndexControllerBase extends BasePhoneApiController {
      *
      * @return
      */
-    private SysSite getProfitLimit() {
-        SysSiteVo sysSiteVo = new SysSiteVo();
-        sysSiteVo.getSearch().setId(SessionManager.getSiteId());
-        sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
-        SysSite sysSite = sysSiteVo.getResult();
-        if (sysSite == null) {
+    private SysSiteCredit getProfitLimit() {
+        SysSiteCreditVo sysSiteCreditVo = new SysSiteCreditVo();
+        sysSiteCreditVo.getSearch().setId(SessionManager.getSiteId());
+        sysSiteCreditVo = ServiceTool.sysSiteCreditService().get(sysSiteCreditVo);
+        SysSiteCredit sysSiteCredit = sysSiteCreditVo.getResult();
+        if (sysSiteCredit == null) {
             LOG.info("查不到该站点,siteId:{0}", SessionManager.getSiteId());
             return null;
         }
-        return sysSite;
+        return sysSiteCredit;
     }
 
     /**

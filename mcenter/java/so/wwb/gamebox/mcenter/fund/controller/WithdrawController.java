@@ -210,9 +210,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
             List<SysUserDataRight> sysUserDataRights = querySysUserDataRights();
             buildPlayerRankData(model, sysUserDataRights);
-            if (CollectionTool.isNotEmpty(sysUserDataRights)) {
-                masterSubSearch(vo, sysUserDataRights);
-            }
+            masterSubSearch(vo, sysUserDataRights);
         } else {
             model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         }
@@ -221,9 +219,6 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         easyPaymentStatus(model);//是否开启易收付出款入口
         handleVoice(vo, model);// 公司入款声音参数
         handleWithdrawStatus(model);//处理取款状态
-        Map<String, Serializable> bankName = getBankList();
-        model.addAttribute("bankName", bankName);
-
         handleTemple(model);//筛选模板
         vo.setThisUserId(SessionManager.getAuditUserId());
         model.addAttribute("command", vo);
@@ -488,21 +483,19 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      * @param sysUserDataRights
      */
     private void masterSubSearch(VPlayerWithdrawListVo vo, List<SysUserDataRight> sysUserDataRights) {
-        if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
-            if (CollectionTool.isNotEmpty(sysUserDataRights)) {
-                vo.getSearch().setCheckStatus(CheckStatusEnum.WITHOUT_REVIEW.getCode());
-                vo.getSearch().setWithdrawSta(new String[]{WithdrawStatusEnum.PENDING_SUB.getCode(),
-                        WithdrawStatusEnum.CANCELLATION_OF_ORDERS.getCode()});
-                vo.getSearch().setDataRightUserId(SessionManager.getUserId());
-                vo.getSearch().setModuleType(DataRightModuleType.PLAYERWITHDRAW.getCode());
-                if (StringTool.isNotEmpty(vo.getSearch().getUsername())) {
-                    String username = vo.getSearch().getUsername().toLowerCase();
-                    String[] names = username.split(",");
-                    if (names.length == 1) {
-                        vo.getSearch().setNewUserName(names[0]);
-                    } else if (names.length > 1) {
-                        vo.getSearch().setAccountNames(names);
-                    }
+        if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType()) && CollectionTool.isNotEmpty(sysUserDataRights)) {
+            vo.getSearch().setCheckStatus(CheckStatusEnum.WITHOUT_REVIEW.getCode());
+            vo.getSearch().setWithdrawSta(new String[]{WithdrawStatusEnum.PENDING_SUB.getCode(),
+                    WithdrawStatusEnum.CANCELLATION_OF_ORDERS.getCode()});
+            vo.getSearch().setDataRightUserId(SessionManager.getUserId());
+            vo.getSearch().setModuleType(DataRightModuleType.PLAYERWITHDRAW.getCode());
+            if (StringTool.isNotEmpty(vo.getSearch().getUsername())) {
+                String username = vo.getSearch().getUsername().toLowerCase();
+                String[] names = username.split(",");
+                if (names.length == 1) {
+                    vo.getSearch().setNewUserName(names[0]);
+                } else if (names.length > 1) {
+                    vo.getSearch().setAccountNames(names);
                 }
             }
         }

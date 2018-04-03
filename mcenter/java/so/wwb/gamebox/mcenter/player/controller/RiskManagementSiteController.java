@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.query.sort.Direction;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.springframework.stereotype.Controller;
@@ -47,8 +48,12 @@ public class RiskManagementSiteController extends BaseCrudController<IRiskManage
     public String list(RiskManagementCheckListVo listVo, @FormModel("search") @Valid RiskManagementCheckSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
         //只能查看自己站点的数据
         listVo.getSearch().setSiteId(SessionManager.getSiteId());
+        listVo.getSearch().setIsDeleted(true);
         //获得字典中的风控标识列表
         listVo.setRiskDicts(DictTool.get(DictEnum.PLAYER_RISK_DATA_TYPE));
+        //排序
+        listVo.getQuery().addOrder(RiskManagementCheck.PROP_CHECK_STATUS, Direction.ASC)
+                .addOrder(RiskManagementCheck.PROP_CREATE_TIME, Direction.DESC);
         return super.list(listVo, form, result, model, request, response);
     }
 

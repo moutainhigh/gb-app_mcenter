@@ -23,6 +23,7 @@
         <input type="hidden" name="search.checkRemark" />
         <div class="modal-body clearfix">
             <div class="m-b">${views.fund['despoit.check.player']}： <span class="co-blue" id="userName">${r.username}</span>
+                    ${gbFn:riskImgByName(r.username)}
                 <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-text="${r.username}" name="copy">
                     <i class="fa fa-copy" title="${views.common['copy']}"></i>
                 </a>
