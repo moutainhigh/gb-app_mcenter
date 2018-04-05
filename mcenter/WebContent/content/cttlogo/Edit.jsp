@@ -118,7 +118,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <soul:button cssClass="btn btn-filter ok-btn disabled" text="${views.common['OK']}" opType="ajax"
+        <soul:button cssClass="btn btn-filter ok-btn disabled _enter_submit" text="${views.common['OK']}" opType="ajax"
                      target="${root}${p.isDefault?'/cttLogo/editDefault.html':'/cttLogo/persist.html'}" precall="uploadFile" post="getCurrentFormData" callback="saveCallbak"/>
         <soul:button cssClass="btn btn-outline btn-filter" opType="function" target="close" text="${views.common['cancel']}"/>
     </div>

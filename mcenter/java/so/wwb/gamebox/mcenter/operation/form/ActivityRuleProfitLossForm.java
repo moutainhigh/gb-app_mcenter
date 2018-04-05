@@ -1,6 +1,8 @@
 package so.wwb.gamebox.mcenter.operation.form;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.soul.commons.query.enums.Operator;
+import org.soul.commons.validation.form.constraints.Depends;
 import org.soul.commons.validation.form.constraints.Series;
 import org.soul.commons.validation.form.support.Comment;
 import org.soul.commons.validation.form.support.SeriesType;
@@ -57,12 +59,14 @@ public class ActivityRuleProfitLossForm extends ActivityRuleForm {
         this.activityRule_effectiveTime = activityRule_effectiveTime;
     }
 
+
     @NotNull(message = "common.不能为空")
     @Pattern(regexp = FormValidRegExps.POSITIVE,message = "operation_auto.请输入")
     @DecimalMin(value = "0.01")
     @DecimalMax(value = "99999999")
     @Digits(integer = 8,fraction = 2)
     @Series(message = "operation_auto.下一梯度要大于上一梯度",type = SeriesType.INC)
+    @Depends(property = {"lossPreferential"}, operator = {Operator.EQ},value = {"true"}, jsValueExp ="$(\"[name=\\'lossPreferential\\']:checked\").val()=='loss'")
     @Comment("亏损")
     public Double[] getLoss$$_preferentialValue() {
         return loss$$_preferentialValue;
@@ -72,10 +76,12 @@ public class ActivityRuleProfitLossForm extends ActivityRuleForm {
         this.loss$$_preferentialValue = loss$$_preferentialValue;
     }
 
+
     @Pattern(regexp = FormValidRegExps.POSITIVE,message = "operation_auto.请输入0")
     @DecimalMin(value = "0.01")
     @DecimalMax(value = "100")
     @Digits(integer = 3,fraction = 2)
+    /*@Depends(property = "profitPreferential", operator = Operator.EQ, value = {"true"}, jsValueExp ="$(\"[name=\\'profitPreferential\\']:checked\").val()=='profit'")*/
     @Comment("盈利优惠稽核")
     public Double[] getPreferentialAudits$$_preferentialAudit() {
         return preferentialAudits$$_preferentialAudit;
@@ -85,10 +91,12 @@ public class ActivityRuleProfitLossForm extends ActivityRuleForm {
         this.preferentialAudits$$_preferentialAudit = preferentialAudits$$_preferentialAudit;
     }
 
+
     @Pattern(regexp = FormValidRegExps.POSITIVE,message = "operation_auto.请输入0")
     @DecimalMin(value = "0.01")
     @DecimalMax(value = "100")
     @Digits(integer = 3,fraction = 2)
+    /*@Depends(property = "lossPreferential", operator = Operator.EQ,value = {"true"}, jsValueExp ="$(\"[name=\\'lossPreferential\\']:checked\").val()=='loss'")*/
     @Comment("亏损优惠稽核")
     public Double[] getPreferentialAudits2$$_preferentialAudit() {
         return preferentialAudits2$$_preferentialAudit;
@@ -98,12 +106,14 @@ public class ActivityRuleProfitLossForm extends ActivityRuleForm {
         this.preferentialAudits2$$_preferentialAudit = preferentialAudits2$$_preferentialAudit;
     }
 
+
     @NotNull(message = "common.不能为空")
     @Pattern(regexp = FormValidRegExps.POSITIVE,message = "operation_auto.请输入")
     @DecimalMin(value = "0.01")
     @DecimalMax(value = "99999999")
     @Digits(integer = 8,fraction = 2)
     @Series(message = "operation_auto.下一梯度要大于上一梯度",type = SeriesType.INC)
+    @Depends(property = "profitPreferential", operator = Operator.EQ,value = {"true"}, jsValueExp ="$(\"[name=\\'profitPreferential\\']:checked\").val()=='profit'")
     @Comment("盈利")
     public Double[] getProfit$$_preferentialValue() {
         return profit$$_preferentialValue;
@@ -113,12 +123,14 @@ public class ActivityRuleProfitLossForm extends ActivityRuleForm {
         this.profit$$_preferentialValue = profit$$_preferentialValue;
     }
 
+
     @NotNull(message = "common.不能为空")
     @Pattern(regexp = FormValidRegExps.DECIMAL,message = "operation_auto.请输入0-99999999")
     @Min(value = 0)
     @DecimalMax(value = "99999999")
     @Digits(integer = 8,fraction = 2)
 //    @Series(message = "下一梯度要大于上一梯度",type = SeriesType.INC)
+    @Depends(property = "profitPreferential", operator = Operator.EQ,value = {"true"}, jsValueExp ="$(\"[name=\\'profitPreferential\\']:checked\").val()=='profit'")
     @Comment("盈利固定彩金")
     public Double[] getRegularHandsel$$_preferentialValue() {
         return regularHandsel$$_preferentialValue;
@@ -128,12 +140,14 @@ public class ActivityRuleProfitLossForm extends ActivityRuleForm {
         this.regularHandsel$$_preferentialValue = regularHandsel$$_preferentialValue;
     }
 
+
     @NotNull(message = "common.不能为空")
     @Pattern(regexp = FormValidRegExps.DECIMAL,message = "operation_auto.请输入0-99999999")
     @Min(value = 0)
     @DecimalMax(value = "99999999")
     @Digits(integer = 8,fraction = 2)
 //    @Series(message = "下一梯度要大于上一梯度",type = SeriesType.INC)
+    @Depends(property = "lossPreferential", operator = Operator.EQ,value = {"true"}, jsValueExp ="$(\"[name=\\'lossPreferential\\']:checked\").val()=='loss'")
     @Comment("亏损固定彩金")
     public Double[] getRegularHandsel2$$_preferentialValue() {
         return regularHandsel2$$_preferentialValue;

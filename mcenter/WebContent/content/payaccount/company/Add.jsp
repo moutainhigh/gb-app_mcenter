@@ -215,11 +215,32 @@
 
                           <div class="col-sm-5">
                               <div class="input-group date">
-                                  <input name="result.aliasName" id="result.aliasName" class="form-control" value="${command.result.aliasName}"/>
+                                  <input name="result.aliasName" id="result.aliasName" class="form-control" placeholder="${views.content_auto['自定义别名提示内容']}" value="${command.result.aliasName}"/>
                                   <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
                               </div>
                           </div>
                       </div>
+                        <%--自定义账号信息--%>
+                    <div class="form-group clearfix line-hi34" id="accountInformation" style="display: none">
+                        <label class="ft-bold col-sm-3 al-right line-hi34">${views.content_auto['自定义账号信息']}</label>
+                        <div class="col-sm-5">
+                            <div class="input-group date">
+                                <input name="result.accountInformation" id="result.accountInformation" class="form-control" placeholder="${views.content_auto['自定义账号信息提示内容']}" value="${command.result.accountInformation}"/>
+                                <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
+                            </div>
+                        </div>
+                    </div>
+                        <%--自定义账号提示--%>
+                    <div class="form-group clearfix line-hi34" id="accountPrompt" style="display: none">
+                        <label class="ft-bold col-sm-3 al-right line-hi34">${views.content_auto['自定义账号提示']}</label>
+                        <div class="col-sm-5">
+                            <div class="input-group date">
+                                <input name="result.accountPrompt" id="result.accountPrompt" class="form-control" placeholder="${views.content_auto['自定义账号提示提示内容']}" value="${command.result.accountPrompt}"/>
+                                <span class="input-group-addon bdn">&nbsp;&nbsp;</span>
+                            </div>
+                        </div>
+                    </div>
+
                       <div class="form-group clearfix line-hi34 ${empty command.result.accountType || command.result.accountType=='1'?'':'hide'}" id="supportAtmCounter-div">
                           <label class="ft-bold col-sm-3 al-right line-hi34">${views.content_auto['柜员机/柜台存款开关']}</label>
 
@@ -329,7 +350,7 @@
                     </div>
                     <hr class="m-t-sm m-b">
                     <div class="operate-btn">
-                        <soul:button cssClass="btn btn-filter btn-lg disabled _search " text="${views.common['commit']}" opType="ajax"
+                        <soul:button cssClass="btn btn-filter btn-lg disabled _search _enter_submit " text="${views.common['commit']}" opType="ajax"
                                      dataType="json"
                                      target="${root}/payAccount/saveCompany.html" precall="savePlayer"
                                      post="getCurrentFormData"

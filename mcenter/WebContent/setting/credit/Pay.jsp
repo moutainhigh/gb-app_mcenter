@@ -32,7 +32,12 @@
                     <div class="filter-wraper limit-rec clearfix p-xs">
                         <div class="m-b-none col-xs-6 col-sm-7-1">
                             <div class="limit-price-wrap al-center clearfix">
-                                <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['当前额度上限']}">${views.setting_auto['当前额度上限']}</div>
+                                <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['当前额度上限']}">${views.setting_auto['当前额度上限']}
+                                    <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
+                                      data-html="true" data-content="充值兑换比例 1:${empty profitRatio?'10':profitRatio}">
+                                        <i class="fa fa-question-circle"></i>
+                                    </span>
+                                </div>
                                 <div class="fs20 p-b-sm al-center" title="${views.setting_auto['授信额度']}${creditLine}">${soulFn:formatCurrency(profit)}</div>
                             </div>
                         </div>
@@ -58,7 +63,7 @@
                                 <div class="limit-price-wrap al-center clearfix">
                                     <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['转账上限']}">${views.setting_auto['转账上限']}
                                         <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
-                                              data-html="true" data-content="${views.setting_auto['站点玩家累计转入API的额度上限']}">
+                                              data-html="true" data-content="${views.setting_auto['站点玩家累计转入API的额度上限']},充值兑换比例 1:${empty transferRatio?'20':transferRatio}">
                                             <i class="fa fa-question-circle"></i>
                                         </span>
                                     </div>
@@ -83,12 +88,12 @@
                                 </div>
                             </div>
                         </c:if>
-                        <div class="m-b-none col-xs-6 col-sm-7-1">
+                        <%--<div class="m-b-none col-xs-6 col-sm-7-1">
                             <div class="limit-price-wrap al-center clearfix">
                                 <div class="bold-fs16 p-sm co-gray6" title="${views.setting_auto['兑换比例']}">${views.setting_auto['兑换比例']}</div>
                                 <div class="fs20 p-b-sm al-center">1:${empty scaleParam.paramValue?'10':scaleParam.paramValue}</div>
                             </div>
-                        </div>
+                        </div>--%>
                     </div>
                     <hr class="m-t-xxs m-b-sm">
                     <div class="clearfix">
@@ -169,7 +174,11 @@
                             </table>
                         </div>
                         <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 limit-tips">
-                            ${fn:replace(views.setting['credit.creditPay.help'],'#{defaultProfit}',soulFn:formatCurrency(defaultProfit/10000))}
+                            <ul>
+                                <li>1、系统默认每月赠送买分额度${soulFn:formatCurrency(defaultProfit)}万,转账额度${defaultTransferLimit}万；
+                                </li>
+                            ${views.setting['credit.creditPay.help']}
+                            </ul>
                             <%--<ul>
                             <li>1、系统默认每月赠送50万额度；</li>
                             <li>2、当系统提示额度已使用完时，请在本页面自助充值，即可提升额度；</li>

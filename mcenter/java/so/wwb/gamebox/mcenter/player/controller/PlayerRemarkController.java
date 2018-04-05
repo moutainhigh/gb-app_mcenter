@@ -1,5 +1,7 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
+import org.soul.commons.init.context.CommonContext;
+import org.soul.commons.lang.DateTool;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.ServletTool;
 import org.soul.web.controller.BaseCrudController;
@@ -22,6 +24,7 @@ import so.wwb.gamebox.web.common.token.Token;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -155,6 +158,11 @@ public class PlayerRemarkController extends BaseCrudController<IRemarkService, R
             remarkVo.setResult(remark);
         }
         remarkVo.setValidateRule(JsRuleCreator.create(RemarkForm.class));
+        if("phoneCall".equals(remarkVo.getComeFrom())){
+            String content = "["+SessionManager.getUser().getUsername()+"]["+SessionManager.getUser().getIdcard()+"] "+
+                    DateTool.formatDate(new Date(), CommonContext.get().getTimeZone(),DateTool.yyyy_MM_dd_HH_mm_ss)+"\r\n";
+            remarkVo.getResult().setRemarkContent(content);
+        }
         model.addAttribute("command",remarkVo);
         return "/player/remark/Edit";
     }

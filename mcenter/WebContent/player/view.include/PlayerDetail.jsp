@@ -34,6 +34,7 @@
                                       role="button" class="help-popover co-red3" tabindex="0"
                                       data-original-title="" title=""><i class="fa fa-warning"></i></span>
                             </c:if>
+                            ${gbFn:showRiskImg(riskDataType)}
                             <a href="javascript:void(0)" class="btn btn-outline btn-filter btn-sm m-l-sm" style="opacity: 0.6">ID ${command.result.id}</a>
                             <c:if test="${command.result.onLineId>0}">
                                 <span data-content="${views.player_auto['在线']}" style="padding: 3px;"
@@ -45,7 +46,7 @@
                             <c:if test="${command.result.onLineId<=0}">
                                 <span class="co-gray">${views.player_auto['离线']}</span>
                             </c:if>
-k
+
 
                             <c:if test="${command.result.playerStatus eq '2'}">
                                 <c:set value="true" var="option_btn_disabled"></c:set>
@@ -327,6 +328,11 @@ k
                                                         </c:if>
                                                     </c:otherwise>
                                                 </c:choose>
+                                                <c:if test="${electric_pin.paramValue==true && command.result.mobilePhoneWayStatus=='11'}">
+                                                <soul:button target="callPlayer" text="${messages.player_auto['拨打电话']}" opType="function" playerId="${command.result.id}">
+                                                    <img src="${resRoot}/images/call.png" width="15" height="15">
+                                                </soul:button>
+                                                </c:if>
                                                 <c:if test="${command.result.mobilePhoneWayStatus!=22}">
                                                     <span class="btn btn-xs btn-danger btn-stroke m-l-sm pull-right">
                                                             ${dicts.notice.contact_way_status[command.result.mobilePhoneWayStatus]}
@@ -702,22 +708,33 @@ k
                                     <span class="label-del">${dicts.player.risk_data_type[risk]}</span>
                                     <c:if test="${(vs.index+1)<riskCount}">、</c:if>
                                 </c:forEach>
-                                <c:if test="${command.result.playerStatus!='2'}">
-                                    <c:if test="${command.result.riskDataType.contains('2')}">
-                                        ${views.player_auto['由系统风控大数据识别']}
-                                    </c:if>
+
                                     <soul:button target="${root}/player/editRiskLabel.html?search.id=${command.result.id}" callback="queryView" precall="hasBankcard"
                                                  text="${dicts.log.op_type['update']}" opType="dialog" cssClass="btn btn-link co-blue"/>
-
+                                <c:if test="${command.result.riskDataType.length() == 8 && command.result.riskDataType.contains('2')}">
+                                    ${views.player_auto['由系统风控大数据识别']}:
+                                    <c:if test="${command.result.riskDataType.substring(5,6) eq '2'}">
+                                        ${views.common['MALICIOUS']},
+                                    </c:if>
+                                    <c:if test="${command.result.riskDataType.substring(6,7) eq '2'}">
+                                        ${views.common['MONEY_LAUNDERING']},
+                                    </c:if>
+                                    <c:if test="${command.result.riskDataType.substring(7,8) eq '2'}">
+                                        ${views.common['INTEREST_ARBITRAGE']}
+                                    </c:if>
                                 </c:if>
 
                             </div>
                             <c:if test="${not empty riskLog}">
+                                &nbsp;&nbsp;
                                     <span data-content="<div>${views.common['content.editUser']}：${riskLog.operator}</div>
                                 <div>${views.common['content.editTime']}：${soulFn:formatDateTz(riskLog.operateTime, DateFormat.DAY_SECOND,timeZone)}-${soulFn:formatTimeMemo(riskLog.operateTime, locale)}</div>"
                                           data-placement="bottom" data-trigger="focus" data-toggle="popover" data-container="body" data-html="true"
                                           role="button" class="ico-lock" tabindex="0"
-                                          data-original-title="" title="" style="font-size: 14px;color: #9c9c9c; display: inline-block;">${soulFn:formatLogDesc(riskLog)}</span>
+                                          data-original-title="" title="" style="font-size: 14px;color: #9c9c9c; display: inline-block;">
+                                          ${views.player_auto['由']}${riskLog.operator}${views.player_auto['于']}
+                                          ${soulFn:formatDateTz(riskLog.operateTime, DateFormat.DAY_SECOND,timeZone)}-${soulFn:formatTimeMemo(riskLog.operateTime, locale)}&nbsp;
+                                            ${soulFn:formatLogDesc(riskLog)}</span>
                             </c:if>
                         </li>
                         <li class="detail-list-cow">

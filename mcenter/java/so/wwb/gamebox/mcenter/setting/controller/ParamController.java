@@ -50,10 +50,7 @@ import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
-import so.wwb.gamebox.model.company.site.po.SiteConfineArea;
-import so.wwb.gamebox.model.company.site.po.SiteI18n;
-import so.wwb.gamebox.model.company.site.po.SiteLanguage;
-import so.wwb.gamebox.model.company.site.po.SiteOperateArea;
+import so.wwb.gamebox.model.company.site.po.*;
 import so.wwb.gamebox.model.company.site.vo.*;
 import so.wwb.gamebox.model.company.sys.po.SysDomain;
 import so.wwb.gamebox.model.company.sys.po.SysSite;
@@ -68,6 +65,8 @@ import so.wwb.gamebox.model.master.operation.vo.PlayerRankAppDomainListVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.setting.po.FieldSort;
 import so.wwb.gamebox.model.master.setting.po.GradientTemp;
+import so.wwb.gamebox.model.master.setting.vo.PlayerItemMessage;
+import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.SiteCustomerServiceHelper;
 
@@ -410,6 +409,9 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     }
 
 
+
+
+
     /**
      * 加载站点参数-基本设置信息
      *
@@ -419,6 +421,65 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
      */
     @RequestMapping({"/basicSettingIndex"})
     public String basicSettingEdit(SysSiteVo sysSiteVo, Model model) {
+        Integer siteId = SessionManagerBase.getSiteId();
+        sysSiteVo.getSearch().setId(siteId);
+        sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
+        //计算开站至今
+        Date openingTime = sysSiteVo.getResult().getOpeningTime();
+        sysSiteVo.setYear(DateTool.yearsBetween(new Date(), openingTime));
+        sysSiteVo.setMonth(DateTool.monthsBetween(new Date(), openingTime) % 12);
+        sysSiteVo.setDay(DateTool.daysBetween(new Date(), openingTime) % 30);
+        //国旗
+        sysSiteVo.setCttLogo(ServiceSiteTool.getCttLogService().getCttlog(new CttLogoVo()));
+        //货币 和 语言
+        sysSiteVo = ServiceTool.siteOperateAreaService().getAreaCurrancyLang(new SiteOperateAreaListVo(), sysSiteVo);
+        sysSiteVo.setValidateRule(JsRuleCreator.create(TrafficStatisticsForm.class, "result"));
+        //查询货币使用的玩家数
+        //增加设置languageListVo的查询条件 siteId 开始--cogo
+        SiteLanguageListVo languageListVo = new SiteLanguageListVo();
+        languageListVo.getSearch().setSiteId(siteId);
+        //增加设置languageListVo的查询条件 siteId 结束--cogo
+        languageListVo = ServiceTool.siteLanguageService().search(languageListVo);
+        transLangByLocale(languageListVo, sysSiteVo.getResult().getMainLanguage());
+        sysSiteVo.setSiteLanguageList(languageListVo.getResult());
+        sysSiteVo.setSiteI18nMap(Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_NAME));
+        sysSiteVo = ServiceSiteTool.vUserPlayerService().queryCurrencyPlayerNum(sysSiteVo);
+        findEnableImportPlayerParam(model);
+        model.addAttribute("command", sysSiteVo);
+        model.addAttribute("siteTile", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_TITLE));
+        model.addAttribute("siteKeywords", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_KEYWORDS));
+        model.addAttribute("siteDescription", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_DESCRIPTION));
+        //该运营商下站长开通的语言
+        List<String> list = ServiceTool.siteLanguageService().masterIsUse(sysSiteVo);
+        model.addAttribute("masterIsUseLanguage", list);
+        //查询多语言站点名称
+        setVerificationData(model);
+        setEmailInterface(model);
+        getSmsInterface(model);
+        //获取客服信息
+        model.addAttribute("pcCustomerService", SiteCustomerServiceHelper.getDefaultCustomerService());
+        model.addAttribute("mobileCustomerService", SiteCustomerServiceHelper.getMobileCustomerService());
+        //取款方式
+        withdrawTypeParam(model);
+        SysParam mobileTraffic = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
+        model.addAttribute("mobile_traffic",mobileTraffic.getParamValue());
+        model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
+        model.addAttribute("rankAppDomain",ServiceSiteTool.playerRankAppDomainService().search(new PlayerRankAppDomainListVo()));
+        return "/setting/param/siteparameters/BasicSetting";
+    }
+
+
+
+
+    /**
+     * 前端展示
+     *
+     * @param sysSiteVo
+     * @param model
+     * @return
+     */
+    @RequestMapping({"/frontEnd"})
+    public String basicSettingEdits(SysSiteVo sysSiteVo, Model model) {
         Integer siteId = SessionManagerBase.getSiteId();
         sysSiteVo.getSearch().setId(siteId);
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
@@ -472,8 +533,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam sysParamSkyep = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_SKYPE);
         SysParam sysParamEmail= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
         SysParam sysParamCopyright= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_COPYRIGHT_INFORMATION);
-        SysParam sysParamQrSwitch= ParamTool.getSysParam(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
-        model.addAttribute("qrSwitch",sysParamQrSwitch);
+        SysParam personalInformation= ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
+        PlayerItemMessage playerItemMessage = new PlayerItemMessage(personalInformation.getParamValue());
+        model.addAttribute("personal_information",personalInformation);
+        model.addAttribute("playerItemMessage",playerItemMessage);
         model.addAttribute("phone",sysParamPhone);
         model.addAttribute("qq",sysParamQq);
         model.addAttribute("skyep",sysParamSkyep);
@@ -485,8 +548,121 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("appDomain",result);
         model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         model.addAttribute("rankAppDomain",ServiceSiteTool.playerRankAppDomainService().search(new PlayerRankAppDomainListVo()));
-        return "/setting/param/siteparameters/BasicSetting";
+        model.addAttribute("webtype", "4");
+        return "/setting/param/siteparameters/FrontEnd";
     }
+
+    /***
+     * 个人信息
+     * @param itemMessage
+     * @return
+     */
+
+    @RequestMapping({"/savePlayerItem"})
+    @ResponseBody
+    public Map savePlayerItem(PlayerItemMessage itemMessage){
+        Map map = new HashMap();
+        String paramValue = itemMessage.toParamString();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
+        if (sysParam!=null){
+            sysParam.setParamValue(paramValue);
+            SysParamVo sysParamVo = new SysParamVo();
+            sysParamVo.setResult(sysParam);
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            SysParamVo sysparam = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            if (sysparam.isSuccess()) {
+                ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
+            }
+            map.put("state", true);
+        }else {
+            map.put("state",false);
+        }
+        return map;
+    }
+
+
+
+
+
+    /**
+     * 参数设置
+     *
+     * @param sysSiteVo
+     * @param model
+     * @return
+     */
+    @RequestMapping({"/parameterSetting"})
+    public String parameterSetting(SysSiteVo sysSiteVo, Model model) {
+        Integer siteId = SessionManagerBase.getSiteId();
+        sysSiteVo.getSearch().setId(siteId);
+        sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
+        //计算开站至今
+        Date openingTime = sysSiteVo.getResult().getOpeningTime();
+        sysSiteVo.setYear(DateTool.yearsBetween(new Date(), openingTime));
+        sysSiteVo.setMonth(DateTool.monthsBetween(new Date(), openingTime) % 12);
+        sysSiteVo.setDay(DateTool.daysBetween(new Date(), openingTime) % 30);
+        //国旗
+        sysSiteVo.setCttLogo(ServiceSiteTool.getCttLogService().getCttlog(new CttLogoVo()));
+        //货币 和 语言
+        sysSiteVo = ServiceTool.siteOperateAreaService().getAreaCurrancyLang(new SiteOperateAreaListVo(), sysSiteVo);
+        sysSiteVo.setValidateRule(JsRuleCreator.create(TrafficStatisticsForm.class, "result"));
+        //查询货币使用的玩家数
+        //增加设置languageListVo的查询条件 siteId 开始--cogo
+        SiteLanguageListVo languageListVo = new SiteLanguageListVo();
+        languageListVo.getSearch().setSiteId(siteId);
+        //增加设置languageListVo的查询条件 siteId 结束--cogo
+        languageListVo = ServiceTool.siteLanguageService().search(languageListVo);
+        transLangByLocale(languageListVo, sysSiteVo.getResult().getMainLanguage());
+        sysSiteVo.setSiteLanguageList(languageListVo.getResult());
+        sysSiteVo.setSiteI18nMap(Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_NAME));
+        sysSiteVo = ServiceSiteTool.vUserPlayerService().queryCurrencyPlayerNum(sysSiteVo);
+        findEnableImportPlayerParam(model);
+        model.addAttribute("command", sysSiteVo);
+        model.addAttribute("siteTile", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_TITLE));
+        model.addAttribute("siteKeywords", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_KEYWORDS));
+        model.addAttribute("siteDescription", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_DESCRIPTION));
+        //该运营商下站长开通的语言
+        List<String> list = ServiceTool.siteLanguageService().masterIsUse(sysSiteVo);
+        model.addAttribute("masterIsUseLanguage", list);
+        //查询多语言站点名称
+        setVerificationData(model);
+        setEmailInterface(model);
+        getSmsInterface(model);//短信参数设置
+        //获取客服信息
+        model.addAttribute("pcCustomerService", SiteCustomerServiceHelper.getDefaultCustomerService());
+        model.addAttribute("mobileCustomerService", SiteCustomerServiceHelper.getMobileCustomerService());
+        //取款方式
+        withdrawTypeParam(model);
+        //APP下载域名
+        SysDomainListVo sysDomainListVo = new SysDomainListVo();
+        sysDomainListVo.getSearch().setSiteId(SessionManager.getSiteId());
+        sysDomainListVo = ServiceTool.sysDomainService().updateAppDomain(sysDomainListVo);
+        List<SysDomain> result = sysDomainListVo.getResult();
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
+        SysParam param = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
+        SysParam mobileTraffic = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_MOBILE_TRAFFIC_STATISTICS);
+        SysParam sysParamQrSwitch= ParamTool.getSysParam(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
+        SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        SysParam encryption = ParamTool.getSysParam(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
+        SysParam stationmaster = ParamTool.getSysParam(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
+        SysParam phoneNumber = ParamTool.getSysParam(SiteParamEnum.EXTENSION_NUMBER_SETTING);
+        String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManagerCommon.getSiteId());
+        model.addAttribute("poone_number",phoneNumber);
+        model.addAttribute("phone_url",phoneUrl);
+        model.addAttribute("player_stationmaster",stationmaster);
+        model.addAttribute("encryption_switch",encryption);
+        model.addAttribute("qrSwitch",sysParamQrSwitch);
+        model.addAttribute("electric_pin",telemarketing);
+        model.addAttribute("access_domain",param);
+        model.addAttribute("select_domain",sysParam);
+        model.addAttribute("mobile_traffic",mobileTraffic.getParamValue());
+        model.addAttribute("appDomain",result);
+        model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
+        model.addAttribute("rankAppDomain",ServiceSiteTool.playerRankAppDomainService().search(new PlayerRankAppDomainListVo()));
+        model.addAttribute("webtype", "5");
+        return "/setting/param/siteparameters/Parameters";
+    }
+
 
     /**
      * 设置取款打款方式
@@ -507,18 +683,34 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     }
 
     private void getSmsInterface(Model model) {
+        SysParam smsSwitch = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_SMS_SWITCH);
+        model.addAttribute("smsSwitch", smsSwitch);
+
+        SysParam playerPhone = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION);
+        model.addAttribute("playerPhoneParam", playerPhone);
+
+        SysParam agentPhone = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION_AGENT);
+        model.addAttribute("agentPhoneParam", agentPhone);
+
+        SysParam recoverPassword = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_RECOVER_PASSWORD);
+        model.addAttribute("recoverPasswordParam", recoverPassword);
+
+        Map<String, SmsInterface> smsMap = Cache.getCommonSmsInterfaces();
+        model.addAttribute("smsInterfaceSize", smsMap.size());
+
+        getSmsInterfaceMessage(model);
+    }
+
+    public void getSmsInterfaceMessage(Model model) {
         SmsInterfaceVo smsInterfaceVo = new SmsInterfaceVo();
         smsInterfaceVo._setDataSourceId(SessionManager.getSiteId());
         smsInterfaceVo = ServiceTool.smsInterfaceService().search(smsInterfaceVo);
-        setSelectList(smsInterfaceVo);
         model.addAttribute("smsInterfaceVo", smsInterfaceVo);
-    }
 
-    private void setSelectList(SmsInterfaceVo objectVo) {
         SmsInterfaceListVo interfaceListVo = new SmsInterfaceListVo();
-        interfaceListVo.setProperties(SmsInterface.PROP_ID, SmsInterface.PROP_FULL_NAME);
-        interfaceListVo._setDataSourceId(0);
-        objectVo.setQueryList(ServiceTool.smsInterfaceService().searchProperties(interfaceListVo));
+        interfaceListVo._setDataSourceId(Integer.valueOf(UserTypeEnum.BOSS.getCode()));
+        interfaceListVo = ServiceTool.smsInterfaceService().search(interfaceListVo);
+        model.addAttribute("interfaceListVo", interfaceListVo.getResult());
     }
 
     private NoticeEmailInterface getDefaultEmailInterface() {
@@ -1101,7 +1293,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
       if (sysParam!=null){
           for (SysParam sysParam1:sysParam){
               sysParamVo.setResult(sysParam1);
-              ServiceTool.getSysParamService().updateOnly(sysParamVo);
+              SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
           }
           ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PHONE_NUMBER);
           ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
@@ -1126,8 +1318,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         if (sysParam!=null) {
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-            ServiceTool.getSysParamService().updateOnly(sysParamVo);
-            ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_POPUP_SWITCH);
+            SysParamVo ParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+           if (ParamVo.isSuccess()){
+               ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_POPUP_SWITCH);
+           }
         }
         return  map;
     }
@@ -1144,12 +1338,98 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         if (sysParam!=null) {
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-            ServiceTool.getSysParamService().updateOnly(sysParamVo);
-            ParamTool.refresh(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
+            SysParamVo Param= ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            if (Param.isSuccess()){
+                ParamTool.refresh(SiteParamEnum.LOGIN_QR_CODE_SWITCH);
+            }
         }
         return  map;
     }
 
+    /***
+     * 电销开关
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/telemarketing")
+    @ResponseBody
+    public  Map telemarketing(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        ParamTool.refresh(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+        if (sysParam!=null) {
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+          if (Param.isSuccess()){
+              ParamTool.refresh(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+          }
+        }
+        return  map;
+    }
+    /***
+     * 电话是否加密
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/encryptionSwitch")
+    @ResponseBody
+    public  Map encryptionSwitch(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
+        if (sysParam!=null) {
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            if (Param.isSuccess()) {
+                ParamTool.refresh(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
+                map.put("state",true);
+            }
+        }
+        return  map;
+    }
+    /***
+     * 玩家联系站长
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/playerStationMaster")
+    @ResponseBody
+    public  Map playerStationMaster(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
+        if (sysParam!=null) {
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+          if (Param.isSuccess()){
+              ParamTool.refresh(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
+              map.put("state",true);
+          }
+        }
+        return  map;
+    }
+    /***
+     * 设置分机号码
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/savePhone")
+    @ResponseBody
+    public  Map savePhone(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.EXTENSION_NUMBER_SETTING);
+        if (sysParam!=null) {
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            if (Param.isSuccess()){
+                ParamTool.refresh(SiteParamEnum.EXTENSION_NUMBER_SETTING);
+            }
+            map.put("state",true);
+        }
+        return  map;
+    }
     /*
     * 提示音设置开关
     *
@@ -1162,13 +1442,44 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             return  null;
         }
         sysParamVo.setProperties(SysParam.PROP_ACTIVE);
-        ServiceTool.getSysParamService().updateOnly(sysParamVo);
-        ParamTool.refresh(SiteParamEnum.WARMING_TONE_ONLINEPAY);
-        ParamTool.refresh(SiteParamEnum.WARMING_TONE_DRAW);
-        ParamTool.refresh(SiteParamEnum.WARMING_TONE_AUDIT);
-        ParamTool.refresh(SiteParamEnum.WARMING_TONE_WARM);
-        ParamTool.refresh(SiteParamEnum.WARMING_TONE_NOTICE);
+        SysParamVo sysParam = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+        if (sysParam.isSuccess()) {
+            ParamTool.refresh(SiteParamEnum.WARMING_TONE_ONLINEPAY);
+            ParamTool.refresh(SiteParamEnum.WARMING_TONE_DRAW);
+            ParamTool.refresh(SiteParamEnum.WARMING_TONE_AUDIT);
+            ParamTool.refresh(SiteParamEnum.WARMING_TONE_WARM);
+            ParamTool.refresh(SiteParamEnum.WARMING_TONE_NOTICE);
+        }
         return  map;
+    }
+
+    /**
+     * 设置短信接口
+     * @param model
+     * @return
+     */
+    @RequestMapping("/editSmsInterface")
+    public String editSmsInterface(Model model){
+        getSmsInterfaceMessage(model);
+        return  "/setting/param/siteparameters/EditSmsInterface";
+    }
+
+    /**
+     * 保存短信开关
+     * @param siteParamVo
+     * @return
+     */
+    @RequestMapping("/saveSmsInterfaceParam")
+    @ResponseBody
+    public Map saveSmsInterfaceParam(SiteParamVo siteParamVo){
+        siteParamVo._setDataSourceId(SessionManager.getSiteId());
+        ServiceSiteTool.siteSysParamService().saveSmsInterfaceParam(siteParamVo);
+        ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_SMS_SWITCH);
+        ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION);
+//        ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION_AGENT);
+        ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_RECOVER_PASSWORD);
+        Cache.refreshCurrentSitePageCache(SessionManager.getSiteId());
+        return getVoMessage(siteParamVo);
     }
     //endregion your codes 3
 }

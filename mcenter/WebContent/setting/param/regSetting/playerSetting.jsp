@@ -116,7 +116,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="panel-body hide">
+            <div class="panel-body">
                 <div class="tab-content">
                     <div class="tab-pane active">
                         <div class="form-group clearfix line-hi34 m-b-none">
@@ -142,7 +142,7 @@
                         </div>
 
 
-                        <div class="form-group clearfix line-hi34 m-b-none">
+                        <div class="form-group clearfix line-hi34 m-b-none hide">
                             <label class="form_lab_block line-hi34 m-r-sm"><b>${views.setting['PlayerReg.validMail']} : </b></label>
 
                             <div class="col-sm-8">

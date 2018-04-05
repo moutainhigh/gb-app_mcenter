@@ -104,7 +104,7 @@ public class PayAccountOnlineForm implements IForm {
     }
 
     @NotBlank
-    @Length(min = 1, max = 30)
+    @Length(min = 1, max = 40)
     //@Pattern(regexp = FormValidRegExps.DIGITS)
     @Remote(checkClass = PayAccountController.class, checkMethod = "checkChnnel", additionalProperties = {"result.bankCode", "result_account", "result_id"}, message = "content_auto.该渠道的账号已存在")
     public String getResult_account() {

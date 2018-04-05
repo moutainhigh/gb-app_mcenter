@@ -8,6 +8,7 @@ import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.exception.SystemException;
 import org.soul.commons.lang.ArrayTool;
+import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
@@ -367,9 +368,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         List<Bank> list = new ArrayList();
         List<Bank> onlineBank = getOnlineBank(payType);
         if (onlineBank != null && onlineBank.size() > 0) {
+            Map<String, String> i18n = I18nTool.getDictMapByEnum(SessionManager.getLocale(), DictEnum.BANKNAME);
             for (Bank bank : onlineBank) {
                 //bankName国际化处理
-                String interlingua = LocaleTool.tranDict(DictEnum.BANKNAME, bank.getBankName());
+                String interlingua = i18n.get(bank.getBankName());
                 if (StringTool.isNotEmpty(interlingua)) {
                     bank.setInterlinguaBankName(interlingua);
                 } else {
