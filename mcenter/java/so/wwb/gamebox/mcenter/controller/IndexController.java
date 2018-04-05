@@ -47,7 +47,6 @@ import so.wwb.gamebox.model.company.operator.po.VSystemAnnouncement;
 import so.wwb.gamebox.model.company.operator.vo.VSystemAnnouncementListVo;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
-import so.wwb.gamebox.model.company.sys.po.SysSite;
 import so.wwb.gamebox.model.company.sys.po.VSysSiteUser;
 import so.wwb.gamebox.model.company.sys.vo.SysDomainListVo;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
@@ -78,7 +77,7 @@ import java.util.*;
  * Created by tony on 15-4-29.
  */
 @Controller
-public class IndexControllerBase extends BasePhoneApiController {
+public class IndexController extends BasePhoneApiController {
     private static final String INDEX_URI = "index";
     private static final String INDEX_CONTENT_URI = "index.include/content";
     private static final String INDEX_MESSAGE_URI = "index.include/Message";
@@ -90,7 +89,7 @@ public class IndexControllerBase extends BasePhoneApiController {
     private static final String ONE_MINUTE_AGO = "@ONE_MINUTE_AGO";//分钟
     private static final String ONE_HOUR_AGO = "@ONE_HOUR_AGO";//小时
     private static final String ONE_DAY_AGO = "@ONE_DAY_AGO";//天
-    private static final Log LOG = LogFactory.getLog(IndexControllerBase.class);
+    private static final Log LOG = LogFactory.getLog(IndexController.class);
 
     @Override
     protected String content(Integer parentId, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -116,7 +115,6 @@ public class IndexControllerBase extends BasePhoneApiController {
     @Audit(module = Module.MASTER_INDEX, moduleType = ModuleType.PASSPORT_LOGIN, desc = "刷新首页面")
     @RequestMapping(value = "index")
     protected String index(HttpServletRequest request, Model model) {
-        Cache.refreshSiteTelemarketing();
          /* 获取当前用户未接收的站内信 */
         if (SessionManager.getFirstLogin()) {
             ServiceTool.noticeService().fetchUnReceivedMsgs(new NoticeVo());
@@ -700,10 +698,11 @@ public class IndexControllerBase extends BasePhoneApiController {
             Double profit = fetchSiteHasUseProfit();//CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone());
             map.put("profit", profit);//本月使用额度值
             map.put("profitCur", CurrencyTool.formatCurrency(profit));
+            Double transferLimit = getProfitLimit().getCurrentTransferLimit() == null ? 0d : getProfitLimit().getCurrentTransferLimit();
             if (getProfitLimit().getTransferLine()!=null){
-                map.put("transferLimit", getProfitLimit().getCurrentTransferLimit() + getProfitLimit().getTransferLine());//转账上限值
+                map.put("transferLimit", transferLimit + getProfitLimit().getTransferLine());//转账上限值
             }else {
-                map.put("transferLimit", getProfitLimit().getCurrentTransferLimit());//转账上限值
+                map.put("transferLimit", transferLimit);//转账上限值
             }
             double transferOutSum = getProfitLimit().getTransferOutSum() == null ? 0 : getProfitLimit().getTransferOutSum();
             double transferIntoSum = getProfitLimit().getTransferIntoSum() == null ? 0 : getProfitLimit().getTransferIntoSum();
