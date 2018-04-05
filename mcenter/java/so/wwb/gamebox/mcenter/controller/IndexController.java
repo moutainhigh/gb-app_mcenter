@@ -698,10 +698,11 @@ public class IndexController extends BasePhoneApiController {
             Double profit = fetchSiteHasUseProfit();//CreditHelper.getProfit(SessionManager.getSiteId(), CommonContext.get().getSiteTimeZone());
             map.put("profit", profit);//本月使用额度值
             map.put("profitCur", CurrencyTool.formatCurrency(profit));
+            Double transferLimit = getProfitLimit().getCurrentTransferLimit() == null ? 0d : getProfitLimit().getCurrentTransferLimit();
             if (getProfitLimit().getTransferLine()!=null){
-                map.put("transferLimit", getProfitLimit().getCurrentTransferLimit() + getProfitLimit().getTransferLine());//转账上限值
+                map.put("transferLimit", transferLimit + getProfitLimit().getTransferLine());//转账上限值
             }else {
-                map.put("transferLimit", getProfitLimit().getCurrentTransferLimit());//转账上限值
+                map.put("transferLimit", transferLimit);//转账上限值
             }
             double transferOutSum = getProfitLimit().getTransferOutSum() == null ? 0 : getProfitLimit().getTransferOutSum();
             double transferIntoSum = getProfitLimit().getTransferIntoSum() == null ? 0 : getProfitLimit().getTransferIntoSum();
