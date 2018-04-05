@@ -44,6 +44,7 @@
                                 <a class="btn btn-link co-blue" href="/player/playerView.html?search.id=${r.playerId}" nav-Target="mainFrame">
                                 </shiro:hasPermission>
                                         ${r.username}
+                                    ${gbFn:riskImgByName(r.username)}
                                 <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                                 <a class="btn btn-link" nav-Target="mainFrame" href="/fund/deposit/company/list.html?search.fundTypes=company_deposit&search.userNameEqual=true&search.username=${r.username}">
                                     <i class="iconfont icon-wanjiaguanli"></i>${views.fund['despoit.index.viewPlayerAllDespoit']}

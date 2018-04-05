@@ -8,6 +8,7 @@ import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.exception.SystemException;
 import org.soul.commons.lang.ArrayTool;
+import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
@@ -90,6 +91,9 @@ import so.wwb.gamebox.web.common.token.TokenHandler;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
+
+import static org.soul.commons.lang.string.StringTool.isBlank;
+import static org.soul.commons.lang.string.StringTool.replaceHtml;
 
 /**
  * 收款账户表控制器
@@ -196,7 +200,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     private int batchSaveWarningSetting(PayAccountVo vo) {
         //层级账号不足传回值为空，则默认为false
         SysParam inadequateState = vo.getInadequateState();
-        if (StringTool.isBlank(inadequateState.getParamValue())) {
+        if (isBlank(inadequateState.getParamValue())) {
             inadequateState.setParamValue(Boolean.FALSE.toString());
         }
 
@@ -272,9 +276,9 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         }
         vo.setIds(Arrays.asList(ids));
         vo = this.getService().deleteAccount(vo);
-        if (vo.isSuccess() && StringTool.isBlank(vo.getOkMsg())) {
+        if (vo.isSuccess() && isBlank(vo.getOkMsg())) {
             vo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
-        } else if (!vo.isSuccess() && StringTool.isBlank(vo.getErrMsg())) {
+        } else if (!vo.isSuccess() && isBlank(vo.getErrMsg())) {
             vo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
         return this.getVoMessage(vo);
@@ -323,7 +327,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @RequestMapping({"/companyEdit"})
     @Token(generate = true)
     public String companyEdit(PayAccountVo objectVo, Integer id, Model model) {
-        if (id == null || StringTool.isBlank(id.toString())) {
+        if (id == null || isBlank(id.toString())) {
             throw new SystemException("加载实体时id参数必须指定！");
         }
         this.checkResult(objectVo);
@@ -364,9 +368,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         List<Bank> list = new ArrayList();
         List<Bank> onlineBank = getOnlineBank(payType);
         if (onlineBank != null && onlineBank.size() > 0) {
+            Map<String, String> i18n = I18nTool.getDictMapByEnum(SessionManager.getLocale(), DictEnum.BANKNAME);
             for (Bank bank : onlineBank) {
                 //bankName国际化处理
-                String interlingua = LocaleTool.tranDict(DictEnum.BANKNAME, bank.getBankName());
+                String interlingua = i18n.get(bank.getBankName());
                 if (StringTool.isNotEmpty(interlingua)) {
                     bank.setInterlinguaBankName(interlingua);
                 } else {
@@ -424,7 +429,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @RequestMapping({"/onLineEdit"})
     @Token(generate = true)
     public String onLineEdit(PayAccountVo objectVo, Integer id, Model model) {
-        if (id == null || StringTool.isBlank(id.toString())) {
+        if (id == null || isBlank(id.toString())) {
             throw new SystemException("加载实体时id参数必须指定！");
         }
         this.checkResult(objectVo);
@@ -528,10 +533,10 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     public Map saveCompany(PayAccountVo payAccountVo, @FormModel("result") @Valid PayAccountCompanyForm form, BindingResult result) {
         if (!result.hasErrors()) {
             PayAccount account = payAccountVo.getResult();
-            String remark = account.getRemark();
-            /*if (StringTool.isNotBlank(remark)) {
-                account.setRemark(remark.replace("\r\n", "<br>"));
-            }*/
+            //过滤 html 标签
+            account.setRemark(replaceHtml(account.getRemark()));
+            /*account.setRemark(isBlank(remark) ? remark : remark.replace("\r\n", "<br>"));*/
+
             if (PayAccountAccountType.BANKACCOUNT.getCode().equals(account.getAccountType())) {
                 account.setCustomBankName(form.get$customBankName());
             }
@@ -893,7 +898,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @ResponseBody
     public String validToImprove(@RequestParam("result.disableAmount") String disableAmount, @RequestParam("result.id") String id) {
         PayAccountVo vo = new PayAccountVo();
-        vo.getSearch().setId(StringTool.isBlank(id) ? null : Integer.valueOf(id));
+        vo.getSearch().setId(isBlank(id) ? null : Integer.valueOf(id));
         vo = this.getService().get(vo);
         return Integer.valueOf(disableAmount) > vo.getResult().getDisableAmount() ? "true" : "false";
     }
@@ -905,7 +910,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @ResponseBody
     public String validToDepositTotal(@RequestParam("result.disableAmount") String disableAmount, @RequestParam("result.id") String id) {
         PayAccountVo vo = new PayAccountVo();
-        vo.getSearch().setId(StringTool.isBlank(id) ? null : Integer.valueOf(id));
+        vo.getSearch().setId(isBlank(id) ? null : Integer.valueOf(id));
         vo = this.getService().get(vo);
         return Integer.valueOf(disableAmount) > vo.getResult().getDepositTotal() ? "true" : "false";
     }
@@ -969,7 +974,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @RequestMapping({"/queryChannelColumn"})
     @ResponseBody
     public PayAccountVo queryChannelColumn(OnlinePayVo onlinePayVo, PayAccountVo payAccountVo) {
-        if (StringTool.isBlank(onlinePayVo.getChannelCode())) {
+        if (isBlank(onlinePayVo.getChannelCode())) {
             return null;
         }
         payAccountVo.setOpenAndSupportList(this.openAndSupport(onlinePayVo.getChannelCode()));
@@ -989,7 +994,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
      * @return List
      */
     private List<SiteCurrency> openAndSupport(String channelCode) {
-        if (StringTool.isBlank(channelCode)) {
+        if (isBlank(channelCode)) {
             return null;
         }
         //站长支持的货币
@@ -1331,7 +1336,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
     @RequestMapping("/checkAliasName")
     @ResponseBody
     public boolean checkAliasName(@RequestParam("result.aliasName") String aliasName, @RequestParam("result.id") String id) {
-        if (StringTool.isBlank(aliasName)) {
+        if (isBlank(aliasName)) {
             return false;
         }
         PayAccountListVo payAccountListVo = new PayAccountListVo();
