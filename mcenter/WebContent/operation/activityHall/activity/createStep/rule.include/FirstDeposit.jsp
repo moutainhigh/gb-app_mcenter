@@ -16,11 +16,15 @@
             </label>
             <table class="table border" id="first_deposit">
                 <tr>
+                    <td class="bg-gray ft-bold">${views.operation['Activity.rule']}${siteCurrency}</td>
+                    <td class="bg-gray ft-bold fd_percentageHandsel_column" colspan="2">${views.operation['Activity.step.offerForm']}</td>
+                    <td class="bg-gray ft-bold" rowspan="2">${views.operation['操作']}</td>
+                </tr>
+                <tr>
                     <td class="bg-gray ft-bold">${views.operation['Activity.step.depositAmount']}${siteCurrency}</td>
                     <td class="bg-gray ft-bold fd_percentageHandsel_column">${views.operation['Activity.step.proportion']}</td>
                     <td class="bg-gray ft-bold fd_regularHandsel_column">${views.operation['Activity.step.fixed']}</td>
-                    <td class="bg-gray ft-bold">${views.operation['Activity.step.audit']}<span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-html="true" data-trigger="focus" data-placement="top" data-content=" ${views.operation['Activity.step.message9']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span></td>
-                    <td class="bg-gray ft-bold">${views.operation['操作']}</td>
+                    <td class="bg-gray ft-bold" >${views.operation['Activity.step.audit']}<span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-html="true" data-trigger="focus" data-placement="top" data-content=" ${views.operation['Activity.step.message9']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span></td>
                 </tr>
                 <c:forEach items="${activitypreferentialList}" var="f" varStatus="status">
                     <tr class="fd">
