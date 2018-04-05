@@ -16,7 +16,7 @@
             </label>
             <table class="table border" id="first_deposit">
                 <tr>
-                    <td class="bg-gray ft-bold">${views.operation['Activity.rule']}${siteCurrency}</td>
+                    <td class="bg-gray ft-bold">${views.operation['Activity.rule']}</td>
                     <td class="bg-gray ft-bold fd_percentageHandsel_column" colspan="2">${views.operation['Activity.step.offerForm']}</td>
                     <td class="bg-gray ft-bold" rowspan="2">${views.operation['操作']}</td>
                 </tr>
