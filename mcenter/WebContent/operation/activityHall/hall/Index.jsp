@@ -4,7 +4,7 @@
 <!--//region your codes 1-->
 
 <!--//endregion your codes 1-->
-<form:form action="${root}/vActivityMessageHall/list.html" method="post">
+<form:form action="${root}/activityHall/vActivityMessageHall/list.html" method="post">
     <div id="validateRule" style="display: none">${command.validateRule}</div>
     <!--//region your codes 2-->
     <div class="row">

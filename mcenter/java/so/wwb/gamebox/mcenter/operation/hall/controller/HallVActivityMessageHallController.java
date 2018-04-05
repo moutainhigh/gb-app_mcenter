@@ -13,6 +13,7 @@ import so.wwb.gamebox.mcenter.operation.form.VActivityMessageHallForm;
 import so.wwb.gamebox.mcenter.operation.form.VActivityMessageHallSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.TerminalEnum;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.master.operation.po.VActivityMessageHall;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMessageHallListVo;
@@ -55,6 +56,7 @@ public class HallVActivityMessageHallController extends BaseCrudController<IVAct
 
         listVo.getSearch().setActivityVersion(SessionManager.getLocale().toString());
         listVo.getSearch().setIsDeleted(Boolean.FALSE);
+        listVo.getSearch().setActivityTerminalType(TerminalEnum.PC.getCode());
 
         listVo.getQuery().addOrder(VActivityMessageHall.PROP_LIST_ORDER_NUM, Direction.ASC).addOrder(VActivityMessageHall.PROP_START_TIME,Direction.DESC);
 //        VActivityMessageHallListVo search = this.getService().search(listVo);
