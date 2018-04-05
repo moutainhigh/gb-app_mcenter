@@ -13,7 +13,7 @@
         }
 
         .carousel-fill img {
-            /*设置图片垂直居中 测试git*/
+            /*设置图片垂直居中*/
             vertical-align: middle;
             max-width: 100%;
             max-height: 100%;
