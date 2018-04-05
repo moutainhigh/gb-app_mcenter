@@ -75,15 +75,19 @@
                                         </div>
 
                                         <div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
-                                            <input name="phoneParam.id" type="hidden" value="${phoneParam.id}">
-                                            <input id="phoneParam" name="phoneParam.active" type="hidden" value="${phoneParam.active}">
                                             <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
-                                                手机验证：
+                                                玩家手机验证：
                                             </div>
                                             <div class="col-xs-5">
-                                                    <%--暂时隐藏，当开启手机验证时开启--%>
+                                                <input name="playerPhoneParam.id" type="hidden" value="${playerPhoneParam.id}">
+                                                <input id="playerPhoneParam" name="playerPhoneParam.active" type="hidden" value="${playerPhoneParam.active}">
+                                                <input type="checkbox" class="_switch" name="sms-checkbox" typeName="playerPhoneParam" data-size="mini" ${playerPhoneParam.active?"checked":""}>
+                                            </div>
+
+                                            <%--<div class="col-xs-5">
+                                                    &lt;%&ndash;暂时隐藏，当开启手机验证时开启&ndash;%&gt;
                                                 <input type="checkbox" class="_switch" name="sms-checkbox" typeName="phoneParam" data-size="mini" ${phoneParam.active?"checked":""}>
-                                                    <%--暂时隐藏，当开启手机验证时开启--%>
+                                                    &lt;%&ndash;暂时隐藏，当开启手机验证时开启&ndash;%&gt;
                                                 <span id="isShowphoneParam" ${phoneParam.active?"":"hidden"}>
                                                     <label  class="m-r-sm"><input type="radio" class="i-checks" name="phoneParam.paramValue" value="before" ${phoneParam.paramValue=="before"?"checked":""}> ${views.setting['PlayerReg.before']}</label>
                                                     <span tabindex="0" class=" help-popover" role="button" data-container="body"
@@ -101,11 +105,21 @@
                                                         <i class="fa fa-question-circle"></i>
                                                     </span>
                                                 </span>
-                                            </div>
+                                            </div>--%>
                                         </div>
+                                        <%--<div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
+                                            <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                                                代理手机验证：
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <input name="agentPhoneParam.id" type="hidden" value="${agentPhoneParam.id}">
+                                                <input id="agentPhoneParam" name="agentPhoneParam.active" type="hidden" value="${agentPhoneParam.active}">
+                                                <input type="checkbox" class="_switch" name="sms-checkbox" typeName="agentPhoneParam" data-size="mini" ${agentPhoneParam.active?"checked":""}>
+                                            </div>
+                                        </div>--%>
                                         <div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
                                             <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
-                                                找回密码：
+                                                手机找回密码：
                                             </div>
                                             <div class="col-xs-5">
                                                     <input name="recoverPasswordParam.id" type="hidden" value="${recoverPasswordParam.id}">

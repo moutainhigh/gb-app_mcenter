@@ -686,8 +686,11 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam smsSwitch = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_SMS_SWITCH);
         model.addAttribute("smsSwitch", smsSwitch);
 
-        SysParam phone = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION);
-        model.addAttribute("phoneParam", phone);
+        SysParam playerPhone = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION);
+        model.addAttribute("playerPhoneParam", playerPhone);
+
+        SysParam agentPhone = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION_AGENT);
+        model.addAttribute("agentPhoneParam", agentPhone);
 
         SysParam recoverPassword = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_RECOVER_PASSWORD);
         model.addAttribute("recoverPasswordParam", recoverPassword);
@@ -1473,7 +1476,9 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         ServiceSiteTool.siteSysParamService().saveSmsInterfaceParam(siteParamVo);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_SMS_SWITCH);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION);
+//        ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION_AGENT);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_RECOVER_PASSWORD);
+        Cache.refreshCurrentSitePageCache(SessionManager.getSiteId());
         return getVoMessage(siteParamVo);
     }
     //endregion your codes 3
