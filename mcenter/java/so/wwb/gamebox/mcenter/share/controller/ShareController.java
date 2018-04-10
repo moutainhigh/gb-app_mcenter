@@ -97,10 +97,9 @@ public class ShareController {
      * 判断上次同步api时间是否在10分钟前
      */
     public static void lastSynchroApiCash(UserPlayerVo userPlayerVo , PlayerApiListVo playerApiListVo){
-        Date transactionSynTime = userPlayerVo.getResult().getTransactionSynTime(); //DateTool.addHours(endTime , 8)
+        Date transactionSynTime = userPlayerVo.getResult().getTransactionSynTime();
         boolean isSynchroApiCash =transactionSynTime == null ? true : (new Date().getTime() - transactionSynTime.getTime()) > TEN_MINUTE_TO_MS;
         if(isSynchroApiCash){
-            playerApiListVo.setType(playerApiListVo.getType() == null ? ApiQueryTypeEnum.ALL_API.getCode() : playerApiListVo.getType());
             ShareController.fetchPlayerApiBalance(playerApiListVo);
             userPlayerVo.getResult().setTransactionSynTime(new Date());
             ServiceSiteTool.userPlayerService().update(userPlayerVo);
