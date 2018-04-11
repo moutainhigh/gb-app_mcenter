@@ -129,7 +129,7 @@
                             <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.type']}</label>
                             <div class="col-sm-3">
                                 <input type="radio" class="i-checks" name="result.picType" value="2" ${command.result.picType == '2' ? 'checked' : ''}>${views.column['CttFloatPic.template.type.promo']}
-                                <input type="radio" class="i-checks" name="result.picType" value="3" ${command.result.picType == '3' || empty command.result.picType? 'checked' : ''}>老虎机
+                                <%--<input type="radio" class="i-checks" name="result.picType" value="3" ${command.result.picType == '3' || empty command.result.picType? 'checked' : ''}>老虎机--%>
                             </div>
                         </div>
 
