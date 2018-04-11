@@ -96,6 +96,7 @@ import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.company.site.po.SiteCurrency;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
 import so.wwb.gamebox.model.company.vo.BankListVo;
+import so.wwb.gamebox.model.enums.ApiQueryTypeEnum;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.listop.FilterRow;
 import so.wwb.gamebox.model.listop.FilterSelectConstant;
@@ -962,6 +963,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //上次同步API余额时间
         PlayerApiListVo playerApiListVo = new PlayerApiListVo();
         playerApiListVo.getSearch().setPlayerId(searchId);
+        playerApiListVo.setType(ApiQueryTypeEnum.ALL_API.getCode());
         ShareController.lastSynchroApiCash(userPlayerVo , playerApiListVo);
         return "/player/view.include/PlayerDetail";
     }
