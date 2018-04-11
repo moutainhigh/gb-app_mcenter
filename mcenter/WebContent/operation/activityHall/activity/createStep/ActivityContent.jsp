@@ -135,8 +135,8 @@
             <div class="clearfix m-t-sm line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.isDisplay']}：</label>
                 <div class="col-sm-5">
-                    <a class="btn btn-filter disabled" id="pc-terminal" href="javascript:void(0)">PC端</a>
-                    <a class="btn btn-filter" id="mb-terminal" href="javascript:void(0)">手机端</a>
+                    <a class="btn btn-filter" id="pc-terminal" href="javascript:void(0)">PC端</a>
+                    <a class="btn btn-default btn-filter" id="mb-terminal" href="javascript:void(0)">手机端</a>
                 </div>
             </div>
             <%--语言版本--%>
