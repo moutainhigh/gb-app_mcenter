@@ -37,7 +37,7 @@ import java.util.Map;
  * Created by jessie on 16-5-23.
  */
 @Controller
-@RequestMapping("/activityHall/operation/activity/order")
+@RequestMapping("/activityHall/activity/order")
 public class HallActivityOrderController extends BaseCrudController<IActivityMessageService,ActivityMessageListVo,ActivityMessageVo,VActivityMessageSearchForm, VActivityMessageForm,ActivityMessage,Integer>{
 
     private static String BASE_PATH ="/operation/activityHall/activity/order/Index";
