@@ -3,10 +3,8 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-        <title>${views.common['首页']} - ${views.common['站长中心']} - ${siteName}</title>
+        <title>${views.common['首页']} - ${views.common['捷报数据中心']} - ${siteName}</title>
         <%@ include file="/include/include.head.jsp" %>
-
-
 		<title>整体走势-图表</title>
 	</head>
 	<body>
