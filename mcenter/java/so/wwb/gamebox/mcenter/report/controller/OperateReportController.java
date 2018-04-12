@@ -310,9 +310,10 @@ public class OperateReportController extends BaseOperateController {
         userAgentVo.getSearch().setId(listVo.getSearch().getAgentId());
         boolean canAddSubAgent = ServiceSiteTool.userAgentService().canAddSubAgent(userAgentVo);
         listVo.setCanAddSubAgent(canAddSubAgent);
-        UserAgentListVo userAgentListVo = new UserAgentListVo();
+        /*UserAgentListVo userAgentListVo = new UserAgentListVo();
         userAgentListVo.getQuery().setCriterions(new Criterion[]{new Criterion(UserAgent.PROP_PARENT_ID, Operator.EQ, listVo.getSearch().getAgentId())});
-        long agentNum = ServiceSiteTool.userAgentService().count(userAgentListVo);
+        long agentNum = ServiceSiteTool.userAgentService().count(userAgentListVo);*/
+        long agentNum = getSubAgentIdsByAgentId(listVo.getSearch().getAgentId()).size();
         listVo.setAgentNum(agentNum);
     }
 
@@ -406,12 +407,10 @@ public class OperateReportController extends BaseOperateController {
         String agentName = listVo.getSearch().getAgentName();
         if(agentId!=null || StringTool.isNotBlank(agentName)){
             List<Integer> agentIds = new ArrayList<>();
-            UserAgentVo userAgentVo = new UserAgentVo();
             if(agentId!=null){
-                userAgentVo.getSearch().setId(agentId);
-                agentIds = ServiceSiteTool.userAgentService().queryAgentChild(userAgentVo);
+                agentIds = getSubAgentIdsByAgentId(agentId);
             }else {
-                agentIds = getAgentIds(agentName, agentIds);
+                agentIds = getSubAgentIds(agentName, agentIds);
             }
             if (CollectionTool.isNotEmpty(agentIds)){
                 String[] ids = new String[agentIds.size()];
@@ -422,7 +421,7 @@ public class OperateReportController extends BaseOperateController {
                 listVo = ServiceSiteTool.operateAgentService().agentDetail(listVo);
                 getAllAgentDetail(listVo, agentIds);
             }
-            getAgentLine(listVo, agentId, userAgentVo, agentName);
+            getAgentLine(listVo, agentId, agentName);
         }
         model.addAttribute("command", listVo);
         if(ServletTool.isAjaxSoulRequest(request)) {
@@ -433,13 +432,27 @@ public class OperateReportController extends BaseOperateController {
     }
 
     /**
-     * 获取下级代理id
+     * 根据代理id查询其所有下级代理的id
+     *
+     * @param agentId
+     * @return
+     */
+    private List<Integer> getSubAgentIdsByAgentId(Integer agentId) {
+        List<Integer> agentIds;
+        UserAgentVo userAgentVo = new UserAgentVo();
+        userAgentVo.getSearch().setId(agentId);
+        agentIds = ServiceSiteTool.userAgentService().queryAgentChild(userAgentVo);
+        return agentIds;
+    }
+
+    /**
+     * 根据代理账号查询其所有下级代理id
      *
      * @param agentName
      * @param agentIds
      * @return
      */
-    private List<Integer> getAgentIds(String agentName, List<Integer> agentIds) {
+    private List<Integer> getSubAgentIds(String agentName, List<Integer> agentIds) {
         SysUserVo sysUserVo = new SysUserVo();
         sysUserVo.getQuery().setCriterions(new Criterion[]{new Criterion(SysUser.PROP_USERNAME, Operator.EQ, agentName),
                 new Criterion(SysUser.PROP_SUBSYS_CODE, Operator.EQ, SubSysCodeEnum.MCENTER_AGENT.getCode())});
@@ -479,10 +492,10 @@ public class OperateReportController extends BaseOperateController {
      *
      * @param listVo
      * @param agentId
-     * @param userAgentVo
      * @param agentName
      */
-    private void getAgentLine(OperateAgentListVo listVo, Integer agentId, UserAgentVo userAgentVo,String agentName) {
+    private void getAgentLine(OperateAgentListVo listVo, Integer agentId,String agentName) {
+        UserAgentVo userAgentVo = new UserAgentVo();
         userAgentVo.getSearch().setId(agentId);
         Map map = ServiceSiteTool.userAgentService().queryAgentLine(userAgentVo);
         String name = this.getAgentNameByAgentId(agentId);
