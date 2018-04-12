@@ -135,8 +135,8 @@
             <div class="clearfix m-t-sm line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.isDisplay']}：</label>
                 <div class="col-sm-5">
-                    <a class="btn btn-filter disabled" id="pc-terminal" href="javascript:void(0)">PC端</a>
-                    <a class="btn btn-filter" id="mb-terminal" href="javascript:void(0)">手机端</a>
+                    <a class="btn btn-filter" id="pc-terminal" href="javascript:void(0)">PC端</a>
+                    <a class="btn btn-default btn-filter" id="mb-terminal" href="javascript:void(0)">手机端</a>
                 </div>
             </div>
             <%--语言版本--%>
@@ -267,7 +267,7 @@
                             <c:forEach var="siteLang" items="${languageList}" varStatus="index">
                                 <li class=" ${index.index+length==length?'active':''}">
                                     <a id="a_${index.index+length}" data-toggle="tab" href="#tab${index.index+length}"
-                                       aria-expanded="false">
+                                       aria-expanded="${index.index+length==length?'true':'false'}">
                                             ${fn:substringBefore(dicts.common.language[siteLang.value.language], '#')}mobile
                                         <span class="_editStatus${index.index+length}">
                                             <c:choose>
@@ -293,7 +293,7 @@
                     <div class="tab-content">
                         <c:forEach var="siteLang" items="${languageList}" varStatus="index">
                             <div id="tab${index.index+length}"
-                                 class="tab-pane ${index.index+length==length?'active':''}">
+                                 class="tab-pane ">
                                 <div class="clearfix m-t-md">
                                     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.name']}：</label>
                                     <div class="col-sm-5"><input bbb="${index.index+length}"
@@ -335,37 +335,6 @@
                                         <div>${views.operation['Activity.step.message13']}</div>
                                     </div>
                                 </div>
-
-                                <%--附图--%>
-                                <%--<div class="clearfix m-t-md" id="secondary${index.index+length}" style="display: none">
-                                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.affiliated']}：</label>
-                                    <div class="col-sm-5">
-                                        <div class="form-group m-b-sm">
-                                            <div id="activityAffiliatedImage${index.index+length}">
-                                                <c:if test="${not empty activityMessageI18ns['1'][siteLang.value.language].activityAffiliated}">
-                                                    <img id="cc_${index.index+length}"
-                                                         src="${soulFn:getThumbPath(domain, activityMessageI18ns['1'][siteLang.value.language].activityAffiliated,0,0)}"
-                                                         class="logo-size-h100"
-                                                         style="margin: 10px 0; width: auto;height: 130px;"/>
-                                                </c:if>
-                                            </div>
-                                            <input id="" bbb="${index.index+length}" class="file file2"
-                                                   type="file"
-                                                   target="activityMessageI18ns[${index.index+length}].activityAffiliated"
-                                                   accept="image/*" name="activityAffiliated">
-                                            <input type="hidden" class="activityAffiliated" bbb="${index.index+length}"
-                                                   name="activityMessageI18ns[${index.index+length}].activityAffiliated"
-                                                   value="${activityMessageI18ns['1'][siteLang.value.language].activityAffiliated}">
-                                            <input type="hidden"
-                                                   value="${activityMessageI18ns['1'][siteLang.value.language].activityAffiliated}">
-                                        </div>
-                                        <div id="activityAffiliatedImg${index.index+length}">
-                                            <img id="dd_${index.index+length}" src=""
-                                                 style="display: none;width:100%;height: auto;"/>
-                                        </div>
-                                        <div>${views.operation['Activity.step.message2']}</div>
-                                    </div>
-                                </div>--%>
 
                                 <div class="clearfix m-t-md">
                                     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityDescription']}：</label>
