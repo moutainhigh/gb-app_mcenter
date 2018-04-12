@@ -55,7 +55,7 @@
                                 <th>${views.report['operate.list.effePrice']}</th>
                                 <th>${views.report['operate.list.prosfit']}</th>
                                 <th class="${hasSubAgent}">
-                                    下级代理
+                                    ${views.report['下级代理数']}
                                 </th>
                             </tr>
                             </thead>
