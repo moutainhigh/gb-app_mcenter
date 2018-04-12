@@ -17,21 +17,21 @@
             </th>
             <th>${views.column['VSportRecommended.showStartTime']}</th>
             <%--<th>${views.column['VActivityMessage.checkStatus']}</th>--%>
-            <th>${views.content['发布时间']}</th>
             <th class="inline">
                 <gb:select name="search.states" value="${command.search.states}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['状态']}" list="${activityState}"></gb:select>
             </th>
             <th>${views.column['VActivityMessage.isDisplay']}</th>
-            <th>
-                <select name="search.isAudit" callback="query" class="btn-group chosen-select-no-single">
-                    <option value="" ${empty command.search.isAudit?'selected':''}>${views.operation['Activity.step.isAudit']}</option>
-                    <option value="1" ${command.search.isAudit?'selected':''}>${views.operation['前端申领']}</option>
-                    <option value="0" ${not empty command.search.isAudit && !command.search.isAudit?'selected':''}>${views.operation['系统自动']}</option>
-                </select>
+            <th>${views.content['发布时间']}</th>
+            <%--<th>--%>
+                <%--<select name="search.isAudit" callback="query" class="btn-group chosen-select-no-single">--%>
+                    <%--<option value="" ${empty command.search.isAudit?'selected':''}>${views.operation['Activity.step.isAudit']}</option>--%>
+                    <%--<option value="1" ${command.search.isAudit?'selected':''}>${views.operation['前端申领']}</option>--%>
+                    <%--<option value="0" ${not empty command.search.isAudit && !command.search.isAudit?'selected':''}>${views.operation['系统自动']}</option>--%>
+                <%--</select>--%>
 
 
-            </th>
-            <%--<th>${views.column['VActivityMessage.acount']}</th>--%>
+            <%--</th>--%>
+        <%--<th>${views.column['VActivityMessage.acount']}</th>--%>
             <%--<shiro:hasPermission name="operate:activity_defaultSet">--%>
                 <%--<th>${views.column['VActivityMessage.defaultSet']}</th>--%>
             <%--</shiro:hasPermission>--%>
@@ -49,7 +49,6 @@
                 </td>
                 <td>${soulFn:formatDateTz(p.startTime,DateFormat.DAY_SECOND,timeZone)}${views.common['TO']}${soulFn:formatDateTz(p.endTime,DateFormat.DAY_SECOND,timeZone)}</td>
                     <%--<td>${views.operation[p.approvalStatus]}</td>--%>
-                <td>${soulFn:formatDateTz(p.createTime,DateFormat.DAY_SECOND,timeZone)}</td>
                 <td>
                     <span class="${p.activityStatesShow.cssClass}">${views.operation[p.activityStatesShow.activityState]}</span>
                 </td>
@@ -70,16 +69,17 @@
                     </shiro:lacksPermission>
 
                 </td>
-                <td>
-                    <c:choose>
-                        <c:when test="${p.isAudit}">
-                            ${views.operation['前端申领']}
-                        </c:when>
-                        <c:otherwise>
-                            ${views.operation['系统自动']}
-                        </c:otherwise>
-                    </c:choose>
-                </td>
+                <td>${soulFn:formatDateTz(p.createTime,DateFormat.DAY_SECOND,timeZone)}</td>
+            <%--<td>--%>
+                    <%--<c:choose>--%>
+                        <%--<c:when test="${p.isAudit}">--%>
+                            <%--${views.operation['前端申领']}--%>
+                        <%--</c:when>--%>
+                        <%--<c:otherwise>--%>
+                            <%--${views.operation['系统自动']}--%>
+                        <%--</c:otherwise>--%>
+                    <%--</c:choose>--%>
+                <%--</td>--%>
                 <%--<td>--%>
                     <%--<c:choose>--%>
                         <%--<c:when test="${p.isAudit && p.acount ge 0}">--%>
@@ -127,9 +127,9 @@
                         </c:otherwise>
                     </c:choose>--%>
                         <%--改成全部可以查看审核--%>
-                    <shiro:hasPermission name="operate:activity_checkapply">
-                        <a href="/activityHall/vActivityPlayerApply/activityPlayerApply.html?search.id=${p.id}" nav-target="mainFrame" name="returnView">${views.common['audit']}</a>
-                    </shiro:hasPermission>
+                    <%--<shiro:hasPermission name="operate:activity_checkapply">--%>
+                        <%--<a href="/activityHall/vActivityPlayerApply/activityPlayerApply.html?search.id=${p.id}" nav-target="mainFrame" name="returnView">${views.common['audit']}</a>--%>
+                    <%--</shiro:hasPermission>--%>
                     <c:choose>
                         <%--进行中且有待审核需要审核的不能删除--%>
                         <c:when test="${(p.isAudit && p.acount>0)}">

@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </c:if>
-            <c:if test="${activityType.result.code eq 'regist_send' || is123Deposit }">
+            <c:if test="${(activityType.result.code eq 'regist_send' || is123Deposit) && activityType.result.code ne 'everyday_first_deposit' }">
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.effectiveTime']}：</label>
                     <div class="col-sm-5">
@@ -110,7 +110,7 @@
                             class="fa fa-question-circle"></i></span> ${views.operation['领取方式']}：</label>
 
                     <div class="col-sm-3 input-group">
-                        <gb:select name="activityRule.isAudit" value="${activityRule.isAudit}" list="{'true':'${views.operation['前端申领（审核）']}','false':'${views.operation['前端申领（免审）']}'}" prompt="${views.common['pleaseSelect']}"/>
+                        <gb:select name="activityRule.isAudit" value="${activityRule.isAudit || empty activtyRule.isAudit}" list="{'true':'${views.operation['前端申领（审核）']}','false':'${views.operation['前端申领（免审）']}'}" prompt="${views.common['pleaseSelect']}"/>
                     </div>
                 </div>
             </c:if>
@@ -145,10 +145,10 @@
                         <label class="col-sm-3 al-right">${views.operation['指定游戏分类']}:</label>
                             <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
                                 <li class="${index.index==0?'active':''}">
+                                    <span class="${index.index}" style="float: right"></span>
                                     <a data-toggle="tab" href="#game_tab${index.index}" aria-expanded="${index.index==0?'true':'false'}">
-                                        ${apiGametypeRelations.key}
+                                        ${gbFn:getGameTypeName(apiGametypeRelations.key)}
                                     </a>
-                                    <span class="${index.index}"></span>
                                 </li>
                             </c:forEach>
                         </ul>
