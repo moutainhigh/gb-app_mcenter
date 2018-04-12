@@ -1,7 +1,9 @@
 package so.wwb.gamebox.mcenter.analyze.daily.controller;
 
 import org.soul.web.controller.BaseCrudController;
+import org.soul.web.controller.BaseIndexController;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.iservice.site.report.IRealtimeProfileService;
 import so.wwb.gamebox.mcenter.analyze.daily.form.RealtimeProfileForm;
@@ -10,6 +12,7 @@ import so.wwb.gamebox.model.site.report.po.RealtimeProfile;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileListVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileVo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,21 +23,18 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/realtimeProfile")
-public class RealtimeProfileController extends BaseCrudController<IRealtimeProfileService, RealtimeProfileListVo, RealtimeProfileVo, RealtimeProfileSearchForm, RealtimeProfileForm, RealtimeProfile, Integer> {
+public class RealtimeProfileController extends BaseIndexController {
 
-    @Override
-    protected String getViewBasePath() {
-        return "/mreport/";
-    }
+    private static final String REAL_TIME_SUMMARY = "/daily/RealTimeSummary";
 
     /**
      * 实时汇总数据
      * @return
      */
     @RequestMapping("/summaryData")
-    public Map<String, Object> realtimeSummaryData() {
+    public String realTimeSummaryData(HttpServletRequest request, Model model) {
         Map<String, Object> map = new HashMap<String, Object>();
-        return map;
+        return REAL_TIME_SUMMARY;
     }
 
     /**
@@ -42,7 +42,7 @@ public class RealtimeProfileController extends BaseCrudController<IRealtimeProfi
      * @return
      */
     @RequestMapping("/visitor")
-    public Map<String, Object> realtimeVisitor() {
+    public Map<String, Object> realTimeVisitor() {
         Map<String, Object> map = new HashMap<String, Object>();
         return map;
     }
@@ -52,7 +52,7 @@ public class RealtimeProfileController extends BaseCrudController<IRealtimeProfi
      * @return
      */
     @RequestMapping("/active")
-    public Map<String, Object> realtimeActive() {
+    public Map<String, Object> realTimeActive() {
         Map<String, Object> map = new HashMap<String, Object>();
         return map;
     }
@@ -62,7 +62,7 @@ public class RealtimeProfileController extends BaseCrudController<IRealtimeProfi
      * @return
      */
     @RequestMapping("/register")
-    public Map<String, Object> realtimeRegister() {
+    public Map<String, Object> realTimeRegister() {
         Map<String, Object> map = new HashMap<String, Object>();
         return map;
     }
@@ -72,7 +72,7 @@ public class RealtimeProfileController extends BaseCrudController<IRealtimeProfi
      * @return
      */
     @RequestMapping("/deposit")
-    public Map<String, Object> realtimeDeposit() {
+    public Map<String, Object> realTimeDeposit() {
         Map<String, Object> map = new HashMap<String, Object>();
         return map;
     }
@@ -92,7 +92,7 @@ public class RealtimeProfileController extends BaseCrudController<IRealtimeProfi
      * @return
      */
     @RequestMapping("/online")
-    public Map<String, Object> realtimeOnlne() {
+    public Map<String, Object> realTimeOnlne() {
         Map<String, Object> map = new HashMap<String, Object>();
         return map;
     }
@@ -102,7 +102,7 @@ public class RealtimeProfileController extends BaseCrudController<IRealtimeProfi
      * @return
      */
     @RequestMapping("/profitLoss")
-    public Map<String, Object> realtimeProfitLoss() {
+    public Map<String, Object> realTimeProfitLoss() {
         Map<String, Object> map = new HashMap<String, Object>();
         return map;
     }
