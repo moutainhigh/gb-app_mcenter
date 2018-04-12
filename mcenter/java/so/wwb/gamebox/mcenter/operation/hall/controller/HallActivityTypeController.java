@@ -23,6 +23,7 @@ import so.wwb.gamebox.mcenter.operation.form.ActivityTypeSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.TerminalEnum;
 import so.wwb.gamebox.model.company.setting.po.ApiGametypeRelation;
 import so.wwb.gamebox.model.company.setting.vo.ApiGametypeRelationListVo;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
@@ -190,12 +191,17 @@ public class HallActivityTypeController extends HallActivityController<IActivity
     @RequestMapping("/activityEdit")
     @Token(generate = true)
     public String activityEdit(ActivityMessageVo activityMessageVo, VActivityMessageVo vActivityMessageVo, Model model) {
-
+        //内容的结构加了一层终端,旧数据默认为pc端数据
         activityMessageVo = ServiceActivityTool.activityMessageService().get(activityMessageVo);
         List<ActivityMessageI18n> activityMessageI18ns = ServiceActivityTool.activityMessageI18nService().activityMessageI18ns(activityMessageVo);
         Map<String, Map<String, ActivityMessageI18n>> activityMessageI18nsMap = new LinkedHashMap<>();
         if (activityMessageI18ns != null && activityMessageI18ns.size() > 0) {
-            Map<String, List<ActivityMessageI18n>> groupByTerminal = CollectionTool.groupByProperty(activityMessageI18ns, ActivityMessageI18n.PROP_ACTIVITY_TERMINAL_TYPE, String.class);
+            Map<String, List<ActivityMessageI18n>> groupByTerminal = new HashMap<>(4,1f);
+            if (StringTool.isBlank(activityMessageI18ns.get(0).getActivityTerminalType())) {
+                groupByTerminal.put(TerminalEnum.PC.getCode(), activityMessageI18ns);
+            }else {
+                groupByTerminal = CollectionTool.groupByProperty(activityMessageI18ns, ActivityMessageI18n.PROP_ACTIVITY_TERMINAL_TYPE, String.class);
+            }
             for (String key : groupByTerminal.keySet()) {
                 LinkedHashMap<String, ActivityMessageI18n> map = (LinkedHashMap) CollectionTool.toEntityMap(groupByTerminal.get(key), ActivityMessageI18n.PROP_ACTIVITY_VERSION, String.class);
                 activityMessageI18nsMap.put(key, map);
