@@ -9,11 +9,11 @@
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
             <span>${views.sysResource['统计']}</span><span>/</span><span>${views.sysResource['经营报表']}</span>
             ${command.outer}
-            <c:if test="${not empty outer}">
+            <%--<c:if test="${not empty outer}">--%>
                 <soul:button target="goToLastPage" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
                     <em class="fa fa-caret-left"></em>${views.common['return']}
                 </soul:button>
-            </c:if>
+            <%--</c:if>--%>
             <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         </div>
 
