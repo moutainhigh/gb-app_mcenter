@@ -1,5 +1,7 @@
 package so.wwb.gamebox.mcenter.report.controller;
 
+import org.soul.commons.collections.CollectionTool;
+import org.soul.commons.collections.MapTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.DateTool;
@@ -9,6 +11,11 @@ import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.net.ServletTool;
+import org.soul.commons.query.Criterion;
+import org.soul.commons.query.enums.Operator;
+import org.soul.model.security.privilege.po.SysUser;
+import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -29,6 +36,11 @@ import so.wwb.gamebox.model.WeekTool;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
+import so.wwb.gamebox.model.master.player.po.UserAgent;
+import so.wwb.gamebox.model.master.player.vo.UserAgentListVo;
+import so.wwb.gamebox.model.master.player.vo.UserAgentVo;
+import so.wwb.gamebox.model.master.player.vo.VUserAgentVo;
+import so.wwb.gamebox.model.master.report.po.OperateAgent;
 import so.wwb.gamebox.model.master.report.vo.OperateAgentListVo;
 import so.wwb.gamebox.model.master.report.vo.OperatePlayerListVo;
 import so.wwb.gamebox.model.master.report.vo.OperateTopagentListVo;
@@ -37,11 +49,9 @@ import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.cache.ExportCriteriaTool;
 import so.wwb.gamebox.web.report.controller.BaseOperateController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * 经营报表
@@ -287,9 +297,25 @@ public class OperateReportController extends BaseOperateController {
      */
     private void operatePlayer(OperatePlayerListVo listVo, Model model) {
         listVo = ServiceSiteTool.operatePlayerService().queryOperateReport(listVo);
+        subAgentNum(listVo);
         model.addAttribute("conditionJson", ExportCriteriaTool.criteriaToJson(listVo.getExportJsonCondition()));
         model.addAttribute("command", listVo);
     }
+
+    /**
+     * 获取下级代理数量
+     */
+    private void subAgentNum(OperatePlayerListVo listVo) {
+        UserAgentVo userAgentVo = new UserAgentVo();
+        userAgentVo.getSearch().setId(listVo.getSearch().getAgentId());
+        boolean canAddSubAgent = ServiceSiteTool.userAgentService().canAddSubAgent(userAgentVo);
+        listVo.setCanAddSubAgent(canAddSubAgent);
+        UserAgentListVo userAgentListVo = new UserAgentListVo();
+        userAgentListVo.getQuery().setCriterions(new Criterion[]{new Criterion(UserAgent.PROP_PARENT_ID, Operator.EQ, listVo.getSearch().getAgentId())});
+        long agentNum = ServiceSiteTool.userAgentService().count(userAgentListVo);
+        listVo.setAgentNum(agentNum);
+    }
+
 
     /**
      * 查找站点API
@@ -364,5 +390,120 @@ public class OperateReportController extends BaseOperateController {
             vo.getResult().setSiteId(SessionManager.getSiteId());
         }
         return vo;
+    }
+
+    /**
+     * 查看下级代理
+     *
+     * @param listVo
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/subAgentDetail")
+    public String agentDetail (OperateAgentListVo listVo, Model model, HttpServletRequest request){
+        Integer agentId = listVo.getSearch().getAgentId();
+        String agentName = listVo.getSearch().getAgentName();
+        if(agentId!=null || StringTool.isNotBlank(agentName)){
+            List<Integer> agentIds = new ArrayList<>();
+            UserAgentVo userAgentVo = new UserAgentVo();
+            if(agentId!=null){
+                userAgentVo.getSearch().setId(agentId);
+                agentIds = ServiceSiteTool.userAgentService().queryAgentChild(userAgentVo);
+            }else {
+                agentIds = getAgentIds(agentName, agentIds);
+            }
+            if (CollectionTool.isNotEmpty(agentIds)){
+                String[] ids = new String[agentIds.size()];
+                for(int i=0; i<agentIds.size(); i++){
+                    ids[i]=agentIds.get(i).toString();
+                }
+                listVo.getSearch().setAgentIds(ids);
+                listVo = ServiceSiteTool.operateAgentService().agentDetail(listVo);
+                getAllAgentDetail(listVo, agentIds);
+            }
+            getAgentLine(listVo, agentId, userAgentVo, agentName);
+        }
+        model.addAttribute("command", listVo);
+        if(ServletTool.isAjaxSoulRequest(request)) {
+            return getViewBasePath() + "subAgent/AgentDetailPartial";
+        } else {
+            return getViewBasePath() + "subAgent/AgentDetail";
+        }
+    }
+
+    /**
+     * 获取下级代理id
+     *
+     * @param agentName
+     * @param agentIds
+     * @return
+     */
+    private List<Integer> getAgentIds(String agentName, List<Integer> agentIds) {
+        SysUserVo sysUserVo = new SysUserVo();
+        sysUserVo.getQuery().setCriterions(new Criterion[]{new Criterion(SysUser.PROP_USERNAME, Operator.EQ, agentName),
+                new Criterion(SysUser.PROP_SUBSYS_CODE, Operator.EQ, SubSysCodeEnum.MCENTER_AGENT.getCode())});
+        sysUserVo = ServiceTool.sysUserService().search(sysUserVo);
+        if (sysUserVo.getResult()!=null){
+            Integer agentId = sysUserVo.getResult().getId();
+            agentIds.add(agentId);
+        }
+        return agentIds;
+    }
+
+    /**
+     * 组装代理列表信息
+     *
+     * @param listVo
+     * @param agentIds
+     */
+    private void getAllAgentDetail(OperateAgentListVo listVo, List<Integer> agentIds) {
+        List<OperateAgent> list = new ArrayList(agentIds.size());
+        Map<Object, OperateAgent> map = CollectionTool.toEntityMap(listVo.getResult(), OperateAgent.PROP_AGENT_ID);
+        for (Integer id : agentIds){
+            if (map.get(id)!=null){
+                list.add(map.get(id));
+                continue;
+            }
+            OperateAgent operateAgent = new OperateAgent();
+            operateAgent.setAgentName(getAgentNameByAgentId(id));
+            operateAgent.setAgentId(id);
+
+            list.add(operateAgent);
+        }
+        listVo.setResult(list);
+    }
+
+    /**
+     * 获取无限级代理线
+     *
+     * @param listVo
+     * @param agentId
+     * @param userAgentVo
+     * @param agentName
+     */
+    private void getAgentLine(OperateAgentListVo listVo, Integer agentId, UserAgentVo userAgentVo,String agentName) {
+        userAgentVo.getSearch().setId(agentId);
+        Map map = ServiceSiteTool.userAgentService().queryAgentLine(userAgentVo);
+        String name = this.getAgentNameByAgentId(agentId);
+        StringBuilder agentLines = new StringBuilder(MapTool.getString(map,"parent_name_array")==null?"":MapTool.getString(map,"parent_name_array"));
+        if(StringTool.isBlank(agentName)){
+            agentLines.append(" > "+name);
+        }
+        listVo.setAgentLines(agentLines.toString());
+    }
+
+    /**
+     * 根据代理ID获取代理账号
+     *
+     * @param agentId
+     * @return
+     */
+    private String getAgentNameByAgentId(Integer agentId){
+        VUserAgentVo vo = new VUserAgentVo();
+        vo.getSearch().setId(agentId);
+        vo = ServiceSiteTool.vUserAgentService().search(vo);
+        String agentName = vo.getResult().getUsername();
+        return agentName;
     }
 }

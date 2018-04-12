@@ -36,6 +36,11 @@
             <div class="panel-body">
                 <div class="tab-content">
                     <div class="table-responsive">
+                        <c:set var="hasSubAgent" value="hidden"></c:set>
+                        <c:if test="${command.canAddSubAgent}">
+                            <c:set var="hasSubAgent" value=""></c:set>
+                        </c:if>
+                        <input type="hidden" id="agentId" value="${command.search.agentId}">
                         <table class="table table-striped table-hover dataTable m-b-none" aria-describedby="editable_info">
                             <thead>
                             <tr class="bg-gray">
@@ -49,6 +54,9 @@
                                 <th>${views.report['operate.list.orderprice']}</th>
                                 <th>${views.report['operate.list.effePrice']}</th>
                                 <th>${views.report['operate.list.prosfit']}</th>
+                                <th class="${hasSubAgent}">
+                                    下级代理
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -58,6 +66,19 @@
                                 <td>${soulFn:formatCurrency(command.player.transactionVolume)}</td>
                                 <td>${soulFn:formatCurrency(command.player.effectiveTransaction)}</td>
                                 <td>${soulFn:formatCurrency(command.player.profitLoss)}</td>
+                                <td class="${hasSubAgent}">
+                                    <c:choose>
+                                        <c:when test="${command.agentNum > 0}">
+                                            <a href="/report/operate/subAgentDetail.html?search.startDate=${command.search.startDate}&search.endDate=${command.search.endDate}&search.agentId=${command.search.agentId}" nav-target="mainFrame">
+                                                    ${command.agentNum}
+                                            </a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            0
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                </td>
                             </tr>
                             </tbody>
                         </table>
