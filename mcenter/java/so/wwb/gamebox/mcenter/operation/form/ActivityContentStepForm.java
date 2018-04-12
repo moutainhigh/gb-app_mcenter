@@ -112,8 +112,8 @@ public class ActivityContentStepForm implements IForm {
         this.activityRule_rank = activityRule_rank;
     }
 
-    @NotBlank(message = "operation_auto.活动附图不能为空")
-    @Comment("活动封面")
+    /*@NotBlank(message = "operation_auto.活动附图不能为空")
+    @Comment("活动封面")*/
     public String getActivityMessageI18ns$$_activityAffiliated() {
         return activityMessageI18ns$$_activityAffiliated;
     }
