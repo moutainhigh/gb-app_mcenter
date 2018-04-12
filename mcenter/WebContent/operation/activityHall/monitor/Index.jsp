@@ -4,7 +4,7 @@
 <!--//region your codes 1-->
 
 <!--//endregion your codes 1-->
-<form:form action="${root}/vActivityMonitor/list.html" method="post">
+<form:form action="${root}/activityHall/vActivityMonitor/list.html" method="post">
     <div id="validateRule" style="display: none">${command.validateRule}</div>
     <!--//region your codes 2-->
     <div class="row">
@@ -26,7 +26,7 @@
                         <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group">
                                 <span class="input-group-addon bg-gray">${views.operation['优惠订单号']}</span>
-                                <input type="text" name="search.id" class="form-control"
+                                <input type="text" name="search.transactionNo" class="form-control"
                                        placeholder="${views.operation['优惠订单号']}"
                                        value=""/>
                                 </span>

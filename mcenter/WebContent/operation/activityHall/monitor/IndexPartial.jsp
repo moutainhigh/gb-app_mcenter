@@ -11,26 +11,26 @@
             <th>${views.operation['优惠订单号']}</th>
             <th>${views.column['VActivityPlayerApply.playerName']}</th>
             <th>${views.column['VActivityMessage.activityName']}</th>
-            <th>${views.operation['申请IP']}</th>
             <th>${views.column['VActivityPlayerApply.applyTime']}</th>
             <th>${views.operation['申请优惠金额']}</th>
             <th>${views.operation['Activity.step.audit']}</th>
             <th>${views.operation['脚本校验情况']}</th>
-            <th class="inline">
-                <gb:select name="search.code" value="${command.search.code}"
-                           cssClass="btn-group chosen-select-no-single" callback="query"
-                           prompt="${views.operation['Activity.list.allType']}" list="${activityType}"></gb:select>
-            </th>
-            <th class="inline">
-                <gb:select name="search.activityClassifyKey" value="${command.search.activityClassifyKey}"
-                           cssClass="btn-group chosen-select-no-single" callback="query"
-                           prompt="${views.operation['Activity.list.allCategory']}" list="${siteI18ns}" listKey="key"
-                           listValue="value"></gb:select>
-            </th>
+            <%--<th class="inline">--%>
+                <%--<gb:select name="search.code" value="${command.search.code}"--%>
+                           <%--cssClass="btn-group chosen-select-no-single" callback="query"--%>
+                           <%--prompt="${views.operation['Activity.list.allType']}" list="${activityType}"></gb:select>--%>
+            <%--</th>--%>
+            <%--<th class="inline">--%>
+                <%--<gb:select name="search.activityClassifyKey" value="${command.search.activityClassifyKey}"--%>
+                           <%--cssClass="btn-group chosen-select-no-single" callback="query"--%>
+                           <%--prompt="${views.operation['Activity.list.allCategory']}" list="${siteI18ns}" listKey="key"--%>
+                           <%--listValue="value"></gb:select>--%>
+            <%--</th>--%>
             <th>
                 <gb:select name="search.checkState" value="${command.search.checkState}" prompt="${views.operation['活动审批']}" list="${checkStatusDicts}" callback="query"/>
             </th>
             <th>${views.operation['backwater.settlement.view.operator']}</th>
+            <th>${views.operation['申请IP']}</th>
         </tr>
         </thead>
         <tbody>
@@ -41,21 +41,18 @@
                     <label>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</label>
                 </td>
                 <td>
-                    ${p.id}
+                    ${p.transactionNo}
                 </td>
                 <td>
                     <a href="/player/playerView.html?search.id=${p.playerId}" nav-Target="mainFrame">${p.playerName}</a>
                 </td>
                 <td>${p.activityName}</td>
-                <td>
-                    ${soulFn:formatIp(p.ipApply)}
-                </td>
                 <td>${soulFn:formatDateTz(p.applyTime,DateFormat.DAY_SECOND,timeZone)}</td>
                 <td>${p.preferentialValue}</td>
                 <td>${p.preferentialAudit}</td>
-                <td></td>
-                <td>${views.operation[p.code]}</td>
-                <td>${siteI18nMap[p.activityClassifyKey].value}</td>
+                <td>${views.operation['查看详情']}</td>
+                <%--<td>${views.operation[p.code]}</td>--%>
+                <%--<td>${siteI18nMap[p.activityClassifyKey].value}</td>--%>
 
                 <td>
                     <c:if test="${p.checkState eq '0'}">
@@ -77,7 +74,15 @@
 
                 </td>
                 <td>
+                    <c:if test="${p.checkState eq '1'}">
+                        --
+                    </c:if>
+                    <c:if test="${p.checkState ne '1'}">
                         ${p.username}
+                    </c:if>
+                </td>
+                <td>
+                        ${soulFn:formatIp(p.ipApply)}
                 </td>
 
             </tr>

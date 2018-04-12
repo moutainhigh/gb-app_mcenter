@@ -110,7 +110,7 @@
                             class="fa fa-question-circle"></i></span> ${views.operation['领取方式']}：</label>
 
                     <div class="col-sm-3 input-group">
-                        <gb:select name="activityRule.isAudit" value="${activityRule.isAudit}" list="{'true':'${views.operation['前端申领（审核）']}','false':'${views.operation['前端申领（免审）']}'}" prompt="${views.common['pleaseSelect']}"/>
+                        <gb:select name="activityRule.isAudit" value="${activityRule.isAudit || empty activtyRule.isAudit}" list="{'true':'${views.operation['前端申领（审核）']}','false':'${views.operation['前端申领（免审）']}'}" prompt="${views.common['pleaseSelect']}"/>
                     </div>
                 </div>
             </c:if>
