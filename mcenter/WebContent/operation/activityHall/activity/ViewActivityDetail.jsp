@@ -54,14 +54,14 @@
                             </div>
                         </div>
 
-                        <div class="clearfix m-l-lg line-hi34">
-                            <label class="ft-bold col-sm-3 al-right">${views.operation['有效条件']}：</label>
-                            <div class="col-sm-5 ">
-                                <c:forEach items="${registeEffectiveList}" var="effective" >
-                                    ${views.operation[effective.preferentialCode]} &nbsp;&nbsp;
-                                </c:forEach>
-                            </div>
-                        </div>
+                        <%--<div class="clearfix m-l-lg line-hi34">--%>
+                            <%--<label class="ft-bold col-sm-3 al-right">${views.operation['有效条件']}：</label>--%>
+                            <%--<div class="col-sm-5 ">--%>
+                                <%--<c:forEach items="${registeEffectiveList}" var="effective" >--%>
+                                    <%--${views.operation[effective.preferentialCode]} &nbsp;&nbsp;--%>
+                                <%--</c:forEach>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
 
                         <c:if test="${p.activityTypeCode ne 'content'}">
                             <div class="clearfix m-l-lg line-hi34">
@@ -555,7 +555,7 @@
                                 </div>
                             </div>
                         </c:if>
-                        <c:if test="${p.activityTypeCode eq 'regist_send' || is123Deposit }">
+                        <c:if test="${(p.activityTypeCode eq 'regist_send' || is123Deposit) && p.activityTypeCode ne 'everyday_first_deposit' }">
                             <div class="clearfix m-l-lg line-hi34">
                                 <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.effectiveTime']}：</label>
                                 <div class="col-sm-5">

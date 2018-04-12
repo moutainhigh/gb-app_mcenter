@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </c:if>
-            <c:if test="${activityType.result.code eq 'regist_send' || is123Deposit }">
+            <c:if test="${(activityType.result.code eq 'regist_send' || is123Deposit) && activityType.result.code ne 'everyday_first_deposit' }">
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.effectiveTime']}：</label>
                     <div class="col-sm-5">
