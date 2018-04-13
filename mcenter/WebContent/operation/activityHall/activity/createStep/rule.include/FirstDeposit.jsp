@@ -6,7 +6,7 @@
 <%--首存送,存就送--%>
 <div class="clearfix m-t-md">
     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.conditions']}：</label>
-    <div class="col-sm-9" id="bb">
+    <div class="col-sm-7" id="bb">
         <div class="tab-content table-responsive">
             <label>
                 <input id="percentageHandsel" type="radio" class="i-checks" name="ｍosaicGold" value="true" checked="checked">${views.operation['Activity.step.proportion']}
@@ -17,7 +17,7 @@
             <table class="table border" id="first_deposit">
                 <tr>
                     <td class="bg-gray ft-bold">${views.operation['Activity.rule']}</td>
-                    <td class="bg-gray ft-bold fd_percentageHandsel_column" colspan="2">${views.operation['Activity.step.offerForm']}</td>
+                    <td class="bg-gray ft-bold " colspan="2">${views.operation['Activity.step.offerForm']}</td>
                     <td class="bg-gray ft-bold" rowspan="2">${views.operation['操作']}</td>
                 </tr>
                 <tr>
@@ -89,7 +89,7 @@
         </div>
         <c:if test="${ activityType.result.code ne 'deposit_send' }">
             <soul:button target="systemRecommendCase" text="" opType="function" cssClass="btn btn-info btn-addon pull-right m-t">
-                <i class="fa fa-plus"></i><span class="hd">${views.operation['系统推荐']}</span>
+                <i class="fa fa-plus"></i><span class="hd">${views.operation['系统推荐方案']}</span>
             </soul:button>
         </c:if>
         <soul:button target="addActivityRule" text="" opType="function" cssClass="btn btn-info btn-addon pull-right m-t">
