@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd"
+       default-autowire="byName" default-lazy-init="true">
+
+    <!--银行归属地查询-->
+    <bean id="bankhomeDbService" class="so.wwb.gamebox.service.boss.bankhome.BankhomeDbService">
+        <property name="config">
+            <map>
+                <entry key="bankhome_key" value="${bankhome_key}"/>
+                <entry key="bankhome_url" value="${bankhome_url}"/>
+            </map>
+        </property>
+
+    </bean>
+
+    <bean class="so.wwb.gamebox.service.boss.taskschedule.TaskScheduleCrudService" id="taskScheduleCrudService"/>
+    <bean id="ipDbService" class="so.wwb.gamebox.service.boss.sys.ip.IpDbService"/>
+    <bean id="mqExceptionMsgService" class="so.wwb.gamebox.service.boss.mq.MqExceptionMsgService"/>
+    <bean id="bossLogService" class="so.wwb.gamebox.service.boss.report.BossLogService"/>
+    <bean id="BCmyAccountService" class="so.wwb.gamebox.service.boss.sys.account.MyAccountService"/>
+    <bean id="svrServersService" class="so.wwb.gamebox.service.boss.servers.SvrServersService"/>
+    <bean id="gameApiLogService" class="so.wwb.gamebox.service.boss.gameApiException.GameApiLogService"/>
+    <bean id="apiMonitorTransConfService" class="so.wwb.gamebox.service.boss.apimonitor.ApiMonitorTransConfService"/>
+    <bean id="payLogService" class="so.wwb.gamebox.service.boss.payLog.PayLogService"/>
+    <bean id="sysSearchTemplateService" class="so.wwb.gamebox.service.boss.sysSearchTemplete.SysSearchTemplateService"/>
+    <bean id="appUpdateService" class="so.wwb.gamebox.service.boss.AppUpdateService"/>
+    <bean id="bossSysParamService" class="so.wwb.gamebox.service.boss.sys.BossSysParamService"/>
+    <bean id="gameApiProviderService" class="so.wwb.gamebox.service.boss.apiProvider.GameApiProviderService"/>
+    <bean id="payApiProviderService" class="so.wwb.gamebox.service.boss.apiProvider.PayApiProviderService"/>
+    <bean id="gameApiTransactionService" class="so.wwb.gamebox.service.boss.apiProvider.GameApiTransactionService"/>
+    <bean id="digiccyApiProviderService" class="so.wwb.gamebox.service.boss.digiccy.DigiccyApiProviderService"/>
+    <bean id="rechargeMonitorParamService" class="so.wwb.gamebox.service.boss.deposit.RechargeMonitorParamService"/>
+    <bean id="payAccountRateHistoryService" class="so.wwb.gamebox.service.boss.deposit.PayAccountRateHistoryService"/>
+    <bean id="collectAppErrorService" class="so.wwb.gamebox.service.boss.report.CollectAppErrorService"/>
+    <bean id="payAccountDisableLogService" class="so.wwb.gamebox.service.boss.deposit.PayAccountDisableLogService"/>
+    <bean id="appDomainErrorService" class="so.wwb.gamebox.service.boss.report.AppDomainErrorService"/>
+    <!-- 支付请求状态表服务 -->
+    <bean id="payLinkStatusService" class="so.wwb.gamebox.service.boss.payRequest.PayLinkStatusService"/>
+    <!-- 获取支付请求状态线程 -->
+    <bean class="so.wwb.gamebox.service.boss.payRequest.PayCheckStatusTask" id="payCheckStatusTask" scope="prototype"/>
+    <!-- APP应用更新表服务 -->
+    <bean id="siteAppUpdateService" class="so.wwb.gamebox.service.company.site.SiteAppUpdateService"/>
+    <bean class="org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean" id="checkExecutor">
+        <property name="corePoolSize" value="0"/>
+        <property name="maxPoolSize" value="5"/>
+        <property name="keepAliveSeconds" value="60"/>
+        <property name="queueCapacity" value="1000"/>
+        <property name="threadGroupName" value="pay-url-check"/>
+        <property name="threadNamePrefix" value="pay-url-check-"/>
+        <property name="waitForTasksToCompleteOnShutdown" value="false"/>
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor.AbortPolicy"/>
+        </property>
+    </bean>
+</beans>
