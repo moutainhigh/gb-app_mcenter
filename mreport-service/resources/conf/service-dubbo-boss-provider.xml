@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://code.alibabatech.com/schema/dubbo	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--任务调度Crud-->
+    <dubbo:service ref="taskScheduleCrudService" interface="org.soul.iservice.taskschedule.ITaskScheduleCrudService" registry="zookeeperService"/>
+    <dubbo:service ref="bankhomeDbService" interface="so.wwb.gamebox.iservice.boss.bankhome.IBankhomeDbService"/>
+    <dubbo:service ref="ipDbService" interface="so.wwb.gamebox.iservice.boss.sys.ip.IIpDbService"/>
+    <dubbo:service ref="mqExceptionMsgService" interface="so.wwb.gamebox.iservice.boss.mq.IMqExceptionMsgService"/>
+    <dubbo:service ref="bossLogService" interface="so.wwb.gamebox.iservice.boss.report.IBossLogService"/>
+    <dubbo:service ref="BCmyAccountService" interface="so.wwb.gamebox.iservice.boss.sys.account.IMyAccountService"/>
+    <dubbo:service ref="svrServersService" interface="so.wwb.gamebox.iservice.boss.servers.ISvrServersService"/>
+    <dubbo:service ref="gameApiLogService" interface="so.wwb.gamebox.iservice.boss.IGameApiLogService"/>
+    <dubbo:service ref="apiMonitorTransConfService" interface="so.wwb.gamebox.iservice.boss.IApiMonitorTransConfService"/>
+    <dubbo:service ref="payLogService" interface="so.wwb.gamebox.iservice.boss.payLog.IPayLogService"/>
+    <dubbo:service ref="sysSearchTemplateService" interface="so.wwb.gamebox.iservice.boss.sysSearchTemplete.ISysSearchTemplateService"/>
+    <dubbo:service ref="appUpdateService" interface="so.wwb.gamebox.iservice.boss.IAppUpdateService"/>
+    <dubbo:service ref="bossSysParamService" interface="so.wwb.gamebox.iservice.boss.sys.IBossSysParamService"/>
+    <dubbo:service ref="gameApiProviderService" interface="so.wwb.gamebox.iservice.boss.apiProvider.IGameApiProviderService"/>
+    <dubbo:service ref="gameApiTransactionService" interface="so.wwb.gamebox.iservice.boss.apiProvider.IGameApiTransactionService"/>
+    <dubbo:service ref="payApiProviderService" interface="so.wwb.gamebox.iservice.boss.apiProvider.IPayApiProviderService"/>
+    <dubbo:service ref="digiccyApiProviderService" interface="so.wwb.gamebox.iservice.boss.digiccy.IDigiccyApiProviderService"/>
+    <dubbo:service ref="rechargeMonitorParamService" interface="so.wwb.gamebox.iservice.boss.deposit.IRechargeMonitorParamService"/>
+    <dubbo:service ref="payAccountRateHistoryService" interface="so.wwb.gamebox.iservice.boss.deposit.IPayAccountRateHistoryService"/>
+    <dubbo:service ref="collectAppErrorService" interface="so.wwb.gamebox.iservice.boss.report.ICollectAppErrorService"/>
+    <dubbo:service ref="payAccountDisableLogService" interface="so.wwb.gamebox.iservice.boss.deposit.IPayAccountDisableLogService"/>
+    <dubbo:service ref="appDomainErrorService" interface="so.wwb.gamebox.iservice.boss.report.IAppDomainErrorService"/>
+    <!-- 支付请求状态表dubbo服务 -->
+    <dubbo:service ref="payLinkStatusService" interface="so.wwb.gamebox.iservice.boss.payRequest.IPayLinkStatusService"/>
+    <!-- APP应用更新表dubbo服务 -->
+    <dubbo:service ref="siteAppUpdateService" interface="so.wwb.gamebox.iservice.company.site.ISiteAppUpdateService"/>
+
+
+</beans>
