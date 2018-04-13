@@ -12,9 +12,10 @@
     </script>
     <%@ include file="/include/include.js.jsp" %>
     <script type="text/javascript">
-        curl(['gb/home/TopPage'],
-            function (TopPage) {
+        curl(['gb/home/TopPage', 'site/index'],
+            function (TopPage, index) {
             topPage = new TopPage();
+            index = new index();
         });
     </script>
 </head>
@@ -26,9 +27,9 @@
         <h1 class="name">捷报系统中心 <font>statement system</font></h1>
             <ul class="list-group">
                 <li class="list-group-item active"><p class="tit"><i class="gaikuang"></i><a href="#">站点日常数据</a></p>
-                <ul>
-                    <li class="active"><a href="/daily/operationTrends.html" nav-target="mainFrame">经营走势</a></li>
-                    <li><a href="/daily/realTimeSummary.html" nav-target="mainFrame">实时总览</a></li>
+                <ul class="hideMenu" style="display: block;">
+                    <li class="active"><a href="/daily/realTimeSummary.html" nav-target="mainFrame">实时总览</a></li>
+                    <li><a href="/daily/operationTrends.html" nav-target="mainFrame">运营日常统计</a></li>
                     <li><a href="/daily/activePlayer.html" nav-target="mainFrame">活跃玩家</a></li>
                     <li><a href="/daily/playerRetain.html" nav-target="mainFrame">玩家留存</a></li>
                     <li><a href="/daily/newAddedPlayer.html" nav-target="mainFrame">新增玩家</a></li>
