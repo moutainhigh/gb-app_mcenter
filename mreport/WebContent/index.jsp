@@ -12,10 +12,9 @@
     </script>
     <%@ include file="/include/include.js.jsp" %>
     <script type="text/javascript">
-        curl(['gb/home/TopPage', 'site/index'],
-            function (TopPage, index) {
+        curl(['site/ReportTopPage', 'site/Index'], function (TopPage, Index) {
             topPage = new TopPage();
-            index = new index();
+            index = new Index();
         });
     </script>
 </head>
