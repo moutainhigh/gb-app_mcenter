@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+       default-autowire="byName" default-lazy-init="true">
+
+
+    <!--消息生产者与消息的关系配置-->
+    <bean id="mqProducerConf" class="org.soul.commons.mq.conf.MQConf">
+        <property name="itemConfs">
+            <map></map>
+        </property>
+    </bean>
+
+</beans>
