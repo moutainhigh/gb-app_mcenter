@@ -80,11 +80,12 @@
             <artifactId>webcommon</artifactId>
             <version>${gamebox.version}</version>
         </dependency>
-        <dependency>
+        <!-- 先暂时注掉，会影响打包 -->
+        <!--<dependency>
             <groupId>so.wwb.gamebox</groupId>
             <artifactId>iservice-mreport</artifactId>
             <version>${gamebox.version}</version>
-        </dependency>
+        </dependency>-->
         <!--Gamebox引用-->
         <!--Pay引用-->
         <dependency>
