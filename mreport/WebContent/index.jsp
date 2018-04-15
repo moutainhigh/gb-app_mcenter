@@ -12,10 +12,9 @@
     </script>
     <%@ include file="/include/include.js.jsp" %>
     <script type="text/javascript">
-        curl(['gb/home/TopPage', 'site/index'],
-            function (TopPage, index) {
+        curl(['site/ReportTopPage', 'site/Index'], function (TopPage, Index) {
             topPage = new TopPage();
-            index = new index();
+            index = new Index();
         });
     </script>
 </head>
@@ -28,12 +27,13 @@
             <ul class="list-group">
                 <li class="list-group-item active"><p class="tit"><i class="gaikuang"></i><a href="#">站点日常数据</a></p>
                 <ul class="hideMenu" style="display: block;">
-                    <li class="active"><a href="/daily/realTimeSummary.html" nav-target="mainFrame">实时总览</a></li>
+                    <li><a href="/daily/realTimeSummary.html" nav-target="mainFrame">实时总览</a></li>
                     <li><a href="/daily/operationTrends.html" nav-target="mainFrame">运营日常统计</a></li>
                     <li><a href="/daily/activePlayer.html" nav-target="mainFrame">活跃玩家</a></li>
                     <li><a href="/daily/playerRetain.html" nav-target="mainFrame">玩家留存</a></li>
                     <li><a href="/daily/newAddedPlayer.html" nav-target="mainFrame">新增玩家</a></li>
-                </ul></li>
+                </ul>
+                </li>
                 <li class="list-group-item"><p class="tit"><i class="player"></i><a href="#">战点市场数据</a></p></li>
                 <li class="list-group-item"><p class="tit"><i class="deposit"></i><a href="#">玩家分析</a></p></li>
                 <li class="list-group-item"><p class="tit"><i class="game"></i><a href="#">付费分析</a></p></li>

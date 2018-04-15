@@ -227,11 +227,10 @@
                                     <c:if test="${p.activityTypeCode eq 'relief_fund'}">
                                         <table class="table table-bordered">
                                             <tr>
-                                                <th colspan="3">${views.operation['Activity.rule']}</th>
+                                                <th colspan="2">${views.operation['Activity.rule']}</th>
                                                 <th colspan="2">${views.operation['Activity.step.offerForm']}</th>
                                             </tr>
                                             <tr>
-                                                <td>${views.operation['Activity.step.effectiveVolume']}</td>
                                                 <td>${views.operation['Activity.step.totalAssets']}</td>
                                                 <td>${views.operation['Activity.step.lossAmount']}</td>
                                                 <td>${views.operation['Activity.step.caijin']}${siteCurrency}</td>
@@ -239,11 +238,6 @@
                                             </tr>
                                             <c:forEach items="${preferentialWayRelation[p.id]}" var="item">
                                                 <tr>
-                                                    <c:forEach items="${item.child}" var="child">
-                                                        <c:if test="${item.orderColumn eq child.orderColumn && child.preferentialCode eq 'effective_transaction_ge'}">
-                                                            <td>${views.operation['Activity.step.full']}${child.preferentialValue}${views.operation['Activity.step.more']}</td>
-                                                        </c:if>
-                                                    </c:forEach>
 
                                                     <c:forEach items="${item.child}" var="child">
                                                         <c:if test="${item.orderColumn eq child.orderColumn && child.preferentialCode eq 'total_assets_le'}">
@@ -268,7 +262,8 @@
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </td>
-                                                </tr>table table-bordered     </c:forEach>
+                                                </tr>
+                                            </c:forEach>
 
                                         </table>
                                     </c:if>
