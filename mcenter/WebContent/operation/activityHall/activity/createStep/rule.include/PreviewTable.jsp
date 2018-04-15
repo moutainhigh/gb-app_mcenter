@@ -43,11 +43,10 @@
 <c:if test="${activityType.result.code eq 'relief_fund'}">
     <table class="table table-bordered" id="reliefund">
         <tr>
-            <th colspan="3">${views.operation['Activity.rule']}</th>
+            <th colspan="2">${views.operation['Activity.rule']}</th>
             <th colspan="2">${views.operation['Activity.step.offerForm']}</th>
         </tr>
         <tr>
-            <td>${views.operation['Activity.step.effectiveVolume']}</td>
             <td>${views.operation['Activity.step.totalAssets']}</td>
             <td>${views.operation['Activity.step.lossAmount']}</td>
             <td>${views.operation['Activity.step.caijin']}${siteCurrency}</td>

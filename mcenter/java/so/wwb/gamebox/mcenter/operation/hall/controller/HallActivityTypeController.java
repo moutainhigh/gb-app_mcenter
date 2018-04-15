@@ -246,15 +246,14 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         }
 
         if (ActivityTypeEnum.RELIEF_FUND.getCode().equals(code)) {
-            List<ActivityPreferentialRelation> activityPreferentialRelations = ServiceActivityTool.activityPreferentialRelationService().queryPreferentialByTransaction(vActivityMessageVo);
             List<ActivityPreferentialRelation> activityPreferentialRelationList = ServiceActivityTool.activityPreferentialRelationService().queryPreferentialByTotal(vActivityMessageVo);
             Map map = CollectionTool.toEntityMap(activityPreferentialRelationList, ActivityPreferentialRelation.PROP_ORDER_COLUMN, Integer.class);
             List<ActivityPreferentialRelation> activityPreferentialRelationList1 = ServiceActivityTool.activityPreferentialRelationService().queryPreferentialByLossAmount(vActivityMessageVo);
             Map map2 = CollectionTool.toEntityMap(activityPreferentialRelationList1, ActivityPreferentialRelation.PROP_ORDER_COLUMN, Integer.class);
             List<ActivityWayRelation> activityWayRelations = ServiceActivityTool.activityWayRelationService().getActivityWayRelationList(vActivityMessageVo);
             Map map1 = CollectionTool.toEntityMap(activityWayRelations, ActivityWayRelation.PROP_ORDER_COLUMN, Integer.class);
-
-            model.addAttribute("activityPreferentialRelations", activityPreferentialRelations);
+            //把有效投注额去掉了,所以需要传一个list过去遍历
+            model.addAttribute("activityPreferentialRelationTotal", activityPreferentialRelationList);
             model.addAttribute("activityPreferentialRelationList", map);
             model.addAttribute("activityWayRelations", map1);
             model.addAttribute("activityPreferentialRelationList1", map2);

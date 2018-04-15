@@ -27,10 +27,11 @@
                 <input type="checkbox" class="i-checks" name="effectiveCondition[2].preferentialCode" data-name="effectiveCondition[{n}].preferentialCode" value="register_ip_unique" ${effectiveConditionSet.contains('register_ip_unique')?'checked':''}>
                 ${views.operation['register_ip_unique']}
             </label>
-            <label class="m-r-sm">
+            <%--暂时隐藏--%>
+            <%--<label class="m-r-sm">
                 <input type="checkbox" class="i-checks" name="effectiveCondition[3].preferentialCode" data-name="effectiveCondition[{n}].preferentialCode" value="device_no_unique" ${effectiveConditionSet.contains('device_no_unique')?'checked':''}>
                 ${views.operation['device_no_unique']}
-            </label>
+            </label>--%>
         </div>
     </div>
 

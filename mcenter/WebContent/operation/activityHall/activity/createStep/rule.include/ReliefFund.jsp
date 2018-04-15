@@ -10,26 +10,18 @@
         <div class="tab-content table-responsive">
             <table class="table border" id="first_deposit">
                 <tr>
-                    <td class="bg-gray ft-bold" colspan="3">${views.operation['Activity.rule']}</td>
+                    <td class="bg-gray ft-bold" colspan="2">${views.operation['Activity.rule']}</td>
                     <td class="bg-gray ft-bold" colspan="2">${views.operation['Activity.step.offerForm']}</td>
                     <td class="bg-gray ft-bold" rowspan="2">${views.common['operate']}</td>
                 </tr>
                 <tr>
-                    <td>${views.operation['Activity.step.effectiveVolume']}</td>
                     <td>${views.operation['Activity.step.totalAssets']}</td>
                     <td>${views.operation['Activity.step.lossAmount']}</td>
                     <td>${views.operation['Activity.step.caijin']}${siteCurrency}</td>
                     <td>${views.operation['Activity.step.audit']}<span tabindex="0" class=" help-popover m-l-sm" role="button" data-container="body" data-toggle="popover" data-html="true" data-trigger="focus" data-placement="top" data-content=" ${views.operation['Activity.step.message9']}" data-original-title="" title=""><i class="fa fa-question-circle"></i></span></td>
                 </tr>
-                <c:forEach items="${activityPreferentialRelations}" var="re" varStatus="status">
+                <c:forEach items="${activityPreferentialRelationTotal}" var="re" varStatus="status">
                     <tr class="fd">
-                        <td>
-                            <div class="content-width-limit-10 input-group">
-                                <span class="input-group-addon">${views.operation['Activity.step.full']}</span>
-                                <input type="text" class="form-control" value="${re.preferentialValue}" name="effectiveTransactionGe[${status.index}].preferentialValue" data-name="effectiveTransactionGe[{n}].preferentialValue">
-                                <span class="input-group-addon">${views.operation['Activity.step.more']}</span>
-                            </div>
-                        </td>
                         <td>
                             <div class="content-width-limit-10 input-group">
                                 <span class="input-group-addon">${views.operation['Activity.step.surplus']}</span>
@@ -60,15 +52,8 @@
                     </tr>
                 </c:forEach>
 
-                <c:if test="${empty activityPreferentialRelations}">
+                <c:if test="${empty activityPreferentialRelationTotal}">
                     <tr class="fd">
-                        <td>
-                            <div class="content-width-limit-10 input-group">
-                                <span class="input-group-addon">${views.operation['Activity.step.full']}</span>
-                                <input type="text" class="form-control" name="effectiveTransactionGe[0].preferentialValue" data-name="effectiveTransactionGe[{n}].preferentialValue">
-                                <span class="input-group-addon">${views.operation['Activity.step.more']}</span>
-                            </div>
-                        </td>
                         <td>
                             <div class="content-width-limit-10 input-group">
                                 <span class="input-group-addon">${views.operation['Activity.step.surplus']}</span>
