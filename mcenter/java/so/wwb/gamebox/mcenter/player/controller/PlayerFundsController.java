@@ -115,6 +115,12 @@ public class PlayerFundsController extends BaseCrudController<IPlayerTransaction
     }
 
     private void queryApiData(Model model, PlayerApiListVo listVo) {
+
+        //上次同步API余额时间
+        /*UserPlayerVo userPlayerVo = new UserPlayerVo();
+        userPlayerVo.getSearch().setId(listVo.getSearch().getPlayerId());
+        userPlayerVo = ServiceSiteTool.userPlayerService().get(userPlayerVo);
+        ShareController.lastSynchroApiCash(userPlayerVo , listVo);*/
         //同步玩家api余额
         ShareController.fetchPlayerApiBalance(listVo);
         //查询玩家api数据

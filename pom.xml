@@ -6,11 +6,12 @@
     <groupId>so.wwb.gamebox</groupId>
     <artifactId>app_mcenter</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.1.7-SNAPSHOT</version>
+    <version>2.0.1.9-SNAPSHOT</version>
     <modules>
         <module>../base/model</module>
         <module>../base/iservice</module>
         <module>../base/iservice-activity</module>
+        <module>../base/iservice-mreport</module>
         <module>../base/webcommon</module>
         <module>../base/common</module>
         <!--<module>../base/monitor/monitor-aopclient</module>
@@ -18,5 +19,8 @@
         <module>../base/monitor/monitor-iservice</module>
         <module>../base/monitor/monitor-model</module>-->
         <module>mcenter</module>
+        <module>mreport-service</module>
+        <module>mreport-service-war</module>
+        <module>mreport</module>
     </modules>
 </project>

@@ -116,6 +116,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
 
         listVo.getSearch().setActivityVersion(localLanguage);
         listVo.getSearch().setIsDeleted(Boolean.FALSE);
+        listVo.getSearch().setActivityTerminalType(TerminalEnum.PC.getCode());
         //过滤掉状态用＂---＂表示状态的数据
         /*if (ActivityStateEnum.PROCESSING.getCode().equals(listVo.getSearch().getStates())
                 || ActivityStateEnum.FINISHED.getCode().equals(listVo.getSearch().getStates())) {

@@ -16,17 +16,33 @@
                     <em class="fa fa-caret-left"></em>${views.common['return']}
                 </soul:button>
                 <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
+                <input type="hidden" name="floatType" value="${floatType}">
             </div>
             <div class="col-lg-12">
                 <div class="wrapper white-bg shadow">
+                    <ul class="clearfix sys_tab_wrap">
+                        <li id="li_top_1" class="<c:if test="${empty floatType}">active</c:if>">
+                            <a href="/cttFloatPic/list.html" nav-target="mainFrame">${views.common['客服浮动图']}</a>
+                        </li>
+                        <li id="li_top_2" class="<c:if test="${'activity'.equals(floatType)}">active</c:if>">
+                            <a href="/cttFloatPic/list.html?floatType=activity" nav-target="mainFrame">${views.common['活动浮动图']}</a>
+                        </li>
+                    </ul>
                     <!--筛选条件-->
                     <div class="clearfix filter-wraper border-b-1">
                         <%--<soul:button target="${root}/cttFloatPic/create.html" callback="query" title="${views.common['newFloatPic']}"
                                      cssClass="btn btn-info btn-addon" text="${views.common['newFloatPic']}" opType="dialog" tag="button">
                             <i class="fa fa-plus"></i><span class="hd">${views.common['newFloatPic']}</span>
                         </soul:button>--%>
-                        <a href="/cttFloatPic/create.html?editType=1" nav-target="mainFrame" class="btn btn-info btn-addon pull-left" style="margin: 0px 10px 5px 0px">
+                        <a href="/cttFloatPic/create.html?editType=1&floatType=${floatType}" nav-target="mainFrame" class="btn btn-info btn-addon pull-left" style="margin: 0px 10px 5px 0px">
                             <i class="fa fa-plus"></i><span class="hd">${views.common['newFloatPic']}</span></a>
+
+                        <c:if test="${not empty floatType}">
+                            <a class="btn btn-outline btn-filter" nav-target="mainFrame"
+                               href="/cttFloatPic/FloatOrder.html">
+                                <i class="fa fa-sort-amount-desc m-r-xs"></i>${views.common['order']}
+                            </a>
+                        </c:if>
                         <div class="function-menu-show hide">
                             <soul:button tag="button" cssClass="btn btn-danger-hide" target="batchDelete"
                                          text="${views.common['delete']}" opType="function" dataType="json" callback="query">

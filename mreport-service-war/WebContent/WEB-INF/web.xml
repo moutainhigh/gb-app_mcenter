@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         id="WebApp_ID" version="3.0" metadata-complete="true">
+
+    <display-name>schedule</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:conf/service-mreport-appCtx.xml
+        </param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>so.wwb.gamebox.mweb.init.ServiceCtxLoaderListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>serviceStopServlet</servlet-name>
+        <servlet-class>org.soul.service.init.context.ServiceStopServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>serviceStopServlet</servlet-name>
+        <url-pattern>/destroy/serviceStop</url-pattern>
+    </servlet-mapping>
+    <!--HealthCheck  开始-->
+    <filter>
+        <filter-name>healthCheckFilter</filter-name>
+        <filter-class>org.soul.service.filter.HealthCheckFilter</filter-class>
+        <async-supported>true</async-supported>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>healthCheckFilter</filter-name>
+        <url-pattern>/health/check.html</url-pattern>
+    </filter-mapping>
+    <!--HealthCheck  结束-->
+</web-app>
