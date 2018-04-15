@@ -19,8 +19,9 @@
         <module>../base/monitor/monitor-iservice</module>
         <module>../base/monitor/monitor-model</module>-->
         <module>mcenter</module>
-        <module>mreport-service</module>
-        <module>mreport-service-war</module>
+        <!--影响jenkins平台打包,先暂时注掉-->
+        <!--<module>mreport-service</module>
+        <module>mreport-service-war</module>-->
         <module>mreport</module>
     </modules>
 </project>

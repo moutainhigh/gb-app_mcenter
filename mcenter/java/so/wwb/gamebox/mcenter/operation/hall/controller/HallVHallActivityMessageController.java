@@ -524,6 +524,9 @@ public class HallVHallActivityMessageController extends HallActivityController<I
     private String createActivityRuleForm(String code) {
         String activityRule = null;
         if (ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code)
+                || ActivityTypeEnum.SECOND_DEPOSIT.getCode().equals(code)
+                || ActivityTypeEnum.THIRD_DEPOSIT.getCode().equals(code)
+                || ActivityTypeEnum.EVERYDAY_FIRST_DEPOSIT.getCode().equals(code)
                 || ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
             activityRule = JsRuleCreator.create(ActivityRuleFirstDepositForm.class);
         }
