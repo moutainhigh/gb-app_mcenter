@@ -18,7 +18,7 @@ import java.util.Map;
 @RequestMapping("/daily")
 public class SiteDailyController extends BaseIndexController {
 
-    private static final String OPERATION_TRENDS = "/daily/OperationTrends";
+    private static final String OPERATION_SUMMARY = "/daily/OperationSummary";
 
     private static final String REAL_TIME_SUMMARY = "/daily/RealTimeSummary";
 
@@ -32,9 +32,9 @@ public class SiteDailyController extends BaseIndexController {
      * 经营趋势
      * @return
      */
-    @RequestMapping("/operationTrends")
-    public String operationTrends(HttpServletRequest request, Model model) {
-        return OPERATION_TRENDS;
+    @RequestMapping("/operationSummary")
+    public String operationSummary(HttpServletRequest request, Model model) {
+        return OPERATION_SUMMARY;
     }
 
     /**
