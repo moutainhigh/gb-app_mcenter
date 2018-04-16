@@ -21,6 +21,8 @@ import org.soul.model.msg.notice.enums.NoticePublishMethod;
 import org.soul.model.msg.notice.po.NoticeEmailInterface;
 import org.soul.model.msg.notice.vo.NoticeEmailInterfaceVo;
 import org.soul.model.msg.notice.vo.NoticeVo;
+import org.soul.model.security.privilege.po.SysUser;
+import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.model.sms_interface.po.SmsInterface;
 import org.soul.model.sms_interface.vo.SmsInterfaceListVo;
 import org.soul.model.sms_interface.vo.SmsInterfaceVo;
@@ -660,6 +662,11 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         model.addAttribute("rankAppDomain",ServiceSiteTool.playerRankAppDomainService().search(new PlayerRankAppDomainListVo()));
         model.addAttribute("webtype", "5");
+        SysUser user = SessionManagerBase.getUser();
+        if (UserTypeEnum.MASTER.getCode().equals(user.getUserType())){
+            model.addAttribute("isMaster",true);
+            model.addAttribute("idCard",user.getIdcard());
+        }
         return "/setting/param/siteparameters/Parameters";
     }
 
@@ -1480,6 +1487,29 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_RECOVER_PASSWORD);
         Cache.refreshCurrentSitePageCache(SessionManager.getSiteId());
         return getVoMessage(siteParamVo);
+    }
+
+    /**
+     * 设置站长（主账号）坐席号
+     *
+     * @param objectVo
+     * @return
+     */
+    @RequestMapping(value = "/saveMasterExtNo")
+    @ResponseBody
+    public Map saveExtNo(SysUserVo objectVo){
+        if(objectVo.getResult().getId()==null){
+            objectVo.setSuccess(false);
+            return getVoMessage(objectVo);
+        }
+        objectVo.setProperties(SysUser.PROP_IDCARD);
+        objectVo = ServiceTool.sysUserService().updateOnly(objectVo);
+        if(objectVo.isSuccess()){
+            SysUser sysUser = SessionManagerCommon.getUser();
+            sysUser.setIdcard(objectVo.getResult().getIdcard());
+            SessionManagerCommon.setUser(sysUser);
+        }
+        return getVoMessage(objectVo);
     }
     //endregion your codes 3
 }
