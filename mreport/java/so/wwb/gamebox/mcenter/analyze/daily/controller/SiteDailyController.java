@@ -58,8 +58,8 @@ public class SiteDailyController {
             summary1.setPercent(summary1.getNumerical()/(summary1.getNumerical()+summary2.getNumerical()));
             summary2.setPercent(summary2.getNumerical()/(summary1.getNumerical()+summary2.getNumerical()));
 
-            model.addAttribute("differenceData", JSON.toJSONString(differenceList));
-            model.addAttribute("differenceAmount", summary1.getNumerical() - summary2.getNumerical());
+            model.addAttribute("lastDifferenceData", JSON.toJSONString(differenceList));
+            model.addAttribute("lastDifferenceAmount", summary1.getNumerical() - summary2.getNumerical());
         }
 
         return OPERATION_SUMMARY;
