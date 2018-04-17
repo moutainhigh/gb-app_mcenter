@@ -85,38 +85,38 @@
                                     </div>
 
                                         <%--<div class="col-xs-5">
-                                                    &lt;%&ndash;暂时隐藏，当开启手机验证时开启&ndash;%&gt;
-                                                <input type="checkbox" class="_switch" name="sms-checkbox" typeName="phoneParam" data-size="mini" ${phoneParam.active?"checked":""}>
-                                                    &lt;%&ndash;暂时隐藏，当开启手机验证时开启&ndash;%&gt;
-                                                <span id="isShowphoneParam" ${phoneParam.active?"":"hidden"}>
-                                                    <label  class="m-r-sm"><input type="radio" class="i-checks" name="phoneParam.paramValue" value="before" ${phoneParam.paramValue=="before"?"checked":""}> ${views.setting['PlayerReg.before']}</label>
-                                                    <span tabindex="0" class=" help-popover" role="button" data-container="body"
-                                                          data-toggle="popover" data-trigger="focus" data-placement="top"
-                                                          data-content="${views.setting['PlayerReg.help.phone.befor']}">
-                                                        <i class="fa fa-question-circle"></i>
-                                                    </span>
-                                                    <label class="m-r-sm m-l-xs">
-                                                        <input type="radio" class="i-checks" value="after" ${phoneParam.paramValue=="after"?"checked":""} name="phoneParam.paramValue">
-                                                         ${views.setting['PlayerReg.after']}
-                                                    </label>
-                                                    <span tabindex="0" class=" help-popover" role="button" data-container="body"
-                                                          data-toggle="popover" data-trigger="focus" data-placement="top"
-                                                          data-content="${views.setting['PlayerReg.help.phone.last']}">
-                                                        <i class="fa fa-question-circle"></i>
-                                                    </span>
+                                                &lt;%&ndash;暂时隐藏，当开启手机验证时开启&ndash;%&gt;
+                                            <input type="checkbox" class="_switch" name="sms-checkbox" typeName="phoneParam" data-size="mini" ${phoneParam.active?"checked":""}>
+                                                &lt;%&ndash;暂时隐藏，当开启手机验证时开启&ndash;%&gt;
+                                            <span id="isShowphoneParam" ${phoneParam.active?"":"hidden"}>
+                                                <label  class="m-r-sm"><input type="radio" class="i-checks" name="phoneParam.paramValue" value="before" ${phoneParam.paramValue=="before"?"checked":""}> ${views.setting['PlayerReg.before']}</label>
+                                                <span tabindex="0" class=" help-popover" role="button" data-container="body"
+                                                      data-toggle="popover" data-trigger="focus" data-placement="top"
+                                                      data-content="${views.setting['PlayerReg.help.phone.befor']}">
+                                                    <i class="fa fa-question-circle"></i>
                                                 </span>
-                                            </div>--%>
+                                                <label class="m-r-sm m-l-xs">
+                                                    <input type="radio" class="i-checks" value="after" ${phoneParam.paramValue=="after"?"checked":""} name="phoneParam.paramValue">
+                                                     ${views.setting['PlayerReg.after']}
+                                                </label>
+                                                <span tabindex="0" class=" help-popover" role="button" data-container="body"
+                                                      data-toggle="popover" data-trigger="focus" data-placement="top"
+                                                      data-content="${views.setting['PlayerReg.help.phone.last']}">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </span>
+                                            </span>
+                                        </div>--%>
                                 </div>
                                 <%--<div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
-                                            <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
-                                                代理手机验证：
-                                            </div>
-                                            <div class="col-xs-5">
-                                                <input name="agentPhoneParam.id" type="hidden" value="${agentPhoneParam.id}">
-                                                <input id="agentPhoneParam" name="agentPhoneParam.active" type="hidden" value="${agentPhoneParam.active}">
-                                                <input type="checkbox" class="_switch" name="sms-checkbox" typeName="agentPhoneParam" data-size="mini" ${agentPhoneParam.active?"checked":""}>
-                                            </div>
-                                        </div>--%>
+                                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                                        代理手机验证：
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <input name="agentPhoneParam.id" type="hidden" value="${agentPhoneParam.id}">
+                                        <input id="agentPhoneParam" name="agentPhoneParam.active" type="hidden" value="${agentPhoneParam.active}">
+                                        <input type="checkbox" class="_switch" name="sms-checkbox" typeName="agentPhoneParam" data-size="mini" ${agentPhoneParam.active?"checked":""}>
+                                    </div>
+                                </div>--%>
                                 <div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
                                     <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
                                         手机找回密码：
@@ -128,13 +128,13 @@
                                     </div>
                                 </div>
                                 <%--<div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
-                                            <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
-                                                短信模板：
-                                            </div>
-                                            <div class="col-xs-5">
-                                                <input type="checkbox" class="_switch" name="" data-size="mini">
-                                            </div>
-                                        </div>--%>
+                                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                                        短信模板：
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <input type="checkbox" class="_switch" name="" data-size="mini">
+                                    </div>
+                                </div>--%>
                                 <div class="modal-footer">
                                     <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
                                                  opType="ajax"
@@ -335,57 +335,44 @@
                                     <label class="m-r-md "></label>
                                 </div>
                                 </c:if>
-                            </div>
                                 <c:if test="${not empty phone_url}">
                                     <div class="clearfix m-b">
-                                            <%--<label class="ft-bold pull-left m-r"
-                                                   style='float:left;margin-top:4px'> ${views.setting_auto['电销开关']}：</label>
+                                        <div style="padding-top: 10px">
+                                            <label class="ft-bold pull-left m-r"
+                                                   style='float:left;margin-top:4px'>&nbsp;&nbsp; ${views.setting_auto['电销开关']}：</label>
                                             <input id="phonePin" type="checkbox" name="electric_pin" data-size="mini"
-                                                ${electric_pin.paramValue =="true" ?'checked':''} />--%>
+                                                ${electric_pin.paramValue =="true" ?'checked':''} />
                                                 <%--<label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>--%>
-                                            <div class="clearfix m-b">
-                                                <div class="ft-bold pull-left line-hi34"
-                                                     style="width: 100px;text-align: right;">${views.setting_auto['电销开关']}：
-                                                </div>
-                                                <div class="col-xs-5">
-                                                    <input id="phonePin" type="checkbox" name="electric_pin" data-size="mini"
-                                                        ${electric_pin.paramValue =="true" ?'checked':''} />
-                                                </div>
-                                            </div>
-                                    </div>
+
+                                        </div>
                                         <c:if test="${isMaster}">
-                                            <div  data-size="mini" class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px" >
-                                                <div class="clearfix m-b">
-                                                    <div class="ft-bold pull-left line-hi34"
-                                                         style="width: 100px;text-align: right;">站长坐席号：
-                                                    </div>
-                                                    <div class="col-xs-5">
-                                                        <input type="text" id="idCard" style="height: 35px"  placeholder="设置站长坐席号" name="result.paramValue" value="${poone_number.paramValue}">
-                                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
-                                                                     opType="ajax"
-                                                                     dataType="json"
-                                                                     target="${root}/param/savePhone.html"
-                                                                     confirm="${views.common['confirm.modify']}"
-                                                                     post="getPhoneNumber"
-                                                                     callback="save"/>
-                                                    </div>
-                                                </div>
+                                            <div id="idCard" data-size="mini" class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px" >
+                                                <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
+                                                        ${views.setting_auto['站长坐席号']}：</label>
+                                                <input type="text" id="idCard" style="height: 35px"  placeholder="${views.setting_auto['设置站长坐席号']}" name="result.idcard" value="${idCard}">
+                                                <soul:button precall="validationIdcard" cssClass="btn btn-filter" text="${views.common['save']}"
+                                                             opType="ajax"
+                                                             dataType="json"
+                                                             target="${root}/param/saveMasterExtNo.html"
+                                                             confirm="${views.common['confirm.modify']}"
+                                                             post="getIdCard"
+                                                             callback="save"/>
                                             </div>
                                         </c:if>
-                                        <div data-size="mini" class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md " style="padding-top: 10px">
+                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md " style="padding-top: 10px">
                                             <h3>${views.setting_auto['电销功能开关']}:</h3>
                                         </div>
-                                        <div data-size="mini" class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md "  >
+                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md "  >
                                             <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
-                                                    ${views.setting_auto['是否加密']}：</label>
+                                                &nbsp;&nbsp;&nbsp;${views.setting_auto['是否加密']}：</label>
                                             <input type="checkbox" name="encryption_switch" data-size="mini"
                                                 ${encryption_switch.paramValue =="true" ?'checked':''} />
                                             <label class="m-r-md ">${views.setting_auto['启用后拨打的号码将加密']}</label>
                                         </div>
 
-                                        <div data-size="mini" class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px">
+                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px">
                                             <label class="ft-bold pull-left m-r"
-                                                   style='margin-top: 10px'> ${views.setting_auto['前端回call']}：</label>
+                                                   style='margin-top: 10px'> &nbsp;${views.setting_auto['前端回call']}：</label>
                                             <input id="playerCall" data-size="mini" type="checkbox" name="player_stationmaster"
                                                 ${player_stationmaster.paramValue =="true" ?'checked':''} />
                                             <label class="m-r-md ">${views.setting_auto['启用后需设置坐席号方可使用']}</label>
