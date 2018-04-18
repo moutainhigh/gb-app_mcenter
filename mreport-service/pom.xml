@@ -5,9 +5,6 @@
         <groupId>so.wwb.gamebox</groupId>
         <version>2.0.1.9-SNAPSHOT</version>
     </parent>
-
-    <groupId>so.wwb.gamebox</groupId>
-    <version>2.0.1.9-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>mreport-service</artifactId>
     <packaging>jar</packaging>
@@ -86,6 +83,11 @@
         <dependency>
             <groupId>so.wwb.gamebox</groupId>
             <artifactId>data</artifactId>
+            <version>${gamebox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>so.wwb.gamebox</groupId>
+            <artifactId>model</artifactId>
             <version>${gamebox.version}</version>
         </dependency>
         <dependency>
