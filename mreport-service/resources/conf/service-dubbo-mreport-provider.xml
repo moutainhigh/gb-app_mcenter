@@ -6,4 +6,10 @@
 		http://code.alibabatech.com/schema/dubbo	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
 
+    <!--实时概况服务-->
+    <dubbo:service ref="realTimeProfileService" interface="so.wwb.gamebox.iservice.site.report.IRealtimeProfileService" registry="zookeeperService"/>
+
+    <!--运营统计服务-->
+    <dubbo:service ref="operationSummaryService" interface="so.wwb.gamebox.iservice.site.report.IOperationSummaryService" registry="zookeeperService"/>
+
 </beans>

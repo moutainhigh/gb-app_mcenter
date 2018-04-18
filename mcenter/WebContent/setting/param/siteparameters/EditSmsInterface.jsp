@@ -46,6 +46,13 @@
                         <textarea name="sms.dataKey"class="form-control">${smsInterfaceVo.result.dataKey}</textarea>
                     </div>
                 </div>
+                <div class="clearfix m-b">
+                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">${views.setting_auto['接口签名']}：
+                    </div>
+                    <div class="col-xs-5"><input type="text" name="sms.signature"
+                                                 value="${smsInterfaceVo.result.signature}"
+                                                 class="form-control"></div>
+                </div>
                 <div class="modal-footer">
                     <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
                                  opType="ajax"

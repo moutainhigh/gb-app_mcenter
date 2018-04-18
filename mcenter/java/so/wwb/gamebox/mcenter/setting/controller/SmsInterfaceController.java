@@ -54,7 +54,7 @@ public class SmsInterfaceController extends BaseCrudController<ISmsInterfaceServ
         smsInterfaceVo.getSearch().setId(sms.getId());
         SmsInterfaceVo vo = ServiceTool.smsInterfaceService().get(smsInterfaceVo);
         if(vo != null && vo.getResult() != null){
-            smsInterfaceVo.setProperties(SmsInterface.PROP_REQUEST_URL,SmsInterface.PROP_USERNAME,SmsInterface.PROP_PASSWORD,SmsInterface.PROP_DATA_KEY);
+            smsInterfaceVo.setProperties(SmsInterface.PROP_SIGNATURE,SmsInterface.PROP_REQUEST_URL,SmsInterface.PROP_USERNAME,SmsInterface.PROP_PASSWORD,SmsInterface.PROP_DATA_KEY);
             ServiceTool.smsInterfaceService().updateOnly(smsInterfaceVo);
         }else{
             ServiceTool.smsInterfaceService().insert(smsInterfaceVo);

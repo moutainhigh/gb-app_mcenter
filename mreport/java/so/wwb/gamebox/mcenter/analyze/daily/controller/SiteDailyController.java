@@ -1,26 +1,25 @@
 package so.wwb.gamebox.mcenter.analyze.daily.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.fileupload.util.LimitedInputStream;
 import org.soul.commons.data.json.JsonTool;
-import org.soul.web.controller.BaseIndexController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.model.site.report.po.OperationSummary;
 import so.wwb.gamebox.model.site.report.po.RealtimeProfile;
+import so.wwb.gamebox.model.site.report.vo.OperationSummaryVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileListVo;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.FieldPosition;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
- * 站点日常数据
+ * 站点日常数据Controller
  * @author martin
- * Created by martin on 18-4-12.
+ * @time 18-4-12
  */
 @Controller
 @RequestMapping("/daily")
@@ -37,31 +36,14 @@ public class SiteDailyController {
     private static final String PLAYER_RETAIN = "/daily/PlayerRetain";
 
     /**
-     * 运营日常统计
+     * 运营统计
      * @return
      */
     @RequestMapping("/operationSummary")
     public String operationSummary(HttpServletRequest request, Model model) {
-        List<OperationSummary> differenceList = new ArrayList<OperationSummary>();
-        {
-            OperationSummary summary1 = new OperationSummary();
-            summary1.setTitle("存款金额");
-            summary1.setNumerical(8000D);
-            differenceList.add(summary1);
-
-            OperationSummary summary2 = new OperationSummary();
-            summary2.setTitle("取现金额");
-            summary2.setNumerical(6000D);
-            differenceList.add(summary2);
-
-            //计算占比
-            summary1.setPercent(summary1.getNumerical()/(summary1.getNumerical()+summary2.getNumerical()));
-            summary2.setPercent(summary2.getNumerical()/(summary1.getNumerical()+summary2.getNumerical()));
-
-            model.addAttribute("lastDifferenceData", JSON.toJSONString(differenceList));
-            model.addAttribute("lastDifferenceAmount", summary1.getNumerical() - summary2.getNumerical());
-        }
-
+        OperationSummaryVo o = new OperationSummaryVo();
+        o = ServiceSiteTool.operationSummaryService().getOperationSummaryData(o);
+        model.addAttribute("lastDifferenceData", JSON.toJSONString(o.getEntities()));
         return OPERATION_SUMMARY;
     }
 
