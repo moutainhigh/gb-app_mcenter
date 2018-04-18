@@ -24,7 +24,7 @@
                 <input type="hidden" name="activityId" value="${p.id}" class="td-handle1"/>
 
                 <td style="width: 5%" class="td-handle1">${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
-                <td style="width: 20%" class="td-handle1">${gbFn:getActivityMessageInfo(p.id.toString()).activityName}</td>
+                <td style="width: 20%" class="td-handle1">${p.activityName}</td>
                 <td style="width: 20%" class="td-handle1">${activityType[p.activityTypeCode].remark}</td>
                 <td style="width: 20%" class="td-handle1">
                    ${siteI18nMap[p.activityClassifyKey].value}
