@@ -87,11 +87,7 @@
                 </c:if>
             </table>
         </div>
-        <c:if test="${ activityType.result.code ne 'deposit_send' }">
-            <soul:button target="systemRecommendCase" text="" opType="function" cssClass="btn btn-info btn-addon pull-right m-t">
-                <i class="fa fa-plus"></i><span class="hd">${views.operation['系统推荐方案']}</span>
-            </soul:button>
-        </c:if>
+
         <soul:button target="addActivityRule" text="" opType="function" cssClass="btn btn-info btn-addon pull-right m-t">
             <i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span>
         </soul:button>
