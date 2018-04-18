@@ -10,13 +10,12 @@
     <packaging>jar</packaging>
 
     <properties>
-
         <soul.version>1.0.8.3-SNAPSHOT</soul.version>
         <api.version>2.0.1.9-SNAPSHOT</api.version>
         <monitor.version>2.0.1.9-SNAPSHOT</monitor.version>
         <gamebox.version>2.0.1.9-SNAPSHOT</gamebox.version>
-
         <project.build.no>0001</project.build.no>
+
         <!--build号,手工修改-->
         <project.build.ver>1.0.0</project.build.ver>
         <!--打包版本号-->
@@ -43,7 +42,6 @@
         <quartz.version>2.2.1</quartz.version>
         <spring.data.monogodb.verion>1.8.0.RELEASE</spring.data.monogodb.verion>
         <springframework.version>4.3.10.RELEASE</springframework.version>
-
     </properties>
 
     <repositories>
@@ -161,7 +159,7 @@
         <!--测试依赖-->
     </dependencies>
     <build>
-        <finalName>${project.build.name}</finalName>
+        <!--<finalName>${project.build.name}</finalName>-->
         <sourceDirectory>java</sourceDirectory>
         <testSourceDirectory>test/java</testSourceDirectory>
         <testResources>
