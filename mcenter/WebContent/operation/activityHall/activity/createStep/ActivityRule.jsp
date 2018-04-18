@@ -227,7 +227,7 @@
             </c:if>
             <c:if test="${activityType.result.code ne 'back_water'}">
                 <input type="hidden" name="isAllRank" value="${isAllRank}">
-                <input type="hidden" name="rank" id="prank" value="${(!isAllRank and type eq 'edit')?"":activityRule.rank}"/>
+                <input type="hidden" name="rank" id="prank" value="${(type eq 'edit')?activityRule.rank:''}"/>
                 <c:set value="${activityRule.rank}," var="bb"></c:set>
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.rank']}：</label>

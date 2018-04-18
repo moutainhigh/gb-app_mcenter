@@ -270,7 +270,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             getNormalRakebackSet(model);
         }
 
-        if (ActivityTypeEnum.REGIST_SEND.getCode().equals(code) || VActivityMessageVo.is123Deposit(code)) {
+        if (ActivityTypeEnum.REGIST_SEND.getCode().equals(code) || VActivityMessageVo.is123Deposit(code) || ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
             List<VActivityMessage> vActivityMessages = loadActivityMessageByActivityType(code, activityMessageVo.getResult().getId());
             String combinedRanks = getCombinedRanks(vActivityMessages);
             Map<String, Object> objectMap = isAllRank(combinedRanks);
