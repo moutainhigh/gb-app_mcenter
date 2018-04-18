@@ -197,18 +197,33 @@
                     <span tabindex="0" class=" help-popover m-l-sm"
                           role="button" data-container="body"
                           data-toggle="popover" data-trigger="focus"
-                          data-placement="top" data-html="true" data-content="${views.operation['Activity.step.depositWay.tips']}"
+                          data-placement="top" data-html="true"
+                          data-content="${views.operation['Activity.step.depositWay.tips']}"
                           data-original-title="" title=""><i
-                            class="fa fa-question-circle"></i></span> ${views.operation['Activity.step.depositWay']}</label>
+                            class="fa fa-question-circle"></i></span> ${views.operation['Activity.step.depositWay']}
+                    </label>
                     <div class="col-sm-5 input-group">
                         <c:forEach items="${activityDepositWays}" var="dw">
                             <label class="m-r-sm">
-                                <input type="checkbox" class="i-checks" name="activityRule.depositWay" value="${dw.code}" ${fn:contains(activityRule.depositWay,dw.code) ? "checked":""}/>${views.operation['Activity.step.depositWay.'.concat(dw.code)]}
+                                <input type="checkbox" class="i-checks" name="activityRule.depositWay"
+                                       value="${dw.code}" ${fn:contains(activityRule.depositWay,dw.code) ? "checked":""}/>${views.operation['Activity.step.depositWay.'.concat(dw.code)]}
                             </label>
                         </c:forEach>
                         <p tipsName="activityRule.depositWay-tips"></p>
                     </div>
                 </div>
+
+                <div class="clearfix m-t-md line-hi34">
+                    <div class="col-sm-5 col-sm-offset-3">
+                        <c:if test="${ activityType.result.code ne 'deposit_send' }">
+                            <soul:button target="systemRecommendCase" text="" opType="function"
+                                         cssClass="btn btn-info btn-addon m-t">
+                                <i class="fa"></i><span class="hd">${views.operation['系统推荐方案']}</span>
+                            </soul:button>
+                        </c:if>
+                    </div>
+                </div>
+                <br>
             </c:if>
             <c:if test="${activityType.result.code ne 'back_water'}">
                 <input type="hidden" name="isAllRank" value="${isAllRank}">
