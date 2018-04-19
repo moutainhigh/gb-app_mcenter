@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+       default-autowire="byName">
+    <import resource="classpath*:conf/common-notify-consumer.xml"/>
+    <util:constant id="SITE_VERSION_UPDATE"
+                   static-field="so.wwb.gamebox.common.watcher.zookeeper.interceptors.NotifyType.SITE_VERSION_UPDATE"/>
+    <!--消息通知消费者定义列表-->
+    <bean id="notifyConsumerConf" parent="notifyConsumerConfBase">
+        <property name="itemConfs">
+            <list merge="true">
+                <!--站点数据源刷新-->
+                <bean lazy-init="true" class="org.soul.watcher.zookeeper.config.NotifyConfItemConf">
+                    <property name="handler" ref="notifyHandler"/>
+                    <property name="notifyType" ref="SITE_VERSION_UPDATE"/>
+                    <property name="classFullName" value="org.soul.data.datasource.DatasourceTool"/>
+                    <property name="methodName" value="clearDataSource"/>
+                </bean>
+                <!--更新目标应用版本信息时同时更新订阅-->
+                <bean lazy-init="true" class="org.soul.watcher.zookeeper.config.NotifyConfItemConf">
+                    <property name="handler" ref="notifyHandler"/>
+                    <property name="notifyType" ref="VERSION_UPDATE"/>
+                    <property name="classFullName" value="so.wwb.gamebox.mweb.init.ServiceCtxLoaderListener"/>
+                    <property name="methodName" value="refreshServiceVersion"/>
+                    <property name="argType" value="org.soul.watcher.zookeeper.handler.NodeVersionInfo"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

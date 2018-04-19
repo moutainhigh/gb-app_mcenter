@@ -79,6 +79,7 @@ import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.player.form.*;
 import so.wwb.gamebox.mcenter.report.controller.AuditLogController;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.mcenter.share.controller.ShareController;
 import so.wwb.gamebox.mcenter.share.form.SysListOperatorForm;
 import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.boss.enums.ExportFileTypeEnum;
@@ -95,6 +96,7 @@ import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.company.site.po.SiteCurrency;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
 import so.wwb.gamebox.model.company.vo.BankListVo;
+import so.wwb.gamebox.model.enums.ApiQueryTypeEnum;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.listop.FilterRow;
 import so.wwb.gamebox.model.listop.FilterSelectConstant;
@@ -894,8 +896,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
 //        vUserPlayerVo = fetchTotalTradeAmount(vUserPlayerVo);
 //        vUserPlayerVo = fetchTotalEffectTradeAmount(vUserPlayerVo);
         //代理修改日志
+        Integer searchId = vUserPlayerVo.getSearch().getId();
         SysAuditLogListVo sysAuditLogListVo = new SysAuditLogListVo();
-        sysAuditLogListVo.getSearch().setEntityUserId(vUserPlayerVo.getSearch().getId());
+        sysAuditLogListVo.getSearch().setEntityUserId(searchId);
         sysAuditLogListVo.getSearch().setModuleType(ModuleType.PLAYER_UPDATEAGENTLINE_SUCCESS.getCode());
         sysAuditLogListVo = ServiceSiteTool.auditLogService().queryLogs(sysAuditLogListVo);
         List logList = sysAuditLogListVo.getResult();
@@ -904,7 +907,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
         //风控修改日志
         SysAuditLogListVo riskLogListVo = new SysAuditLogListVo();
-        riskLogListVo.getSearch().setEntityUserId(vUserPlayerVo.getSearch().getId());
+        riskLogListVo.getSearch().setEntityUserId(searchId);
         riskLogListVo.getSearch().setModuleType(ModuleType.PLAYER_RISK_SUCCESS.getCode());
         riskLogListVo.getPaging().setPageSize(1);
         riskLogListVo.getQuery().addOrder(SysAuditLog.PROP_OPERATE_TIME, Direction.DESC);
@@ -915,8 +918,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
 
         //银行卡列表
-        model.addAttribute("userbankcards", BankHelper.queryUserBanksByUserId(vUserPlayerVo.getSearch().getId(), UserBankcardTypeEnum.TYPE_BANK, 5));
-        model.addAttribute("btnBanks", BankHelper.queryUserBanksByUserId(vUserPlayerVo.getSearch().getId(), UserBankcardTypeEnum.TYPE_BTC, 5));
+        model.addAttribute("userbankcards", BankHelper.queryUserBanksByUserId(searchId, UserBankcardTypeEnum.TYPE_BANK, 5));
+        model.addAttribute("btnBanks", BankHelper.queryUserBanksByUserId(searchId, UserBankcardTypeEnum.TYPE_BTC, 5));
         model.addAttribute("bitcoinParam", ParamTool.getSysParam(SiteParamEnum.SETTING_WITHDRAW_TYPE_IS_BITCOIN));
         model.addAttribute("cashParam", ParamTool.getSysParam(SiteParamEnum.SETTING_WITHDRAW_TYPE_IS_CASH));
 
@@ -931,25 +934,25 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         status.remove(PlayerStatusEnum.ACCOUNTEXPIRED.getCode());
         model.addAttribute("playerStatus", status);
         model.addAttribute("unencryption", SessionManager.checkPrivilegeStatus());
-        PlayerWithdraw playerWithdraw = fetchWithdrawRecord(vUserPlayerVo.getSearch().getId());
+        PlayerWithdraw playerWithdraw = fetchWithdrawRecord(searchId);
         if (playerWithdraw != null) {
             model.addAttribute("playerWithdraw", playerWithdraw);
         }
 
         RemarkListVo playerListVo = new RemarkListVo();
-        playerListVo.getSearch().setEntityUserId(vUserPlayerVo.getSearch().getId());
+        playerListVo.getSearch().setEntityUserId(searchId);
         playerListVo.getPaging().setPageSize(10);
         //playerListVo.getSearch().setRemarkType(RemarkEnum.PLAYER_REMARK.getType());
         RemarkListVo remarkListVo = queryUserRemark(playerListVo);
         model.addAttribute("remarkListVo", remarkListVo);
         model.addAttribute("isLotterySite", ParamTool.isLotterySite());
         SysUserProtectionVo sysUserProtectionVo = new SysUserProtectionVo();
-        sysUserProtectionVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
+        sysUserProtectionVo.getSearch().setId(searchId);
         SysUserProtectionVo protectionVo = ServiceTool.sysUserProtectionService().get(sysUserProtectionVo);
         model.addAttribute("saferQuestion", protectionVo);
         //风控标识
         UserPlayerVo userPlayerVo = new UserPlayerVo();
-        userPlayerVo.getSearch().setId(vUserPlayerVo.getSearch().getId());
+        userPlayerVo.getSearch().setId(searchId);
         userPlayerVo = ServiceSiteTool.userPlayerService().get(userPlayerVo);
         getRisk2Set(userPlayerVo);
         SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
@@ -957,6 +960,11 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("riskDataType", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskDataType():null);
         model.addAttribute("riskSet", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskSet():null);
 
+        //上次同步API余额时间
+        PlayerApiListVo playerApiListVo = new PlayerApiListVo();
+        playerApiListVo.getSearch().setPlayerId(searchId);
+        playerApiListVo.setType(ApiQueryTypeEnum.ALL_API.getCode());
+        ShareController.lastSynchroApiCash(userPlayerVo , playerApiListVo);
         return "/player/view.include/PlayerDetail";
     }
 
@@ -3224,6 +3232,26 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             LOG.error(ex, "批量冻结账户失败！");
         }
 
+        return map;
+    }
+    /**
+     * 批量重置存送
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping("/resetStorage")
+    @ResponseBody
+    public Map resetStorage(Integer[] ids) {
+     UserPlayerListVo userPlayerListVo=new UserPlayerListVo();
+     Map map = new HashMap(2, 1f);
+        userPlayerListVo.getSearch().setIds(Arrays.asList(ids));
+        UserPlayerListVo userPlayer = ServiceSiteTool.userPlayerService().batchresetAccount(userPlayerListVo);
+        if (userPlayer.isSuccess()){
+            map.put("state",true);
+        }else {
+            map.put("state",false);
+        }
         return map;
     }
 

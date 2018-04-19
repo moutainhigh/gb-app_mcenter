@@ -36,6 +36,7 @@ public class ShareController {
     private static final String SEND_GROUP_INFO_URI = "/share/SendGroupInfo";
     private static final String RESET_PLAYER_PWD_TYPE_URI = "/share/ResetPlayerPwdType";
     private static final String RESET_PLAYER_PWD_URI = "/share/ResetPlayerPwd";
+    private static final long TEN_MINUTE_TO_MS = 10*60*1000;
     //原因选择预览更多页面
     private static final String RESON_PREVIEW_MORE_URI = "/share/ReasonPreviewMore";
 
@@ -90,6 +91,19 @@ public class ShareController {
         Map<String, Map<String, NoticeLocaleTmpl>> stringMapMap = ServiceTool.noticeService().previewTmplsByGroupCode(vo);
         model.addAttribute("command", stringMapMap);
         return RESON_PREVIEW_MORE_URI;
+    }
+
+    /**
+     * 判断上次同步api时间是否在10分钟前
+     */
+    public static void lastSynchroApiCash(UserPlayerVo userPlayerVo , PlayerApiListVo playerApiListVo){
+        Date transactionSynTime = userPlayerVo.getResult().getTransactionSynTime();
+        boolean isSynchroApiCash =transactionSynTime == null ? true : (new Date().getTime() - transactionSynTime.getTime()) > TEN_MINUTE_TO_MS;
+        if(isSynchroApiCash){
+            ShareController.fetchPlayerApiBalance(playerApiListVo);
+            userPlayerVo.getResult().setTransactionSynTime(new Date());
+            ServiceSiteTool.userPlayerService().update(userPlayerVo);
+        }
     }
 
     /**

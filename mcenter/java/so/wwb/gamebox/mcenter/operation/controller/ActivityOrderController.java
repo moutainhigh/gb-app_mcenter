@@ -1,10 +1,10 @@
 package so.wwb.gamebox.mcenter.operation.controller;
 
 
-import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.dict.DictTool;
-import org.soul.commons.init.context.CommonContext;
+import org.soul.commons.net.ServletTool;
 import org.soul.web.controller.BaseCrudController;
+import org.soul.web.validation.form.annotation.FormModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,19 +17,20 @@ import so.wwb.gamebox.mcenter.operation.form.VActivityMessageForm;
 import so.wwb.gamebox.mcenter.operation.form.VActivityMessageSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.cache.CacheKey;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.master.operation.po.ActivityMessage;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMessageListVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMessageOrderVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMessageVo;
-import so.wwb.gamebox.model.master.operation.vo.PlayerActivityMessage;
 import so.wwb.gamebox.web.cache.Cache;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,11 +38,25 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/operation/activity/order")
-public class ActivityOrderController extends BaseCrudController<IActivityMessageService, ActivityMessageListVo, ActivityMessageVo, VActivityMessageSearchForm, VActivityMessageForm, ActivityMessage, Integer> {
+public class ActivityOrderController extends BaseCrudController<IActivityMessageService,ActivityMessageListVo,ActivityMessageVo,VActivityMessageSearchForm, VActivityMessageForm,ActivityMessage,Integer>{
+
+    private static String BASE_PATH ="/operation/activity/order/Index";
+
 
     @Override
     protected String getViewBasePath() {
         return "/operation/activity/order/";
+    }
+
+    @Override
+    public String list(ActivityMessageListVo listVo, @FormModel("search") @Valid VActivityMessageSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
+        ActivityMessageListVo cmd = doList(listVo, form, result, model);
+        model.addAttribute("command", cmd);
+        if(ServletTool.isAjaxSoulRequest(request)) {
+            return BASE_PATH + "Partial";
+        }else{
+            return BASE_PATH ;
+        }
     }
 
     @Override
@@ -56,36 +71,26 @@ public class ActivityOrderController extends BaseCrudController<IActivityMessage
 
         //获取site18n信息
         Map<String, SiteI18n> siteI18nMap = Cache.getOperateActivityClassify();
-        Map<String, SiteI18n> tempMap = new LinkedHashMap<>();
-        for (Map.Entry<String, SiteI18n> entry : siteI18nMap.entrySet()) {
+        Map<String,SiteI18n> tempMap = new LinkedHashMap<>();
+        for (Map.Entry<String,SiteI18n> entry : siteI18nMap.entrySet()) {
             SiteI18n siteI18n = entry.getValue();
-            if (SessionManager.getLocale().toString().equals(siteI18n.getLocale())) {
-                tempMap.put(siteI18n.getKey(), siteI18n);
+            if ( SessionManager.getLocale().toString().equals(siteI18n.getLocale())) {
+                tempMap.put(siteI18n.getKey(),siteI18n);
             }
         }
-        model.addAttribute("siteI18nMap", tempMap);
+        model.addAttribute("siteI18nMap",tempMap);
+        model.addAttribute("siteI18ns", new ArrayList<>(tempMap.values()));
 
         Date current = new Date();
         listVo.getSearch().setStartTime(current);
         listVo.getSearch().setEndTime(current);
-        List<ActivityMessage> activityMessageList = getService().getProcessingActivity(listVo);
-        listVo.setResult(activityMessageList);
-        if (CollectionTool.isNotEmpty(activityMessageList)) {
-            Map<String, PlayerActivityMessage> activityMessageMap = Cache.getPcActivityMessages();
-            String locale = CommonContext.get().getLocale().toString();
-            for (ActivityMessage activityMessage : activityMessageList) {
-                PlayerActivityMessage playerActivityMessage = activityMessageMap.get(CacheKey.getCacheKey(String.valueOf(activityMessage.getId()), locale));
-                if (playerActivityMessage != null) {
-                    activityMessage.setActivityName(playerActivityMessage.getActivityName());
-                }
-            }
-        }
+        listVo.setResult(getService().getProcessingActivity(listVo));
         return listVo;
     }
 
-    @RequestMapping(value = "/saveOrder", method = RequestMethod.POST, headers = {"Content-type=application/json"})
+    @RequestMapping(value = "/saveOrder",method = RequestMethod.POST ,headers = {"Content-type=application/json"})
     @ResponseBody
-    public boolean saveActivityOrder(@RequestBody ActivityMessageOrderVo activityMessageVo, Model model) {
+    public boolean saveActivityOrder(@RequestBody ActivityMessageOrderVo activityMessageVo, Model model){
         activityMessageVo.setProperties(ActivityMessage.PROP_ORDER_NUM);
         getService().updateOrderList(activityMessageVo);
         Cache.refreshActivityMessages();

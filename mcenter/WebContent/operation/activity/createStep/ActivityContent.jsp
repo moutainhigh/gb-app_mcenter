@@ -123,12 +123,12 @@
                                     <div class="col-sm-5">
                                         <div class="form-group m-b-sm">
                                             <div id="activityAffiliatedImage${index.index}">
-                                                <c:if test="${not empty activityMessageI18ns[siteLang.value.language].activityAffiliated}">
-                                                    <img id="cc_${index.index}" src="${soulFn:getThumbPath(domain, activityMessageI18ns[siteLang.value.language].activityAffiliated,0,0)}" class="logo-size-h100" style="margin: 10px 0; width: auto;height: 130px;"/>
+                                                <c:if test="${not empty activityMessageI18ns[siteLang.value.language].activityCover}">
+                                                    <img id="cc_${index.index}" src="${soulFn:getThumbPath(domain, activityMessageI18ns[siteLang.value.language].activityCover,0,0)}" class="logo-size-h100" style="margin: 10px 0; width: auto;height: 130px;"/>
                                                 </c:if>
                                             </div>
-                                            <input id="activityAffiliated" bbb="${index.index}" class="file file2" type="file" target="activityMessageI18ns[${index.index}].activityAffiliated" accept="image/*" name="activityAffiliated">
-                                            <input type="hidden" class="activityAffiliated" bbb="${index.index}" name="activityMessageI18ns[${index.index}].activityAffiliated" value="${activityMessageI18ns[siteLang.value.language].activityAffiliated}">
+                                            <input id="activityAffiliated" bbb="${index.index}" class="file file2" type="file" target="activityMessageI18ns[${index.index}].activityCover" accept="image/*" name="activityAffiliated">
+                                            <input type="hidden" class="activityAffiliated" bbb="${index.index}" name="activityMessageI18ns[${index.index}].activityCover" value="${activityMessageI18ns[siteLang.value.language].activityCover}">
                                             <input type="hidden" value="${activityMessageI18ns[siteLang.value.language].activityAffiliated}">
                                         </div>
                                         <div id="activityAffiliatedImg${index.index}">
