@@ -139,21 +139,26 @@
             </c:if>
 
             <c:if test="${activityType.result.code eq 'effective_transaction' || activityType.result.code eq 'profit_loss' || activityType.result.code eq 'relief_fund'}">
-                <div class="form-group clearfix">
-                    <div class="clearfix save lgg-version lang_label">
-                        <ul class="nav nav-tabs">
-                        <label class="col-sm-3 al-right">${views.operation['指定游戏分类']}:</label>
-                            <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
-                                <li class="${index.index==0?'active':''}">
-                                    <span class="${index.index}" style="float: right"></span>
-                                    <a data-toggle="tab" href="#game_tab${index.index}" aria-expanded="${index.index==0?'true':'false'}">
-                                        ${gbFn:getGameTypeName(apiGametypeRelations.key)}
-                                    </a>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </div>
+                <div class="panel-body p-sm">
+                    <table class="table no-border table-desc-list">
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="text-right col-sm-3">${views.operation['指定游戏分类']}:</th>
+                                <%--<label class="col-sm-3 al-right">${views.operation['指定游戏分类']}:</label>--%>
+                                <td>
+                                    <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
+                                        <button class="btn <c:if test="${index.index ne 0}">btn-outline</c:if> btn-filter gameTypeButton" data-toggle="tab" href="#game_tab${index.index}" aria-expanded="${index.index==0?'true':'false'}">
+                                                ${gbFn:getGameTypeName(apiGametypeRelations.key)}
+                                            <span class="${index.index} badge m-l"></span>
+                                        </button>
+                                    </c:forEach>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+
+
                 <div class="panel-body">
                     <div class="tab-content">
                         <span class="col-sm-3"></span>
