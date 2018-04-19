@@ -422,7 +422,8 @@ public class HallVHallActivityMessageController extends HallActivityController<I
 
             if (success) {
                 updateSiteContentAudit();
-                Cache.refreshActivityMessages();// 发布和编辑刷新缓存
+                Cache.refreshMobileActivityMessages();
+                Cache.refreshPcActivityMessages();// 发布和编辑刷新缓存
                 Cache.refreshCurrentSitePageCache();
                 map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 //日志
