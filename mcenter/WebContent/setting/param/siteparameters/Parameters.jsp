@@ -236,6 +236,15 @@
                                                list="${appDomain}" listKey="domain" listValue="domain"/>
                                 </div>
                             </div>
+                            <br/>
+                            <div class="clearfix m-b">
+                                <div class="ft-bold pull-left line-hi34" style="width: 119px;text-align: right;">
+                                        ${views.setting_auto['下载地址']}：
+                                </div>
+                                <div class="col-xs-5">
+                                    <textarea name="downloadAddress" placeholder="${views.setting_auto['请输入下载地址']}" class="form-control">${downloadAddress}</textarea>
+                                </div>
+                            </div>
                             <label class="ft-bold col-sm-3 al-right line-hi34"
                                    style='margin-left: -52px;margin-top:-3px'>${views.setting_auto['按层级设置下载域名']}：</label><br/><br/>
                             <div class="tab-content col-sm-15" id="open-period-div">
