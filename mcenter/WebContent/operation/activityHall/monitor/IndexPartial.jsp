@@ -45,6 +45,12 @@
                 </td>
                 <td>
                     <a href="/player/playerView.html?search.id=${p.playerId}" nav-Target="mainFrame">${p.playerName}</a>
+                    <c:if test="${p.riskMarker == true}">
+                                <span data-content="${views.player_auto['危险层级']}"
+                                      data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                                      role="button" class="ico-lock co-red3" tabindex="0"
+                                      data-original-title="" title=""><i class="fa fa-warning"></i></span>
+                    </c:if>
                 </td>
                 <td>${p.activityName}</td>
                 <td>${soulFn:formatDateTz(p.applyTime,DateFormat.DAY_SECOND,timeZone)}</td>
@@ -60,9 +66,9 @@
                     </c:if>
                     <c:if test="${p.checkState eq '1'}">
                         <span class="label label-warning">${dicts.operation.activity_apply_check_status[p.checkState]}</span>
-                        <soul:button target="${root}/operation/vActivityPlayerApply/successDialog.html?code=${p.code}&ids=${p.id}&sumPerson=1"
+                        <soul:button target="${root}/activityHall/vActivityPlayerApply/successDialog.html?code=${p.code}&ids=${p.id}&sumPerson=1"
                                      text="${views.common['checkPass']}" opType="dialog" callback="callBackQuery"/>
-                        <soul:button target="${root}/operation/vActivityPlayerApply/failDialog.html?ids=${p.id}&search.activityName=${p.activityName}&search.activityTypeCode=${p.code}" text="${views.common['checkFailure']}" opType="dialog" callback="callBackQuery"/>
+                        <soul:button target="${root}/activityHall/vActivityPlayerApply/failDialog.html?ids=${p.id}&search.activityName=${p.activityName}&search.activityTypeCode=${p.code}" text="${views.common['checkFailure']}" opType="dialog" callback="callBackQuery"/>
 
                     </c:if>
                     <c:if test="${p.checkState eq '2'}">

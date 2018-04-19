@@ -28,6 +28,8 @@
     <import resource="classpath*:conf/service-boss-dubbo-consumer.xml"/>
     <!--boss end-->
 
+    <import resource="classpath*:conf/service-*-bean.xml" />
+    <import resource="classpath*:conf/service-*-provider.xml" />
     <import resource="classpath*:conf/cache-bean.xml"/>
     <import resource="classpath*:conf/soul-monitor-bean.xml"/>
     <import resource="classpath*:conf/notify-bean-aop.xml"/>

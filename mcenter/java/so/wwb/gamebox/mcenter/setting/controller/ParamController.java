@@ -21,6 +21,8 @@ import org.soul.model.msg.notice.enums.NoticePublishMethod;
 import org.soul.model.msg.notice.po.NoticeEmailInterface;
 import org.soul.model.msg.notice.vo.NoticeEmailInterfaceVo;
 import org.soul.model.msg.notice.vo.NoticeVo;
+import org.soul.model.security.privilege.po.SysUser;
+import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.model.sms_interface.po.SmsInterface;
 import org.soul.model.sms_interface.vo.SmsInterfaceListVo;
 import org.soul.model.sms_interface.vo.SmsInterfaceVo;
@@ -50,7 +52,10 @@ import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
-import so.wwb.gamebox.model.company.site.po.*;
+import so.wwb.gamebox.model.company.site.po.SiteConfineArea;
+import so.wwb.gamebox.model.company.site.po.SiteI18n;
+import so.wwb.gamebox.model.company.site.po.SiteLanguage;
+import so.wwb.gamebox.model.company.site.po.SiteOperateArea;
 import so.wwb.gamebox.model.company.site.vo.*;
 import so.wwb.gamebox.model.company.sys.po.SysDomain;
 import so.wwb.gamebox.model.company.sys.po.SysSite;
@@ -646,6 +651,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam encryption = ParamTool.getSysParam(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
         SysParam stationmaster = ParamTool.getSysParam(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
         SysParam phoneNumber = ParamTool.getSysParam(SiteParamEnum.EXTENSION_NUMBER_SETTING);
+        SysParam downloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_APP_DOWNLOAD_ADDRESS);
         String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManagerCommon.getSiteId());
         model.addAttribute("poone_number",phoneNumber);
         model.addAttribute("phone_url",phoneUrl);
@@ -660,6 +666,17 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         model.addAttribute("rankAppDomain",ServiceSiteTool.playerRankAppDomainService().search(new PlayerRankAppDomainListVo()));
         model.addAttribute("webtype", "5");
+        model.addAttribute("downloadAddress",downloadAddress != null ? downloadAddress.getParamValue():"");
+        //判断是否为站长主账号
+        if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
+            Integer masterId = SessionManager.getSiteUserId();
+            SysUserVo sysUserVo = new SysUserVo();
+            sysUserVo._setDataSourceId(Const.BASE_DATASOURCE_ID);
+            sysUserVo.getSearch().setId(masterId);
+            sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+            model.addAttribute("isMaster",true);
+            model.addAttribute("idCard",sysUserVo.getResult().getIdcard());
+        }
         return "/setting/param/siteparameters/Parameters";
     }
 
@@ -1481,5 +1498,35 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         Cache.refreshCurrentSitePageCache(SessionManager.getSiteId());
         return getVoMessage(siteParamVo);
     }
+
+    /**
+     * 设置站长（主账号）坐席号
+     *
+     * @param objectVo
+     * @return
+     */
+    @RequestMapping(value = "/saveMasterExtNo")
+    @ResponseBody
+    public Map saveExtNo(SysUserVo objectVo){
+        //判断是否为站长主账号
+        if (!UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
+            objectVo.setSuccess(false);
+            return getVoMessage(objectVo);
+        }
+        SysUserVo sysUserVo = new SysUserVo();
+        sysUserVo._setDataSourceId(Const.BASE_DATASOURCE_ID);
+        sysUserVo.getSearch().setId(SessionManager.getSiteUserId());
+        sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+        sysUserVo.getResult().setIdcard(objectVo.getResult().getIdcard());
+        sysUserVo.setProperties(SysUser.PROP_IDCARD);
+        sysUserVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
+        if(sysUserVo.isSuccess()){
+            SysUser sysUser = SessionManagerCommon.getUser();
+            sysUser.setIdcard(sysUserVo.getResult().getIdcard());
+            SessionManagerCommon.setUser(sysUser);
+        }
+        return getVoMessage(sysUserVo);
+    }
+
     //endregion your codes 3
 }

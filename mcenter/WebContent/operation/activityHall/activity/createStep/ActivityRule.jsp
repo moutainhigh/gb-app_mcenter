@@ -110,7 +110,7 @@
                             class="fa fa-question-circle"></i></span> ${views.operation['领取方式']}：</label>
 
                     <div class="col-sm-3 input-group">
-                        <gb:select name="activityRule.isAudit" value="${activityRule.isAudit || empty activtyRule.isAudit}" list="{'true':'${views.operation['前端申领（审核）']}','false':'${views.operation['前端申领（免审）']}'}" prompt="${views.common['pleaseSelect']}"/>
+                        <gb:select name="activityRule.isAudit" value="${activityRule.isAudit==false || empty activityRule.isAudit ?false:true}" list="{'false':'${views.operation['前端申领（免审）']}','true':'${views.operation['前端申领（审核）']}'}" prompt="${views.common['pleaseSelect']}"/>
                     </div>
                 </div>
             </c:if>
@@ -139,21 +139,26 @@
             </c:if>
 
             <c:if test="${activityType.result.code eq 'effective_transaction' || activityType.result.code eq 'profit_loss' || activityType.result.code eq 'relief_fund'}">
-                <div class="form-group clearfix">
-                    <div class="clearfix save lgg-version lang_label">
-                        <ul class="nav nav-tabs">
-                        <label class="col-sm-3 al-right">${views.operation['指定游戏分类']}:</label>
-                            <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
-                                <li class="${index.index==0?'active':''}">
-                                    <span class="${index.index}" style="float: right"></span>
-                                    <a data-toggle="tab" href="#game_tab${index.index}" aria-expanded="${index.index==0?'true':'false'}">
-                                        ${gbFn:getGameTypeName(apiGametypeRelations.key)}
-                                    </a>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </div>
+                <div class="panel-body p-sm">
+                    <table class="table no-border table-desc-list">
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="text-right col-sm-3">${views.operation['指定游戏分类']}:</th>
+                                <%--<label class="col-sm-3 al-right">${views.operation['指定游戏分类']}:</label>--%>
+                                <td>
+                                    <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
+                                        <button class="btn <c:if test="${index.index ne 0}">btn-outline</c:if> btn-filter gameTypeButton" data-toggle="tab" href="#game_tab${index.index}" aria-expanded="${index.index==0?'true':'false'}">
+                                                ${gbFn:getGameTypeName(apiGametypeRelations.key)}
+                                            <span class="${index.index} badge m-l"></span>
+                                        </button>
+                                    </c:forEach>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+
+
                 <div class="panel-body">
                     <div class="tab-content">
                         <span class="col-sm-3"></span>
@@ -197,22 +202,37 @@
                     <span tabindex="0" class=" help-popover m-l-sm"
                           role="button" data-container="body"
                           data-toggle="popover" data-trigger="focus"
-                          data-placement="top" data-html="true" data-content="${views.operation['Activity.step.depositWay.tips']}"
+                          data-placement="top" data-html="true"
+                          data-content="${views.operation['Activity.step.depositWay.tips']}"
                           data-original-title="" title=""><i
-                            class="fa fa-question-circle"></i></span> ${views.operation['Activity.step.depositWay']}</label>
+                            class="fa fa-question-circle"></i></span> ${views.operation['Activity.step.depositWay']}
+                    </label>
                     <div class="col-sm-5 input-group">
                         <c:forEach items="${activityDepositWays}" var="dw">
                             <label class="m-r-sm">
-                                <input type="checkbox" class="i-checks" name="activityRule.depositWay" value="${dw.code}" ${fn:contains(activityRule.depositWay,dw.code) ? "checked":""}/>${views.operation['Activity.step.depositWay.'.concat(dw.code)]}
+                                <input type="checkbox" class="i-checks" name="activityRule.depositWay"
+                                       value="${dw.code}" ${fn:contains(activityRule.depositWay,dw.code) ? "checked":""}/>${views.operation['Activity.step.depositWay.'.concat(dw.code)]}
                             </label>
                         </c:forEach>
                         <p tipsName="activityRule.depositWay-tips"></p>
                     </div>
                 </div>
+
+                <div class="clearfix m-t-md line-hi34">
+                    <div class="col-sm-5 col-sm-offset-3">
+                        <c:if test="${ activityType.result.code ne 'deposit_send' }">
+                            <soul:button target="systemRecommendCase" text="" opType="function"
+                                         cssClass="btn btn-info btn-addon m-t">
+                                <i class="fa"></i><span class="hd">${views.operation['系统推荐方案']}</span>
+                            </soul:button>
+                        </c:if>
+                    </div>
+                </div>
+                <br>
             </c:if>
             <c:if test="${activityType.result.code ne 'back_water'}">
                 <input type="hidden" name="isAllRank" value="${isAllRank}">
-                <input type="hidden" name="rank" id="prank" value="${(!isAllRank and type eq 'edit')?"":activityRule.rank}"/>
+                <input type="hidden" name="rank" id="prank" value="${(type eq 'edit')?activityRule.rank:''}"/>
                 <c:set value="${activityRule.rank}," var="bb"></c:set>
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.rank']}：</label>

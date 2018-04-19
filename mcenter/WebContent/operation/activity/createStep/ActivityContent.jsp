@@ -119,7 +119,7 @@
                                     <div class="col-sm-5"><input bbb="${index.index}" id="title${index.index}" type="text" name="activityMessageI18ns[${index.index}].activityName" class="form-control title" placeholder="${views.operation['Activity.step.message1']}" value="${activityMessageI18ns[siteLang.value.language].activityName}"></div>
                                 </div>
                                 <div class="clearfix m-t-md" id="secondary${index.index}">
-                                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
+                                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.affiliated']}：</label>
                                     <div class="col-sm-5">
                                         <div class="form-group m-b-sm">
                                             <div id="activityAffiliatedImage${index.index}">

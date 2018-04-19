@@ -619,10 +619,10 @@
                                     <c:if test="${lang.language eq i18n.activityVersion}">
                                         <div class="${status.index==0?'':'hide'} contentDiv" id="content${status.index}">
                                             <div class="clearfix m-l-lg line-hi34">
-                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.activityCover']}：</label>
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.affiliated']}：</label>
                                                 <div class="col-sm-5">
-                                                    <img data-src="${soulFn:getImagePath(domain,i18n.activityCover)}"
-                                                         src="${soulFn:getThumbPath(domain,i18n.activityCover,630,350)}" alt="${i18n.activityName}">
+                                                    <img data-src="${soulFn:getImagePath(domain,i18n.activityAffiliated)}"
+                                                         src="${soulFn:getThumbPath(domain,i18n.activityAffiliated,630,350)}" alt="${i18n.activityName}">
                                                 </div>
                                             </div>
                                             <div class="clearfix m-l-lg line-hi34">
@@ -648,10 +648,10 @@
                                     <c:if test="${lang.language eq i18n.activityVersion}">
                                         <div class="hide contentDiv" id="content${status.index+length}">
                                             <div class="clearfix m-l-lg line-hi34">
-                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.activityCover']}：</label>
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.affiliated']}：</label>
                                                 <div class="col-sm-5">
-                                                    <img data-src="${soulFn:getImagePath(domain,i18n.activityCover)}"
-                                                         src="${soulFn:getThumbPath(domain,i18n.activityCover,630,350)}" alt="${i18n.activityName}">
+                                                    <img data-src="${soulFn:getImagePath(domain,i18n.activityAffiliated)}"
+                                                         src="${soulFn:getThumbPath(domain,i18n.activityAffiliated,630,350)}" alt="${i18n.activityName}">
                                                 </div>
                                             </div>
                                             <div class="clearfix m-l-lg line-hi34">
