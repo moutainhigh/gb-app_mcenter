@@ -49,7 +49,7 @@
                 <div class="clearfix m-b">
                     <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">${views.setting_auto['接口签名']}：
                     </div>
-                    <div class="col-xs-5"><input type="text" name="sms.signature"
+                    <div class="col-xs-5"><input type="text" name="sms.signature" maxlength="30"
                                                  value="${smsInterfaceVo.result.signature}"
                                                  class="form-control"></div>
                 </div>
