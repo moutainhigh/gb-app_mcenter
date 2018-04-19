@@ -366,6 +366,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
                 addressParamVo.getResult().setParamType(SiteParamEnum.SETTING_APP_DOWNLOAD_ADDRESS.getType());
                 addressParamVo.getResult().setParamCode(SiteParamEnum.SETTING_APP_DOWNLOAD_ADDRESS.getCode());
                 addressParamVo.getResult().setParamValue(downloadAddress);
+                addressParamVo.getResult().setActive(true);
                 addressParamVo = ServiceTool.getSysParamService().insert(addressParamVo);
             }
         }
