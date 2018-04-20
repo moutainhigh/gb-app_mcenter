@@ -68,13 +68,14 @@
             <artifactId>soul-dubbo-provider</artifactId>
             <version>${soul.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.soul</groupId>
-            <artifactId>soul-dubbo-provider</artifactId>
-            <version>${soul.version}</version>
-            <classifier>javadoc</classifier>
-            <scope>provided</scope>
-        </dependency>
+        <!--Water note it-->
+        <!--<dependency>-->
+            <!--<groupId>org.soul</groupId>-->
+            <!--<artifactId>soul-dubbo-provider</artifactId>-->
+            <!--<version>${soul.version}</version>-->
+            <!--<classifier>javadoc</classifier>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
         <!--Soul依赖组件-->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
