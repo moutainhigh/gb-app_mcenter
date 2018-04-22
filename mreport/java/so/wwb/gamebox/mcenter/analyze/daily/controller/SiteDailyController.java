@@ -1,12 +1,12 @@
 package so.wwb.gamebox.mcenter.analyze.daily.controller;
 
-import com.alibaba.fastjson.JSON;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
+import so.wwb.gamebox.mcenter.tools.DataTransTool;
 import so.wwb.gamebox.model.site.report.po.RealtimeProfile;
 import so.wwb.gamebox.model.site.report.vo.OperationSummaryVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileListVo;
@@ -43,7 +43,11 @@ public class SiteDailyController {
     public String operationSummary(HttpServletRequest request, Model model) {
         OperationSummaryVo o = new OperationSummaryVo();
         o = ServiceSiteTool.operationSummaryService().getOperationSummaryData(o);
-        model.addAttribute("lastDifferenceData", JSON.toJSONString(o.getEntities()));
+        model.addAttribute("balanceBarChartData", JsonTool.toJson(o.getBalanceBarChart()));
+        model.addAttribute("effectiveBarChartData", JsonTool.toJson(o.getEffectiveBarChart()));
+        model.addAttribute("operationSummaryData", JsonTool.toJson(o.getEntities()));
+        model.addAttribute("balanceSummaryData", JsonTool.toJson(DataTransTool.transBalanceObjToMap(o.getEntities())));
+        model.addAttribute("columnsDateFieldList", JsonTool.toJson(DataTransTool.extractDateFields(o.getEntities())));
         return OPERATION_SUMMARY;
     }
 
