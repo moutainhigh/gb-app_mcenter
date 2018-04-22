@@ -423,7 +423,9 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
 
             if (success) {
                 updateSiteContentAudit();
-                Cache.refreshActivityMessages();// 发布和编辑刷新缓存
+                //Cache.refreshActivityMessages();// 发布和编辑刷新缓存
+                Cache.refreshPcActivityMessages();
+                Cache.refreshMobileActivityMessages();
                 Cache.refreshCurrentSitePageCache();
                 map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 //日志
