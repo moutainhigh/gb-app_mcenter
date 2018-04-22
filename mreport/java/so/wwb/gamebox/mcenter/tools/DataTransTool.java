@@ -29,10 +29,9 @@ public class DataTransTool {
             withDrawMap.put("name", "当日取现");
             balanceMap.put("name", "存取差额");
             for (OperationSummary item : list) {
-                String date = getDay(item.getStaticDate());
-                depositMap.put(date, item.getDepositAmount());
-                withDrawMap.put(date, item.getWithdrawalAmount());
-                balanceMap.put(date, item.getDepositAmount() - item.getWithdrawalAmount());
+                depositMap.put(item.getStaticDay(), item.getDepositAmount());
+                withDrawMap.put(item.getStaticDay(), item.getWithdrawalAmount());
+                balanceMap.put(item.getStaticDay(), item.getBalanceAmount());
             }
             mapList.add(depositMap);
             mapList.add(withDrawMap);
@@ -51,15 +50,10 @@ public class DataTransTool {
         if (CollectionTool.isNotEmpty(list)) {
             List<String> fields = new ArrayList<String>();
             for (OperationSummary summary : list) {
-                fields.add(getDay(summary.getStaticDate()));
+                fields.add(summary.getStaticDay());
             }
             return fields;
         }
         return null;
-    }
-
-    private static String getDay(Date date) {
-        String str = DateTool.formatDate(date, DateTool.yyyy_MM_dd);
-        return str.substring(str.indexOf("-")+1, str.length()).replace("-", ".");
     }
 }
