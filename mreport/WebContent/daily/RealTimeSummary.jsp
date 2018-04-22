@@ -35,8 +35,8 @@
                                     <p class="info-2">${lastRealtimeProfile.countVisitor}</p>
                                     <p class="info-3">较昨日同时段</p>
                                     <p class='info-4'>
-                                        <c:set var="isPositive" value="${Vo.compareVisitor >= 0}"/>
-                                        <span style="color: ${isPositive ? 'red' : 'green'}">${isPositive ? '↑' : '↓'}</span>
+                                        <c:set var="compare" value="${Vo.compareVisitor}"/>
+                                        <span style="color: ${compare == 0 ? 'blue' : (compare > 0 ? 'red' : 'green')}">${compare == 0 ? '持平' : (compare > 0 ? '↑' : '↓')}</span>
                                         ${Vo.getAbs(Vo.compareVisitor)}%
                                     </p>
                                 </div>
@@ -51,7 +51,7 @@
                                     </p>
                                 </div>
                                 <div class="swiper-slide" realtimeGroup="register">
-                                    <p class="info-1"><i class="what">?</i><b>实时总投注</b></p>
+                                    <p class="info-1"><i class="what">?</i><b>实时总注册</b></p>
                                     <p class="info-2">${lastRealtimeProfile.countRegister}</p>
                                     <p class="info-3">较昨日同时段</p>
                                     <p class='info-4'>
@@ -61,7 +61,7 @@
                                     </p>
                                 </div>
                                 <div class="swiper-slide" realtimeGroup="effcTransaction">
-                                    <p class="info-1"><i class="what">?</i><b>实时总注册</b></p>
+                                    <p class="info-1"><i class="what">?</i><b>实时总投注</b></p>
                                     <p class="info-2">${lastRealtimeProfile.countEffcTransaction}</p>
                                     <p class="info-3">较昨日同时段</p>
                                     <p class='info-4'>
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="swiper-slide" realtimeGroup="realtimeProfitLoss">
                                     <p class="info-1"><i class="what">?</i><b>实时总损益</b></p>
-                                    <p class="info-2">${lastRealtimeProfile.countRealtimeProfitLoss}</p>
+                                    <p class="info-2">${lastRealtimeProfile.realtimeProfitLoss}</p>
                                     <p class="info-3">较昨日同时段</p>
                                     <p class='info-4'>
                                         <c:set var="isPositive" value="${Vo.compareRealtimeProfitLoss >= 0}"/>
@@ -130,14 +130,14 @@
                             </tr>
                             <c:forEach items="${realtimeProfileVos}" var="item" varStatus="index">
                                 <tr>
-                                    <td>${soulFn:formatDateTz(item.result.createTime, DateFormat.DAY,timeZone)}</td>
+                                    <td>${soulFn:formatDateTz(item.statisticsDate, DateFormat.DAY,timeZone)}</td>
                                     <td>${item.visitorAll}</td>
                                     <td>${item.activeAll}</td>
                                     <td>${item.registerAll}</td>
                                     <td>${item.depositAll}</td>
                                     <td>${item.effcTransactionAll}</td>
                                     <td>${item.onlineAll}</td>
-                                    <td>${item.result.countRealtimeProfitLoss}</td>
+                                    <td>${item.realtimeProfitLossAll}</td>
                                 </tr>
                             </c:forEach>
                         </table>
