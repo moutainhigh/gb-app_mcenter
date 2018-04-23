@@ -93,8 +93,8 @@ public class HallActivityOrderController extends BaseCrudController<IActivityMes
     public boolean saveActivityOrder(@RequestBody ActivityMessageOrderVo activityMessageVo, Model model){
         activityMessageVo.setProperties(ActivityMessage.PROP_ORDER_NUM);
         getService().updateOrderList(activityMessageVo);
-        Cache.refreshActivityMessages();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshMobileActivityMessages();
+        Cache.refreshPcActivityMessages();
         return activityMessageVo.isSuccess();
 
     }
