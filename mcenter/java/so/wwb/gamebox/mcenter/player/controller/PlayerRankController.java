@@ -236,7 +236,7 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
         if (!result.hasErrors()) {
             vo = this.getService().savePayLimit(vo);
             if (vo.isSuccess()) {
-                addLog(request,"rank.pay.limit");
+                addLog(request,vo,"rank.pay.limit");
             }
         } else {
             vo.setSuccess(false);
@@ -250,10 +250,13 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
      * @param request
      *
      */
-    private void addLog(HttpServletRequest request,String type) {
+    private void addLog(HttpServletRequest request,PlayerRankVo vo,String type) {
+        vo.getSearch().setId(vo.getResult().getId());
+        vo = ServiceSiteTool.playerRankService().get(vo);
         LogVo logVo = new LogVo();
         BaseLog baseLog = logVo.addBussLog();
         baseLog.setDescription(type);
+        baseLog.addParam(vo.getResult().getRankName());
         request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
     }
     //endregion your codes 2
@@ -443,7 +446,7 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
         array[18] = PlayerRank.PROP_IS_WITHDRAW_FEE_ZERO_RESET;
         objectVo.setProperties(array);
         this.getService().updateOnly(objectVo);
-        addLog(request,"rank.withdraw.limit");
+        addLog(request,objectVo,"rank.withdraw.limit");
         return this.getVoMessage(objectVo);
     }
     @RequestMapping(value = "/checkUserNameExist")
