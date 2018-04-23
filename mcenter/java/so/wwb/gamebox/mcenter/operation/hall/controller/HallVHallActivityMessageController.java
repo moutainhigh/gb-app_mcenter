@@ -151,7 +151,8 @@ public class HallVHallActivityMessageController extends HallActivityController<I
         activityMessageVo = ServiceActivityTool.activityMessageService().updateOnly(activityMessageVo);
         HashMap map = new HashMap(2, 1f);
         if (activityMessageVo.isSuccess()) {
-            Cache.refreshActivityMessages();
+            Cache.refreshMobileActivityMessages();
+            Cache.refreshPcActivityMessages();
             Cache.refreshCurrentSitePageCache();
             map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else {
@@ -498,7 +499,8 @@ public class HallVHallActivityMessageController extends HallActivityController<I
         /*activityMessageVo.setProperties(ActivityMessage.PROP_IS_DISPLAY);
         activityMessageVo = ServiceSiteTool.activityMessageService().updateOnly(activityMessageVo);
         */
-        Cache.refreshActivityMessages(SessionManager.getSiteId());
+        Cache.refreshMobileActivityMessages();
+        Cache.refreshPcActivityMessages();
         Cache.refreshCurrentSitePageCache();
         Map map = new HashMap();
         map.put("state", activityMessageVo.isSuccess());
