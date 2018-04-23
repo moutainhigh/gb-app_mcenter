@@ -118,13 +118,13 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
         if (summary != null) {
             OperationSummaryChartVo item1 = new OperationSummaryChartVo();
             item1.setNumerical(summary.getDepositAmount());
-            item1.setTips(getDay(summary.getStaticDate()));
+            item1.setTips(summary.getStaticDay());
             item1.setTitle("存款金额");
             result.getBalanceBarChart().add(item1);
 
             OperationSummaryChartVo item2 = new OperationSummaryChartVo();
             item2.setNumerical(summary.getWithdrawalAmount());
-            item2.setTips(getDay(summary.getStaticDate()));
+            item2.setTips(summary.getStaticDay());
             item2.setTitle("取现金额");
             result.getBalanceBarChart().add(item2);
 
@@ -146,13 +146,13 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
         if (summary1 != null && summary2 != null) {
             OperationSummaryChartVo item1 = new OperationSummaryChartVo();
             item1.setNumerical(summary1.getEffectiveTransactionAll());
-            item1.setTitle(getDay(summary1.getStaticDate()));
+            item1.setTitle(summary1.getStaticDay());
             item1.setTips("有效投注额");
             result.getEffectiveBarChart().add(item1);
 
             OperationSummaryChartVo item2 = new OperationSummaryChartVo();
             item2.setNumerical(summary2.getEffectiveTransactionAll());
-            item2.setTitle(getDay(summary2.getStaticDate()));
+            item2.setTitle(summary2.getStaticDay());
             item2.setTips("有效投注额");
             result.getEffectiveBarChart().add(item2);
 
@@ -180,10 +180,5 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
             }
         }
         return null;
-    }
-
-    private String getDay(Date date) {
-        String str = DateTool.formatDate(date, DateTool.yyyy_MM_dd);
-        return str.substring(str.indexOf("-")+1, str.length()).replace("-", ".");
     }
 }
