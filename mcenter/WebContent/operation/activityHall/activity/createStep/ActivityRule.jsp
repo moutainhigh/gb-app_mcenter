@@ -148,7 +148,7 @@
                                 <td>
                                     <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
                                         <button class="btn <c:if test="${index.index ne 0}">btn-outline</c:if> btn-filter gameTypeButton" data-toggle="tab" href="#game_tab${index.index}" aria-expanded="${index.index==0?'true':'false'}">
-                                                ${gbFn:getGameTypeName(apiGametypeRelations.key)}
+                                                ${dicts.game.game_type[apiGametypeRelations.key]}
                                             <span class="${index.index} badge m-l"></span>
                                         </button>
                                     </c:forEach>
