@@ -80,8 +80,8 @@ public class ActivityContentStepForm implements IForm {
         this.activityMessage_activityClassifyKey = activityMessage_activityClassifyKey;
     }
 
-    @NotBlank(message = "活动封面不能为空")
-    @Comment("活动附图")
+    /*@NotBlank(message = "活动封面不能为空")
+    @Comment("活动附图")*/
     public String getActivityMessageI18ns$$_activityCover() {
         return activityMessageI18ns$$_activityCover;
     }
@@ -112,8 +112,8 @@ public class ActivityContentStepForm implements IForm {
         this.activityRule_rank = activityRule_rank;
     }
 
-    /*@NotBlank(message = "operation_auto.活动附图不能为空")
-    @Comment("活动封面")*/
+    @NotBlank(message = "operation_auto.活动封面不能为空")
+    @Comment("活动封面")
     public String getActivityMessageI18ns$$_activityAffiliated() {
         return activityMessageI18ns$$_activityAffiliated;
     }

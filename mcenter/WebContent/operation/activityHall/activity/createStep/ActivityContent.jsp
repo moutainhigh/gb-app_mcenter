@@ -307,7 +307,7 @@
 
                                 <%--主图--%>
                                 <div class="clearfix m-t-md" id="main${index.index+length}">
-                                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
+                                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.affiliated']}：</label>
                                     <div class="col-sm-5">
                                         <div class="form-group m-b-sm">
                                             <div id="activityAffiliatedImage${index.index+length}">
