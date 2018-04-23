@@ -15,34 +15,6 @@ import java.util.*;
 public class DataTransTool {
 
     /**
-     * 存取差额柱状图数据转换
-     * @param list
-     * @return
-     */
-    public static List<Map<String, Object>> transBalanceObjToMap(List<OperationSummary> list) {
-        if (CollectionTool.isNotEmpty(list)) {
-            List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
-            Map<String, Object> depositMap = new HashMap<String, Object>();//存款集合
-            Map<String, Object> withDrawMap = new HashMap<String, Object>();//取现集合
-            Map<String, Object> balanceMap = new HashMap<String, Object>();//差额集合
-            depositMap.put("name", "当日存款");
-            withDrawMap.put("name", "当日取现");
-            balanceMap.put("name", "存取差额");
-            for (OperationSummary item : list) {
-                String date = getDay(item.getStaticDate());
-                depositMap.put(date, item.getDepositAmount());
-                withDrawMap.put(date, item.getWithdrawalAmount());
-                balanceMap.put(date, item.getDepositAmount() - item.getWithdrawalAmount());
-            }
-            mapList.add(depositMap);
-            mapList.add(withDrawMap);
-            mapList.add(balanceMap);
-            return mapList;
-        }
-        return null;
-    }
-
-    /**
      * 总登录次数柱状图数据转换
      * @param list
      * @return
@@ -66,22 +38,6 @@ public class DataTransTool {
             mapList.add(phoneLoginMap);
             mapList.add(CountLoginMap);
             return mapList;
-        }
-        return null;
-    }
-
-    /**
-     * 抽取日期
-     * @param
-     * @param list
-     */
-    public static List<String> extractDateFields(List<OperationSummary> list) {
-        if (CollectionTool.isNotEmpty(list)) {
-            List<String> fields = new ArrayList<String>();
-            for (OperationSummary summary : list) {
-                fields.add(getDay(summary.getStaticDate()));
-            }
-            return fields;
         }
         return null;
     }

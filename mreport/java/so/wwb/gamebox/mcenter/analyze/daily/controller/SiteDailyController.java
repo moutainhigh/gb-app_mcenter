@@ -43,11 +43,10 @@ public class SiteDailyController {
     public String operationSummary(HttpServletRequest request, Model model) {
         OperationSummaryVo o = new OperationSummaryVo();
         o = ServiceSiteTool.operationSummaryService().getOperationSummaryData(o);
-        model.addAttribute("balanceBarChartData", JsonTool.toJson(o.getBalanceBarChart()));
-        model.addAttribute("effectiveBarChartData", JsonTool.toJson(o.getEffectiveBarChart()));
+        model.addAttribute("balanceGaugeChartData", JsonTool.toJson(o.getBalanceGaugeChart()));
+        model.addAttribute("effectiveGaugeChartData", JsonTool.toJson(o.getEffectiveGaugeChart()));
+        model.addAttribute("profitLossGaugeChartData", JsonTool.toJson(o.getProfitLossGaugeChart()));
         model.addAttribute("operationSummaryData", JsonTool.toJson(o.getEntities()));
-        model.addAttribute("balanceSummaryData", JsonTool.toJson(DataTransTool.transBalanceObjToMap(o.getEntities())));
-        model.addAttribute("columnsDateFieldList", JsonTool.toJson(DataTransTool.extractDateFields(o.getEntities())));
         model.addAttribute("loginCountData", JsonTool.toJson(DataTransTool.loginCountObjToMap(o.getEntities())));
         return OPERATION_SUMMARY;
     }

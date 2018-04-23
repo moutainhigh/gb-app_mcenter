@@ -116,16 +116,14 @@
         </div>
     </div>
 </div>
-<%--存款差额玉珏图表数据--%>
-<div style="display: none;" id="balanceBarChartData">${balanceBarChartData}</div>
-<%--有效投注额玉珏图表数据--%>
-<div style="display: none;" id="effectiveBarChartData">${effectiveBarChartData}</div>
-<%--存款差额历史数据--%>
-<div style="display: none;" id="balanceSummaryData">${balanceSummaryData}</div>
+<%--存款差额仪表图数据--%>
+<div style="display: none;" id="balanceGaugeChartData">${balanceGaugeChartData}</div>
+<%--有效投注额仪表图数据--%>
+<div style="display: none;" id="effectiveGaugeChartData">${effectiveGaugeChartData}</div>
+<%--损益仪表图数据--%>
+<div style="display: none;" id="profitLossGaugeChartData">${profitLossGaugeChartData}</div>
 <%--历史运营统计数据--%>
 <div style="display: none;" id="operationSummaryData">${operationSummaryData}</div>
-<%--柱状图X轴日期--%>
-<div style="display: none;" id="columnsDateFieldList">${columnsDateFieldList}</div>
 <%--登录次数柱状图--%>
 <div style="display: none;" id="loginCountData">${loginCountData}</div>
 <%--反水金额柱状图--%>

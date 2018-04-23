@@ -34,8 +34,9 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
         OperationSummaryVo result = new OperationSummaryVo();
         List<OperationSummary> list = summaryMapper.getOperationSummaryOfDays();
         if (CollectionTool.isNotEmpty(list)) {
-            generateBalanceBarChartData(result, list);
-            generateEffectiveBarChartData(result, list);
+            generateBalanceGaugeChartData(result, list);
+            generateEffectiveGaugeChartData(result, list);
+            generateProfitLossGaugeChartData(result, list);
         }
         result.getEntities().addAll(list);
         return result;
@@ -108,39 +109,36 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
     }
 
     /**
-     * 取现差额玉珏图数据
+     * 取现差额仪表图数据
      * @param result
      * @param list
      * @return
      */
-    protected void generateBalanceBarChartData(OperationSummaryVo result, List<OperationSummary> list) {
-        OperationSummary summary = getWhichDayData(list, this.DAY1);
-        if (summary != null) {
+    protected void generateBalanceGaugeChartData(OperationSummaryVo result, List<OperationSummary> list) {
+        OperationSummary summary1 = getWhichDayData(list, DAY1);
+        OperationSummary summary2 = getWhichDayData(list, DAY2);
+        if (summary1 != null && summary2 != null) {
             OperationSummaryChartVo item1 = new OperationSummaryChartVo();
-            item1.setNumerical(summary.getDepositAmount());
-            item1.setTips(summary.getStaticDay());
-            item1.setTitle("存款金额");
-            result.getBalanceBarChart().add(item1);
+            item1.setNumerical(summary1.getBalanceAmount());
+            item1.setTitle(summary1.getStaticDay());
+            item1.setTips("取现差额");
+            result.getBalanceGaugeChart().add(item1);
 
             OperationSummaryChartVo item2 = new OperationSummaryChartVo();
-            item2.setNumerical(summary.getWithdrawalAmount());
-            item2.setTips(summary.getStaticDay());
-            item2.setTitle("取现金额");
-            result.getBalanceBarChart().add(item2);
-
-            //计算占比
-            item1.setPercent(item1.getNumerical() / (item1.getNumerical() + item2.getNumerical()));
-            item2.setPercent(item2.getNumerical() / (item1.getNumerical() + item2.getNumerical()));
+            item2.setNumerical(summary2.getWithdrawalAmount());
+            item2.setTitle(summary1.getStaticDay());
+            item2.setTips("取现差额");
+            result.getBalanceGaugeChart().add(item2);
         }
     }
 
     /**
-     * 有效投注额玉珏图数据
+     * 有效投注额仪表图数据
      * @param result
      * @param list
      * @return
      */
-    protected void generateEffectiveBarChartData(OperationSummaryVo result, List<OperationSummary> list) {
+    protected void generateEffectiveGaugeChartData(OperationSummaryVo result, List<OperationSummary> list) {
         OperationSummary summary1 = getWhichDayData(list, DAY1);
         OperationSummary summary2 = getWhichDayData(list, DAY2);
         if (summary1 != null && summary2 != null) {
@@ -148,17 +146,37 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
             item1.setNumerical(summary1.getEffectiveTransactionAll());
             item1.setTitle(summary1.getStaticDay());
             item1.setTips("有效投注额");
-            result.getEffectiveBarChart().add(item1);
+            result.getEffectiveGaugeChart().add(item1);
 
             OperationSummaryChartVo item2 = new OperationSummaryChartVo();
             item2.setNumerical(summary2.getEffectiveTransactionAll());
             item2.setTitle(summary2.getStaticDay());
             item2.setTips("有效投注额");
-            result.getEffectiveBarChart().add(item2);
+            result.getEffectiveGaugeChart().add(item2);
+        }
+    }
 
-            //计算占比
-            item1.setPercent(item1.getNumerical() / (item1.getNumerical() + item2.getNumerical()));
-            item2.setPercent(item2.getNumerical() / (item1.getNumerical() + item2.getNumerical()));
+    /**
+     * 损益仪表图数据
+     * @param result
+     * @param last
+     * @return
+     */
+    protected void generateProfitLossGaugeChartData(OperationSummaryVo result, List<OperationSummary> list) {
+        OperationSummary summary1 = getWhichDayData(list, DAY1);
+        OperationSummary summary2 = getWhichDayData(list, DAY2);
+        if (summary1 != null && summary2 != null) {
+            OperationSummaryChartVo item1 = new OperationSummaryChartVo();
+            item1.setNumerical(summary1.getTransactionProfitLoss());
+            item1.setTitle(summary1.getStaticDay());
+            item1.setTips("损益");
+            result.getProfitLossGaugeChart().add(item1);
+
+            OperationSummaryChartVo item2 = new OperationSummaryChartVo();
+            item2.setNumerical(summary2.getTransactionProfitLoss());
+            item2.setTitle(summary2.getStaticDay());
+            item2.setTips("损益");
+            result.getProfitLossGaugeChart().add(item2);
         }
     }
 
@@ -179,6 +197,23 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
                 return item;
             }
         }
-        return null;
+        OperationSummary defaultR = new OperationSummary();
+        defaultR.setBalanceAmount(0D);
+        defaultR.setEffectiveTransactionAll(0D);
+        defaultR.setTransactionProfitLoss(0D);
+        if (this.DAY1.equalsIgnoreCase(flag)) {
+            Date date = DateTool.addDays(new Date(), -1);
+            defaultR.setStaticDay(getDay(date));
+        }
+        if (this.DAY2.equalsIgnoreCase(flag)) {
+            Date date = DateTool.addDays(new Date(), -2);
+            defaultR.setStaticDay(getDay(date));
+        }
+        return defaultR;
+    }
+
+    private static String getDay(Date date) {
+        String str = DateTool.formatDate(date, DateTool.yyyy_MM_dd);
+        return str.substring(str.indexOf("-")+1, str.length()).replace("-", ".");
     }
 }
