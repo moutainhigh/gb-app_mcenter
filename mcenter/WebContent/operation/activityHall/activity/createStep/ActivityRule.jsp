@@ -231,6 +231,17 @@
                 </div>
                 <br>
             </c:if>
+            <c:if test="${ activityType.result.code eq 'regist_send'}">
+            <div class="clearfix m-t-md line-hi34">
+                <div class="col-sm-5 col-sm-offset-3">
+                        <soul:button target="registSystemRecommendCase" text="" opType="function" cssClass="btn btn-info btn-addon pull-left m-t">
+                            <i class="fa fa-plus"></i><span class="hd">${views.operation['系统推荐方案']}</span>
+                        </soul:button>
+                </div>
+            </div>
+            <br>
+            </c:if>
+            <br>
             <c:if test="${activityType.result.code ne 'back_water'}">
                 <input type="hidden" name="isAllRank" value="${isAllRank}">
                 <input type="hidden" name="rank" id="prank" value="${(type eq 'edit')?activityRule.rank:''}"/>
