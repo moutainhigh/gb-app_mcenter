@@ -66,11 +66,18 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
-<div style="display: none;" id="lastDifferenceData">${lastDifferenceData}</div>
+<%--存款差额玉珏图表数据--%>
+<div style="display: none;" id="balanceBarChartData">${balanceBarChartData}</div>
+<%--有效投注额玉珏图表数据--%>
+<div style="display: none;" id="effectiveBarChartData">${effectiveBarChartData}</div>
+<%--存款差额历史数据--%>
+<div style="display: none;" id="balanceSummaryData">${balanceSummaryData}</div>
+<%--历史运营统计数据--%>
+<div style="display: none;" id="operationSummaryData">${operationSummaryData}</div>
+<%--柱状图X轴日期--%>
+<div style="display: none;" id="columnsDateFieldList">${columnsDateFieldList}</div>
 <script type="text/javascript">
     curl(['site/daily/OperationSummary'], function (OperationSummary) {
         new OperationSummary();

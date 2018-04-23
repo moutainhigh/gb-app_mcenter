@@ -43,11 +43,11 @@
                     <div class="col-sm-5">
                     <c:choose>
                         <c:when test="${isPicType eq false}">
-                            <a nav-target="mainFrame"  href="/cttFloatPic/edit.html?id=${id}&editType=2">${views.operation_auto['已设置']}</a>
+                            <a nav-target="mainFrame"  href="/cttFloatPic/edit.html?id=${id}&editType=2&floatType=activity">${views.operation_auto['已设置']}</a>
                             &nbsp;&nbsp;<span>${views.operation_auto['编辑抢红包浮动图']}</span>
                         </c:when>
                         <c:otherwise>
-                            <a nav-target="mainFrame"  href="/cttFloatPic/create.html?editType=1">${views.operation_auto['未设置']}</a>
+                            <a nav-target="mainFrame"  href="/cttFloatPic/create.html?editType=1&floatType=activity">${views.operation_auto['未设置']}</a>
                             &nbsp;&nbsp;<span>${views.operation_auto['设置抢红包浮动图']}</span>
                         </c:otherwise>
                     </c:choose>

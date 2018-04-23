@@ -86,12 +86,12 @@
                         <c:choose>
                             <c:when test="${isPicType eq false}">
                                 <a nav-target="mainFrame"
-                                   href="/cttFloatPic/edit.html?id=${id}&editType=2">${views.operation_auto['已设置']}</a>
+                                   href="/cttFloatPic/edit.html?id=${id}&editType=2&floatType=activity">${views.operation_auto['已设置']}</a>
                                 &nbsp;&nbsp;<span>${views.operation_auto['编辑抢红包浮动图']}</span>
                             </c:when>
                             <c:otherwise>
                                 <a nav-target="mainFrame"
-                                   href="/cttFloatPic/create.html?editType=1">${views.operation_auto['未设置']}</a>
+                                   href="/cttFloatPic/create.html?editType=1&floatType=activity">${views.operation_auto['未设置']}</a>
                                 &nbsp;&nbsp;<span>${views.operation_auto['设置抢红包浮动图']}</span>
                             </c:otherwise>
                         </c:choose>
@@ -307,7 +307,7 @@
 
                                 <%--主图--%>
                                 <div class="clearfix m-t-md" id="main${index.index+length}">
-                                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
+                                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.affiliated']}：</label>
                                     <div class="col-sm-5">
                                         <div class="form-group m-b-sm">
                                             <div id="activityAffiliatedImage${index.index+length}">
