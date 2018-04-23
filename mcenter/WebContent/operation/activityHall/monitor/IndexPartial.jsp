@@ -27,7 +27,9 @@
                            <%--listValue="value"></gb:select>--%>
             <%--</th>--%>
             <th>
-                <gb:select name="search.checkState" value="${command.search.checkState}" prompt="${views.operation['活动审批']}" list="${checkStatusDicts}" callback="query"/>
+                <%--<gb:select name="search.checkState" value="${command.search.checkState}" prompt="${views.operation['活动审批']}" list="${checkStatusDicts}" callback="query"/>--%>
+                <%--<gb:select name="search.checkState" value="${command.search.checkState}" prompt="${views.operation['活动审批']}" list="${checkStatusDicts}" callback="query"/>--%>
+                <gb:select name="search.checkState" value="${command.search.checkState}" list="{'1':'${views.operation['待处理']}','2':'${views.operation['已通过']}','3':'${views.operation['已拒绝']}'}" prompt="${views.common['pleaseSelect']}" callback="query"/>
             </th>
             <th>${views.operation['backwater.settlement.view.operator']}</th>
             <th>${views.operation['申请IP']}</th>
