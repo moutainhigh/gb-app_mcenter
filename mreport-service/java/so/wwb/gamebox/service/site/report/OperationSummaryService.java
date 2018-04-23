@@ -110,7 +110,7 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
     /**
      * 取现差额玉珏图数据
      * @param result
-     * @param last
+     * @param list
      * @return
      */
     protected void generateBalanceBarChartData(OperationSummaryVo result, List<OperationSummary> list) {
@@ -137,7 +137,7 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
     /**
      * 有效投注额玉珏图数据
      * @param result
-     * @param last
+     * @param list
      * @return
      */
     protected void generateEffectiveBarChartData(OperationSummaryVo result, List<OperationSummary> list) {

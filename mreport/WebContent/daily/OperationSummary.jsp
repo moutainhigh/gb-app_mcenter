@@ -13,7 +13,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,height=device-height">
     <title>整体走势-运营日常统计</title>
-    <style>::-webkit-scrollbar{display:none;}html,body{overflow:hidden;}</style>
 </head>
 <body>
 
@@ -66,8 +65,57 @@
             </div>
         </div>
     </div>
-</div>
 
+    <div class="row dataBox2">
+        <div class="col-lg list tableList">
+            <div class="cont">
+                <h2>活跃用户和登录次数 <span>本月:121,696,321.00</span></h2>
+                <div class="public-btn-group group _addPrimary tableBut active-user">
+                    <button class="btn btn-primary active-user">活跃用户</button>
+                    <button class="btn login-count">总登录次数</button>
+                </div>
+                <div id="f4"></div>
+            </div>
+        </div>
+        <div class="col-lg list tableList">
+            <div class="cont">
+                <h2>安装量和卸载量 <span>本月:121,696,321.00</span></h2>
+                <div class="public-btn-group group _addPrimary tableBut install">
+                    <button class="btn btn-primary install">安装量</button>
+                    <button class="btn uninstall">卸载量</button>
+                </div>
+                <div id="i5"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row dataBox2">
+        <div class="col-lg list tableList">
+            <div class="cont">
+                <h2>用户走势 <span>本月:121,696,321.00</span></h2>
+                <div class="public-btn-group group _addPrimary tableBut player-trend">
+                    <button class="btn btn-primary new-player">新增玩家</button>
+                    <button class="btn login-count new-deposit-player">新增存款玩家</button>
+                </div>
+                <div id="p6"></div>
+            </div>
+        </div>
+        <div class="col-lg list tableList">
+            <div class="cont">
+                <h2>反水走势 <span>本月:121,696,321.00</span></h2>
+                <div class="public-btn-group group _addPrimary tableBut rakeback-trend">
+                    <button class="btn btn-primary rakeback-men">反水人数</button>
+                    <button class="btn rakeback-cash">反水金额</button>
+                </div>
+                <br/>
+                <div class="group" id="api-choice" style="display: none;">
+                    <button class="btn btn-default btn-primary">API选择</button>
+                </div>
+                <div id="b7"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <%--存款差额玉珏图表数据--%>
 <div style="display: none;" id="balanceBarChartData">${balanceBarChartData}</div>
 <%--有效投注额玉珏图表数据--%>
@@ -78,6 +126,10 @@
 <div style="display: none;" id="operationSummaryData">${operationSummaryData}</div>
 <%--柱状图X轴日期--%>
 <div style="display: none;" id="columnsDateFieldList">${columnsDateFieldList}</div>
+<%--登录次数柱状图--%>
+<div style="display: none;" id="loginCountData">${loginCountData}</div>
+<%--反水金额柱状图--%>
+<%--<div style="display: none;" id="backwaterCash">${backwaterCash}</div>--%>
 <script type="text/javascript">
     curl(['site/daily/OperationSummary'], function (OperationSummary) {
         new OperationSummary();
