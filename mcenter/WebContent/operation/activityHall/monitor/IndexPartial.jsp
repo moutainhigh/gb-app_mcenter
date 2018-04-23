@@ -67,17 +67,17 @@
                         <span class="label label-info">${dicts.operation.activity_apply_check_status[p.checkState]}</span>
                     </c:if>
                     <c:if test="${p.checkState eq '1'}">
-                        <span class="label label-warning">${dicts.operation.activity_apply_check_status[p.checkState]}</span>
+                        <%--<span class="label label-warning">${dicts.operation.activity_apply_check_status[p.checkState]}</span>--%>
                         <soul:button target="${root}/activityHall/vActivityPlayerApply/successDialog.html?code=${p.code}&ids=${p.id}&sumPerson=1"
-                                     text="${views.common['checkPass']}" opType="dialog" callback="callBackQuery"/>
-                        <soul:button target="${root}/activityHall/vActivityPlayerApply/failDialog.html?ids=${p.id}&search.activityName=${p.activityName}&search.activityTypeCode=${p.code}" text="${views.common['checkFailure']}" opType="dialog" callback="callBackQuery"/>
+                                     text="${views.operation['同意派奖']}" opType="dialog" callback="callBackQuery"/>
+                        <soul:button cssClass="co-red3" target="${root}/activityHall/vActivityPlayerApply/failDialog.html?ids=${p.id}&search.activityName=${p.activityName}&search.activityTypeCode=${p.code}" text="${views.operation['拒绝派奖']}" opType="dialog" callback="callBackQuery"/>
 
                     </c:if>
                     <c:if test="${p.checkState eq '2'}">
-                        <span class="label label-success">${dicts.operation.activity_apply_check_status[p.checkState]}</span>
+                        <span class="co-green">${views.operation['已通过']}</span>
                     </c:if>
                     <c:if test="${p.checkState eq '3'}">
-                        <span class="label label-danger">${dicts.operation.activity_apply_check_status[p.checkState]}</span>
+                        <span class="co-red3">${views.operation['已拒绝']}</span>
                     </c:if>
 
                 </td>
