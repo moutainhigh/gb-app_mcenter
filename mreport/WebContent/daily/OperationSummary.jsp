@@ -124,10 +124,6 @@
 <div style="display: none;" id="profitLossGaugeChartData">${profitLossGaugeChartData}</div>
 <%--历史运营统计数据--%>
 <div style="display: none;" id="operationSummaryData">${operationSummaryData}</div>
-<%--登录次数柱状图--%>
-<div style="display: none;" id="loginCountData">${loginCountData}</div>
-<%--反水金额柱状图--%>
-<%--<div style="display: none;" id="backwaterCash">${backwaterCash}</div>--%>
 <script type="text/javascript">
     curl(['site/daily/OperationSummary'], function (OperationSummary) {
         new OperationSummary();

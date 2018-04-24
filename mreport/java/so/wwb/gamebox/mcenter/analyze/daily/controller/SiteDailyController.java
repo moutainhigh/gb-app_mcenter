@@ -47,7 +47,6 @@ public class SiteDailyController {
         model.addAttribute("effectiveGaugeChartData", JsonTool.toJson(o.getEffectiveGaugeChart()));
         model.addAttribute("profitLossGaugeChartData", JsonTool.toJson(o.getProfitLossGaugeChart()));
         model.addAttribute("operationSummaryData", JsonTool.toJson(o.getEntities()));
-        model.addAttribute("loginCountData", JsonTool.toJson(DataTransTool.loginCountObjToMap(o.getEntities())));
         return OPERATION_SUMMARY;
     }
 

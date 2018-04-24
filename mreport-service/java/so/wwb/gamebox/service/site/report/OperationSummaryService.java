@@ -159,7 +159,7 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
     /**
      * 损益仪表图数据
      * @param result
-     * @param last
+     * @param
      * @return
      */
     protected void generateProfitLossGaugeChartData(OperationSummaryVo result, List<OperationSummary> list) {
