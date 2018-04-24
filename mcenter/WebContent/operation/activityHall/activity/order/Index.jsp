@@ -36,7 +36,7 @@
                     <%@ include file="IndexPartial.jsp" %>
                 </div>
                 <div class="operate-btn">
-                    <soul:button target="saveActivityOrder" text="${views.common['save']}" opType="function"
+                    <soul:button  permission="operate:activityHall_order"  target="saveActivityOrder" text="${views.common['save']}" opType="function"
                                  cssClass="btn btn-outline btn-filter btn-lg m-r" >${views.common['save']}</soul:button>
                 </div>
             </div>
