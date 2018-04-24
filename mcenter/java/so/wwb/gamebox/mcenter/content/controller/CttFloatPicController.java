@@ -33,10 +33,11 @@ import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteCustomerServiceListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
 import so.wwb.gamebox.model.master.content.enums.CttFloatTemplateTypeEnums;
-import so.wwb.gamebox.model.master.content.po.CttAnnouncement;
 import so.wwb.gamebox.model.master.content.po.CttFloatPic;
 import so.wwb.gamebox.model.master.content.po.CttFloatPicItem;
-import so.wwb.gamebox.model.master.content.vo.*;
+import so.wwb.gamebox.model.master.content.vo.CttFloatPicItemListVo;
+import so.wwb.gamebox.model.master.content.vo.CttFloatPicListVo;
+import so.wwb.gamebox.model.master.content.vo.CttFloatPicVo;
 import so.wwb.gamebox.model.master.enums.FloatPicInteractivityEnum;
 import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
@@ -281,16 +282,25 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
      * @return
      */
     @RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
+    @Audit(module = Module.MASTER_CONTENT, moduleType = ModuleType.MASTER_CONTENT_CTTFLOATPICSTATUS_BATCHDELETE, opType = OpType.DELETE)
     @ResponseBody
     public Map batchDelete(Integer[] ids) {
         Map<String, Object> map = new HashMap<>(2,1f);
         if (ArrayTool.isNotEmpty(ids)) {
             CttFloatPicVo vo = new CttFloatPicVo();
             vo.setIds(Arrays.asList(ids));
+            List<CttFloatPic> list = getService().queryFloatPicByIdAndStatus(vo);
+            StringBuffer stringBuffer = new StringBuffer();
+            if (CollectionTool.isNotEmpty(list)) {
+                for (CttFloatPic pic : list) {
+                    stringBuffer.append("["+pic.getTitle()+"]");
+                }
+            }
             boolean success = getService().batchDeleteFloatPic(vo);
             if (success) {
                 map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
                 refreshFloatPicCache();
+                BussAuditLogTool.addLog("MASTER_CONTENT_CTTFLOATPICSTATUS_BATCHDELETE",stringBuffer.toString());
             } else {
                 map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
             }

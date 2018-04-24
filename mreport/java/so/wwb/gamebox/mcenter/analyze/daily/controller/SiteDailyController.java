@@ -1,28 +1,29 @@
 package so.wwb.gamebox.mcenter.analyze.daily.controller;
 
-import com.alibaba.fastjson.JSON;
-import org.apache.commons.fileupload.util.LimitedInputStream;
+import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
-import org.soul.web.controller.BaseIndexController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
+import so.wwb.gamebox.mcenter.tools.DataTransTool;
 import so.wwb.gamebox.model.site.report.po.RealtimeProfile;
+import so.wwb.gamebox.model.site.report.vo.OperationSummaryVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileListVo;
+import so.wwb.gamebox.model.site.report.vo.RealtimeProfileVo;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.FieldPosition;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 /**
- * 站点日常数据
+ * 站点日常数据Controller
  * @author martin
- * Created by martin on 18-4-12.
+ * @time 18-4-12
  */
 @Controller
 @RequestMapping("/daily")
-public class SiteDailyController extends BaseIndexController {
+public class SiteDailyController {
 
     private static final String OPERATION_SUMMARY = "/daily/OperationSummary";
 
@@ -35,50 +36,68 @@ public class SiteDailyController extends BaseIndexController {
     private static final String PLAYER_RETAIN = "/daily/PlayerRetain";
 
     /**
-     * 经营趋势
+     * 运营统计
      * @return
      */
     @RequestMapping("/operationSummary")
     public String operationSummary(HttpServletRequest request, Model model) {
+        OperationSummaryVo o = new OperationSummaryVo();
+        o = ServiceSiteTool.operationSummaryService().getOperationSummaryData(o);
+        model.addAttribute("balanceGaugeChartData", JsonTool.toJson(o.getBalanceGaugeChart()));
+        model.addAttribute("effectiveGaugeChartData", JsonTool.toJson(o.getEffectiveGaugeChart()));
+        model.addAttribute("profitLossGaugeChartData", JsonTool.toJson(o.getProfitLossGaugeChart()));
+        model.addAttribute("operationSummaryData", JsonTool.toJson(o.getEntities()));
+        model.addAttribute("loginCountData", JsonTool.toJson(DataTransTool.loginCountObjToMap(o.getEntities())));
         return OPERATION_SUMMARY;
     }
 
     /**
      * 实时总览
+     *
+     * @param request
+     * @param model
      * @return
      */
-    @RequestMapping("/realTimeSummary")
+    @RequestMapping({"/realTimeSummary"})
     public String realTimeSummaryData(HttpServletRequest request, Model model) {
-        List<RealtimeProfile> profileLists = new ArrayList<>();
-        Date date = new Date();
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        String format = dateFormat.format(date);
-        for(int i = 1;i<=10;i++){
-            RealtimeProfile realtimeProfile = new RealtimeProfile();
-            realtimeProfile.setRealtimeDate(date);
-            realtimeProfile.setVisitorAll(10);
-            realtimeProfile.setActiveAll(30);
-            realtimeProfile.setDepositAll(20);
-            realtimeProfile.setEffcTransactionAll(40);
-            realtimeProfile.setOnlineAll(50);
-            realtimeProfile.setProfitAll(60);
-            realtimeProfile.setRegisterAll(70);
-            profileLists.add(realtimeProfile);
+        RealtimeProfileVo condition = new RealtimeProfileVo();
+        List<RealtimeProfile> profiles = ServiceSiteTool.realtimeProfileService().queryRealtimeCartogram(condition);
+        List<RealtimeProfileVo> historyReportForm = ServiceSiteTool.realtimeProfileService().queryHistoryReportForm(condition);
+        RealtimeProfileListVo realtimeProfileListVo = new RealtimeProfileListVo();
+        if (CollectionTool.isNotEmpty(profiles)) {
+            //今日此时
+            RealtimeProfile lastProfile = profiles.get(profiles.size() - 1);
+            //昨日此时
+            RealtimeProfile fristProfile = profiles.get(0);
+            profiles.remove(0);
+            //对比昨日同时段浮动百分比
+            RealtimeProfileVo profileVo = new RealtimeProfileVo();
+            profileVo.setCompareVisitor(DataTransTool.getPercentage(lastProfile.getCountVisitor(), fristProfile.getCountVisitor()));
+            profileVo.setCompareActive(DataTransTool.getPercentage(lastProfile.getCountActive(), fristProfile.getCountActive()));
+            profileVo.setCompareRegister(DataTransTool.getPercentage(lastProfile.getCountRegister(), fristProfile.getCountRegister()));
+            profileVo.setCompareDeposit(DataTransTool.getPercentage(lastProfile.getCountDeposit(), fristProfile.getCountDeposit()));
+            profileVo.setCompareEffcTransaction(DataTransTool.getPercentage(lastProfile.getCountEffcTransaction(), fristProfile.getCountEffcTransaction()));
+            profileVo.setCompareOnline(DataTransTool.getPercentage(lastProfile.getCountOnline(), fristProfile.getCountOnline()));
+            profileVo.setCompareRealtimeProfitLoss(DataTransTool.getPercentage(lastProfile.getRealtimeProfitLoss(), fristProfile.getRealtimeProfitLoss()));
+            realtimeProfileListVo.setResult(profiles);
+            model.addAttribute("profilesJson", JsonTool.toJson(profiles));
+            model.addAttribute("Vo", profileVo);
         }
 
-        for(int i = 0;i<=23;i++){
-            RealtimeProfile realtimeProfile = new RealtimeProfile();
-//            realtimeProfile
+        if (CollectionTool.isNotEmpty(historyReportForm)) {
+            RealtimeProfileVo fristProfileVo = (RealtimeProfileVo) historyReportForm.get(0);
+            fristProfileVo.setStatisticsDate(new Date());
+            model.addAttribute("realtimeProfileVos", historyReportForm);
         }
-        RealtimeProfileListVo realtimeProfileListVo = new RealtimeProfileListVo();
-        realtimeProfileListVo.setResult(profileLists);
-        model.addAttribute("command",realtimeProfileListVo);
-        model.addAttribute("realtimeProfileListJson", JsonTool.toJson(profileLists));
+
+        model.addAttribute("command", realtimeProfileListVo);
         return REAL_TIME_SUMMARY;
+
     }
 
     /**
      * 活跃玩家
+     *
      * @return
      */
     @RequestMapping("/activePlayer")
@@ -88,6 +107,7 @@ public class SiteDailyController extends BaseIndexController {
 
     /**
      * 玩家留存
+     *
      * @return
      */
     @RequestMapping("/playerRetain")
@@ -97,6 +117,7 @@ public class SiteDailyController extends BaseIndexController {
 
     /**
      * 新增玩家
+     *
      * @return
      */
     @RequestMapping("/newAddedPlayer")

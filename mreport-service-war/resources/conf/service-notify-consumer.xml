@@ -25,6 +25,14 @@
                     <property name="methodName" value="refreshServiceVersion"/>
                     <property name="argType" value="org.soul.watcher.zookeeper.handler.NodeVersionInfo"/>
                 </bean>
+                <!--更新目标应用版本信息时同时更新订阅-->
+                <bean lazy-init="true" class="org.soul.watcher.zookeeper.config.NotifyConfItemConf">
+                    <property name="handler" ref="notifyHandler"/>
+                    <property name="notifyType" ref="SERVICE_INIT"/>
+                    <property name="classFullName" value="so.wwb.gamebox.mweb.init.ServiceCtxLoaderListener"/>
+                    <property name="methodName" value="refreshServiceVersion"/>
+                    <property name="argType" value="org.soul.watcher.zookeeper.handler.NodeVersionInfo"/>
+                </bean>
             </list>
         </property>
     </bean>

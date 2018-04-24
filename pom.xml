@@ -8,6 +8,7 @@
     <packaging>pom</packaging>
     <version>2.0.1.9-SNAPSHOT</version>
     <modules>
+        <module>../base/data</module>
         <module>../base/model</module>
         <module>../base/iservice</module>
         <module>../base/iservice-activity</module>
@@ -19,9 +20,8 @@
         <module>../base/monitor/monitor-iservice</module>
         <module>../base/monitor/monitor-model</module>-->
         <module>mcenter</module>
-        <!--影响jenkins平台打包,先暂时注掉-->
-        <!--<module>mreport-service</module>
-        <module>mreport-service-war</module>-->
+        <module>mreport-service</module>
+        <module>mreport-service-war</module>
         <module>mreport</module>
     </modules>
 </project>

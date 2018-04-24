@@ -27,7 +27,9 @@
                            <%--listValue="value"></gb:select>--%>
             <%--</th>--%>
             <th>
-                <gb:select name="search.checkState" value="${command.search.checkState}" prompt="${views.operation['活动审批']}" list="${checkStatusDicts}" callback="query"/>
+                <%--<gb:select name="search.checkState" value="${command.search.checkState}" prompt="${views.operation['活动审批']}" list="${checkStatusDicts}" callback="query"/>--%>
+                <%--<gb:select name="search.checkState" value="${command.search.checkState}" prompt="${views.operation['活动审批']}" list="${checkStatusDicts}" callback="query"/>--%>
+                <gb:select name="search.checkState" value="${command.search.checkState}" list="{'0':'${views.operation['未领取']}','1':'${views.operation['待处理']}','2':'${views.operation['已通过']}','3':'${views.operation['已拒绝']}'}" prompt="${views.common['all']}" callback="query"/>
             </th>
             <th>${views.operation['backwater.settlement.view.operator']}</th>
             <th>${views.operation['申请IP']}</th>
@@ -45,6 +47,12 @@
                 </td>
                 <td>
                     <a href="/player/playerView.html?search.id=${p.playerId}" nav-Target="mainFrame">${p.playerName}</a>
+                    <c:if test="${p.riskMarker == true}">
+                                <span data-content="${views.player_auto['危险层级']}"
+                                      data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                                      role="button" class="ico-lock co-red3" tabindex="0"
+                                      data-original-title="" title=""><i class="fa fa-warning"></i></span>
+                    </c:if>
                 </td>
                 <td>${p.activityName}</td>
                 <td>${soulFn:formatDateTz(p.applyTime,DateFormat.DAY_SECOND,timeZone)}</td>
@@ -59,17 +67,17 @@
                         <span class="label label-info">${dicts.operation.activity_apply_check_status[p.checkState]}</span>
                     </c:if>
                     <c:if test="${p.checkState eq '1'}">
-                        <span class="label label-warning">${dicts.operation.activity_apply_check_status[p.checkState]}</span>
+                        <%--<span class="label label-warning">${dicts.operation.activity_apply_check_status[p.checkState]}</span>--%>
                         <soul:button target="${root}/activityHall/vActivityPlayerApply/successDialog.html?code=${p.code}&ids=${p.id}&sumPerson=1"
-                                     text="${views.common['checkPass']}" opType="dialog" callback="callBackQuery"/>
-                        <soul:button target="${root}/activityHall/vActivityPlayerApply/failDialog.html?ids=${p.id}&search.activityName=${p.activityName}&search.activityTypeCode=${p.code}" text="${views.common['checkFailure']}" opType="dialog" callback="callBackQuery"/>
+                                     text="${views.operation['同意派奖']}" opType="dialog" callback="callBackQuery"/>
+                        <soul:button cssClass="co-red3" target="${root}/activityHall/vActivityPlayerApply/failDialog.html?ids=${p.id}&search.activityName=${p.activityName}&search.activityTypeCode=${p.code}" text="${views.operation['拒绝派奖']}" opType="dialog" callback="callBackQuery"/>
 
                     </c:if>
                     <c:if test="${p.checkState eq '2'}">
-                        <span class="label label-success">${dicts.operation.activity_apply_check_status[p.checkState]}</span>
+                        <span class="co-green">${views.operation['已通过']}</span>
                     </c:if>
                     <c:if test="${p.checkState eq '3'}">
-                        <span class="label label-danger">${dicts.operation.activity_apply_check_status[p.checkState]}</span>
+                        <span class="co-red3">${views.operation['已拒绝']}</span>
                     </c:if>
 
                 </td>

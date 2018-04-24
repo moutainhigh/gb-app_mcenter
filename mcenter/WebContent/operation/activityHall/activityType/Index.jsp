@@ -42,7 +42,7 @@
                                         ${views.operation['Activity.create']}
                                 </a>
 
-                                <c:if test="${p.code ne 'content' && p.code ne 'money'}">
+                                <c:if test="${p.code ne 'content' && p.code ne 'money' && p.code ne 'second_deposit' && p.code ne 'third_deposit' && p.code ne 'everyday_first_deposit'}">
                                     <a href="/activityHall/activityType/chooseCase.html?result.code=${p.code}"
                                        nav-target="mainFrame" class="btn js">${views.operation['Activity.introduction']}</a>
                                 </c:if>

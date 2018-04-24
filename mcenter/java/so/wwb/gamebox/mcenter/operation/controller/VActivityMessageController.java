@@ -152,7 +152,8 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         activityMessageVo = ServiceActivityTool.activityMessageService().updateOnly(activityMessageVo);
         HashMap map = new HashMap(2, 1f);
         if (activityMessageVo.isSuccess()) {
-            Cache.refreshActivityMessages();
+            Cache.refreshMobileActivityMessages();
+            Cache.refreshPcActivityMessages();
             Cache.refreshCurrentSitePageCache();
             map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else {
@@ -423,7 +424,8 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
 
             if (success) {
                 updateSiteContentAudit();
-                Cache.refreshActivityMessages();// 发布和编辑刷新缓存
+                Cache.refreshPcActivityMessages();
+                Cache.refreshMobileActivityMessages();
                 Cache.refreshCurrentSitePageCache();
                 map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 //日志
@@ -498,6 +500,8 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         /*activityMessageVo.setProperties(ActivityMessage.PROP_IS_DISPLAY);
         activityMessageVo = ServiceSiteTool.activityMessageService().updateOnly(activityMessageVo);
         */
+        Cache.refreshMobileActivityMessages();
+        Cache.refreshPcActivityMessages();
         Cache.refreshActivityMessages(SessionManager.getSiteId());
         Cache.refreshCurrentSitePageCache();
         Map map = new HashMap();

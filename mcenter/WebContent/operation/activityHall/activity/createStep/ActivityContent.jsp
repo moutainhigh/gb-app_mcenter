@@ -86,12 +86,12 @@
                         <c:choose>
                             <c:when test="${isPicType eq false}">
                                 <a nav-target="mainFrame"
-                                   href="/cttFloatPic/edit.html?id=${id}&editType=2">${views.operation_auto['已设置']}</a>
+                                   href="/cttFloatPic/edit.html?id=${id}&editType=2&floatType=activity">${views.operation_auto['已设置']}</a>
                                 &nbsp;&nbsp;<span>${views.operation_auto['编辑抢红包浮动图']}</span>
                             </c:when>
                             <c:otherwise>
                                 <a nav-target="mainFrame"
-                                   href="/cttFloatPic/create.html?editType=1">${views.operation_auto['未设置']}</a>
+                                   href="/cttFloatPic/create.html?editType=1&floatType=activity">${views.operation_auto['未设置']}</a>
                                 &nbsp;&nbsp;<span>${views.operation_auto['设置抢红包浮动图']}</span>
                             </c:otherwise>
                         </c:choose>
@@ -185,37 +185,6 @@
                                     </div>
                                 </div>
                                 <div class="clearfix m-t-md" id="main${index.index}">
-                                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
-                                    <div class="col-sm-5">
-                                        <div class="form-group m-b-sm">
-                                            <div id="activityContentImage${index.index}">
-                                                <c:if test="${not empty activityMessageI18ns['1'][siteLang.value.language].activityCover}">
-                                                    <img id="bb_${index.index}"
-                                                         src="${soulFn:getThumbPath(domain, activityMessageI18ns['1'][siteLang.value.language].activityCover,500,500)}"
-                                                         class="logo-size-h100"
-                                                         style="margin: 10px 0; width: auto;height: 250px;"/>
-                                                </c:if>
-                                            </div>
-                                            <input id="activityContentFile" bbb="${index.index}" class="file file1"
-                                                   type="file"
-                                                   target="activityMessageI18ns[${index.index}].activityCover"
-                                                   accept="image/*" name="activityCoverImg">
-                                            <input type="hidden" class="activityContentFile" bbb="${index.index}"
-                                                   name="activityMessageI18ns[${index.index}].activityCover"
-                                                   value="${activityMessageI18ns['1'][siteLang.value.language].activityCover}">
-                                            <input type="hidden"
-                                                   value="${activityMessageI18ns['1'][siteLang.value.language].activityCover}">
-                                        </div>
-                                        <div id="activityContentImg${index.index}">
-                                            <img id="aa_${index.index}" src=""
-                                                 style="display: none;width: 100%;height: auto;"/>
-                                        </div>
-                                        <div>${views.operation['Activity.step.message13']}</div>
-                                    </div>
-                                </div>
-
-                                    <%--附图--%>
-                                <div class="clearfix m-t-md" id="secondary${index.index}">
                                     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.affiliated']}：</label>
                                     <div class="col-sm-5">
                                         <div class="form-group m-b-sm">
@@ -224,7 +193,7 @@
                                                     <img id="cc_${index.index}"
                                                          src="${soulFn:getThumbPath(domain, activityMessageI18ns['1'][siteLang.value.language].activityAffiliated,0,0)}"
                                                          class="logo-size-h100"
-                                                         style="margin: 10px 0; width: auto;height: 130px;"/>
+                                                         style="margin: 10px 0; width: auto;height: 150px;"/>
                                                 </c:if>
                                             </div>
                                             <input id="activityAffiliated" bbb="${index.index}" class="file file2"
@@ -242,6 +211,37 @@
                                                  style="display: none;width:100%;height: auto;"/>
                                         </div>
                                         <div>${views.operation['Activity.step.message2']}</div>
+                                    </div>
+                                </div>
+
+                                    <%--附图--%>
+                                <div class="clearfix m-t-md" id="secondary${index.index}">
+                                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
+                                    <div class="col-sm-5">
+                                        <div class="form-group m-b-sm">
+                                            <div id="activityContentImage${index.index}">
+                                                <c:if test="${not empty activityMessageI18ns['1'][siteLang.value.language].activityCover}">
+                                                    <img id="bb_${index.index}"
+                                                         src="${soulFn:getThumbPath(domain, activityMessageI18ns['1'][siteLang.value.language].activityCover,500,500)}"
+                                                         class="logo-size-h100"
+                                                         style="margin: 10px 0; width: auto;height: 150px;"/>
+                                                </c:if>
+                                            </div>
+                                            <input id="activityContentFile" bbb="${index.index}" class="file file1"
+                                                   type="file"
+                                                   target="activityMessageI18ns[${index.index}].activityCover"
+                                                   accept="image/*" name="activityCoverImg">
+                                            <input type="hidden" class="activityContentFile" bbb="${index.index}"
+                                                   name="activityMessageI18ns[${index.index}].activityCover"
+                                                   value="${activityMessageI18ns['1'][siteLang.value.language].activityCover}">
+                                            <input type="hidden"
+                                                   value="${activityMessageI18ns['1'][siteLang.value.language].activityCover}">
+                                        </div>
+                                        <div id="activityContentImg${index.index}">
+                                            <img id="aa_${index.index}" src=""
+                                                 style="display: none;width: 100%;height: auto;"/>
+                                        </div>
+                                        <div>${views.operation['Activity.step.message13']}</div>
                                     </div>
                                 </div>
 
@@ -307,28 +307,28 @@
 
                                 <%--主图--%>
                                 <div class="clearfix m-t-md" id="main${index.index+length}">
-                                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
+                                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.affiliated']}：</label>
                                     <div class="col-sm-5">
                                         <div class="form-group m-b-sm">
-                                            <div id="activityContentImage${index.index+length}">
-                                                <c:if test="${not empty activityMessageI18ns['2'][siteLang.value.language].activityCover}">
+                                            <div id="activityAffiliatedImage${index.index+length}">
+                                                <c:if test="${not empty activityMessageI18ns['2'][siteLang.value.language].activityAffiliated}">
                                                     <img id="bb_${index.index+length}"
-                                                         src="${soulFn:getThumbPath(domain, activityMessageI18ns['2'][siteLang.value.language].activityCover,500,500)}"
+                                                         src="${soulFn:getThumbPath(domain, activityMessageI18ns['2'][siteLang.value.language].activityAffiliated,500,500)}"
                                                          class="logo-size-h100"
-                                                         style="margin: 10px 0; width: auto;height: 250px;"/>
+                                                         style="margin: 10px 0; width: auto;height: 150px;"/>
                                                 </c:if>
                                             </div>
                                             <input id="" bbb="${index.index+length}" class="file file1"
                                                    type="file"
-                                                   target="activityMessageI18ns[${index.index+length}].activityCover"
+                                                   target="activityMessageI18ns[${index.index+length}].activityAffiliated"
                                                    accept="image/*" name="activityCoverImg">
                                             <input type="hidden" class="activityContentFile" bbb="${index.index+length}"
-                                                   name="activityMessageI18ns[${index.index+length}].activityCover"
-                                                   value="${activityMessageI18ns['2'][siteLang.value.language].activityCover}">
+                                                   name="activityMessageI18ns[${index.index+length}].activityAffiliated"
+                                                   value="${activityMessageI18ns['2'][siteLang.value.language].activityAffiliated}">
                                             <input type="hidden"
-                                                   value="${activityMessageI18ns['2'][siteLang.value.language].activityCover}">
+                                                   value="${activityMessageI18ns['2'][siteLang.value.language].activityAffiliated}">
                                         </div>
-                                        <div id="activityContentImg${index.index+length}">
+                                        <div id="activityAffiliatedImg${index.index+length}">
                                             <img id="aa_${index.index+length}" src=""
                                                  style="display: none;width: 100%;height: auto;"/>
                                         </div>
