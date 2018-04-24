@@ -655,7 +655,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam encryption = ParamTool.getSysParam(SiteParamEnum.TELEPHONE_NUMBER_ENCRYPTION_SWITCH);
         SysParam stationmaster = ParamTool.getSysParam(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
         SysParam phoneNumber = ParamTool.getSysParam(SiteParamEnum.EXTENSION_NUMBER_SETTING);
-        SysParam downloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_APP_DOWNLOAD_ADDRESS);
+        SysParam androidDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_ANDROID_DOWNLOAD_ADDRESS);
+        SysParam iosDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_ISO_DOWNLOAD_ADDRESS);
         String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManagerCommon.getSiteId());
         model.addAttribute("poone_number",phoneNumber);
         model.addAttribute("phone_url",phoneUrl);
@@ -670,7 +671,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(new PlayerRankVo()));
         model.addAttribute("rankAppDomain",ServiceSiteTool.playerRankAppDomainService().search(new PlayerRankAppDomainListVo()));
         model.addAttribute("webtype", "5");
-        model.addAttribute("downloadAddress",downloadAddress != null ? downloadAddress.getParamValue():"");
+        model.addAttribute("androidDownloadAddress",androidDownloadAddress != null ? androidDownloadAddress.getParamValue():"");
+        model.addAttribute("iosDownloadAddress",iosDownloadAddress != null ? iosDownloadAddress.getParamValue():"");
         //判断是否为站长主账号
         if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
             Integer masterId = sysSiteVo.getResult().getSysUserId();
@@ -1521,10 +1523,26 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             objectVo.setSuccess(false);
             return getVoMessage(objectVo);
         }
+
+        SysSiteVo sysSiteVo = new SysSiteVo();
+        Integer siteId = SessionManagerBase.getSiteId();
+        sysSiteVo.getSearch().setId(siteId);
+        sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
+        if (sysSiteVo==null){
+            LOG.info("获取站点信息为空!");
+            objectVo.setSuccess(false);
+            return getVoMessage(objectVo);
+        }
+
         SysUserVo sysUserVo = new SysUserVo();
         sysUserVo._setDataSourceId(Const.BASE_DATASOURCE_ID);
-        sysUserVo.getSearch().setId(SessionManager.getSiteUserId());
+        sysUserVo.getSearch().setId(sysSiteVo.getResult().getSysUserId());
         sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+        if (sysSiteVo==null){
+            LOG.info("获取用户信息为空!");
+            objectVo.setSuccess(false);
+            return getVoMessage(objectVo);
+        }
         sysUserVo.getResult().setIdcard(objectVo.getResult().getIdcard());
         sysUserVo.setProperties(SysUser.PROP_IDCARD);
         sysUserVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
