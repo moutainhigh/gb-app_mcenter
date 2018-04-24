@@ -1521,10 +1521,26 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             objectVo.setSuccess(false);
             return getVoMessage(objectVo);
         }
+
+        SysSiteVo sysSiteVo = new SysSiteVo();
+        Integer siteId = SessionManagerBase.getSiteId();
+        sysSiteVo.getSearch().setId(siteId);
+        sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
+        if (sysSiteVo==null){
+            LOG.info("获取站点信息为空!");
+            objectVo.setSuccess(false);
+            return getVoMessage(objectVo);
+        }
+
         SysUserVo sysUserVo = new SysUserVo();
         sysUserVo._setDataSourceId(Const.BASE_DATASOURCE_ID);
-        sysUserVo.getSearch().setId(SessionManager.getSiteUserId());
+        sysUserVo.getSearch().setId(sysSiteVo.getResult().getSysUserId());
         sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+        if (sysSiteVo==null){
+            LOG.info("获取用户信息为空!");
+            objectVo.setSuccess(false);
+            return getVoMessage(objectVo);
+        }
         sysUserVo.getResult().setIdcard(objectVo.getResult().getIdcard());
         sysUserVo.setProperties(SysUser.PROP_IDCARD);
         sysUserVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
