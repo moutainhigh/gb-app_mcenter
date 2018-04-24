@@ -1525,32 +1525,30 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         }
         SysSiteVo sysSiteVo = new SysSiteVo();
         Integer siteId = SessionManagerBase.getSiteId();
+        LOG.info("保存站长坐席号：站点ID{0}",siteId);
         sysSiteVo.getSearch().setId(siteId);
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
         if (sysSiteVo.getResult()==null){
-            LOG.info("获取站点信息为空!");
+            LOG.info("保存站长坐席号：获取站点信息为空!");
             objectVo.setSuccess(false);
             return getVoMessage(objectVo);
         }
-
+        LOG.info("保存站长坐席号：站长ID{0}",sysSiteVo.getResult().getSysUserId());
         SysUserVo sysUserVo = new SysUserVo();
-        sysUserVo._setDataSourceId(Const.BASE_DATASOURCE_ID);
-        sysUserVo.getSearch().setId(sysSiteVo.getResult().getSysUserId());
-        sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
-        if (sysUserVo.getResult()==null){
-            LOG.info("获取用户信息为空!");
-            objectVo.setSuccess(false);
-            return getVoMessage(objectVo);
-        }
+        SysUser sysUser = new SysUser();
+        sysUser.setId(sysSiteVo.getResult().getSysUserId());
         String idCard = objectVo.getResult()==null?null:objectVo.getResult().getIdcard();
-        sysUserVo.getResult().setIdcard(idCard);
+        sysUser.setIdcard(idCard);
+        sysUserVo.setResult(sysUser);
+        sysUserVo = ServiceTool.myAccountService().updateSysUser(sysUserVo);
+       /* sysUserVo.getResult().setIdcard(idCard);
         sysUserVo.setProperties(SysUser.PROP_IDCARD);
         sysUserVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
         if(sysUserVo.isSuccess()){
             SysUser sysUser = SessionManagerCommon.getUser();
             sysUser.setIdcard(sysUserVo.getResult().getIdcard());
             SessionManagerCommon.setUser(sysUser);
-        }
+        }*/
         return getVoMessage(sysUserVo);
     }
 
