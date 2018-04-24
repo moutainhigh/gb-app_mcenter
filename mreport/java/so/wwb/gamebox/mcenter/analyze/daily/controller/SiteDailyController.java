@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.tools.DataTransTool;
+import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
+import so.wwb.gamebox.model.master.operation.vo.RakebackApiListVo;
 import so.wwb.gamebox.model.site.report.po.RealtimeProfile;
 import so.wwb.gamebox.model.site.report.vo.OperationSummaryVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileListVo;
@@ -15,6 +17,7 @@ import so.wwb.gamebox.model.site.report.vo.RealtimeProfileVo;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 站点日常数据Controller
@@ -40,14 +43,23 @@ public class SiteDailyController {
      * @return
      */
     @RequestMapping("/operationSummary")
-    public String operationSummary(HttpServletRequest request, Model model) {
-        OperationSummaryVo o = new OperationSummaryVo();
-        o = ServiceSiteTool.operationSummaryService().getOperationSummaryData(o);
-        model.addAttribute("balanceGaugeChartData", JsonTool.toJson(o.getBalanceGaugeChart()));
-        model.addAttribute("effectiveGaugeChartData", JsonTool.toJson(o.getEffectiveGaugeChart()));
-        model.addAttribute("profitLossGaugeChartData", JsonTool.toJson(o.getProfitLossGaugeChart()));
-        model.addAttribute("operationSummaryData", JsonTool.toJson(o.getEntities()));
+    public String operationSummary(OperationSummaryVo vo , Model model) {
+        vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
+        model.addAttribute("balanceGaugeChartData", JsonTool.toJson(vo.getBalanceGaugeChart()));
+        model.addAttribute("effectiveGaugeChartData", JsonTool.toJson(vo.getEffectiveGaugeChart()));
+        model.addAttribute("profitLossGaugeChartData", JsonTool.toJson(vo.getProfitLossGaugeChart()));
+        model.addAttribute("operationSummaryData", JsonTool.toJson(vo.getEntities()));
+        model.addAttribute("rakebackCashApis", ApiProviderEnum.values());
         return OPERATION_SUMMARY;
+    }
+
+    /**
+     * 根据选择的API来查询反水金额
+     */
+    @RequestMapping("/queryRakebackCashByApi")
+    public Map<String , Object> queryRakebackCashByApi(RakebackApiListVo rakebackApiListVo) {
+        rakebackApiListVo  = ServiceSiteTool.rakebackApiService().query(rakebackApiListVo);
+        return null;
     }
 
     /**

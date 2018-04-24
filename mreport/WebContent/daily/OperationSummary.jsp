@@ -124,6 +124,8 @@
 <div style="display: none;" id="profitLossGaugeChartData">${profitLossGaugeChartData}</div>
 <%--历史运营统计数据--%>
 <div style="display: none;" id="operationSummaryData">${operationSummaryData}</div>
+<%--返水金额API选择--%>
+<div style="display: none;" id="rakebackCashApis">${rakebackCashApis}</div>
 <script type="text/javascript">
     curl(['site/daily/OperationSummary'], function (OperationSummary) {
         new OperationSummary();

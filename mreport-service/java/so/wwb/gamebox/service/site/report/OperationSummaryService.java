@@ -2,6 +2,7 @@ package so.wwb.gamebox.service.site.report;
 
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.lang.DateTool;
+import org.soul.commons.lang.string.StringTool;
 import org.soul.service.support.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import so.wwb.gamebox.data.site.report.OperationSummaryMapper;
@@ -11,6 +12,7 @@ import so.wwb.gamebox.model.site.report.vo.OperationSummaryChartVo;
 import so.wwb.gamebox.model.site.report.vo.OperationSummaryListVo;
 import so.wwb.gamebox.model.site.report.vo.OperationSummaryVo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,8 +33,16 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
 
     @Override
     public OperationSummaryVo getOperationSummaryData(OperationSummaryVo condition) {
+        List<OperationSummary> list ;
+        if(StringTool.isNotBlank(condition.getQueryDateRange())){
+            //按照周或月统计
+            list = summaryMapper.getOperationSummaryOfDate(condition);
+        }else{
+            //按日查询
+            list = summaryMapper.getOperationSummaryOfDays(condition);
+        }
+
         OperationSummaryVo result = new OperationSummaryVo();
-        List<OperationSummary> list = summaryMapper.getOperationSummaryOfDays();
         if (CollectionTool.isNotEmpty(list)) {
             generateBalanceGaugeChartData(result, list);
             generateEffectiveGaugeChartData(result, list);
