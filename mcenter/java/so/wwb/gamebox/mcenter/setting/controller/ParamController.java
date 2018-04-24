@@ -12,6 +12,7 @@ import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.security.CryptoTool;
@@ -92,6 +93,9 @@ import java.util.*;
 @RequestMapping("/param")
 public class ParamController extends BaseCrudController<ISysParamService, SysParamListVo, SysParamVo, SysParamSearchForm, SysParamForm, SysParam, Integer> {
     //endregion your codes 1
+    private static final Log LOG = LogFactory.getLog(ParamController.class);
+
+
     @Override
     protected String getViewBasePath() {
         //region your codes 2
@@ -671,13 +675,17 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("iosDownloadAddress",iosDownloadAddress != null ? iosDownloadAddress.getParamValue():"");
         //判断是否为站长主账号
         if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
-            Integer masterId = SessionManager.getSiteUserId();
+            Integer masterId = sysSiteVo.getResult().getSysUserId();
+            LOG.info("站长ID：{0}",masterId);
             SysUserVo sysUserVo = new SysUserVo();
             sysUserVo._setDataSourceId(Const.BASE_DATASOURCE_ID);
             sysUserVo.getSearch().setId(masterId);
             sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+            LOG.info("站点用户：{0}",JsonTool.toJson(sysUserVo.getResult()));
             model.addAttribute("isMaster",true);
-            model.addAttribute("idCard",sysUserVo.getResult().getIdcard());
+            if (sysUserVo.getResult()!=null) {
+                model.addAttribute("idCard", sysUserVo.getResult().getIdcard());
+            }
         }
         return "/setting/param/siteparameters/Parameters";
     }
@@ -1515,10 +1523,26 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             objectVo.setSuccess(false);
             return getVoMessage(objectVo);
         }
+
+        SysSiteVo sysSiteVo = new SysSiteVo();
+        Integer siteId = SessionManagerBase.getSiteId();
+        sysSiteVo.getSearch().setId(siteId);
+        sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
+        if (sysSiteVo==null){
+            LOG.info("获取站点信息为空!");
+            objectVo.setSuccess(false);
+            return getVoMessage(objectVo);
+        }
+
         SysUserVo sysUserVo = new SysUserVo();
         sysUserVo._setDataSourceId(Const.BASE_DATASOURCE_ID);
-        sysUserVo.getSearch().setId(SessionManager.getSiteUserId());
+        sysUserVo.getSearch().setId(sysSiteVo.getResult().getSysUserId());
         sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+        if (sysSiteVo==null){
+            LOG.info("获取用户信息为空!");
+            objectVo.setSuccess(false);
+            return getVoMessage(objectVo);
+        }
         sysUserVo.getResult().setIdcard(objectVo.getResult().getIdcard());
         sysUserVo.setProperties(SysUser.PROP_IDCARD);
         sysUserVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
