@@ -12,7 +12,7 @@
     <div class="position-wrap clearfix">
         <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
         <span>${views.sysResource['运营']}</span>
-        <span>/</span><span>${views.sysResource['活动管理']}</span>
+        <span>/</span><span>${views.sysResource['活动大厅']}</span>
         <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
     </div>
     <div class="col-lg-12">
