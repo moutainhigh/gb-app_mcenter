@@ -56,7 +56,7 @@
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>
                     <div class="col-sm-5">
                         <span class="input-group pull-left line-hi25 m-r">
-                            <gb:select name="activityRule.claimPeriod" list="<%=DictTool.get(DictEnum.CLAIM_PERIOD)%>" prompt="${views.common['pleaseSelect']}" value="${activityRule.claimPeriod}"/>
+                            <gb:select name="activityRule.claimPeriod" list="{'NaturalDay':'一日'}" prompt="" value="NaturalDay"/>
                         </span>
                         <span class="m-l co-grayc2">${views.operation['Activity.step.message5']}</span>
 

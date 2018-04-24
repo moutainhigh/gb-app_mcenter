@@ -43,49 +43,12 @@ public class SiteDailyController {
     public String operationSummary(HttpServletRequest request, Model model) {
         OperationSummaryVo o = new OperationSummaryVo();
         o = ServiceSiteTool.operationSummaryService().getOperationSummaryData(o);
-        model.addAttribute("balanceBarChartData", JsonTool.toJson(o.getBalanceBarChart()));
-        model.addAttribute("effectiveBarChartData", JsonTool.toJson(o.getEffectiveBarChart()));
+        model.addAttribute("balanceGaugeChartData", JsonTool.toJson(o.getBalanceGaugeChart()));
+        model.addAttribute("effectiveGaugeChartData", JsonTool.toJson(o.getEffectiveGaugeChart()));
+        model.addAttribute("profitLossGaugeChartData", JsonTool.toJson(o.getProfitLossGaugeChart()));
         model.addAttribute("operationSummaryData", JsonTool.toJson(o.getEntities()));
-        model.addAttribute("balanceSummaryData", JsonTool.toJson(DataTransTool.transBalanceObjToMap(o.getEntities())));
-        model.addAttribute("columnsDateFieldList", JsonTool.toJson(DataTransTool.extractDateFields(o.getEntities())));
+        model.addAttribute("loginCountData", JsonTool.toJson(DataTransTool.loginCountObjToMap(o.getEntities())));
         return OPERATION_SUMMARY;
-    }
-
-    /**
-     * (o1-o2)/o2*100:保留两位小数后返回（参数仅支持int或double）
-     *
-     * @param o1 today
-     * @param o2 yesterday
-     * @return
-     */
-    public static double getPercentage(Object o1, Object o2) {
-        if (o1 == null && o2 == null) {
-            return 0.0D;
-        } else {
-            double d1 = 0.0D, d2 = 0.0D;
-            boolean b1 = false, b2 = false;
-            if (o1 instanceof Integer) {
-                d1 = ((Integer) o1).doubleValue();
-                b1 = true;
-            }
-
-            if (o2 instanceof Integer) {
-                d2 = ((Integer) o2).doubleValue();
-                b2 = true;
-            }
-
-            if (o1 instanceof Double) {
-                d1 = ((Double) o1).doubleValue();
-                b1 = true;
-            }
-
-            if (o2 instanceof Double) {
-                d2 = ((Double) o2).doubleValue();
-                b2 = true;
-            }
-
-            return b1 && b2 ? Double.valueOf(String.format("%.2f", new Object[]{Double.valueOf((d1 - d2) / d2 * 100 )})).doubleValue() : 0.0D;
-        }
     }
 
     /**
@@ -109,13 +72,13 @@ public class SiteDailyController {
             profiles.remove(0);
             //对比昨日同时段浮动百分比
             RealtimeProfileVo profileVo = new RealtimeProfileVo();
-            profileVo.setCompareVisitor(getPercentage(lastProfile.getCountVisitor(), fristProfile.getCountVisitor()));
-            profileVo.setCompareActive(getPercentage(lastProfile.getCountActive(), fristProfile.getCountActive()));
-            profileVo.setCompareRegister(getPercentage(lastProfile.getCountRegister(), fristProfile.getCountRegister()));
-            profileVo.setCompareDeposit(getPercentage(lastProfile.getCountDeposit(), fristProfile.getCountDeposit()));
-            profileVo.setCompareEffcTransaction(getPercentage(lastProfile.getCountEffcTransaction(), fristProfile.getCountEffcTransaction()));
-            profileVo.setCompareOnline(getPercentage(lastProfile.getCountOnline(), fristProfile.getCountOnline()));
-            profileVo.setCompareRealtimeProfitLoss(getPercentage(lastProfile.getRealtimeProfitLoss(), fristProfile.getRealtimeProfitLoss()));
+            profileVo.setCompareVisitor(DataTransTool.getPercentage(lastProfile.getCountVisitor(), fristProfile.getCountVisitor()));
+            profileVo.setCompareActive(DataTransTool.getPercentage(lastProfile.getCountActive(), fristProfile.getCountActive()));
+            profileVo.setCompareRegister(DataTransTool.getPercentage(lastProfile.getCountRegister(), fristProfile.getCountRegister()));
+            profileVo.setCompareDeposit(DataTransTool.getPercentage(lastProfile.getCountDeposit(), fristProfile.getCountDeposit()));
+            profileVo.setCompareEffcTransaction(DataTransTool.getPercentage(lastProfile.getCountEffcTransaction(), fristProfile.getCountEffcTransaction()));
+            profileVo.setCompareOnline(DataTransTool.getPercentage(lastProfile.getCountOnline(), fristProfile.getCountOnline()));
+            profileVo.setCompareRealtimeProfitLoss(DataTransTool.getPercentage(lastProfile.getRealtimeProfitLoss(), fristProfile.getRealtimeProfitLoss()));
             realtimeProfileListVo.setResult(profiles);
             model.addAttribute("profilesJson", JsonTool.toJson(profiles));
             model.addAttribute("Vo", profileVo);
@@ -128,7 +91,8 @@ public class SiteDailyController {
         }
 
         model.addAttribute("command", realtimeProfileListVo);
-        return "/daily/RealTimeSummary";
+        return REAL_TIME_SUMMARY;
+
     }
 
     /**
