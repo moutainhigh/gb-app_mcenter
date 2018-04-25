@@ -678,13 +678,13 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             Integer masterId = sysSiteVo.getResult().getSysUserId();
             LOG.info("站长ID：{0}",masterId);
             SysUserVo sysUserVo = new SysUserVo();
-            sysUserVo._setDataSourceId(Const.BASE_DATASOURCE_ID);
             sysUserVo.getSearch().setId(masterId);
-            sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
-            LOG.info("站点用户：{0}",JsonTool.toJson(sysUserVo.getResult()));
+            sysUserVo = ServiceTool.myAccountService().getSysUser(sysUserVo);
             model.addAttribute("isMaster",true);
             if (sysUserVo.getResult()!=null) {
                 model.addAttribute("idCard", sysUserVo.getResult().getIdcard());
+            }else {
+                LOG.info("站长坐席号：获取站长用户信息为空！");
             }
         }
         return "/setting/param/siteparameters/Parameters";
