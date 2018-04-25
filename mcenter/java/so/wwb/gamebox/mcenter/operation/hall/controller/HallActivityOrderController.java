@@ -1,7 +1,9 @@
 package so.wwb.gamebox.mcenter.operation.hall.controller;
 
 
+import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.net.ServletTool;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
@@ -17,21 +19,20 @@ import so.wwb.gamebox.mcenter.operation.form.VActivityMessageForm;
 import so.wwb.gamebox.mcenter.operation.form.VActivityMessageSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.cache.CacheKey;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.master.operation.po.ActivityMessage;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMessageListVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMessageOrderVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMessageVo;
+import so.wwb.gamebox.model.master.operation.vo.PlayerActivityMessage;
 import so.wwb.gamebox.web.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by jessie on 16-5-23.
@@ -84,7 +85,18 @@ public class HallActivityOrderController extends BaseCrudController<IActivityMes
         Date current = new Date();
         listVo.getSearch().setStartTime(current);
         listVo.getSearch().setEndTime(current);
-        listVo.setResult(getService().getProcessingActivity(listVo));
+        List<ActivityMessage> activityMessageList = getService().getProcessingActivity(listVo);
+        listVo.setResult(activityMessageList);
+        if (CollectionTool.isNotEmpty(activityMessageList)) {
+            Map<String, PlayerActivityMessage> activityMessageMap = Cache.getPcActivityMessages();
+            String locale = CommonContext.get().getLocale().toString();
+            for (ActivityMessage activityMessage : activityMessageList) {
+                PlayerActivityMessage playerActivityMessage = activityMessageMap.get(CacheKey.getCacheKey(String.valueOf(activityMessage.getId()), locale));
+                if (playerActivityMessage != null) {
+                    activityMessage.setActivityName(playerActivityMessage.getActivityName());
+                }
+            }
+        }
         return listVo;
     }
 
@@ -93,7 +105,8 @@ public class HallActivityOrderController extends BaseCrudController<IActivityMes
     public boolean saveActivityOrder(@RequestBody ActivityMessageOrderVo activityMessageVo, Model model){
         activityMessageVo.setProperties(ActivityMessage.PROP_ORDER_NUM);
         getService().updateOrderList(activityMessageVo);
-        Cache.refreshActivityMessages();
+        Cache.refreshPcActivityMessages();
+        Cache.refreshMobileActivityMessages();
         Cache.refreshCurrentSitePageCache();
         return activityMessageVo.isSuccess();
 

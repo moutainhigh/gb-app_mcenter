@@ -5,6 +5,17 @@
 <!--//region your codes 1-->
 <%--盈亏返利--%>
 <div class="clearfix m-t-md">
+   <%-- 因为活动大厅加了这俩个判断,所以活动管理也添加.不然保存不了--%>
+    <div class="col-sm-5 hide">
+        <label>
+            <input type="checkbox" value="profit" name="profitPreferential"
+                   class="i-checks profit" checked >${views.operation['盈利送']}
+        </label>
+        <label>
+            <input type="checkbox" value="loss" name="lossPreferential"
+                   class="i-checks loss" checked >${views.operation['亏损送']}
+        </label>
+    </div>
     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.conditions']}：</label>
     <div class="col-sm-9">
         <div class="tab-content table-responsive">

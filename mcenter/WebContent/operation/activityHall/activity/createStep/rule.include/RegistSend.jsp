@@ -36,7 +36,7 @@
     </div>
 
     <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.conditions']}：</label>
-    <div class="col-sm-9">
+    <div class="col-sm-7">
         <div class="tab-content table-responsive">
             <table class="table border" id="regist_send">
                 <tr>
@@ -64,9 +64,9 @@
         </div>
     </div>
 
-    <soul:button target="registSystemRecommendCase" text="" opType="function" cssClass="btn btn-info btn-addon pull-right m-t">
-        <i class="fa fa-plus"></i><span class="hd">${views.operation['系统推荐']}</span>
-    </soul:button>
+    <%--<soul:button target="registSystemRecommendCase" text="" opType="function" cssClass="btn btn-info btn-addon pull-right m-t">--%>
+        <%--<i class="fa fa-plus"></i><span class="hd">${views.operation['系统推荐']}</span>--%>
+    <%--</soul:button>--%>
 </div>
 <!--//endregion your codes 1-->
 

@@ -44,7 +44,7 @@
             </div>
             <%--游戏类型--%>
             <c:choose>
-                <c:when test="${apiType eq 1 || apiType eq 2 || apiType eq 3 || apiType eq 4 }">
+                <c:when test="${apiType eq 1 || apiType eq 2 || apiType eq 3 || apiType eq 4 || apiType eq 5}">
                     <%@include file="ChooseApi.jsp"%>
                 </c:when>
                 <c:otherwise>

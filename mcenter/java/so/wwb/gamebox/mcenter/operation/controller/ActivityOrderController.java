@@ -88,7 +88,8 @@ public class ActivityOrderController extends BaseCrudController<IActivityMessage
     public boolean saveActivityOrder(@RequestBody ActivityMessageOrderVo activityMessageVo, Model model) {
         activityMessageVo.setProperties(ActivityMessage.PROP_ORDER_NUM);
         getService().updateOrderList(activityMessageVo);
-        Cache.refreshActivityMessages();
+        Cache.refreshPcActivityMessages();
+        Cache.refreshMobileActivityMessages();
         Cache.refreshCurrentSitePageCache();
         return activityMessageVo.isSuccess();
 

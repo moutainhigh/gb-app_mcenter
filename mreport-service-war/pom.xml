@@ -1,11 +1,13 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <parent>
-        <artifactId>app_mcenter</artifactId>
-        <groupId>so.wwb.gamebox</groupId>
-        <version>2.0.1.9-SNAPSHOT</version>
-    </parent>
+    <!--<parent>-->
+        <!--<artifactId>app_mcenter</artifactId>-->
+        <!--<groupId>so.wwb.gamebox</groupId>-->
+        <!--<version>2.0.1.9-SNAPSHOT</version>-->
+    <!--</parent>-->
 
+    <groupId>so.wwb.gamebox</groupId>
+    <version>2.0.1.9-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>mreport-service-war</artifactId>
     <packaging>war</packaging>
@@ -68,13 +70,14 @@
             <artifactId>soul-dubbo-provider</artifactId>
             <version>${soul.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.soul</groupId>
-            <artifactId>soul-dubbo-provider</artifactId>
-            <version>${soul.version}</version>
-            <classifier>javadoc</classifier>
-            <scope>provided</scope>
-        </dependency>
+        <!--Water note it-->
+        <!--<dependency>-->
+            <!--<groupId>org.soul</groupId>-->
+            <!--<artifactId>soul-dubbo-provider</artifactId>-->
+            <!--<version>${soul.version}</version>-->
+            <!--<classifier>javadoc</classifier>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
         <!--Soul依赖组件-->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>

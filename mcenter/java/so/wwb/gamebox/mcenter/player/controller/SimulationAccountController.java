@@ -123,8 +123,7 @@ public class SimulationAccountController extends BaseCrudController<IUserPlayerS
             sysUser.setFreezeEndTime(null);
         }
         sysUser.setMemo(Vo.getSysUser().getMemo());
-        String domain = SessionManagerCommon.getDomain(request);
-        sysUser.setRegisterSite(domain);
+        sysUser.setRegisterSite(request.getServerName());
         sysUser.setCreateUser(SessionManager.getUser().getId());
         //UserRegisterVo 的result没有用到。暂时用来传参
         userRegisterVo.getSearch().setImportUsername(SessionManager.getUser().getUsername());

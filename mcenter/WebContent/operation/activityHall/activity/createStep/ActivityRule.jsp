@@ -56,7 +56,7 @@
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>
                     <div class="col-sm-5">
                         <span class="input-group pull-left line-hi25 m-r">
-                            <gb:select name="activityRule.claimPeriod" list="<%=DictTool.get(DictEnum.CLAIM_PERIOD)%>" prompt="${views.common['pleaseSelect']}" value="${activityRule.claimPeriod}"/>
+                            <gb:select name="activityRule.claimPeriod" list="{'NaturalDay':'一日'}" prompt="" value="NaturalDay"/>
                         </span>
                         <span class="m-l co-grayc2">${views.operation['Activity.step.message5']}</span>
 
@@ -148,7 +148,7 @@
                                 <td>
                                     <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
                                         <button class="btn <c:if test="${index.index ne 0}">btn-outline</c:if> btn-filter gameTypeButton" data-toggle="tab" href="#game_tab${index.index}" aria-expanded="${index.index==0?'true':'false'}">
-                                                ${gbFn:getGameTypeName(apiGametypeRelations.key)}
+                                                ${dicts.game.game_type[apiGametypeRelations.key]}
                                             <span class="${index.index} badge m-l"></span>
                                         </button>
                                     </c:forEach>
@@ -165,12 +165,13 @@
                         <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
                             <div id="game_tab${index.index}" class="tab-pane ${index.index==0?'active':''} game_div" aaa="${index.index}">
                                 <c:forEach items="${apiGametypeRelations.value}" var="apiGametypeRelation" varStatus="v">
-
+                                    <label class="m-r-sm">
                                         <input type="checkbox" value="${apiGametypeRelation.apiId}" name="ActivityRuleIncludeGames[${index.index}][${v.index}].apiId"  aaa="${index.index}" class="game"
                                         <c:forEach items="${activityRIGMap[apiGametypeRelations.key]}" var="activityRIG">
                                                 ${apiGametypeRelation.apiId == activityRIG.apiId ? 'checked':''}
                                         </c:forEach>
                                         />${gbFn:getApiName(apiGametypeRelation.apiId)}
+                                    </label>
                                         <input type="hidden" name="ActivityRuleIncludeGames[${index.index}][${v.index}].gameType" value="${apiGametypeRelations.key}">
 
                                 </c:forEach>
@@ -230,6 +231,17 @@
                 </div>
                 <br>
             </c:if>
+            <c:if test="${ activityType.result.code eq 'regist_send'}">
+            <div class="clearfix m-t-md line-hi34">
+                <div class="col-sm-5 col-sm-offset-3">
+                        <soul:button target="registSystemRecommendCase" text="" opType="function" cssClass="btn btn-info btn-addon pull-left m-t">
+                            <i class="fa fa-plus"></i><span class="hd">${views.operation['系统推荐方案']}</span>
+                        </soul:button>
+                </div>
+            </div>
+            <br>
+            </c:if>
+            <br>
             <c:if test="${activityType.result.code ne 'back_water'}">
                 <input type="hidden" name="isAllRank" value="${isAllRank}">
                 <input type="hidden" name="rank" id="prank" value="${(type eq 'edit')?activityRule.rank:''}"/>
@@ -237,7 +249,7 @@
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.rank']}：</label>
                     <label class="col-sm-5">
-                        <input type="checkbox" class="i-checks" id="levels" name="activityRule.isAllRank" ${activityRule.isAllRank?"checked":""} ${type eq 'edit' ? " disabled":""}/>
+                        <input type="checkbox" class="i-checks" id="levels" name="activityRule.isAllRank" ${activityRule.isAllRank?"checked":""} <%--${type eq 'edit' ? " disabled":""}--%>/>
                         ${views.operation['Activity.step.allRank']}
                     </label>
                     <div class="col-sm-5 col-sm-offset-3" id="playerRank">

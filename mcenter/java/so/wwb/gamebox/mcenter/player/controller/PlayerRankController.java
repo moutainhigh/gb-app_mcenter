@@ -11,6 +11,10 @@ import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
 import org.soul.commons.support._Module;
+import org.soul.model.log.audit.enums.OpType;
+import org.soul.model.log.audit.vo.BaseLog;
+import org.soul.model.log.audit.vo.LogVo;
+import org.soul.model.sys.po.SysAuditLog;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.annotation.FormModel;
@@ -28,7 +32,9 @@ import so.wwb.gamebox.mcenter.player.form.PlayerRankForm;
 import so.wwb.gamebox.mcenter.player.form.PlayerRankSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.ModuleType;
 import so.wwb.gamebox.model.RankStatusEnum;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.master.content.enums.PayAccountStatusEnum;
 import so.wwb.gamebox.model.master.content.po.PayAccount;
@@ -224,14 +230,34 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
      * @return
      */
     @RequestMapping({"/savePayLimit"})
+    @Audit(module = Module.RANK, moduleType = ModuleType.RANK_PAY_LIMIT, opType = OpType.UPDATE)
     @ResponseBody
-    public Map savePayLimit(PlayerRankVo vo, @FormModel("result") @Valid PlayerRankSearchForm form, BindingResult result) {
+    public Map savePayLimit(PlayerRankVo vo, @FormModel("result") @Valid PlayerRankSearchForm form, BindingResult result,HttpServletRequest request) {
         if (!result.hasErrors()) {
             vo = this.getService().savePayLimit(vo);
+            if (vo.isSuccess()) {
+                addLog(request,vo,"rank.pay.limit");
+            }
         } else {
             vo.setSuccess(false);
         }
         return this.getVoMessage(vo);
+    }
+
+    /**
+     * 添加日志
+     *
+     * @param request
+     *
+     */
+    private void addLog(HttpServletRequest request,PlayerRankVo vo,String type) {
+        vo.getSearch().setId(vo.getResult().getId());
+        vo = ServiceSiteTool.playerRankService().get(vo);
+        LogVo logVo = new LogVo();
+        BaseLog baseLog = logVo.addBussLog();
+        baseLog.setDescription(type);
+        baseLog.addParam(vo.getResult().getRankName());
+        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
     }
     //endregion your codes 2
 
@@ -395,8 +421,9 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
         return map;
     }
     @RequestMapping({"/updateWithdrawLimit"})
+    @Audit(module = Module.RANK, moduleType = ModuleType.RANK_WITHDRAW_LIMIT, opType = OpType.UPDATE)
     @ResponseBody
-    public Map updateWithdrawLimit(PlayerRankVo objectVo, @FormModel("result") @Valid PlayerRankAddForm form, BindingResult result) {
+    public Map updateWithdrawLimit(PlayerRankVo objectVo, @FormModel("result") @Valid PlayerRankAddForm form, BindingResult result,HttpServletRequest request) {
         String[] array=new String[19];
         array[0] = PlayerRank.PROP_WITHDRAW_TIME_LIMIT;
         array[1] = PlayerRank.PROP_WITHDRAW_FREE_COUNT;
@@ -419,6 +446,7 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
         array[18] = PlayerRank.PROP_IS_WITHDRAW_FEE_ZERO_RESET;
         objectVo.setProperties(array);
         this.getService().updateOnly(objectVo);
+        addLog(request,objectVo,"rank.withdraw.limit");
         return this.getVoMessage(objectVo);
     }
     @RequestMapping(value = "/checkUserNameExist")

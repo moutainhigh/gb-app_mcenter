@@ -72,12 +72,14 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         findEnableImportPlayerParam(model);
         return this.getService().search(listVo);
     }
+
     /**
      * 查询是否可转站参数
+     *
      * @param model
      * @return
      */
-    private void findEnableImportPlayerParam(Model model){
+    private void findEnableImportPlayerParam(Model model) {
         /*SysParam enableParam = ParamTool.raw(SessionManager.getSiteParentId(), ParamEnum.MASTER_IMPORTPLAYER_ENABLE);
         if(enableParam!=null){
             model.addAttribute("isEnableImport",enableParam.getParamValue());
@@ -90,11 +92,12 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         SysSiteVo sysSiteVo = new SysSiteVo();
         sysSiteVo.getSearch().setId(SessionManager.getSiteId());
         SysSite sysSite = ServiceTool.sysSiteService().getSiteImport(sysSiteVo);
-        if(sysSite!=null){
-            model.addAttribute("isEnableImport","1");
-            model.addAttribute("endImportTime",sysSite.getImportPlayersTime());
+        if (sysSite != null) {
+            model.addAttribute("isEnableImport", "1");
+            model.addAttribute("endImportTime", sysSite.getImportPlayersTime());
         }
     }
+
     @Override
     protected SiteCustomerServiceVo doCreate(SiteCustomerServiceVo objectVo, Model model) {
         objectVo.getSearch().setSiteId(SessionManager.getSiteId());
@@ -103,6 +106,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         objectVo.getResult().setCode(addCode);
         return objectVo;
     }
+
     @Override
     protected SiteCustomerServiceVo doSave(SiteCustomerServiceVo objectVo) {
         objectVo.getResult().setStatus(true);
@@ -114,7 +118,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         siteCustomerServiceListVo.getSearch().setCode(objectVo.getResult().getCode());
         siteCustomerServiceListVo.getSearch().setSiteId(SessionManager.getSiteId());
         long count = this.getService().count(siteCustomerServiceListVo);
-        if(count>0){
+        if (count > 0) {
             objectVo.setSuccess(false);
             objectVo.setErrMsg(LocaleTool.tranMessage("contacts", "customer.service.code"));
             return objectVo;
@@ -128,6 +132,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         Cache.refreshCurrentSitePageCache();
         return objectVo;
     }
+
     @Override
     protected SiteCustomerServiceVo doUpdate(SiteCustomerServiceVo objectVo) {
         objectVo.setProperties(SiteCustomerService.PROP_NAME, SiteCustomerService.PROP_PARAMETER);
@@ -143,20 +148,21 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
 
     /**
      * 删除验证
+     *
      * @param id
      * @return
      */
     @RequestMapping({"/validateDelete"})
     @ResponseBody
-    public Map validateDelete(Integer id,SiteCustomerServiceVo siteCustomerServiceVo,SiteCustomerServiceListVo siteCustomerServiceListVo,VFloatPicListVo vFloatPicListVo){
-        HashMap map = new HashMap(3,1f);
+    public Map validateDelete(Integer id, SiteCustomerServiceVo siteCustomerServiceVo, SiteCustomerServiceListVo siteCustomerServiceListVo, VFloatPicListVo vFloatPicListVo) {
+        HashMap map = new HashMap(3, 1f);
         siteCustomerServiceVo.getSearch().setId(id);
-        Integer picCount=0;
+        Integer picCount = 0;
 
         siteCustomerServiceVo = this.getService().get(siteCustomerServiceVo);
-        if(siteCustomerServiceVo.getResult()==null){
+        if (siteCustomerServiceVo.getResult() == null) {
             siteCustomerServiceVo.setSuccess(false);
-        }else {
+        } else {
 
 
             /**
@@ -168,9 +174,9 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
             siteCustomerServiceListVo.getSearch().setStatus(true);
             siteCustomerServiceListVo.getSearch().setSiteId(SessionManager.getSiteId());
             siteCustomerServiceListVo = this.getService().search(siteCustomerServiceListVo);
-            List<String> ids =new ArrayList();
-            for(SiteCustomerService i:siteCustomerServiceListVo.getResult()){
-                ids.add(i.getId()+"");
+            List<String> ids = new ArrayList();
+            for (SiteCustomerService i : siteCustomerServiceListVo.getResult()) {
+                ids.add(i.getId() + "");
             }
 
             vFloatPicListVo.getSearch().setIds(ids);
@@ -178,18 +184,17 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
             vFloatPicListVo.getSearch().setImgLinkValue(id + "");
             //在线客服前端显示
             vFloatPicListVo = ServiceSiteTool.vFloatPicService().search(vFloatPicListVo);
-            picCount=vFloatPicListVo.getResult().size();
-
+            picCount = vFloatPicListVo.getResult().size();
 
 
             //BLANK("3","前台也一个都没有展示时"),
-            for (VFloatPic pic:vFloatPicListVo.getResult()) {
-                if (pic.getImgLinkValue().equals(id+"")) {
+            for (VFloatPic pic : vFloatPicListVo.getResult()) {
+                if (pic.getImgLinkValue().equals(id + "")) {
                     // * ONLY("1","在展示且为唯一展示"),
-                    if(picCount==1){
+                    if (picCount == 1) {
                         siteCustomerServiceVo.setDelStatus("1");
                         break;
-                    }else{
+                    } else {
                         siteCustomerServiceVo.setDelStatus("2");
                         break;
                     }
@@ -197,39 +202,41 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
                 }
             }
         }
-        map.put("msg", StringTool.isNotBlank(siteCustomerServiceVo.getOkMsg())?siteCustomerServiceVo.getOkMsg():siteCustomerServiceVo.getErrMsg());
+        map.put("msg", StringTool.isNotBlank(siteCustomerServiceVo.getOkMsg()) ? siteCustomerServiceVo.getOkMsg() : siteCustomerServiceVo.getErrMsg());
         map.put("state", Boolean.valueOf(siteCustomerServiceVo.isSuccess()));
         map.put("delStatus", siteCustomerServiceVo.getDelStatus());
         return map;
     }
+
     /**
-     *单个删除客服设置
+     * 单个删除客服设置
+     *
      * @param id
      * @return
      */
     @RequestMapping({"/del"})
     @ResponseBody
-    public Map del(Integer id,VFloatPicListVo vFloatPicListVo) {
+    public Map del(Integer id, VFloatPicListVo vFloatPicListVo) {
         SiteCustomerServiceVo vo = new SiteCustomerServiceVo();
         vo.getSearch().setId(id);
 
 
-        vo= this.getService().get(vo);
-        if(vo.getResult()==null){
+        vo = this.getService().get(vo);
+        if (vo.getResult() == null) {
             vo.setSuccess(false);
-        }else{
+        } else {
             vo.getResult().setStatus(false);
-           this.getService().del(vo);
+            this.getService().del(vo);
         }
         HashMap<String, String> map = new HashMap<>();
         vFloatPicListVo.getSearch().setImgLinkType(FloatPicLinkTypeEnum.CUSTOMER_SERVICE.getCode());
         vFloatPicListVo.getSearch().setImgLinkValue(id + "");
         //在线客服前端显示
         vFloatPicListVo = ServiceSiteTool.vFloatPicService().search(vFloatPicListVo);
-       Integer picCount=vFloatPicListVo.getResult().size();
-        if(picCount==0){
+        Integer picCount = vFloatPicListVo.getResult().size();
+        if (picCount == 0) {
             //当前站点前端无客服咨询浮动窗口，建议立即去设置！
-            map.put("state","toSetting");
+            map.put("state", "toSetting");
 
         }
         Cache.refreshCustomerService();
@@ -246,21 +253,21 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     @RequestMapping("/pc")
     @ResponseBody
     public Map updatePCCustomerService(SiteCustomerServiceVo objectVo, @FormModel @Valid SitePCCustomerServiceForm form, BindingResult result) {
-        Map<String,Object> map = new HashMap<>(2,1f);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         if (result.hasErrors()) {
-            map.put("state",false);
-            map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
+            map.put("state", false);
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
         objectVo.setProperties(SiteCustomerService.PROP_NAME, SiteCustomerService.PROP_PARAMETER);
         String url = objectVo.getPc().getParameter();
-        StringBuilder newUrl =new StringBuilder(url);
+        StringBuilder newUrl = new StringBuilder(url);
         if (!url.contains("http")) {
-            newUrl.insert(0,"http://");
+            newUrl.insert(0, "http://");
         }
         boolean b = Pattern.compile(RegExpConstants.URL).matcher(newUrl.toString()).find();
-        if(b){
+        if (b) {
             objectVo.setResult(new SiteCustomerService());
             objectVo.getResult().setParameter(newUrl.toString());
             objectVo.getResult().setId(objectVo.getPc().getId());
@@ -268,17 +275,17 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
             objectVo = this.getService().updateOnly(objectVo);
 
             if (objectVo.isSuccess()) {
-                map.put("state",true);
-                map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
+                map.put("state", true);
+                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 Cache.refreshCustomerService();
                 Cache.refreshCurrentSitePageCache();
             } else {
-                map.put("state",false);
-                map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
+                map.put("state", false);
+                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             }
-        }else {
-            map.put("state",false);
-            map.put("msg",LocaleTool.tranMessage("setting_auto","输入的不是连接"));
+        } else {
+            map.put("state", false);
+            map.put("msg", LocaleTool.tranMessage("setting_auto", "输入的不是连接"));
         }
         return map;
     }
@@ -291,10 +298,10 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     @RequestMapping("/mobile")
     @ResponseBody
     public Map updateMobileCustomerService(SiteCustomerServiceVo objectVo, @FormModel @Valid SiteMobileCustomerServiceForm form, BindingResult result) {
-        Map<String,Object> map = new HashMap<>(2,1f);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         if (result.hasErrors()) {
-            map.put("state",false);
-            map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
+            map.put("state", false);
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             return map;
         }
 
@@ -302,10 +309,10 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         String url = objectVo.getMobile().getParameter();
         StringBuilder newUrl = new StringBuilder(url);
         if (!url.contains("http")) {
-            newUrl.insert(0,"http://");
+            newUrl.insert(0, "http://");
         }
         boolean b = Pattern.compile(RegExpConstants.URL).matcher(newUrl.toString()).find();
-        if (b){
+        if (b) {
             objectVo.setResult(new SiteCustomerService());
             objectVo.getResult().setParameter(newUrl.toString());
             objectVo.getResult().setId(objectVo.getMobile().getId());
@@ -313,45 +320,94 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
             objectVo = this.getService().updateOnly(objectVo);
 
             if (objectVo.isSuccess()) {
-                map.put("state",true);
-                map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
+                map.put("state", true);
+                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 Cache.refreshCustomerService();
                 Cache.refreshCurrentSitePageCache();
             } else {
-                map.put("state",false);
-                map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
+                map.put("state", false);
+                map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
             }
-        }else {
-            map.put("state",false);
-            map.put("msg",LocaleTool.tranMessage("setting_auto","输入的不是连接"));
+        } else {
+            map.put("state", false);
+            map.put("msg", LocaleTool.tranMessage("setting_auto", "输入的不是连接"));
         }
         return map;
     }
 
     /**
      * APP下载域名设置
+     *
      * @param
      * @param model
      * @return
      */
     @RequestMapping("/appDomain")
     @ResponseBody
-    public Map updateAppDomainService( PlayerRankAppDomainListVo playerRankAppDomainListVo,Model model){
-        Map map=new HashedMap();
+    public Map updateAppDomainService(PlayerRankAppDomainListVo playerRankAppDomainListVo, Model model, String androidDownloadAddress,String iosDownloadAddress) {
+        Map map = new HashedMap();
 
         //根据层级设置域名
-         insertRankByDomain(playerRankAppDomainListVo);
+        insertRankByDomain(playerRankAppDomainListVo);
+
+        //设置android app下载地址
+        SysParam addressParam = ParamTool.getSysParam(SiteParamEnum.SETTING_ANDROID_DOWNLOAD_ADDRESS);
+        SysParamVo addressParamVo = new SysParamVo();
+        addressParamVo.setResult(new SysParam());
+        if (addressParam != null) {
+            addressParamVo.getResult().setId(addressParam.getId());
+            addressParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            addressParamVo.getResult().setParamValue(androidDownloadAddress);
+            addressParamVo = ServiceTool.getSysParamService().updateOnly(addressParamVo);
+        } else {
+            if (StringTool.isNotBlank(androidDownloadAddress)) {
+                addressParamVo.getResult().setRemark("android下载地址");
+                addressParamVo.getResult().setModule(SiteParamEnum.SETTING_ANDROID_DOWNLOAD_ADDRESS.getModule().getCode());
+                addressParamVo.getResult().setParamType(SiteParamEnum.SETTING_ANDROID_DOWNLOAD_ADDRESS.getType());
+                addressParamVo.getResult().setParamCode(SiteParamEnum.SETTING_ANDROID_DOWNLOAD_ADDRESS.getCode());
+                addressParamVo.getResult().setParamValue(androidDownloadAddress);
+                addressParamVo.getResult().setActive(true);
+                addressParamVo = ServiceTool.getSysParamService().insert(addressParamVo);
+            }
+        }
+        if (addressParamVo.isSuccess()) {
+            ParamTool.refresh(SiteParamEnum.SETTING_ANDROID_DOWNLOAD_ADDRESS);
+        }
+
+        //设置ios app下载地址
+        SysParam iosParam = ParamTool.getSysParam(SiteParamEnum.SETTING_ISO_DOWNLOAD_ADDRESS);
+        SysParamVo iosParamVo = new SysParamVo();
+        iosParamVo.setResult(new SysParam());
+        if (iosParam != null) {
+            iosParamVo.getResult().setId(iosParam.getId());
+            iosParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            iosParamVo.getResult().setParamValue(iosDownloadAddress);
+            iosParamVo = ServiceTool.getSysParamService().updateOnly(iosParamVo);
+        } else {
+            if (StringTool.isNotBlank(iosDownloadAddress)) {
+                iosParamVo.getResult().setRemark("ios下载地址");
+                iosParamVo.getResult().setModule(SiteParamEnum.SETTING_ISO_DOWNLOAD_ADDRESS.getModule().getCode());
+                iosParamVo.getResult().setParamType(SiteParamEnum.SETTING_ISO_DOWNLOAD_ADDRESS.getType());
+                iosParamVo.getResult().setParamCode(SiteParamEnum.SETTING_ISO_DOWNLOAD_ADDRESS.getCode());
+                iosParamVo.getResult().setParamValue(iosDownloadAddress);
+                iosParamVo.getResult().setActive(true);
+                iosParamVo = ServiceTool.getSysParamService().insert(iosParamVo);
+            }
+        }
+        if (iosParamVo.isSuccess()) {
+            ParamTool.refresh(SiteParamEnum.SETTING_ISO_DOWNLOAD_ADDRESS);
+        }
 
         SysParamVo sysParamVo = new SysParamVo();
-        if(playerRankAppDomainListVo.getSysParam()!=null){
+        if (playerRankAppDomainListVo.getSysParam() != null) {
             sysParamVo.setResult(playerRankAppDomainListVo.getSysParam());
         }
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
-        if(sysParam!=null){
+        if (sysParam != null) {
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
             sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
-        }else{
+        } else {
             sysParamVo.getResult().setRemark("APP下载域名设置");
             sysParamVo.getResult().setModule(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getModule().getCode());
             sysParamVo.getResult().setParamType(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN.getType());
@@ -360,12 +416,12 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
             sysParamVo = ServiceTool.getSysParamService().insert(sysParamVo);
         }
         ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APP_DOMAIN);
-        if(sysParamVo.isSuccess()){
-            map.put("msg",LocaleTool.tranMessage("setting_auto","成功"));
-            map.put("state",true);
-        }else {
-            map.put("msg",LocaleTool.tranMessage("setting_auto","失败"));
-            map.put("state",false);
+        if (sysParamVo.isSuccess()) {
+            map.put("msg", LocaleTool.tranMessage("setting_auto", "成功"));
+            map.put("state", true);
+        } else {
+            map.put("msg", LocaleTool.tranMessage("setting_auto", "失败"));
+            map.put("state", false);
         }
         return map;
     }
@@ -376,56 +432,57 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
     @RequestMapping("/insertRankByDomain")
     @ResponseBody
     private Map insertRankByDomain(PlayerRankAppDomainListVo playerRankAppDomainListVo) {
-         Map map=new HashMap();
+        Map map = new HashMap();
         List<PlayerRankAppDomain> playerRankAppDomains = playerRankAppDomainListVo.getPlayerRankAppDomains();
-        if (playerRankAppDomains!=null){
+        if (playerRankAppDomains != null) {
             Iterator<PlayerRankAppDomain> iter = playerRankAppDomains.iterator();
-            Map<String,PlayerRankAppDomain> playerRankAppDomainObjectMap=new HashMap<>();
-            while(iter.hasNext()){
+            Map<String, PlayerRankAppDomain> playerRankAppDomainObjectMap = new HashMap<>();
+            while (iter.hasNext()) {
                 PlayerRankAppDomain next = iter.next();
-                if((next.getRankId()==null)||(next.getDomain().length()<1)){
-                    map.put("msg",LocaleTool.tranMessage("setting_auto","层级和域名不能为空"));
-                    map.put("state",false);
+                if ((next.getRankId() == null) || (next.getDomain().length() < 1)) {
+                    map.put("msg", LocaleTool.tranMessage("setting_auto", "层级和域名不能为空"));
+                    map.put("state", false);
                     return map;
-                }else {
-                    playerRankAppDomainObjectMap.put(next.getRankId()+next.getDomain(),next);
+                } else {
+                    playerRankAppDomainObjectMap.put(next.getRankId() + next.getDomain(), next);
                 }
             }
-            if (playerRankAppDomainObjectMap.size()!=playerRankAppDomains.size()){
-                map.put("msg",LocaleTool.tranMessage("setting_auto","同一个层级不能设置相同的域名"));
-                map.put("state",false);
-                return  map;
-            }else {
-                map.put("msg",LocaleTool.tranMessage("setting_auto","保存成功"));
-                map.put("state",true);
-             ServiceSiteTool.playerRankAppDomainService().insertAll(playerRankAppDomainListVo);
+            if (playerRankAppDomainObjectMap.size() != playerRankAppDomains.size()) {
+                map.put("msg", LocaleTool.tranMessage("setting_auto", "同一个层级不能设置相同的域名"));
+                map.put("state", false);
+                return map;
+            } else {
+                map.put("msg", LocaleTool.tranMessage("setting_auto", "保存成功"));
+                map.put("state", true);
+                ServiceSiteTool.playerRankAppDomainService().insertAll(playerRankAppDomainListVo);
             }
-        }else {
+        } else {
             ServiceSiteTool.playerRankAppDomainService().insertAll(playerRankAppDomainListVo);
-            map.put("msg",LocaleTool.tranMessage("setting_auto","保存成功"));
-            map.put("state",true);
+            map.put("msg", LocaleTool.tranMessage("setting_auto", "保存成功"));
+            map.put("state", true);
         }
-        return map ;
+        return map;
     }
 
     /**
      * APP下载域名设置
+     *
      * @param sysParamVo
      * @param model
      * @return
      */
     @RequestMapping("/accessDomain")
     @ResponseBody
-    public Map settingAccessDomain(SysParamVo sysParamVo,Model model){
+    public Map settingAccessDomain(SysParamVo sysParamVo, Model model) {
 
-        Map map=new HashedMap();
+        Map map = new HashedMap();
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
 
-        if(sysParam!=null){
+        if (sysParam != null) {
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
             sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
-        }else{
+        } else {
             sysParamVo.getResult().setRemark("访问域名设置");
             sysParamVo.getResult().setModule(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN.getModule().getCode());
             sysParamVo.getResult().setParamType(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN.getType());
@@ -435,12 +492,12 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
 
         ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN);
-        if(sysParamVo.isSuccess()){
-            map.put("msg",LocaleTool.tranMessage("setting_auto","成功"));
-            map.put("state",true);
-        }else {
-            map.put("msg",LocaleTool.tranMessage("setting_auto","失败"));
-            map.put("state",false);
+        if (sysParamVo.isSuccess()) {
+            map.put("msg", LocaleTool.tranMessage("setting_auto", "成功"));
+            map.put("state", true);
+        } else {
+            map.put("msg", LocaleTool.tranMessage("setting_auto", "失败"));
+            map.put("state", false);
         }
         return map;
     }

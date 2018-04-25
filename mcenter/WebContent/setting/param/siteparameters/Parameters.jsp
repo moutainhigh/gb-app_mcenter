@@ -57,20 +57,28 @@
                             <c:if test="${smsInterfaceSize>0}">
                                 <div class="clearfix m-b" style="border-bottom: 1px solid #dfdfdf;">
                                     <input name="smsSwitch.id" type="hidden" value="${smsSwitch.id}">
-                                    <input id="smsSwitch" name="smsSwitch.active" type="hidden" value="${smsSwitch.active}">
-                                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">短信开关：</div>
+                                    <input id="smsSwitch" name="smsSwitch.active" type="hidden"
+                                           value="${smsSwitch.active}">
+                                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
+                                        短信开关：
+                                    </div>
                                     <div class="col-xs-8" style="line-height: 30px;">
-                                        <input type="checkbox" class="_switch" name="sms-switch" data-size="mini" ${smsSwitch.active?"checked":""}>
+                                        <input type="checkbox" class="_switch" name="sms-switch"
+                                               data-size="mini" ${smsSwitch.active?"checked":""}>
                                         <c:choose>
                                             <c:when test="${smsSwitch.active==true}">
-                                                <span class="smsTips0"><soul:button target="${root}/param/editSmsInterface.html" text="设置短信接口" opType="dialog"/></span>
+                                                <span class="smsTips0"><soul:button
+                                                        target="${root}/param/editSmsInterface.html" text="设置短信接口"
+                                                        opType="dialog"/></span>
                                             </c:when>
                                             <c:otherwise>
                                                 <span class="smsTips0">您还未设置短信接口，请先进行设置</span>
                                             </c:otherwise>
                                         </c:choose>
                                         <span class="smsTips1 hidden">您还未设置短信接口，请先进行设置</span>
-                                        <span class="smsTips2 hidden"><soul:button target="${root}/param/editSmsInterface.html" text="设置短信接口" opType="dialog"/></span>
+                                        <span class="smsTips2 hidden"><soul:button
+                                                target="${root}/param/editSmsInterface.html" text="设置短信接口"
+                                                opType="dialog"/></span>
                                     </div>
                                 </div>
 
@@ -80,8 +88,11 @@
                                     </div>
                                     <div class="col-xs-5">
                                         <input name="playerPhoneParam.id" type="hidden" value="${playerPhoneParam.id}">
-                                        <input id="playerPhoneParam" name="playerPhoneParam.active" type="hidden" value="${playerPhoneParam.active}">
-                                        <input type="checkbox" class="_switch" name="sms-checkbox" typeName="playerPhoneParam" data-size="mini" ${playerPhoneParam.active?"checked":""}>
+                                        <input id="playerPhoneParam" name="playerPhoneParam.active" type="hidden"
+                                               value="${playerPhoneParam.active}">
+                                        <input type="checkbox" class="_switch" name="sms-checkbox"
+                                               typeName="playerPhoneParam"
+                                               data-size="mini" ${playerPhoneParam.active?"checked":""}>
                                     </div>
 
                                         <%--<div class="col-xs-5">
@@ -122,9 +133,12 @@
                                         手机找回密码：
                                     </div>
                                     <div class="col-xs-5">
-                                        <input name="recoverPasswordParam.id" type="hidden" value="${recoverPasswordParam.id}">
-                                        <input id="recoverPasswordParam" name="recoverPasswordParam.active" type="hidden" value="${recoverPasswordParam.active}">
-                                        <input type="checkbox" class="_switch recoverPasswordParam" data-size="mini" ${recoverPasswordParam.active?"checked":""}>
+                                        <input name="recoverPasswordParam.id" type="hidden"
+                                               value="${recoverPasswordParam.id}">
+                                        <input id="recoverPasswordParam" name="recoverPasswordParam.active"
+                                               type="hidden" value="${recoverPasswordParam.active}">
+                                        <input type="checkbox" class="_switch recoverPasswordParam"
+                                               data-size="mini" ${recoverPasswordParam.active?"checked":""}>
                                     </div>
                                 </div>
                                 <%--<div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
@@ -216,7 +230,7 @@
 
 
                 <div class="clearfix">
-                    <div  class="col-lg-6 site-switch">
+                    <div class="col-lg-6 site-switch">
                         <h3>${views.setting_auto['APP下载域名设置']}</h3>
                         <div id="appDownloadDomain" class="content clearfix">
                             <div style="padding-top: 10px">
@@ -227,55 +241,87 @@
                                 <label>${views.setting_auto['开启后，玩家需要登录方可查看二维码！']}</label>
                             </div>
                             <br/>
-                            <div class="clearfix m-b">
-                                <div class="ft-bold pull-left line-hi34">
-                                        ${views.setting_auto['APP默认下载域名']}
-                                </div>
-                                <div class="col-xs-5">
-                                    <gb:select name="sysParam.paramValue" value="${select_domain.paramValue}"
-                                               list="${appDomain}" listKey="domain" listValue="domain"/>
-                                </div>
+                            <div style="padding-top: 10px">
+                                <label class="ft-bold pull-left m-r"
+                                       style='float:left'> ${views.setting_auto['APP自定义下载URL']}：</label>
+                                <input type="checkbox" name="downloadUrl" data-size="mini"
+                                    ${fn:length(iosDownloadAddress) > 0 || fn:length(androidDownloadAddress) > 0 ?'checked':''} />
+                                <label>${views.setting_auto['开启后，APP默认下载域名将会失效']}</label>
                             </div>
-                            <label class="ft-bold col-sm-3 al-right line-hi34"
-                                   style='margin-left: -52px;margin-top:-3px'>${views.setting_auto['按层级设置下载域名']}：</label><br/><br/>
-                            <div class="tab-content col-sm-15" id="open-period-div">
-                                <table class="border" id="app-domain-table">
-                                    <tr>
-                                        <td class="bg-gray ft-bold"
-                                            style="width:300px"> ${views.setting_auto['层级']}</td>
-                                        <td class="bg-gray ft-bold"
-                                            style="width: 300px;"> ${views.setting_auto['下载域名']}</td>
-                                        <td class="bg-gray ft-bold"
-                                            style="width: 100px"> ${views.setting_auto['操作']}</td>
-                                    </tr>
-                                    <c:if test="${not empty rankAppDomain.result}">
-                                        <c:forEach var="period" items="${rankAppDomain.result}" varStatus="vs">
-                                            <tr>
-                                                <td>
-                                                    <gb:select  name="playerRankAppDomains[${vs.index}].rankId"
-                                                                list="${playerRanks}" listValue="rankName" value="${period.rankId}" listKey="id"/>
-                                                </td>
-                                                <td>
-                                                    <gb:select name="playerRankAppDomains[${vs.index}].domain"
-                                                               list="${appDomain}" listValue="domain" value="${period.domain}" listKey="domain"/>
-                                                </td>
-                                                <td>
-                                                    <soul:button target="deleteAppDomain"  text="${views.common['delete']}" opType="function"  cssClass="btn btn-danger">${views.common['delete']}</soul:button>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </c:if>
-                                </table>
-                                <table style="width: 791px">
-                                    <tr>
-                                        <td style="width: 100%;padding-right: 47px;padding-top: 10px;padding-bottom: 10px">
-                                            <soul:button target="copyAppDomain" text="" opType="function" cssClass="btn btn-info btn-addon pull-right">
-                                                <span class="hd">新增</span>
-                                            </soul:button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div><br/>
+                            <br/>
+                            <div class="clearfix m-b downloadUrl"
+                                 style="${fn:length(iosDownloadAddress) >0 ? '':'display:none;'}">
+                                <label class="ft-bold pull-left m-r"
+                                       style='float:left'> ${views.setting_auto['IOS']}：</label>
+                                <textarea class="form-control m-b" name="iosDownloadAddress" style="min-height:30px;"
+                                          placeholder="${views.setting_auto['请输入IOS地址']}">${iosDownloadAddress}</textarea>
+                            </div>
+                            <br/>
+                            <div class="clearfix m-b downloadUrl"
+                                 style="${fn:length(androidDownloadAddress) >0 ? '':'display:none;'}">
+                                <label class="ft-bold pull-left m-r"
+                                       style='float:left'> ${views.setting_auto['Android']}：</label>
+                                <textarea class="form-control m-b" name="androidDownloadAddress" style="min-height:30px;"
+                                          placeholder="${views.setting_auto['请输入Android地址']}">${androidDownloadAddress}</textarea>
+                            </div>
+                            <br/>
+                            <div id="appDomain" style="${fn:length(iosDownloadAddress) >0 || fn:length(androidDownloadAddress) >0  ? 'display:none;':''}">
+                                <div class="clearfix m-b">
+                                    <div class="ft-bold pull-left line-hi34">
+                                            ${views.setting_auto['APP默认下载域名']}
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <gb:select name="sysParam.paramValue" value="${select_domain.paramValue}"
+                                                   list="${appDomain}" listKey="domain" listValue="domain"/>
+                                    </div>
+                                </div>
+                                <label class="ft-bold col-sm-3 al-right line-hi34"
+                                       style='margin-left: -52px;margin-top:-3px'>${views.setting_auto['按层级设置下载域名']}：</label><br/><br/>
+                                <div class="tab-content col-sm-15" id="open-period-div">
+                                    <table class="border" id="app-domain-table">
+                                        <tr>
+                                            <td class="bg-gray ft-bold"
+                                                style="width:300px"> ${views.setting_auto['层级']}</td>
+                                            <td class="bg-gray ft-bold"
+                                                style="width: 300px;"> ${views.setting_auto['下载域名']}</td>
+                                            <td class="bg-gray ft-bold"
+                                                style="width: 100px"> ${views.setting_auto['操作']}</td>
+                                        </tr>
+                                        <c:if test="${not empty rankAppDomain.result}">
+                                            <c:forEach var="period" items="${rankAppDomain.result}" varStatus="vs">
+                                                <tr>
+                                                    <td>
+                                                        <gb:select name="playerRankAppDomains[${vs.index}].rankId"
+                                                                   list="${playerRanks}" listValue="rankName"
+                                                                   value="${period.rankId}" listKey="id"/>
+                                                    </td>
+                                                    <td>
+                                                        <gb:select name="playerRankAppDomains[${vs.index}].domain"
+                                                                   list="${appDomain}" listValue="domain"
+                                                                   value="${period.domain}" listKey="domain"/>
+                                                    </td>
+                                                    <td>
+                                                        <soul:button target="deleteAppDomain"
+                                                                     text="${views.common['delete']}" opType="function"
+                                                                     cssClass="btn btn-danger">${views.common['delete']}</soul:button>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:if>
+                                    </table>
+                                    <table style="width: 791px">
+                                        <tr>
+                                            <td style="width: 100%;padding-right: 47px;padding-top: 10px;padding-bottom: 10px">
+                                                <soul:button target="copyAppDomain" text="" opType="function"
+                                                             cssClass="btn btn-info btn-addon pull-right">
+                                                    <span class="hd">新增</span>
+                                                </soul:button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <br/>
+                            </div>
                             <div style="margin-right: 30px" class="modal-footer">
                                 <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
                                              opType="ajax"
@@ -284,19 +330,21 @@
                                              precall="validRankByDomain"
                                              post="getAppDomainFormData" callback="saveCallbak"/>
                             </div>
+
                         </div>
                         <table id="app-domain-template" style="display: none;">
                             <tr>
                                 <td>
                                     <gb:select cssClass="rankName" name="playerRankAppDomains[{n}].rankId"
-                                               list="${playerRanks}" listValue="rankName"  listKey="id"/>
+                                               list="${playerRanks}" listValue="rankName" listKey="id"/>
                                 </td>
                                 <td>
                                     <gb:select name="playerRankAppDomains[{n}].domain"
                                                list="${appDomain}" listValue="domain" listKey="domain"/>
                                 </td>
                                 <td>
-                                    <soul:button target="deleteAppDomain" text="${views.common['delete']}"  opType="function" cssClass="btn btn-danger"></soul:button>
+                                    <soul:button target="deleteAppDomain" text="${views.common['delete']}"
+                                                 opType="function" cssClass="btn btn-danger"></soul:button>
                                 </td>
                             </tr>
                         </table>
@@ -346,11 +394,17 @@
 
                                         </div>
                                         <c:if test="${isMaster}">
-                                            <div id="idCard" data-size="mini" class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px" >
-                                                <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
+                                            <div id="idCard" data-size="mini"
+                                                 class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl"
+                                                 style="padding-top: 10px">
+                                                <label class="ft-bold pull-left m-r"
+                                                       style='float:left;margin-top: 10px'>
                                                         ${views.setting_auto['站长坐席号']}：</label>
-                                                <input type="text" id="idCard" style="height: 35px"  placeholder="${views.setting_auto['设置站长坐席号']}" name="result.idcard" value="${idCard}">
-                                                <soul:button precall="validationIdcard" cssClass="btn btn-filter" text="${views.common['save']}"
+                                                <input type="text" id="idCard" style="height: 35px"
+                                                       placeholder="${views.setting_auto['设置站长坐席号']}"
+                                                       name="result.idcard" value="${idCard}">
+                                                <soul:button precall="validationIdcard" cssClass="btn btn-filter"
+                                                             text="${views.common['save']}"
                                                              opType="ajax"
                                                              dataType="json"
                                                              target="${root}/param/saveMasterExtNo.html"
@@ -359,10 +413,11 @@
                                                              callback="save"/>
                                             </div>
                                         </c:if>
-                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md " style="padding-top: 10px">
+                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md "
+                                             style="padding-top: 10px">
                                             <h3>${views.setting_auto['电销功能开关']}:</h3>
                                         </div>
-                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md "  >
+                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md ">
                                             <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
                                                 &nbsp;&nbsp;&nbsp;${views.setting_auto['是否加密']}：</label>
                                             <input type="checkbox" name="encryption_switch" data-size="mini"
@@ -370,17 +425,24 @@
                                             <label class="m-r-md ">${views.setting_auto['启用后拨打的号码将加密']}</label>
                                         </div>
 
-                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px">
+                                        <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl"
+                                             style="padding-top: 10px">
                                             <label class="ft-bold pull-left m-r"
-                                                   style='margin-top: 10px'> &nbsp;${views.setting_auto['前端回call']}：</label>
-                                            <input id="playerCall" data-size="mini" type="checkbox" name="player_stationmaster"
+                                                   style='margin-top: 10px'>
+                                                &nbsp;${views.setting_auto['前端回call']}：</label>
+                                            <input id="playerCall" data-size="mini" type="checkbox"
+                                                   name="player_stationmaster"
                                                 ${player_stationmaster.paramValue =="true" ?'checked':''} />
                                             <label class="m-r-md ">${views.setting_auto['启用后需设置坐席号方可使用']}</label>
                                         </div>
-                                        <div id="phone" data-size="mini" class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl" style="padding-top: 10px" >
+                                        <div id="phone" data-size="mini"
+                                             class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl"
+                                             style="padding-top: 10px">
                                             <label class="ft-bold pull-left m-r" style='float:left;margin-top: 10px'>
                                                     ${views.setting_auto['坐席号设置']}：</label>
-                                            <input type="text" id="callMunber" style="height: 35px"  placeholder="请填写回Call坐席号" name="result.paramValue" value="${poone_number.paramValue}">
+                                            <input type="text" id="callMunber" style="height: 35px"
+                                                   placeholder="请填写回Call坐席号" name="result.paramValue"
+                                                   value="${poone_number.paramValue}">
                                             <soul:button cssClass="btn btn-filter" text="${views.common['saveNumber']}"
                                                          opType="ajax"
                                                          dataType="json"

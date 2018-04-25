@@ -10,7 +10,7 @@
     <div class="row">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
-            <span>${views.sysResource['运营']}&nbsp;&nbsp;/</span><span>${views.sysResource['活动管理']}</span>
+            <span>${views.sysResource['运营']}&nbsp;&nbsp;/</span><span>${views.sysResource['活动大厅']}</span>
             <c:if test="${not empty command.isReturn}">
                 <soul:button tag="a" target="goToLastPage" text="" opType="function" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn">
                     <em class="fa fa-caret-left"></em>${views.common['return']}
@@ -22,7 +22,7 @@
             <div class="wrapper white-bg shadow">
                 <!--筛选条件-->
                 <div class="clearfix filter-wraper border-b-1">
-                    <shiro:hasPermission name="operate:activity_add">
+                    <shiro:hasPermission name="operate:activityHall_add">
                         <a href="/activityHall/activityType/customList.html" nav-target="mainFrame" class="btn btn-info btn-addon pull-left　m-r-sm">
                             <i class="fa fa-plus"></i><span class="hd">${views.operation['Activity.create']}</span>
                         </a>
