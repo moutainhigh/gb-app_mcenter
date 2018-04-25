@@ -33,15 +33,19 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
 
     @Override
     public OperationSummaryVo getOperationSummaryData(OperationSummaryVo condition) {
-        List<OperationSummary> list ;
+        List<OperationSummary> list = new ArrayList<>();
         if(StringTool.isNotBlank(condition.getQueryDateRange())){
-            //按照周或月统计
-            list = summaryMapper.getOperationSummaryOfDate(condition);
+            if("M".equals(condition.getQueryDateRange())){
+                //按照月统计
+                list = summaryMapper.getOperationSummaryOfMonths();
+            }else if("W".equals(condition.getQueryDateRange())){
+                //按照周统计
+                list = summaryMapper.getOperationSummaryOfWeeks();
+            }
         }else{
             //按日查询
             list = summaryMapper.getOperationSummaryOfDays(condition);
         }
-
         OperationSummaryVo result = new OperationSummaryVo();
         if (CollectionTool.isNotEmpty(list)) {
             generateBalanceGaugeChartData(result, list);

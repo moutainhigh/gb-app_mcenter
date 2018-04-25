@@ -44,6 +44,8 @@ public class SiteDailyController {
      */
     @RequestMapping("/operationSummary")
     public String operationSummary(OperationSummaryVo vo , Model model) {
+//        vo.getSearch().setStaticTime(new Date(new Date().getTime() - (long)14*24*60*60*1000));
+//        vo.getSearch().setStaticTimeEnd(new Date());
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
         model.addAttribute("balanceGaugeChartData", JsonTool.toJson(vo.getBalanceGaugeChart()));
         model.addAttribute("effectiveGaugeChartData", JsonTool.toJson(vo.getEffectiveGaugeChart()));
