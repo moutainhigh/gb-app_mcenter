@@ -495,7 +495,7 @@ public class HallVHallActivityMessageController extends HallActivityController<I
     @RequestMapping(value = "/changeDisplayStatus")
     @ResponseBody
     public Map changeDisplayStatus(ActivityMessageVo activityMessageVo) {
-        activityMessageVo = ServiceActivityTool.activityMessageService().updateDisplayStatus(activityMessageVo);
+        activityMessageVo = ServiceActivityTool.hallActivityMessageService().updateDisplayStatus(activityMessageVo);
         /*activityMessageVo.setProperties(ActivityMessage.PROP_IS_DISPLAY);
         activityMessageVo = ServiceSiteTool.activityMessageService().updateOnly(activityMessageVo);
         */

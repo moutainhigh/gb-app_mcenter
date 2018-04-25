@@ -15,6 +15,7 @@ import so.wwb.gamebox.model.site.report.vo.RealtimeProfileListVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileVo;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +45,20 @@ public class SiteDailyController {
      */
     @RequestMapping("/operationSummary")
     public String operationSummary(OperationSummaryVo vo , Model model) {
-//        vo.getSearch().setStaticTime(new Date(new Date().getTime() - (long)14*24*60*60*1000));
-//        vo.getSearch().setStaticTimeEnd(new Date());
+       /* Calendar createDate = Calendar.getInstance();
+        createDate.set(Calendar.HOUR,23);
+        createDate.set(Calendar.MINUTE,59);
+        createDate.set(Calendar.SECOND,59);
+        Date date = new Date(createDate.getTime().getTime() - (long)24*60*60*1000);
+        vo.getSearch().setStaticTimeEnd(date);
+
+        createDate.set(Calendar.HOUR_OF_DAY,00);
+        createDate.set(Calendar.MINUTE,00);
+        createDate.set(Calendar.SECOND,00);
+        createDate.set(Calendar.DAY_OF_MONTH,10);
+        date = new Date(createDate.getTime().getTime());
+        vo.getSearch().setStaticTime(date);*/
+
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
         model.addAttribute("balanceGaugeChartData", JsonTool.toJson(vo.getBalanceGaugeChart()));
         model.addAttribute("effectiveGaugeChartData", JsonTool.toJson(vo.getEffectiveGaugeChart()));
