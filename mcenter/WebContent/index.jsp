@@ -411,6 +411,11 @@
     <div id="newMessageDIV" style="display:none"></div>
 </div>
 <!--推送消息弹出矿结束-->
+<!-- 客服 -->
+<div style="text-align: center;">
+    <button type="button" class="customer-affix" onclick="window.top.topPage.showCustomerWin()" ><i class="ivu-icon ivu-icon-chatbubbles" style="font-size: 20px;"></i><span class="customer-button-text">联系客服</span></button>
+</div>
+<!-- 客服结束 -->
 </body>
 <div class="preloader"></div>
 </html>
