@@ -80,13 +80,12 @@ public class SiteDailyController {
     /**
      * 实时总览
      *
-     * @param request
+     * @param
      * @param model
      * @return
      */
     @RequestMapping({"/realTimeSummary"})
-    public String realTimeSummaryData(HttpServletRequest request, Model model) {
-        RealtimeProfileVo condition = new RealtimeProfileVo();
+    public String realTimeSummaryData(RealtimeProfileVo condition, Model model) {
         List<RealtimeProfile> profiles = ServiceSiteTool.realtimeProfileService().queryRealtimeCartogram(condition);
         List<RealtimeProfileVo> historyReportForm = ServiceSiteTool.realtimeProfileService().queryHistoryReportForm(condition);
         RealtimeProfileListVo realtimeProfileListVo = new RealtimeProfileListVo();
@@ -111,7 +110,7 @@ public class SiteDailyController {
         }
 
         if (CollectionTool.isNotEmpty(historyReportForm)) {
-            RealtimeProfileVo fristProfileVo = (RealtimeProfileVo) historyReportForm.get(0);
+            RealtimeProfileVo fristProfileVo = historyReportForm.get(0);
             fristProfileVo.setStatisticsDate(new Date());
             model.addAttribute("realtimeProfileVos", historyReportForm);
         }
