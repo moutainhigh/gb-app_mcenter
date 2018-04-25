@@ -10,7 +10,7 @@
     <div class="row">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
-            <span>${views.sysResource['运营']}&nbsp;&nbsp;/</span><span>${views.sysResource['活动管理']}</span>
+            <span>${views.sysResource['运营']}&nbsp;&nbsp;/</span><span>${views.sysResource['活动大厅']}</span>
                 <soul:button tag="a" target="goToLastPage" text="" opType="function" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn">
                     <em class="fa fa-caret-left"></em>${views.common['return']}
                 </soul:button>
@@ -36,7 +36,7 @@
                     <%@ include file="IndexPartial.jsp" %>
                 </div>
                 <div class="operate-btn">
-                    <soul:button target="saveActivityOrder" text="${views.common['save']}" opType="function"
+                    <soul:button  permission="operate:activityHall_order"  target="saveActivityOrder" text="${views.common['save']}" opType="function"
                                  cssClass="btn btn-outline btn-filter btn-lg m-r" >${views.common['save']}</soul:button>
                 </div>
             </div>
