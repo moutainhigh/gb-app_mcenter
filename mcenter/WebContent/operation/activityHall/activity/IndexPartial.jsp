@@ -43,7 +43,7 @@
                     <span class="${p.activityStatesShow.cssClass}">${views.operation[p.activityStatesShow.activityState]}</span>
                 </td>
                 <td>
-                    <shiro:hasPermission name="operate:activity_edit">
+                    <shiro:hasPermission name="operate:activityHall_edit">
                         <c:choose>
                             <c:when test="${p.isRemove}">
                                 <input type="checkbox" name="my-checkbox" data-size="mini" disabled>
@@ -54,7 +54,7 @@
                             </c:otherwise>
                         </c:choose>
                     </shiro:hasPermission>
-                    <shiro:lacksPermission name="operate:activity_edit">
+                    <shiro:lacksPermission name="operate:activityHall_edit">
                         <input type="checkbox" name="my-checkbox" data-size="mini" disabled ${p.isDisplay ? 'checked' : ''}>
                     </shiro:lacksPermission>
 
@@ -82,7 +82,7 @@
                 </shiro:hasPermission>
                 <td>
 
-                    <shiro:hasPermission name="operate:activity_edit">
+                    <shiro:hasPermission name="operate:activityHall_edit">
                         <c:choose>
                             <%--进行中的有待审核的不能编辑删除 --%>
                             <c:when test="${(p.acount>0 && p.isAudit)}">
@@ -106,7 +106,7 @@
                         </c:otherwise>
                     </c:choose>--%>
                         <%--改成全部可以查看审核--%>
-                    <shiro:hasPermission name="operate:activity_checkapply">
+                    <shiro:hasPermission name="operate:activityHall_checkapply">
                         <a href="/activityHall/vActivityPlayerApply/activityPlayerApply.html?search.id=${p.id}" nav-target="mainFrame" name="returnView">${views.common['audit']}</a>
                     </shiro:hasPermission>
                     <c:choose>
@@ -115,7 +115,7 @@
                             <span class="co-gray">${views.common['delete']}</span>
                         </c:when>
                         <c:otherwise>
-                            <soul:button permission="operate:activity_delete" target="${root}/operation/activity/deleteActivity.html?result.id=${p.id}" text="${views.common['delete']}" opType="ajax" callback="query" confirm="${p.states eq 'notStarted'?views.operation['Activity.list.notStarted']:views.operation['Activity.list.delete']}"/>
+                            <soul:button permission="operate:operate:activityHall_delete" target="${root}/operation/activity/deleteActivity.html?result.id=${p.id}" text="${views.common['delete']}" opType="ajax" callback="query" confirm="${p.states eq 'notStarted'?views.operation['Activity.list.notStarted']:views.operation['Activity.list.delete']}"/>
                         </c:otherwise>
                         <%--<c:when test="${(p.checkStatus eq '1' and p.states eq 'finished' and p.acount eq 0)
                         || (p.checkStatus eq '1' and p.states eq 'notStarted') || p.checkStatus eq '0' || p.checkStatus eq '2' || p.activityState eq 'draft' || p.isRemove}">

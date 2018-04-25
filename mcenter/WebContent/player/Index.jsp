@@ -700,14 +700,15 @@
                                 <span class="hd">${views.player_auto['账号冻结']}</span></soul:button>
                         </div>
 
-
-                        <div class="btn-group" style="padding-right: 10px">
-                                <soul:button tag="button" target="resetStorage" opType="function"
-                                             text="${views.player_auto['重置前三存送']}"
-                                             cssClass="btn btn-danger-hide _delete" callback="query"
-                                             confirm="${views.player_auto['确认重置']}"><i></i>
-                                    <span class="hd">${views.player_auto['重置前三存送']}</span></soul:button>
-                        </div>
+                        <shiro:hasPermission name="operate:reset_storage">
+                            <div class="btn-group" style="padding-right: 10px">
+                                    <soul:button tag="button" target="resetStorage" opType="function"
+                                                 text="${views.player_auto['重置前三存送']}"
+                                                 cssClass="btn btn-danger-hide _delete" callback="query"
+                                                 confirm="${views.player_auto['重置前三存送弹窗提示']}"><i></i>
+                                        <span class="hd">${views.player_auto['重置前三存送']}</span></soul:button>
+                            </div>
+                        </shiro:hasPermission>
                     </div>
 
                 </div>

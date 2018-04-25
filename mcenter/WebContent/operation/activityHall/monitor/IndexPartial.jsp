@@ -29,7 +29,7 @@
             <th>
                 <%--<gb:select name="search.checkState" value="${command.search.checkState}" prompt="${views.operation['活动审批']}" list="${checkStatusDicts}" callback="query"/>--%>
                 <%--<gb:select name="search.checkState" value="${command.search.checkState}" prompt="${views.operation['活动审批']}" list="${checkStatusDicts}" callback="query"/>--%>
-                <gb:select name="search.checkState" value="${command.search.checkState}" list="{'1':'${views.operation['待处理']}','2':'${views.operation['已通过']}','3':'${views.operation['已拒绝']}'}" prompt="${views.common['pleaseSelect']}" callback="query"/>
+                <gb:select name="search.checkState" value="${command.search.checkState}" list="{'1':'${views.operation['待处理']}','2':'${views.operation['已通过']}','3':'${views.operation['已拒绝']}'}" prompt="${views.common['all']}" callback="query"/>
             </th>
             <th>${views.operation['backwater.settlement.view.operator']}</th>
             <th>${views.operation['申请IP']}</th>
@@ -68,9 +68,9 @@
                     </c:if>
                     <c:if test="${p.checkState eq '1'}">
                         <%--<span class="label label-warning">${dicts.operation.activity_apply_check_status[p.checkState]}</span>--%>
-                        <soul:button target="${root}/activityHall/vActivityPlayerApply/successDialog.html?code=${p.code}&ids=${p.id}&sumPerson=1"
+                        <soul:button permission="operate:activityHall_checkapply"  target="${root}/activityHall/vActivityPlayerApply/successDialog.html?code=${p.code}&ids=${p.id}&sumPerson=1"
                                      text="${views.operation['同意派奖']}" opType="dialog" callback="callBackQuery"/>
-                        <soul:button cssClass="co-red3" target="${root}/activityHall/vActivityPlayerApply/failDialog.html?ids=${p.id}&search.activityName=${p.activityName}&search.activityTypeCode=${p.code}" text="${views.operation['拒绝派奖']}" opType="dialog" callback="callBackQuery"/>
+                        <soul:button permission="operate:activityHall_checkapply" cssClass="co-red3" target="${root}/activityHall/vActivityPlayerApply/failDialog.html?ids=${p.id}&search.activityName=${p.activityName}&search.activityTypeCode=${p.code}" text="${views.operation['拒绝派奖']}" opType="dialog" callback="callBackQuery"/>
 
                     </c:if>
                     <c:if test="${p.checkState eq '2'}">
