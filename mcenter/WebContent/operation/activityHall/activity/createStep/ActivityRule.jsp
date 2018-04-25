@@ -244,7 +244,7 @@
             <br>
             <c:if test="${activityType.result.code ne 'back_water'}">
                 <input type="hidden" name="isAllRank" value="${isAllRank}">
-                <input type="hidden" name="rank" id="prank" value="${(type eq 'edit')?activityRule.rank:''}"/>
+                <input type="hidden" name="rank" id="prank" value="${activityRule.rank}"/>
                 <c:set value="${activityRule.rank}," var="bb"></c:set>
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.rank']}：</label>
@@ -256,7 +256,15 @@
                         <c:forEach items="${playerRanks}" var="a">
                             <c:set value="${a.id}," var="b"></c:set>
                             <label class="m-r-sm">
-                                <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${!( is123Deposit || activityType.result.code eq 'regist_send') ? "":fn:contains(playerRank,b)?" disabled":""}>
+                                <c:if test="${activityType.result.code eq 'deposit_send'}">
+                                    <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${!( is123Deposit || activityType.result.code eq 'regist_send') ? "":fn:contains(playerRank,b)?" disabled":""}>
+                                </c:if>
+                                <c:if test="${activityType.result.code ne 'deposit_send'}">
+                                    <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""}>
+                                 </c:if>
+
+
+
                                 ${a.rankName}
                             </label>
                         </c:forEach>
@@ -268,7 +276,7 @@
                                 &lt;%&ndash;</c:forEach>&ndash;%&gt;
                             </c:forEach>--%>
 
-                        <c:if test="${ is123Deposit || activityType.result.code eq 'regist_send'}">
+                        <c:if test="${ activityType.result.code eq 'deposit_send'}">
                             <div id="getRankActivityMessage">
                                 <%@include file="rule.include/GetRankActivityMessage.jsp"%>
                             </div>
