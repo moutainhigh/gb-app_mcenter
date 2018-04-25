@@ -4,7 +4,9 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.tools.DataTransTool;
 import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
@@ -15,10 +17,7 @@ import so.wwb.gamebox.model.site.report.vo.RealtimeProfileListVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileVo;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 站点日常数据Controller
@@ -66,6 +65,22 @@ public class SiteDailyController {
         model.addAttribute("operationSummaryData", JsonTool.toJson(vo.getEntities()));
         model.addAttribute("rakebackCashApis", ApiProviderEnum.values());
         return OPERATION_SUMMARY;
+    }
+
+    /**
+     * 异步加载运营统计数据
+     * @return
+     */
+    @RequestMapping("/asyncLoadOperationSummary")
+    @ResponseBody
+    public Map<String, Object> asyncLoadOperationSummary(OperationSummaryVo vo) {
+        vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("balanceGaugeChartData", vo.getBalanceGaugeChart());
+        model.put("effectiveGaugeChartData", vo.getEffectiveGaugeChart());
+        model.put("profitLossGaugeChartData", vo.getProfitLossGaugeChart());
+        model.put("operationSummaryData", vo.getEntities());
+        return model;
     }
 
     /**
