@@ -86,7 +86,7 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
 
             OperationSummaryChartVo item2 = new OperationSummaryChartVo();
             item2.setNumerical(summary2.getWithdrawalAmount());
-            item2.setTitle(summary1.getStaticDay());
+            item2.setTitle(summary2.getStaticDay());
             item2.setTips("取现差额");
             result.getBalanceGaugeChart().add(item2);
         }
