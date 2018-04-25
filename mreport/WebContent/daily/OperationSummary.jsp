@@ -29,10 +29,10 @@
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
                 <h2>存取差额 <span>4月16日:${lastDifferenceAmount}</span></h2>
-                <div class="public-btn-group _addPrimary">
-                    <button class="btn btn-primary">日</button>
-                    <button class="btn">周</button>
-                    <button class="btn">月</button>
+                <div class="public-btn-group _addPrimary balanceBtn">
+                    <button class="btn btn-primary" value="D">日</button>
+                    <button class="btn" value="W">周</button>
+                    <button class="btn" value="M">月</button>
                 </div>
                 <div id="c1"></div>
                 <div id="z1"></div>
@@ -42,10 +42,10 @@
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
                 <h2>有效投注 <span>4月16日:${lastDifferenceAmount}</span></h2>
-                <div class="public-btn-group _addPrimary">
-                    <button class="btn btn-primary">日</button>
-                    <button class="btn">周</button>
-                    <button class="btn">月</button>
+                <div class="public-btn-group _addPrimary effectiveBtn">
+                    <button class="btn btn-primary" value="D">日</button>
+                    <button class="btn" value="W">周</button>
+                    <button class="btn" value="M">月</button>
                 </div>
                 <div id="c2"></div>
                 <div id="z2"></div>
@@ -55,10 +55,10 @@
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
                 <h2>损益 <span>4月16日:${lastDifferenceAmount}</span></h2>
-                <div class="public-btn-group _addPrimary">
-                    <button class="btn btn-primary">日</button>
-                    <button class="btn">周</button>
-                    <button class="btn">月</button>
+                <div class="public-btn-group _addPrimary profitLossBtn">
+                    <button class="btn btn-primary" value="D">日</button>
+                    <button class="btn" value="W">周</button>
+                    <button class="btn" value="M">月</button>
                 </div>
                 <div id="c3"></div>
                 <div id="z3"></div>
