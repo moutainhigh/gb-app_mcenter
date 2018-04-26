@@ -375,7 +375,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
 
         //设置ios app下载地址
-        SysParam iosParam = ParamTool.getSysParam(SiteParamEnum.SETTING_ISO_DOWNLOAD_ADDRESS);
+        SysParam iosParam = ParamTool.getSysParam(SiteParamEnum.SETTING_IOS_DOWNLOAD_ADDRESS);
         SysParamVo iosParamVo = new SysParamVo();
         iosParamVo.setResult(new SysParam());
         if (iosParam != null) {
@@ -386,16 +386,16 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         } else {
             if (StringTool.isNotBlank(iosDownloadAddress)) {
                 iosParamVo.getResult().setRemark("ios下载地址");
-                iosParamVo.getResult().setModule(SiteParamEnum.SETTING_ISO_DOWNLOAD_ADDRESS.getModule().getCode());
-                iosParamVo.getResult().setParamType(SiteParamEnum.SETTING_ISO_DOWNLOAD_ADDRESS.getType());
-                iosParamVo.getResult().setParamCode(SiteParamEnum.SETTING_ISO_DOWNLOAD_ADDRESS.getCode());
+                iosParamVo.getResult().setModule(SiteParamEnum.SETTING_IOS_DOWNLOAD_ADDRESS.getModule().getCode());
+                iosParamVo.getResult().setParamType(SiteParamEnum.SETTING_IOS_DOWNLOAD_ADDRESS.getType());
+                iosParamVo.getResult().setParamCode(SiteParamEnum.SETTING_IOS_DOWNLOAD_ADDRESS.getCode());
                 iosParamVo.getResult().setParamValue(iosDownloadAddress);
                 iosParamVo.getResult().setActive(true);
                 iosParamVo = ServiceTool.getSysParamService().insert(iosParamVo);
             }
         }
         if (iosParamVo.isSuccess()) {
-            ParamTool.refresh(SiteParamEnum.SETTING_ISO_DOWNLOAD_ADDRESS);
+            ParamTool.refresh(SiteParamEnum.SETTING_IOS_DOWNLOAD_ADDRESS);
         }
 
         SysParamVo sysParamVo = new SysParamVo();
