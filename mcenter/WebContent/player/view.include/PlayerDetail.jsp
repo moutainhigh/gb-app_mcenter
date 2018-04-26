@@ -722,6 +722,9 @@
                                     <c:if test="${command.result.riskDataType.substring(7,8) eq '2'}">
                                         ${views.common['INTEREST_ARBITRAGE']}
                                     </c:if>
+                                    <c:if test="${command.result.riskDataType.substring(4,5) eq '2'}">
+                                        ${views.common['PAY_PROFESSIONAL_COMPLAINT']}
+                                    </c:if>
                                     <span  data-placement="bottom" data-trigger="focus" data-toggle="popover" data-container="body" data-html="true" role="button" class="ico-lock" tabindex="0" data-original-title="" title="" style="font-size: 14px;color: #9c9c9c; display: inline-block;">
                                             (${views.player_auto['系统识别数据仅供参考']})
                                     </span>
