@@ -5,6 +5,7 @@ import org.soul.commons.data.json.JsonTool;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.tools.DataTransTool;
 import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
@@ -15,8 +16,8 @@ import so.wwb.gamebox.model.site.report.vo.RealtimeProfileListVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileVo;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +70,22 @@ public class SiteDailyController {
     }
 
     /**
+     * 异步加载运营统计数据
+     * @return
+     */
+    @RequestMapping("/asyncLoadOperationSummary")
+    @ResponseBody
+    public Map<String, Object> asyncLoadOperationSummary(OperationSummaryVo vo) {
+        vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("balanceGaugeChartData", vo.getBalanceGaugeChart());
+        model.put("effectiveGaugeChartData", vo.getEffectiveGaugeChart());
+        model.put("profitLossGaugeChartData", vo.getProfitLossGaugeChart());
+        model.put("operationSummaryData", vo.getEntities());
+        return model;
+    }
+
+    /**
      * 根据选择的API来查询反水金额
      */
     @RequestMapping("/queryRakebackCashByApi")
@@ -79,14 +96,12 @@ public class SiteDailyController {
 
     /**
      * 实时总览
-     *
-     * @param request
+     * @param
      * @param model
      * @return
      */
     @RequestMapping({"/realTimeSummary"})
-    public String realTimeSummaryData(HttpServletRequest request, Model model) {
-        RealtimeProfileVo condition = new RealtimeProfileVo();
+    public String realTimeSummaryData(RealtimeProfileVo condition, Model model) {
         List<RealtimeProfile> profiles = ServiceSiteTool.realtimeProfileService().queryRealtimeCartogram(condition);
         List<RealtimeProfileVo> historyReportForm = ServiceSiteTool.realtimeProfileService().queryHistoryReportForm(condition);
         RealtimeProfileListVo realtimeProfileListVo = new RealtimeProfileListVo();
@@ -111,7 +126,7 @@ public class SiteDailyController {
         }
 
         if (CollectionTool.isNotEmpty(historyReportForm)) {
-            RealtimeProfileVo fristProfileVo = (RealtimeProfileVo) historyReportForm.get(0);
+            RealtimeProfileVo fristProfileVo = historyReportForm.get(0);
             fristProfileVo.setStatisticsDate(new Date());
             model.addAttribute("realtimeProfileVos", historyReportForm);
         }

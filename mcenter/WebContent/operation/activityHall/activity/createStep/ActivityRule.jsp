@@ -70,7 +70,19 @@
                     <span class="input-group pull-left line-hi25 m-r">
                         <gb:select name="activityRule.effectiveTime" list="<%=DictTool.get(DictEnum.EFFECTIVE_TIME)%>" value="${activityRule.effectiveTime}"  prompt="${views.operation_auto['请选择']}"/>
                     </span>
-                        <span class="m-l co-grayc2">${views.operation['Activity.step.message6']}</span>
+                        <c:if test="${activityType.result.code eq 'regist_send' }">
+                            <span class="m-l co-grayc2">${views.operation['Activity.step.message6']}</span>
+                        </c:if>
+                        <c:if test="${ activityType.result.code eq 'first_deposit' }">
+                            <span class="m-l co-grayc2">${views.operation['Activity.step.message_first_deposit']}</span>
+                        </c:if>
+                        <c:if test="${ activityType.result.code eq 'second_deposit' }">
+                            <span class="m-l co-grayc2">${views.operation['Activity.step.message_second_deposit']}</span>
+                        </c:if>
+                        <c:if test="${ activityType.result.code eq 'third_deposit' }">
+                            <span class="m-l co-grayc2">${views.operation['Activity.step.message_third_deposit']}</span>
+                        </c:if>
+
                     </div>
                 </div>
             </c:if>
@@ -244,7 +256,7 @@
             <br>
             <c:if test="${activityType.result.code ne 'back_water'}">
                 <input type="hidden" name="isAllRank" value="${isAllRank}">
-                <input type="hidden" name="rank" id="prank" value="${(type eq 'edit')?activityRule.rank:''}"/>
+                <input type="hidden" name="rank" id="prank" value="${activityRule.rank}"/>
                 <c:set value="${activityRule.rank}," var="bb"></c:set>
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.rank']}：</label>
@@ -256,7 +268,15 @@
                         <c:forEach items="${playerRanks}" var="a">
                             <c:set value="${a.id}," var="b"></c:set>
                             <label class="m-r-sm">
-                                <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${!( is123Deposit || activityType.result.code eq 'regist_send') ? "":fn:contains(playerRank,b)?" disabled":""}>
+                                <c:if test="${activityType.result.code eq 'deposit_send'}">
+                                    <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${!( is123Deposit || activityType.result.code eq 'regist_send') ? "":fn:contains(playerRank,b)?" disabled":""}>
+                                </c:if>
+                                <c:if test="${activityType.result.code ne 'deposit_send'}">
+                                    <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""}>
+                                 </c:if>
+
+
+
                                 ${a.rankName}
                             </label>
                         </c:forEach>
@@ -268,7 +288,7 @@
                                 &lt;%&ndash;</c:forEach>&ndash;%&gt;
                             </c:forEach>--%>
 
-                        <c:if test="${ is123Deposit || activityType.result.code eq 'regist_send'}">
+                        <c:if test="${ activityType.result.code eq 'deposit_send'}">
                             <div id="getRankActivityMessage">
                                 <%@include file="rule.include/GetRankActivityMessage.jsp"%>
                             </div>

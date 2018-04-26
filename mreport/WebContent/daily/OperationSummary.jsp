@@ -117,13 +117,21 @@
     </div>
 </div>
 <%--存款差额仪表图数据--%>
-<div style="display: none;" id="balanceGaugeChartData">${balanceGaugeChartData}</div>
+<div style="display: none;" id="balanceGaugeChartDataOfDay">${balanceGaugeChartData}</div>
+<div style="display: none;" id="balanceGaugeChartDataOfWeek"></div>
+<div style="display: none;" id="balanceGaugeChartDataOfMonth"></div>
 <%--有效投注额仪表图数据--%>
-<div style="display: none;" id="effectiveGaugeChartData">${effectiveGaugeChartData}</div>
+<div style="display: none;" id="effectiveGaugeChartDataOfDay">${effectiveGaugeChartData}</div>
+<div style="display: none;" id="effectiveGaugeChartDataOfWeek"></div>
+<div style="display: none;" id="effectiveGaugeChartDataOfMonth"></div>
 <%--损益仪表图数据--%>
-<div style="display: none;" id="profitLossGaugeChartData">${profitLossGaugeChartData}</div>
+<div style="display: none;" id="profitLossGaugeChartDataOfDay">${profitLossGaugeChartData}</div>
+<div style="display: none;" id="profitLossGaugeChartDataOfWeek"></div>
+<div style="display: none;" id="profitLossGaugeChartDataOfMonth"></div>
 <%--历史运营统计数据--%>
-<div style="display: none;" id="operationSummaryData">${operationSummaryData}</div>
+<div style="display: none;" id="operationSummaryDataOfDay">${operationSummaryData}</div>
+<div style="display: none;" id="operationSummaryDataOfWeek"></div>
+<div style="display: none;" id="operationSummaryDataOfMonth"></div>
 <%--返水金额API选择--%>
 <div style="display: none;" id="rakebackCashApis">${rakebackCashApis}</div>
 <script type="text/javascript">

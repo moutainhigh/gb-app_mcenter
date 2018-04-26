@@ -2,7 +2,6 @@ package so.wwb.gamebox.service.site.report;
 
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.lang.DateTool;
-import org.soul.commons.lang.string.StringTool;
 import org.soul.service.support.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import so.wwb.gamebox.data.site.report.OperationSummaryMapper;
@@ -11,22 +10,33 @@ import so.wwb.gamebox.model.site.report.po.OperationSummary;
 import so.wwb.gamebox.model.site.report.vo.OperationSummaryChartVo;
 import so.wwb.gamebox.model.site.report.vo.OperationSummaryListVo;
 import so.wwb.gamebox.model.site.report.vo.OperationSummaryVo;
+import so.wwb.gamebox.tools.MReportTool;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 运营日常统计服务
- *
  * @author martin
  * @time 2018-4-17
  */
 public class OperationSummaryService extends BaseService<OperationSummaryMapper, OperationSummaryListVo, OperationSummaryVo, OperationSummary, Integer> implements IOperationSummaryService {
 
-    private static final String DAY1 = "yesterday";
+    //上一个期间
+    private static final String RANGE1 = "lastRange";
 
-    private static final String DAY2 = "beforeOfYesterday";
+    //上上一个期间
+    private static final String RANGE2 = "beforeOfLastRange";
+
+    //按天查询标识
+    private static final String RANGE_DAY = "D";
+
+    //按周查询标识
+    private static final String RANGE_WEEK = "W";
+
+    //按月查询标识
+    private static final String RANGE_MONTH = "M";
+
+    private TimeZone timeZone = TimeZone.getDefault();
 
     @Autowired
     private OperationSummaryMapper summaryMapper;
@@ -34,92 +44,27 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
     @Override
     public OperationSummaryVo getOperationSummaryData(OperationSummaryVo condition) {
         List<OperationSummary> list = new ArrayList<>();
-        if(StringTool.isNotBlank(condition.getQueryDateRange())){
-            if("M".equals(condition.getQueryDateRange())){
-                //按照月统计
-                list = summaryMapper.getOperationSummaryOfMonths();
-            }else if("W".equals(condition.getQueryDateRange())){
-                //按照周统计
-                list = summaryMapper.getOperationSummaryOfWeeks();
-            }
-        }else{
-            //按日查询
+        String rangeType = RANGE_DAY;
+        if (RANGE_MONTH.equals(condition.getQueryDateRange())) {
+            rangeType = RANGE_MONTH;//按月查询
+            list = summaryMapper.getOperationSummaryOfMonths();
+
+        } else if (RANGE_WEEK.equals(condition.getQueryDateRange())) {
+            rangeType = RANGE_WEEK;//按周查询
+            list = summaryMapper.getOperationSummaryOfWeeks();
+
+        } else {
+            rangeType = RANGE_DAY;//按日查询
             list = summaryMapper.getOperationSummaryOfDays(condition);
         }
-        OperationSummaryVo result = new OperationSummaryVo();
+
         if (CollectionTool.isNotEmpty(list)) {
-            generateBalanceGaugeChartData(result, list);
-            generateEffectiveGaugeChartData(result, list);
-            generateProfitLossGaugeChartData(result, list);
+            getBalanceGaugeChartData(condition, list, rangeType);
+            getEffectiveGaugeChartData(condition, list, rangeType);
+            getProfitLossGaugeChartData(condition, list, rangeType);
         }
-        result.getEntities().addAll(list);
-        return result;
-    }
-
-    /**
-     * 存取差额统计
-     *
-     * @return
-     */
-    public List<OperationSummary> differenceSummary() {
-        return null;
-    }
-
-    /**
-     * 有效投注统计
-     *
-     * @return
-     */
-    public OperationSummaryVo effectiveTradeSummary() {
-        return null;
-    }
-
-    /**
-     * 损益统计
-     * @return
-     */
-    public OperationSummaryVo profitLossSummary() {
-        return null;
-    }
-
-    /**
-     * 返水走势统计
-     * @return
-     */
-    public OperationSummaryVo rakeBackTrendSummary() {
-        return null;
-    }
-
-    /**
-     * 玩家走家统计
-     * @return
-     */
-    public OperationSummaryVo playerTrendSummary() {
-        return null;
-    }
-
-    /**
-     * 活跃用户统计
-     * @return
-     */
-    public OperationSummaryVo activePlayerSummary() {
-        return null;
-    }
-
-    /**
-     * App安装量统计
-     * @return
-     */
-    public OperationSummaryVo appSetupAmountSummary() {
-        return null;
-    }
-
-    /**
-     * App卸载量统计
-     * @return
-     */
-    public OperationSummaryVo appUninstallAmountSummary() {
-        return null;
+        condition.getEntities().addAll(list);
+        return condition;
     }
 
     /**
@@ -128,9 +73,9 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
      * @param list
      * @return
      */
-    protected void generateBalanceGaugeChartData(OperationSummaryVo result, List<OperationSummary> list) {
-        OperationSummary summary1 = getWhichDayData(list, DAY1);
-        OperationSummary summary2 = getWhichDayData(list, DAY2);
+    public void getBalanceGaugeChartData(OperationSummaryVo result, List<OperationSummary> list, String rangeType) {
+        OperationSummary summary1 = getWhichData(list, RANGE1, rangeType);
+        OperationSummary summary2 = getWhichData(list, RANGE2, rangeType);
         if (summary1 != null && summary2 != null) {
             OperationSummaryChartVo item1 = new OperationSummaryChartVo();
             item1.setNumerical(summary1.getBalanceAmount());
@@ -140,7 +85,7 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
 
             OperationSummaryChartVo item2 = new OperationSummaryChartVo();
             item2.setNumerical(summary2.getWithdrawalAmount());
-            item2.setTitle(summary1.getStaticDay());
+            item2.setTitle(summary2.getStaticDay());
             item2.setTips("取现差额");
             result.getBalanceGaugeChart().add(item2);
         }
@@ -152,9 +97,9 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
      * @param list
      * @return
      */
-    protected void generateEffectiveGaugeChartData(OperationSummaryVo result, List<OperationSummary> list) {
-        OperationSummary summary1 = getWhichDayData(list, DAY1);
-        OperationSummary summary2 = getWhichDayData(list, DAY2);
+    public void getEffectiveGaugeChartData(OperationSummaryVo result, List<OperationSummary> list, String rangeType) {
+        OperationSummary summary1 = getWhichData(list, RANGE1, rangeType);
+        OperationSummary summary2 = getWhichData(list, RANGE2, rangeType);
         if (summary1 != null && summary2 != null) {
             OperationSummaryChartVo item1 = new OperationSummaryChartVo();
             item1.setNumerical(summary1.getEffectiveTransactionAll());
@@ -176,9 +121,9 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
      * @param
      * @return
      */
-    protected void generateProfitLossGaugeChartData(OperationSummaryVo result, List<OperationSummary> list) {
-        OperationSummary summary1 = getWhichDayData(list, DAY1);
-        OperationSummary summary2 = getWhichDayData(list, DAY2);
+    public void getProfitLossGaugeChartData(OperationSummaryVo result, List<OperationSummary> list, String rangeType) {
+        OperationSummary summary1 = getWhichData(list, RANGE1, rangeType);
+        OperationSummary summary2 = getWhichData(list, RANGE2, rangeType);
         if (summary1 != null && summary2 != null) {
             OperationSummaryChartVo item1 = new OperationSummaryChartVo();
             item1.setNumerical(summary1.getTransactionProfitLoss());
@@ -197,37 +142,84 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
     /**
      * 获取指定周期的运营统计数据
      * @param list
-     * @param flag
+     * @param range
+     * @param rangeType
      * @return
      */
-    protected OperationSummary getWhichDayData(List<OperationSummary> list, String flag) {
+    public OperationSummary getWhichData(List<OperationSummary> list, String range, String rangeType) {
         for (OperationSummary item : list) {
-            if (this.DAY1.equalsIgnoreCase(flag)
-                    && DateTool.daysBetween(new Date(), item.getStaticDate()) == 1) {
-                return item;
+            //按天查询
+            if (this.RANGE_DAY.equalsIgnoreCase(rangeType)) {
+                if (this.RANGE1.equalsIgnoreCase(range)
+                        && DateTool.daysBetween(new Date(), item.getStaticDate()) == 1) {
+                    return item;
+                }
+                if (this.RANGE2.equalsIgnoreCase(range)
+                        && DateTool.daysBetween(new Date(), item.getStaticDate()) == 2) {
+                    return item;
+                }
+                continue;
             }
-            if (this.DAY2.equalsIgnoreCase(flag)
-                    && DateTool.daysBetween(new Date(), item.getStaticDate()) == 2) {
-                return item;
+            //按周查询
+            if (this.RANGE_WEEK.equalsIgnoreCase(rangeType)) {
+                Date sunday1 = MReportTool.getLastWeekLastDay(timeZone, new Date());//上周日
+                Date sunday2 = MReportTool.getLastWeekLastDay(timeZone, sunday1);//上上周日
+                if (this.RANGE1.equalsIgnoreCase(range)
+                        && DateTool.isSameDay(sunday1, item.getStaticDate())) {
+                    return item;
+                }
+                if (this.RANGE2.equalsIgnoreCase(range)
+                        && DateTool.isSameDay(sunday2, item.getStaticDate())) {
+                    return item;
+                }
+                continue;
+            }
+            // 按月查询
+            if (this.RANGE_MONTH.equalsIgnoreCase(rangeType)) {
+                Date lastDay1 = MReportTool.getLastMonthLastDay(timeZone, new Date());//上个月最后一天
+                Date lastDay2 = MReportTool.getLastMonthLastDay(timeZone, lastDay1);//上上个月最后一天
+                if (this.RANGE1.equalsIgnoreCase(range)
+                        && DateTool.isSameDay(lastDay1, item.getStaticDate())) {
+                    return item;
+                }
+                if (this.RANGE2.equalsIgnoreCase(range)
+                        && DateTool.isSameDay(lastDay2, item.getStaticDate())) {
+                    return item;
+                }
+                continue;
             }
         }
+        // 没有对应的记录,　设定默认值
         OperationSummary defaultR = new OperationSummary();
         defaultR.setBalanceAmount(0D);
         defaultR.setEffectiveTransactionAll(0D);
         defaultR.setTransactionProfitLoss(0D);
-        if (this.DAY1.equalsIgnoreCase(flag)) {
-            Date date = DateTool.addDays(new Date(), -1);
-            defaultR.setStaticDay(getDay(date));
+        if (this.RANGE1.equalsIgnoreCase(range)) {
+            if (this.RANGE_MONTH.equalsIgnoreCase(rangeType)) {
+                Date date = MReportTool.getLastMonthLastDay(timeZone, new Date());
+                defaultR.setStaticDay(MReportTool.getDate(date, null));
+            } else if (this.RANGE_WEEK.equalsIgnoreCase(rangeType)) {
+                Date date = MReportTool.getLastWeekLastDay(timeZone, new Date());
+                defaultR.setStaticDay(MReportTool.getDate(date, null));
+            } else {
+                Date date = DateTool.addDays(new Date(), -1);
+                defaultR.setStaticDay(MReportTool.getDate(date, MReportTool.MM_DD));
+            }
         }
-        if (this.DAY2.equalsIgnoreCase(flag)) {
-            Date date = DateTool.addDays(new Date(), -2);
-            defaultR.setStaticDay(getDay(date));
+        if (this.RANGE2.equalsIgnoreCase(range)) {
+            if (this.RANGE_MONTH.equalsIgnoreCase(rangeType)) {
+                Date date = MReportTool.getLastMonthLastDay(timeZone, new Date());
+                     date = MReportTool.getLastMonthLastDay(timeZone, date);
+                defaultR.setStaticDay(MReportTool.getDate(date, null));
+            } else if (this.RANGE_WEEK.equalsIgnoreCase(rangeType)) {
+                Date date = MReportTool.getLastWeekLastDay(timeZone, new Date());
+                     date = MReportTool.getLastWeekLastDay(timeZone, date);
+                defaultR.setStaticDay(MReportTool.getDate(date, null));
+            } else {
+                Date date = DateTool.addDays(new Date(), -2);
+                defaultR.setStaticDay(MReportTool.getDate(date, MReportTool.MM_DD));
+            }
         }
         return defaultR;
-    }
-
-    private static String getDay(Date date) {
-        String str = DateTool.formatDate(date, DateTool.yyyy_MM_dd);
-        return str.substring(str.indexOf("-")+1, str.length()).replace("-", ".");
     }
 }

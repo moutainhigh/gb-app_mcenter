@@ -121,7 +121,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         //获取参与层级目前只有返水优惠不需要
         String code = vo.getResult().getCode();
         if (!ActivityTypeEnum.BACK_WATER.getCode().equals(code)) {
-            if (ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code) || ActivityTypeEnum.REGIST_SEND.getCode().equals(code)) {
+            if (ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
                 List<VActivityMessage> vActivityMessages = loadActivityMessageByActivityType(code);
                 String combinedRanks = getCombinedRanks(vActivityMessages);
                 Map<String, Object> objectMap = isAllRank(combinedRanks);
@@ -270,7 +270,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             getNormalRakebackSet(model);
         }
 
-        if (ActivityTypeEnum.REGIST_SEND.getCode().equals(code) || VActivityMessageVo.is123Deposit(code) || ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
+        if (ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
             List<VActivityMessage> vActivityMessages = loadActivityMessageByActivityType(code, activityMessageVo.getResult().getId());
             String combinedRanks = getCombinedRanks(vActivityMessages);
             Map<String, Object> objectMap = isAllRank(combinedRanks);

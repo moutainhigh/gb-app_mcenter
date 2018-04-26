@@ -297,7 +297,9 @@ public class OperateReportController extends BaseOperateController {
      */
     private void operatePlayer(OperatePlayerListVo listVo, Model model) {
         listVo = ServiceSiteTool.operatePlayerService().queryOperateReport(listVo);
-        subAgentNum(listVo);
+        if (listVo.getSearch().getAgentId()!=null) {
+            subAgentNum(listVo);
+        }
         model.addAttribute("conditionJson", ExportCriteriaTool.criteriaToJson(listVo.getExportJsonCondition()));
         model.addAttribute("command", listVo);
     }
