@@ -419,7 +419,7 @@ public class HallVHallActivityMessageController extends HallActivityController<I
             assignment(activityTypeVo, vActivityMessageVo);
 
 
-            boolean success = ServiceActivityTool.vHallActivityMessageService().activityRelease(vActivityMessageVo);
+            boolean success = ServiceActivityTool.hallVActivityMessageService().activityRelease(vActivityMessageVo);
 
             if (success) {
                 updateSiteContentAudit();
