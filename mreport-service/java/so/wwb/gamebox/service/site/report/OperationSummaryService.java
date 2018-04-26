@@ -36,7 +36,7 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
     //按月查询标识
     private static final String RANGE_MONTH = "M";
 
-    private TimeZone timeZone;
+    private TimeZone timeZone = TimeZone.getDefault();
 
     @Autowired
     private OperationSummaryMapper summaryMapper;
@@ -44,7 +44,6 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
     @Override
     public OperationSummaryVo getOperationSummaryData(OperationSummaryVo condition) {
         List<OperationSummary> list = new ArrayList<>();
-        timeZone = condition._getSiteTimeZone();
         String rangeType = RANGE_DAY;
         if (RANGE_MONTH.equals(condition.getQueryDateRange())) {
             rangeType = RANGE_MONTH;//按月查询
@@ -162,7 +161,7 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
                 continue;
             }
             //按周查询
-            if (this.RANGE_WEEK.equalsIgnoreCase(range)) {
+            if (this.RANGE_WEEK.equalsIgnoreCase(rangeType)) {
                 Date sunday1 = MReportTool.getLastWeekLastDay(timeZone, new Date());//上周日
                 Date sunday2 = MReportTool.getLastWeekLastDay(timeZone, sunday1);//上上周日
                 if (this.RANGE1.equalsIgnoreCase(range)
@@ -176,7 +175,7 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
                 continue;
             }
             // 按月查询
-            if (this.RANGE_WEEK.equalsIgnoreCase(range)) {
+            if (this.RANGE_MONTH.equalsIgnoreCase(rangeType)) {
                 Date lastDay1 = MReportTool.getLastMonthLastDay(timeZone, new Date());//上个月最后一天
                 Date lastDay2 = MReportTool.getLastMonthLastDay(timeZone, lastDay1);//上上个月最后一天
                 if (this.RANGE1.equalsIgnoreCase(range)
@@ -198,27 +197,27 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
         if (this.RANGE1.equalsIgnoreCase(range)) {
             if (this.RANGE_MONTH.equalsIgnoreCase(rangeType)) {
                 Date date = MReportTool.getLastMonthLastDay(timeZone, new Date());
-                defaultR.setStaticDay(MReportTool.getDay(date));
+                defaultR.setStaticDay(MReportTool.getDate(date, null));
             } else if (this.RANGE_WEEK.equalsIgnoreCase(rangeType)) {
                 Date date = MReportTool.getLastWeekLastDay(timeZone, new Date());
-                defaultR.setStaticDay(MReportTool.getDay(date));
+                defaultR.setStaticDay(MReportTool.getDate(date, null));
             } else {
                 Date date = DateTool.addDays(new Date(), -1);
-                defaultR.setStaticDay(MReportTool.getDay(date));
+                defaultR.setStaticDay(MReportTool.getDate(date, MReportTool.MM_DD));
             }
         }
         if (this.RANGE2.equalsIgnoreCase(range)) {
             if (this.RANGE_MONTH.equalsIgnoreCase(rangeType)) {
                 Date date = MReportTool.getLastMonthLastDay(timeZone, new Date());
                      date = MReportTool.getLastMonthLastDay(timeZone, date);
-                defaultR.setStaticDay(MReportTool.getDay(date));
+                defaultR.setStaticDay(MReportTool.getDate(date, null));
             } else if (this.RANGE_WEEK.equalsIgnoreCase(rangeType)) {
                 Date date = MReportTool.getLastWeekLastDay(timeZone, new Date());
                      date = MReportTool.getLastWeekLastDay(timeZone, date);
-                defaultR.setStaticDay(MReportTool.getDay(date));
+                defaultR.setStaticDay(MReportTool.getDate(date, null));
             } else {
                 Date date = DateTool.addDays(new Date(), -2);
-                defaultR.setStaticDay(MReportTool.getDay(date));
+                defaultR.setStaticDay(MReportTool.getDate(date, MReportTool.MM_DD));
             }
         }
         return defaultR;
