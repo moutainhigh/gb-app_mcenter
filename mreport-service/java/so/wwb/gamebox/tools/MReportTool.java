@@ -17,6 +17,8 @@ import java.util.TimeZone;
  */
 public class MReportTool {
 
+    public static final String MM_DD = "mm.dd";
+
     /**
      * 获取指定日期的前一周的周后一天(这里将周日作为一周最后一天)
      * @param date
@@ -46,19 +48,23 @@ public class MReportTool {
     }
 
     /**
-     * 将指定期格式为mm.dd
+     * 将指定期格式
      * @param date
      * @return
      */
-    public static String getDay(Date date) {
+    public static String getDate(Date date, String fmt) {
         String str = DateTool.formatDate(date, DateTool.yyyy_MM_dd);
-        return str.substring(str.indexOf("-") + 1, str.length()).replace("-", ".");
+        if(MM_DD.equalsIgnoreCase(fmt)) {
+            return str.substring(str.indexOf("-") + 1, str.length()).replace("-", ".");
+        } else {
+            return str.replace("-", ".");
+        }
     }
 
     public static void main(String[] args) {
         try {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = df.parse("2018-04-22");
+            Date date = df.parse("2018-03-22");
             //MReportTool.getLastWeekLastDay(TimeZone.getDefault(), date);
             MReportTool.getLastMonthLastDay(TimeZone.getDefault(), date);
         } catch (ParseException e) {

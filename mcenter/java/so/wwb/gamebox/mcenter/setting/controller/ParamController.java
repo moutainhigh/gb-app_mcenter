@@ -656,7 +656,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam stationmaster = ParamTool.getSysParam(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
         SysParam phoneNumber = ParamTool.getSysParam(SiteParamEnum.EXTENSION_NUMBER_SETTING);
         SysParam androidDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_ANDROID_DOWNLOAD_ADDRESS);
-        SysParam iosDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_ISO_DOWNLOAD_ADDRESS);
+        SysParam iosDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_IOS_DOWNLOAD_ADDRESS);
         String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManagerCommon.getSiteId());
         model.addAttribute("poone_number",phoneNumber);
         model.addAttribute("phone_url",phoneUrl);
