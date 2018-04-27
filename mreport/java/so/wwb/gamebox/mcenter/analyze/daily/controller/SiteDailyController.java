@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.tools.DataTransTool;
+import so.wwb.gamebox.model.WeekTool;
 import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
 import so.wwb.gamebox.model.master.operation.vo.RakebackApiListVo;
 import so.wwb.gamebox.model.site.report.po.RealtimeProfile;
@@ -16,10 +17,7 @@ import so.wwb.gamebox.model.site.report.vo.RealtimeProfileListVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileVo;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 站点日常数据Controller
@@ -46,20 +44,7 @@ public class SiteDailyController {
      */
     @RequestMapping("/operationSummary")
     public String operationSummary(OperationSummaryVo vo , Model model) {
-       /* Calendar createDate = Calendar.getInstance();
-        createDate.set(Calendar.HOUR,23);
-        createDate.set(Calendar.MINUTE,59);
-        createDate.set(Calendar.SECOND,59);
-        Date date = new Date(createDate.getTime().getTime() - (long)24*60*60*1000);
-        vo.getSearch().setStaticTimeEnd(date);
-
-        createDate.set(Calendar.HOUR_OF_DAY,00);
-        createDate.set(Calendar.MINUTE,00);
-        createDate.set(Calendar.SECOND,00);
-        createDate.set(Calendar.DAY_OF_MONTH,10);
-        date = new Date(createDate.getTime().getTime());
-        vo.getSearch().setStaticTime(date);*/
-
+        vo.setTimeZone(WeekTool.getTimeZoneInterval());
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
         model.addAttribute("balanceGaugeChartData", JsonTool.toJson(vo.getBalanceGaugeChart()));
         model.addAttribute("effectiveGaugeChartData", JsonTool.toJson(vo.getEffectiveGaugeChart()));
@@ -70,12 +55,40 @@ public class SiteDailyController {
     }
 
     /**
+     * 运营统计
+     * @return
+     */
+    @RequestMapping("/operationSummaryDataOfChoiceDays")
+    @ResponseBody
+    public String operationSummaryDataOfChoiceDays(OperationSummaryVo vo , Model model) {
+        //拼装结束时间
+        Calendar createDate = Calendar.getInstance();
+        createDate.setTime(vo.getSearch().getStaticTimeEnd());
+        createDate.set(Calendar.HOUR_OF_DAY,00);
+        createDate.set(Calendar.MINUTE,00);
+        createDate.set(Calendar.SECOND,00);
+        Date date = new Date(createDate.getTime().getTime());
+        vo.getSearch().setStaticTimeEnd(date);
+        //拼装开始时间
+        createDate.setTime(vo.getSearch().getStaticTime());
+        createDate.set(Calendar.HOUR_OF_DAY,00);
+        createDate.set(Calendar.MINUTE,00);
+        createDate.set(Calendar.SECOND,00);
+        date = new Date(createDate.getTime().getTime());
+        vo.getSearch().setStaticTime(date);
+
+        vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
+        return JsonTool.toJson(vo.getEntities());
+    }
+
+    /**
      * 异步加载运营统计数据
      * @return
      */
     @RequestMapping("/asyncLoadOperationSummary")
     @ResponseBody
     public Map<String, Object> asyncLoadOperationSummary(OperationSummaryVo vo) {
+        vo.setTimeZone(WeekTool.getTimeZoneInterval());
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("balanceGaugeChartData", vo.getBalanceGaugeChart());

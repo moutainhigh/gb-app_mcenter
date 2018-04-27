@@ -13,6 +13,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,height=device-height">
     <title>整体走势-运营日常统计</title>
+    <% Date date = new Date();%>
+    <% Date lastDate = new Date(date.getTime() - (long)13*24*60*60*1000);%>
+    <c:set var="now" value="<%=date%>"/>
+    <c:set var="lastdate" value="<%=lastDate%>"/>
 </head>
 <body>
 
@@ -28,7 +32,7 @@
     <div class="row dataBox1">
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
-                <h2>存取差额 <span>4月16日:${lastDifferenceAmount}</span></h2>
+                <h2>存取差额 <span id="c1_title"></span></h2>
                 <div class="public-btn-group _addPrimary balanceBtn">
                     <button class="btn btn-primary" value="D">日</button>
                     <button class="btn" value="W">周</button>
@@ -41,7 +45,7 @@
 
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
-                <h2>有效投注 <span>4月16日:${lastDifferenceAmount}</span></h2>
+                <h2>有效投注 <span id="c2_title"></span></h2>
                 <div class="public-btn-group _addPrimary effectiveBtn">
                     <button class="btn btn-primary" value="D">日</button>
                     <button class="btn" value="W">周</button>
@@ -54,7 +58,7 @@
 
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
-                <h2>损益 <span>4月16日:${lastDifferenceAmount}</span></h2>
+                <h2>损益 <span id="c3_title"></span></h2>
                 <div class="public-btn-group _addPrimary profitLossBtn">
                     <button class="btn btn-primary" value="D">日</button>
                     <button class="btn" value="W">周</button>
@@ -71,8 +75,8 @@
             <div class="cont">
                 <h2>活跃用户和登录次数 <span>本月:121,696,321.00</span></h2>
                 <div class="public-btn-group group _addPrimary tableBut active-user">
-                    <button class="btn btn-primary active-user">活跃用户</button>
-                    <button class="btn login-count">总登录次数</button>
+                    <button class="btn btn-primary active-user" value="active-user">活跃用户</button>
+                    <button class="btn login-count" value="login-count">总登录次数</button>
                 </div>
                 <div id="f4"></div>
             </div>
@@ -81,8 +85,8 @@
             <div class="cont">
                 <h2>安装量和卸载量 <span>本月:121,696,321.00</span></h2>
                 <div class="public-btn-group group _addPrimary tableBut install">
-                    <button class="btn btn-primary install">安装量</button>
-                    <button class="btn uninstall">卸载量</button>
+                    <button class="btn btn-primary install" value="install">安装量</button>
+                    <button class="btn uninstall" value="uninstall">卸载量</button>
                 </div>
                 <div id="i5"></div>
             </div>
@@ -94,8 +98,8 @@
             <div class="cont">
                 <h2>用户走势 <span>本月:121,696,321.00</span></h2>
                 <div class="public-btn-group group _addPrimary tableBut player-trend">
-                    <button class="btn btn-primary new-player">新增玩家</button>
-                    <button class="btn login-count new-deposit-player">新增存款玩家</button>
+                    <button class="btn btn-primary new-player" value="new-player">新增玩家</button>
+                    <button class="btn login-count new-deposit-player" value="new-deposit-player">新增存款玩家</button>
                 </div>
                 <div id="p6"></div>
             </div>
@@ -104,8 +108,8 @@
             <div class="cont">
                 <h2>反水走势 <span>本月:121,696,321.00</span></h2>
                 <div class="public-btn-group group _addPrimary tableBut rakeback-trend">
-                    <button class="btn btn-primary rakeback-men">反水人数</button>
-                    <button class="btn rakeback-cash">反水金额</button>
+                    <button class="btn btn-primary rakeback-men" value="rakeback-men">反水人数</button>
+                    <button class="btn rakeback-cash" value="rakeback-cash">反水金额</button>
                 </div>
                 <br/>
                 <div class="group" id="api-choice" style="display: none;">
@@ -114,6 +118,21 @@
                 <div id="b7"></div>
             </div>
         </div>
+
+        <%-- 测试功能 勿删
+        <div class="public-btn-group _addPrimary cycleChangeBtn">
+            <button class="btn btn-primary"  statisticsDataType="rakebackTrend" value="D">日</button>
+            <button class="btn" statisticsDataType="rakebackTrend" value="W">周</button>
+            <button class="btn" statisticsDataType="rakebackTrend" value="M">月</button>
+        </div>
+
+        <div class="public-btn-group _addPrimary cycleChangeOFdaysBtn">
+            <button class="btn btn-primary"  statisticsDataType="rakebackTrend" stateTime="${soulFn:formatDateTz(lastdate, DateFormat.DAY_SECOND,timeZone)}" endTime="${soulFn:formatDateTz(now, DateFormat.DAY_SECOND,timeZone)}" value="C">
+                ${soulFn:formatDateTz(lastdate, DateFormat.DAY_SECOND,timeZone)} -
+                ${soulFn:formatDateTz(now, DateFormat.DAY_SECOND,timeZone)}
+            </button>
+        </div>--%>
+
     </div>
 </div>
 <%--存款差额仪表图数据--%>
@@ -134,6 +153,8 @@
 <div style="display: none;" id="operationSummaryDataOfMonth"></div>
 <%--返水金额API选择--%>
 <div style="display: none;" id="rakebackCashApis">${rakebackCashApis}</div>
+<%--自选天数查询--%>
+<div style="display: none;" id="operationSummaryDataOfChoiceDays"></div>
 <script type="text/javascript">
     curl(['site/daily/OperationSummary'], function (OperationSummary) {
         new OperationSummary();
