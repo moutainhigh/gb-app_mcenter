@@ -64,9 +64,9 @@ public class SiteDailyController {
         //拼装结束时间
         Calendar createDate = Calendar.getInstance();
         createDate.setTime(vo.getSearch().getStaticTimeEnd());
-        createDate.set(Calendar.HOUR,23);
-        createDate.set(Calendar.MINUTE,59);
-        createDate.set(Calendar.SECOND,59);
+        createDate.set(Calendar.HOUR_OF_DAY,00);
+        createDate.set(Calendar.MINUTE,00);
+        createDate.set(Calendar.SECOND,00);
         Date date = new Date(createDate.getTime().getTime());
         vo.getSearch().setStaticTimeEnd(date);
         //拼装开始时间
