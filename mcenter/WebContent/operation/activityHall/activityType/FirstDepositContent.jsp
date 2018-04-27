@@ -111,7 +111,13 @@
                 <div class="col-sm-8 co-red">${views.operation_auto['自定义文宣、包装很重要、很重要、很重要']}</div>
             </div>
             <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['圣诞节主题']}：</label>
+                <label class="ft-bold col-sm-3 al-right"></label>
+                <div class="col-sm-8 ">
+                    <p>${views.operation_auto['圣诞节主题']} : </p>
+                </div>
+            </div>
+            <div class="clearfix line-hi34">
+                <label class="ft-bold col-sm-3 al-right"></label>
                 <div class="col-sm-8 ">
                     <p>${views.operation_auto['时光穿梭']}</p>
                     <p>${views.operation_auto['凡是第一笔存款金额达到X元的新注册玩家']}</p>
@@ -126,7 +132,7 @@
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right"></label>
                 <div class="col-sm-8">
-                        <p>1. ${views.operation_auto['每位会员终身仅能享受一次首存优惠活动']}
+                        <p>1. ${views.operation_auto['每位会员终身仅能享受1次首存优惠活动']}
                             <span class="co-red">${views.operation_auto['自定义']}</span>
                             ${views.operation_auto['内申请奖励']}
                         </p>
@@ -144,7 +150,7 @@
             </div>
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['优惠条款']}：</label>
-                <div class="col-sm-5">
+                <div class="col-sm-8">
                     <p>1. ${views.operation_auto['所有优惠以人民币为结算金额']}</p>
                     <p>2. ${views.operation_auto['视为同一位会员']} <%= SessionManager.getSiteName(request) %>
                         ${views.operation_auto['保留收回或取消申请优惠金的权利']}

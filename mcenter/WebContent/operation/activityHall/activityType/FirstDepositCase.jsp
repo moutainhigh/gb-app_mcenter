@@ -17,16 +17,54 @@
     </div>
     <div class="col-lg-12">
         <div class="wrapper white-bg clearfix shadow">
-            <div class="sys_tab_wrap clearfix m-b-sm">
-                <div class="m-sm">
-                    <b class="fs16">${views.operation_auto['首存送案例介绍']}</b>
+            <c:if test="${activityType eq 'first_deposit'}">
+                <div class="sys_tab_wrap clearfix m-b-sm">
+                    <div class="m-sm">
+                        <b class="fs16">${views.operation_auto['首存送案例介绍']}</b>
+                    </div>
                 </div>
-            </div>
-            <div class="panel blank-panel">
-                <div class="panel-body">
-                    <%@include file="FirstDepositContent.jsp"%>
+                <div class="panel blank-panel">
+                    <div class="panel-body">
+                        <%@include file="FirstDepositContent.jsp"%>
+                    </div>
                 </div>
-            </div>
+            </c:if>
+            <c:if test="${activityType eq 'second_deposit'}">
+                <div class="sys_tab_wrap clearfix m-b-sm">
+                    <div class="m-sm">
+                        <b class="fs16">${views.operation_auto['次存送案例介绍']}</b>
+                    </div>
+                </div>
+                <div class="panel blank-panel">
+                    <div class="panel-body">
+                        <%@include file="SecondDepositContent.jsp"%>
+                    </div>
+                </div>
+            </c:if>
+            <c:if test="${activityType eq 'third_deposit'}">
+                <div class="sys_tab_wrap clearfix m-b-sm">
+                    <div class="m-sm">
+                        <b class="fs16">${views.operation_auto['三存送案例介绍']}</b>
+                    </div>
+                </div>
+                <div class="panel blank-panel">
+                    <div class="panel-body">
+                        <%@include file="ThirdDepositContent.jsp"%>
+                    </div>
+                </div>
+            </c:if>
+            <c:if test="${activityType eq 'everyday_first_deposit'}">
+                <div class="sys_tab_wrap clearfix m-b-sm">
+                    <div class="m-sm">
+                        <b class="fs16">${views.operation_auto['每日首存送案例介绍']}</b>
+                    </div>
+                </div>
+                <div class="panel blank-panel">
+                    <div class="panel-body">
+                        <%@include file="EveryDayFirstDepositContent.jsp"%>
+                    </div>
+                </div>
+            </c:if>
         </div>
     </div>
 </div>
