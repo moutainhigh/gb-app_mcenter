@@ -25,6 +25,7 @@ public class ActivityRuleFirstDepositForm extends ActivityRuleForm {
     private Boolean $ｍosaicGold;
 //    private String activityRule_rank;
     private String activityRule_depositWay;
+    private String activityRule_effectiveTime;
 
     @NotNull(message = "operation_auto.赠送彩金上限不能为空")
     @Pattern(regexp = FormValidRegExps.POSITIVE,message = "operation_auto.请输入")
@@ -133,5 +134,14 @@ public class ActivityRuleFirstDepositForm extends ActivityRuleForm {
 
     public void setActivityRule_depositWay(String activityRule_depositWay) {
         this.activityRule_depositWay = activityRule_depositWay;
+    }
+    @NotBlank(message = "operation_auto.请选择有效时间")
+    @Comment("有效时间")
+    public String getActivityRule_effectiveTime() {
+        return activityRule_effectiveTime;
+    }
+
+    public void setActivityRule_effectiveTime(String activityRule_effectiveTime) {
+        this.activityRule_effectiveTime = activityRule_effectiveTime;
     }
 }

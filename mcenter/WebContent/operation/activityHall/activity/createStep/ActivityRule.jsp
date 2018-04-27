@@ -70,7 +70,19 @@
                     <span class="input-group pull-left line-hi25 m-r">
                         <gb:select name="activityRule.effectiveTime" list="<%=DictTool.get(DictEnum.EFFECTIVE_TIME)%>" value="${activityRule.effectiveTime}"  prompt="${views.operation_auto['请选择']}"/>
                     </span>
-                        <span class="m-l co-grayc2">${views.operation['Activity.step.message6']}</span>
+                        <c:if test="${activityType.result.code eq 'regist_send' }">
+                            <span class="m-l co-grayc2">${views.operation['Activity.step.message6']}</span>
+                        </c:if>
+                        <c:if test="${ activityType.result.code eq 'first_deposit' }">
+                            <span class="m-l co-grayc2">${views.operation['Activity.step.message_first_deposit']}</span>
+                        </c:if>
+                        <c:if test="${ activityType.result.code eq 'second_deposit' }">
+                            <span class="m-l co-grayc2">${views.operation['Activity.step.message_second_deposit']}</span>
+                        </c:if>
+                        <c:if test="${ activityType.result.code eq 'third_deposit' }">
+                            <span class="m-l co-grayc2">${views.operation['Activity.step.message_third_deposit']}</span>
+                        </c:if>
+
                     </div>
                 </div>
             </c:if>

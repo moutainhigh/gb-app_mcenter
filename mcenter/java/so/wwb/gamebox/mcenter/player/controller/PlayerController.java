@@ -3429,6 +3429,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             if (riskDataType.charAt(5) != '0') {
                 riskSet.add(PlayerRiskDataTypeEnum.INTEREST_ARBITRAGE.getCode());
             }
+            if (riskDataType.charAt(4) != '0') {
+                riskSet.add(PlayerRiskDataTypeEnum.PAY_PROFESSIONAL_COMPLAINT.getCode());
+            }
         }
         userPlayerVo.getResult().setRiskSet(riskSet);
     }
@@ -3442,6 +3445,11 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         if (StringTool.isNotBlank(riskDataType)) {
             StringBuilder str = new StringBuilder();
             Set<String> set = new HashSet<>(Arrays.asList(riskDataType.split(";")));
+            if (set.contains(PlayerRiskDataTypeEnum.PAY_PROFESSIONAL_COMPLAINT.getCode())) {
+                str.append("1");
+            } else {
+                str.append("0");
+            }
             if (set.contains(PlayerRiskDataTypeEnum.INTEREST_ARBITRAGE.getCode())) {
                 str.append("1");
             } else {

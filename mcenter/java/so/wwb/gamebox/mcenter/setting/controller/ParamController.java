@@ -656,7 +656,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam stationmaster = ParamTool.getSysParam(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
         SysParam phoneNumber = ParamTool.getSysParam(SiteParamEnum.EXTENSION_NUMBER_SETTING);
         SysParam androidDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_ANDROID_DOWNLOAD_ADDRESS);
-        SysParam iosDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_ISO_DOWNLOAD_ADDRESS);
+        SysParam iosDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_IOS_DOWNLOAD_ADDRESS);
         String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManagerCommon.getSiteId());
         model.addAttribute("poone_number",phoneNumber);
         model.addAttribute("phone_url",phoneUrl);
@@ -674,19 +674,19 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("androidDownloadAddress",androidDownloadAddress != null ? androidDownloadAddress.getParamValue():"");
         model.addAttribute("iosDownloadAddress",iosDownloadAddress != null ? iosDownloadAddress.getParamValue():"");
         //判断是否为站长主账号
-        if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
+        /*if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
             Integer masterId = sysSiteVo.getResult().getSysUserId();
             LOG.info("站长ID：{0}",masterId);
             SysUserVo sysUserVo = new SysUserVo();
-            sysUserVo._setDataSourceId(Const.BASE_DATASOURCE_ID);
             sysUserVo.getSearch().setId(masterId);
-            sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
-            LOG.info("站点用户：{0}",JsonTool.toJson(sysUserVo.getResult()));
+            sysUserVo = ServiceTool.myAccountService().getSysUser(sysUserVo);
             model.addAttribute("isMaster",true);
             if (sysUserVo.getResult()!=null) {
                 model.addAttribute("idCard", sysUserVo.getResult().getIdcard());
+            }else {
+                LOG.info("站长坐席号：获取站长用户信息为空！");
             }
-        }
+        }*/
         return "/setting/param/siteparameters/Parameters";
     }
 
