@@ -4,6 +4,7 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
@@ -16,10 +17,7 @@ import so.wwb.gamebox.model.site.report.vo.RealtimeProfileListVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileVo;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 站点日常数据Controller
@@ -46,27 +44,41 @@ public class SiteDailyController {
      */
     @RequestMapping("/operationSummary")
     public String operationSummary(OperationSummaryVo vo , Model model) {
-       /* Calendar createDate = Calendar.getInstance();
-        createDate.set(Calendar.HOUR,23);
-        createDate.set(Calendar.MINUTE,59);
-        createDate.set(Calendar.SECOND,59);
-        Date date = new Date(createDate.getTime().getTime() - (long)24*60*60*1000);
-        vo.getSearch().setStaticTimeEnd(date);
-
-        createDate.set(Calendar.HOUR_OF_DAY,00);
-        createDate.set(Calendar.MINUTE,00);
-        createDate.set(Calendar.SECOND,00);
-        createDate.set(Calendar.DAY_OF_MONTH,10);
-        date = new Date(createDate.getTime().getTime());
-        vo.getSearch().setStaticTime(date);*/
-
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
         model.addAttribute("balanceGaugeChartData", JsonTool.toJson(vo.getBalanceGaugeChart()));
         model.addAttribute("effectiveGaugeChartData", JsonTool.toJson(vo.getEffectiveGaugeChart()));
         model.addAttribute("profitLossGaugeChartData", JsonTool.toJson(vo.getProfitLossGaugeChart()));
         model.addAttribute("operationSummaryData", JsonTool.toJson(vo.getEntities()));
         model.addAttribute("rakebackCashApis", ApiProviderEnum.values());
+
         return OPERATION_SUMMARY;
+    }
+
+    /**
+     * 运营统计
+     * @return
+     */
+    @RequestMapping("/operationSummaryDataOfChoiceDays")
+    @ResponseBody
+    public String operationSummaryDataOfChoiceDays(OperationSummaryVo vo , Model model) {
+        //拼装结束时间
+        Calendar createDate = Calendar.getInstance();
+        createDate.setTime(vo.getSearch().getStaticTimeEnd());
+        createDate.set(Calendar.HOUR,23);
+        createDate.set(Calendar.MINUTE,59);
+        createDate.set(Calendar.SECOND,59);
+        Date date = new Date(createDate.getTime().getTime());
+        vo.getSearch().setStaticTimeEnd(date);
+        //拼装开始时间
+        createDate.setTime(vo.getSearch().getStaticTime());
+        createDate.set(Calendar.HOUR_OF_DAY,00);
+        createDate.set(Calendar.MINUTE,00);
+        createDate.set(Calendar.SECOND,00);
+        date = new Date(createDate.getTime().getTime());
+        vo.getSearch().setStaticTime(date);
+
+        vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
+        return JsonTool.toJson(vo.getEntities());
     }
 
     /**
