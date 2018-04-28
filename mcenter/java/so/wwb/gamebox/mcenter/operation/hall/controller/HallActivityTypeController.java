@@ -6,6 +6,7 @@ import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.query.sort.Direction;
 import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
+import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,6 +82,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
     private static final String OPERATION_ACTIVITY_TYPE_FIRST_DEPOSIT_CASE_DIALOG = "/operation/activityHall/activityType/FirstDepositCaseDialog";
     private static final String OPERATION_ACTIVITY_TYPE_PROFIT_LOSS_CASE_DIALOG = "/operation/activityHall/activityType/ProfitLossCaseDialog";
     private static final String OPERATION_ACTIVITY_TYPE_RELIEF_FUND_CASE_DIALOG = "/operation/activityHall/activityType/ReliefFundCaseDialog";
+
 
     /**
      * 活动类型选择列表
@@ -471,13 +473,14 @@ public class HallActivityTypeController extends HallActivityController<IActivity
      * @return
      */
     @RequestMapping("/chooseCase")
-    public String chooseCase(ActivityTypeVo vo) {
+    public String chooseCase(ActivityTypeVo vo, Model model) {
 
         if (vo == null || vo.getResult() == null) {
             return "";
         }
 
         String code = vo.getResult().getCode();
+        model.addAttribute("activityType",code);
         String casePage = null;
         if (ActivityTypeEnum.BACK_WATER.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_BACK_WATER_CASE;
@@ -487,7 +490,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             casePage = OPERATION_ACTIVITY_TYPE_DEPOSIT_SEND_CASE;
         } else if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_EFFECTIVE_TRANSACTION_CASE;
-        } else if (ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code)) {
+        } else if (VActivityMessageVo.is123Deposit(code) || ActivityTypeEnum.MONEY.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_FIRST_DEPOSIT_CASE;
         } else if (ActivityTypeEnum.PROFIT.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_PROFIT_LOSS_CASE;
@@ -504,13 +507,14 @@ public class HallActivityTypeController extends HallActivityController<IActivity
      * @return
      */
     @RequestMapping("/chooseCaseDialog")
-    public String chooseCaseDialog(ActivityTypeVo vo) {
+    public String chooseCaseDialog(ActivityTypeVo vo, Model model) {
 
         if (vo == null || vo.getResult() == null) {
             return "";
         }
 
         String code = vo.getResult().getCode();
+        model.addAttribute("activityType",code);
         String casePage = null;
         if (ActivityTypeEnum.BACK_WATER.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_BACK_WATER_CASE_DIALOG;
@@ -520,7 +524,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             casePage = OPERATION_ACTIVITY_TYPE_DEPOSIT_SEND_CASE_DIALOG;
         } else if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_EFFECTIVE_TRANSACTION_CASE_DIALOG;
-        } else if (ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code)) {
+        } else if (VActivityMessageVo.is123Deposit(code)  || ActivityTypeEnum.MONEY.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_FIRST_DEPOSIT_CASE_DIALOG;
         } else if (ActivityTypeEnum.PROFIT.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_PROFIT_LOSS_CASE_DIALOG;
@@ -596,6 +600,24 @@ public class HallActivityTypeController extends HallActivityController<IActivity
     @ResponseBody
     public String checkTime(HttpServletRequest request, @RequestParam("activityMessage.startTime") Date startTime, @RequestParam("activityMessage.endTime") Date endTime) {
         return startTime.getTime() >= endTime.getTime() ? "false" : "true";
+    }
+
+    /**
+     * 检查活动名称是否重复
+     * @param activityContentStepForm
+     * @return
+     */
+    @RequestMapping(value = "/checkActivityName")
+    @ResponseBody
+    public String checkActivityName(@FormModel ActivityContentStepForm activityContentStepForm, HttpServletRequest request) {
+        VActivityMessageListVo vActivityMessageListVo = new VActivityMessageListVo();
+//        vActivityMessageListVo.getQuery().setCriterions(new Criterion[]{
+//                new Criterion(VActivityMessage.PROP_ACTIVITY_NAME, Operator.EQ,activityName),
+//                new Criterion(VActivityMessage.PROP_CODE, Operator.EQ,activityType),
+//                new Criterion(VActivityMessage.PROP_ID, Operator.NE,id)
+//        });
+        long count = ServiceActivityTool.vActivityMessageService().count(vActivityMessageListVo);
+        return Boolean.valueOf(count > 0).toString();
     }
 
     //endregion your codes 3

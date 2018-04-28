@@ -65,6 +65,18 @@
                     </div>
                 </div>
             </c:if>
+            <c:if test="${activityType eq 'money'}">
+                <div class="sys_tab_wrap clearfix m-b-sm">
+                    <div class="m-sm">
+                        <b class="fs16">${views.operation_auto['红包送案例介绍']}</b>
+                    </div>
+                </div>
+                <div class="panel blank-panel">
+                    <div class="panel-body">
+                        <%@include file="MoneyContent.jsp"%>
+                    </div>
+                </div>
+            </c:if>
         </div>
     </div>
 </div>
