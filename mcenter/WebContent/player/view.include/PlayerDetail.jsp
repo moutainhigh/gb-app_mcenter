@@ -15,6 +15,7 @@
         </div>
         <div class="col-lg-12">
             <input type="hidden" name="result.id" value="${command.result.id}" id="userId">
+            <input type="hidden" value="${toRecovery}" id="toRecovery" name="toRecovery">
             <div class="wrapper white-bg clearfix shadow">
                 <div class="sys_tab_wrap clearfix m-b-sm">
                     <div class="m-sm">

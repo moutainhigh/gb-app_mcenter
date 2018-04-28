@@ -15,7 +15,19 @@
 <body>
 <form:form>
     <div class="modal-body">
-        <%@include file="FirstDepositContent.jsp"%>
+
+        <c:if test="${activityType eq 'first_deposit'}">
+            <%@include file="FirstDepositContent.jsp"%>
+        </c:if>
+        <c:if test="${activityType eq 'second_deposit'}">
+            <%@include file="SecondDepositContent.jsp"%>
+        </c:if>
+        <c:if test="${activityType eq 'third_deposit'}">
+            <%@include file="ThirdDepositContent.jsp"%>
+        </c:if>
+        <c:if test="${activityType eq 'everyday_first_deposit'}">
+            <%@include file="EveryDayFirstDepositContent.jsp"%>
+        </c:if>
     </div>
     <div class="modal-footer">
         <soul:button target="closePage" text="${views.common['cancel']}" opType="function" cssClass="btn btn-outline btn-filter"/>

@@ -8,49 +8,70 @@
     <div id="tab-2" class="tab-pane active">
         <div class="gray-chunk clearfix">
             <div class="clearfix line-hi34">
+                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动名称']}：</label>
+                <div class="col-sm-8">${views.operation_auto['投注有奖，全民都有']}<span class="co-red">${views.operation_auto['自定义']}</span></div>
+            </div>
+            <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动分类']}：</label>
-                <div class="col-sm-8 ">${views.operation_auto['活动分类']}</div>
+                <div class="col-sm-8 ">${views.operation_auto['老玩家专享']}<span class="co-red">${views.operation_auto['自定义']}</span></div>
             </div>
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动时间']}：</label>
-                <div class="col-sm-8 ">${views.operation_auto['无限制时间']}</div>
+                <div class="col-sm-8 ">2018-04-13 ${views.operation_auto['至']} 2100-04-13<span class="co-red">${views.operation_auto['自定义']}</span></div>
             </div>
             <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动名称']}：</label>
-                <div class="col-sm-8">${views.operation_auto['不计输赢，只要投注就送彩金']}</div>
-            </div>
-            <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动概述']}：</label>
-                <div class="col-sm-8 ">${views.operation_auto['有效交易量达到一定额度，赠送一定额度的彩金']}</div>
+                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['领奖方式']}：</label>
+                <div class="col-sm-8 ">${views.operation_auto['请至活动大厅申请该活动奖励']}${views.operation_auto['自定义']}</div>
             </div>
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['优惠条件']}：</label>
+                <div class="col-sm-8 "><span class="co-red">${views.operation_auto['自定义单次奖励和闯关奖励二选一']}</span></div>
+            </div>
+            <div class="clearfix line-hi34">
+                <label class="ft-bold col-sm-3 al-right"></label>
                 <div class="col-sm-8 ">
                     <div class="dataTables_wrapper" role="grid">
                         <div class="tab-content table-responsive">
                             <table class="table table-striped border">
                                 <tbody>
                                 <tr>
-                                    <td>${views.operation_auto['活动规则']}</td>
-                                    <td colspan="3">${views.operation_auto['优惠形式']}</td>
+                                    <td colspan="4" class="co-red">${views.operation_auto['单次奖励（达到指定有效投注额领取该阶梯奖励）']}</td>
                                 </tr>
                                 <tr>
-                                    <td>${views.operation_auto['总有效交易量']}</td>
-                                    <td>${views.operation_auto['按比例赠送彩金']}</td>
-                                    <td>${views.operation_auto['固定赠送彩金CNY']}</td>
-                                    <td>${views.operation_auto['优惠稽核']}</td>
+                                    <td>${views.operation_auto['单次奖励阶梯']}</td>
+                                    <td>${views.operation_auto['有效投注额']}</td>
+                                    <td>${views.operation_auto['优惠方案']}</td>
+                                    <td>${views.operation_auto['稽核要求']}</td>
                                 </tr>
                                 <tr>
-                                    <td>${views.operation_auto['达到（）以上']}</td>
-                                    <td>（）%</td>
-                                    <td>&nbsp;</td>
-                                    <td>${views.operation_auto['(可为空)倍']}</td>
+                                    <td>${views.operation_auto['阶梯一']}</td>
+                                    <td>${views.operation_auto['有效投注额满3000元']}</td>
+                                    <td>50${views.operation_auto['元']}</td>
+                                    <td>${views.operation_auto['5倍流水']}</td>
                                 </tr>
                                 <tr>
-                                    <td>${views.operation_auto['达到（）以上']}</td>
-                                    <td>（）%</td>
-                                    <td>&nbsp;</td>
-                                    <td>${views.operation_auto['(可为空)倍<']}/td>
+                                    <td>${views.operation_auto['阶梯二']}</td>
+                                    <td>${views.operation_auto['有效投注额满5000元']}</td>
+                                    <td>100${views.operation_auto['元']}</td>
+                                    <td>${views.operation_auto['5倍流水']}</td>
+                                </tr>
+                                <tr>
+                                    <td>${views.operation_auto['阶梯三']}</td>
+                                    <td>${views.operation_auto['有效投注额满20000元']}</td>
+                                    <td>500${views.operation_auto['元']}</td>
+                                    <td>${views.operation_auto['5倍流水']}</td>
+                                </tr>
+                                <tr>
+                                    <td>${views.operation_auto['阶梯四']}</td>
+                                    <td>${views.operation_auto['有效投注额满50000元']}</td>
+                                    <td>1500${views.operation_auto['元']}</td>
+                                    <td>${views.operation_auto['5倍流水']}</td>
+                                </tr>
+                                <tr>
+                                    <td>${views.operation_auto['阶梯五']}</td>
+                                    <td>${views.operation_auto['有效投注额满100000元']}</td>
+                                    <td>3500${views.operation_auto['元']}</td>
+                                    <td>${views.operation_auto['5倍流水']}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -58,60 +79,47 @@
                     </div>
                 </div>
             </div>
+
+            <br>
             <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动内容']}：</label>
-                <div class="col-sm-5">
-                    <p>1.${views.operation_auto['申明有效交易量等级以及派送彩金的层次、取款的稽核限制']}</p>
-                    <p>2.${views.operation_auto['注明适用的API游戏项目']}</p>
-                    <p>3.${views.operation_auto['活动细则以及优惠规则与条款']}</p>
-                </div>
-            </div>
-            <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['填写优惠条件']}：</label>
+                <label class="ft-bold col-sm-3 al-right"></label>
                 <div class="col-sm-8 ">
                     <div class="dataTables_wrapper" role="grid">
                         <div class="tab-content table-responsive">
                             <table class="table table-striped border">
                                 <tbody>
                                 <tr>
-                                    <td>${views.operation_auto['活动规则']}</td>
-                                    <td colspan="3">${views.operation_auto['优惠形式']}</td>
+                                    <td colspan="4" class="co-red">${views.operation_auto['闯关奖励（达到指定有效投注额包揽旗下所有阶梯奖励）']}</td>
                                 </tr>
                                 <tr>
-                                    <td>${views.operation_auto['总有效交易量']}</td>
-                                    <td>${views.operation_auto['按比例赠送彩金']}</td>
-                                    <td>${views.operation_auto['固定赠送彩金CNY']}</td>
-                                    <td>${views.operation_auto['优惠稽核']}</td>
+                                    <td>${views.operation_auto['关卡一']}</td>
+                                    <td>${views.operation_auto['有效投注额满3000元']}</td>
+                                    <td>20${views.operation_auto['元']}</td>
+                                    <td>${views.operation_auto['5倍流水']}</td>
                                 </tr>
                                 <tr>
-                                    <td>${fn:replace(views.operation_auto['达到以上'],"[0]" ,50000 )}</td>
-                                    <td>（）%</td>
-                                    <td>80</td>
-                                    <td>(1)${views.operation_auto['倍']}</td>
+                                    <td>${views.operation_auto['关卡二']}</td>
+                                    <td>${views.operation_auto['有效投注额满5000元']}</td>
+                                    <td>50${views.operation_auto['元']}</td>
+                                    <td>${views.operation_auto['5倍流水']}</td>
                                 </tr>
                                 <tr>
-                                    <td>${fn:replace(views.operation_auto['达到以上'],"[0]" ,100000 )}</td>
-                                    <td>（）%</td>
-                                    <td>180</td>
-                                    <td>(1)${views.operation_auto['倍']}</td>
+                                    <td>${views.operation_auto['关卡三']}</td>
+                                    <td>${views.operation_auto['有效投注额满20000元']}</td>
+                                    <td>200${views.operation_auto['元']}</td>
+                                    <td>${views.operation_auto['5倍流水']}</td>
                                 </tr>
                                 <tr>
-                                    <td>${fn:replace(views.operation_auto['达到以上'],"[0]" ,500000 )}</td>
-                                    <td>（）%</td>
-                                    <td>1000</td>
-                                    <td>(1)${views.operation_auto['倍']}</td>
+                                    <td>${views.operation_auto['关卡四']}</td>
+                                    <td>${views.operation_auto['有效投注额满50000元']}</td>
+                                    <td>500${views.operation_auto['元']}</td>
+                                    <td>${views.operation_auto['5倍流水']}</td>
                                 </tr>
                                 <tr>
-                                    <td>${fn:replace(views.operation_auto['达到以上'],"[0]" ,1000000 )}</td>
-                                    <td>（）%</td>
-                                    <td>2500</td>
-                                    <td>(1)${views.operation_auto['倍']}</td>
-                                </tr>
-                                <tr>
-                                    <td>${fn:replace(views.operation_auto['达到以上'],"[0]" ,10000000 )}</td>
-                                    <td>（）%</td>
-                                    <td>8888</td>
-                                    <td>(1)${views.operation_auto['倍']}</td>
+                                    <td>${views.operation_auto['关卡五']}</td>
+                                    <td>${views.operation_auto['有效投注额满100000元']}</td>
+                                    <td>1500${views.operation_auto['元']}</td>
+                                    <td>${views.operation_auto['5倍流水']}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -121,69 +129,68 @@
             </div>
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动详情']}：</label>
+                <div class="col-sm-8 co-red">${views.operation_auto['自定义文宣、包装很重要、很重要、很重要']}</div>
+            </div>
+
+            <div class="clearfix line-hi34">
+                <label class="ft-bold col-sm-3 al-right"></label>
                 <div class="col-sm-8 ">
-                    <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
-                        <div>${views.operation_auto['凡是在甲公司进行电子游艺游戏']}</div>
-                        <div class="tab-content table-responsive">
-                            <table class="table table-striped border">
-                                <tbody>
-                                <tr>
-                                    <td>${views.operation_auto['周有效投注']}</td>
-                                    <td>${views.operation_auto['奖励彩金']}</td>
-                                    <td>${views.operation_auto['稽核限制']}</td>
-                                </tr>
-                                <tr>
-                                    <td>5${views.operation_auto['万']}+</td>
-                                    <td>80</td>
-                                    <td>1${views.operation_auto['倍']}</td>
-                                </tr>
-                                <tr>
-                                    <td>10${views.operation_auto['万']}+</td>
-                                    <td>180</td>
-                                    <td>1${views.operation_auto['倍']}</td>
-                                </tr>
-                                <tr>
-                                    <td>50${views.operation_auto['万']}+</td>
-                                    <td>1000</td>
-                                    <td>1${views.operation_auto['倍']}</td>
-                                </tr>
-                                <tr>
-                                    <td>100${views.operation_auto['万']}+</td>
-                                    <td>2500</td>
-                                    <td>1${views.operation_auto['倍']}</td>
-                                </tr>
-                                <tr>
-                                    <td>1000${views.operation_auto['万']}+</td>
-                                    <td>8888</td>
-                                    <td>1${views.operation_auto['倍']}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <p>${views.operation_auto['阳光普照']}</p>
                 </div>
             </div>
             <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动细则']}：</label>
-                <div class="col-sm-8 ">
-                    <p>1.${views.operation_auto['所获得奖金需一倍稽核方可申请提款。']}</p>
-                    <p>2.${views.operation_auto['每位会员每周仅限申请一次，天数按照美东时间计算。']}</p>
-                    <p>3.${views.operation_auto['该活动除开户彩金与体验金优惠外，可与其他优惠共同享有。']}</p>
-                    <p>4.${views.operation_auto['符合申请条件的会员']}</p>
-                    <p>5.${views.operation_auto['参与该优惠，即表示您同意《优惠规则与条款》。']}</p>
+                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动规则']}：</label>
+                <div class="col-sm-8 co-red">
+                    <span class="co-red">${views.operation_auto['自定义']}</span>
                 </div>
             </div>
             <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['优惠规则与条款']}</label>
+                <label class="ft-bold col-sm-3 al-right"></label>
                 <div class="col-sm-8">
-                    <p>1.${views.operation_auto['所有优惠以人民币(CNY)为结算金额，以美东时间(EDT)为计时区间。']}</p>
-                    <p>2.${views.operation_auto['每位玩家']}</p>
-                    <p>3.${views.operation_auto['甲公司的所有优惠特为玩家而设']}</p>
-                    <p>4.${views.operation_auto['若会员对活动有争议时']}
-                    <p>5.${views.operation_auto['当参与优惠会员未能完全遵守']}</p>
-                    <p>6.${views.operation_auto['甲公司保留对活动的最终解释权；以及在无通知的情况下修改、终止活动的权利；适用于所有优惠。']}</p>
+                    <p>1. ${views.operation_auto['所有玩家可以报名参与，随时查询当前有效投注额的进度']}
+                    </p>
+                    <p>2. ${views.operation_auto['本活动有效投注额的统计方式']}</p>
+                    <p>3. ${views.operation_auto['报名完成会公布派奖时间']}
+                        <span class="co-red">${views.operation_auto['根据申领周期来配置']}</span>
+                        ${views.operation_auto['可以参与1次']}
+                    </p>
+                    <p>4. ${views.operation_auto['若符合活动条件']}&nbsp;
+                        <span class="co-red">${views.operation_auto['例_多个相同银行卡的账号']}</span>
+                    </p>
+                    <p>5. ${views.operation_auto['参与该优惠活动_即表示您同意']}</p>
+
                 </div>
             </div>
+            <div class="clearfix line-hi34">
+                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['优惠条款']}：</label>
+                <div class="col-sm-8">
+                    <p>1. ${views.operation_auto['所有优惠以人民币为结算金额']}</p>
+                    <p>2. ${views.operation_auto['视为同一位会员']} <%= SessionManager.getSiteName(request) %>
+                        ${views.operation_auto['保留收回或取消申请优惠金的权利']}
+                    </p>
+                    <p>3. <%= SessionManager.getSiteName(request) %>${views.operation_auto['所有优惠特为玩家而设']}</p>
+                    <p>4. ${views.operation_auto['若会员对活动有争议时为确保双方利益']}<%= SessionManager.getSiteName(request) %>
+                        ${views.operation_auto['有权要求会员向我们提供充足有效的文件']}
+                    </p>
+                    <p>5. ${views.operation_auto['本活动最终解释权归属']}<%= SessionManager.getSiteName(request) %>
+                        ${views.operation_auto['并保留修改以上条款的最终权利']}
+                    </p>
+                </div>
+            </div>
+            <br>
+            <br>
+
+            <div class="clearfix line-hi34 co-red">
+                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['致各位尊敬的站长']}：</label>
+                <div class="col-sm-8">
+                    <p>${views.operation_auto['玩家层级不满足活动要求']}</p>
+
+                </div>
+            </div>
+
+
+
+
         </div>
     </div>
 </div>

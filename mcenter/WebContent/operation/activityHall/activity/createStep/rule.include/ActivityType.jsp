@@ -8,7 +8,7 @@
     <div class="col-sm-5">
         <h3>${views.operation[activityType.result.code]}</h3>
         <span>${views.operation["activity.introduce.".concat(activityType.result.code)]}</span>
-        <c:if test="${activityType.result.code ne 'content' && activityType.result.code ne 'money' && activityType.result.code ne 'second_deposit' && activityType.result.code ne 'third_deposit' && activityType.result.code ne 'everyday_first_deposit' }">
+        <c:if test="${activityType.result.code ne 'content' && activityType.result.code ne 'money'}">
             <soul:button target="${root}/activityHall/activityType/chooseCaseDialog.html?result.code=${activityType.result.code}" text="${views.operation['Activity.introduction']}" opType="dialog"/>
         </c:if>
     </div>
