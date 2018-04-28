@@ -21,7 +21,7 @@
             </div>
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['领奖方式']}：</label>
-                <div class="col-sm-8 ">${views.operation_auto['完成首次存款后，请至活动大厅申请该活动奖励']}${views.operation_auto['自定义']}</div>
+                <div class="col-sm-8 ">${views.operation_auto['请至活动大厅申请该活动奖励']}${views.operation_auto['自定义']}</div>
             </div>
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['优惠条件']}：</label>
