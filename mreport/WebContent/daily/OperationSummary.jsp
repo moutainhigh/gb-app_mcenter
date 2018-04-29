@@ -136,8 +136,13 @@
                 ${soulFn:formatDateTz(lastdate, DateFormat.DAY_SECOND,timeZone)} -
                 ${soulFn:formatDateTz(now, DateFormat.DAY_SECOND,timeZone)}
             </button>
-        </div>--%>
+        </div>
 
+        <div class="public-btn-group _addPrimary queryRakebackcashByApi">
+            <button class="btn btn-primary" stateTime="${soulFn:formatDateTz(lastdate, DateFormat.DAY_SECOND,timeZone)}" endTime="${soulFn:formatDateTz(now, DateFormat.DAY_SECOND,timeZone)}"
+                    apis="22,3,12,9,10,13,14,15,16" gameTypes='Casino,Lottery,Sportsbook'>API</button>
+        </div>
+        --%>
     </div>
 </div>
 <%--历史运营统计数据--%>
@@ -148,6 +153,9 @@
 <div style="display: none;" id="rakebackCashApis">${rakebackCashApis}</div>
 <%--自选天数查询--%>
 <div style="display: none;" id="operationSummaryDataOfChoiceDays"></div>
+<%--API筛选查询--%>
+<div style="display: none;" id="rakebackCashListByApis"></div>
+
 <script type="text/javascript">
     curl(['site/daily/OperationSummary'], function (OperationSummary) {
         new OperationSummary();
