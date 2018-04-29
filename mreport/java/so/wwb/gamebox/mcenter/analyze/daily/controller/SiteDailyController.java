@@ -4,11 +4,11 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.tools.DataTransTool;
+import so.wwb.gamebox.model.WeekTool;
 import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
 import so.wwb.gamebox.model.master.operation.vo.RakebackApiListVo;
 import so.wwb.gamebox.model.site.report.po.RealtimeProfile;
@@ -44,13 +44,13 @@ public class SiteDailyController {
      */
     @RequestMapping("/operationSummary")
     public String operationSummary(OperationSummaryVo vo , Model model) {
+        vo.setTimeZone(WeekTool.getTimeZoneInterval());
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
         model.addAttribute("balanceGaugeChartData", JsonTool.toJson(vo.getBalanceGaugeChart()));
         model.addAttribute("effectiveGaugeChartData", JsonTool.toJson(vo.getEffectiveGaugeChart()));
         model.addAttribute("profitLossGaugeChartData", JsonTool.toJson(vo.getProfitLossGaugeChart()));
         model.addAttribute("operationSummaryData", JsonTool.toJson(vo.getEntities()));
         model.addAttribute("rakebackCashApis", ApiProviderEnum.values());
-
         return OPERATION_SUMMARY;
     }
 
@@ -64,9 +64,9 @@ public class SiteDailyController {
         //拼装结束时间
         Calendar createDate = Calendar.getInstance();
         createDate.setTime(vo.getSearch().getStaticTimeEnd());
-        createDate.set(Calendar.HOUR,23);
-        createDate.set(Calendar.MINUTE,59);
-        createDate.set(Calendar.SECOND,59);
+        createDate.set(Calendar.HOUR_OF_DAY,00);
+        createDate.set(Calendar.MINUTE,00);
+        createDate.set(Calendar.SECOND,00);
         Date date = new Date(createDate.getTime().getTime());
         vo.getSearch().setStaticTimeEnd(date);
         //拼装开始时间
@@ -88,6 +88,7 @@ public class SiteDailyController {
     @RequestMapping("/asyncLoadOperationSummary")
     @ResponseBody
     public Map<String, Object> asyncLoadOperationSummary(OperationSummaryVo vo) {
+        vo.setTimeZone(WeekTool.getTimeZoneInterval());
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("balanceGaugeChartData", vo.getBalanceGaugeChart());

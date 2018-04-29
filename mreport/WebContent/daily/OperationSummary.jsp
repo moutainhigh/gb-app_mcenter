@@ -32,7 +32,7 @@
     <div class="row dataBox1">
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
-                <h2>存取差额 <span>4月16日:${lastDifferenceAmount}</span></h2>
+                <h2>存取差额 <span id="c1_title"></span></h2>
                 <div class="public-btn-group _addPrimary balanceBtn">
                     <button class="btn btn-primary" value="D">日</button>
                     <button class="btn" value="W">周</button>
@@ -45,7 +45,7 @@
 
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
-                <h2>有效投注 <span>4月16日:${lastDifferenceAmount}</span></h2>
+                <h2>有效投注 <span id="c2_title"></span></h2>
                 <div class="public-btn-group _addPrimary effectiveBtn">
                     <button class="btn btn-primary" value="D">日</button>
                     <button class="btn" value="W">周</button>
@@ -58,7 +58,7 @@
 
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
-                <h2>损益 <span>4月16日:${lastDifferenceAmount}</span></h2>
+                <h2>损益 <span id="c3_title"></span></h2>
                 <div class="public-btn-group _addPrimary profitLossBtn">
                     <button class="btn btn-primary" value="D">日</button>
                     <button class="btn" value="W">周</button>

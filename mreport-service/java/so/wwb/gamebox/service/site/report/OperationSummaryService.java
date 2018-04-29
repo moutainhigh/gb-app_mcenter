@@ -47,11 +47,11 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
         String rangeType = RANGE_DAY;
         if (RANGE_MONTH.equals(condition.getQueryDateRange())) {
             rangeType = RANGE_MONTH;//按月查询
-            list = summaryMapper.getOperationSummaryOfMonths();
+            list = summaryMapper.getOperationSummaryOfMonths(condition);
 
         } else if (RANGE_WEEK.equals(condition.getQueryDateRange())) {
             rangeType = RANGE_WEEK;//按周查询
-            list = summaryMapper.getOperationSummaryOfWeeks();
+            list = summaryMapper.getOperationSummaryOfWeeks(condition);
 
         } else {
             rangeType = RANGE_DAY;//按日查询
@@ -84,7 +84,7 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
             result.getBalanceGaugeChart().add(item1);
 
             OperationSummaryChartVo item2 = new OperationSummaryChartVo();
-            item2.setNumerical(summary2.getWithdrawalAmount());
+            item2.setNumerical(summary2.getBalanceAmount());
             item2.setTitle(summary2.getStaticDay());
             item2.setTips("取现差额");
             result.getBalanceGaugeChart().add(item2);
@@ -189,37 +189,6 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
                 continue;
             }
         }
-        // 没有对应的记录,　设定默认值
-        OperationSummary defaultR = new OperationSummary();
-        defaultR.setBalanceAmount(0D);
-        defaultR.setEffectiveTransactionAll(0D);
-        defaultR.setTransactionProfitLoss(0D);
-        if (this.RANGE1.equalsIgnoreCase(range)) {
-            if (this.RANGE_MONTH.equalsIgnoreCase(rangeType)) {
-                Date date = MReportTool.getLastMonthLastDay(timeZone, new Date());
-                defaultR.setStaticDay(MReportTool.getDate(date, null));
-            } else if (this.RANGE_WEEK.equalsIgnoreCase(rangeType)) {
-                Date date = MReportTool.getLastWeekLastDay(timeZone, new Date());
-                defaultR.setStaticDay(MReportTool.getDate(date, null));
-            } else {
-                Date date = DateTool.addDays(new Date(), -1);
-                defaultR.setStaticDay(MReportTool.getDate(date, MReportTool.MM_DD));
-            }
-        }
-        if (this.RANGE2.equalsIgnoreCase(range)) {
-            if (this.RANGE_MONTH.equalsIgnoreCase(rangeType)) {
-                Date date = MReportTool.getLastMonthLastDay(timeZone, new Date());
-                     date = MReportTool.getLastMonthLastDay(timeZone, date);
-                defaultR.setStaticDay(MReportTool.getDate(date, null));
-            } else if (this.RANGE_WEEK.equalsIgnoreCase(rangeType)) {
-                Date date = MReportTool.getLastWeekLastDay(timeZone, new Date());
-                     date = MReportTool.getLastWeekLastDay(timeZone, date);
-                defaultR.setStaticDay(MReportTool.getDate(date, null));
-            } else {
-                Date date = DateTool.addDays(new Date(), -2);
-                defaultR.setStaticDay(MReportTool.getDate(date, MReportTool.MM_DD));
-            }
-        }
-        return defaultR;
+        return null;
     }
 }

@@ -8,127 +8,79 @@
     <div id="tab-2" class="tab-pane active">
         <div class="gray-chunk clearfix">
             <div class="clearfix line-hi34">
+                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动名称']}：</label>
+                <div class="col-sm-8">${views.operation_auto['开户即送鼓励金，就是这么任性']}<span class="co-red">${views.operation_auto['自定义']}</span></div>
+            </div>
+            <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动分类']}：</label>
-                <div class="col-sm-8 ">${views.operation_auto['活动分类']}</div>
+                <div class="col-sm-8 ">${views.operation_auto['新人优惠']}<span class="co-red">${views.operation_auto['自定义']}</span></div>
             </div>
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动时间']}：</label>
-                <div class="col-sm-8 ">${views.operation_auto['无限制时间']}</div>
+                <div class="col-sm-8 ">2018-04-13 ${views.operation_auto['至']} 2100-04-13<span class="co-red">${views.operation_auto['自定义']}</span></div>
             </div>
             <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动名称']}：</label>
-                <div class="col-sm-8">${views.operation_auto['新会员新人礼金，注册就送']}</div>
-            </div>
-            <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动概述']}：</label>
-                <div class="col-sm-8 ">${views.operation_auto['注册我司新会员']}</div>
-            </div>
-            <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['优惠条件']}：</label>
-                <div class="col-sm-8 ">
-                    <div class="dataTables_wrapper" role="grid">
-                        <div class="tab-content table-responsive">
-                            <table class="table table-striped border">
-                                <tbody>
-                                <tr>
-                                    <td colspan="2">${views.operation_auto['优惠形式']}</td>
-                                </tr>
-                                <tr>
-                                    <td>${views.operation_auto['赠送彩金CNY']}</td>
-                                    <td>${views.operation_auto['优惠稽核']}</td>
-                                </tr>
-                                <tr>
-                                    <td>(${views.operation_auto['固定金额']})</td>
-                                    <td>${views.operation_auto['(可为空)倍']}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动内容']}：</label>
-                <div class="col-sm-5">
-                    <p>1.${views.operation_auto['申明必须是首次注册的方可申请']}</p>
-                    <p>2.${views.operation_auto['说明注册彩金适用的API游戏']}</p>
-                    <p>3.${views.operation_auto['注明注册彩金活动的细则以及活动规则与条款']}</p>
-                </div>
-            </div>
-            <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['填写优惠条件']}：</label>
-                <div class="col-sm-8 ">
-                    <div class="dataTables_wrapper" role="grid">
-                        <div class="tab-content table-responsive">
-                            <table class="table table-striped border">
-                                <tbody>
-                                <tr>
-                                    <td colspan="2">${views.operation_auto['优惠形式']}</td>
-                                </tr>
-                                <tr>
-                                    <td>${views.operation_auto['赠送彩金CNY']}</td>
-                                    <td>${views.operation_auto['优惠稽核']}</td>
-                                </tr>
-                                <tr>
-                                    <td>(25)</td>
-                                    <td>()${views.operation_auto['倍']}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['领奖方式']}：</label>
+                <div class="col-sm-8 ">${views.operation_auto['完成注册后，请至活动大厅申请该活动奖励']}${views.operation_auto['自定义']}</div>
             </div>
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动详情']}：</label>
+                <div class="col-sm-8 co-red">${views.operation_auto['自定义文宣、包装很重要、很重要、很重要']}</div>
+            </div>
+            <div class="clearfix line-hi34">
+                <label class="ft-bold col-sm-3 al-right"></label>
                 <div class="col-sm-8 ">
-                    <div id="editable_wrapper" class="dataTables_wrapper" role="grid">
-                        <div>${views.operation_auto['即日起加入甲公司']}</div>
-                        <div class="tab-content table-responsive">
-                            <table class="table table-striped border">
-                                <tbody>
-                                <tr>
-                                    <td>${views.operation_auto['会员账号']}</td>
-                                    <td>${views.operation_auto['赠送金额']}</td>
-                                    <td>${views.operation_auto['稽核限制']}</td>
-                                    <td>${views.operation_auto['游戏限制']}</td>
-                                    <td>${views.operation_auto['最低取款']}</td>
-                                </tr>
-                                <tr>
-                                    <td>2015gg</td>
-                                    <td>25</td>
-                                    <td>${views.operation_auto['无']}</td>
-                                    <td>${views.operation_auto['无']}</td>
-                                    <td>250${views.operation_auto['元']}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div>${views.operation_auto['会员注册后并绑定好出款银行卡无需申请']}</div>
-                    </div>
+                    <p>${views.operation_auto['永久注册权']} : </p>
                 </div>
             </div>
             <div class="clearfix line-hi34">
-                <label class="col-sm-3 al-right"><span class="ft-bold">${views.operation_auto['活动细则']}：</span><span>（${views.operation_auto['站长自行设定有关该活动的细则']}）</span></label>
-                <div class="col-sm-8 ">
-                    <p>1.${views.operation_auto['会员注册资料必须真实有效']}</p>
-                    <p>2.${views.operation_auto['每位会员每天仅限申请一次，天数按照美东时间计算']}</p>
-                    <p>3.${views.operation_auto['参与该优惠体验期间']}</p>
-                    <p>4.${views.operation_auto['任何出现对打情况的投注']}；</p>
-                    <p>5.${views.operation_auto['参与该优惠']}。</p>
+                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动规则']}：</label>
+                <div class="col-sm-8 co-red">
+                    <span class="co-red">${views.operation_auto['自定义']}</span>
                 </div>
             </div>
             <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['优惠规则与条款']}</label>
+                <label class="ft-bold col-sm-3 al-right"></label>
                 <div class="col-sm-8">
-                    <p>1.${views.operation_auto['所有优惠以人民币(CNY)为结算金额，以美东时间(EDT)为计时区间。']}</p>
-                    <p>2.${views.operation_auto['每位玩家']}</p>
-                    <p>3.${views.operation_auto['甲公司的所有优惠特为玩家而设']}</p>
-                    <p>4.${views.operation_auto['若会员对活动有争议时']}</p>
-                    <p>5.${views.operation_auto['当参与优惠会员未能完全遵守']}</p>
-                    <p>6.${views.operation_auto['甲公司保留对活动的最终解释权；以及在无通知的情况下修改、终止活动的权利；适用于所有优惠。']}</p>
+                    <p>1. ${views.operation_auto['每位会员终身仅能享受一次注册优惠活动，完整注册后请在X天内申请奖励，过期则无法获得奖励']}
+                    </p>
+                    <p>2. ${views.operation_auto['若符合活动条件']}&nbsp;
+                        <span class="co-red">${views.operation_auto['例_多个相同银行卡的账号']}</span>
+                    </p>
+                    <p>3. ${views.operation_auto['参与该优惠活动_即表示您同意']}</p>
+
                 </div>
             </div>
+            <div class="clearfix line-hi34">
+                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['优惠条款']}：</label>
+                <div class="col-sm-8">
+                    <p>1. ${views.operation_auto['所有优惠以人民币为结算金额']}</p>
+                    <p>2. ${views.operation_auto['视为同一位会员']} <%= SessionManager.getSiteName(request) %>
+                        ${views.operation_auto['保留收回或取消申请优惠金的权利']}
+                    </p>
+                    <p>3. <%= SessionManager.getSiteName(request) %>${views.operation_auto['所有优惠特为玩家而设']}</p>
+                    <p>4. ${views.operation_auto['若会员对活动有争议时为确保双方利益']}<%= SessionManager.getSiteName(request) %>
+                        ${views.operation_auto['有权要求会员向我们提供充足有效的文件']}
+                    </p>
+                    <p>5. ${views.operation_auto['本活动最终解释权归属']}<%= SessionManager.getSiteName(request) %>
+                        ${views.operation_auto['并保留修改以上条款的最终权利']}
+                    </p>
+                </div>
+            </div>
+            <br>
+            <br>
+
+            <div class="clearfix line-hi34 co-red">
+                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['致各位尊敬的站长']}：</label>
+                <div class="col-sm-8">
+                    <p>${views.operation_auto['玩家层级不满足活动要求']}</p>
+
+                </div>
+            </div>
+
+
+
+
         </div>
     </div>
 </div>

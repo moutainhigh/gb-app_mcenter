@@ -597,32 +597,73 @@
                                             </a>
                                         </span>
                                 </c:forEach>
+                                <c:if test="${activityMessageI18nListVo.result.size() > languageList.size()}">
+                                    <c:forEach var="lang" items="${languageList}" varStatus="status">
+                                        <span>
+                                            <a href="javascript:void(0)" id="" name="${status.index+length}"
+                                               class="btn btn-outline btn-filter btn-sm activityTag" >
+                                                    ${dicts.common.local[lang.language]}mobile
+                                            </a>
+                                        </span>
+                                    </c:forEach>
+                                </c:if>
                             </div>
                         </div>
                         <c:forEach var="lang" items="${languageList}" varStatus="status">
                             <c:forEach var="i18n" items="${activityMessageI18nListVo.result}">
-                                <c:if test="${lang.language eq i18n.activityVersion}">
-                                    <div class="${status.index==0?'':'hide'} contentDiv" id="content${lang.language}">
-                                        <div class="clearfix m-l-lg line-hi34">
-                                            <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.activityCover']}：</label>
-                                            <div class="col-sm-5">
-                                                <img data-src="${soulFn:getImagePath(domain,i18n.activityAffiliated)}"
-                                                     src="${soulFn:getThumbPath(domain,i18n.activityAffiliated,630,350)}" alt="${i18n.activityName}">
+                                <c:if test="${empty i18n.activityTerminalType || i18n.activityTerminalType == '1'}">
+                                    <c:if test="${lang.language eq i18n.activityVersion}">
+                                        <div class="${status.index==0?'':'hide'} contentDiv" id="content${status.index}">
+                                            <div class="clearfix m-l-lg line-hi34">
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.affiliated']}：</label>
+                                                <div class="col-sm-5">
+                                                    <img data-src="${soulFn:getImagePath(domain,i18n.activityAffiliated)}"
+                                                         src="${soulFn:getThumbPath(domain,i18n.activityAffiliated,630,350)}" alt="${i18n.activityName}">
+                                                </div>
+                                            </div>
+                                            <div class="clearfix m-l-lg line-hi34">
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.name']}：</label>
+                                                <div class="col-sm-5">${i18n.activityName}</div>
+                                            </div>
+                                            <div class="clearfix m-l-lg line-hi34">
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.content']}：</label>
+                                                <div class="col-sm-5">
+                                                    <p>
+                                                            ${gbFn:unescapeXml(i18n.activityDescription)}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="clearfix m-l-lg line-hi34">
-                                            <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.name']}：</label>
-                                            <div class="col-sm-5">${i18n.activityName}</div>
-                                        </div>
-                                        <div class="clearfix m-l-lg line-hi34">
-                                            <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.content']}：</label>
-                                            <div class="col-sm-5">
-                                                <p>
-                                                ${gbFn:unescapeXml(i18n.activityDescription)}
-                                                </p>
+                                    </c:if>
+                                </c:if>
+                            </c:forEach>
+                        </c:forEach>
+                        <c:forEach var="lang" items="${languageList}" varStatus="status">
+                            <c:forEach var="i18n" items="${activityMessageI18nListVo.result}">
+                                <c:if test="${i18n.activityTerminalType == '2'}">
+                                    <c:if test="${lang.language eq i18n.activityVersion}">
+                                        <div class="hide contentDiv" id="content${status.index+length}">
+                                            <div class="clearfix m-l-lg line-hi34">
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.affiliated']}：</label>
+                                                <div class="col-sm-5">
+                                                    <img data-src="${soulFn:getImagePath(domain,i18n.activityAffiliated)}"
+                                                         src="${soulFn:getThumbPath(domain,i18n.activityAffiliated,630,350)}" alt="${i18n.activityName}">
+                                                </div>
+                                            </div>
+                                            <div class="clearfix m-l-lg line-hi34">
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.name']}：</label>
+                                                <div class="col-sm-5">${i18n.activityName}</div>
+                                            </div>
+                                            <div class="clearfix m-l-lg line-hi34">
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.content']}：</label>
+                                                <div class="col-sm-5">
+                                                    <p>
+                                                            ${gbFn:unescapeXml(i18n.activityDescription)}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </c:if>
                                 </c:if>
                             </c:forEach>
                         </c:forEach>
