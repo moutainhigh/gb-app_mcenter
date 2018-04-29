@@ -51,6 +51,11 @@
                     <button class="btn" value="W">周</button>
                     <button class="btn" value="M">月</button>
                 </div>
+                <div class="terminal-btn-group _addPrimary effectiveTerminal">
+                    <button class="btn btn-primary" value="all">全部</button>
+                    <button class="btn" value="phone">手机</button>
+                    <button class="btn" value="pc">PC</button>
+                </div>
                 <div id="c2"></div>
                 <div id="z2"></div>
             </div>
