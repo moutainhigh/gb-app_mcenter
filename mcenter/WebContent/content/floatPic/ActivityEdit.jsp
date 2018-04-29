@@ -243,9 +243,9 @@
                             <ul class="middle-img-list">
                                 <c:forEach var="item" items="${command.itemList}" varStatus="vs">
                                     <li>
-                                        <div class="tit">${views.content['float.picture']}<span>${vs.index+1}</span>
+                                        <%--<div class="tit">${views.content['float.picture']}<span>${vs.index+1}</span>
                                             <soul:button cssClass="co-gray" target="removeAddOne" text="${views.common['delete']}" opType="function"><i class="fa fa-times"></i></soul:button>
-                                        </div>
+                                        </div>--%>
                                         <div class="form-group date m-b-sm normalEffectDiv">
                                             <span class=""><b>${views.content['float.normalEffect']}</b></span>
                                             <div id="normalEffectImgDiv${vs.index+1}">
@@ -272,9 +272,9 @@
                                 </c:forEach>
                                 <c:if test="${empty command.itemList}">
                                     <li>
-                                        <div class="tit">${views.content['float.picture']}<span>1</span>
+                                        <%--<div class="tit">${views.content['float.picture']}<span>1</span>
                                             <soul:button cssClass="co-gray" target="removeAddOne" text="${views.common['delete']}" opType="function"><i class="fa fa-times"></i></soul:button>
-                                        </div>
+                                        </div>--%>
                                         <div class="form-group date m-b-sm normalEffectDiv">
                                             <span class=""><b>${views.content['float.normalEffect']}</b></span>
                                             <div>
@@ -293,7 +293,7 @@
                                         </div>
                                     </li>
                                 </c:if>
-                                <li><soul:button target="addMiddleImage" text="+ ${views.common['addOne']}" opType="function"/></li>
+                                <%--<li><soul:button target="addMiddleImage" text="+ ${views.common['addOne']}" opType="function"/></li>--%>
                             </ul>
                         </div>
                     </div>
