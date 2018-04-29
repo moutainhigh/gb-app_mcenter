@@ -9,7 +9,7 @@
         <div class="gray-chunk clearfix">
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动名称']}：</label>
-                <div class="col-sm-8">${views.operation_auto['首次存款有奖，新人即送8888元彩金']}<span class="co-red">${views.operation_auto['自定义']}</span></div>
+                <div class="col-sm-8">${views.operation_auto['千万红包派送，最高188元']}<span class="co-red">${views.operation_auto['自定义']}</span></div>
             </div>
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动分类']}：</label>
@@ -21,11 +21,15 @@
             </div>
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['领奖方式']}：</label>
-                <div class="col-sm-8 ">${views.operation_auto['完成首次存款后，请至活动大厅申请该活动奖励']}${views.operation_auto['自定义']}</div>
+                <div class="col-sm-8 ">${views.operation_auto['红包领奖方式']}</div>
             </div>
             <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['优惠条件']}：</label>
-                <div class="col-sm-8 "><span class="co-red">${views.operation_auto['固定彩金和比例赠送为单选']}</span></div>
+                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['抢红包次数规则']}：</label>
+                <div class="col-sm-8 "><span class="co-red">${views.operation_auto['三选一']}</span></div>
+            </div>
+            <div class="clearfix line-hi34">
+                <label class="ft-bold col-sm-3 al-right"></label>
+                <div class="col-sm-8 "><span class="co-red">${views.operation_auto['方案一：']}</span></div>
             </div>
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right"></label>
@@ -34,95 +38,93 @@
                         <div class="tab-content table-responsive">
                             <table class="table table-striped border">
                                 <tbody>
+
                                 <tr>
-                                    <td colspan="3" class="co-red">${views.operation_auto['比例赠送']}</td>
+                                    <td>${views.operation_auto['单次存款满']}</td>
+                                    <td>${views.operation_auto['时段累计有效投注额']}</td>
+                                    <td>${views.operation_auto['抽红包次数']}</td>
                                 </tr>
                                 <tr>
-                                    <td>${views.operation_auto['存款金额']}</td>
-                                    <td>${views.operation_auto['优惠方案']}</td>
-                                    <td>${views.operation_auto['稽核要求']}</td>
+                                    <td>${views.operation_auto['满']}100${views.operation_auto['元以上']}</td>
+                                    <td>${views.operation_auto['达到']}300${views.operation_auto['元']}</td>
+                                    <td>1${views.operation_auto['次']}</td>
                                 </tr>
                                 <tr>
-                                    <td>${views.operation_auto['首存金额达到100元以上']}</td>
-                                    <td>${views.operation_auto['额外赠送30%彩金']}</td>
-                                    <td>${views.operation_auto['5倍流水']}</td>
+                                    <td>${views.operation_auto['满']}2000${views.operation_auto['元以上']}</td>
+                                    <td>${views.operation_auto['达到']}10000${views.operation_auto['元']}</td>
+                                    <td>20${views.operation_auto['次']}</td>
                                 </tr>
                                 <tr>
-                                    <td>${views.operation_auto['首存金额达到500元以上']}</td>
-                                    <td>${views.operation_auto['额外赠送40%彩金']}</td>
-                                    <td>${views.operation_auto['5倍流水']}</td>
+                                    <td>${views.operation_auto['满']}10000${views.operation_auto['元以上']}</td>
+                                    <td>${views.operation_auto['达到']}50000${views.operation_auto['元']}</td>
+                                    <td>100${views.operation_auto['次']}</td>
                                 </tr>
                                 <tr>
-                                    <td>${views.operation_auto['首存金额达到1000元以上']}</td>
-                                    <td>${views.operation_auto['额外赠送50%彩金']}</td>
-                                    <td>${views.operation_auto['5倍流水']}</td>
+                                    <td>${views.operation_auto['满']}50000${views.operation_auto['元以上']}</td>
+                                    <td>${views.operation_auto['达到']}250000${views.operation_auto['元']}</td>
+                                    <td>500${views.operation_auto['次']}</td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="clearfix line-hi34">
+                <label class="ft-bold col-sm-3 al-right"></label>
+                <div class="col-sm-8 "><span class="co-red">${views.operation_auto['方案二：']}</span></div>
+            </div>
+            <div class="clearfix line-hi34">
+                <label class="ft-bold col-sm-3 al-right"></label>
+                <div class="col-sm-8 ">
+                    <div class="dataTables_wrapper" role="grid">
+                        <div class="tab-content table-responsive">
+                            <table class="table table-striped border">
+                                <tbody>
+
+                                <tr>
+                                    <td>${views.operation_auto['累计存款金额']}</td>
+                                    <td>${views.operation_auto['时段累计有效投注额']}</td>
+                                    <td>${views.operation_auto['抽红包次数']}</td>
+                                </tr>
+                                <tr>
+                                    <td>${views.operation_auto['满']}100${views.operation_auto['元以上']}</td>
+                                    <td>${views.operation_auto['达到']}300${views.operation_auto['元']}</td>
+                                    <td>1${views.operation_auto['次']}</td>
+                                </tr>
+                                <tr>
+                                    <td>${views.operation_auto['满']}2000${views.operation_auto['元以上']}</td>
+                                    <td>${views.operation_auto['达到']}10000${views.operation_auto['元']}</td>
+                                    <td>20${views.operation_auto['次']}</td>
+                                </tr>
+                                <tr>
+                                    <td>${views.operation_auto['满']}10000${views.operation_auto['元以上']}</td>
+                                    <td>${views.operation_auto['达到']}50000${views.operation_auto['元']}</td>
+                                    <td>100${views.operation_auto['次']}</td>
+                                </tr>
+                                <tr>
+                                    <td>${views.operation_auto['满']}50000${views.operation_auto['元以上']}</td>
+                                    <td>${views.operation_auto['达到']}250000${views.operation_auto['元']}</td>
+                                    <td>500${views.operation_auto['次']}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix line-hi34">
+                <label class="ft-bold col-sm-3 al-right"></label>
+                <div class="col-sm-8 "><span class="co-red">${views.operation_auto['方案三：']}</span></div>
             </div>
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right"> </label>
                 <div class="col-sm-5">
-                    ${views.operation_auto['最高奖励金额为8888元']}
+                    ${views.operation_auto['每个时段，每个玩家抽奖上限次数为_____次']}
                 </div>
             </div>
             <br>
-            <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right"></label>
-                <div class="col-sm-8 ">
-                    <div class="dataTables_wrapper" role="grid">
-                        <div class="tab-content table-responsive">
-                            <table class="table table-striped border">
-                                <tbody>
-                                <tr>
-                                    <td colspan="3" class="co-red">${views.operation_auto['固定彩金赠送']}</td>
-                                </tr>
-                                <tr>
-                                    <td>${views.operation_auto['存款金额']}</td>
-                                    <td>${views.operation_auto['优惠方案']}</td>
-                                    <td>${views.operation_auto['稽核要求']}</td>
-                                </tr>
-                                <tr>
-                                    <td>${views.operation_auto['首存金额达到100元以上']}</td>
-                                    <td>${views.operation_auto['额外赠送30元']}</td>
-                                    <td>${views.operation_auto['5倍流水']}</td>
-                                </tr>
-                                <tr>
-                                    <td>${views.operation_auto['首存金额达到500元以上']}</td>
-                                    <td>${views.operation_auto['额外赠送200元']}</td>
-                                    <td>${views.operation_auto['5倍流水']}</td>
-                                </tr>
-                                <tr>
-                                    <td>${views.operation_auto['首存金额达到1000元以上']}</td>
-                                    <td>${views.operation_auto['额外赠送500元']}</td>
-                                    <td>${views.operation_auto['5倍流水']}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动详情']}：</label>
-                <div class="col-sm-8 co-red">${views.operation_auto['自定义文宣、包装很重要、很重要、很重要']}</div>
-            </div>
-            <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right"></label>
-                <div class="col-sm-8 ">
-                    <p>${views.operation_auto['圣诞节主题']} : </p>
-                </div>
-            </div>
-            <div class="clearfix line-hi34">
-                <label class="ft-bold col-sm-3 al-right"></label>
-                <div class="col-sm-8 ">
-                    <p>${views.operation_auto['时光穿梭']}</p>
-                    <p>${views.operation_auto['凡是第一笔存款金额达到X元的新注册玩家']}</p>
-                </div>
-            </div>
+
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right">${views.operation_auto['活动规则']}：</label>
                 <div class="col-sm-8 co-red">
@@ -132,19 +134,12 @@
             <div class="clearfix line-hi34">
                 <label class="ft-bold col-sm-3 al-right"></label>
                 <div class="col-sm-8">
-                        <p>1. ${views.operation_auto['每位会员终身仅能享受1次首存优惠活动']}
-                            <span class="co-red">${views.operation_auto['自定义']}</span>
-                            ${views.operation_auto['内申请奖励']}
+                        <p>1. ${views.operation_auto['红包活动时段累计']}
                         </p>
-                        <p>2. ${views.operation_auto['第一次存款若金额不符']}</p>
-                        <p>3. ${views.operation_auto['若符合活动条件']}&nbsp;
+                        <p>2. ${views.operation_auto['若符合活动条件']}&nbsp;
                             <span class="co-red">${views.operation_auto['例_多个相同银行卡的账号']}</span>
                         </p>
-                        <p>4. ${views.operation_auto['活动存款方式包含']}
-                            <span class="co-red">${views.operation_auto['自定义']}</span>
-                        </p>
-                        <p>5. ${views.operation_auto['此存款订单号只能用于一种活动的申请']}</p>
-                        <p>6. ${views.operation_auto['参与该优惠活动_即表示您同意']}</p>
+                        <p>3. ${views.operation_auto['参与该优惠活动_即表示您同意']}</p>
 
                 </div>
             </div>

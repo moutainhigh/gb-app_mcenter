@@ -32,7 +32,7 @@
     <div class="row dataBox1">
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
-                <h2>存取差额 <span>4月16日:${lastDifferenceAmount}</span></h2>
+                <h2>存取差额 <span id="c1_title"></span></h2>
                 <div class="public-btn-group _addPrimary balanceBtn">
                     <button class="btn btn-primary" value="D">日</button>
                     <button class="btn" value="W">周</button>
@@ -45,11 +45,16 @@
 
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
-                <h2>有效投注 <span>4月16日:${lastDifferenceAmount}</span></h2>
+                <h2>有效投注 <span id="c2_title"></span></h2>
                 <div class="public-btn-group _addPrimary effectiveBtn">
                     <button class="btn btn-primary" value="D">日</button>
                     <button class="btn" value="W">周</button>
                     <button class="btn" value="M">月</button>
+                </div>
+                <div class="terminal-btn-group _addPrimary effectiveTerminal">
+                    <button class="btn btn-primary" value="all">全部</button>
+                    <button class="btn" value="phone">手机</button>
+                    <button class="btn" value="pc">PC</button>
                 </div>
                 <div id="c2"></div>
                 <div id="z2"></div>
@@ -58,7 +63,7 @@
 
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
-                <h2>损益 <span>4月16日:${lastDifferenceAmount}</span></h2>
+                <h2>损益 <span id="c3_title"></span></h2>
                 <div class="public-btn-group _addPrimary profitLossBtn">
                     <button class="btn btn-primary" value="D">日</button>
                     <button class="btn" value="W">周</button>
@@ -140,18 +145,6 @@
         --%>
     </div>
 </div>
-<%--存款差额仪表图数据--%>
-<div style="display: none;" id="balanceGaugeChartDataOfDay">${balanceGaugeChartData}</div>
-<div style="display: none;" id="balanceGaugeChartDataOfWeek"></div>
-<div style="display: none;" id="balanceGaugeChartDataOfMonth"></div>
-<%--有效投注额仪表图数据--%>
-<div style="display: none;" id="effectiveGaugeChartDataOfDay">${effectiveGaugeChartData}</div>
-<div style="display: none;" id="effectiveGaugeChartDataOfWeek"></div>
-<div style="display: none;" id="effectiveGaugeChartDataOfMonth"></div>
-<%--损益仪表图数据--%>
-<div style="display: none;" id="profitLossGaugeChartDataOfDay">${profitLossGaugeChartData}</div>
-<div style="display: none;" id="profitLossGaugeChartDataOfWeek"></div>
-<div style="display: none;" id="profitLossGaugeChartDataOfMonth"></div>
 <%--历史运营统计数据--%>
 <div style="display: none;" id="operationSummaryDataOfDay">${operationSummaryData}</div>
 <div style="display: none;" id="operationSummaryDataOfWeek"></div>
