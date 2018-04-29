@@ -128,7 +128,7 @@
                         <div class="form-group clearfix">
                             <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.type']}</label>
                             <div class="col-sm-3">
-                                <input type="radio" class="i-checks" name="result.picType" value="2" ${command.result.picType == '2' ? 'checked' : ''}>${views.column['CttFloatPic.template.type.promo']}
+                                <input type="radio" class="i-checks" name="result.picType" value="2" ${empty command.result.picType || command.result.picType == '2' ? 'checked' : ''}>${views.column['CttFloatPic.template.type.promo']}
                                 <%--<input type="radio" class="i-checks" name="result.picType" value="3" ${command.result.picType == '3' || empty command.result.picType? 'checked' : ''}>老虎机--%>
                             </div>
                         </div>
@@ -146,12 +146,12 @@
                             <div class="col-sm-8">
                                 <%-- 单图模式的模板 --%>
                             <div class="${command.result.singleMode==false?'hide':''}" id="singleMode_templateType_div">
-                                <ul class="tempstyle clearfix ${command.result.picType=='2' ? '' : 'hide'}" id="singleMode_promo_pic">
+                                <ul class="tempstyle clearfix ${command.result.picType=='2' || empty command.result.picType ? '' : 'hide'}" id="singleMode_promo_pic">
                                     <li>
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-first.png")}" data-image=""
                                              alt="${command.result.title}" class="singleModeTemplateImageType" style="max-width: 160px">
                                             <%--<img src="${resRoot}/images/floatpic/panel-red.png" class="singleModeTemplateImageType">--%>
-                                        <input type="radio" name="templateType" class="i-checks" value="7" ${command.result.tempId==7 ?"checked":""}>
+                                        <input type="radio" name="templateType" class="i-checks" value="7" ${empty command.result.tempId || command.result.tempId==7 ?"checked":""}>
                                     </li>
                                     <li>
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-second.png")}"
@@ -167,26 +167,26 @@
                                     </li>
                                 </ul>
 
-                                <ul class="tempstyle clearfix ${command.result.picType=='3' || empty command.result.picType ? '' : 'hide'}" id="singleMode_service_pic">
+                                <%--<ul class="tempstyle clearfix ${command.result.picType=='3' ? '' : 'hide'}" id="singleMode_service_pic">
                                     <li>
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-red.png")}" data-image=""
                                              alt="${command.result.title}" class="singleModeTemplateImageType">
-                                            <%--<img src="${resRoot}/images/floatpic/panel-red.png" class="singleModeTemplateImageType">--%>
+                                            &lt;%&ndash;<img src="${resRoot}/images/floatpic/panel-red.png" class="singleModeTemplateImageType">&ndash;%&gt;
                                         <input type="radio" name="templateType" class="i-checks" value="1" ${empty command.result.tempId || command.result.tempId==1 || !(command.result.tempId>0&&command.result.tempId<10)?"checked":""}>
                                     </li>
                                     <li>
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-gold.png")}"
                                              alt="${command.result.title}" class="singleModeTemplateImageType">
-                                            <%--<img src="${resRoot}/images/floatpic/panel-gold.png" class="singleModeTemplateImageType">--%>
+                                            &lt;%&ndash;<img src="${resRoot}/images/floatpic/panel-gold.png" class="singleModeTemplateImageType">&ndash;%&gt;
                                         <input type="radio" name="templateType" class="i-checks" value="2" ${command.result.tempId==2?"checked":""}>
                                     </li>
                                     <li>
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-green.png")}"
                                              alt="${command.result.title}" class="singleModeTemplateImageType">
-                                            <%--<img src="${resRoot}/images/floatpic/panel-green.png" class="singleModeTemplateImageType">--%>
+                                            &lt;%&ndash;<img src="${resRoot}/images/floatpic/panel-green.png" class="singleModeTemplateImageType">&ndash;%&gt;
                                         <input type="radio" name="templateType" class="i-checks" value="3" ${command.result.tempId==3?"checked":""}>
                                     </li>
-                                </ul>
+                                </ul>--%>
                             </div>
 
                         </div>
