@@ -51,6 +51,11 @@
                     <button class="btn" value="W">周</button>
                     <button class="btn" value="M">月</button>
                 </div>
+                <div class="terminal-btn-group _addPrimary effectiveTerminal">
+                    <button class="btn btn-primary" value="all">全部</button>
+                    <button class="btn" value="phone">手机</button>
+                    <button class="btn" value="pc">PC</button>
+                </div>
                 <div id="c2"></div>
                 <div id="z2"></div>
             </div>
@@ -135,18 +140,6 @@
 
     </div>
 </div>
-<%--存款差额仪表图数据--%>
-<div style="display: none;" id="balanceGaugeChartDataOfDay">${balanceGaugeChartData}</div>
-<div style="display: none;" id="balanceGaugeChartDataOfWeek"></div>
-<div style="display: none;" id="balanceGaugeChartDataOfMonth"></div>
-<%--有效投注额仪表图数据--%>
-<div style="display: none;" id="effectiveGaugeChartDataOfDay">${effectiveGaugeChartData}</div>
-<div style="display: none;" id="effectiveGaugeChartDataOfWeek"></div>
-<div style="display: none;" id="effectiveGaugeChartDataOfMonth"></div>
-<%--损益仪表图数据--%>
-<div style="display: none;" id="profitLossGaugeChartDataOfDay">${profitLossGaugeChartData}</div>
-<div style="display: none;" id="profitLossGaugeChartDataOfWeek"></div>
-<div style="display: none;" id="profitLossGaugeChartDataOfMonth"></div>
 <%--历史运营统计数据--%>
 <div style="display: none;" id="operationSummaryDataOfDay">${operationSummaryData}</div>
 <div style="display: none;" id="operationSummaryDataOfWeek"></div>

@@ -46,9 +46,6 @@ public class SiteDailyController {
     public String operationSummary(OperationSummaryVo vo , Model model) {
         vo.setTimeZone(WeekTool.getTimeZoneInterval());
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
-        model.addAttribute("balanceGaugeChartData", JsonTool.toJson(vo.getBalanceGaugeChart()));
-        model.addAttribute("effectiveGaugeChartData", JsonTool.toJson(vo.getEffectiveGaugeChart()));
-        model.addAttribute("profitLossGaugeChartData", JsonTool.toJson(vo.getProfitLossGaugeChart()));
         model.addAttribute("operationSummaryData", JsonTool.toJson(vo.getEntities()));
         model.addAttribute("rakebackCashApis", ApiProviderEnum.values());
         return OPERATION_SUMMARY;
@@ -91,9 +88,6 @@ public class SiteDailyController {
         vo.setTimeZone(WeekTool.getTimeZoneInterval());
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("balanceGaugeChartData", vo.getBalanceGaugeChart());
-        model.put("effectiveGaugeChartData", vo.getEffectiveGaugeChart());
-        model.put("profitLossGaugeChartData", vo.getProfitLossGaugeChart());
         model.put("operationSummaryData", vo.getEntities());
         return model;
     }
