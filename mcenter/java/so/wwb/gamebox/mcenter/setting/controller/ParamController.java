@@ -689,7 +689,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("androidDownloadAddress",androidDownloadAddress != null ? androidDownloadAddress.getParamValue():"");
         model.addAttribute("iosDownloadAddress",iosDownloadAddress != null ? iosDownloadAddress.getParamValue():"");
         //判断是否为站长主账号
-        /*if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
+        if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
             Integer masterId = sysSiteVo.getResult().getSysUserId();
             LOG.info("站长ID：{0}",masterId);
             SysUserVo sysUserVo = new SysUserVo();
@@ -701,7 +701,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             }else {
                 LOG.info("站长坐席号：获取站长用户信息为空！");
             }
-        }*/
+        }
         return "/setting/param/siteparameters/Parameters";
     }
 
