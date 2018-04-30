@@ -78,7 +78,7 @@
     <div class="row dataBox2">
         <div class="col-lg list tableList">
             <div class="cont">
-                <h2>活跃用户和登录次数 <span>本月:121,696,321.00</span></h2>
+                <h2>活跃用户和登录次数 <span></span></h2>
                 <div class="public-btn-group group _addPrimary tableBut active-user">
                     <button class="btn btn-primary active-user" value="active-user">活跃用户</button>
                     <button class="btn login-count" value="login-count">总登录次数</button>
@@ -88,7 +88,7 @@
         </div>
         <div class="col-lg list tableList">
             <div class="cont">
-                <h2>安装量和卸载量 <span>本月:121,696,321.00</span></h2>
+                <h2>安装量和卸载量 <span></span></h2>
                 <div class="public-btn-group group _addPrimary tableBut install">
                     <button class="btn btn-primary install" value="install">安装量</button>
                     <button class="btn uninstall" value="uninstall">卸载量</button>
@@ -101,7 +101,7 @@
     <div class="row dataBox2">
         <div class="col-lg list tableList">
             <div class="cont">
-                <h2>用户走势 <span>本月:121,696,321.00</span></h2>
+                <h2>用户走势 <span></span></h2>
                 <div class="public-btn-group group _addPrimary tableBut player-trend">
                     <button class="btn btn-primary new-player" value="new-player">新增玩家</button>
                     <button class="btn login-count new-deposit-player" value="new-deposit-player">新增存款玩家</button>
@@ -111,7 +111,7 @@
         </div>
         <div class="col-lg list tableList">
             <div class="cont">
-                <h2>反水走势 <span>本月:121,696,321.00</span></h2>
+                <h2>反水走势 <span></span></h2>
                 <div class="public-btn-group group _addPrimary tableBut rakeback-trend">
                     <button class="btn btn-primary rakeback-men" value="rakeback-men">反水人数</button>
                     <button class="btn rakeback-cash" value="rakeback-cash">反水金额</button>
