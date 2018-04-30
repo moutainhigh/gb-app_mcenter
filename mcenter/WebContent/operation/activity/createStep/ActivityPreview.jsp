@@ -114,6 +114,7 @@
                 </div>--%>
             </c:if>
             <%--<div class="">--%>
+            <c:set var="length" value="${languageList.size()}"></c:set>
             <div class="form-group clearfix">
                 <div class="clearfix save lgg-version lang_label">
                     <ul class="nav nav-tabs">
@@ -121,6 +122,11 @@
                         <c:forEach var="siteLang" items="${languageList}" varStatus="index">
                             <li class=" ${index.index==0?'active':''}">
                                 <a data-toggle="tab" href="#tabb${index.index}" aria-expanded="${index.index==0?'true':'false'}">${fn:substringBefore(dicts.common.language[siteLang.value.language], '#')}</a>
+                            </li>
+                        </c:forEach>
+                        <c:forEach var="siteLang" items="${languageList}" varStatus="index">
+                            <li class="">
+                                <a data-toggle="tab" href="#tabb${index.index+length}" aria-expanded="false">${fn:substringBefore(dicts.common.language[siteLang.value.language], '#')}mb</a>
                             </li>
                         </c:forEach>
                     </ul>
@@ -136,22 +142,35 @@
                             </div>
 
                             <div class="clearfix m-t-md">
-                                <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
-                                <div class="col-sm-5" id="previewActivityAffiliateImg${index.index}"></div>
-                            </div>
-
-                            <%--<div class="clearfix m-t-md">
                                 <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.affiliated']}：</label>
-                                <div class="col-sm-5" id="previewImg${index.index}"></div>
+                                <div class="col-sm-5" id="previewActivityAffiliateImg${index.index}">
+                                    <img src="" alt="">
+                                </div>
                             </div>
 
-                            <div class="clearfix m-t-md">
-                                <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityOverview']}：</label>
-                                <div class="col-sm-5" id="previewactivityOverview${index.index}"></div>
-                            </div>--%>
                             <div class="clearfix m-t-md line-hi34">
                                 <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityDescription']}：</label>
                                 <div class="col-sm-5" id="previewActivityDesc${index.index}"></div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                    <c:forEach var="siteLang" items="${languageList}" varStatus="index">
+                        <div id="tabb${index.index+length}" class="tab-pane ${index.index+length==0?'active':''}">
+                            <div class="clearfix m-t-md line-hi34">
+                                <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.name']}：</label>
+                                <div class="col-sm-5" id="previewActivityName${index.index+length}"></div>
+                            </div>
+
+                            <div class="clearfix m-t-md">
+                                <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.affiliated']}：</label>
+                                <div class="col-sm-5" id="previewActivityAffiliateImg${index.index+length}">
+                                    <img src="" alt="">
+                                </div>
+                            </div>
+
+                            <div class="clearfix m-t-md line-hi34">
+                                <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityDescription']}：</label>
+                                <div class="col-sm-5" id="previewActivityDesc${index.index+length}"></div>
                             </div>
                         </div>
                     </c:forEach>
