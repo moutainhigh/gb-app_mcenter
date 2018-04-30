@@ -212,14 +212,15 @@
 
                 <div class="clearfix m-t-md line-hi34" id="depositWay">
                     <label class="ft-bold col-sm-3 al-right line-hi34">
-                    <span tabindex="0" class=" help-popover m-l-sm"
+                        <span tabindex="0" class=" help-popover m-l-sm"
                           role="button" data-container="body"
                           data-toggle="popover" data-trigger="focus"
                           data-placement="top" data-html="true"
                           data-content="${views.operation['Activity.step.depositWay.tips']}"
-                          data-original-title="" title=""><i
+                        data-original-title="" title=""><i
                             class="fa fa-question-circle"></i></span> ${views.operation['Activity.step.depositWay']}
                     </label>
+                    <input type="hidden" name="depositWayStr" value="${activityRule.depositWay}"/>
                     <label class="col-sm-5">
                         <input type="checkbox" class="i-checks" id="allDepositWay" value=""/>${views.operation['全部存款方式']}
                     </label>

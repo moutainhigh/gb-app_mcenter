@@ -531,7 +531,7 @@ public class HallVHallActivityMessageController extends HallActivityController<I
                 || ActivityTypeEnum.THIRD_DEPOSIT.getCode().equals(code)
                 || ActivityTypeEnum.EVERYDAY_FIRST_DEPOSIT.getCode().equals(code)
                 || ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
-            activityRule = JsRuleCreator.create(ActivityRuleFirstDepositForm.class);
+            activityRule = JsRuleCreator.create(HallActivityRuleFirstDepositForm.class);
         }
         if (ActivityTypeEnum.REGIST_SEND.getCode().equals(code)) {
             activityRule = JsRuleCreator.create(ActivityRuleRegistSendForm.class);
