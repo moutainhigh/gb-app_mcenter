@@ -14,7 +14,6 @@ import java.util.TimeZone;
 
 /**
  * 运营日常统计服务
- *
  * @author martin
  * @time 2018-4-17
  */
@@ -50,6 +49,13 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
             rangeType = RANGE_DAY;//按日查询
             list = summaryMapper.getOperationSummaryOfDays(condition);
         }
+        condition.getEntities().addAll(list);
+        return condition;
+    }
+
+    @Override
+    public OperationSummaryVo getOperationSummaryDataByDays(OperationSummaryVo condition) {
+        List<OperationSummary> list = summaryMapper.getOperationSummaryByDays(condition);
         condition.getEntities().addAll(list);
         return condition;
     }
