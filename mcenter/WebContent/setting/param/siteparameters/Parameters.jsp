@@ -393,7 +393,7 @@
                                                 <%--<label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>--%>
 
                                         </div>
-                                        <%--<c:if test="${isMaster}">
+                                        <c:if test="${isMaster}">
                                             <div id="idCard" data-size="mini"
                                                  class="${electric_pin.paramValue?"":"hidden"} _swElectric m-r-xl"
                                                  style="padding-top: 10px">
@@ -412,7 +412,7 @@
                                                              post="getIdCard"
                                                              callback="save"/>
                                             </div>
-                                        </c:if>--%>
+                                        </c:if>
                                         <div class="${electric_pin.paramValue?"":"hidden"} _swElectric m-t-md "
                                              style="padding-top: 10px">
                                             <h3>${views.setting_auto['电销功能开关']}:</h3>

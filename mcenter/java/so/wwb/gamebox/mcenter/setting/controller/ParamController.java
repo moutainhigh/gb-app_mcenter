@@ -571,6 +571,21 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     @ResponseBody
     public Map savePlayerItem(PlayerItemMessage itemMessage){
         Map map = new HashMap();
+        String showMobilePhone = itemMessage.getShowMobilePhone();
+        if ("0".equals(showMobilePhone)){//0为不显示
+            SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_SMS_SWITCH);
+            LOG.info("站点{0}，获取玩家手机验证系统参数：{1}",SessionManager.getSiteId(),JsonTool.toJson(sysParam));
+            if (sysParam==null){
+                map.put("state", false);
+                return map;
+            }
+            Boolean active = sysParam.getActive();
+            if (active){
+                map.put("state", false);
+                map.put("active",active);
+                return map;
+            }
+        }
         String paramValue = itemMessage.toParamString();
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
         if (sysParam!=null){
@@ -674,7 +689,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("androidDownloadAddress",androidDownloadAddress != null ? androidDownloadAddress.getParamValue():"");
         model.addAttribute("iosDownloadAddress",iosDownloadAddress != null ? iosDownloadAddress.getParamValue():"");
         //判断是否为站长主账号
-        /*if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
+        if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
             Integer masterId = sysSiteVo.getResult().getSysUserId();
             LOG.info("站长ID：{0}",masterId);
             SysUserVo sysUserVo = new SysUserVo();
@@ -686,7 +701,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             }else {
                 LOG.info("站长坐席号：获取站长用户信息为空！");
             }
-        }*/
+        }
         return "/setting/param/siteparameters/Parameters";
     }
 

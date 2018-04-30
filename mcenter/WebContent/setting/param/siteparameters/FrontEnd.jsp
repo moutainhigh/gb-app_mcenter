@@ -140,12 +140,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
-                                                     opType="ajax"
-                                                     dataType="json"
-                                                     target="${root}/param/savePlayerItem.html"
-                                                     confirm="${views.common['confirm.modify']}"
-                                                     post="getPlayerItemForm"  callback="save"/>
+                                        <soul:button cssClass="btn btn-filter" callback="saveCallbak" text="${views.common['save']}" opType="function" target="savePlayerItem" confirm="${views.common['confirm.modify']}"/>
                                     </div>
                                 </ul>
                             </div>
