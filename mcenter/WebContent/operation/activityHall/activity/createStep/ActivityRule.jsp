@@ -227,11 +227,18 @@
                         <c:forEach items="${activityDepositWays}" var="dw">
                             <label class="m-r-sm">
                                 <input type="checkbox" class="i-checks" name="activityRule.depositWay"
-                                       value="${dw.code}" ${fn:contains(activityRule.depositWay,dw.code) ? "checked":""}/>${views.operation['Activity.step.depositWay.'.concat(dw.code)]}
+                                       value="${dw.code}" ${fn:contains(activityRule.depositWay,dw.code) ? "checked":"" } ${ fn:containsIgnoreCase(otherUsedDepositWay,dw)?" disabled checked":""} />${views.operation['Activity.step.depositWay.'.concat(dw.code)]}
                             </label>
                         </c:forEach>
                         <p tipsName="activityRule.depositWay-tips"></p>
+                        <!--已经被使用的存款方式-->
+                        <c:if test="${ activityType.result.code eq 'deposit_send'}">
+                            <div id="getRankActivityMessage">
+                                <%@include file="rule.include/GetDepositWayActivityMessage.jsp"%>
+                            </div>
+                        </c:if>
                     </div>
+
                 </div>
 
                 <div class="clearfix m-t-md line-hi34">
