@@ -162,7 +162,7 @@
                                     <div class="col-sm-5">
                                         <div class="form-group m-b-sm">
                                             <div id="activityAffiliatedImage${index.index}">
-                                                <c:if test="${not empty activityMessageI18ns['1'][siteLang.value.language].activityAffiliated}}">
+                                                <c:if test="${not empty activityMessageI18ns['1'][siteLang.value.language].activityAffiliated}">
                                                     <img id="cc_${index.index}"
                                                          src="${soulFn:getThumbPath(domain, activityMessageI18ns['1'][siteLang.value.language].activityAffiliated,0,0)}"
                                                          class="logo-size-h100"
@@ -347,6 +347,6 @@
 <!--//endregion your codes 3-->
 <!--//region your codes 4-->
 <script>
-    var languageCounts = ${fn:length(languageList)};
+    var languageCounts = ${fn:length(languageList)*2};
 </script>
 <!--//endregion your codes 4-->
