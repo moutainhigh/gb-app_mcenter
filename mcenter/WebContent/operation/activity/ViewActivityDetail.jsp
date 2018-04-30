@@ -586,12 +586,13 @@
                                 </div>
                             </div>
                         </c:if>
+                        <c:set var="length" value="${languageList.size()}"></c:set>
                         <div class="clearfix m-l-lg line-hi34 m-b">
                             <label class="ft-bold col-sm-3 al-right"></label>
                             <div class="col-sm-5">
                                 <c:forEach var="lang" items="${languageList}" varStatus="status">
                                         <span>
-                                            <a href="javascript:void(0)" id="${lang.language}" name="${lang.language}"
+                                            <a href="javascript:void(0)" id="${lang.language}" name="${status.index}"
                                                class="btn <c:if test="${status.index!=0}">btn-outline</c:if> btn-filter btn-sm activityTag" >
                                                     ${dicts.common.local[lang.language]}
                                             </a>
