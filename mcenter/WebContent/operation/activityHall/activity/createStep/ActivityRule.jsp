@@ -220,7 +220,10 @@
                           data-original-title="" title=""><i
                             class="fa fa-question-circle"></i></span> ${views.operation['Activity.step.depositWay']}
                     </label>
-                    <div class="col-sm-5 input-group">
+                    <label class="col-sm-5">
+                        <input type="checkbox" class="i-checks" id="allDepositWay" value=""/>${views.operation['全部存款方式']}
+                    </label>
+                    <div class="col-sm-5 input-group col-sm-offset-3" id="deposit_ways_div">
                         <c:forEach items="${activityDepositWays}" var="dw">
                             <label class="m-r-sm">
                                 <input type="checkbox" class="i-checks" name="activityRule.depositWay"
