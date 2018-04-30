@@ -28,6 +28,9 @@
         <c:if test="${activityType eq 'everyday_first_deposit'}">
             <%@include file="EveryDayFirstDepositContent.jsp"%>
         </c:if>
+        <c:if test="${activityType eq 'money'}">
+            <%@include file="MoneyContent.jsp"%>
+        </c:if>
     </div>
     <div class="modal-footer">
         <soul:button target="closePage" text="${views.common['cancel']}" opType="function" cssClass="btn btn-outline btn-filter"/>
