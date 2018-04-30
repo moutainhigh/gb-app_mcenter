@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%@ include file="/include/include.head.jsp" %>
+    <meta charset="UTF-8">
     <title>站点日常数据 - 活跃玩家</title>
 </head>
 <body>

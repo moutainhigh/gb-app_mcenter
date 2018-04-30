@@ -30,7 +30,7 @@ import java.util.*;
 /**
  * 站点日常数据Controller
  * @author martin
- * @time 18-4-12
+ * @time 2018-4-12
  */
 @Controller
 @RequestMapping("/daily")
@@ -47,7 +47,7 @@ public class SiteDailyController {
     private static final String PLAYER_RETAIN = "/daily/PlayerRetain";
 
     /**
-     * 运营统计
+     * 运营统计首页数据加载
      * @return
      */
     @RequestMapping("/operationSummary")
@@ -61,7 +61,21 @@ public class SiteDailyController {
     }
 
     /**
-     * 运营统计
+     * 异步加载运营统计数据
+     * @return
+     */
+    @RequestMapping("/asyncLoadOperationSummary")
+    @ResponseBody
+    public Map<String, Object> asyncLoadOperationSummary(OperationSummaryVo vo) {
+        vo.setTimeZone(WeekTool.getTimeZoneInterval());
+        vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("operationSummaryData", vo.getEntities());
+        return model;
+    }
+
+    /**
+     * 按指定时间查询运营统计数据
      * @return
      */
     @RequestMapping("/operationSummaryDataOfChoiceDays")
@@ -83,22 +97,8 @@ public class SiteDailyController {
         date = new Date(createDate.getTime().getTime());
         vo.getSearch().setStaticTime(date);
 
-        vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
+        vo = ServiceSiteTool.operationSummaryService().getOperationSummaryDataByDays(vo);
         return JsonTool.toJson(vo.getEntities());
-    }
-
-    /**
-     * 异步加载运营统计数据
-     * @return
-     */
-    @RequestMapping("/asyncLoadOperationSummary")
-    @ResponseBody
-    public Map<String, Object> asyncLoadOperationSummary(OperationSummaryVo vo) {
-        vo.setTimeZone(WeekTool.getTimeZoneInterval());
-        vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put("operationSummaryData", vo.getEntities());
-        return model;
     }
 
     /**
@@ -177,7 +177,6 @@ public class SiteDailyController {
 
     /**
      * 活跃玩家
-     *
      * @return
      */
     @RequestMapping("/activePlayer")
@@ -187,7 +186,6 @@ public class SiteDailyController {
 
     /**
      * 玩家留存
-     *
      * @return
      */
     @RequestMapping("/playerRetain")
@@ -197,7 +195,6 @@ public class SiteDailyController {
 
     /**
      * 新增玩家
-     *
      * @return
      */
     @RequestMapping("/newAddedPlayer")

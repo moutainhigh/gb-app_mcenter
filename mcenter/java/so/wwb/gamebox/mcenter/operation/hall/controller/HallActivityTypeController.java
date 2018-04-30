@@ -132,6 +132,9 @@ public class HallActivityTypeController extends HallActivityController<IActivity
                 model.addAttribute("playerRanks", map.get("playerRanks"));
                 model.addAttribute("isAllRank", objectMap.get("isAllRank"));
                 model.addAttribute("vActivityMessages", vActivityMessages);
+                //获取其他存就送存款方式
+                String otherUsedDepositWay = getOtherUsedDepositWay(vActivityMessages);
+                model.addAttribute("otherUsedDepositWay", otherUsedDepositWay);
             } else {
                 List<PlayerRank> playerRanks = getNormalPlayRanks();
                 model.addAttribute("playerRanks", playerRanks);
@@ -282,6 +285,9 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             model.addAttribute("isAllRank", objectMap.get("isAllRank"));
             model.addAttribute("vActivityMessages", vActivityMessages);
             model.addAttribute("type", "edit");
+            //获取其他存就送存款方式
+            String otherUsedDepositWay = getOtherUsedDepositWay(vActivityMessages);
+            model.addAttribute("otherUsedDepositWay", otherUsedDepositWay);
         }
 
 
@@ -325,6 +331,22 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         }
         return OPERATION_ACTIVITY_STEP;
     }
+
+    /**
+     * 已经被其他(存就送活动)使用的存款方式
+     * @param vActivityMessages
+     * @return
+     */
+    private String getOtherUsedDepositWay(List<VActivityMessage> vActivityMessages) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < vActivityMessages.size(); i++) {
+            stringBuilder.append(vActivityMessages.get(i).getDepositWay()).append(",");
+        }
+        return stringBuilder.toString();
+    }
+
+
+//    public
 
     private void getActivityRuleIncludeGameMap(ActivityMessageVo activityMessageVo, Model model) {
         ActivityRuleIncludeGameListVo activityRuleIncludeGameListVo = new ActivityRuleIncludeGameListVo();
