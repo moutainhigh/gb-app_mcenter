@@ -78,7 +78,21 @@
     <div class="row dataBox2">
         <div class="col-lg list tableList">
             <div class="cont">
-                <h2>活跃用户和登录次数 <span></span></h2>
+                <div class="range-box">
+                    <div class="group public-range-group" id="ymd">
+                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
+                        <button type="button" class="btn btn-default" id="months">周</button>
+                        <button type="button" class="btn btn-default" id="years">月</button>
+                    </div>
+                    <div class="date">
+                        <form action="" class="form-horizontal" role="form">
+                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
+                            至
+                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
+                        </form>
+                    </div>
+                </div>
+                <h2>活跃用户</h2>
                 <div class="public-btn-group group _addPrimary tableBut active-user">
                     <button class="btn btn-primary active-user" value="active-user">活跃用户</button>
                     <button class="btn login-count" value="login-count">总登录次数</button>
@@ -86,8 +100,23 @@
                 <div id="f4"></div>
             </div>
         </div>
+
         <div class="col-lg list tableList">
             <div class="cont">
+                <div class="range-box">
+                    <div class="group public-range-group" id="ymd">
+                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
+                        <button type="button" class="btn btn-default" id="months">周</button>
+                        <button type="button" class="btn btn-default" id="years">月</button>
+                    </div>
+                    <div class="date">
+                        <form action="" class="form-horizontal" role="form">
+                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
+                            至
+                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
+                        </form>
+                    </div>
+                </div>
                 <h2>安装量和卸载量 <span></span></h2>
                 <div class="public-btn-group group _addPrimary tableBut install">
                     <button class="btn btn-primary install" value="install">安装量</button>
@@ -101,6 +130,20 @@
     <div class="row dataBox2">
         <div class="col-lg list tableList">
             <div class="cont">
+                <div class="range-box">
+                    <div class="group public-range-group" id="ymd">
+                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
+                        <button type="button" class="btn btn-default" id="months">周</button>
+                        <button type="button" class="btn btn-default" id="years">月</button>
+                    </div>
+                    <div class="date">
+                        <form action="" class="form-horizontal" role="form">
+                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
+                            至
+                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
+                        </form>
+                    </div>
+                </div>
                 <h2>用户走势 <span></span></h2>
                 <div class="public-btn-group group _addPrimary tableBut player-trend">
                     <button class="btn btn-primary new-player" value="new-player">新增玩家</button>
@@ -109,8 +152,23 @@
                 <div id="p6"></div>
             </div>
         </div>
+
         <div class="col-lg list tableList">
             <div class="cont">
+                <div class="range-box">
+                    <div class="group public-range-group" id="ymd">
+                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
+                        <button type="button" class="btn btn-default" id="months">周</button>
+                        <button type="button" class="btn btn-default" id="years">月</button>
+                    </div>
+                    <div class="date">
+                        <form action="" class="form-horizontal" role="form">
+                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
+                            至
+                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
+                        </form>
+                    </div>
+                </div>
                 <h2>反水走势 <span></span></h2>
                 <div class="public-btn-group group _addPrimary tableBut rakeback-trend">
                     <button class="btn btn-primary rakeback-men" value="rakeback-men">反水人数</button>
