@@ -3,13 +3,18 @@ package so.wwb.gamebox.mcenter.analyze.daily.controller;
 import com.alibaba.fastjson.JSON;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
+import org.soul.commons.query.Paging;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.tools.DataTransTool;
 import so.wwb.gamebox.model.WeekTool;
+import so.wwb.gamebox.model.company.setting.po.ApiGametypeRelation;
+import so.wwb.gamebox.model.company.setting.vo.ApiGametypeRelationListVo;
+import so.wwb.gamebox.model.company.setting.vo.ApiGametypeRelationVo;
 import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
 import so.wwb.gamebox.model.master.operation.so.RakebackApiSo;
 import so.wwb.gamebox.model.master.operation.vo.RakebackApiListVo;
@@ -50,7 +55,8 @@ public class SiteDailyController {
         vo.setTimeZone(WeekTool.getTimeZoneInterval());
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
         model.addAttribute("operationSummaryData", JsonTool.toJson(vo.getEntities()));
-        model.addAttribute("rakebackCashApis", ApiProviderEnum.values());
+        Map<String,ApiGametypeRelation> map = ServiceTool.apiGametypeRelationService().load(new ApiGametypeRelationVo());
+        model.addAttribute("rakebackCashApis", map);
         return OPERATION_SUMMARY;
     }
 
@@ -132,14 +138,15 @@ public class SiteDailyController {
     @RequestMapping({"/realTimeSummary"})
     public String realTimeSummaryData(RealtimeProfileVo condition, Model model) {
         List<RealtimeProfile> profiles = ServiceSiteTool.realtimeProfileService().queryRealtimeCartogram(condition);
+        List<RealtimeProfile> realtimedata = ServiceSiteTool.realtimeProfileService().queryNowAndYesterdayData(condition);
         List<RealtimeProfileVo> historyReportForm = ServiceSiteTool.realtimeProfileService().queryHistoryReportForm(condition);
         RealtimeProfileListVo realtimeProfileListVo = new RealtimeProfileListVo();
-        if (CollectionTool.isNotEmpty(profiles)) {
+        if (CollectionTool.isNotEmpty(realtimedata)) {
             //今日此时
-            RealtimeProfile lastProfile = profiles.get(profiles.size() - 1);
+            RealtimeProfile lastProfile = realtimedata.get(realtimedata.size() - 1);
             //昨日此时
-            RealtimeProfile fristProfile = profiles.get(0);
-            profiles.remove(0);
+            RealtimeProfile fristProfile = realtimedata.get(0);
+
             //对比昨日同时段浮动百分比
             RealtimeProfileVo profileVo = new RealtimeProfileVo();
             profileVo.setCompareVisitor(DataTransTool.getPercentage(lastProfile.getCountVisitor(), fristProfile.getCountVisitor()));
@@ -150,8 +157,11 @@ public class SiteDailyController {
             profileVo.setCompareOnline(DataTransTool.getPercentage(lastProfile.getCountOnline(), fristProfile.getCountOnline()));
             profileVo.setCompareRealtimeProfitLoss(DataTransTool.getPercentage(lastProfile.getRealtimeProfitLoss(), fristProfile.getRealtimeProfitLoss()));
             realtimeProfileListVo.setResult(profiles);
-            model.addAttribute("profilesJson", JsonTool.toJson(profiles));
             model.addAttribute("Vo", profileVo);
+            model.addAttribute("realtimeData",lastProfile);
+        }
+        if(CollectionTool.isNotEmpty(profiles)){
+            model.addAttribute("profilesJson", JsonTool.toJson(profiles));
         }
 
         if (CollectionTool.isNotEmpty(historyReportForm)) {
