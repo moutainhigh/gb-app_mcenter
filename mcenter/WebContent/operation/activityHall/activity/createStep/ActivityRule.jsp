@@ -272,7 +272,7 @@
                             <c:set value="${a.id}," var="b"></c:set>
                             <label class="m-r-sm">
                                 <c:if test="${activityType.result.code eq 'deposit_send'}">
-                                    <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${!( is123Deposit || activityType.result.code eq 'regist_send') ? "":fn:contains(playerRank,b)?" disabled":""}>
+                                    <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${ fn:contains(playerRank,b)?" disabled":""}>
                                 </c:if>
                                 <c:if test="${activityType.result.code ne 'deposit_send'}">
                                     <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""}>
