@@ -524,7 +524,7 @@
                         </c:if>
 
 
-                        <c:if test="${p.activityTypeCode eq 'first_deposit' || p.activityTypeCode eq 'deposit_send'}">
+                        <c:if test="${is123Deposit || p.activityTypeCode eq 'deposit_send'}">
                             <div class="clearfix m-l-lg line-hi34">
                                 <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.depositWay']}</label>
                                 <div class="col-sm-5">
