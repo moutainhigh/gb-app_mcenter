@@ -20,19 +20,19 @@
 </head>
 <body>
 
-<div class="gaikuang-page">
-    <div class="run-title">
-        <h1 class="float-left">运营日常统计</h1>
-        <div class="group float-right _addPrimary">
-            <button type="button" class="btn btn-default">报表呈现</button>
-            <button type="button" class="btn btn-default btn-primary">显示数据</button>
-        </div>
+<div class="run-title">
+    <h1 class="float-left">运营日常统计</h1>
+    <div class="group float-right _addPrimary">
+        <button type="button" class="btn btn-default btn-primary" value="chart">图表呈现</button>
+        <button type="button" class="btn btn-default" value="report">报表呈现</button>
     </div>
+</div>
 
+<div class="gaikuang-page" id="operationChart">
     <div class="row dataBox1">
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
-                <h2>存取差额 <span id="c1_title"></span></h2>
+                <h2>存取差额 <span id="c1_title" class="last-amount"></span></h2>
                 <div class="public-btn-group _addPrimary balanceBtn">
                     <button class="btn btn-primary" value="D">日</button>
                     <button class="btn" value="W">周</button>
@@ -45,11 +45,16 @@
 
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
-                <h2>有效投注 <span id="c2_title"></span></h2>
+                <h2>有效投注 <span id="c2_title" class="last-amount"></span></h2>
                 <div class="public-btn-group _addPrimary effectiveBtn">
                     <button class="btn btn-primary" value="D">日</button>
                     <button class="btn" value="W">周</button>
                     <button class="btn" value="M">月</button>
+                </div>
+                <div class="terminal-btn-group _addPrimary effectiveTerminal">
+                    <button class="btn btn-primary" value="all">全部</button>
+                    <button class="btn" value="phone">手机</button>
+                    <button class="btn" value="pc">PC</button>
                 </div>
                 <div id="c2"></div>
                 <div id="z2"></div>
@@ -58,7 +63,7 @@
 
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
-                <h2>损益 <span id="c3_title"></span></h2>
+                <h2>损益 <span id="c3_title" class="last-amount"></span></h2>
                 <div class="public-btn-group _addPrimary profitLossBtn">
                     <button class="btn btn-primary" value="D">日</button>
                     <button class="btn" value="W">周</button>
@@ -73,7 +78,21 @@
     <div class="row dataBox2">
         <div class="col-lg list tableList">
             <div class="cont">
-                <h2>活跃用户和登录次数 <span>本月:121,696,321.00</span></h2>
+                <div class="range-box">
+                    <div class="group public-range-group" id="ymd">
+                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
+                        <button type="button" class="btn btn-default" id="months">周</button>
+                        <button type="button" class="btn btn-default" id="years">月</button>
+                    </div>
+                    <div class="date">
+                        <form action="" class="form-horizontal" role="form">
+                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
+                            至
+                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
+                        </form>
+                    </div>
+                </div>
+                <h2>活跃用户</h2>
                 <div class="public-btn-group group _addPrimary tableBut active-user">
                     <button class="btn btn-primary active-user" value="active-user">活跃用户</button>
                     <button class="btn login-count" value="login-count">总登录次数</button>
@@ -81,9 +100,24 @@
                 <div id="f4"></div>
             </div>
         </div>
+
         <div class="col-lg list tableList">
             <div class="cont">
-                <h2>安装量和卸载量 <span>本月:121,696,321.00</span></h2>
+                <div class="range-box">
+                    <div class="group public-range-group" id="ymd">
+                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
+                        <button type="button" class="btn btn-default" id="months">周</button>
+                        <button type="button" class="btn btn-default" id="years">月</button>
+                    </div>
+                    <div class="date">
+                        <form action="" class="form-horizontal" role="form">
+                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
+                            至
+                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
+                        </form>
+                    </div>
+                </div>
+                <h2>安装量和卸载量 <span></span></h2>
                 <div class="public-btn-group group _addPrimary tableBut install">
                     <button class="btn btn-primary install" value="install">安装量</button>
                     <button class="btn uninstall" value="uninstall">卸载量</button>
@@ -96,7 +130,21 @@
     <div class="row dataBox2">
         <div class="col-lg list tableList">
             <div class="cont">
-                <h2>用户走势 <span>本月:121,696,321.00</span></h2>
+                <div class="range-box">
+                    <div class="group public-range-group" id="ymd">
+                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
+                        <button type="button" class="btn btn-default" id="months">周</button>
+                        <button type="button" class="btn btn-default" id="years">月</button>
+                    </div>
+                    <div class="date">
+                        <form action="" class="form-horizontal" role="form">
+                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
+                            至
+                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
+                        </form>
+                    </div>
+                </div>
+                <h2>用户走势 <span></span></h2>
                 <div class="public-btn-group group _addPrimary tableBut player-trend">
                     <button class="btn btn-primary new-player" value="new-player">新增玩家</button>
                     <button class="btn login-count new-deposit-player" value="new-deposit-player">新增存款玩家</button>
@@ -104,9 +152,24 @@
                 <div id="p6"></div>
             </div>
         </div>
+
         <div class="col-lg list tableList">
             <div class="cont">
-                <h2>反水走势 <span>本月:121,696,321.00</span></h2>
+                <div class="range-box">
+                    <div class="group public-range-group" id="ymd">
+                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
+                        <button type="button" class="btn btn-default" id="months">周</button>
+                        <button type="button" class="btn btn-default" id="years">月</button>
+                    </div>
+                    <div class="date">
+                        <form action="" class="form-horizontal" role="form">
+                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
+                            至
+                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
+                        </form>
+                    </div>
+                </div>
+                <h2>反水走势 <span></span></h2>
                 <div class="public-btn-group group _addPrimary tableBut rakeback-trend">
                     <button class="btn btn-primary rakeback-men" value="rakeback-men">反水人数</button>
                     <button class="btn rakeback-cash" value="rakeback-cash">反水金额</button>
@@ -131,22 +194,43 @@
                 ${soulFn:formatDateTz(lastdate, DateFormat.DAY_SECOND,timeZone)} -
                 ${soulFn:formatDateTz(now, DateFormat.DAY_SECOND,timeZone)}
             </button>
-        </div>--%>
+        </div>
 
+        <div class="public-btn-group _addPrimary queryRakebackcashByApi">
+            <button class="btn btn-primary" stateTime="${soulFn:formatDateTz(lastdate, DateFormat.DAY_SECOND,timeZone)}" endTime="${soulFn:formatDateTz(now, DateFormat.DAY_SECOND,timeZone)}"
+                    apis="22,3,12,9,10,13,14,15,16" gameTypes='Casino,Lottery,Sportsbook'>API</button>
+        </div>
+        --%>
     </div>
 </div>
-<%--存款差额仪表图数据--%>
-<div style="display: none;" id="balanceGaugeChartDataOfDay">${balanceGaugeChartData}</div>
-<div style="display: none;" id="balanceGaugeChartDataOfWeek"></div>
-<div style="display: none;" id="balanceGaugeChartDataOfMonth"></div>
-<%--有效投注额仪表图数据--%>
-<div style="display: none;" id="effectiveGaugeChartDataOfDay">${effectiveGaugeChartData}</div>
-<div style="display: none;" id="effectiveGaugeChartDataOfWeek"></div>
-<div style="display: none;" id="effectiveGaugeChartDataOfMonth"></div>
-<%--损益仪表图数据--%>
-<div style="display: none;" id="profitLossGaugeChartDataOfDay">${profitLossGaugeChartData}</div>
-<div style="display: none;" id="profitLossGaugeChartDataOfWeek"></div>
-<div style="display: none;" id="profitLossGaugeChartDataOfMonth"></div>
+
+<%-- 报表展示 --%>
+<div class="tableBox" id="operationReport" style="display: none;">
+    <div class="top">
+        <h3>用户走势</h3>
+    </div>
+    <table class="reportTab table-hover" id="playerListResult">
+        <!--动态生成数据表格-->
+    </table>
+    <div class="page">
+        <ul class="pagination float-right" id="playerListPagination">
+            <!--动态生成分页器-->
+        </ul>
+    </div>
+
+    <div class="top">
+        <h3>存取走势</h3>
+    </div>
+    <table class="reportTab table-hover" id="depositWithdrawResult">
+        <!--动态生成数据表格-->
+    </table>
+    <div class="page">
+        <ul class="pagination float-right" id="depositWithdrawPagination">
+            <!--动态生成分页器-->
+        </ul>
+    </div>
+</div>
+
 <%--历史运营统计数据--%>
 <div style="display: none;" id="operationSummaryDataOfDay">${operationSummaryData}</div>
 <div style="display: none;" id="operationSummaryDataOfWeek"></div>
@@ -155,6 +239,10 @@
 <div style="display: none;" id="rakebackCashApis">${rakebackCashApis}</div>
 <%--自选天数查询--%>
 <div style="display: none;" id="operationSummaryDataOfChoiceDays"></div>
+<%--API筛选查询--%>
+<div style="display: none;" id="rakebackCashListByApis"></div>
+
+<script src="${resRoot}/js/jqPaginator.js"></script>
 <script type="text/javascript">
     curl(['site/daily/OperationSummary'], function (OperationSummary) {
         new OperationSummary();

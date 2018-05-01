@@ -42,11 +42,11 @@
             <c:if test="${activityType.result.code eq 'effective_transaction' || activityType.result.code eq 'profit_loss'}">
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                         <span class="input-group pull-left line-hi25 m-r">
-                            <gb:select name="activityRule.claimPeriod" list="<%=DictTool.get(DictEnum.CLAIM_PERIOD)%>" prompt="${views.common['pleaseSelect']}" value="${activityRule.claimPeriod}"/>
+                            <gb:select name="activityRule.claimPeriod" list="<%=DictTool.get(DictEnum.CLAIM_PERIOD)%>" prompt="${views.common['pleaseSelect']}" value="${activityRule.claimPeriod}" callback="changeKey"/>
                         </span>
-                        <span class="m-l co-grayc2">${views.operation['Activity.step.message4']}</span>
+                        <span class="m-l co-grayc2 claimPeriodDetail">${views.operation['Activity.step.message4']}</span>
 
                     </div>
                 </div>
@@ -54,11 +54,11 @@
             <c:if test="${activityType.result.code eq 'relief_fund'}">
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                         <span class="input-group pull-left line-hi25 m-r">
                             <gb:select name="activityRule.claimPeriod" list="{'NaturalDay':'一日'}" prompt="" value="NaturalDay"/>
                         </span>
-                        <span class="m-l co-grayc2">${views.operation['Activity.step.message5']}</span>
+                        <span class="m-l co-grayc2 claimPeriodDetail">${views.operation['Activity.step.message5']}</span>
 
                     </div>
                 </div>
@@ -212,23 +212,34 @@
 
                 <div class="clearfix m-t-md line-hi34" id="depositWay">
                     <label class="ft-bold col-sm-3 al-right line-hi34">
-                    <span tabindex="0" class=" help-popover m-l-sm"
+                        <span tabindex="0" class=" help-popover m-l-sm"
                           role="button" data-container="body"
                           data-toggle="popover" data-trigger="focus"
                           data-placement="top" data-html="true"
                           data-content="${views.operation['Activity.step.depositWay.tips']}"
-                          data-original-title="" title=""><i
+                        data-original-title="" title=""><i
                             class="fa fa-question-circle"></i></span> ${views.operation['Activity.step.depositWay']}
                     </label>
-                    <div class="col-sm-5 input-group">
+                    <input type="hidden" name="depositWayStr" value="${activityRule.depositWay}"/>
+                    <label class="col-sm-5">
+                        <input type="checkbox" class="i-checks" id="allDepositWay" value=""/>${views.operation['全部存款方式']}
+                    </label>
+                    <div class="col-sm-5 input-group col-sm-offset-3" id="deposit_ways_div">
                         <c:forEach items="${activityDepositWays}" var="dw">
                             <label class="m-r-sm">
                                 <input type="checkbox" class="i-checks" name="activityRule.depositWay"
-                                       value="${dw.code}" ${fn:contains(activityRule.depositWay,dw.code) ? "checked":""}/>${views.operation['Activity.step.depositWay.'.concat(dw.code)]}
+                                       value="${dw.code}" ${fn:contains(activityRule.depositWay,dw.code) ? "checked":"" } ${ fn:containsIgnoreCase(otherUsedDepositWay,dw)?" disabled checked":""} />${views.operation['Activity.step.depositWay.'.concat(dw.code)]}
                             </label>
                         </c:forEach>
                         <p tipsName="activityRule.depositWay-tips"></p>
+                        <!--已经被使用的存款方式-->
+                        <c:if test="${ activityType.result.code eq 'deposit_send'}">
+                            <div id="getRankActivityMessage">
+                                <%@include file="rule.include/GetDepositWayActivityMessage.jsp"%>
+                            </div>
+                        </c:if>
                     </div>
+
                 </div>
 
                 <div class="clearfix m-t-md line-hi34">
@@ -269,7 +280,7 @@
                             <c:set value="${a.id}," var="b"></c:set>
                             <label class="m-r-sm">
                                 <c:if test="${activityType.result.code eq 'deposit_send'}">
-                                    <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${!( is123Deposit || activityType.result.code eq 'regist_send') ? "":fn:contains(playerRank,b)?" disabled":""}>
+                                    <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${ fn:contains(playerRank,b)?" disabled":""}>
                                 </c:if>
                                 <c:if test="${activityType.result.code ne 'deposit_send'}">
                                     <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""}>

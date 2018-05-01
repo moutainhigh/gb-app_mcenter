@@ -51,4 +51,8 @@ public class RealtimeProfileService extends BaseService<RealtimeProfileMapper, R
 
     }
 
+    @Override
+    public List<RealtimeProfile> queryNowAndYesterdayData(RealtimeProfileVo condition) {
+        return this.mapper.queryNowAndYesterdayData();
+    }
 }

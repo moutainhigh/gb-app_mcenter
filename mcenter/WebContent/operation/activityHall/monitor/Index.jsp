@@ -87,9 +87,9 @@
                         </div>
                         <div class="form-group clearfix pull-right col-md-2 col-sm-12 m-b-sm padding-r-none-sm function-menu-show hide">
                             <div class="function-menu-show hide">
-                                <soul:button target="successDialog" text="${views.common['checkPass']}" opType="function" cssClass="btn btn-outline btn-filter"/>
+                                <soul:button target="successDialog" text="${views.operation['批量通过']}" opType="function" cssClass="btn btn-outline btn-filter"/>
                                 <soul:button target="${root}/operation/vActivityPlayerApply/auditStatus.html?&result.checkState=3&activityType="
-                                             text="${views.common['checkFailure']}" opType="ajax" post="getSelectIds" precall="hasFailReason" callback="query"
+                                             text="${views.operation['批量拒绝']}" opType="ajax" post="getSelectIds" precall="hasFailReason" callback="query"
                                              cssClass="btn btn-outline btn-filter"/>
                             </div>
                         </div>

@@ -29,7 +29,7 @@
             </div>
             <div class="dataBox">
                 <c:if test="${not empty command.result && command.result.size() > 0}">
-                    <c:set var="lastRealtimeProfile" value="${command.result[command.result.size() - 1]}"/>
+                    <c:set var="lastRealtimeProfile" value="${realtimeData != null ? realtimeData : realtimeProfile}"/>
                     <div class="swiper-container swiper-info">
                         <div class="swiper-wrapper" id="swiper-wrapper">
                             <div class="swiper-slide btn btn-primary" realtimeGroup="visitor">
