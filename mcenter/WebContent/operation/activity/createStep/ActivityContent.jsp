@@ -241,7 +241,7 @@
                                 <li class=" ${index.index+length==length?'active':''}">
                                     <a id="a_${index.index+length}" data-toggle="tab" href="#tab${index.index+length}"
                                        aria-expanded="${index.index+length==length?'true':'false'}">
-                                            ${fn:substringBefore(dicts.common.language[siteLang.value.language], '#')}mobile
+                                            ${fn:substringBefore(dicts.common.language[siteLang.value.language], '#')}
                                         <span class="_editStatus${index.index+length}">
                                             <c:choose>
                                                 <c:when test="${(not empty activityMessageI18ns['2'][siteLang.value.language].activityCover) and (not empty activityMessageI18ns['2'][siteLang.value.language].activityName) and (not empty activityMessageI18ns['2'][siteLang.value.language].activityDescription)}">
