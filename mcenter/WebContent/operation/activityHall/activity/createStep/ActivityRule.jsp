@@ -122,7 +122,16 @@
                             class="fa fa-question-circle"></i></span> ${views.operation['领取方式']}：</label>
 
                     <div class="col-sm-3 input-group">
-                        <gb:select name="activityRule.isAudit" value="${activityRule.isAudit==false || empty activityRule.isAudit ?false:true}" list="{'false':'${views.operation['前端申领（免审）']}','true':'${views.operation['前端申领（审核）']}'}" prompt="${views.common['pleaseSelect']}"/>
+                        <c:choose>
+                            <c:when test="${activityType.result.code eq 'effective_transaction' || activityType.result.code eq 'profit_loss'}">
+                                <gb:select name="activityRule.isAudit" value="${activityRule.isAudit==false || empty activityRule.isAudit ?false:true}" list="{'false':'${views.operation['报名申请（免审）']}','true':'${views.operation['报名申请（审核）']}'}" prompt=""/>
+                            </c:when>
+                            <c:otherwise>
+                                <gb:select name="activityRule.isAudit" value="${activityRule.isAudit==false || empty activityRule.isAudit ?false:true}" list="{'false':'${views.operation['前端申领（免审）']}','true':'${views.operation['前端申领（审核）']}'}" prompt=""/>
+                            </c:otherwise>
+                        </c:choose>
+
+
                     </div>
                 </div>
             </c:if>
