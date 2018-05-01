@@ -205,7 +205,7 @@
 </div>
 
 <%-- 报表展示 --%>
-<div class="tableBox" id="operationReport">
+<div class="tableBox" id="operationReport" style="display: none;">
     <div class="top">
         <h3>用户走势</h3>
     </div>
