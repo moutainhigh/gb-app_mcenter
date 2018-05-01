@@ -77,7 +77,7 @@
             <div class="clearfix m-t-md">
                 <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityTime']}：</label>
                 <div class="col-sm-5">
-                    <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:160px" useRange="true"
+                    <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:165px" useRange="true"
                                   startDate="${activityMessageVo.result.startTime}"
                                   endDate="${activityMessageVo.result.endTime}"
                                   startName="activityMessage.startTime"
@@ -241,7 +241,7 @@
                                 <li class=" ${index.index+length==length?'active':''}">
                                     <a id="a_${index.index+length}" data-toggle="tab" href="#tab${index.index+length}"
                                        aria-expanded="${index.index+length==length?'true':'false'}">
-                                            ${fn:substringBefore(dicts.common.language[siteLang.value.language], '#')}mobile
+                                            ${fn:substringBefore(dicts.common.language[siteLang.value.language], '#')}
                                         <span class="_editStatus${index.index+length}">
                                             <c:choose>
                                                 <c:when test="${(not empty activityMessageI18ns['2'][siteLang.value.language].activityCover) and (not empty activityMessageI18ns['2'][siteLang.value.language].activityName) and (not empty activityMessageI18ns['2'][siteLang.value.language].activityDescription)}">
