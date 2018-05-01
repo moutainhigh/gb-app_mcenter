@@ -647,7 +647,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
 
         VActivityMessageListVo vActivityMessageListVo = new VActivityMessageListVo();
         vActivityMessageListVo.getQuery().setCriterions(new Criterion[]{
-                new Criterion(VActivityMessage.PROP_ACTIVITY_NAME, Operator.EQ,activityContentStepForm.getActivityMessageI18ns$$_activityName()[0]),
+                new Criterion(VActivityMessage.PROP_ACTIVITY_NAME, Operator.IN,activityContentStepForm.getActivityMessageI18ns$$_activityName()),
                 new Criterion(VActivityMessage.PROP_CODE, Operator.EQ,activityContentStepForm.getResult_code()),
                 new Criterion(VActivityMessage.PROP_ID, Operator.NE,activityContentStepForm.getResult_id())
         });
