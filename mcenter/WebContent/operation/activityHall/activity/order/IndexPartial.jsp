@@ -15,7 +15,7 @@
                 <th style="width: 20%" class="inline">
                     ${views.column['VActivityMessage.activityClassifyKey']}
                 </th>
-                <th style="width: 20%">${views.column['VActivityMessage.startAndEndTime']}</th>
+                <th style="width: 20%">${views.operation['Activity.date']}</th>
             </tr>
         </thead>
         <tbody class="dd-list1">
