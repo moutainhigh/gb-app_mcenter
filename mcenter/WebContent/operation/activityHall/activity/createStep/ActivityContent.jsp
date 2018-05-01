@@ -111,7 +111,8 @@
                                   startDate="${activityMessageVo.result.startTime}"
                                   endDate="${activityMessageVo.result.endTime}"
                                   startName="activityMessage.startTime"
-                                  endName="activityMessage.endTime"></gb:dateRange>
+                                  endName="activityMessage.endTime"
+                                  yesterday="false" beforeYesterday="false" lastWeek="false" lastMonth="false" last7Days="false" last30Days="false"></gb:dateRange>
                 </div>
 
             </div>
