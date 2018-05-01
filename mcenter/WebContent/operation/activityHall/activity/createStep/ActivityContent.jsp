@@ -210,7 +210,7 @@
                                             <img id="dd_${index.index}" src=""
                                                  style="display: none;width:100%;height: auto;"/>
                                         </div>
-                                        <div>${views.operation['Activity.step.message2']}</div>
+                                        <div>${views.operation['Activity.step.message13']}</div>
                                     </div>
                                 </div>
 
@@ -241,7 +241,7 @@
                                             <img id="aa_${index.index}" src=""
                                                  style="display: none;width: 100%;height: auto;"/>
                                         </div>
-                                        <div>${views.operation['Activity.step.message13']}</div>
+                                        <div>${views.operation['Activity.step.message2']}</div>
                                     </div>
                                 </div>
 
