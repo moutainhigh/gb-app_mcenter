@@ -66,7 +66,7 @@ public class HallActivityDepositSendContentStepForm implements IForm {
     @Comment("活动名称")
     //@Remote(message = "operation_auto.活动名称已经存在",checkMethod = "checkActivityName",checkClass = HallActivityTypeController.class)
     @Remote(additionalProperties = {"result.code","result.id"}, jsValueExp = {"$(\"[name='result.code']\").val()"},
-            message = "content.document.titleRepeat", checkMethod = "checkActivityName", checkClass = HallActivityTypeController.class)
+            message = "活动名称已经被同类型的活动使用", checkMethod = "checkActivityName", checkClass = HallActivityTypeController.class)
     public String[] getActivityMessageI18ns$$_activityName() {
         return activityMessageI18ns$$_activityName;
     }
