@@ -14,9 +14,11 @@
     <meta name="viewport" content="width=device-width,height=device-height">
     <title>整体走势-运营日常统计</title>
     <% Date date = new Date();%>
-    <% Date lastDate = new Date(date.getTime() - (long)13*24*60*60*1000);%>
+    <% Date lastDate = new Date(date.getTime() - (long)7*24*60*60*1000);%>
+    <% Date testerDay = new Date(date.getTime() - (long)1*24*60*60*1000);%>
     <c:set var="now" value="<%=date%>"/>
     <c:set var="lastdate" value="<%=lastDate%>"/>
+    <c:set var="yesterDay" value="<%=testerDay%>"/>
 </head>
 <body>
 
@@ -79,17 +81,18 @@
         <div class="col-lg list tableList">
             <div class="cont">
                 <div class="range-box">
-                    <div class="group public-range-group" id="ymd">
-                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
-                        <button type="button" class="btn btn-default" id="months">周</button>
-                        <button type="button" class="btn btn-default" id="years">月</button>
+                    <div class="group public-range-group cycleChangeBtn activeUser" >
+                        <button type="button" class="btn btn-default btn-success" statisticsDataType="activeUser" value="D">日</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="activeUser" value="W">周</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="activeUser" value="M">月</button>
                     </div>
-                    <div class="date">
-                        <form action="" class="form-horizontal" role="form">
-                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
-                            至
-                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
-                        </form>
+                    <div class="date activeUser">
+                        <div class="input-group daterangepickers" >
+                            <gb:dateRange format="${DateFormat.DAY}" style="width:80px;" inputStyle="width:80px" useToday="true" useRange="true"
+                                          position="down" lastMonth="false" hideQuick="true" opens="true" callback="End"  id="activeUser"
+                                          startDate="${lastdate}" endDate="${yesterDay}"  maxDate="${yesterDay}"
+                                          startName="activeUser-beginTime" endName="activeUser-endTime" thisMonth="true"/>
+                        </div>
                     </div>
                 </div>
                 <h2>活跃用户</h2>
@@ -104,17 +107,18 @@
         <div class="col-lg list tableList">
             <div class="cont">
                 <div class="range-box">
-                    <div class="group public-range-group" id="ymd">
-                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
-                        <button type="button" class="btn btn-default" id="months">周</button>
-                        <button type="button" class="btn btn-default" id="years">月</button>
+                    <div class="group public-range-group cycleChangeBtn installAndUninstall" >
+                        <button type="button" class="btn btn-default btn-success" statisticsDataType="installAndUninstall" value="D">日</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="installAndUninstall" value="W">周</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="installAndUninstall" value="M">月</button>
                     </div>
-                    <div class="date">
-                        <form action="" class="form-horizontal" role="form">
-                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
-                            至
-                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
-                        </form>
+                    <div class="date installAndUninstall">
+                        <div class="input-group daterangepickers" >
+                            <gb:dateRange format="${DateFormat.DAY}" style="width:80px;" inputStyle="width:80px" useToday="true" useRange="true"
+                                          position="down" lastMonth="false" hideQuick="true" opens="true" callback="End"  id="installAndUninstall"
+                                          startDate="${lastdate}" endDate="${yesterDay}"  maxDate="${yesterDay}"
+                                          startName="installAndUninstall-beginTime" endName="installAndUninstall-endTime" thisMonth="true"/>
+                        </div>
                     </div>
                 </div>
                 <h2>安装量和卸载量 <span></span></h2>
@@ -131,17 +135,18 @@
         <div class="col-lg list tableList">
             <div class="cont">
                 <div class="range-box">
-                    <div class="group public-range-group" id="ymd">
-                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
-                        <button type="button" class="btn btn-default" id="months">周</button>
-                        <button type="button" class="btn btn-default" id="years">月</button>
+                    <div class="group public-range-group cycleChangeBtn playerTrend" >
+                        <button type="button" class="btn btn-default btn-success" statisticsDataType="playerTrend" value="D">日</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="playerTrend" value="W">周</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="playerTrend" value="M">月</button>
                     </div>
-                    <div class="date">
-                        <form action="" class="form-horizontal" role="form">
-                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
-                            至
-                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
-                        </form>
+                    <div class="date playerTrend">
+                        <div class="input-group daterangepickers" >
+                            <gb:dateRange format="${DateFormat.DAY}" style="width:80px;" inputStyle="width:80px" useToday="true" useRange="true"
+                                          position="down" lastMonth="false" hideQuick="true" opens="true" callback="End"  id="playerTrend"
+                                          startDate="${lastdate}" endDate="${yesterDay}"  maxDate="${yesterDay}"
+                                          startName="playerTrend-beginTime" endName="playerTrend-endTime" thisMonth="true"/>
+                        </div>
                     </div>
                 </div>
                 <h2>用户走势 <span></span></h2>
@@ -156,17 +161,18 @@
         <div class="col-lg list tableList">
             <div class="cont">
                 <div class="range-box">
-                    <div class="group public-range-group" id="ymd">
-                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
-                        <button type="button" class="btn btn-default" id="months">周</button>
-                        <button type="button" class="btn btn-default" id="years">月</button>
+                    <div class="group public-range-group cycleChangeBtn rakebackTrend" >
+                        <button type="button" class="btn btn-default btn-success" statisticsDataType="rakebackTrend" value="D">日</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="rakebackTrend" value="W">周</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="rakebackTrend" value="M">月</button>
                     </div>
-                    <div class="date">
-                        <form action="" class="form-horizontal" role="form">
-                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
-                            至
-                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
-                        </form>
+                    <div class="date rakebackTrend">
+                        <div class="input-group daterangepickers" >
+                            <gb:dateRange format="${DateFormat.DAY}" style="width:80px;" inputStyle="width:80px" useToday="true" useRange="true"
+                                          position="down" lastMonth="false" hideQuick="true" opens="true" callback="End"  id="rakebackTrend"
+                                          startDate="${lastdate}" endDate="${yesterDay}"  maxDate="${yesterDay}"
+                                          startName="rakebackTrend-beginTime" endName="rakebackTrend-endTime" thisMonth="true"/>
+                        </div>
                     </div>
                 </div>
                 <h2>反水走势 <span></span></h2>
@@ -237,10 +243,6 @@
 <div style="display: none;" id="operationSummaryDataOfMonth"></div>
 <%--返水金额API选择--%>
 <div style="display: none;" id="rakebackCashApis">${rakebackCashApis}</div>
-<%--自选天数查询--%>
-<div style="display: none;" id="operationSummaryDataOfChoiceDays"></div>
-<%--API筛选查询--%>
-<div style="display: none;" id="rakebackCashListByApis"></div>
 
 <script src="${resRoot}/js/jqPaginator.js"></script>
 <script type="text/javascript">

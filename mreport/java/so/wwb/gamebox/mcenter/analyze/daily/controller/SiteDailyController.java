@@ -82,20 +82,20 @@ public class SiteDailyController {
     @ResponseBody
     public String operationSummaryDataOfChoiceDays(OperationSummaryVo vo , Model model) {
         //拼装结束时间
-        Calendar createDate = Calendar.getInstance();
-        createDate.setTime(vo.getSearch().getStaticTimeEnd());
-        createDate.set(Calendar.HOUR_OF_DAY,00);
-        createDate.set(Calendar.MINUTE,00);
-        createDate.set(Calendar.SECOND,00);
-        Date date = new Date(createDate.getTime().getTime());
-        vo.getSearch().setStaticTimeEnd(date);
-        //拼装开始时间
-        createDate.setTime(vo.getSearch().getStaticTime());
-        createDate.set(Calendar.HOUR_OF_DAY,00);
-        createDate.set(Calendar.MINUTE,00);
-        createDate.set(Calendar.SECOND,00);
-        date = new Date(createDate.getTime().getTime());
-        vo.getSearch().setStaticTime(date);
+//        Calendar createDate = Calendar.getInstance();
+//        createDate.setTime(vo.getSearch().getStaticTimeEnd());
+//        createDate.set(Calendar.HOUR_OF_DAY,00);
+//        createDate.set(Calendar.MINUTE,00);
+//        createDate.set(Calendar.SECOND,00);
+//        Date date = new Date(createDate.getTime().getTime());
+//        vo.getSearch().setStaticTimeEnd(date);
+//        //拼装开始时间
+//        createDate.setTime(vo.getSearch().getStaticTime());
+//        createDate.set(Calendar.HOUR_OF_DAY,00);
+//        createDate.set(Calendar.MINUTE,00);
+//        createDate.set(Calendar.SECOND,00);
+//        date = new Date(createDate.getTime().getTime());
+//        vo.getSearch().setStaticTime(date);
 
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryDataByDays(vo);
         return JsonTool.toJson(vo.getEntities());
@@ -156,12 +156,12 @@ public class SiteDailyController {
             profileVo.setCompareEffcTransaction(DataTransTool.getPercentage(lastProfile.getCountEffcTransaction(), fristProfile.getCountEffcTransaction()));
             profileVo.setCompareOnline(DataTransTool.getPercentage(lastProfile.getCountOnline(), fristProfile.getCountOnline()));
             profileVo.setCompareRealtimeProfitLoss(DataTransTool.getPercentage(lastProfile.getRealtimeProfitLoss(), fristProfile.getRealtimeProfitLoss()));
-            realtimeProfileListVo.setResult(profiles);
             model.addAttribute("Vo", profileVo);
             model.addAttribute("realtimeData",lastProfile);
         }
         if(CollectionTool.isNotEmpty(profiles)){
             model.addAttribute("profilesJson", JsonTool.toJson(profiles));
+            realtimeProfileListVo.setResult(profiles);
         }
 
         if (CollectionTool.isNotEmpty(historyReportForm)) {

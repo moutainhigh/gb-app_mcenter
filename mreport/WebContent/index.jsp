@@ -13,7 +13,7 @@
     </script>
     <%@ include file="/include/include.js.jsp" %>
     <script type="text/javascript">
-        curl(['site/ReportTopPage', 'site/Index'], function (TopPage, Index) {
+        curl(['site/ReportTopPage', 'site/Index','site/bootstrap-datetimepicker.min'], function (TopPage, Index,BootstrapDdatetimepicker) {
             topPage = new TopPage();
             index = new Index();
         });
