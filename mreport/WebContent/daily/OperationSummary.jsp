@@ -28,6 +28,7 @@
     </div>
 </div>
 
+<%--图表展示--%>
 <div class="gaikuang-page" id="operationChart">
     <div class="row dataBox1">
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
@@ -213,6 +214,19 @@
         <!--动态生成数据表格-->
     </table>
     <div class="page">
+        <div class="pageNum"><span class="txt">每页显示</span>
+            <div class="chooseNum _chooseNum">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
+                    15条
+                </button>
+                <div class="dropdown-menu show" aria-labelledby="dropdownMenuButton" id="choseNum">
+                    <a class="dropdown-item" href="##">10条</a>
+                    <a class="dropdown-item" href="##">15条</a>
+                    <a class="dropdown-item" href="##">20条</a>
+                </div>
+            </div>
+            <span class="allCot"></span>
+        </div>
         <ul class="pagination float-right" id="playerListPagination">
             <!--动态生成分页器-->
         </ul>
@@ -224,7 +238,20 @@
     <table class="reportTab table-hover" id="depositWithdrawResult">
         <!--动态生成数据表格-->
     </table>
-    <div class="page">
+    <div class="page" id="depositPagination">
+        <div class="pageNum"><span class="txt">每页显示</span>
+            <div class="chooseNum _chooseNum">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
+                    15条
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="choseNum">
+                    <a class="dropdown-item" href="##">10条</a>
+                    <a class="dropdown-item" href="##">15条</a>
+                    <a class="dropdown-item" href="##">20条</a>
+                </div>
+            </div>
+            <span class="allCot"></span>
+        </div>
         <ul class="pagination float-right" id="depositWithdrawPagination">
             <!--动态生成分页器-->
         </ul>
