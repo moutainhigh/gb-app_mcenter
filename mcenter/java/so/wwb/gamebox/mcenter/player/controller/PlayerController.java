@@ -2704,9 +2704,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             AuditLogController.addLog(request, "player.realname.success", addLogVo);
         }
         map.put("state", flag);
-        if (flag) {
-            SessionManagerCommon.resetUserSession(userPlayerVo.getResult().getId());
-        }
         return map;
     }
 
