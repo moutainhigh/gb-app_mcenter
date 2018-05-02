@@ -54,6 +54,13 @@ public class OperationSummaryService extends BaseService<OperationSummaryMapper,
     }
 
     @Override
+    public OperationSummaryVo searchOperationSummaryByDays(OperationSummaryVo condition) {
+        condition.setEntities(summaryMapper.searchOperationSummaryByDays(condition));
+        condition.setCount(summaryMapper.countOperationSummaryByDays(condition));
+        return condition;
+    }
+
+    @Override
     public OperationSummaryVo getOperationSummaryDataByDays(OperationSummaryVo condition) {
         List<OperationSummary> list = summaryMapper.getOperationSummaryByDays(condition);
         condition.getEntities().addAll(list);
