@@ -20,7 +20,7 @@ public class HallActivityDepositSendContentStepForm implements IForm {
     private String activityMessage_endTime;
     private String activityMessage_activityClassifyKey;
     private String[] activityMessageI18ns$$_activityName;
-    private String activityMessageI18ns$$_activityDescription;
+    private String[] activityMessageI18ns$$_activityDescription;
     private String activityMessageI18ns$$_activityCover;
 //    private String activityMessageI18ns$$_activityOverview;
     private String activityRule_rank;
@@ -52,15 +52,15 @@ public class HallActivityDepositSendContentStepForm implements IForm {
     }
 
     @NotBlank(message = "operation_auto.活动说明不能为空")
-//    @Length(max = 2000)
     @Comment("活动说明")
-    public String getActivityMessageI18ns$$_activityDescription() {
+    public String[] getActivityMessageI18ns$$_activityDescription() {
         return activityMessageI18ns$$_activityDescription;
     }
 
-    public void setActivityMessageI18ns$$_activityDescription(String activityMessageI18ns$$_activityDescription) {
+    public void setActivityMessageI18ns$$_activityDescription(String[] activityMessageI18ns$$_activityDescription) {
         this.activityMessageI18ns$$_activityDescription = activityMessageI18ns$$_activityDescription;
     }
+
     @NotBlank(message = "operation_auto.活动名称不能为空")
     @Length(max = 50)
     @Comment("活动名称")

@@ -42,11 +42,11 @@
             <c:if test="${activityType.result.code eq 'effective_transaction' || activityType.result.code eq 'profit_loss'}">
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                         <span class="input-group pull-left line-hi25 m-r">
-                            <gb:select name="activityRule.claimPeriod" list="<%=DictTool.get(DictEnum.CLAIM_PERIOD)%>" prompt="${views.common['pleaseSelect']}" value="${activityRule.claimPeriod}"/>
+                            <gb:select name="activityRule.claimPeriod" list="<%=DictTool.get(DictEnum.CLAIM_PERIOD)%>" prompt="${views.common['pleaseSelect']}" value="${activityRule.claimPeriod}" callback="changeKey"/>
                         </span>
-                        <span class="m-l co-grayc2">${views.operation['Activity.step.message4']}</span>
+                        <span class="m-l co-grayc2 claimPeriodDetail">${views.operation['Activity.step.message4']}</span>
 
                     </div>
                 </div>
@@ -54,11 +54,11 @@
             <c:if test="${activityType.result.code eq 'relief_fund'}">
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                         <span class="input-group pull-left line-hi25 m-r">
                             <gb:select name="activityRule.claimPeriod" list="{'NaturalDay':'一日'}" prompt="" value="NaturalDay"/>
                         </span>
-                        <span class="m-l co-grayc2">${views.operation['Activity.step.message5']}</span>
+                        <span class="m-l co-grayc2 claimPeriodDetail">${views.operation['Activity.step.message5']}</span>
 
                     </div>
                 </div>
@@ -122,7 +122,16 @@
                             class="fa fa-question-circle"></i></span> ${views.operation['领取方式']}：</label>
 
                     <div class="col-sm-3 input-group">
-                        <gb:select name="activityRule.isAudit" value="${activityRule.isAudit==false || empty activityRule.isAudit ?false:true}" list="{'false':'${views.operation['前端申领（免审）']}','true':'${views.operation['前端申领（审核）']}'}" prompt="${views.common['pleaseSelect']}"/>
+                        <c:choose>
+                            <c:when test="${activityType.result.code eq 'effective_transaction' || activityType.result.code eq 'profit_loss'}">
+                                <gb:select name="activityRule.isAudit" value="${activityRule.isAudit==false || empty activityRule.isAudit ?false:true}" list="{'false':'${views.operation['报名申请（免审）']}','true':'${views.operation['报名申请（审核）']}'}" prompt=""/>
+                            </c:when>
+                            <c:otherwise>
+                                <gb:select name="activityRule.isAudit" value="${activityRule.isAudit==false || empty activityRule.isAudit ?false:true}" list="{'false':'${views.operation['前端申领（免审）']}','true':'${views.operation['前端申领（审核）']}'}" prompt=""/>
+                            </c:otherwise>
+                        </c:choose>
+
+
                     </div>
                 </div>
             </c:if>

@@ -80,7 +80,7 @@ public class SiteDailyController {
      */
     @RequestMapping("/operationSummaryDataOfChoiceDays")
     @ResponseBody
-    public String operationSummaryDataOfChoiceDays(OperationSummaryVo vo , Model model) {
+    public String operationSummaryDataOfChoiceDays(OperationSummaryVo vo) {
         //拼装结束时间
 //        Calendar createDate = Calendar.getInstance();
 //        createDate.setTime(vo.getSearch().getStaticTimeEnd());
@@ -99,6 +99,16 @@ public class SiteDailyController {
 
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryDataByDays(vo);
         return JsonTool.toJson(vo.getEntities());
+    }
+
+    /**
+     * 运营统计数据分页查询
+     * @return
+     */
+    @RequestMapping("/searchOperationSummaryByDays")
+    @ResponseBody
+    public OperationSummaryVo searchOperationSummaryByDays(OperationSummaryVo vo) {
+        return ServiceSiteTool.operationSummaryService().searchOperationSummaryByDays(vo);
     }
 
     /**
