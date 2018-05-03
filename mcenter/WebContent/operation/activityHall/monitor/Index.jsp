@@ -1,4 +1,5 @@
-<%--@elvariable id="command" type="so.wwb.gamebox.model.master.operation.vo.VActivityMessageListListVo"--%>
+<%@ page import="org.soul.commons.lang.DateQuickPickerTool" %>
+<%@ page import="org.soul.commons.lang.DateTool" %><%--@elvariable id="command" type="so.wwb.gamebox.model.master.operation.vo.VActivityMessageListListVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <!--//region your codes 1-->
@@ -23,7 +24,7 @@
                 <div class="clearfix filter-wraper border-b-1">
 
                     <div class="clearfix filter-wraper border-b-1">
-                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                        <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group">
                                 <span class="input-group-addon bg-gray">${views.operation['优惠订单号']}</span>
                                 <input type="text" name="search.transactionNo" class="form-control"
@@ -34,7 +35,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                        <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group">
                                 <span class="input-group-addon bg-gray">${views.fund['playerDetect.view.playerAccount']}</span>
                                 <input type="text" name="search.playerName" class="form-control"
@@ -50,13 +51,13 @@
                             <div class="input-group">
                                 <span class="input-group-addon bg-gray">${views.column['VActivityPlayerApply.applyTime']}</span>
                                 <gb:dateRange format="${DateFormat.DAY_SECOND}" useRange="true" style="width:42%;"
-                                              useToday="true" btnClass="search"
-                                              startDate="${command.search.startApplyTime}"
-                                              endDate="${command.search.endApplyTime}"
+                                              useToday="true" btnClass="search" minDate="<%=DateTool.addDays(DateQuickPickerTool.getInstance().getToday(),-60)%>"
+                                              startDate="<%=DateTool.addDays(DateQuickPickerTool.getInstance().getToday(),-60)%>"
+                                              endDate="<%=DateQuickPickerTool.getInstance().getNow()%>"
                                               startName="search.startApplyTime" endName="search.endApplyTime"/>
                             </div>
                         </div>
-                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                        <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group">
                                 <span class="input-group-addon bg-gray">${views.operation['申请IP']}</span>
                                 <input type="text" name="search.ipApplyStr" class="form-control"
@@ -67,7 +68,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
+                        <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
                             <div class="input-group">
                                 <span class="input-group-addon bg-gray">${views.column['VActivityMessage.activityName']}</span>
                                 <input type="text" name="search.activityName" class="form-control"
