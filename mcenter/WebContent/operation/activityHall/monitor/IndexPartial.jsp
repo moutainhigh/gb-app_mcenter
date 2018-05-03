@@ -80,6 +80,9 @@
                     <c:if test="${p.checkState eq '3'}">
                         <span class="co-red3">${views.operation['已拒绝']}</span>
                     </c:if>
+                    <c:if test="${p.checkState eq '4'}">
+                        <span class="co-red3">${views.operation['未达到条件']}</span>
+                    </c:if>
 
                 </td>
                 <td>
