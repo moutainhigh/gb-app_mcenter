@@ -85,8 +85,8 @@
         <ul>
           <li class="time"><span></span><p>GMT+8 2018-2-20 15:30:30</p></li>
           <li class="webName"><span></span>
-            <div class="chooseSite _chooseSite">
-              <a class="btn dropdown-toggle"  id="dropdownSite" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">站点A</a>
+            <div class="chooseSite _chooseSite ">
+              <a class="btn dropdown-toggle" id="dropdownSite" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="0">站点A</a>
               <div class="dropdown-menu" aria-labelledby="dropdownSite">
                 <a class="dropdown-item" href="#">站点A</a>
                 <a class="dropdown-item" href="#">站点B</a>
@@ -96,7 +96,7 @@
           </li>
           <li class="username"><span></span>
             <div class="chooseAdmin">
-              <a class="btn dropdown-toggle"  id="dropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+              <a class="btn dropdown-toggle" id="dropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="0">Admin</a>
               <div class="dropdown-menu" aria-labelledby="dropdownAdmin">
                   <a class="dropdown-item" href="#">退出</a>
                   <a class="dropdown-item" href="#">重新登录</a>

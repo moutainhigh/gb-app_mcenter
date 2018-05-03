@@ -1,10 +1,12 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.support._Module;
+import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.support.BaseWebConf;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +65,14 @@ public class PreferenceController {
         model.addAttribute("toneAudit",ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_AUDIT));
         model.addAttribute("toneWarm",ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_WARM));
         model.addAttribute("toneNotice", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_NOTICE));
+        //自定义提示音
+        model.addAttribute("toneDepositDefined",ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DEPOSIT_DEFINED));
+        model.addAttribute("tonePayDefined",ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_ONLINEPAY_DEFINED));
+        model.addAttribute("toneDrawDefined",ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DRAW_DEFINED));
+        model.addAttribute("toneAuditDefined",ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_AUDIT_DEFINED));
+        model.addAttribute("toneWarmDefined",ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_WARM_DEFINED));
+        model.addAttribute("toneNoticeDefined", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_NOTICE_DEFINED));
+
         model.addAttribute("webtype", "2");
         findEnableImportPlayerParam(model);
         return "/setting/preferences/Index";
@@ -137,26 +147,32 @@ public class PreferenceController {
             case "deposit":
                 model.addAttribute("sysTones",ParamTool.getSysParams(BossParamEnum.SYS_TONE_DEPOSIT));
                 model.addAttribute("tone", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DEPOSIT));
+                model.addAttribute("toneDefined", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DEPOSIT_DEFINED));
                 break;
             case "onlinePay":
                 model.addAttribute("sysTones", ParamTool.getSysParams(BossParamEnum.SYS_TONE_ONLINEPAY));
                 model.addAttribute("tone", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_ONLINEPAY));
+                model.addAttribute("toneDefined", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_ONLINEPAY_DEFINED));
                 break;
             case "draw":
                 model.addAttribute("sysTones", ParamTool.getSysParams(BossParamEnum.SYS_TONE_DRAW));
                 model.addAttribute("tone", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DRAW));
+                model.addAttribute("toneDefined", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DRAW_DEFINED));
                 break;
             case "audit":
                 model.addAttribute("sysTones", ParamTool.getSysParams(BossParamEnum.SYS_TONE_AUDIT));
                 model.addAttribute("tone", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_AUDIT));
+                model.addAttribute("toneDefined", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_AUDIT_DEFINED));
                 break;
             case "warm":
                 model.addAttribute("sysTones", ParamTool.getSysParams(BossParamEnum.SYS_TONE_WARM));
                 model.addAttribute("tone", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_WARM));
+                model.addAttribute("toneDefined", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_WARM_DEFINED));
                 break;
             case "notice":
                 model.addAttribute("sysTones", ParamTool.getSysParams(BossParamEnum.SYS_TONE_NOTICE));
                 model.addAttribute("tone", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_NOTICE));
+                model.addAttribute("toneDefined", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_NOTICE_DEFINED));
                 break;
         }
         return "/setting/preferences/EditTone";
@@ -191,6 +207,110 @@ public class PreferenceController {
         ParamTool.refresh( SiteParamEnum.SETTING_PRIVILAGE_PASS_TIME);
         ParamTool.refresh( SiteParamEnum.WARMING_TONE_DEPOSIT);
         //ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_OPENPLAYER_STATISTICS);
+    }
+
+    /**
+     * 上传用户自定义提示音
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/uploadUserDefinedTone")
+    public String uploadUserDefinedTone(SysParamVo sysParamVo,Model model) {
+        String paramCode = sysParamVo.getResult().getParamCode();
+        if (StringTool.isNotBlank(paramCode)){
+            switch (paramCode) {
+                case "deposit_defined":
+                    model.addAttribute("toneDefined", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DEPOSIT_DEFINED));
+                    model.addAttribute("tone", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DEPOSIT));
+                    break;
+                case "onlinePay_defined":
+                    model.addAttribute("toneDefined", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_ONLINEPAY_DEFINED));
+                    model.addAttribute("tone", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_ONLINEPAY));
+                    break;
+                case "draw_defined":
+                    model.addAttribute("toneDefined", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DRAW_DEFINED));
+                    model.addAttribute("tone", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DRAW));
+
+                    break;
+                case "audit_defined":
+                    model.addAttribute("toneDefined", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_AUDIT_DEFINED));
+                    model.addAttribute("tone", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_AUDIT));
+
+                    break;
+                case "warm_defined":
+                    model.addAttribute("toneDefined", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_WARM_DEFINED));
+                    model.addAttribute("tone", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_WARM));
+
+                    break;
+                case "notice_defined":
+                    model.addAttribute("toneDefined", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_NOTICE_DEFINED));
+                    model.addAttribute("tone", ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_NOTICE));
+
+                    break;
+            }
+        }
+        return "/setting/preferences/UploadUserDefinedTone";
+    }
+
+    /**
+     * 保存上传自定义提示音
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/saveUserDefinedTone")
+    @ResponseBody
+    public SysParamVo saveUserDefinedTone(SysParamVo sysParamVo) {
+        Integer id = sysParamVo.getResult().getId();
+        if (id==null){
+            LOG.info("保存上传自定义提示音，站点ID{0}，更新参数id为空",SessionManager.getSiteId());
+            sysParamVo.setSuccess(false);
+            return sysParamVo;
+        }
+        String paramCode = sysParamVo.getResult().getParamCode();
+        if (StringTool.isBlank(paramCode)){
+            LOG.info("保存上传自定义提示音，站点ID{0}，paramCode为空",SessionManager.getSiteId());
+            sysParamVo.setSuccess(false);
+            return sysParamVo;
+        }
+        String paramValue = sysParamVo.getResult().getParamValue();
+        if (StringTool.isBlank(paramValue)){
+            LOG.info("保存上传自定义提示音，站点ID{0}，更新参数值为空",SessionManager.getSiteId());
+            sysParamVo.setSuccess(false);
+            return sysParamVo;
+        }
+        paramValue = "files/"+paramValue;//拼接路径
+        sysParamVo.getResult().setParamValue(paramValue);
+        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+        sysParamVo = ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
+        if (sysParamVo.isSuccess()) {
+            if (StringTool.isNotBlank(paramCode)){
+                switch (paramCode) {
+                    case "deposit_defined":
+                        ParamTool.refresh(SiteParamEnum.WARMING_TONE_DEPOSIT_DEFINED);
+                        break;
+                    case "onlinePay_defined":
+                        ParamTool.refresh(SiteParamEnum.WARMING_TONE_ONLINEPAY_DEFINED);
+                        break;
+                    case "draw_defined":
+                        ParamTool.refresh(SiteParamEnum.WARMING_TONE_DRAW_DEFINED);
+                        break;
+                    case "audit_defined":
+                        ParamTool.refresh(SiteParamEnum.WARMING_TONE_AUDIT_DEFINED);
+                        break;
+                    case "warm_defined":
+                        ParamTool.refresh(SiteParamEnum.WARMING_TONE_WARM_DEFINED);
+                        break;
+                    case "notice_defined":
+                        ParamTool.refresh(SiteParamEnum.WARMING_TONE_NOTICE_DEFINED);
+                        break;
+                }
+            }
+            return sysParamVo;
+        }else {
+            LOG.info("保存上传自定义提示音，站点ID{0}，更新参数失败",SessionManager.getSiteId());
+            sysParamVo.setSuccess(false);
+        }
+        return sysParamVo;
     }
 
 }

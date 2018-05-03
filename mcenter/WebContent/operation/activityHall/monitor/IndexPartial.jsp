@@ -47,12 +47,12 @@
                 </td>
                 <td>
                     <a href="/player/playerView.html?search.id=${p.playerId}" nav-Target="mainFrame">${p.playerName}</a>
-                    <%--<c:if test="${p.riskMarker == true}">--%>
-                                <%--<span data-content="${views.player_auto['危险层级']}"--%>
-                                      <%--data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"--%>
-                                      <%--role="button" class="ico-lock co-red3" tabindex="0"--%>
-                                      <%--data-original-title="" title=""><i class="fa fa-warning"></i></span>--%>
-                    <%--</c:if>--%>
+                    <c:if test="${p.riskMarker == true}">
+                                <span data-content="${views.player_auto['危险层级']}"
+                                      data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                                      role="button" class="ico-lock co-red3" tabindex="0"
+                                      data-original-title="" title=""><i class="fa fa-warning"></i></span>
+                    </c:if>
                     ${gbFn:riskImgByName(p.playerName)}
                 </td>
                 <td>${p.activityName}</td>
@@ -80,14 +80,23 @@
                     <c:if test="${p.checkState eq '3'}">
                         <span class="co-red3">${views.operation['已拒绝']}</span>
                     </c:if>
+                    <c:if test="${p.checkState eq '4'}">
+                        <span class="co-red3">${views.operation['未达到条件']}</span>
+                    </c:if>
 
                 </td>
                 <td>
-                    <c:if test="${p.checkState eq '1'}">
+                    <c:if test="${p.checkState eq '1' || p.checkState eq '4'}">
                         --
                     </c:if>
-                    <c:if test="${p.checkState ne '1'}">
-                        ${p.username}
+                    <c:if test="${p.checkState eq '2' || p.checkState eq '3'}">
+                        <c:if test="${empty p.checkUserId}">
+                            ${views.operation['系统自动']}
+                        </c:if>
+                        <c:if test="${not empty p.checkUserId}">
+                            ${p.username}
+
+                        </c:if>
                     </c:if>
                 </td>
                 <td>

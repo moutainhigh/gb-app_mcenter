@@ -245,27 +245,17 @@
                                 <label class="ft-bold pull-left m-r"
                                        style='float:left'> ${views.setting_auto['APP自定义下载URL']}：</label>
                                 <input type="checkbox" name="downloadUrl" data-size="mini"
-                                    ${fn:length(iosDownloadAddress) > 0 || fn:length(androidDownloadAddress) > 0 ?'checked':''} />
+                                    ${fn:length(downloadAddress) > 0 ?'checked':''} />
                                 <label>${views.setting_auto['开启后，APP默认下载域名将会失效']}</label>
                             </div>
                             <br/>
                             <div class="clearfix m-b downloadUrl"
-                                 style="${fn:length(iosDownloadAddress) >0 ? '':'display:none;'}">
-                                <label class="ft-bold pull-left m-r"
-                                       style='float:left'> ${views.setting_auto['IOS']}：</label>
-                                <textarea class="form-control m-b" name="iosDownloadAddress" style="min-height:30px;"
-                                          placeholder="${views.setting_auto['请输入IOS地址']}">${iosDownloadAddress}</textarea>
+                                 style="${fn:length(downloadAddress) >0 ? '':'display:none;'}">
+                                <textarea class="form-control m-b" name="downloadAddress" style="min-height:30px;"
+                                          placeholder="${views.setting_auto['请输入URL地址']}">${downloadAddress}</textarea>
                             </div>
                             <br/>
-                            <div class="clearfix m-b downloadUrl"
-                                 style="${fn:length(androidDownloadAddress) >0 ? '':'display:none;'}">
-                                <label class="ft-bold pull-left m-r"
-                                       style='float:left'> ${views.setting_auto['Android']}：</label>
-                                <textarea class="form-control m-b" name="androidDownloadAddress" style="min-height:30px;"
-                                          placeholder="${views.setting_auto['请输入Android地址']}">${androidDownloadAddress}</textarea>
-                            </div>
-                            <br/>
-                            <div id="appDomain" style="${fn:length(iosDownloadAddress) >0 || fn:length(androidDownloadAddress) >0  ? 'display:none;':''}">
+                            <div id="appDomain" style="${fn:length(downloadAddress) >0 ? 'display:none;':''}">
                                 <div class="clearfix m-b">
                                     <div class="ft-bold pull-left line-hi34">
                                             ${views.setting_auto['APP默认下载域名']}
@@ -309,7 +299,7 @@
                                             </c:forEach>
                                         </c:if>
                                     </table>
-                                    <table style="width: 791px">
+                                    <div style="margin-right:33px" class="modal-footer">
                                         <tr>
                                             <td style="width: 100%;padding-right: 47px;padding-top: 10px;padding-bottom: 10px">
                                                 <soul:button target="copyAppDomain" text="" opType="function"
@@ -318,7 +308,7 @@
                                                 </soul:button>
                                             </td>
                                         </tr>
-                                    </table>
+                                    </div>
                                 </div>
                                 <br/>
                             </div>
@@ -369,6 +359,21 @@
                                              target="${root}/siteCustomerService/accessDomain.html"
                                              post="getAccessDomainFormData" callback="saveCallbak"/>
                             </div>
+                        </div>
+                    </div>
+                    <div id="openActivityHall_div" class="col-lg-6 site-switch">
+                        <h3>${views.setting_auto['是否打开活动大厅']}</h3>
+                        <div class="content clearfix" style="padding-top: 10px">
+                            <div class="clearfix m-b">
+
+                                <div style="padding-top: 10px">
+                                    <label class="ft-bold pull-left m-r"
+                                           style='float:left;margin-top:4px'>&nbsp;&nbsp; ${views.setting_auto['是否打开活动大厅']}：</label>
+                                    <input type="checkbox" name="activityHallSwitch" data-size="mini" ${activityHallSwitch.paramValue =="true" ?'checked':''}/>
+                                        ${views.setting_auto['开启后，打开活动大厅']}
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <shiro:hasPermission name="system:electricpin_switch ">

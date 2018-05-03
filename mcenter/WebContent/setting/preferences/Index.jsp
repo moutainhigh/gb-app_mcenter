@@ -68,12 +68,18 @@
                                                     <td>${dicts[item.value.module][item.value.dictType][item.value.dictCode]}</td>
                                                     <c:choose>
                                                         <c:when test="${item.value['dictCode'] eq toneDeposit.paramCode}">
-                                                            <c:set var="tonePath"
-                                                                   value="${!(empty toneDeposit.paramValue)?toneDeposit.paramValue:toneDeposit.defaultValue}"/>
+                                                            <c:set var="tonePath" value="${!(empty toneDeposit.paramValue)?toneDeposit.paramValue:toneDeposit.defaultValue}"/>
+                                                            <c:set var="tonePathDefined" value="${toneDepositDefined.paramValue}"/>
                                                             <td>
                                                                 <div class="pull-left">
-                                                                    <audio src="${resRoot}/${tonePath}"
-                                                                           preload="auto"></audio>
+                                                                    <c:choose>
+                                                                        <c:when test="${tonePath eq tonePathDefined}">
+                                                                            <audio src="${imgRoot}/${tonePath}" preload="auto"></audio>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <audio src="${resRoot}/${tonePath}" preload="auto"></audio>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </div>
                                                                 <soul:button
                                                                         target="${root}/setting/preference/editTone.html?paramCode=${toneDeposit.paramCode}"
@@ -81,6 +87,12 @@
                                                                         text="${fn:replace(views.setting_auto['修改提示音'],'[0]',dicts[item.value.module][item.value.dictType][item.value.dictCode])}"
                                                                         tag="a" opType="dialog"
                                                                         callback="reload">${views.setting['page.preference.replace']}</soul:button>
+                                                                <soul:button
+                                                                        target="${root}/setting/preference/uploadUserDefinedTone.html?result.paramCode=deposit_defined"
+                                                                        cssClass="m-l-sm line-hi30"
+                                                                        text=""
+                                                                        tag="a" opType="dialog"
+                                                                        callback="reload">上传</soul:button>
                                                             </td>
                                                             <td><input type="checkbox" name="active"
                                                                        objId="${toneDeposit.id}" hidId="toneDeposit"
@@ -94,12 +106,18 @@
                                                                    value="${toneDeposit.active?'true':'false'}">
                                                         </c:when>
                                                         <c:when test="${item.value['dictCode'] eq tonePay.paramCode}">
-                                                            <c:set var="tonePath"
-                                                                   value="${!(empty tonePay.paramValue)?tonePay.paramValue:tonePay.defaultValue}"/>
+                                                            <c:set var="tonePath" value="${!(empty tonePay.paramValue)?tonePay.paramValue:tonePay.defaultValue}"/>
+                                                            <c:set var="tonePathDefined" value="${tonePayDefined.paramValue}"/>
                                                             <td>
                                                                 <div class="pull-left">
-                                                                    <audio src="${resRoot}/${tonePath}"
-                                                                           preload="auto"></audio>
+                                                                    <c:choose>
+                                                                        <c:when test="${tonePath eq tonePathDefined}">
+                                                                            <audio src="${imgRoot}/${tonePath}" preload="auto"></audio>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <audio src="${resRoot}/${tonePath}" preload="auto"></audio>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </div>
                                                                 <soul:button
                                                                         target="${root}/setting/preference/editTone.html?paramCode=${tonePay.paramCode}"
@@ -107,6 +125,12 @@
                                                                         text="${fn:replace(views.setting_auto['修改提示音'],'[0]',dicts[item.value.module][item.value.dictType][item.value.dictCode])}"
                                                                         tag="a" opType="dialog"
                                                                         callback="reload">${views.setting['page.preference.replace']}</soul:button>
+                                                                <soul:button
+                                                                        target="${root}/setting/preference/uploadUserDefinedTone.html?result.paramCode=onlinePay_defined"
+                                                                        cssClass="m-l-sm line-hi30"
+                                                                        text=""
+                                                                        tag="a" opType="dialog"
+                                                                        callback="reload">上传</soul:button>
                                                             </td>
                                                             <td><input type="checkbox" name="active"
                                                                        objId="${tonePay.id}" hidId="tonePay"
@@ -120,12 +144,18 @@
                                                                    value="${tonePay.active?'true':'false'}">
                                                         </c:when>
                                                         <c:when test="${item.value['dictCode'] eq toneDraw.paramCode}">
-                                                            <c:set var="tonePath"
-                                                                   value="${!(empty toneDraw.paramValue)?toneDraw.paramValue:toneDraw.defaultValue}"/>
+                                                            <c:set var="tonePath" value="${!(empty toneDraw.paramValue)?toneDraw.paramValue:toneDraw.defaultValue}"/>
+                                                            <c:set var="tonePathDefined" value="${toneDrawDefined.paramValue}"/>
                                                             <td>
                                                                 <div class="pull-left">
-                                                                    <audio src="${resRoot}/${tonePath}"
-                                                                           preload="auto"></audio>
+                                                                    <c:choose>
+                                                                        <c:when test="${tonePath eq tonePathDefined}">
+                                                                            <audio src="${imgRoot}/${tonePath}" preload="auto"></audio>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <audio src="${resRoot}/${tonePath}" preload="auto"></audio>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </div>
                                                                 <soul:button
                                                                         target="${root}/setting/preference/editTone.html?paramCode=${toneDraw.paramCode}"
@@ -133,6 +163,12 @@
                                                                         text="${fn:replace(views.setting_auto['修改提示音'],'[0]',dicts[item.value.module][item.value.dictType][item.value.dictCode])}"
                                                                         tag="a" opType="dialog"
                                                                         callback="reload">${views.setting['page.preference.replace']}</soul:button>
+                                                                <soul:button
+                                                                        target="${root}/setting/preference/uploadUserDefinedTone.html?result.paramCode=draw_defined"
+                                                                        cssClass="m-l-sm line-hi30"
+                                                                        text=""
+                                                                        tag="a" opType="dialog"
+                                                                        callback="reload">上传</soul:button>
                                                             </td>
                                                             <td><input type="checkbox" name="active"
                                                                        objId="${toneDraw.id}" hidId="toneDraw"
@@ -146,12 +182,18 @@
                                                                    value="${toneDraw.active?'true':'false'}">
                                                         </c:when>
                                                         <c:when test="${item.value['dictCode'] eq toneAudit.paramCode}">
-                                                            <c:set var="tonePath"
-                                                                   value="${!(empty toneAudit.paramValue)?toneAudit.paramValue:toneAudit.defaultValue}"/>
+                                                            <c:set var="tonePath" value="${!(empty toneAudit.paramValue)?toneAudit.paramValue:toneAudit.defaultValue}"/>
+                                                            <c:set var="tonePathDefined" value="${toneAuditDefined.paramValue}"/>
                                                             <td>
                                                                 <div class="pull-left">
-                                                                    <audio src="${resRoot}/${tonePath}"
-                                                                           preload="auto"></audio>
+                                                                    <c:choose>
+                                                                        <c:when test="${tonePath eq tonePathDefined}">
+                                                                            <audio src="${imgRoot}/${tonePath}" preload="auto"></audio>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <audio src="${resRoot}/${tonePath}" preload="auto"></audio>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </div>
                                                                 <soul:button
                                                                         target="${root}/setting/preference/editTone.html?paramCode=${toneAudit.paramCode}"
@@ -159,6 +201,12 @@
                                                                         text="${fn:replace(views.setting_auto['修改提示音'],'[0]',dicts[item.value.module][item.value.dictType][item.value.dictCode])}"
                                                                         tag="a" opType="dialog"
                                                                         callback="reload">${views.setting['page.preference.replace']}</soul:button>
+                                                                <soul:button
+                                                                        target="${root}/setting/preference/uploadUserDefinedTone.html?result.paramCode=audit_defined"
+                                                                        cssClass="m-l-sm line-hi30"
+                                                                        text=""
+                                                                        tag="a" opType="dialog"
+                                                                        callback="reload">上传</soul:button>
                                                             </td>
                                                             <td><input type="checkbox" name="active"
                                                                        objId="${toneAudit.id}" hidId="toneAudit"
@@ -172,12 +220,18 @@
                                                                    value="${toneAudit.active?'true':'false'}">
                                                         </c:when>
                                                         <c:when test="${item.value['dictCode'] eq toneWarm.paramCode}">
-                                                            <c:set var="tonePath"
-                                                                   value="${!(empty toneWarm.paramValue)?toneWarm.paramValue:toneWarm.defaultValue}"/>
+                                                            <c:set var="tonePath" value="${!(empty toneWarm.paramValue)?toneWarm.paramValue:toneWarm.defaultValue}"/>
+                                                            <c:set var="tonePathDefined" value="${toneWarmDefined.paramValue}"/>
                                                             <td>
                                                                 <div class="pull-left">
-                                                                    <audio src="${resRoot}/${tonePath}"
-                                                                           preload="auto"></audio>
+                                                                    <c:choose>
+                                                                        <c:when test="${tonePath eq tonePathDefined}">
+                                                                            <audio src="${imgRoot}/${tonePath}" preload="auto"></audio>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <audio src="${resRoot}/${tonePath}" preload="auto"></audio>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </div>
                                                                 <soul:button
                                                                         target="${root}/setting/preference/editTone.html?paramCode=${toneWarm.paramCode}"
@@ -185,6 +239,12 @@
                                                                         text="${fn:replace(views.setting_auto['修改提示音'],'[0]',dicts[item.value.module][item.value.dictType][item.value.dictCode])}"
                                                                         tag="a" opType="dialog"
                                                                         callback="reload">${views.setting['page.preference.replace']}</soul:button>
+                                                                <soul:button
+                                                                        target="${root}/setting/preference/uploadUserDefinedTone.html?result.paramCode=warm_defined"
+                                                                        cssClass="m-l-sm line-hi30"
+                                                                        text=""
+                                                                        tag="a" opType="dialog"
+                                                                        callback="reload">上传</soul:button>
                                                             </td>
                                                             <td><input type="checkbox" name="active"
                                                                        objId="${toneWarm.id}" hidId="toneWarm"
@@ -198,12 +258,18 @@
                                                                    value="${toneWarm.active?'true':'false'}">
                                                         </c:when>
                                                         <c:when test="${item.value['dictCode'] eq toneNotice.paramCode}">
-                                                            <c:set var="tonePath"
-                                                                   value="${!(empty toneNotice.paramValue)?toneNotice.paramValue:toneNotice.defaultValue}"/>
+                                                            <c:set var="tonePath" value="${!(empty toneNotice.paramValue)?toneNotice.paramValue:toneNotice.defaultValue}"/>
+                                                            <c:set var="tonePathDefined" value="${toneNoticeDefined.paramValue}"/>
                                                             <td>
                                                                 <div class="pull-left">
-                                                                    <audio src="${resRoot}/${tonePath}"
-                                                                           preload="auto"></audio>
+                                                                    <c:choose>
+                                                                        <c:when test="${tonePath eq tonePathDefined}">
+                                                                            <audio src="${imgRoot}/${tonePath}" preload="auto"></audio>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <audio src="${resRoot}/${tonePath}" preload="auto"></audio>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </div>
                                                                 <soul:button
                                                                         target="${root}/setting/preference/editTone.html?paramCode=${toneNotice.paramCode}"
@@ -211,6 +277,12 @@
                                                                         text="${fn:replace(views.setting_auto['修改提示音'],'[0]',dicts[item.value.module][item.value.dictType][item.value.dictCode])}"
                                                                         tag="a" opType="dialog"
                                                                         callback="reload">${views.setting['page.preference.replace']}</soul:button>
+                                                                <soul:button
+                                                                        target="${root}/setting/preference/uploadUserDefinedTone.html?result.paramCode=notice_defined"
+                                                                        cssClass="m-l-sm line-hi30"
+                                                                        text=""
+                                                                        tag="a" opType="dialog"
+                                                                        callback="reload">上传</soul:button>
                                                             </td>
                                                             <td><input type="checkbox" name="active"
                                                                        objId="${toneNotice.id}" hidId="toneNotice"
