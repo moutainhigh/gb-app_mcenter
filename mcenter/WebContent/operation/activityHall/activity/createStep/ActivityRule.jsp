@@ -243,7 +243,7 @@
                         <p tipsName="activityRule.depositWay-tips"></p>
                         <!--已经被使用的存款方式-->
                         <c:if test="${ activityType.result.code eq 'deposit_send'}">
-                            <div id="getRankActivityMessage">
+                            <div id="getDepositWayActivityMessage">
                                 <%@include file="rule.include/GetDepositWayActivityMessage.jsp"%>
                             </div>
                         </c:if>
