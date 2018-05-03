@@ -5,6 +5,8 @@
   Time: 下午7:18
   To change this template use File | Settings | File Templates.
 --%>
+<%--@elvariable id="apiGametypeRelation" type="so.wwb.gamebox.model.company.setting.po.ApiGametypeRelation"--%>
+<%--@elvariable id="GameTypeEnum" type="so.wwb.gamebox.model.gameapi.enums.GameTypeEnum"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/include/include.inc.jsp" %>
 <!DOCTYPE html>
@@ -14,9 +16,11 @@
     <meta name="viewport" content="width=device-width,height=device-height">
     <title>整体走势-运营日常统计</title>
     <% Date date = new Date();%>
-    <% Date lastDate = new Date(date.getTime() - (long)13*24*60*60*1000);%>
+    <% Date lastDate = new Date(date.getTime() - (long)7*24*60*60*1000);%>
+    <% Date testerDay = new Date(date.getTime() - (long)1*24*60*60*1000);%>
     <c:set var="now" value="<%=date%>"/>
     <c:set var="lastdate" value="<%=lastDate%>"/>
+    <c:set var="yesterDay" value="<%=testerDay%>"/>
 </head>
 <body>
 
@@ -80,17 +84,18 @@
         <div class="col-lg list tableList">
             <div class="cont">
                 <div class="range-box">
-                    <div class="group public-range-group" id="ymd">
-                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
-                        <button type="button" class="btn btn-default" id="months">周</button>
-                        <button type="button" class="btn btn-default" id="years">月</button>
+                    <div class="group public-range-group cycleChangeBtn activeUser" >
+                        <button type="button" class="btn btn-default btn-success" statisticsDataType="activeUser" value="D">日</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="activeUser" value="W">周</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="activeUser" value="M">月</button>
                     </div>
-                    <div class="date">
-                        <form action="" class="form-horizontal" role="form">
-                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
-                            至
-                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
-                        </form>
+                    <div class="date activeUser">
+                        <div class="input-group daterangepickers" >
+                            <gb:dateRange format="${DateFormat.DAY}" style="width:80px;" inputStyle="width:80px" useToday="true" useRange="true"
+                                          position="down" lastMonth="false" hideQuick="true" opens="true" callback="End"  id="activeUser"
+                                          startDate="${lastdate}" endDate="${yesterDay}"  maxDate="${yesterDay}"
+                                          startName="activeUser-beginTime" endName="activeUser-endTime" thisMonth="true"/>
+                        </div>
                     </div>
                 </div>
                 <h2>活跃用户</h2>
@@ -105,17 +110,18 @@
         <div class="col-lg list tableList">
             <div class="cont">
                 <div class="range-box">
-                    <div class="group public-range-group" id="ymd">
-                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
-                        <button type="button" class="btn btn-default" id="months">周</button>
-                        <button type="button" class="btn btn-default" id="years">月</button>
+                    <div class="group public-range-group cycleChangeBtn installAndUninstall" >
+                        <button type="button" class="btn btn-default btn-success" statisticsDataType="installAndUninstall" value="D">日</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="installAndUninstall" value="W">周</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="installAndUninstall" value="M">月</button>
                     </div>
-                    <div class="date">
-                        <form action="" class="form-horizontal" role="form">
-                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
-                            至
-                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
-                        </form>
+                    <div class="date installAndUninstall">
+                        <div class="input-group daterangepickers" >
+                            <gb:dateRange format="${DateFormat.DAY}" style="width:80px;" inputStyle="width:80px" useToday="true" useRange="true"
+                                          position="down" lastMonth="false" hideQuick="true" opens="true" callback="End"  id="installAndUninstall"
+                                          startDate="${lastdate}" endDate="${yesterDay}"  maxDate="${yesterDay}"
+                                          startName="installAndUninstall-beginTime" endName="installAndUninstall-endTime" thisMonth="true"/>
+                        </div>
                     </div>
                 </div>
                 <h2>安装量和卸载量 <span></span></h2>
@@ -132,17 +138,18 @@
         <div class="col-lg list tableList">
             <div class="cont">
                 <div class="range-box">
-                    <div class="group public-range-group" id="ymd">
-                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
-                        <button type="button" class="btn btn-default" id="months">周</button>
-                        <button type="button" class="btn btn-default" id="years">月</button>
+                    <div class="group public-range-group cycleChangeBtn playerTrend" >
+                        <button type="button" class="btn btn-default btn-success" statisticsDataType="playerTrend" value="D">日</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="playerTrend" value="W">周</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="playerTrend" value="M">月</button>
                     </div>
-                    <div class="date">
-                        <form action="" class="form-horizontal" role="form">
-                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
-                            至
-                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
-                        </form>
+                    <div class="date playerTrend">
+                        <div class="input-group daterangepickers" >
+                            <gb:dateRange format="${DateFormat.DAY}" style="width:80px;" inputStyle="width:80px" useToday="true" useRange="true"
+                                          position="down" lastMonth="false" hideQuick="true" opens="true" callback="End"  id="playerTrend"
+                                          startDate="${lastdate}" endDate="${yesterDay}"  maxDate="${yesterDay}"
+                                          startName="playerTrend-beginTime" endName="playerTrend-endTime" thisMonth="true"/>
+                        </div>
                     </div>
                 </div>
                 <h2>用户走势 <span></span></h2>
@@ -157,17 +164,18 @@
         <div class="col-lg list tableList">
             <div class="cont">
                 <div class="range-box">
-                    <div class="group public-range-group" id="ymd">
-                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
-                        <button type="button" class="btn btn-default" id="months">周</button>
-                        <button type="button" class="btn btn-default" id="years">月</button>
+                    <div class="group public-range-group cycleChangeBtn rakebackTrend" >
+                        <button type="button" class="btn btn-default btn-success" statisticsDataType="rakebackTrend" value="D">日</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="rakebackTrend" value="W">周</button>
+                        <button type="button" class="btn btn-default" statisticsDataType="rakebackTrend" value="M">月</button>
                     </div>
-                    <div class="date">
-                        <form action="" class="form-horizontal" role="form">
-                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
-                            至
-                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
-                        </form>
+                    <div class="date rakebackTrend">
+                        <div class="input-group daterangepickers" >
+                            <gb:dateRange format="${DateFormat.DAY}" style="width:80px;" inputStyle="width:80px" useToday="true" useRange="true"
+                                          position="down" lastMonth="false" hideQuick="true" opens="true" callback="End"  id="rakebackTrend"
+                                          startDate="${lastdate}" endDate="${yesterDay}"  maxDate="${yesterDay}"
+                                          startName="rakebackTrend-beginTime" endName="rakebackTrend-endTime" thisMonth="true"/>
+                        </div>
                     </div>
                 </div>
                 <h2>反水走势 <span></span></h2>
@@ -182,27 +190,6 @@
                 <div id="b7"></div>
             </div>
         </div>
-
-        <%-- 测试功能 勿删
-        <div class="public-btn-group _addPrimary cycleChangeBtn">
-            <button class="btn btn-primary"  statisticsDataType="rakebackTrend" value="D">日</button>
-            <button class="btn" statisticsDataType="rakebackTrend" value="W">周</button>
-            <button class="btn" statisticsDataType="rakebackTrend" value="M">月</button>
-        </div>
-
-        <div class="public-btn-group _addPrimary cycleChangeOFdaysBtn">
-            <button class="btn btn-primary"  statisticsDataType="rakebackTrend" stateTime="${soulFn:formatDateTz(lastdate, DateFormat.DAY_SECOND,timeZone)}" endTime="${soulFn:formatDateTz(now, DateFormat.DAY_SECOND,timeZone)}" value="C">
-                ${soulFn:formatDateTz(lastdate, DateFormat.DAY_SECOND,timeZone)} -
-                ${soulFn:formatDateTz(now, DateFormat.DAY_SECOND,timeZone)}
-            </button>
-        </div>
-
-        <div class="public-btn-group _addPrimary queryRakebackcashByApi">
-            <button class="btn btn-primary" stateTime="${soulFn:formatDateTz(lastdate, DateFormat.DAY_SECOND,timeZone)}" endTime="${soulFn:formatDateTz(now, DateFormat.DAY_SECOND,timeZone)}"
-                    apis="22,3,12,9,10,13,14,15,16" gameTypes='Casino,Lottery,Sportsbook'>API</button>
-        </div>
-        --%>
-    </div>
 </div>
 
 <%-- 报表展示 --%>
@@ -261,18 +248,48 @@
         </div>
     </div>
 </div>
-
 <%--历史运营统计数据--%>
 <div style="display: none;" id="operationSummaryDataOfDay">${operationSummaryData}</div>
 <div style="display: none;" id="operationSummaryDataOfWeek"></div>
 <div style="display: none;" id="operationSummaryDataOfMonth"></div>
 <%--返水金额API选择--%>
 <div style="display: none;" id="rakebackCashApis">${rakebackCashApis}</div>
-<%--自选天数查询--%>
-<div style="display: none;" id="operationSummaryDataOfChoiceDays"></div>
-<%--API筛选查询--%>
-<div style="display: none;" id="rakebackCashListByApis"></div>
+</div>
+<c:if test="${not empty rakebackCashApis && not empty gameTypes}">
+    <div id="mask-api" style="display: none; width: 100%; height: 100%; position: fixed; z-index: 100; left: 0; top: 0;background-color: rgba(0,0,0,0.65);" >
+        <div class="api_chose row" id="api_chose" style="position: absolute; z-index: 9999;">
+            <button type="button" class="close" aria-label="Close" id="closeAPi"><span aria-hidden="true">&times;</span></button>
+            <h5 class="text-center">选择API</h5>
+            <form class="check_api">
+                <div class="allCheck form-group" id="allCheck">
+                    <input type="checkbox" checked="true" id="apiAllCheckInput" /><span>全选</span>
+                </div>
+                <!--电子-->
+                <c:forEach items="${gameTypes}" var="gameType" varStatus="i">
+                    <div class="api_box form-group" id="casino_area">
+                        <!--type-->
+                        <div class="api_tlt form-group">
+                            <input type="checkbox" id="casino_checkAll" value="${gameType}"><span>${dicts.game.game_type[gameType]}</span>
+                        </div>
+                        <!--class-->
+                        <c:forEach items="${rakebackCashApis.values()}" var="rakebackApi" varStatus="">
+                            <div class="classification form-group clearfix" id="caniso_check">
+                                <c:if test="${rakebackApi.gameType eq gameType}">
+                                    <div class="pro form-group"><input class="singleAPI" type="checkbox" gameType="${gameType}" value="${rakebackApi.apiId}" /><span>${gbFn:getApiName(rakebackApi.apiId)}</span></div>
+                                </c:if>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </c:forEach>
+            </form>
+            <!--提交-->
+            <div class="sub">
+                <button class="btn btn-primary" id="submitApi" type="submit">保存</button>
+            </div>
 
+        </div>
+    </div>
+</c:if>
 <script src="${resRoot}/js/jqPaginator.js"></script>
 <script type="text/javascript">
     curl(['site/daily/OperationSummary'], function (OperationSummary) {
