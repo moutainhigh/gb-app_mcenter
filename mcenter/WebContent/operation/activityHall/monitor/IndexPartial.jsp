@@ -53,6 +53,7 @@
                                       role="button" class="ico-lock co-red3" tabindex="0"
                                       data-original-title="" title=""><i class="fa fa-warning"></i></span>
                     </c:if>
+                    ${gbFn:riskImgByName(p.playerName)}
                 </td>
                 <td>${p.activityName}</td>
                 <td>${soulFn:formatDateTz(p.applyTime,DateFormat.DAY_SECOND,timeZone)}</td>

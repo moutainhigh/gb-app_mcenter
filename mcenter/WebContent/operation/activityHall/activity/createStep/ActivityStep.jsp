@@ -9,6 +9,7 @@
 <div id="steps">
     <form>
         <div id="validateRule" style="display: none">${validateRule}</div>
+        <input id="id" type="hidden" name="result.id" value="${activityMessageVo.result.id}">
         <input id="code" type="hidden" name="result.code" value="${activityType.result.code}">
         <input id="name" type="hidden" name="result.name" value="${activityType.result.name}">
         <input type="hidden" id="introduce" name="result.introduce" value="${activityType.result.introduce}">

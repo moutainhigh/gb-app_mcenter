@@ -3,6 +3,8 @@ package so.wwb.gamebox.mcenter.operation.hall.controller;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.enums.EnumTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.query.Criterion;
+import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
 import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
@@ -21,6 +23,7 @@ import so.wwb.gamebox.iservice.master.operation.IActivityTypeService;
 import so.wwb.gamebox.mcenter.operation.form.ActivityContentStepForm;
 import so.wwb.gamebox.mcenter.operation.form.ActivityTypeForm;
 import so.wwb.gamebox.mcenter.operation.form.ActivityTypeSearchForm;
+import so.wwb.gamebox.mcenter.operation.form.HallActivityDepositSendContentStepForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
@@ -132,6 +135,9 @@ public class HallActivityTypeController extends HallActivityController<IActivity
                 model.addAttribute("playerRanks", map.get("playerRanks"));
                 model.addAttribute("isAllRank", objectMap.get("isAllRank"));
                 model.addAttribute("vActivityMessages", vActivityMessages);
+                //获取其他存就送存款方式
+                String otherUsedDepositWay = getOtherUsedDepositWay(vActivityMessages);
+                model.addAttribute("otherUsedDepositWay", otherUsedDepositWay);
             } else {
                 List<PlayerRank> playerRanks = getNormalPlayRanks();
                 model.addAttribute("playerRanks", playerRanks);
@@ -158,7 +164,11 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         vo.getSearch().setCode(code);
         ActivityTypeVo activityType = ServiceActivityTool.activityTypeService().search(vo);
         model.addAttribute("activityType", activityType);
-        model.addAttribute("validateRule", JsRuleCreator.create(ActivityContentStepForm.class));
+        if(ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
+            model.addAttribute("validateRule", JsRuleCreator.create(HallActivityDepositSendContentStepForm.class));
+        }else{
+            model.addAttribute("validateRule", JsRuleCreator.create(ActivityContentStepForm.class));
+        }
 
         //创建活动时间最小为当前时间
         model.addAttribute("minDate", SessionManager.getDate().getNow());
@@ -282,6 +292,9 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             model.addAttribute("isAllRank", objectMap.get("isAllRank"));
             model.addAttribute("vActivityMessages", vActivityMessages);
             model.addAttribute("type", "edit");
+            //获取其他存就送存款方式
+            String otherUsedDepositWay = getOtherUsedDepositWay(vActivityMessages);
+            model.addAttribute("otherUsedDepositWay", otherUsedDepositWay);
         }
 
 
@@ -313,7 +326,12 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         ActivityTypeVo activityType = ServiceActivityTool.activityTypeService().search(activityTypeVo);
         model.addAttribute("activityType", activityType);
         model.addAttribute("activityMessageVo", activityMessageVo);
-        model.addAttribute("validateRule", JsRuleCreator.create(ActivityContentStepForm.class));
+        //存就送需要验证名称重复
+        if(ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
+            model.addAttribute("validateRule", JsRuleCreator.create(HallActivityDepositSendContentStepForm.class));
+        }else{
+            model.addAttribute("validateRule", JsRuleCreator.create(ActivityContentStepForm.class));
+        }
 
         isSetFloat(model);
 
@@ -325,6 +343,22 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         }
         return OPERATION_ACTIVITY_STEP;
     }
+
+    /**
+     * 已经被其他(存就送活动)使用的存款方式
+     * @param vActivityMessages
+     * @return
+     */
+    private String getOtherUsedDepositWay(List<VActivityMessage> vActivityMessages) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < vActivityMessages.size(); i++) {
+            stringBuilder.append(vActivityMessages.get(i).getDepositWay()).append(",");
+        }
+        return stringBuilder.toString();
+    }
+
+
+//    public
 
     private void getActivityRuleIncludeGameMap(ActivityMessageVo activityMessageVo, Model model) {
         ActivityRuleIncludeGameListVo activityRuleIncludeGameListVo = new ActivityRuleIncludeGameListVo();
@@ -609,15 +643,16 @@ public class HallActivityTypeController extends HallActivityController<IActivity
      */
     @RequestMapping(value = "/checkActivityName")
     @ResponseBody
-    public String checkActivityName(@FormModel ActivityContentStepForm activityContentStepForm, HttpServletRequest request) {
+    public String checkActivityName(@FormModel HallActivityDepositSendContentStepForm activityContentStepForm, HttpServletRequest request) {
+
         VActivityMessageListVo vActivityMessageListVo = new VActivityMessageListVo();
-//        vActivityMessageListVo.getQuery().setCriterions(new Criterion[]{
-//                new Criterion(VActivityMessage.PROP_ACTIVITY_NAME, Operator.EQ,activityName),
-//                new Criterion(VActivityMessage.PROP_CODE, Operator.EQ,activityType),
-//                new Criterion(VActivityMessage.PROP_ID, Operator.NE,id)
-//        });
+        vActivityMessageListVo.getQuery().setCriterions(new Criterion[]{
+                new Criterion(VActivityMessage.PROP_ACTIVITY_NAME, Operator.IN,activityContentStepForm.getActivityMessageI18ns$$_activityName()),
+                new Criterion(VActivityMessage.PROP_CODE, Operator.EQ,activityContentStepForm.getResult_code()),
+                new Criterion(VActivityMessage.PROP_ID, Operator.NE,activityContentStepForm.getResult_id())
+        });
         long count = ServiceActivityTool.vActivityMessageService().count(vActivityMessageListVo);
-        return Boolean.valueOf(count > 0).toString();
+        return Boolean.valueOf(count <= 0).toString();
     }
 
     //endregion your codes 3

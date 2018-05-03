@@ -28,6 +28,7 @@
     </div>
 </div>
 
+<%--图表展示--%>
 <div class="gaikuang-page" id="operationChart">
     <div class="row dataBox1">
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
@@ -45,7 +46,7 @@
 
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
             <div class="cont">
-                <h2>有效投注 <span id="c2_title"></span></h2>
+                <h2>有效投注 <span id="c2_title" class="last-amount"></span></h2>
                 <div class="public-btn-group _addPrimary effectiveBtn">
                     <button class="btn btn-primary" value="D">日</button>
                     <button class="btn" value="W">周</button>
@@ -78,7 +79,21 @@
     <div class="row dataBox2">
         <div class="col-lg list tableList">
             <div class="cont">
-                <h2>活跃用户和登录次数 <span>本月:121,696,321.00</span></h2>
+                <div class="range-box">
+                    <div class="group public-range-group" id="ymd">
+                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
+                        <button type="button" class="btn btn-default" id="months">周</button>
+                        <button type="button" class="btn btn-default" id="years">月</button>
+                    </div>
+                    <div class="date">
+                        <form action="" class="form-horizontal" role="form">
+                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
+                            至
+                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
+                        </form>
+                    </div>
+                </div>
+                <h2>活跃用户</h2>
                 <div class="public-btn-group group _addPrimary tableBut active-user">
                     <button class="btn btn-primary active-user" value="active-user">活跃用户</button>
                     <button class="btn login-count" value="login-count">总登录次数</button>
@@ -86,9 +101,24 @@
                 <div id="f4"></div>
             </div>
         </div>
+
         <div class="col-lg list tableList">
             <div class="cont">
-                <h2>安装量和卸载量 <span>本月:121,696,321.00</span></h2>
+                <div class="range-box">
+                    <div class="group public-range-group" id="ymd">
+                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
+                        <button type="button" class="btn btn-default" id="months">周</button>
+                        <button type="button" class="btn btn-default" id="years">月</button>
+                    </div>
+                    <div class="date">
+                        <form action="" class="form-horizontal" role="form">
+                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
+                            至
+                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
+                        </form>
+                    </div>
+                </div>
+                <h2>安装量和卸载量 <span></span></h2>
                 <div class="public-btn-group group _addPrimary tableBut install">
                     <button class="btn btn-primary install" value="install">安装量</button>
                     <button class="btn uninstall" value="uninstall">卸载量</button>
@@ -101,7 +131,21 @@
     <div class="row dataBox2">
         <div class="col-lg list tableList">
             <div class="cont">
-                <h2>用户走势 <span>本月:121,696,321.00</span></h2>
+                <div class="range-box">
+                    <div class="group public-range-group" id="ymd">
+                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
+                        <button type="button" class="btn btn-default" id="months">周</button>
+                        <button type="button" class="btn btn-default" id="years">月</button>
+                    </div>
+                    <div class="date">
+                        <form action="" class="form-horizontal" role="form">
+                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
+                            至
+                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
+                        </form>
+                    </div>
+                </div>
+                <h2>用户走势 <span></span></h2>
                 <div class="public-btn-group group _addPrimary tableBut player-trend">
                     <button class="btn btn-primary new-player" value="new-player">新增玩家</button>
                     <button class="btn login-count new-deposit-player" value="new-deposit-player">新增存款玩家</button>
@@ -109,9 +153,24 @@
                 <div id="p6"></div>
             </div>
         </div>
+
         <div class="col-lg list tableList">
             <div class="cont">
-                <h2>反水走势 <span>本月:121,696,321.00</span></h2>
+                <div class="range-box">
+                    <div class="group public-range-group" id="ymd">
+                        <button type="button" class="btn btn-default btn-success" id="days">日</button>
+                        <button type="button" class="btn btn-default" id="months">周</button>
+                        <button type="button" class="btn btn-default" id="years">月</button>
+                    </div>
+                    <div class="date">
+                        <form action="" class="form-horizontal" role="form">
+                            <input size="16" type="text" value="2018-04-07" readonly="" class="startDate" id="startDate">
+                            至
+                            <input size="16" type="text" value="2018-04-08" readonly="" class="endDate" id="endDate">
+                        </form>
+                    </div>
+                </div>
+                <h2>反水走势 <span></span></h2>
                 <div class="public-btn-group group _addPrimary tableBut rakeback-trend">
                     <button class="btn btn-primary rakeback-men" value="rakeback-men">反水人数</button>
                     <button class="btn rakeback-cash" value="rakeback-cash">反水金额</button>
@@ -146,43 +205,60 @@
     </div>
 </div>
 
-<%--报表展示--%>
-<div class="tableBox" id="operationReport">
-    <div class="top">
-        <h3>用户走势</h3>
-    </div>
-    <table class="reportTab table-hover" id="playerListResult">
-        <!--动态生成数据表格-->
-    </table>
-    <div class="page">
-        <ul class="pagination float-right" id="pagination">
-            <!--动态生成分页器-->
-        </ul>
+<%-- 报表展示 --%>
+<div class="tableBox" id="operationReport" style="display: none;">
+    <div style="position: relative;">
+        <div class="top">
+            <h3>用户走势</h3>
+        </div>
+        <table class="reportTab table-hover" id="playerListResult">
+            <!--动态生成数据表格-->
+        </table>
+        <div class="page" id="playerPagination">
+            <%--<div class="pageNum"><span class="txt">每页显示</span>
+                <div class="chooseNum _chooseNum">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuBtnA" data-toggle="dropdown">
+                        15条
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuBtnA" id="choseNum">
+                        <a class="dropdown-item" href="javascrip:return false;">10条</a>
+                        <a class="dropdown-item" href="javascrip:return false;">15条</a>
+                        <a class="dropdown-item" href="javascrip:return false;">20条</a>
+                    </div>
+                </div>
+                <span class="allCot"></span>
+            </div>--%>
+            <ul class="pagination float-right" id="playerListPagination">
+                <!--动态生成分页器-->
+            </ul>
+        </div>
     </div>
 
-    <div class="top">
-        <h3>存取走势</h3>
-    </div>
-    <table class="reportTab table-hover" id="depositWithdrawResult">
-        <!--动态生成数据表格-->
-    </table>
-    <div class="page">
-        <div class="pageNum"><span class="txt">每页显示</span>
-            <div class="chooseNum _chooseNum">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
-                    10条
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="choseNum">
-                    <a class="dropdown-item" href="##">10条</a>
-                    <a class="dropdown-item" href="##">15条</a>
-                    <a class="dropdown-item" href="##">20条</a>
-                </div>
-            </div>
-            <span class="allCot"></span>
+    <div style="position: relative;">
+        <div class="top">
+            <h3>存取走势</h3>
         </div>
-        <ul class="pagination float-right" id="pagination">
-            <!--动态生成分页器-->
-        </ul>
+        <table class="reportTab table-hover" id="depositWithdrawResult">
+            <!--动态生成数据表格-->
+        </table>
+        <div class="page" id="depositPagination">
+            <%--<div class="pageNum"><span class="txt">每页显示</span>
+                <div class="chooseNum _chooseNum">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuBtnB" data-toggle="dropdown">
+                        15条
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuBtnB" id="choseNum">
+                        <a class="dropdown-item" href="javascrip:return false;">10条</a>
+                        <a class="dropdown-item" href="javascrip:return false;">15条</a>
+                        <a class="dropdown-item" href="javascrip:return false;">20条</a>
+                    </div>
+                </div>
+                <span class="allCot"></span>
+            </div>--%>
+            <ul class="pagination float-right" id="depositWithdrawPagination">
+                <!--动态生成分页器-->
+            </ul>
+        </div>
     </div>
 </div>
 
