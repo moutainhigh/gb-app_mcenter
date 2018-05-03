@@ -321,7 +321,7 @@
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.placesNumber']}：</label>
                     <div class="col-sm-5">
                         <span class="input-group pull-left line-hi25">
-                            <gb:select callback="placesNumberChange" cssClass="btn-group chosen-select-no-single" name="placesNumber" value="${activityRule.placesNumber gt 0?'false':'true'}" list="{'true':'${views.operation['Activity.step.unlimited']}','false':'${views.operation['Activity.step.quantitativeRestrictions']}'}"/>
+                            <gb:select callback="placesNumberChange" cssClass="btn-group chosen-select-no-single" name="placesNumber" value="${activityRule.placesNumber gt 0?'false':'true'}" list="{'true':'${views.operation['Activity.step.unlimited']}','false':'${views.operation['Activity.step.quantitativeRestrictions']}'}" prompt=""/>
                         </span>
                         <div class="content-width-limit-10 pull-left input-group m-l" style="${activityRule.placesNumber gt 0?'':'display:none'}" id="placesNumbers">
                             <input type="text" class="form-control" placeholder="" name="activityRule.placesNumber" value="${activityRule.placesNumber}">
