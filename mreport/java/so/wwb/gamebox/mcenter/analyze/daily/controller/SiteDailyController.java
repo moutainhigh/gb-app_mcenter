@@ -6,8 +6,7 @@ import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.query.Paging;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.tools.DataTransTool;
@@ -56,6 +55,15 @@ public class SiteDailyController {
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
         model.addAttribute("operationSummaryData", JsonTool.toJson(vo.getEntities()));
         Map<String,ApiGametypeRelation> map = ServiceTool.apiGametypeRelationService().load(new ApiGametypeRelationVo());
+        List<String> gameTypes = new ArrayList<>();
+        if(CollectionTool.isNotEmpty(map.values())) {
+            for (ApiGametypeRelation relation : map.values()) {
+                if (!gameTypes.contains(relation.getGameType())) {
+                    gameTypes.add(relation.getGameType());
+                }
+            }
+        }
+        model.addAttribute("gameTypes", gameTypes);
         model.addAttribute("rakebackCashApis", map);
         return OPERATION_SUMMARY;
     }
@@ -114,23 +122,16 @@ public class SiteDailyController {
     /**
      * 根据选择的API来查询反水金额
      */
-    @RequestMapping("/queryRakebackCashByApi")
+    @RequestMapping(value = "/queryRakebackCashByApi",method = RequestMethod.POST ,headers = {"Content-type=application/json"})
     @ResponseBody
-    public String queryRakebackCashByApi(OperationSummaryVo vo) {
+    public String queryRakebackCashByApi(@RequestBody OperationSummaryVo vo) {
         RakebackApiListVo rakebackApiListVo = new RakebackApiListVo();
         RakebackApiSo rakebackApiSo = new RakebackApiSo();
-//        rakebackApiSo.setQueryDateRange("D");
-//        rakebackApiSo.setRakebackAmountApis(new Integer[]{22,3,12,9,10,13,14,15,16});
-//        rakebackApiSo.setRakebackAmountGameTypes(new String[]{"Casino","Lottery","Sportsbook"});
-//        rakebackApiSo.setStartTime(new Date(new Date().getTime() - (long)15*24*60*60*1000));
-//        rakebackApiSo.setEndTime(new Date());
-
-
         rakebackApiSo.setQueryDateRange(vo.getQueryDateRange());
         rakebackApiSo.setRakebackAmountApis(vo.getRakebackAmountApis());
         rakebackApiSo.setRakebackAmountGameTypes(vo.getRakebackAmountGameTypes());
-        rakebackApiSo.setStartTime(vo.getResult().getStaticTime());
-        rakebackApiSo.setEndTime(vo.getResult().getStaticTimeEnd());
+        rakebackApiSo.setStartTime(vo.getBeginTime());
+        rakebackApiSo.setEndTime(vo.getEndTime());
         rakebackApiListVo.setSearch(rakebackApiSo);
         List<RakebackApiVo> apiVos  = ServiceSiteTool.rakebackApiService().queryRakebacksByDate(rakebackApiListVo);
         if(CollectionTool.isEmpty(apiVos)){
