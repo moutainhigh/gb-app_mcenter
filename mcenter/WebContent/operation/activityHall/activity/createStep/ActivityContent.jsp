@@ -301,7 +301,8 @@
                                                                  id="title${index.index+length}" type="text"
                                                                  name="activityMessageI18ns[${index.index+length}].activityName"
                                                                  class="form-control title"
-                                                                 placeholder="${views.operation['Activity.step.message1']}"
+                                                                 placeholder="${views.operation['Activity.step.message17']}"
+                                                                 maxlength="20"
                                                                  value="${activityMessageI18ns['2'][siteLang.value.language].activityName}">
                                     </div>
                                 </div>
