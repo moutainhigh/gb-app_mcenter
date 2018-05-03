@@ -38,7 +38,7 @@
                                 </div>
                             </label>
                         </td>
-                        <td><audio src="${fileRoot}${toneDefined.paramValue}" preload="auto"></audio></td>
+                        <td><audio src="${imgRoot}/${toneDefined.paramValue}" preload="auto"></audio></td>
                     </tr>
                 </c:if>
                 </tbody>

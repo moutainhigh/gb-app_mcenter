@@ -84,7 +84,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
      */
     protected abstract void initQuery(VPlayerDepositListVo listVo);
 
-    protected VPlayerDepositListVo doList(VPlayerDepositListVo listVo,String moduleType,  VPlayerDepositSearchForm form, BindingResult result, Model model) {
+    protected VPlayerDepositListVo doList(VPlayerDepositListVo listVo, String moduleType, VPlayerDepositSearchForm form, BindingResult result, Model model) {
         initQuery(listVo);
         // 初始化ListVo
         initListVo(listVo);
@@ -92,7 +92,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         String templateCode = TemplateCodeEnum.fund_deposit_company_check.getCode();
         // 公司入款声音参数
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WARMING_TONE_DEPOSIT);
-        if(sysParam!=null){
+        if (sysParam != null) {
             model.addAttribute("realActive", sysParam.getActive());
             model.addAttribute("sysParam", sysParam);
             if (SessionManager.getCompanyVoiceNotice() != null) {
@@ -104,12 +104,12 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         model.addAttribute("searchTempCode", templateCode);
         model.addAttribute("searchTemplates", CacheBase.getSysSearchTempByCondition(SessionManagerBase.getUserId(), TemplateCodeEnum.fund_deposit_company_check.getCode()));
         List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
-        masterSubSearch(listVo,moduleType,sysUserDataRights);
-        buildPlayerRankData(model,sysUserDataRights);
+        masterSubSearch(listVo, moduleType, sysUserDataRights);
+        buildPlayerRankData(model, sysUserDataRights);
         return listVo;
     }
 
-    public String count(VPlayerDepositListVo listVo,String moduleType, Model model, String isCounter) {
+    public String count(VPlayerDepositListVo listVo, String moduleType, Model model, String isCounter) {
         // 初始化筛选条件
         initQuery(listVo);
         initListVo(listVo);
@@ -119,13 +119,13 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         return getViewBasePath() + "IndexPagination";
     }
 
-    public VPlayerDepositListVo doCount(VPlayerDepositListVo listVo, String moduleType,String isCounter) {
+    public VPlayerDepositListVo doCount(VPlayerDepositListVo listVo, String moduleType, String isCounter) {
         if (StringTool.isBlank(isCounter)) {
             if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
                 //获取子账号查询条件
                 List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
                 if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
-                    masterSubSearch(listVo,moduleType,sysUserDataRights);
+                    masterSubSearch(listVo, moduleType, sysUserDataRights);
                     Paging paging = listVo.getPaging();
                     paging.setTotalCount(ServiceSiteTool.vPlayerDepositService().countPlayerDeposit(listVo));
                     paging.cal();
@@ -151,9 +151,9 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         VPlayerDepositSo search = listVo.getSearch();
 
         //默认搜索3天内的数据
-        if (search.getCreateStart()==null&&search.getCreateEnd()==null&&search.getCheckTimeStart()==null&&search.getCheckTimeEnd()==null){
+        if (search.getCreateStart() == null && search.getCreateEnd() == null && search.getCheckTimeStart() == null && search.getCheckTimeEnd() == null) {
             Date now = new Date();
-            Date sevenDaysAgo = DateTool.addDays(now,-3);
+            Date sevenDaysAgo = DateTool.addDays(now, -3);
             search.setCreateStart(sevenDaysAgo);
         }
 
@@ -196,7 +196,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
      * 声音开关
      */
     Map<String, Object> toneSwitch(SiteParamEnum paramEnum) {
-        Map<String, Object> map = new HashMap<>(1,1f);
+        Map<String, Object> map = new HashMap<>(1, 1f);
         SysParam param = ParamTool.getSysParam(paramEnum);
         if (param != null) {
             if (param.getActive()) {
@@ -354,7 +354,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         vo.getResult().setCurrencySign(getCurrencySign(vo.getResult().getDefaultCurrency()));
         String rechargeStatus = vo.getResult().getRechargeStatus();
         model.addAttribute("validateRule", JsRuleCreator.create(DepositRemarkForm.class));
-        if(vo.getResult() == null) {
+        if (vo.getResult() == null) {
             return vo;
         }
         if (RechargeTypeEnum.BITCOIN_FAST.getCode().equals(vo.getResult().getRechargeType()) && !RechargeStatusEnum.EXCHANGE.getCode().equals(vo.getResult().getRechargeStatus())) {
@@ -469,11 +469,12 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
 
     /**
      * 子账号查询的层级权限
+     *
      * @param model
      * @param sysUserDataRights
      */
     private void buildPlayerRankData(Model model, List<SysUserDataRight> sysUserDataRights) {
-        List<Integer> rankIds = CollectionTool.extractToList(sysUserDataRights,SysUserDataRight.PROP_ENTITY_ID);
+        List<Integer> rankIds = CollectionTool.extractToList(sysUserDataRights, SysUserDataRight.PROP_ENTITY_ID);
         PlayerRankVo rankVo = new PlayerRankVo();
         rankVo.getSearch().setIds(rankIds);
         model.addAttribute("playerRanks", ServiceSiteTool.playerRankService().queryUsableList(rankVo));
@@ -484,16 +485,16 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
             List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
             if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
-                masterSubSearch(listVo, moduleType,sysUserDataRights);
-                buildPlayerRankData(model,sysUserDataRights);
+                masterSubSearch(listVo, moduleType, sysUserDataRights);
+                buildPlayerRankData(model, sysUserDataRights);
                 listVo = ServiceSiteTool.vPlayerDepositService().searchPlayerDeposit(listVo);
             } else {
                 listVo = getDeposit(listVo, form, result, model);
-                buildPlayerRankData(model,sysUserDataRights);
+                buildPlayerRankData(model, sysUserDataRights);
             }
         } else {
             listVo = getDeposit(listVo, form, result, model);
-            buildPlayerRankData(model,null);
+            buildPlayerRankData(model, null);
         }
         //转义搜索条件中的_
         VPlayerDepositSo search = listVo.getSearch();
@@ -518,6 +519,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
 
     /**
      * 获取统计数据
+     *
      * @param listVo
      * @param moduleType
      * @param form
@@ -526,11 +528,11 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
      * @return
      */
     protected VPlayerDepositListVo getStatistics(VPlayerDepositListVo listVo, String moduleType,
-                                                    VPlayerDepositSearchForm form, BindingResult result, Model model) {
+                                                 VPlayerDepositSearchForm form, BindingResult result, Model model) {
         if (UserTypeEnum.MASTER_SUB.getCode().equals(SessionManager.getUser().getUserType())) {
             List<SysUserDataRight> sysUserDataRights = getSysUserDataRights(moduleType);
             if (sysUserDataRights != null && sysUserDataRights.size() > 0) {
-                masterSubSearch(listVo, moduleType,sysUserDataRights);
+                masterSubSearch(listVo, moduleType, sysUserDataRights);
                 if (listVo.getSearch().isTodaySales()) {
                     //今日成功统计--jerry
                     VPlayerDepositListVo vPlayerDepositListVo = isTodayBaseSearch(listVo);
@@ -553,6 +555,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
 
     /**
      * 统计数据
+     *
      * @param listVo
      */
     private void getStatistics(VPlayerDepositListVo listVo) {
@@ -571,6 +574,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
 
     /**
      * 今日统计条件
+     *
      * @param listVo
      * @return
      */
@@ -592,6 +596,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
 
     /**
      * 根据模块以及用户获取对应菜单权限
+     *
      * @param moduleType
      * @return
      */
@@ -604,6 +609,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
 
     /**
      * 获取子账号的查询条件
+     *
      * @param listVo
      * @param moduleType
      */
@@ -617,7 +623,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
                     String[] names = username.split(",");
                     if (names.length == 1) {
                         listVo.getSearch().setNewUserName(names[0]);
-                    } else if (names.length>1) {
+                    } else if (names.length > 1) {
                         listVo.getSearch().setAccountNames(names);
                     }
                 }
@@ -639,7 +645,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         // 更新订单状态
         vo = updateRechargeStatus(vo);
 
-        HashMap<String, Object> map = new HashMap<>(2,1f);
+        HashMap<String, Object> map = new HashMap<>(2, 1f);
         // 订单是否存在
         if (orderIsNull(vo, map)) return map;
         // 订单是否已审核
@@ -668,7 +674,13 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
         }
         vo.getSearch().setCheckUsername(SessionManager.getAuditUserName());
         // 更新审核状态和任务数
-        return ServiceSiteTool.playerRechargeService().rechargeCheck(vo);
+        try {
+            vo = ServiceSiteTool.playerRechargeService().rechargeCheck(vo);
+        } catch (Exception e) {
+            vo.setSuccess(false);
+            LOG.error(e);
+        }
+        return vo;
     }
 
     /**
