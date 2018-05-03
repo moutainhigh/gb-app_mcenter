@@ -90,7 +90,13 @@
                         --
                     </c:if>
                     <c:if test="${p.checkState eq '2' || p.checkState eq '3'}">
-                        ${p.username}
+                        <c:if test="${empty p.checkUserId}">
+                            ${views.operation['系统自动']}
+                        </c:if>
+                        <c:if test="${not empty p.checkUserId}">
+                            ${p.username}
+
+                        </c:if>
                     </c:if>
                 </td>
                 <td>
