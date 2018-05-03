@@ -28,6 +28,7 @@
     </div>
 </div>
 
+<%--图表展示--%>
 <div class="gaikuang-page" id="operationChart">
     <div class="row dataBox1">
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 list tableCir">
@@ -206,28 +207,58 @@
 
 <%-- 报表展示 --%>
 <div class="tableBox" id="operationReport" style="display: none;">
-    <div class="top">
-        <h3>用户走势</h3>
-    </div>
-    <table class="reportTab table-hover" id="playerListResult">
-        <!--动态生成数据表格-->
-    </table>
-    <div class="page">
-        <ul class="pagination float-right" id="playerListPagination">
-            <!--动态生成分页器-->
-        </ul>
+    <div style="position: relative;">
+        <div class="top">
+            <h3>用户走势</h3>
+        </div>
+        <table class="reportTab table-hover" id="playerListResult">
+            <!--动态生成数据表格-->
+        </table>
+        <div class="page" id="playerPagination">
+            <%--<div class="pageNum"><span class="txt">每页显示</span>
+                <div class="chooseNum _chooseNum">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuBtnA" data-toggle="dropdown">
+                        15条
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuBtnA" id="choseNum">
+                        <a class="dropdown-item" href="javascrip:return false;">10条</a>
+                        <a class="dropdown-item" href="javascrip:return false;">15条</a>
+                        <a class="dropdown-item" href="javascrip:return false;">20条</a>
+                    </div>
+                </div>
+                <span class="allCot"></span>
+            </div>--%>
+            <ul class="pagination float-right" id="playerListPagination">
+                <!--动态生成分页器-->
+            </ul>
+        </div>
     </div>
 
-    <div class="top">
-        <h3>存取走势</h3>
-    </div>
-    <table class="reportTab table-hover" id="depositWithdrawResult">
-        <!--动态生成数据表格-->
-    </table>
-    <div class="page">
-        <ul class="pagination float-right" id="depositWithdrawPagination">
-            <!--动态生成分页器-->
-        </ul>
+    <div style="position: relative;">
+        <div class="top">
+            <h3>存取走势</h3>
+        </div>
+        <table class="reportTab table-hover" id="depositWithdrawResult">
+            <!--动态生成数据表格-->
+        </table>
+        <div class="page" id="depositPagination">
+            <%--<div class="pageNum"><span class="txt">每页显示</span>
+                <div class="chooseNum _chooseNum">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuBtnB" data-toggle="dropdown">
+                        15条
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuBtnB" id="choseNum">
+                        <a class="dropdown-item" href="javascrip:return false;">10条</a>
+                        <a class="dropdown-item" href="javascrip:return false;">15条</a>
+                        <a class="dropdown-item" href="javascrip:return false;">20条</a>
+                    </div>
+                </div>
+                <span class="allCot"></span>
+            </div>--%>
+            <ul class="pagination float-right" id="depositWithdrawPagination">
+                <!--动态生成分页器-->
+            </ul>
+        </div>
     </div>
 </div>
 

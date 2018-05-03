@@ -122,7 +122,16 @@
                             class="fa fa-question-circle"></i></span> ${views.operation['领取方式']}：</label>
 
                     <div class="col-sm-3 input-group">
-                        <gb:select name="activityRule.isAudit" value="${activityRule.isAudit==false || empty activityRule.isAudit ?false:true}" list="{'false':'${views.operation['前端申领（免审）']}','true':'${views.operation['前端申领（审核）']}'}" prompt="${views.common['pleaseSelect']}"/>
+                        <c:choose>
+                            <c:when test="${activityType.result.code eq 'effective_transaction' || activityType.result.code eq 'profit_loss'}">
+                                <gb:select name="activityRule.isAudit" value="${activityRule.isAudit==false || empty activityRule.isAudit ?false:true}" list="{'false':'${views.operation['报名申请（免审）']}','true':'${views.operation['报名申请（审核）']}'}" prompt=""/>
+                            </c:when>
+                            <c:otherwise>
+                                <gb:select name="activityRule.isAudit" value="${activityRule.isAudit==false || empty activityRule.isAudit ?false:true}" list="{'false':'${views.operation['前端申领（免审）']}','true':'${views.operation['前端申领（审核）']}'}" prompt=""/>
+                            </c:otherwise>
+                        </c:choose>
+
+
                     </div>
                 </div>
             </c:if>
@@ -234,7 +243,7 @@
                         <p tipsName="activityRule.depositWay-tips"></p>
                         <!--已经被使用的存款方式-->
                         <c:if test="${ activityType.result.code eq 'deposit_send'}">
-                            <div id="getRankActivityMessage">
+                            <div id="getDepositWayActivityMessage">
                                 <%@include file="rule.include/GetDepositWayActivityMessage.jsp"%>
                             </div>
                         </c:if>
@@ -312,7 +321,7 @@
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.placesNumber']}：</label>
                     <div class="col-sm-5">
                         <span class="input-group pull-left line-hi25">
-                            <gb:select callback="placesNumberChange" cssClass="btn-group chosen-select-no-single" name="placesNumber" value="${activityRule.placesNumber gt 0?'false':'true'}" list="{'true':'${views.operation['Activity.step.unlimited']}','false':'${views.operation['Activity.step.quantitativeRestrictions']}'}"/>
+                            <gb:select callback="placesNumberChange" cssClass="btn-group chosen-select-no-single" name="placesNumber" value="${activityRule.placesNumber gt 0?'false':'true'}" list="{'true':'${views.operation['Activity.step.unlimited']}','false':'${views.operation['Activity.step.quantitativeRestrictions']}'}" prompt=""/>
                         </span>
                         <div class="content-width-limit-10 pull-left input-group m-l" style="${activityRule.placesNumber gt 0?'':'display:none'}" id="placesNumbers">
                             <input type="text" class="form-control" placeholder="" name="activityRule.placesNumber" value="${activityRule.placesNumber}">

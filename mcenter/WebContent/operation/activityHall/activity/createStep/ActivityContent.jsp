@@ -217,7 +217,7 @@
 
                                     <%--附图--%>
                                 <div class="clearfix m-t-md" id="secondary${index.index}">
-                                    <label class="ft-bold col-sm-3 al-right line-hi34"><i>(选填)</i>${views.operation['Activity.step.activityCover']}：</label>
+                                    <label class="ft-bold col-sm-3 al-right line-hi34"><i style="color: red;">(选填)</i>&nbsp;${views.operation['Activity.step.activityCover']}：</label>
                                     <div class="col-sm-5">
                                         <div class="form-group m-b-sm">
                                             <div id="activityContentImage${index.index}">
@@ -301,7 +301,8 @@
                                                                  id="title${index.index+length}" type="text"
                                                                  name="activityMessageI18ns[${index.index+length}].activityName"
                                                                  class="form-control title"
-                                                                 placeholder="${views.operation['Activity.step.message1']}"
+                                                                 placeholder="${views.operation['Activity.step.message17']}"
+                                                                 maxlength="20"
                                                                  value="${activityMessageI18ns['2'][siteLang.value.language].activityName}">
                                     </div>
                                 </div>

@@ -672,6 +672,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam phoneNumber = ParamTool.getSysParam(SiteParamEnum.EXTENSION_NUMBER_SETTING);
         SysParam androidDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_ANDROID_DOWNLOAD_ADDRESS);
         SysParam iosDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_IOS_DOWNLOAD_ADDRESS);
+        SysParam activityHallSwitch = ParamTool.getSysParam(SiteParamEnum.ACTIVITY_HALL_SWITCH);//打开活动大厅，关闭活动管理
         String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManagerCommon.getSiteId());
         model.addAttribute("poone_number",phoneNumber);
         model.addAttribute("phone_url",phoneUrl);
@@ -679,6 +680,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("encryption_switch",encryption);
         model.addAttribute("qrSwitch",sysParamQrSwitch);
         model.addAttribute("electric_pin",telemarketing);
+        model.addAttribute("activityHallSwitch",activityHallSwitch);
         model.addAttribute("access_domain",param);
         model.addAttribute("select_domain",sysParam);
         model.addAttribute("mobile_traffic",mobileTraffic.getParamValue());
@@ -1409,6 +1411,30 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         }
         return  map;
     }
+
+    /***
+     * 活动大厅开关
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/switchActivityHall")
+    @ResponseBody
+    public  Map switchActivityHall(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        ParamTool.refresh(SiteParamEnum.ACTIVITY_HALL_SWITCH);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.ACTIVITY_HALL_SWITCH);
+        if (sysParam!=null) {
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            if (Param.isSuccess()){
+                ParamTool.refresh(SiteParamEnum.ACTIVITY_HALL_SWITCH);
+            }
+        }
+        return  map;
+    }
+
+
     /***
      * 电话是否加密
      * @param sysParamVo
