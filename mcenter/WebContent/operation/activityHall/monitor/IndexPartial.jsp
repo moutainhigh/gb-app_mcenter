@@ -86,10 +86,10 @@
 
                 </td>
                 <td>
-                    <c:if test="${p.checkState eq '1'}">
+                    <c:if test="${p.checkState eq '1' || p.checkState eq '4'}">
                         --
                     </c:if>
-                    <c:if test="${p.checkState ne '1'}">
+                    <c:if test="${p.checkState eq '2' || p.checkState eq '3'}">
                         ${p.username}
                     </c:if>
                 </td>
