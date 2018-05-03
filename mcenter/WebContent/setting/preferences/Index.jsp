@@ -74,7 +74,7 @@
                                                                 <div class="pull-left">
                                                                     <c:choose>
                                                                         <c:when test="${tonePath eq tonePathDefined}">
-                                                                            <audio src="${fileRoot}${tonePath}" preload="auto"></audio>
+                                                                            <audio src="${imgRoot}/${tonePath}" preload="auto"></audio>
                                                                         </c:when>
                                                                         <c:otherwise>
                                                                             <audio src="${resRoot}/${tonePath}" preload="auto"></audio>
@@ -112,7 +112,7 @@
                                                                 <div class="pull-left">
                                                                     <c:choose>
                                                                         <c:when test="${tonePath eq tonePathDefined}">
-                                                                            <audio src="${fileRoot}${tonePath}" preload="auto"></audio>
+                                                                            <audio src="${imgRoot}/${tonePath}" preload="auto"></audio>
                                                                         </c:when>
                                                                         <c:otherwise>
                                                                             <audio src="${resRoot}/${tonePath}" preload="auto"></audio>
@@ -150,7 +150,7 @@
                                                                 <div class="pull-left">
                                                                     <c:choose>
                                                                         <c:when test="${tonePath eq tonePathDefined}">
-                                                                            <audio src="${fileRoot}${tonePath}" preload="auto"></audio>
+                                                                            <audio src="${imgRoot}/${tonePath}" preload="auto"></audio>
                                                                         </c:when>
                                                                         <c:otherwise>
                                                                             <audio src="${resRoot}/${tonePath}" preload="auto"></audio>
@@ -188,7 +188,7 @@
                                                                 <div class="pull-left">
                                                                     <c:choose>
                                                                         <c:when test="${tonePath eq tonePathDefined}">
-                                                                            <audio src="${fileRoot}${tonePath}" preload="auto"></audio>
+                                                                            <audio src="${imgRoot}/${tonePath}" preload="auto"></audio>
                                                                         </c:when>
                                                                         <c:otherwise>
                                                                             <audio src="${resRoot}/${tonePath}" preload="auto"></audio>
@@ -226,7 +226,7 @@
                                                                 <div class="pull-left">
                                                                     <c:choose>
                                                                         <c:when test="${tonePath eq tonePathDefined}">
-                                                                            <audio src="${fileRoot}${tonePath}" preload="auto"></audio>
+                                                                            <audio src="${imgRoot}/${tonePath}" preload="auto"></audio>
                                                                         </c:when>
                                                                         <c:otherwise>
                                                                             <audio src="${resRoot}/${tonePath}" preload="auto"></audio>
@@ -264,7 +264,7 @@
                                                                 <div class="pull-left">
                                                                     <c:choose>
                                                                         <c:when test="${tonePath eq tonePathDefined}">
-                                                                            <audio src="${fileRoot}${tonePath}" preload="auto"></audio>
+                                                                            <audio src="${imgRoot}/${tonePath}" preload="auto"></audio>
                                                                         </c:when>
                                                                         <c:otherwise>
                                                                             <audio src="${resRoot}/${tonePath}" preload="auto"></audio>
