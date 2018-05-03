@@ -47,12 +47,12 @@
                 </td>
                 <td>
                     <a href="/player/playerView.html?search.id=${p.playerId}" nav-Target="mainFrame">${p.playerName}</a>
-                    <%--<c:if test="${p.riskMarker == true}">--%>
-                                <%--<span data-content="${views.player_auto['危险层级']}"--%>
-                                      <%--data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"--%>
-                                      <%--role="button" class="ico-lock co-red3" tabindex="0"--%>
-                                      <%--data-original-title="" title=""><i class="fa fa-warning"></i></span>--%>
-                    <%--</c:if>--%>
+                    <c:if test="${p.riskMarker == true}">
+                                <span data-content="${views.player_auto['危险层级']}"
+                                      data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body"
+                                      role="button" class="ico-lock co-red3" tabindex="0"
+                                      data-original-title="" title=""><i class="fa fa-warning"></i></span>
+                    </c:if>
                     ${gbFn:riskImgByName(p.playerName)}
                 </td>
                 <td>${p.activityName}</td>
