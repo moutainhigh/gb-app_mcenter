@@ -361,21 +361,21 @@
                             </div>
                         </div>
                     </div>
-                    <div id="openActivityHall_div" class="col-lg-6 site-switch">
-                        <h3>${views.setting_auto['是否打开活动大厅']}</h3>
-                        <div class="content clearfix" style="padding-top: 10px">
-                            <div class="clearfix m-b">
+                    <%--<div id="openActivityHall_div" class="col-lg-6 site-switch">--%>
+                        <%--<h3>${views.setting_auto['是否打开活动大厅']}</h3>--%>
+                        <%--<div class="content clearfix" style="padding-top: 10px">--%>
+                            <%--<div class="clearfix m-b">--%>
 
-                                <div style="padding-top: 10px">
-                                    <label class="ft-bold pull-left m-r"
-                                           style='float:left;margin-top:4px'>&nbsp;&nbsp; ${views.setting_auto['是否打开活动大厅']}：</label>
-                                    <input type="checkbox" name="activityHallSwitch" data-size="mini" ${activityHallSwitch.paramValue =="true" ?'checked':''}/>
-                                        ${views.setting_auto['开启后，打开活动大厅']}
-                                </div>
-                            </div>
+                                <%--<div style="padding-top: 10px">--%>
+                                    <%--<label class="ft-bold pull-left m-r"--%>
+                                           <%--style='float:left;margin-top:4px'>&nbsp;&nbsp; ${views.setting_auto['是否打开活动大厅']}：</label>--%>
+                                    <%--<input type="checkbox" name="activityHallSwitch" data-size="mini" ${activityHallSwitch.paramValue =="true" ?'checked':''}/>--%>
+                                        <%--${views.setting_auto['开启后，打开活动大厅']}--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
 
-                        </div>
-                    </div>
+                        <%--</div>--%>
+                    <%--</div>--%>
                     <shiro:hasPermission name="system:electricpin_switch ">
                     <div id="accessDomains" class="col-lg-6 site-switch">
                         <h3>${views.setting_auto['电销参数设置']}</h3>
