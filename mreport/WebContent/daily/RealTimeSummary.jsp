@@ -119,7 +119,7 @@
                 <!--动态生成数据表格-->
                 <table class="reportTab table-hover" id="Searchresult">
                     <tr>
-                        <th>时间</th>
+                        <th  style="width: 18%">时间</th>
                         <th>实时总访客</th>
                         <th>实时总活跃</th>
                         <th>实时总注册</th>
