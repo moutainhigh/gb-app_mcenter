@@ -209,7 +209,7 @@
                                         </div>
                                         <div id="activityAffiliatedImg${index.index}">
                                             <img id="dd_${index.index}" src=""
-                                                 style="display: none;width:100%;height: auto;"/>
+                                                 style="display: none;width:auto;height: 150px;"/>
                                         </div>
                                         <div>${views.operation['Activity.step.message13']}</div>
                                     </div>
@@ -240,7 +240,7 @@
                                         </div>
                                         <div id="activityContentImg${index.index}">
                                             <img id="aa_${index.index}" src=""
-                                                 style="display: none;width: 100%;height: auto;"/>
+                                                 style="display: none;width: auto;height: 150px;"/>
                                         </div>
                                         <div>${views.operation['Activity.step.message2']}</div>
                                     </div>
@@ -315,7 +315,7 @@
                                             <div id="activityAffiliatedImage${index.index+length}">
                                                 <c:if test="${not empty activityMessageI18ns['2'][siteLang.value.language].activityAffiliated}">
                                                     <img id="bb_${index.index+length}"
-                                                         src="${soulFn:getThumbPath(domain, activityMessageI18ns['2'][siteLang.value.language].activityAffiliated,500,500)}"
+                                                         src="${soulFn:getThumbPath(domain, activityMessageI18ns['2'][siteLang.value.language].activityAffiliated,0,0)}"
                                                          class="logo-size-h100"
                                                          style="margin: 10px 0; width: auto;height: 150px;"/>
                                                 </c:if>
@@ -332,7 +332,7 @@
                                         </div>
                                         <div id="activityAffiliatedImg${index.index+length}">
                                             <img id="aa_${index.index+length}" src=""
-                                                 style="display: none;width: 100%;height: auto;"/>
+                                                 style="display: none;width: auto;height: 150px;"/>
                                         </div>
                                         <div>${views.operation['Activity.step.message13']}</div>
                                     </div>
