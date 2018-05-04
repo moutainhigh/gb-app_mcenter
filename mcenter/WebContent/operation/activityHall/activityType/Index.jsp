@@ -23,13 +23,28 @@
                     <c:forEach items="${command}" var="p" varStatus="status">
                         <li class="col-lg-3 col-md-4 col-sm-6">
                             <div class="item">
-                                <div class="title clearfix">
-                                    <img src="${resRoot}${p.logo}">
-                                    <div>
-                                        <h3>${views.operation[p.code]}</h3>
-                                        <span>${views.operation["activity.introduce.".concat(p.code)]}</span>
-                                    </div>
-                                </div>
+                                <c:choose>
+
+
+                                    <c:when test="${p.code eq 'second_deposit' || p.code eq 'third_deposit' || p.code eq 'everyday_first_deposit'}">
+                                        <div class="title clearfix activity-new-title">
+                                            <img src="${resRoot}${p.logo}">
+                                            <div>
+                                                <h3>${views.operation[p.code]}</h3>
+                                                <span>${views.operation["activity.introduce.".concat(p.code)]}</span>
+                                            </div>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="title clearfix ">
+                                            <img src="${resRoot}${p.logo}">
+                                            <div>
+                                                <h3>${views.operation[p.code]}</h3>
+                                                <span>${views.operation["activity.introduce.".concat(p.code)]}</span>
+                                            </div>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
                                 <%--<c:choose>
                                     <c:when test="${!p.hasUseRank}">
                                         <a href="javascript:void(0)" class="disabled btn btn-filter cj">${views.operation['Activity.create']}</a>
