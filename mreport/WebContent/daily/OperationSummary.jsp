@@ -26,7 +26,7 @@
 
 <div class="run-title">
     <h1 class="float-left">运营日常统计</h1>
-    <div class="group float-right _addPrimary">
+    <div class="group float-right _toggleBtn">
         <button type="button" class="btn btn-default btn-primary" value="chart">图表呈现</button>
         <button type="button" class="btn btn-default" value="report">报表呈现</button>
     </div>
@@ -190,62 +190,59 @@
                 <div id="b7"></div>
             </div>
         </div>
+    </div>
 </div>
 
 <%-- 报表展示 --%>
 <div class="tableBox" id="operationReport" style="display: none;">
-    <div style="position: relative;">
-        <div class="top">
-            <h3>用户走势</h3>
-        </div>
-        <table class="reportTab table-hover" id="playerListResult">
-            <!--动态生成数据表格-->
-        </table>
-        <div class="page" id="playerPagination">
-            <%--<div class="pageNum"><span class="txt">每页显示</span>
-                <div class="chooseNum _chooseNum">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuBtnA" data-toggle="dropdown">
-                        15条
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuBtnA" id="choseNum">
-                        <a class="dropdown-item" href="javascrip:return false;">10条</a>
-                        <a class="dropdown-item" href="javascrip:return false;">15条</a>
-                        <a class="dropdown-item" href="javascrip:return false;">20条</a>
-                    </div>
+    <div class="top">
+        <h3>用户走势</h3>
+    </div>
+    <table class="reportTab table-hover" id="playerListResult">
+        <!--动态生成数据表格-->
+    </table>
+    <div class="page" id="playerPagination">
+        <%--<div class="pageNum"><span class="txt">每页显示</span>
+            <div class="chooseNum _chooseNum">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuBtnA" data-toggle="dropdown">
+                    15条
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuBtnA" id="choseNum">
+                    <a class="dropdown-item" href="javascrip:return false;">10条</a>
+                    <a class="dropdown-item" href="javascrip:return false;">15条</a>
+                    <a class="dropdown-item" href="javascrip:return false;">20条</a>
                 </div>
-                <span class="allCot"></span>
-            </div>--%>
-            <ul class="pagination float-right" id="playerListPagination">
-                <!--动态生成分页器-->
-            </ul>
-        </div>
+            </div>
+            <span class="allCot"></span>
+        </div>--%>
+        <ul class="pagination float-right" id="playerListPagination">
+            <!--动态生成分页器-->
+        </ul>
     </div>
 
-    <div style="position: relative;">
-        <div class="top">
-            <h3>存取走势</h3>
-        </div>
-        <table class="reportTab table-hover" id="depositWithdrawResult">
-            <!--动态生成数据表格-->
-        </table>
-        <div class="page" id="depositPagination">
-            <%--<div class="pageNum"><span class="txt">每页显示</span>
-                <div class="chooseNum _chooseNum">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuBtnB" data-toggle="dropdown">
-                        15条
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuBtnB" id="choseNum">
-                        <a class="dropdown-item" href="javascrip:return false;">10条</a>
-                        <a class="dropdown-item" href="javascrip:return false;">15条</a>
-                        <a class="dropdown-item" href="javascrip:return false;">20条</a>
-                    </div>
+    <div class="top">
+        <h3>存取走势</h3>
+    </div>
+    <table class="reportTab table-hover" id="depositWithdrawResult">
+        <!--动态生成数据表格-->
+    </table>
+    <div class="page" id="depositPagination">
+        <%--<div class="pageNum"><span class="txt">每页显示</span>
+            <div class="chooseNum _chooseNum">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuBtnB" data-toggle="dropdown">
+                    15条
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuBtnB" id="choseNum">
+                    <a class="dropdown-item" href="javascrip:return false;">10条</a>
+                    <a class="dropdown-item" href="javascrip:return false;">15条</a>
+                    <a class="dropdown-item" href="javascrip:return false;">20条</a>
                 </div>
-                <span class="allCot"></span>
-            </div>--%>
-            <ul class="pagination float-right" id="depositWithdrawPagination">
-                <!--动态生成分页器-->
-            </ul>
-        </div>
+            </div>
+            <span class="allCot"></span>
+        </div>--%>
+        <ul class="pagination float-right" id="depositWithdrawPagination">
+            <!--动态生成分页器-->
+        </ul>
     </div>
 </div>
 <%--历史运营统计数据--%>
