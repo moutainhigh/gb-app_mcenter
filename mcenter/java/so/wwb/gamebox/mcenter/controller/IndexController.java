@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.controller;
 import org.json.JSONObject;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionQueryTool;
+import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.init.context.CommonContext;
@@ -15,6 +16,7 @@ import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.math.NumberTool;
 import org.soul.commons.query.sort.Order;
+import org.soul.commons.spring.utils.CommonBeanFactory;
 import org.soul.commons.tree.TreeNode;
 import org.soul.model.msg.notice.po.VNoticeReceivedText;
 import org.soul.model.msg.notice.vo.CometMsg;
@@ -223,6 +225,11 @@ public class IndexController extends BasePhoneApiController {
         List<VUserShortcutMenu> menuList = new ArrayList<>();
         for (VUserShortcutMenu menu : menuListVo.getResult()) {
             if (StringTool.equals(SessionManager.getUserType().getCode(), UserTypeEnum.MASTER_SUB.getCode()) && StringTool.equals(menu.getResourceId().toString(), "703")) {
+                continue;
+            }
+            //是否有快捷菜单的权限
+            boolean hasMenu = hasPermission(menu.getUrl());
+            if(!hasMenu){
                 continue;
             }
             menuList.add(menu);
