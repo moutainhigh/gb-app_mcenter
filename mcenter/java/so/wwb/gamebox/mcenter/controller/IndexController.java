@@ -218,7 +218,6 @@ public class IndexController extends BasePhoneApiController {
         List<VUserShortcutMenu> vUserShortcutMenus = ServiceSiteTool.vUserShortcutMenuService().queryShortMenuByUser(menuListVo);
         menuListVo.setResult(vUserShortcutMenus);
         filterSubAccountMenu(menuListVo);
-        filterShortCutMenu(menuListVo);
         model.addAttribute("menuListVo", menuListVo);
     }
 
@@ -228,30 +227,15 @@ public class IndexController extends BasePhoneApiController {
             if (StringTool.equals(SessionManager.getUserType().getCode(), UserTypeEnum.MASTER_SUB.getCode()) && StringTool.equals(menu.getResourceId().toString(), "703")) {
                 continue;
             }
+            //是否有快捷菜单的权限
+            boolean hasMenu = hasPermission(menu.getUrl());
+            if(!hasMenu){
+                continue;
+            }
             menuList.add(menu);
         }
         menuListVo.setResult(menuList);
     }
-
-    /**
-     * 过滤快捷菜单
-     * @param menuListVo
-     */
-    private void filterShortCutMenu(VUserShortcutMenuListVo menuListVo){
-        List<VUserShortcutMenu> menuListVoResult = menuListVo.getResult();
-        if(CollectionTool.isEmpty(menuListVoResult)){
-            return;
-        }
-        List<VUserShortcutMenu> newMenus = new ArrayList<>();
-        for (VUserShortcutMenu vUserShortcutMenu : menuListVoResult) {
-            boolean hasMenu = hasPermission(vUserShortcutMenu.getUrl());
-            if(hasMenu){
-                newMenus.add(vUserShortcutMenu);
-            }
-        }
-        menuListVo.setResult(newMenus);
-    }
-
 
     /**
      * 如果是站长活取子站点信息
