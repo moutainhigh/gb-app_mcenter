@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.controller;
 import org.json.JSONObject;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionQueryTool;
+import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.init.context.CommonContext;
@@ -15,6 +16,7 @@ import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.math.NumberTool;
 import org.soul.commons.query.sort.Order;
+import org.soul.commons.spring.utils.CommonBeanFactory;
 import org.soul.commons.tree.TreeNode;
 import org.soul.model.msg.notice.po.VNoticeReceivedText;
 import org.soul.model.msg.notice.vo.CometMsg;
@@ -216,6 +218,7 @@ public class IndexController extends BasePhoneApiController {
         List<VUserShortcutMenu> vUserShortcutMenus = ServiceSiteTool.vUserShortcutMenuService().queryShortMenuByUser(menuListVo);
         menuListVo.setResult(vUserShortcutMenus);
         filterSubAccountMenu(menuListVo);
+        filterShortCutMenu(menuListVo);
         model.addAttribute("menuListVo", menuListVo);
     }
 
@@ -229,6 +232,26 @@ public class IndexController extends BasePhoneApiController {
         }
         menuListVo.setResult(menuList);
     }
+
+    /**
+     * 过滤快捷菜单
+     * @param menuListVo
+     */
+    private void filterShortCutMenu(VUserShortcutMenuListVo menuListVo){
+        List<VUserShortcutMenu> menuListVoResult = menuListVo.getResult();
+        if(CollectionTool.isEmpty(menuListVoResult)){
+            return;
+        }
+        List<VUserShortcutMenu> newMenus = new ArrayList<>();
+        for (VUserShortcutMenu vUserShortcutMenu : menuListVoResult) {
+            boolean hasMenu = hasPermission(vUserShortcutMenu.getUrl());
+            if(hasMenu){
+                newMenus.add(vUserShortcutMenu);
+            }
+        }
+        menuListVo.setResult(newMenus);
+    }
+
 
     /**
      * 如果是站长活取子站点信息
