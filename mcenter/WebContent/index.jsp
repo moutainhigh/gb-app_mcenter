@@ -91,7 +91,7 @@
                 <a data-toggle="dropdown" {{if object.resourceUrl == '' || object.resourceUrl == null}} href='#' {{else}} href='javascript:void(0);' data='/{{: object.resourceUrl}}' nav-target='mainFrame' {{/if}} role="button" aria-haspopup="true" aria-expanded="false">
                 <div class="icon"><i class="{{:object.resourceIcon}} iconfont "></i></div><span>{{:object.resourceRName}}</span>
                 </a>
-                {{if children!=null && children.length>0}}
+                {{if object.id!=11 && children!=null && children.length>0}}
                 <ul class="dropdown-menu">
                     {{for children}}
                         <li><a {{if object.resourceUrl == '' || object.resourceUrl == null}} href='/index/content.html?parentId={{:object.id}}' {{else}} href='/{{: object.resourceUrl}}' {{/if}}

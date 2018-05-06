@@ -64,7 +64,7 @@
                             </div>
                             <div class="swiper-slide btn" realtimeGroup="effcTransaction">
                                 <p class="info-1"><b>实时总投注</b></p>
-                                <p class="info-2">${lastRealtimeProfile.countEffcTransaction}</p>
+                                <p class="info-2">${soulFn:formatCurrency(lastRealtimeProfile.countEffcTransaction)}</p>
                                 <p class="info-3">较昨日同时段</p>
                                 <p class='info-4'>
                                     <c:set var="compare" value="${Vo.compareEffcTransaction}"/>
@@ -74,7 +74,7 @@
                             </div>
                             <div class="swiper-slide btn" realtimeGroup="deposit">
                                 <p class="info-1"><b>实时总存款</b></p>
-                                <p class="info-2">${lastRealtimeProfile.countDeposit}</p>
+                                <p class="info-2">${soulFn:formatCurrency(lastRealtimeProfile.countDeposit)}</p>
                                 <p class="info-3">较昨日同时段</p>
                                 <p class='info-4'>
                                     <c:set var="compare" value="${Vo.compareDeposit}"/>
@@ -94,7 +94,7 @@
                             </div>
                             <div class="swiper-slide btn" realtimeGroup="realtimeProfitLoss">
                                 <p class="info-1"><b>实时总损益</b></p>
-                                <p class="info-2">${lastRealtimeProfile.realtimeProfitLoss}</p>
+                                <p class="info-2">${soulFn:formatCurrency(lastRealtimeProfile.realtimeProfitLoss)}</p>
                                 <p class="info-3">较昨日同时段</p>
                                 <p class='info-4'>
                                     <c:set var="compare" value="${Vo.compareRealtimeProfitLoss}"/>
@@ -112,9 +112,9 @@
             </div>
             <!--曲线图-->
             <div class="tableBox">
-                <div class="top run-title">
-                    <h3>实时报表 </h3><span style="color:#777;margin-left: 10px;margin-right: 65%">显示20天的数据,今日为实时的数据</span>
-                    <a class="btn btn-default export" href="#">导出数据</a>
+                <div class="top">
+                    <h3>实时报表</h3>
+                    <!--<a class="btn btn-default export" href="#">导出数据</a>-->
                 </div>
                 <!--动态生成数据表格-->
                 <table class="reportTab table-hover" id="Searchresult">
@@ -140,13 +140,13 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td>${item.visitorAll}</td>
-                            <td>${item.activeAll}</td>
-                            <td>${item.registerAll}</td>
-                            <td>${item.depositAll}</td>
-                            <td>${item.effcTransactionAll}</td>
-                            <td>${item.onlineAll}</td>
-                            <td>${item.realtimeProfitLossAll}</td>
+                            <td>${item.visitorAll == null ? 0 : item.visitorAll }</td>
+                            <td>${item.activeAll == null ? 0 : item.activeAll}</td>
+                            <td>${item.registerAll == null ? 0 : item.registerAll}</td>
+                            <td>${soulFn:formatCurrency(item.depositAll)}</td>
+                            <td>${soulFn:formatCurrency(item.effcTransactionAll)}</td>
+                            <td>${item.onlineAll == null ? 0 : item.onlineAll}</td>
+                            <td>${soulFn:formatCurrency(item.realtimeProfitLossAll)}</td>
                         </tr>
                     </c:forEach>
                 </table>
