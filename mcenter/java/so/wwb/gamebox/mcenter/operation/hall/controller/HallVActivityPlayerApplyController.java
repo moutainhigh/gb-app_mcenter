@@ -262,7 +262,7 @@ public class HallVActivityPlayerApplyController extends BaseCrudController<IVAct
 
             if (StringTool.isBlank(activityType) || !activityTypeKeySet.contains(activityType)) {//活动大厅--活动监控页面中的请求需要对不同活动审核，没有传送activityType的值，所以查询出来
                 ActivityMessageVo activityMessageVo = new ActivityMessageVo();
-                activityMessageVo.getSearch().setId(Integer.valueOf(activityPlayerApplyId));
+                activityMessageVo.getSearch().setId(Integer.valueOf(activityPlayerApplyVo.getResult().getActivityMessageId()));
                 activityMessageVo = ServiceActivityTool.activityMessageService().get(activityMessageVo);
                 if(activityMessageVo.getResult() != null){
                     activityType = activityMessageVo.getResult().getActivityTypeCode();
