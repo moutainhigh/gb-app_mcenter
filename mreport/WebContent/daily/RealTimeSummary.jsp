@@ -27,9 +27,10 @@
             <div class="run-title">
                 <h1 class="float-left">实时总览 <span>更新时间  ${soulFn:formatDateTz(now, DateFormat.DAY_SECOND,timeZone)} 每60分钟/刷新</span></h1>
             </div>
-            <div class="dataBox">
+            <div class="dataBox" id="dataBox">
                 <c:if test="${not empty command.result && command.result.size() > 0}">
                     <c:set var="lastRealtimeProfile" value="${realtimeData != null ? realtimeData : realtimeProfile}"/>
+                    <div class="swiper-button-next" style="top:135px;right:30px"></div>
                     <div class="swiper-container swiper-info">
                         <div class="swiper-wrapper" id="swiper-wrapper">
                             <div class="swiper-slide btn btn-primary" realtimeGroup="visitor">
@@ -103,9 +104,8 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
                     </div>
+                    <div class="swiper-button-prev" style="top:135px;left:30px"></div>
                     <div id="mountNode"></div>
                     <div id="explainText" style="color:#777;margin-left: 75%;">以日合计 单位(个)</div><br/>
                 </c:if>

@@ -22,7 +22,7 @@
 <body>
 
 <div class="container gaikuang-page">
-    <div class="menu _menu">
+    <div class="menu _menu" style="background-color: #61cdff">
       <nav>
         <h1 class="name">捷报系统中心 <font>statement system</font></h1>
             <ul class="list-group">
