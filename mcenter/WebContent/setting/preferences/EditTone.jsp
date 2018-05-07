@@ -47,6 +47,7 @@
     </div>
     <div class="modal-footer">
         <input type="hidden" name="result.id" value="${tone.id}"/>
+        <input type="hidden" name="result.paramCode" value="${tone.paramCode}"/>
         <soul:button precall="checkOne" tag="button" opType="ajax" dataType="json" target="${root}/setting/preference/uploadTone.html" post="getCurrentFormData" callback="saveCallbak" cssClass="btn btn-filter" text="${views.common['OK']}">${views.common['OK']}</soul:button>
         <soul:button target="closePage" tag="button" opType="function" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter">${views.common['cancel']}</soul:button>
     </div>

@@ -59,7 +59,27 @@
                 <td>${soulFn:formatDateTz(p.applyTime,DateFormat.DAY_SECOND,timeZone)}</td>
                 <td>${p.preferentialValue}</td>
                 <td>${p.preferentialAudit}</td>
-                <td>${views.operation['查看详情']}</td>
+                <td>
+                    <div style="display: none"></div>
+                    <span tabindex="0" detailId="${p.id}" activityType="${p.code}" class=" help-popover m-r-xs co-blue3 showMonitorDetail" role="button" data-container="body" data-toggle="popover" data-trigger="click" data-placement="top" data-html="true"
+                          data-content=""
+                          data-original-title="" title="">
+                                         查看详情
+                                        </span>
+                    <%--<span tabindex="0" class=" help-popover m-r-xs co-blue3" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true"--%>
+                          <%--data-content="首存金额：100.00元--%>
+                                        <%--<br>--%>
+                                        <%--有效交易额：100,100,100.00元--%>
+                                        <%--<br>参与游戏：xx电子，xx体育--%>
+                                        <%--<br>注单号：316254654--%>
+                                        <%--<br>存款金额：156,211.00--%>
+                                        <%--<br>--%>
+                                        <%--存款成功单号：54646445"--%>
+                          <%--data-original-title="" title="">--%>
+                                         <%--查看详情--%>
+                                        <%--</span>--%>
+
+                </td>
                 <%--<td>${views.operation[p.code]}</td>--%>
                 <%--<td>${siteI18nMap[p.activityClassifyKey].value}</td>--%>
 

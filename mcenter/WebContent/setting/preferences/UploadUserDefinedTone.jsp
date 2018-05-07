@@ -5,7 +5,7 @@
 
 <html lang="zh-CN">
 <head>
-    <title>上传自定义提示音</title>
+    <title>${views.setting_auto['上传自定义提示音']}</title>
     <%@ include file="/include/include.head.jsp" %>
 </head>
 
@@ -19,7 +19,7 @@
     <div class="modal-body">
         <c:set value="${toneDefined}" var="p"></c:set>
         <div class="form-group">
-            <label><span class="co-red">*</span>上传提示音：</label><span class="m-l co-grayc2">（请上传mp3,wav格式音频文件,大小限制5M以内.）</span>
+            <label><span class="co-red">*</span>${views.setting_auto['上传提示音']}：</label><span class="m-l co-grayc2">${views.setting_auto['上传提示音格式提示']}</span>
             <div class="form-group m-b-sm">
                 <input id="tone_file_path" class="file" type="file" value="" name="tone_file_path" target="result.paramValue">
                 <input type="hidden"class="tone-path" name="result.paramCode" value="${p.paramCode}">
