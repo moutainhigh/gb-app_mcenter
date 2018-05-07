@@ -10,7 +10,7 @@
 <body>
 <form:form method="post">
     <input type="hidden" name="ids" value="${ids}"/>
-    <input type="hidden" name="activityType" value="${code}"/>
+    <%--<input type="hidden" name="activityType" value="${code}"/>--%>
     <input type="hidden" name="result.checkState" value="2"/>
     <div class="modal-body clearfix">
         <%--code为空时，为活动大厅-活动效果监控页面请求的，需要审核不同活动的，所以不显示活动标题，总人数--%>

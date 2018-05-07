@@ -1546,6 +1546,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION);
 //        ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION_AGENT);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_RECOVER_PASSWORD);
+        ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
         Cache.refreshCurrentSitePageCache(SessionManager.getSiteId());
         return getVoMessage(siteParamVo);
     }

@@ -92,7 +92,7 @@
                                                                         cssClass="m-l-sm line-hi30"
                                                                         text=""
                                                                         tag="a" opType="dialog"
-                                                                        callback="reload">上传</soul:button>
+                                                                        callback="reload">${views.setting_auto['上传']}</soul:button>
                                                             </td>
                                                             <td><input type="checkbox" name="active"
                                                                        objId="${toneDeposit.id}" hidId="toneDeposit"
@@ -130,7 +130,7 @@
                                                                         cssClass="m-l-sm line-hi30"
                                                                         text=""
                                                                         tag="a" opType="dialog"
-                                                                        callback="reload">上传</soul:button>
+                                                                        callback="reload">${views.setting_auto['上传']}</soul:button>
                                                             </td>
                                                             <td><input type="checkbox" name="active"
                                                                        objId="${tonePay.id}" hidId="tonePay"
@@ -168,7 +168,7 @@
                                                                         cssClass="m-l-sm line-hi30"
                                                                         text=""
                                                                         tag="a" opType="dialog"
-                                                                        callback="reload">上传</soul:button>
+                                                                        callback="reload">${views.setting_auto['上传']}</soul:button>
                                                             </td>
                                                             <td><input type="checkbox" name="active"
                                                                        objId="${toneDraw.id}" hidId="toneDraw"
@@ -206,7 +206,7 @@
                                                                         cssClass="m-l-sm line-hi30"
                                                                         text=""
                                                                         tag="a" opType="dialog"
-                                                                        callback="reload">上传</soul:button>
+                                                                        callback="reload">${views.setting_auto['上传']}</soul:button>
                                                             </td>
                                                             <td><input type="checkbox" name="active"
                                                                        objId="${toneAudit.id}" hidId="toneAudit"
@@ -244,7 +244,7 @@
                                                                         cssClass="m-l-sm line-hi30"
                                                                         text=""
                                                                         tag="a" opType="dialog"
-                                                                        callback="reload">上传</soul:button>
+                                                                        callback="reload">${views.setting_auto['上传']}</soul:button>
                                                             </td>
                                                             <td><input type="checkbox" name="active"
                                                                        objId="${toneWarm.id}" hidId="toneWarm"
@@ -282,7 +282,7 @@
                                                                         cssClass="m-l-sm line-hi30"
                                                                         text=""
                                                                         tag="a" opType="dialog"
-                                                                        callback="reload">上传</soul:button>
+                                                                        callback="reload">${views.setting_auto['上传']}</soul:button>
                                                             </td>
                                                             <td><input type="checkbox" name="active"
                                                                        objId="${toneNotice.id}" hidId="toneNotice"
