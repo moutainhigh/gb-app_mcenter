@@ -23,7 +23,7 @@
 <body>
 
 <div class="container gaikuang-page">
-    <div class="menu _menu" id="side-menu-nav">
+    <div class="menu _menu" style="background-color: #61cdff" id="side-menu-nav">
 
     </div>
     <div class="main-content _mainContent">
