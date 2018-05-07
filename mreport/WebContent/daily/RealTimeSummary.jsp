@@ -35,7 +35,7 @@
                         <div class="swiper-wrapper" id="swiper-wrapper">
                             <div class="swiper-slide btn btn-primary" realtimeGroup="visitor">
                                 <p class="info-1"><b>实时总访客</b></p>
-                                <p class="info-2">${lastRealtimeProfile.countVisitor}</p>
+                                <p class="info-2">${lastRealtimeProfile.countVisitor != null ? lastRealtimeProfile.countVisitor : 0 }</p>
                                 <p class="info-3">较昨日同时段</p>
                                 <p class='info-4'>
                                     <c:set var="compare" value="${Vo.compareVisitor}"/>
@@ -45,7 +45,7 @@
                             </div>
                             <div class="swiper-slide btn" realtimeGroup="active">
                                 <p class="info-1"><b>实时总活跃</b></p>
-                                <p class="info-2">${lastRealtimeProfile.countActive}</p>
+                                <p class="info-2">${lastRealtimeProfile.countActive != null ? lastRealtimeProfile.countActive : 0}</p>
                                 <p class="info-3">较昨日同时段</p>
                                 <p class='info-4'>
                                     <c:set var="compare" value="${Vo.compareActive}"/>
@@ -55,7 +55,7 @@
                             </div>
                             <div class="swiper-slide btn" realtimeGroup="register">
                                 <p class="info-1"><b>实时总注册</b></p>
-                                <p class="info-2">${lastRealtimeProfile.countRegister}</p>
+                                <p class="info-2">${lastRealtimeProfile.countRegister != null ? lastRealtimeProfile.countRegister : 0}</p>
                                 <p class="info-3">较昨日同时段</p>
                                 <p class='info-4'>
                                     <c:set var="compare" value="${Vo.compareRegister}"/>
@@ -85,7 +85,7 @@
                             </div>
                             <div class="swiper-slide btn" realtimeGroup="online">
                                 <p class="info-1"><b>实时总在线</b></p>
-                                <p class="info-2">${lastRealtimeProfile.countOnline}</p>
+                                <p class="info-2">${lastRealtimeProfile.countOnline != null ? lastRealtimeProfile.countOnline : 0}</p>
                                 <p class="info-3">较昨日同时段</p>
                                 <p class='info-4'>
                                     <c:set var="compare" value="${Vo.compareOnline}"/>
