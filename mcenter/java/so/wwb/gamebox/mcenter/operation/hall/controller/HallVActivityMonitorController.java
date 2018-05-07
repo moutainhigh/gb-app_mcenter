@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.operation.hall.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleDateTool;
@@ -104,6 +105,7 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
         }
 
 
+        //存送
         if (activityType.contains("deposit")) {
             //存款类型
             String rechargeType = "";
@@ -125,16 +127,31 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
             voMessage.put("msg", msg);
             return voMessage;
         }
+        //红包
+        else if (ActivityTypeEnum.MONEY.getCode().equals(activityType)) {
+            msg = MessageFormat.format(msg,
+                    result.getPreferentialValue(),//金额
+                    LocaleDateTool.formatDate(result.getApplyTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone()),
+                    result.getApplyTransactionNo(),//单号
+                    checkState//状态
+            );
+            voMessage.put("msg", msg);
+            return voMessage;
+        }
 
         //优惠数据详情的json
         JSONObject preferentialDataJson = null;
         try {
-            preferentialDataJson = JSON.parseObject(result.getPreferentialData());
+            preferentialDataJson = JSON.parseObject("{a:2}");
         } catch (Exception e) {
             LOG.error(e, "解析数据异常,不是json格式:{0}", result.getPreferentialData());
-            voMessage.put("msg", "data");
+
+        }
+        if (preferentialDataJson == null){
+            voMessage.put("msg", operationMsg.get("null"));
             return voMessage;
         }
+
         //注册送
         if (ActivityTypeEnum.REGIST_SEND.getCode().equals(activityType)) {
             msg = MessageFormat.format(msg,
@@ -150,21 +167,31 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
         //有效投注额
         else if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(activityType)) {
             msg = MessageFormat.format(msg,
-                    result.getStartTime(),
-                    result.getEndTime(),
+                    LocaleDateTool.formatDate(result.getStartTime(), LocaleDateTool.getFormat("DAY_SECOND"), SessionManagerCommon.getTimeZone()),//统计周期
+                    LocaleDateTool.formatDate(result.getEndTime(), LocaleDateTool.getFormat("DAY_SECOND"), SessionManagerCommon.getTimeZone()),
                     StringTool.isBlank(preferentialDataJson.getString("effective")) ? operationMsg.get("null") : preferentialDataJson.getString("effective"),//投注总金额
-                    result.getApplyTime(),
-                    checkState
+                    LocaleDateTool.formatDate(result.getApplyTime(), LocaleDateTool.getFormat("DAY_SECOND"), SessionManagerCommon.getTimeZone()),//申请时间
+                    result.getApplyTransactionNo(),//单号
+                    checkState//状态
                     );
         } else if (ActivityTypeEnum.PROFIT.getCode().equals(activityType)) {
-            msg = MessageFormat.format(msg, result.getRechargeAmount(), result.getTransactionNo(), result.getRechargeType(), result.getCheckState(), ""
-                    , result.getApplyTime(), result.getApplyTransactionNo(), result.getPreferentialValue(), result.getCheckState());
+            msg = MessageFormat.format(msg,
+                    LocaleDateTool.formatDate(result.getStartTime(), LocaleDateTool.getFormat("DAY_SECOND"), SessionManagerCommon.getTimeZone()),//统计周期
+                    LocaleDateTool.formatDate(result.getEndTime(), LocaleDateTool.getFormat("DAY_SECOND"), SessionManagerCommon.getTimeZone()),
+                    StringTool.isBlank(preferentialDataJson.getString("profitLoss")) ? operationMsg.get("null") : preferentialDataJson.getString("profitLoss"),//投注总金额
+                    LocaleDateTool.formatDate(result.getApplyTime(), LocaleDateTool.getFormat("DAY_SECOND"), SessionManagerCommon.getTimeZone()),
+                    result.getPreferentialValue(),//金额
+                    result.getApplyTransactionNo(),//单号
+                    checkState//状态
+            );
         } else if (ActivityTypeEnum.RELIEF_FUND.getCode().equals(activityType)) {
-            msg = MessageFormat.format(msg, result.getRechargeAmount(), result.getTransactionNo(), result.getRechargeType(), result.getCheckState(), ""
-                    , result.getApplyTime(), result.getApplyTransactionNo(), result.getPreferentialValue(), result.getCheckState());
-        } else if (ActivityTypeEnum.MONEY.getCode().equals(activityType)) {
-            msg = MessageFormat.format(msg, result.getRechargeAmount(), result.getTransactionNo(), result.getRechargeType(), result.getCheckState(), ""
-                    , result.getApplyTime(), result.getApplyTransactionNo(), result.getPreferentialValue(), result.getCheckState());
+            msg = MessageFormat.format(msg,
+                    StringTool.isBlank(preferentialDataJson.getString("relief")) ? operationMsg.get("null") : preferentialDataJson.getString("relief"),//亏损或当日盈利金额
+                    StringTool.isBlank(preferentialDataJson.getString("assets")) ? operationMsg.get("null") : preferentialDataJson.getString("assets"),//剩余总资产
+                    result.getApplyTransactionNo(),//单号
+                    LocaleDateTool.formatDate(result.getApplyTime(), LocaleDateTool.getFormat("DAY_SECOND"), SessionManagerCommon.getTimeZone()),
+                    checkState//状态
+            );
         }
         voMessage.put("msg", msg);
         return voMessage;
