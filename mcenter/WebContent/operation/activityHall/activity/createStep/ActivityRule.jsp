@@ -44,7 +44,7 @@
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.claimPeriod']}：</label>
                     <div class="col-sm-6">
                         <span class="input-group pull-left line-hi25 m-r">
-                            <gb:select name="activityRule.claimPeriod" list="<%=DictTool.get(DictEnum.CLAIM_PERIOD)%>" prompt="${views.common['pleaseSelect']}" value="${activityRule.claimPeriod}" callback="changeKey"/>
+                            <gb:select name="activityRule.claimPeriod" list="{'NaturalDay':'一日','NaturalWeek':'一周','NaturalMonth':'一月'}" prompt="${views.common['pleaseSelect']}" value="${activityRule.claimPeriod}" callback="changeKey"/>
                         </span>
                         <span class="m-l co-grayc2 claimPeriodDetail">${views.operation['Activity.step.message4']}</span>
 

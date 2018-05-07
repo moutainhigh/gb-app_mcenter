@@ -269,13 +269,13 @@
                             <input type="checkbox" id="casino_checkAll" value="${gameType}"><span>${dicts.game.game_type[gameType]}</span>
                         </div>
                         <!--class-->
-                        <c:forEach items="${rakebackCashApis.values()}" var="rakebackApi" varStatus="">
-                            <div class="classification form-group clearfix" id="caniso_check">
+                        <div class="classification form-group clearfix" id="caniso_check">
+                            <c:forEach items="${rakebackCashApis.values()}" var="rakebackApi" varStatus="">
                                 <c:if test="${rakebackApi.gameType eq gameType}">
                                     <div class="pro form-group"><input class="singleAPI" type="checkbox" gameType="${gameType}" value="${rakebackApi.apiId}" /><span>${gbFn:getApiName(rakebackApi.apiId)}</span></div>
                                 </c:if>
-                            </div>
-                        </c:forEach>
+                            </c:forEach>
+                        </div>
                     </div>
                 </c:forEach>
             </form>
