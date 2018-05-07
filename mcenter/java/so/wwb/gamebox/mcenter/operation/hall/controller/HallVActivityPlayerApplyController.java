@@ -16,6 +16,7 @@ import org.soul.model.msg.notice.vo.NoticeLocaleTmpl;
 import org.soul.model.msg.notice.vo.NoticeVo;
 import org.soul.model.security.privilege.po.SysUser;
 import org.soul.model.security.privilege.vo.SysUserVo;
+import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -218,7 +219,7 @@ public class HallVActivityPlayerApplyController extends BaseCrudController<IVAct
      */
     @RequestMapping("/auditStatus")
     @ResponseBody
-    public Map auditStatus(ActivityPlayerApplyVo vo, String ids, String activityType) {
+    public Map auditStatus(ActivityPlayerApplyVo vo, String ids) {
         LOG.info("[活动优惠审核]进入方法auditStatus:{0}",ids);
         HashMap map = new HashMap(2,1f);
         if (ids == null || "".equals(ids)) {
@@ -228,8 +229,12 @@ public class HallVActivityPlayerApplyController extends BaseCrudController<IVAct
 
         vo.getResult().setCheckTime(SessionManager.getDate().getNow());
         vo.getResult().setCheckUserId(SessionManager.getUserId());
+        String paramValue = "";
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_DISCOUNT);
+        if (sysParam != null){
+            paramValue =sysParam.getParamValue();
+        }
 
-        String paramValue = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_DISCOUNT).getParamValue();
         String[] id = ids.split(",");
 
         //活动类型
@@ -261,16 +266,15 @@ public class HallVActivityPlayerApplyController extends BaseCrudController<IVAct
                         activityPlayerApplyVo.getResult().getUserId()));
             }
 
-            if (StringTool.isBlank(activityType) || !activityTypeKeySet.contains(activityType)) {//活动大厅--活动监控页面中的请求需要对不同活动审核，没有传送activityType的值，所以查询出来
-                ActivityMessageVo activityMessageVo = new ActivityMessageVo();
-                activityMessageVo.getSearch().setId(Integer.valueOf(activityPlayerApplyVo.getResult().getActivityMessageId()));
-                activityMessageVo = ServiceActivityTool.activityMessageService().get(activityMessageVo);
-                if(activityMessageVo.getResult() != null){
-                    activityType = activityMessageVo.getResult().getActivityTypeCode();
-                }
+            String activityType = "";
+            ActivityMessageVo activityMessageVo = new ActivityMessageVo();
+            activityMessageVo.getSearch().setId(Integer.valueOf(activityPlayerApplyVo.getResult().getActivityMessageId()));
+            activityMessageVo = ServiceActivityTool.activityMessageService().get(activityMessageVo);
+            if (activityMessageVo.getResult() != null) {
+                activityType = activityMessageVo.getResult().getActivityTypeCode();
             }
 
-            LOG.info("[活动优惠审核]调用activityPlayerApplyService方法:activityPlayerApplyId{0},ActivityMessageId{1},activityType{2},paramValue{3}",
+            LOG.info("[活动优惠审核]调用activityPlayerApplyService方法:activityPlayerApplyId:{0},ActivityMessageId:{1},activityType:{2},paramValue:{3}",
                     activityPlayerApplyId, activityPlayerApplyVo.getResult().getActivityMessageId(), activityType, paramValue);
             vo = ServiceActivityTool.activityPlayerApplyService().auditStatus(vo, activityPlayerApplyVo, activityType, paramValue);
 
