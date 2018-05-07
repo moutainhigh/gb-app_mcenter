@@ -7,7 +7,9 @@
 <!--//endregion your codes 1-->
 <div class="row">
     <form:form action="${root}/operation/domainCheckData/getDomainCount.html" method="post">
-
+        <input type="hidden" value="${command.domainCheckResultListVo.checkTaskId}" id="checkTaskId"/>
+        <input type="hidden" value="${command.domainCheckResultListVo.checkTaskStatus}" id="checkTaskStatus"/>
+        <input type="hidden" value="${leave_minus}" id="minus"/>
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a>
             </h2>
@@ -172,6 +174,11 @@
                         ${views.operation['检测时间：']}${soulFn:formatDateTz(command.domainCheckResultListVo.checkTime, DateFormat.DAY_SECOND, timeZone )}
                 </div>
 
+                <soul:button text="" target="detectionall" opType="function" cssClass="btn btn-filter _enter_submit detection_btn" tag="button">
+                    <i class=""></i>
+                    <span class="hd" id="detection_show">&nbsp;${views.common['detectionall']}</span>
+                </soul:button>
+
                 <div class="clearfix filter-wraper line-hi34 al-right pull-right">
                         ${views.operation['所有域名检测结果仅供参考，不完全代表整个区域的实际解析情况，不具备故障证据之作用！如有需要请自行核实域名实际情况！']}
                 </div>
@@ -187,5 +194,5 @@
     </form:form>
 </div>
 <!--//region your codes 3-->
-<soul:import type="list"/>
+<soul:import res="site/operation/domainCheck/Index"/>
 <!--//endregion your codes 3-->
