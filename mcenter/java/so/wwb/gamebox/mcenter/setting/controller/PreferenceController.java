@@ -191,7 +191,29 @@ public class PreferenceController {
             ServiceSiteTool.preferenceService().uploadTone(sysParamVo);
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
             map.put("state", Boolean.valueOf(true));
-            ParamTool.refresh( SiteParamEnum.WARMING_TONE_DEPOSIT);
+            String paramCode = sysParamVo.getResult().getParamCode();
+            switch (paramCode) {
+                case "deposit":
+                    ParamTool.refresh(SiteParamEnum.WARMING_TONE_DEPOSIT);
+                    break;
+                case "onlinePay":
+                    ParamTool.refresh(SiteParamEnum.WARMING_TONE_ONLINEPAY);
+                    break;
+                case "draw":
+                    ParamTool.refresh(SiteParamEnum.WARMING_TONE_DRAW);
+                    break;
+                case "audit":
+                    ParamTool.refresh(SiteParamEnum.WARMING_TONE_AUDIT);
+                    break;
+                case "warm":
+                    ParamTool.refresh(SiteParamEnum.WARMING_TONE_WARM);
+                    break;
+                case "notice":
+                    ParamTool.refresh(SiteParamEnum.WARMING_TONE_NOTICE);
+                    break;
+                default:
+                    LOG.error("站点{0}，更换站点提示音，缓存刷新失败,参数paramCode为:{1}",SessionManager.getSiteId(),paramCode);
+            }
         } catch (Exception e) {
             LOG.error(e);
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));//LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
