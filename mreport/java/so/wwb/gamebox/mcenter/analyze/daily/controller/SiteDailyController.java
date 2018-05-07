@@ -3,13 +3,17 @@ package so.wwb.gamebox.mcenter.analyze.daily.controller;
 import com.alibaba.fastjson.JSON;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
+import org.soul.commons.query.Paging;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
+import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.tools.DataTransTool;
 import so.wwb.gamebox.model.WeekTool;
+import so.wwb.gamebox.model.company.setting.po.ApiGametypeRelation;
+import so.wwb.gamebox.model.company.setting.vo.ApiGametypeRelationListVo;
+import so.wwb.gamebox.model.company.setting.vo.ApiGametypeRelationVo;
 import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
 import so.wwb.gamebox.model.master.operation.so.RakebackApiSo;
 import so.wwb.gamebox.model.master.operation.vo.RakebackApiListVo;
@@ -50,7 +54,17 @@ public class SiteDailyController {
         vo.setTimeZone(WeekTool.getTimeZoneInterval());
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryData(vo);
         model.addAttribute("operationSummaryData", JsonTool.toJson(vo.getEntities()));
-        model.addAttribute("rakebackCashApis", ApiProviderEnum.values());
+        Map<String,ApiGametypeRelation> map = ServiceTool.apiGametypeRelationService().load(new ApiGametypeRelationVo());
+        List<String> gameTypes = new ArrayList<>();
+        if(CollectionTool.isNotEmpty(map.values())) {
+            for (ApiGametypeRelation relation : map.values()) {
+                if (!gameTypes.contains(relation.getGameType())) {
+                    gameTypes.add(relation.getGameType());
+                }
+            }
+        }
+        model.addAttribute("gameTypes", gameTypes);
+        model.addAttribute("rakebackCashApis", map);
         return OPERATION_SUMMARY;
     }
 
@@ -74,47 +88,50 @@ public class SiteDailyController {
      */
     @RequestMapping("/operationSummaryDataOfChoiceDays")
     @ResponseBody
-    public String operationSummaryDataOfChoiceDays(OperationSummaryVo vo , Model model) {
+    public String operationSummaryDataOfChoiceDays(OperationSummaryVo vo) {
         //拼装结束时间
-        Calendar createDate = Calendar.getInstance();
-        createDate.setTime(vo.getSearch().getStaticTimeEnd());
-        createDate.set(Calendar.HOUR_OF_DAY,00);
-        createDate.set(Calendar.MINUTE,00);
-        createDate.set(Calendar.SECOND,00);
-        Date date = new Date(createDate.getTime().getTime());
-        vo.getSearch().setStaticTimeEnd(date);
-        //拼装开始时间
-        createDate.setTime(vo.getSearch().getStaticTime());
-        createDate.set(Calendar.HOUR_OF_DAY,00);
-        createDate.set(Calendar.MINUTE,00);
-        createDate.set(Calendar.SECOND,00);
-        date = new Date(createDate.getTime().getTime());
-        vo.getSearch().setStaticTime(date);
+//        Calendar createDate = Calendar.getInstance();
+//        createDate.setTime(vo.getSearch().getStaticTimeEnd());
+//        createDate.set(Calendar.HOUR_OF_DAY,00);
+//        createDate.set(Calendar.MINUTE,00);
+//        createDate.set(Calendar.SECOND,00);
+//        Date date = new Date(createDate.getTime().getTime());
+//        vo.getSearch().setStaticTimeEnd(date);
+//        //拼装开始时间
+//        createDate.setTime(vo.getSearch().getStaticTime());
+//        createDate.set(Calendar.HOUR_OF_DAY,00);
+//        createDate.set(Calendar.MINUTE,00);
+//        createDate.set(Calendar.SECOND,00);
+//        date = new Date(createDate.getTime().getTime());
+//        vo.getSearch().setStaticTime(date);
 
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryDataByDays(vo);
         return JsonTool.toJson(vo.getEntities());
     }
 
     /**
+     * 运营统计数据分页查询
+     * @return
+     */
+    @RequestMapping("/searchOperationSummaryByDays")
+    @ResponseBody
+    public OperationSummaryVo searchOperationSummaryByDays(OperationSummaryVo vo) {
+        return ServiceSiteTool.operationSummaryService().searchOperationSummaryByDays(vo);
+    }
+
+    /**
      * 根据选择的API来查询反水金额
      */
-    @RequestMapping("/queryRakebackCashByApi")
+    @RequestMapping(value = "/queryRakebackCashByApi",method = RequestMethod.POST ,headers = {"Content-type=application/json"})
     @ResponseBody
-    public String queryRakebackCashByApi(OperationSummaryVo vo) {
+    public String queryRakebackCashByApi(@RequestBody OperationSummaryVo vo) {
         RakebackApiListVo rakebackApiListVo = new RakebackApiListVo();
         RakebackApiSo rakebackApiSo = new RakebackApiSo();
-//        rakebackApiSo.setQueryDateRange("D");
-//        rakebackApiSo.setRakebackAmountApis(new Integer[]{22,3,12,9,10,13,14,15,16});
-//        rakebackApiSo.setRakebackAmountGameTypes(new String[]{"Casino","Lottery","Sportsbook"});
-//        rakebackApiSo.setStartTime(new Date(new Date().getTime() - (long)15*24*60*60*1000));
-//        rakebackApiSo.setEndTime(new Date());
-
-
         rakebackApiSo.setQueryDateRange(vo.getQueryDateRange());
         rakebackApiSo.setRakebackAmountApis(vo.getRakebackAmountApis());
         rakebackApiSo.setRakebackAmountGameTypes(vo.getRakebackAmountGameTypes());
-        rakebackApiSo.setStartTime(vo.getResult().getStaticTime());
-        rakebackApiSo.setEndTime(vo.getResult().getStaticTimeEnd());
+        rakebackApiSo.setStartTime(vo.getBeginTime());
+        rakebackApiSo.setEndTime(vo.getEndTime());
         rakebackApiListVo.setSearch(rakebackApiSo);
         List<RakebackApiVo> apiVos  = ServiceSiteTool.rakebackApiService().queryRakebacksByDate(rakebackApiListVo);
         if(CollectionTool.isEmpty(apiVos)){
@@ -132,14 +149,15 @@ public class SiteDailyController {
     @RequestMapping({"/realTimeSummary"})
     public String realTimeSummaryData(RealtimeProfileVo condition, Model model) {
         List<RealtimeProfile> profiles = ServiceSiteTool.realtimeProfileService().queryRealtimeCartogram(condition);
+        List<RealtimeProfile> realtimedata = ServiceSiteTool.realtimeProfileService().queryNowAndYesterdayData(condition);
         List<RealtimeProfileVo> historyReportForm = ServiceSiteTool.realtimeProfileService().queryHistoryReportForm(condition);
         RealtimeProfileListVo realtimeProfileListVo = new RealtimeProfileListVo();
-        if (CollectionTool.isNotEmpty(profiles)) {
+        if (CollectionTool.isNotEmpty(realtimedata)) {
             //今日此时
-            RealtimeProfile lastProfile = profiles.get(profiles.size() - 1);
+            RealtimeProfile lastProfile = realtimedata.get(realtimedata.size() - 1);
             //昨日此时
-            RealtimeProfile fristProfile = profiles.get(0);
-            profiles.remove(0);
+            RealtimeProfile fristProfile = realtimedata.get(0);
+
             //对比昨日同时段浮动百分比
             RealtimeProfileVo profileVo = new RealtimeProfileVo();
             profileVo.setCompareVisitor(DataTransTool.getPercentage(lastProfile.getCountVisitor(), fristProfile.getCountVisitor()));
@@ -149,9 +167,12 @@ public class SiteDailyController {
             profileVo.setCompareEffcTransaction(DataTransTool.getPercentage(lastProfile.getCountEffcTransaction(), fristProfile.getCountEffcTransaction()));
             profileVo.setCompareOnline(DataTransTool.getPercentage(lastProfile.getCountOnline(), fristProfile.getCountOnline()));
             profileVo.setCompareRealtimeProfitLoss(DataTransTool.getPercentage(lastProfile.getRealtimeProfitLoss(), fristProfile.getRealtimeProfitLoss()));
-            realtimeProfileListVo.setResult(profiles);
-            model.addAttribute("profilesJson", JsonTool.toJson(profiles));
             model.addAttribute("Vo", profileVo);
+            model.addAttribute("realtimeData",lastProfile);
+        }
+        if(CollectionTool.isNotEmpty(profiles)){
+            model.addAttribute("profilesJson", JsonTool.toJson(profiles));
+            realtimeProfileListVo.setResult(profiles);
         }
 
         if (CollectionTool.isNotEmpty(historyReportForm)) {

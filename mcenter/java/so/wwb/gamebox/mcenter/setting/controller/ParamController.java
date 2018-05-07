@@ -571,6 +571,21 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     @ResponseBody
     public Map savePlayerItem(PlayerItemMessage itemMessage){
         Map map = new HashMap();
+        String showMobilePhone = itemMessage.getShowMobilePhone();
+        if ("0".equals(showMobilePhone)){//0为不显示
+            SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_REG_SETTING_SMS_SWITCH);
+            LOG.info("站点{0}，获取玩家手机验证系统参数：{1}",SessionManager.getSiteId(),JsonTool.toJson(sysParam));
+            if (sysParam==null){
+                map.put("state", false);
+                return map;
+            }
+            Boolean active = sysParam.getActive();
+            if (active){
+                map.put("state", false);
+                map.put("active",active);
+                return map;
+            }
+        }
         String paramValue = itemMessage.toParamString();
         SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
         if (sysParam!=null){
@@ -657,6 +672,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam phoneNumber = ParamTool.getSysParam(SiteParamEnum.EXTENSION_NUMBER_SETTING);
         SysParam androidDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_ANDROID_DOWNLOAD_ADDRESS);
         SysParam iosDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_IOS_DOWNLOAD_ADDRESS);
+        SysParam activityHallSwitch = ParamTool.getSysParam(SiteParamEnum.ACTIVITY_HALL_SWITCH);//打开活动大厅，关闭活动管理
         String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManagerCommon.getSiteId());
         model.addAttribute("poone_number",phoneNumber);
         model.addAttribute("phone_url",phoneUrl);
@@ -664,6 +680,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("encryption_switch",encryption);
         model.addAttribute("qrSwitch",sysParamQrSwitch);
         model.addAttribute("electric_pin",telemarketing);
+        model.addAttribute("activityHallSwitch",activityHallSwitch);
         model.addAttribute("access_domain",param);
         model.addAttribute("select_domain",sysParam);
         model.addAttribute("mobile_traffic",mobileTraffic.getParamValue());
@@ -674,7 +691,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("androidDownloadAddress",androidDownloadAddress != null ? androidDownloadAddress.getParamValue():"");
         model.addAttribute("iosDownloadAddress",iosDownloadAddress != null ? iosDownloadAddress.getParamValue():"");
         //判断是否为站长主账号
-        /*if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
+        if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
             Integer masterId = sysSiteVo.getResult().getSysUserId();
             LOG.info("站长ID：{0}",masterId);
             SysUserVo sysUserVo = new SysUserVo();
@@ -686,7 +703,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             }else {
                 LOG.info("站长坐席号：获取站长用户信息为空！");
             }
-        }*/
+        }
         return "/setting/param/siteparameters/Parameters";
     }
 
@@ -1394,6 +1411,30 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         }
         return  map;
     }
+
+    /***
+     * 活动大厅开关
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/switchActivityHall")
+    @ResponseBody
+    public  Map switchActivityHall(SysParamVo sysParamVo){
+        HashMap map = new HashMap(2,1f);
+        ParamTool.refresh(SiteParamEnum.ACTIVITY_HALL_SWITCH);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.ACTIVITY_HALL_SWITCH);
+        if (sysParam!=null) {
+            sysParamVo.getResult().setId(sysParam.getId());
+            sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+            SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            if (Param.isSuccess()){
+                ParamTool.refresh(SiteParamEnum.ACTIVITY_HALL_SWITCH);
+            }
+        }
+        return  map;
+    }
+
+
     /***
      * 电话是否加密
      * @param sysParamVo
@@ -1505,6 +1546,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION);
 //        ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION_AGENT);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_RECOVER_PASSWORD);
+        ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
         Cache.refreshCurrentSitePageCache(SessionManager.getSiteId());
         return getVoMessage(siteParamVo);
     }

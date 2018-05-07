@@ -260,7 +260,9 @@
                         ${views.report_auto['总计']}：${siteCurrencySign}<span></span>
                     </td>
                     <td style="width: 120px;"></td>
+<c:if test="${not empty rulesListVo.result}">
                     <td style="width: 120px;"></td>
+</c:if>
                     <td style="width: 120px;"></td>
                     <td></td>
                 </tr>

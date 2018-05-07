@@ -107,11 +107,12 @@
             <div class="clearfix m-t-md">
                 <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityTime']}：</label>
                 <div class="col-sm-5">
-                    <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:160px" useRange="true"
+                    <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:165px" useRange="true"
                                   startDate="${activityMessageVo.result.startTime}"
                                   endDate="${activityMessageVo.result.endTime}"
                                   startName="activityMessage.startTime"
-                                  endName="activityMessage.endTime"></gb:dateRange>
+                                  endName="activityMessage.endTime"
+                                  yesterday="false" beforeYesterday="false" lastWeek="false" lastMonth="false" last7Days="false" last30Days="false"></gb:dateRange>
                 </div>
 
             </div>
@@ -208,15 +209,15 @@
                                         </div>
                                         <div id="activityAffiliatedImg${index.index}">
                                             <img id="dd_${index.index}" src=""
-                                                 style="display: none;width:100%;height: auto;"/>
+                                                 style="display: none;width:auto;height: 150px;"/>
                                         </div>
-                                        <div>${views.operation['Activity.step.message2']}</div>
+                                        <div>${views.operation['Activity.step.message13']}</div>
                                     </div>
                                 </div>
 
                                     <%--附图--%>
                                 <div class="clearfix m-t-md" id="secondary${index.index}">
-                                    <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
+                                    <label class="ft-bold col-sm-3 al-right line-hi34"><i style="color: red;">(选填)</i>&nbsp;${views.operation['Activity.step.activityCover']}：</label>
                                     <div class="col-sm-5">
                                         <div class="form-group m-b-sm">
                                             <div id="activityContentImage${index.index}">
@@ -239,9 +240,9 @@
                                         </div>
                                         <div id="activityContentImg${index.index}">
                                             <img id="aa_${index.index}" src=""
-                                                 style="display: none;width: 100%;height: auto;"/>
+                                                 style="display: none;width: auto;height: 150px;"/>
                                         </div>
-                                        <div>${views.operation['Activity.step.message13']}</div>
+                                        <div>${views.operation['Activity.step.message2']}</div>
                                     </div>
                                 </div>
 
@@ -268,7 +269,7 @@
                                 <li class=" ${index.index+length==length?'active':''}">
                                     <a id="a_${index.index+length}" data-toggle="tab" href="#tab${index.index+length}"
                                        aria-expanded="${index.index+length==length?'true':'false'}">
-                                            ${fn:substringBefore(dicts.common.language[siteLang.value.language], '#')}mobile
+                                            ${fn:substringBefore(dicts.common.language[siteLang.value.language], '#')}
                                         <span class="_editStatus${index.index+length}">
                                             <c:choose>
                                                 <c:when test="${(not empty activityMessageI18ns['2'][siteLang.value.language].activityCover) and (not empty activityMessageI18ns['2'][siteLang.value.language].activityName) and (not empty activityMessageI18ns['2'][siteLang.value.language].activityDescription)}">
@@ -300,7 +301,8 @@
                                                                  id="title${index.index+length}" type="text"
                                                                  name="activityMessageI18ns[${index.index+length}].activityName"
                                                                  class="form-control title"
-                                                                 placeholder="${views.operation['Activity.step.message1']}"
+                                                                 placeholder="${views.operation['Activity.step.message17']}"
+                                                                 maxlength="20"
                                                                  value="${activityMessageI18ns['2'][siteLang.value.language].activityName}">
                                     </div>
                                 </div>
@@ -313,7 +315,7 @@
                                             <div id="activityAffiliatedImage${index.index+length}">
                                                 <c:if test="${not empty activityMessageI18ns['2'][siteLang.value.language].activityAffiliated}">
                                                     <img id="bb_${index.index+length}"
-                                                         src="${soulFn:getThumbPath(domain, activityMessageI18ns['2'][siteLang.value.language].activityAffiliated,500,500)}"
+                                                         src="${soulFn:getThumbPath(domain, activityMessageI18ns['2'][siteLang.value.language].activityAffiliated,0,0)}"
                                                          class="logo-size-h100"
                                                          style="margin: 10px 0; width: auto;height: 150px;"/>
                                                 </c:if>
@@ -330,7 +332,7 @@
                                         </div>
                                         <div id="activityAffiliatedImg${index.index+length}">
                                             <img id="aa_${index.index+length}" src=""
-                                                 style="display: none;width: 100%;height: auto;"/>
+                                                 style="display: none;width: auto;height: 150px;"/>
                                         </div>
                                         <div>${views.operation['Activity.step.message13']}</div>
                                     </div>

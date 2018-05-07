@@ -29,6 +29,18 @@
                         <td><audio src="${resRoot}/${t.paramValue}" preload="auto"></audio></td>
                     </tr>
                 </c:forEach>
+                <c:if test="${!empty toneDefined.paramValue}">
+                    <tr>
+                        <td>
+                            <label>
+                                <div class="pull-left">
+                                    <input type="radio" class="i-checks" name="result.paramValue" ${tone.paramValue==toneDefined.paramValue?'checked':''} value="${toneDefined.paramValue}">自定义
+                                </div>
+                            </label>
+                        </td>
+                        <td><audio src="${imgRoot}/${toneDefined.paramValue}" preload="auto"></audio></td>
+                    </tr>
+                </c:if>
                 </tbody>
             </table>
         </div>
