@@ -219,6 +219,7 @@ public class HallVActivityPlayerApplyController extends BaseCrudController<IVAct
     @RequestMapping("/auditStatus")
     @ResponseBody
     public Map auditStatus(ActivityPlayerApplyVo vo, String ids, String activityType) {
+        LOG.info("[活动优惠审核]进入方法auditStatus:{0}",ids);
         HashMap map = new HashMap(2,1f);
         if (ids == null || "".equals(ids)) {
             map.put("state", false);
@@ -269,10 +270,14 @@ public class HallVActivityPlayerApplyController extends BaseCrudController<IVAct
                 }
             }
 
+            LOG.info("[活动优惠审核]调用activityPlayerApplyService方法:activityPlayerApplyId{0},ActivityMessageId{1},activityType{2},paramValue{3}",
+                    activityPlayerApplyId, activityPlayerApplyVo.getResult().getActivityMessageId(), activityType, paramValue);
             vo = ServiceActivityTool.activityPlayerApplyService().auditStatus(vo, activityPlayerApplyVo, activityType, paramValue);
 
             if (vo.isSuccess()) {
-                NoticeVo noticeVo = new NoticeVo();
+                LOG.info("[活动优惠审核]完成，发送notice:{0}", activityPlayerApplyId);
+
+                        NoticeVo noticeVo = new NoticeVo();
                 if (vo.getResult().getCheckState().equals(ActivityStateEnum.SUCCESS.getCode())) {//审核成功
                     //发送站内信模板内容
                     noticeVo = NoticeVo.autoNotify(AutoNoticeEvent.PREFERENCE_AUDIT_SUCCESS,
