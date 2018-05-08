@@ -714,13 +714,13 @@
                                                  text="${dicts.log.op_type['update']}" opType="dialog" cssClass="btn btn-link co-blue"/>
                                 <c:if test="${command.result.riskDataType.length() == 8 && command.result.riskDataType.contains('2')}">
                                     ${views.player_auto['由系统风控大数据识别']}:
-                                    <c:if test="${command.result.riskDataType.substring(5,6) eq '2'}">
+                                    <c:if test="${command.result.riskDataType.substring(7,8) eq '2'}">
                                         ${views.common['MALICIOUS']},
                                     </c:if>
                                     <c:if test="${command.result.riskDataType.substring(6,7) eq '2'}">
                                         ${views.common['MONEY_LAUNDERING']},
                                     </c:if>
-                                    <c:if test="${command.result.riskDataType.substring(7,8) eq '2'}">
+                                    <c:if test="${command.result.riskDataType.substring(5,6) eq '2'}">
                                         ${views.common['INTEREST_ARBITRAGE']}
                                     </c:if>
                                     <c:if test="${command.result.riskDataType.substring(4,5) eq '2'}">
