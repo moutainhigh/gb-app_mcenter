@@ -6,6 +6,7 @@
 <head>
     <title>整体走势 - 图表</title>
     <%@ include file="/include/include.head.jsp" %>
+    <link rel="stylesheet" type="text/css" href="${resRoot}/themes/default/style.css"/>
     <script type="text/javascript" src="${root}/message_<%=SessionManagerCommon.getLocale().toString()%>.js?v=${rcVersion}"></script>
     <script type="text/javascript">
         var language = '${language.replace('_','-')}';
