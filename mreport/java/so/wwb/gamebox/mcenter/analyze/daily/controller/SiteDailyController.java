@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.analyze.daily.controller;
 import com.alibaba.fastjson.JSON;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
+import org.soul.commons.lang.DateQuickPickerTool;
 import org.soul.commons.query.Paging;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -89,22 +90,6 @@ public class SiteDailyController {
     @RequestMapping("/operationSummaryDataOfChoiceDays")
     @ResponseBody
     public String operationSummaryDataOfChoiceDays(OperationSummaryVo vo) {
-        //拼装结束时间
-//        Calendar createDate = Calendar.getInstance();
-//        createDate.setTime(vo.getSearch().getStaticTimeEnd());
-//        createDate.set(Calendar.HOUR_OF_DAY,00);
-//        createDate.set(Calendar.MINUTE,00);
-//        createDate.set(Calendar.SECOND,00);
-//        Date date = new Date(createDate.getTime().getTime());
-//        vo.getSearch().setStaticTimeEnd(date);
-//        //拼装开始时间
-//        createDate.setTime(vo.getSearch().getStaticTime());
-//        createDate.set(Calendar.HOUR_OF_DAY,00);
-//        createDate.set(Calendar.MINUTE,00);
-//        createDate.set(Calendar.SECOND,00);
-//        date = new Date(createDate.getTime().getTime());
-//        vo.getSearch().setStaticTime(date);
-
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryDataByDays(vo);
         return JsonTool.toJson(vo.getEntities());
     }
@@ -116,6 +101,9 @@ public class SiteDailyController {
     @RequestMapping("/searchOperationSummaryByDays")
     @ResponseBody
     public OperationSummaryVo searchOperationSummaryByDays(OperationSummaryVo vo) {
+        if (vo.getEndTime() == null) {
+            vo.setEndTime(DateQuickPickerTool.getInstance().getNow());
+        }
         return ServiceSiteTool.operationSummaryService().searchOperationSummaryByDays(vo);
     }
 

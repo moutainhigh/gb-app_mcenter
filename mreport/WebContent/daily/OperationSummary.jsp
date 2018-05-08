@@ -197,24 +197,20 @@
 <div class="tableBox" id="operationReport" style="display: none;">
     <div class="top">
         <h3>用户走势</h3>
+        <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
+            <div class="input-group date time-select-a" style="width: 550px;">
+                <span class="input-group-addon bg-gray">${views.common['选择日期']}</span>
+                <gb:dateRange format="${DateFormat.DAY}" style="width:180px;" inputStyle="width:180px;" useToday="true" useRange="true"
+                              position="down" lastMonth="false" hideQuick="true" opens="true" maxDate="${yesterDay}"
+                              startName="player-beginTime" endName="player-endTime" thisMonth="true"/>
+                <button class="btn btn-default playerTrendBtn">查询</button>
+            </div>
+        </div>
     </div>
     <table class="reportTab table-hover" id="playerListResult">
         <!--动态生成数据表格-->
     </table>
     <div class="page" id="playerPagination">
-        <%--<div class="pageNum"><span class="txt">每页显示</span>
-            <div class="chooseNum _chooseNum">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuBtnA" data-toggle="dropdown">
-                    15条
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuBtnA" id="choseNum">
-                    <a class="dropdown-item" href="javascrip:return false;">10条</a>
-                    <a class="dropdown-item" href="javascrip:return false;">15条</a>
-                    <a class="dropdown-item" href="javascrip:return false;">20条</a>
-                </div>
-            </div>
-            <span class="allCot"></span>
-        </div>--%>
         <ul class="pagination float-right" id="playerListPagination">
             <!--动态生成分页器-->
         </ul>
@@ -222,24 +218,20 @@
 
     <div class="top">
         <h3>存取走势</h3>
+        <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
+            <div class="input-group date time-select-a" style="width: 550px;">
+                <span class="input-group-addon bg-gray">${views.common['选择日期']}</span>
+                <gb:dateRange format="${DateFormat.DAY}" style="width:180px;" inputStyle="width:180px;" useToday="true" useRange="true"
+                              position="down" lastMonth="false" hideQuick="true" opens="true" maxDate="${yesterDay}"
+                              startName="deposit-beginTime" endName="deposit-endTime" thisMonth="true"/>
+                <button class="btn btn-default depositTrendBtn">查询</button>
+            </div>
+        </div>
     </div>
     <table class="reportTab table-hover" id="depositWithdrawResult">
         <!--动态生成数据表格-->
     </table>
     <div class="page" id="depositPagination">
-        <%--<div class="pageNum"><span class="txt">每页显示</span>
-            <div class="chooseNum _chooseNum">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuBtnB" data-toggle="dropdown">
-                    15条
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuBtnB" id="choseNum">
-                    <a class="dropdown-item" href="javascrip:return false;">10条</a>
-                    <a class="dropdown-item" href="javascrip:return false;">15条</a>
-                    <a class="dropdown-item" href="javascrip:return false;">20条</a>
-                </div>
-            </div>
-            <span class="allCot"></span>
-        </div>--%>
         <ul class="pagination float-right" id="depositWithdrawPagination">
             <!--动态生成分页器-->
         </ul>
@@ -251,7 +243,6 @@
 <div style="display: none;" id="operationSummaryDataOfMonth"></div>
 <%--返水金额API选择--%>
 <div style="display: none;" id="rakebackCashApis">${rakebackCashApis}</div>
-</div>
 <c:if test="${not empty rakebackCashApis && not empty gameTypes}">
     <div id="mask-api" style="display: none; width: 100%; height: 100%; position: fixed; z-index: 100; left: 0; top: 0;background-color: rgba(0,0,0,0.65);" >
         <div class="api_chose row" id="api_chose" style="position: absolute; z-index: 9999;">
