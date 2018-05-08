@@ -106,7 +106,6 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
             } else {
                 rechargeType = I18nTool.getDictMapByEnum(SessionManager.getLocale(), DictEnum.COMMON_FUND_TYPE).get(result.getRechargeType());
             }
-            Double getPreferentialValue = null;
 
             msg = MessageFormat.format(msg,
                     result.getRechargeAmount(),//金额
