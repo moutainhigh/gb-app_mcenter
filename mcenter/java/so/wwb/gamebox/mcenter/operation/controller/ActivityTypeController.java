@@ -90,6 +90,7 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
      */
     @RequestMapping("/customList")
     public String activityTypeList(ActivityTypeListVo listVo, Model model) {
+        //活动大厅不能出现新的二存三存每日首存活动
         listVo.getQuery().setCriterions(new Criterion[]{
                 new Criterion(ActivityType.PROP_CODE, Operator.NOT_IN,new String[]{
                         ActivityTypeEnum.SECOND_DEPOSIT.getCode(),
