@@ -43,8 +43,8 @@
                 </div>
             </div>
 
-
-            <c:if test="${activityType.result.code eq 'money'}">
+            <%--因为前端还未实现所以隐藏--%>
+            <%--<c:if test="${activityType.result.code eq 'money'}">
                 <div class="clearfix m-t-sm line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['浮窗PC端展示']}</label>
                     <div class="col-sm-5">
@@ -70,7 +70,7 @@
 
                     </div>
                 </div>
-            </c:if>
+            </c:if>--%>
 
             <%--红包首页浮层弹窗--%>
             <c:if test="${activityType.result.code eq 'money'}">
