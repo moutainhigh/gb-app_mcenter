@@ -25,7 +25,6 @@ import so.wwb.gamebox.mcenter.operation.form.VActivityMonitorSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.TerminalEnum;
-import so.wwb.gamebox.model.master.enums.ActivityApplyCheckStatusEnum;
 import so.wwb.gamebox.model.master.enums.ActivityTypeEnum;
 import so.wwb.gamebox.model.master.fund.enums.TransactionWayEnum;
 import so.wwb.gamebox.model.master.operation.po.VActivityMonitor;
@@ -98,18 +97,6 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
 
         Map<String, String> operationMsg = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("operation");
 
-        //返回字符串转换;
-        //状态
-        String checkState = "";
-        if (ActivityApplyCheckStatusEnum.PENDING.getCode().equals(result.getCheckState())) {
-            checkState = operationMsg.get("待处理");
-        } else if (ActivityApplyCheckStatusEnum.SUCCESS.getCode().equals(result.getCheckState())) {
-            checkState = operationMsg.get("已通过");
-        } else if (ActivityApplyCheckStatusEnum.FAIL.getCode().equals(result.getCheckState())) {
-            checkState = operationMsg.get("已拒绝");
-        }
-
-
         //存送
         if (activityType.contains("deposit")) {
             //存款类型
@@ -119,6 +106,7 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
             } else {
                 rechargeType = I18nTool.getDictMapByEnum(SessionManager.getLocale(), DictEnum.COMMON_FUND_TYPE).get(result.getRechargeType());
             }
+            Double getPreferentialValue = null;
 
             msg = MessageFormat.format(msg,
                     result.getRechargeAmount(),//金额
@@ -127,8 +115,8 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
                     LocaleDateTool.formatDate(result.getCheckTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone()), "",
                     LocaleDateTool.formatDate(result.getApplyTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone()),
                     result.getApplyTransactionNo(),
-                    result.getPreferentialValue(),//金额
-                    checkState);//状态
+                    result.getPreferentialValue()//金额,
+                    );//状态
             voMessage.put("msg", msg);
             return voMessage;
         }
@@ -137,8 +125,7 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
             msg = MessageFormat.format(msg,
                     result.getPreferentialValue(),//金额
                     LocaleDateTool.formatDate(result.getApplyTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone()),
-                    result.getApplyTransactionNo(),//单号
-                    checkState//状态
+                    result.getApplyTransactionNo()//单号
             );
             voMessage.put("msg", msg);
             return voMessage;
@@ -173,8 +160,8 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
                     StringTool.trimToEmpty(preferentialDataJson.getString("realName")),//名
                     registerIp,//ip
                     result.getPreferentialValue(),//金额
-                    result.getApplyTransactionNo(),//单号
-                    checkState);//状态
+                    result.getApplyTransactionNo()//单号
+                    );
         }
         //有效投注额
         else if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(activityType)) {
@@ -183,8 +170,7 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
                     LocaleDateTool.formatDate(result.getEndTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone()),
                     StringTool.trimToEmpty(preferentialDataJson.getString("effective")),//投注总金额
                     LocaleDateTool.formatDate(result.getApplyTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone()),//申请时间
-                    result.getApplyTransactionNo(),//单号
-                    checkState//状态
+                    result.getApplyTransactionNo()//单号
                     );
         }
         //盈亏送
@@ -195,8 +181,7 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
                     StringTool.trimToEmpty(preferentialDataJson.getString("profitLoss")),//投注总金额
                     LocaleDateTool.formatDate(result.getApplyTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone()),//申请时间
                     result.getPreferentialValue(),//金额
-                    result.getApplyTransactionNo(),//单号
-                    checkState//状态
+                    result.getApplyTransactionNo()//单号
             );
         }
         //救济金
@@ -205,8 +190,7 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
                     StringTool.trimToEmpty(preferentialDataJson.getString("relief")),//亏损或当日盈利金额
                     StringTool.trimToEmpty(preferentialDataJson.getString("assets")),//剩余总资产
                     result.getApplyTransactionNo(),//单号
-                    LocaleDateTool.formatDate(result.getApplyTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone()),//申请时间
-                    checkState//状态
+                    LocaleDateTool.formatDate(result.getApplyTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone())//申请时间
             );
         }
         voMessage.put("msg", msg);
