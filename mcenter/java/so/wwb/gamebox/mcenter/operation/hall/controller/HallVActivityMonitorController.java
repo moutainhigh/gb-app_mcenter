@@ -97,6 +97,13 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
 
         Map<String, String> operationMsg = I18nTool.getI18nMap(SessionManagerCommon.getLocale().toString()).get("views").get("operation");
 
+        //优惠金额
+        String preferentialValue = "";
+        if (result.getPreferentialValue()!=null){
+            preferentialValue = result.getPreferentialValue().toString();
+        }
+
+
         //存送
         if (activityType.contains("deposit")) {
             //存款类型
@@ -114,7 +121,7 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
                     LocaleDateTool.formatDate(result.getCheckTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone()), "",
                     LocaleDateTool.formatDate(result.getApplyTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone()),
                     result.getApplyTransactionNo(),
-                    result.getPreferentialValue()//金额,
+                    preferentialValue//金额,
                     );//状态
             voMessage.put("msg", msg);
             return voMessage;
@@ -122,7 +129,7 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
         //红包
         else if (ActivityTypeEnum.MONEY.getCode().equals(activityType)) {
             msg = MessageFormat.format(msg,
-                    result.getPreferentialValue(),//金额
+                    preferentialValue,//金额
                     LocaleDateTool.formatDate(result.getApplyTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone()),
                     result.getApplyTransactionNo()//单号
             );
@@ -158,7 +165,7 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
                     StringTool.trimToEmpty(preferentialDataJson.getString("bankCard")),//卡号
                     StringTool.trimToEmpty(preferentialDataJson.getString("realName")),//名
                     registerIp,//ip
-                    result.getPreferentialValue(),//金额
+                    preferentialValue,//金额
                     result.getApplyTransactionNo()//单号
                     );
         }
@@ -179,7 +186,7 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
                     LocaleDateTool.formatDate(result.getEndTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone()),
                     StringTool.trimToEmpty(preferentialDataJson.getString("profitLoss")),//投注总金额
                     LocaleDateTool.formatDate(result.getApplyTime(), CommonContext.getDateFormat().getDAY_SECOND(), SessionManagerCommon.getTimeZone()),//申请时间
-                    result.getPreferentialValue(),//金额
+                    preferentialValue,//金额
                     result.getApplyTransactionNo()//单号
             );
         }
