@@ -3,6 +3,8 @@ package so.wwb.gamebox.mcenter.operation.controller;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.enums.EnumTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.query.Criterion;
+import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
 import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
@@ -88,8 +90,14 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
      */
     @RequestMapping("/customList")
     public String activityTypeList(ActivityTypeListVo listVo, Model model) {
-
-        List<ActivityType> activityTypeList = ServiceActivityTool.activityTypeService().allSearch(listVo);
+        listVo.getQuery().setCriterions(new Criterion[]{
+                new Criterion(ActivityType.PROP_CODE, Operator.NOT_IN,new String[]{
+                        ActivityTypeEnum.SECOND_DEPOSIT.getCode(),
+                        ActivityTypeEnum.THIRD_DEPOSIT.getCode(),
+                        ActivityTypeEnum.EVERYDAY_FIRST_DEPOSIT.getCode()
+                })
+        });
+        List<ActivityType> activityTypeList = ServiceActivityTool.activityTypeService().search(listVo).getResult();
         /*for (ActivityType activityType : activityTypeList) {
             String code = activityType.getCode();
             if (ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code) || ActivityTypeEnum.REGIST_SEND.getCode().equals(code)) {
