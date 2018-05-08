@@ -7,106 +7,69 @@
 <head>
     <%@ include file="/include/include.head.jsp" %>
 </head>
-<div class="row">
-        <div class="col-lg-12 m-b">
 
-                    <div class="search-list-container">
+<div class="modal-body m-sm">
+    <span class="ym-title">${views.operation['域名检测完成！']}</span>
+    <div class="bg-gray ym-title1">
+        <div>
+            <span>${views.operation['last_check_time']} <em class="ym-date">${soulFn:formatDateTz(command.checkTime, DateFormat.DAY_SECOND, timeZone )}</em></span>
+        </div>
+        <div>
+            <span>${views.operation['域名检测情况如下所示（结果仅供参考）']}</span>
+        </div>
+    </div>
+    <div class="table-ym" style="border-left: 1px solid #e7e7e7;border-right: 1px solid #e7e7e7;">
+        <table class="table">
+            <thead>
+            <tr role="row" class="bg-gray">
+                <th>${views.operation['域名状态']}</th>
+                <th>${views.operation['域名条数']}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>${dicts.common.domain_check_result_status['NORMAL']}</td>
+                <td style="color: #0ba31e">${command.statusCount.all-command.statusCount.errAll}</td>
+            </tr>
+            <tr>
 
-                        <center><H1>${views.operation['域名检测完成！']}</H1></center>
+                <td>${dicts.common.domain_check_result_status['WALLED_OFF']}</td>
+                <td class="curr">${command.statusCount.wallOF}</td>
+            </tr>
+            <tr>
+                <td>${dicts.common.domain_check_result_status['BE_HIJACKED']}</td>
+                <td class="curr">${command.statusCount.beHijached}</td>
+            </tr>
+            <tr>
+                <td>${dicts.common.domain_check_result_status['UNRESOLVED']}</td>
+                <td class="curr">${command.statusCount.unResolved}</td>
+            </tr>
+            <tr>
+                <td>${dicts.common.domain_check_result_status['SERVER_UNREACHABLE']}</td>
+                <td class="curr">${command.statusCount.serverUnreachable}</td>
+            </tr>
+            <tr>
+                <td>${dicts.common.domain_check_result_status['UNKNOWN_ERR']}</td>
+                <td class="curr">${command.statusCount.unknown}</td>
+            </tr>
+            <tr>
+                <td>${dicts.common.domain_check_result_status['UNAUTHORIZED']}</td>
+                <td class="curr">${command.statusCount.unAuthorized}</td>
+            </tr>
+            <tr>
+                <td>${dicts.common.domain_check_result_status['REDIRECT']}</td>
+                <td class="curr">${command.statusCount.redirect}</td>
+            </tr>
 
-                        <div class="sys_tab_wrap shadow m-t clearfix"
-                             style="border-bottom: 0; border-top:1px solid #e6e6e6; margin-bottom: -5px;">
-                            <div class=" clearfix m-sm">
-
-                                <span>${views.operation['最新检测时间:']}${soulFn:formatDateTz(command.checkTime, DateFormat.DAY_SECOND, timeZone )}</span><br>
-                                <span>${views.operation['域名检测情况如下所示（结果仅供参考）']}</span>
-                            </div>
-                        </div>
-                        <br>
-
-                        <div class="table-min-h">
-                            <table class="table table-striped"
-                                   aria-describedby="editable_info"
-                                   id="editable">
-                                <thead>
-                                <tr role="row" class="bg-gray">
-
-                                    <th>${views.operation['域名状态']}</th>
-                                    <th>${views.operation['域名条数']}</th>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>${dicts.common.domain_check_result_status['NORMAL']}</td>
-                                    <td><span
-                                            class="co-green">${command.statusCount.all-command.statusCount.errAll}</span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>${dicts.common.domain_check_result_status['WALLED_OFF']}</td>
-                                    <td><span
-                                            class="co-red">${command.statusCount.wallOF}</span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>${dicts.common.domain_check_result_status['BE_HIJACKED']}</td>
-                                    <td><span
-                                            class="co-red">${command.statusCount.beHijached}</span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>${dicts.common.domain_check_result_status['UNRESOLVED']}</td>
-                                    <td><span
-                                            class="co-red">${command.statusCount.unResolved}</span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>${dicts.common.domain_check_result_status['SERVER_UNREACHABLE']}</td>
-                                    <td><span
-                                            class="co-red">${command.statusCount.serverUnreachable}</span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>${dicts.common.domain_check_result_status['UNKNOWN_ERR']}</td>
-                                    <td><span
-                                            class="co-red">${command.statusCount.unknown}</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>${dicts.common.domain_check_result_status['UNAUTHORIZED']}</td>
-                                    <td><span
-                                            class="co-red">${command.statusCount.unAuthorized}</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>${dicts.common.domain_check_result_status['REDIRECT']}</td>
-                                    <td><span
-                                            class="co-red">${command.statusCount.redirect}</span>
-                                    </td>
-                                </tr>
-
-                                <tr>　　　　
-                                    <td colspan="2">
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                            <div class="clearfix filter-wraper line-hi34 al-right">
-                                <a class="btn btn-link co-blue"
-                                   href="${root}#/operation/domainCheckData/getDomainCount.html" onclick="window.top.topPage.closeDialog();"
-                                   nav-target="mainFrame" target="_blank">${views.operation['查看详情']}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer ym-btn">
+        <a class="btn btn-link co-blue"
+           href="${root}#/operation/domainCheckData/getDomainCount.html" onclick="window.top.topPage.closeDialog();"
+           nav-target="mainFrame" target="_blank">${views.operation['查看详情']}</a>
+    </div>
 </div>
+
 </html>
 <!--//endregion your codes 1-->
