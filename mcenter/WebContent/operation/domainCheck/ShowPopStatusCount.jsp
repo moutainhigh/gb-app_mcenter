@@ -60,16 +60,19 @@
                 <td>${dicts.common.domain_check_result_status['REDIRECT']}</td>
                 <td class="curr">${command.statusCount.redirect}</td>
             </tr>
-
             </tbody>
         </table>
     </div>
     <div class="modal-footer ym-btn">
-        <a class="btn btn-link co-blue"
-           href="${root}#/operation/domainCheckData/getDomainCount.html" onclick="window.top.topPage.closeDialog();"
-           nav-target="mainFrame" target="_blank">${views.operation['查看详情']}</a>
+        <a class="btn btn-link co-blue" onclick="closeDialog();"
+           nav-target="mainFrame">${views.operation['查看详情']}</a>
     </div>
 </div>
-
+<script type="text/javascript">
+   function closeDialog(){
+       window.top.topPage.closeDialog();
+       window.top.location.href="${root}#/operation/domainCheckData/getDomainCount.html";
+   }
+</script>
 </html>
 <!--//endregion your codes 1-->

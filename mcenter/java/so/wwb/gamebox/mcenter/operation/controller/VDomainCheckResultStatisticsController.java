@@ -82,16 +82,16 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
         statisticsListVo.setDomainCheckResultListVo(listVo);
         //控制120分钟一次
         long minuts = 0;
-        if (listVo.getCheckTime() != null) {
-            minuts = 120 - DateTool.minutesBetween(new Date(), listVo.getCheckTime());
-            //上次时间比当前时间大
-            if (minuts >= 120) {
-                minuts = 120;
-            }
-            if (minuts < 0) {
-                minuts = 0;
-            }
-        }
+//        if (listVo.getCheckTime() != null) {
+//            minuts = 120 - DateTool.minutesBetween(new Date(), listVo.getCheckTime());
+//            //上次时间比当前时间大
+//            if (minuts >= 120) {
+//                minuts = 120;
+//            }
+//            if (minuts < 0) {
+//                minuts = 0;
+//            }
+//        }
         model.addAttribute("leave_minus", minuts);
         model.addAttribute("command", statisticsListVo);
 
