@@ -714,18 +714,7 @@
                                                  text="${dicts.log.op_type['update']}" opType="dialog" cssClass="btn btn-link co-blue"/>
                                 <c:if test="${command.result.riskDataType.length() == 8 && command.result.riskDataType.contains('2')}">
                                     ${views.player_auto['由系统风控大数据识别']}:
-                                    <c:if test="${command.result.riskDataType.substring(5,6) eq '2'}">
-                                        ${views.common['MALICIOUS']},
-                                    </c:if>
-                                    <c:if test="${command.result.riskDataType.substring(6,7) eq '2'}">
-                                        ${views.common['MONEY_LAUNDERING']},
-                                    </c:if>
-                                    <c:if test="${command.result.riskDataType.substring(7,8) eq '2'}">
-                                        ${views.common['INTEREST_ARBITRAGE']}
-                                    </c:if>
-                                    <c:if test="${command.result.riskDataType.substring(4,5) eq '2'}">
-                                        ${views.common['PAY_PROFESSIONAL_COMPLAINT']}
-                                    </c:if>
+                                    ${gbFn:getRiskString(command.result.riskDataType.replace('1','0'))}<!-- 1为玩家添加的不显示，2系统标识的显示出来 -->
                                     <span  data-placement="bottom" data-trigger="focus" data-toggle="popover" data-container="body" data-html="true" role="button" class="ico-lock" tabindex="0" data-original-title="" title="" style="font-size: 14px;color: #9c9c9c; display: inline-block;">
                                             (${views.player_auto['系统识别数据仅供参考']})
                                     </span>

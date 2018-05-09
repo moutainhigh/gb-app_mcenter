@@ -374,6 +374,15 @@ public class ActivityTypeController extends ActivityController<IActivityTypeServ
         Map<Integer, List<Map<String, Object>>> preferentialWayRelation = ServiceActivityTool.vActivityMessageService().getPreferentialRelation(vActivityMessageVo);
         model.addAttribute("preferentialWayRelation", preferentialWayRelation);
 
+        //为盈亏送获取规则
+        vActivityMessageVo.setActivityMessageId(activityMessageId);
+        if (ActivityTypeEnum.PROFIT.getCode().equals(activityMessageVo.getResult().getActivityTypeCode())) {
+            List profitPreferential = ServiceActivityTool.activityPreferentialRelationService().queryProfitPreferential(vActivityMessageVo);
+            List lossPreferential = ServiceActivityTool.activityPreferentialRelationService().queryLossPreferential(vActivityMessageVo);
+            model.addAttribute("profitPreferential", profitPreferential);
+            model.addAttribute("lossPreferential", lossPreferential);
+        }
+
         //获取返水
         if (ActivityTypeEnum.BACK_WATER.getCode().equals(activityMessageVo.getResult().getActivityTypeCode())) {
             RakebackSetListVo rakebackSetListVo = new RakebackSetListVo();
