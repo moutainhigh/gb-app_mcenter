@@ -3,9 +3,12 @@ package so.wwb.gamebox.mcenter.operation.hall.controller;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.enums.EnumTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.query.Criterion;
+import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
 import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamVo;
+import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +23,7 @@ import so.wwb.gamebox.iservice.master.operation.IActivityTypeService;
 import so.wwb.gamebox.mcenter.operation.form.ActivityContentStepForm;
 import so.wwb.gamebox.mcenter.operation.form.ActivityTypeForm;
 import so.wwb.gamebox.mcenter.operation.form.ActivityTypeSearchForm;
+import so.wwb.gamebox.mcenter.operation.form.HallActivityDepositSendContentStepForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
@@ -82,6 +86,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
     private static final String OPERATION_ACTIVITY_TYPE_PROFIT_LOSS_CASE_DIALOG = "/operation/activityHall/activityType/ProfitLossCaseDialog";
     private static final String OPERATION_ACTIVITY_TYPE_RELIEF_FUND_CASE_DIALOG = "/operation/activityHall/activityType/ReliefFundCaseDialog";
 
+
     /**
      * 活动类型选择列表
      *
@@ -121,7 +126,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         //获取参与层级目前只有返水优惠不需要
         String code = vo.getResult().getCode();
         if (!ActivityTypeEnum.BACK_WATER.getCode().equals(code)) {
-            if (ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code) || ActivityTypeEnum.REGIST_SEND.getCode().equals(code)) {
+            if (ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
                 List<VActivityMessage> vActivityMessages = loadActivityMessageByActivityType(code);
                 String combinedRanks = getCombinedRanks(vActivityMessages);
                 Map<String, Object> objectMap = isAllRank(combinedRanks);
@@ -130,6 +135,9 @@ public class HallActivityTypeController extends HallActivityController<IActivity
                 model.addAttribute("playerRanks", map.get("playerRanks"));
                 model.addAttribute("isAllRank", objectMap.get("isAllRank"));
                 model.addAttribute("vActivityMessages", vActivityMessages);
+                //获取其他存就送存款方式
+                String otherUsedDepositWay = getOtherUsedDepositWay(vActivityMessages);
+                model.addAttribute("otherUsedDepositWay", otherUsedDepositWay);
             } else {
                 List<PlayerRank> playerRanks = getNormalPlayRanks();
                 model.addAttribute("playerRanks", playerRanks);
@@ -156,7 +164,11 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         vo.getSearch().setCode(code);
         ActivityTypeVo activityType = ServiceActivityTool.activityTypeService().search(vo);
         model.addAttribute("activityType", activityType);
-        model.addAttribute("validateRule", JsRuleCreator.create(ActivityContentStepForm.class));
+        if(ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
+            model.addAttribute("validateRule", JsRuleCreator.create(HallActivityDepositSendContentStepForm.class));
+        }else{
+            model.addAttribute("validateRule", JsRuleCreator.create(ActivityContentStepForm.class));
+        }
 
         //创建活动时间最小为当前时间
         model.addAttribute("minDate", SessionManager.getDate().getNow());
@@ -270,7 +282,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             getNormalRakebackSet(model);
         }
 
-        if (ActivityTypeEnum.REGIST_SEND.getCode().equals(code) || VActivityMessageVo.is123Deposit(code) || ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
+        if (ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
             List<VActivityMessage> vActivityMessages = loadActivityMessageByActivityType(code, activityMessageVo.getResult().getId());
             String combinedRanks = getCombinedRanks(vActivityMessages);
             Map<String, Object> objectMap = isAllRank(combinedRanks);
@@ -280,6 +292,9 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             model.addAttribute("isAllRank", objectMap.get("isAllRank"));
             model.addAttribute("vActivityMessages", vActivityMessages);
             model.addAttribute("type", "edit");
+            //获取其他存就送存款方式
+            String otherUsedDepositWay = getOtherUsedDepositWay(vActivityMessages);
+            model.addAttribute("otherUsedDepositWay", otherUsedDepositWay);
         }
 
 
@@ -311,7 +326,12 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         ActivityTypeVo activityType = ServiceActivityTool.activityTypeService().search(activityTypeVo);
         model.addAttribute("activityType", activityType);
         model.addAttribute("activityMessageVo", activityMessageVo);
-        model.addAttribute("validateRule", JsRuleCreator.create(ActivityContentStepForm.class));
+        //存就送需要验证名称重复
+        if(ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
+            model.addAttribute("validateRule", JsRuleCreator.create(HallActivityDepositSendContentStepForm.class));
+        }else{
+            model.addAttribute("validateRule", JsRuleCreator.create(ActivityContentStepForm.class));
+        }
 
         isSetFloat(model);
 
@@ -323,6 +343,22 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         }
         return OPERATION_ACTIVITY_STEP;
     }
+
+    /**
+     * 已经被其他(存就送活动)使用的存款方式
+     * @param vActivityMessages
+     * @return
+     */
+    private String getOtherUsedDepositWay(List<VActivityMessage> vActivityMessages) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < vActivityMessages.size(); i++) {
+            stringBuilder.append(vActivityMessages.get(i).getDepositWay()).append(",");
+        }
+        return stringBuilder.toString();
+    }
+
+
+//    public
 
     private void getActivityRuleIncludeGameMap(ActivityMessageVo activityMessageVo, Model model) {
         ActivityRuleIncludeGameListVo activityRuleIncludeGameListVo = new ActivityRuleIncludeGameListVo();
@@ -404,6 +440,15 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         Map<Integer, List<Map<String, Object>>> preferentialWayRelation = ServiceActivityTool.vActivityMessageService().getPreferentialRelation(vActivityMessageVo);
         model.addAttribute("preferentialWayRelation", preferentialWayRelation);
 
+        //为盈亏送获取规则
+        vActivityMessageVo.setActivityMessageId(activityMessageId);
+        if (ActivityTypeEnum.PROFIT.getCode().equals(activityMessageVo.getResult().getActivityTypeCode())) {
+            List profitPreferential = ServiceActivityTool.activityPreferentialRelationService().queryProfitPreferential(vActivityMessageVo);
+            List lossPreferential = ServiceActivityTool.activityPreferentialRelationService().queryLossPreferential(vActivityMessageVo);
+            model.addAttribute("profitPreferential", profitPreferential);
+            model.addAttribute("lossPreferential", lossPreferential);
+        }
+
         //注册送,有效条件,(不想多加字段,就放在了PreferentialRelation表,只要有code=xx标识就算有这个条件了)
         if (ActivityTypeEnum.REGIST_SEND.getCode().equals(activityMessageVo.getResult().getActivityTypeCode())) {
             ActivityPreferentialRelationListVo activityPreferentialRelationListVo = new ActivityPreferentialRelationListVo();
@@ -471,13 +516,14 @@ public class HallActivityTypeController extends HallActivityController<IActivity
      * @return
      */
     @RequestMapping("/chooseCase")
-    public String chooseCase(ActivityTypeVo vo) {
+    public String chooseCase(ActivityTypeVo vo, Model model) {
 
         if (vo == null || vo.getResult() == null) {
             return "";
         }
 
         String code = vo.getResult().getCode();
+        model.addAttribute("activityType",code);
         String casePage = null;
         if (ActivityTypeEnum.BACK_WATER.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_BACK_WATER_CASE;
@@ -487,7 +533,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             casePage = OPERATION_ACTIVITY_TYPE_DEPOSIT_SEND_CASE;
         } else if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_EFFECTIVE_TRANSACTION_CASE;
-        } else if (ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code)) {
+        } else if (VActivityMessageVo.is123Deposit(code) || ActivityTypeEnum.MONEY.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_FIRST_DEPOSIT_CASE;
         } else if (ActivityTypeEnum.PROFIT.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_PROFIT_LOSS_CASE;
@@ -504,13 +550,14 @@ public class HallActivityTypeController extends HallActivityController<IActivity
      * @return
      */
     @RequestMapping("/chooseCaseDialog")
-    public String chooseCaseDialog(ActivityTypeVo vo) {
+    public String chooseCaseDialog(ActivityTypeVo vo, Model model) {
 
         if (vo == null || vo.getResult() == null) {
             return "";
         }
 
         String code = vo.getResult().getCode();
+        model.addAttribute("activityType",code);
         String casePage = null;
         if (ActivityTypeEnum.BACK_WATER.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_BACK_WATER_CASE_DIALOG;
@@ -520,7 +567,7 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             casePage = OPERATION_ACTIVITY_TYPE_DEPOSIT_SEND_CASE_DIALOG;
         } else if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_EFFECTIVE_TRANSACTION_CASE_DIALOG;
-        } else if (ActivityTypeEnum.FIRST_DEPOSIT.getCode().equals(code)) {
+        } else if (VActivityMessageVo.is123Deposit(code)  || ActivityTypeEnum.MONEY.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_FIRST_DEPOSIT_CASE_DIALOG;
         } else if (ActivityTypeEnum.PROFIT.getCode().equals(code)) {
             casePage = OPERATION_ACTIVITY_TYPE_PROFIT_LOSS_CASE_DIALOG;
@@ -596,6 +643,25 @@ public class HallActivityTypeController extends HallActivityController<IActivity
     @ResponseBody
     public String checkTime(HttpServletRequest request, @RequestParam("activityMessage.startTime") Date startTime, @RequestParam("activityMessage.endTime") Date endTime) {
         return startTime.getTime() >= endTime.getTime() ? "false" : "true";
+    }
+
+    /**
+     * 检查活动名称是否重复
+     * @param activityContentStepForm
+     * @return
+     */
+    @RequestMapping(value = "/checkActivityName")
+    @ResponseBody
+    public String checkActivityName(@FormModel HallActivityDepositSendContentStepForm activityContentStepForm, HttpServletRequest request) {
+
+        VActivityMessageListVo vActivityMessageListVo = new VActivityMessageListVo();
+        vActivityMessageListVo.getQuery().setCriterions(new Criterion[]{
+                new Criterion(VActivityMessage.PROP_ACTIVITY_NAME, Operator.IN,activityContentStepForm.getActivityMessageI18ns$$_activityName()),
+                new Criterion(VActivityMessage.PROP_CODE, Operator.EQ,activityContentStepForm.getResult_code()),
+                new Criterion(VActivityMessage.PROP_ID, Operator.NE,activityContentStepForm.getResult_id())
+        });
+        long count = ServiceActivityTool.vActivityMessageService().count(vActivityMessageListVo);
+        return Boolean.valueOf(count <= 0).toString();
     }
 
     //endregion your codes 3

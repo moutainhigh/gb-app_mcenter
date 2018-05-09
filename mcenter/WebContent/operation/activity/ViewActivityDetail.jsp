@@ -102,71 +102,68 @@
                                 <div class="col-sm-8">
                                     <!--    盈亏送-->
                                     <c:if test="${p.activityTypeCode eq 'profit_loss'}">
-                                        <table class="table table-bordered">
-                                            <tr>
-                                                <th>${views.operation['Activity.rule']}</th>
-                                                <th colspan="2">${views.operation['Activity.step.offerForm']}</th>
-                                            </tr>
-                                            <tr>
-                                                <td>${views.operation['Activity.step.profit']}</td>
-                                                <td>${views.operation['Activity.step.caijin']}<%=SessionManager.getUser().getDefaultCurrency()%></td>
-                                                <td>${views.operation['Activity.step.audit']}</td>
-                                            </tr>
-                                            <c:forEach items="${preferentialWayRelation[p.id]}" var="item">
-                                                <c:forEach items="${item.child}" var="child">
-                                                        <c:if test="${child.preferentialCode eq 'profit_ge' && item.orderColumn eq child.orderColumn}">
-                                                            <tr>
-                                                                <td>${views.operation['Activity.step.full']}${child.preferentialValue}${views.operation['Activity.step.more']}</td>
-                                                                <td>${views.operation['Activity.step.send']}${child.wayPreferentialValue}</td>
-                                                                <td>
-                                                                    <c:choose>
-                                                                        <c:when test="${child.wayPreferentialAudit==''}">
-                                                                            ---
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            ${child.wayPreferentialAudit}
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-                                                                </td>
-                                                            </tr>
-                                                        </c:if>
+                                        <c:if test="${not empty profitPreferential}">
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <th>${views.operation['Activity.rule']}</th>
+                                                    <th colspan="2">${views.operation['Activity.step.offerForm']}</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>${views.operation['Activity.step.profit']}</td>
+                                                    <td>${views.operation['Activity.step.caijin']}<%=SessionManager.getUser().getDefaultCurrency()%></td>
+                                                    <td>${views.operation['Activity.step.audit']}</td>
+                                                </tr>
+                                                <c:forEach items="${profitPreferential}" var="preferential">
+
+                                                    <tr>
+                                                        <td>${views.operation['Activity.step.full']}${preferential.preferential_value}${views.operation['Activity.step.more']}</td>
+                                                        <td>${views.operation['Activity.step.send']}${preferential.preferential_val}</td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${preferential.preferential_audit==''}">
+                                                                    ---
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    ${preferential.preferential_audit}
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                    </tr>
+
                                                 </c:forEach>
-                                            </c:forEach>
-                                        </table>
+                                            </table>
+                                        </c:if>
                                         <hr/>
-                                        <table class="table table-bordered">
-                                            <tr>
-                                                <th>${views.operation['Activity.rule']}</th>
-                                                <th colspan="2">${views.operation['Activity.step.offerForm']}</th>
-                                            </tr>
-                                            <tr>
-                                                <td>${views.operation['Activity.step.loss']}</td>
-                                                <td>${views.operation['Activity.step.caijin']}<%=SessionManager.getUser().getDefaultCurrency()%></td>
-                                                <td>${views.operation['Activity.step.audit']}</td>
-                                            </tr>
+                                        <c:if test="${not empty lossPreferential}">
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <th>${views.operation['Activity.rule']}</th>
+                                                    <th colspan="2">${views.operation['Activity.step.offerForm']}</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>${views.operation['Activity.step.loss']}</td>
+                                                    <td>${views.operation['Activity.step.caijin']}<%=SessionManager.getUser().getDefaultCurrency()%></td>
+                                                    <td>${views.operation['Activity.step.audit']}</td>
+                                                </tr>
 
-                                            <c:forEach items="${preferentialWayRelation[p.id]}" var="item">
-                                                <c:forEach items="${item.child}" var="child">
-
-                                                    <c:if test="${child.preferentialCode eq 'loss_ge' && item.orderColumn eq child.orderColumn}">
-                                                        <tr>
-                                                            <td>${views.operation['Activity.step.full']}${child.preferentialValue}${views.operation['Activity.step.more']}</td>
-                                                            <td>${views.operation['Activity.step.send']}${child.wayPreferentialValue}</td>
-                                                            <td>
-                                                                <c:choose>
-                                                                    <c:when test="${child.wayPreferentialAudit==''}">
-                                                                        ---
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        ${child.wayPreferentialAudit}
-                                                                    </c:otherwise>
-                                                                </c:choose>
-                                                            </td>
-                                                        </tr>
-                                                    </c:if>
+                                                <c:forEach items="${lossPreferential}" var="preferential">
+                                                    <tr>
+                                                        <td>${views.operation['Activity.step.full']}${preferential.preferential_value}${views.operation['Activity.step.more']}</td>
+                                                        <td>${views.operation['Activity.step.send']}${preferential.preferential_val}</td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${preferential.preferential_audit==''}">
+                                                                    ---
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    ${preferential.preferential_audit}
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                    </tr>
                                                 </c:forEach>
-                                            </c:forEach>
-                                        </table>
+                                            </table>
+                                        </c:if>
                                     </c:if>
                                     <!--    首存送 存就送-->
                                     <c:if test="${p.activityTypeCode eq 'first_deposit' || p.activityTypeCode eq 'deposit_send'}">
@@ -586,43 +583,85 @@
                                 </div>
                             </div>
                         </c:if>
+                        <c:set var="length" value="${languageList.size()}"></c:set>
                         <div class="clearfix m-l-lg line-hi34 m-b">
                             <label class="ft-bold col-sm-3 al-right"></label>
                             <div class="col-sm-5">
                                 <c:forEach var="lang" items="${languageList}" varStatus="status">
                                         <span>
-                                            <a href="javascript:void(0)" id="${lang.language}" name="${lang.language}"
+                                            <a href="javascript:void(0)" id="${lang.language}" name="${status.index}"
                                                class="btn <c:if test="${status.index!=0}">btn-outline</c:if> btn-filter btn-sm activityTag" >
                                                     ${dicts.common.local[lang.language]}
                                             </a>
                                         </span>
                                 </c:forEach>
+                                <c:if test="${activityMessageI18nListVo.result.size() > languageList.size()}">
+                                    <c:forEach var="lang" items="${languageList}" varStatus="status">
+                                        <span>
+                                            <a href="javascript:void(0)" id="" name="${status.index+length}"
+                                               class="btn btn-outline btn-filter btn-sm activityTag" >
+                                                    ${dicts.common.local[lang.language]}mobile
+                                            </a>
+                                        </span>
+                                    </c:forEach>
+                                </c:if>
                             </div>
                         </div>
                         <c:forEach var="lang" items="${languageList}" varStatus="status">
                             <c:forEach var="i18n" items="${activityMessageI18nListVo.result}">
-                                <c:if test="${lang.language eq i18n.activityVersion}">
-                                    <div class="${status.index==0?'':'hide'} contentDiv" id="content${lang.language}">
-                                        <div class="clearfix m-l-lg line-hi34">
-                                            <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.activityCover']}：</label>
-                                            <div class="col-sm-5">
-                                                <img data-src="${soulFn:getImagePath(domain,i18n.activityAffiliated)}"
-                                                     src="${soulFn:getThumbPath(domain,i18n.activityAffiliated,630,350)}" alt="${i18n.activityName}">
+                                <c:if test="${empty i18n.activityTerminalType || i18n.activityTerminalType == '1'}">
+                                    <c:if test="${lang.language eq i18n.activityVersion}">
+                                        <div class="${status.index==0?'':'hide'} contentDiv" id="content${status.index}">
+                                            <div class="clearfix m-l-lg line-hi34">
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.affiliated']}：</label>
+                                                <div class="col-sm-5">
+                                                    <img data-src="${soulFn:getImagePath(domain,i18n.activityAffiliated)}"
+                                                         src="${soulFn:getThumbPath(domain,i18n.activityAffiliated,630,350)}" alt="${i18n.activityName}">
+                                                </div>
+                                            </div>
+                                            <div class="clearfix m-l-lg line-hi34">
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.name']}：</label>
+                                                <div class="col-sm-5">${i18n.activityName}</div>
+                                            </div>
+                                            <div class="clearfix m-l-lg line-hi34">
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.content']}：</label>
+                                                <div class="col-sm-5">
+                                                    <p>
+                                                            ${gbFn:unescapeXml(i18n.activityDescription)}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="clearfix m-l-lg line-hi34">
-                                            <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.name']}：</label>
-                                            <div class="col-sm-5">${i18n.activityName}</div>
-                                        </div>
-                                        <div class="clearfix m-l-lg line-hi34">
-                                            <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.content']}：</label>
-                                            <div class="col-sm-5">
-                                                <p>
-                                                ${gbFn:unescapeXml(i18n.activityDescription)}
-                                                </p>
+                                    </c:if>
+                                </c:if>
+                            </c:forEach>
+                        </c:forEach>
+                        <c:forEach var="lang" items="${languageList}" varStatus="status">
+                            <c:forEach var="i18n" items="${activityMessageI18nListVo.result}">
+                                <c:if test="${i18n.activityTerminalType == '2'}">
+                                    <c:if test="${lang.language eq i18n.activityVersion}">
+                                        <div class="hide contentDiv" id="content${status.index+length}">
+                                            <div class="clearfix m-l-lg line-hi34">
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.affiliated']}：</label>
+                                                <div class="col-sm-5">
+                                                    <img data-src="${soulFn:getImagePath(domain,i18n.activityAffiliated)}"
+                                                         src="${soulFn:getThumbPath(domain,i18n.activityAffiliated,630,350)}" alt="${i18n.activityName}">
+                                                </div>
+                                            </div>
+                                            <div class="clearfix m-l-lg line-hi34">
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.name']}：</label>
+                                                <div class="col-sm-5">${i18n.activityName}</div>
+                                            </div>
+                                            <div class="clearfix m-l-lg line-hi34">
+                                                <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.content']}：</label>
+                                                <div class="col-sm-5">
+                                                    <p>
+                                                            ${gbFn:unescapeXml(i18n.activityDescription)}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </c:if>
                                 </c:if>
                             </c:forEach>
                         </c:forEach>

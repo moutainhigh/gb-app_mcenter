@@ -29,12 +29,25 @@
                         <td><audio src="${resRoot}/${t.paramValue}" preload="auto"></audio></td>
                     </tr>
                 </c:forEach>
+                <c:if test="${!empty toneDefined.paramValue}">
+                    <tr>
+                        <td>
+                            <label>
+                                <div class="pull-left">
+                                    <input type="radio" class="i-checks" name="result.paramValue" ${tone.paramValue==toneDefined.paramValue?'checked':''} value="${toneDefined.paramValue}">自定义
+                                </div>
+                            </label>
+                        </td>
+                        <td><audio src="${imgRoot}/${toneDefined.paramValue}" preload="auto"></audio></td>
+                    </tr>
+                </c:if>
                 </tbody>
             </table>
         </div>
     </div>
     <div class="modal-footer">
         <input type="hidden" name="result.id" value="${tone.id}"/>
+        <input type="hidden" name="result.paramCode" value="${tone.paramCode}"/>
         <soul:button precall="checkOne" tag="button" opType="ajax" dataType="json" target="${root}/setting/preference/uploadTone.html" post="getCurrentFormData" callback="saveCallbak" cssClass="btn btn-filter" text="${views.common['OK']}">${views.common['OK']}</soul:button>
         <soul:button target="closePage" tag="button" opType="function" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter">${views.common['cancel']}</soul:button>
     </div>

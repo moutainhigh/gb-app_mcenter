@@ -10,7 +10,7 @@
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
             <span>${views.sysResource['运营']}</span>
-            <span>/</span><span>${views.sysResource['活动管理']}</span>
+            <span>/</span><span>${views.sysResource['活动大厅']}</span>
             <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
         </div>
         <div class="col-lg-12">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="operate-btn">
-                    <shiro:hasPermission name="operate:activity_add">
+                    <shiro:hasPermission name="operate:activityHall_add">
                         <a href="/activityHall/activityType/customList.html" nav-target="mainFrame" class="btn btn-filter btn-lg m-l">${views.operation['operation.continue']}</a>
                     </shiro:hasPermission>
                     <a nav-target="mainFrame" href="/activityHall/vActivityMessageHall/list.html" class="btn btn-filter btn-lg m-l">${views.operation['operation.searchList']}</a>
@@ -52,7 +52,7 @@
     <div class="position-wrap clearfix">
         <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
         <span>${views.sysResource['运营']}</span>
-        <span>/</span><span>${views.sysResource['活动管理']}</span>
+        <span>/</span><span>${views.sysResource['活动大厅']}</span>
         <a href="javascript:void(0)" nav-target="mainFrame" class="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn"><em class="fa fa-caret-left"></em>${views.common['return']}</a>
         <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
     </div>
@@ -73,7 +73,7 @@
                 </div>
             </div>
             <div class="operate-btn">
-                <shiro:hasPermission name="operate:activity_add">
+                <shiro:hasPermission name="operate:activityHall_add">
                     <a href="/activityHall/activityType/customList.html" nav-target="mainFrame" class="btn btn-filter btn-lg m-l">${views.operation['operation.retry']}</a>
                 </shiro:hasPermission>
                 <a nav-target="mainFrame" href="/activityHall/vActivityMessageHall/list.html" class="btn btn-filter btn-lg m-l">${views.operation['operation.abandonOperations']}</a>

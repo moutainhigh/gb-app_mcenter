@@ -10,7 +10,7 @@
 <body>
 <form:form method="post">
     <input type="hidden" name="ids" value="${ids}"/>
-    <input type="hidden" name="activityType" value="${code}"/>
+    <%--<input type="hidden" name="activityType" value="${code}"/>--%>
     <input type="hidden" name="result.checkState" value="2"/>
     <div class="modal-body clearfix">
         <%--code为空时，为活动大厅-活动效果监控页面请求的，需要审核不同活动的，所以不显示活动标题，总人数--%>
@@ -32,9 +32,9 @@
                 class="fa fa-exclamation-circle m-r-sm"></i>${views.operation['Activity.apply.list.message1']}</div>
     </div>
     <div class="modal-footer">
-        <soul:button cssClass="btn btn-filter" text="${views.common['confirmPass']}" opType="function"
+        <soul:button permission="operate:activityHall_checkapply" cssClass="btn btn-filter" text="${views.common['confirmPass']}" opType="function"
                      target="auditStatus"/>
-        <soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter"
+        <soul:button permission="operate:activityHall_checkapply" target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter"
                      opType="function"/>
     </div>
 </form:form>

@@ -8,7 +8,7 @@
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
             <span>${views.sysResource['运营']}</span>
-            <span>/</span><span>${views.sysResource['活动管理']}</span>
+            <span>/</span><span>${views.sysResource['活动大厅']}</span>
             <soul:button tag="a" refresh="true"  target="goToLastPage" text="" opType="function" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn">
                 <em class="fa fa-caret-left"></em>${views.common['return']}
             </soul:button>

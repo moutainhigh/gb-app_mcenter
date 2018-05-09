@@ -12,7 +12,7 @@
     <div class="position-wrap clearfix">
         <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
         <span>${views.sysResource['运营']}</span>
-        <span>/</span><span>${views.sysResource['活动管理']}</span>
+        <span>/</span><span>${views.sysResource['活动大厅']}</span>
         <a href="javascript:void(0)" class="pull-right siteMap"><i class="fa fa-sitemap"></i></a>
     </div>
     <div class="col-lg-12">
@@ -142,8 +142,8 @@
                             </div>
 
                             <div class="clearfix m-t-md">
-                                <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
-                                <div class="col-sm-5" id="previewActivityCoverImg${index.index}">
+                                <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.affiliated']}：</label>
+                                <div class="col-sm-5" id="previewActivityAffiliateImg${index.index}">
                                     <img src="" alt="">
                                 </div>
                             </div>
@@ -162,8 +162,8 @@
                             </div>
 
                             <div class="clearfix m-t-md">
-                                <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.activityCover']}：</label>
-                                <div class="col-sm-5" id="previewActivityCoverImg${index.index+length}">
+                                <label class="ft-bold col-sm-3 al-right line-hi34">${views.operation['Activity.step.affiliated']}：</label>
+                                <div class="col-sm-5" id="previewActivityAffiliateImg${index.index+length}">
                                     <img src="" alt="">
                                 </div>
                             </div>
