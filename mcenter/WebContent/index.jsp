@@ -412,7 +412,7 @@
 <!--推送消息弹出矿结束-->
 <!-- 客服界面开始 -->
 <div style="text-align: center;">
-    <button type="button" class="customer-affix customer-button" onclick="window.top.topPage.showCustomerGroupWin(null,true)" ><i class="ivu-icon ivu-icon-chatbubbles" style="font-size: 20px;"></i><span class="customer-button-text">联系客服</span></button>
+    <button type="button" class="customer-affix customer-button" onclick="window.top.topPage.showCustomerGroupWin(null,true,true)" ><i class="ivu-icon ivu-icon-chatbubbles" style="font-size: 20px;"></i><span class="customer-button-text">联系客服</span></button>
 </div>
 <!--<a class="btn btn-primary customer-affix" style="right : 0;" data-toggle="modal" data-backdrop="false" data-keyboard="false"  href="${root}/customer/groupView.html" data-target="#customerGroupModal">通讯列表</a>-->
 <!-- Modal -->
