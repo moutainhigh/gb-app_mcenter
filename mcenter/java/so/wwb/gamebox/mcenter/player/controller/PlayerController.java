@@ -3344,34 +3344,22 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //把页面传入的xx;yy;zz;转成数据库中的字符串00000111的代码方便存储
         setRiskSet(userPlayerVo);
         userPlayerVo.setProperties(UserPlayer.PROP_RISK_DATA_TYPE);
-        userPlayerVo = ServiceSiteTool.userPlayerService().updateOnly(userPlayerVo);
 
-        //是否推送总控
-        Boolean is2Boss = StringTool.isNotBlank(userPlayerVo.getResult().getRiskDataType());
+        //推送到boss的风控数据信息
+        RiskManagementCheckVo riskManagementVo = new RiskManagementCheckVo();
+        RiskManagementCheck riskManagement = new RiskManagementCheck();
+        riskManagement.setCreateTime(DateQuickPicker.getInstance().getNow());
+        riskManagement.setCreateUserId(SessionManager.getUserId());
+        riskManagement.setCreateUserName(SessionManager.getUserName());
+        riskManagement.setSiteId(SessionManager.getSiteId());
+        riskManagementVo.setResult(riskManagement);
+        userPlayerVo.setRiskManagementVo(riskManagementVo);
+
+        userPlayerVo = ServiceSiteTool.userPlayerService().savePlayerRiskAndAddBoss(userPlayerVo);
 
         //日志;添加完日志后，userPlayerVo的risk值有改变，后续使用注意
         addModifyRiskLog(userPlayerVo);
 
-        //推送到总控
-        if (userPlayerVo.isSuccess() && is2Boss) {
-
-            //设置风控审核数据内容
-            RiskManagementCheckVo riskManagementVo = new RiskManagementCheckVo();
-            RiskManagementCheck riskManagement = new RiskManagementCheck();
-            riskManagement.setCreateTime(DateQuickPicker.getInstance().getNow());
-            riskManagement.setCreateUserId(SessionManager.getUserId());
-            riskManagement.setCreateUserName(SessionManager.getUserName());
-            riskManagement.setSiteId(SessionManager.getSiteId());
-            riskManagementVo.setResult(riskManagement);
-            //查询其他按数据并发送
-            userPlayerVo = ServiceSiteTool.vUserPlayerService().addRiskToBoss(userPlayerVo, riskManagementVo);
-        }
-
-        if (userPlayerVo.isSuccess()) {
-            regMap.put("state", true);
-        } else {
-            regMap.put("state", false);
-        }
         return this.getVoMessage(userPlayerVo);
     }
 
