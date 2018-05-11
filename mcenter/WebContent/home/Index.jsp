@@ -9,6 +9,9 @@
 <div class="row">
     <form name="mainFrame">
         <div class="white-bg indicators clearfix  m-l m-r m-b operationsOverview overview shadow">
+            <div class="index_tips">
+                <span class="text-warning glyphicon glyphicon-info-sign"></span>  ${views.home_auto['首页数据展示营销状况，如需对账请前往统计模块查看']}
+            </div>
             <div class="filter-wraper clearfix p-xs">
                 <h3 class="pull-left m-r line-hi25">${views.home_auto['近日数据']}</h3>
                 <soul:button target="tableModel" text="${views.home_auto['报表模式']}" opType="function" cssClass="btn btn-default chart_model" />
