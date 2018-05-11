@@ -122,7 +122,7 @@
                         </c:when>
                         <c:otherwise>
                             <%--解绑--%>
-                            <c:if test="${s.resolveStatus=='5'&&!s.isDefault}">
+                            <c:if test="${s.resolveStatus=='5'}">
                                 <soul:button
                                         target="${root}/content/sysDomain/changeResolveStatus.html?result.id=${s.id}&result.resolveStatus=3&result.domain=${s.domain}&domainPlatform=site&result.code=${s.code}"
                                         text="${views.content['sysdomain.unbundling']}"
