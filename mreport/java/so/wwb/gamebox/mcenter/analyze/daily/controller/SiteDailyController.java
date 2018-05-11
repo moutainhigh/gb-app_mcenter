@@ -1,9 +1,9 @@
 package so.wwb.gamebox.mcenter.analyze.daily.controller;
 
-import com.alibaba.fastjson.JSON;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
-import org.soul.commons.query.Paging;
+import org.soul.commons.log.Log;
+import org.soul.commons.log.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +12,7 @@ import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.tools.DataTransTool;
 import so.wwb.gamebox.model.WeekTool;
 import so.wwb.gamebox.model.company.setting.po.ApiGametypeRelation;
-import so.wwb.gamebox.model.company.setting.vo.ApiGametypeRelationListVo;
 import so.wwb.gamebox.model.company.setting.vo.ApiGametypeRelationVo;
-import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
 import so.wwb.gamebox.model.master.operation.so.RakebackApiSo;
 import so.wwb.gamebox.model.master.operation.vo.RakebackApiListVo;
 import so.wwb.gamebox.model.master.operation.vo.RakebackApiVo;
@@ -22,7 +20,6 @@ import so.wwb.gamebox.model.site.report.po.RealtimeProfile;
 import so.wwb.gamebox.model.site.report.vo.OperationSummaryVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileListVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileVo;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -34,6 +31,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/daily")
 public class SiteDailyController {
+
+    private static final Log LOG = LogFactory.getLog(SiteDailyController.class);
 
     private static final String OPERATION_SUMMARY = "/daily/OperationSummary";
 
@@ -148,6 +147,7 @@ public class SiteDailyController {
      */
     @RequestMapping({"/realTimeSummary"})
     public String realTimeSummaryData(RealtimeProfileVo condition, Model model) {
+        condition.setCurrentTimeZone(WeekTool.getTimeZoneInterval());
         List<RealtimeProfile> profiles = ServiceSiteTool.realtimeProfileService().queryRealtimeCartogram(condition);
         List<RealtimeProfile> realtimedata = ServiceSiteTool.realtimeProfileService().queryNowAndYesterdayData(condition);
         List<RealtimeProfileVo> historyReportForm = ServiceSiteTool.realtimeProfileService().queryHistoryReportForm(condition);
