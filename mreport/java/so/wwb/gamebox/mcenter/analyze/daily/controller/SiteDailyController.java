@@ -1,18 +1,25 @@
 package so.wwb.gamebox.mcenter.analyze.daily.controller;
 
+import com.alibaba.fastjson.JSON;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
+import org.soul.commons.lang.DateQuickPickerTool;
+import org.soul.commons.lang.DateTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
+import org.soul.commons.query.Paging;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.DataTransTool;
 import so.wwb.gamebox.model.WeekTool;
 import so.wwb.gamebox.model.company.setting.po.ApiGametypeRelation;
+import so.wwb.gamebox.model.company.setting.vo.ApiGametypeRelationListVo;
 import so.wwb.gamebox.model.company.setting.vo.ApiGametypeRelationVo;
+import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
 import so.wwb.gamebox.model.master.operation.so.RakebackApiSo;
 import so.wwb.gamebox.model.master.operation.vo.RakebackApiListVo;
 import so.wwb.gamebox.model.master.operation.vo.RakebackApiVo;
@@ -20,7 +27,9 @@ import so.wwb.gamebox.model.site.report.po.RealtimeProfile;
 import so.wwb.gamebox.model.site.report.vo.OperationSummaryVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileListVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileVo;
+
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -88,22 +97,6 @@ public class SiteDailyController {
     @RequestMapping("/operationSummaryDataOfChoiceDays")
     @ResponseBody
     public String operationSummaryDataOfChoiceDays(OperationSummaryVo vo) {
-        //拼装结束时间
-//        Calendar createDate = Calendar.getInstance();
-//        createDate.setTime(vo.getSearch().getStaticTimeEnd());
-//        createDate.set(Calendar.HOUR_OF_DAY,00);
-//        createDate.set(Calendar.MINUTE,00);
-//        createDate.set(Calendar.SECOND,00);
-//        Date date = new Date(createDate.getTime().getTime());
-//        vo.getSearch().setStaticTimeEnd(date);
-//        //拼装开始时间
-//        createDate.setTime(vo.getSearch().getStaticTime());
-//        createDate.set(Calendar.HOUR_OF_DAY,00);
-//        createDate.set(Calendar.MINUTE,00);
-//        createDate.set(Calendar.SECOND,00);
-//        date = new Date(createDate.getTime().getTime());
-//        vo.getSearch().setStaticTime(date);
-
         vo = ServiceSiteTool.operationSummaryService().getOperationSummaryDataByDays(vo);
         return JsonTool.toJson(vo.getEntities());
     }
@@ -115,7 +108,21 @@ public class SiteDailyController {
     @RequestMapping("/searchOperationSummaryByDays")
     @ResponseBody
     public OperationSummaryVo searchOperationSummaryByDays(OperationSummaryVo vo) {
-        return ServiceSiteTool.operationSummaryService().searchOperationSummaryByDays(vo);
+        try {
+            if (vo.getBeginTime() != null) {
+                vo.setBeginTime(DateTool.convertDateByTimezone(vo.getBeginTime(), SessionManager.getTimeZone()));
+            }
+            if (vo.getEndTime() == null) {
+                vo.setEndTime(DateQuickPickerTool.getInstance().getDay(SessionManager.getTimeZone()));
+            } else {
+                vo.setEndTime(DateTool.convertDateByTimezone(vo.getEndTime(), SessionManager.getTimeZone()));
+            }
+            return ServiceSiteTool.operationSummaryService().searchOperationSummaryByDays(vo);
+
+        } catch (ParseException e) {
+            LOG.error("searchOperationSummaryByDays convertDateByTimezone error:", e);
+        }
+        return null;
     }
 
     /**
