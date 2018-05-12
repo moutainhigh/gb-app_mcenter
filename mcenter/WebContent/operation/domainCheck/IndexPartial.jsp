@@ -29,8 +29,8 @@
                     <%--被墙状态--%>
                 <td>
                     <c:choose>
-                        <c:when test="${!empty p.wallOF }">
-                            ${p.wallOF}
+                        <c:when test="${!empty p.wallOF && p.wallOF>0 }">
+                            <a href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.status=WALLED_OFF" nav-target="mainFrame" class="co-blue">${p.wallOF}</a>
                         </c:when>
                         <c:otherwise>
                                 0
@@ -41,8 +41,8 @@
                     <%--被劫持状态--%>
                 <td>
                     <c:choose>
-                        <c:when test="${!empty p.beHijached }">
-                            ${p.beHijached}
+                        <c:when test="${!empty p.beHijached && p.beHijached>0 }">
+                            <a href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.status=BE_HIJACKED" nav-target="mainFrame" class="co-blue">${p.beHijached}</a>
                         </c:when>
                         <c:otherwise>
                             0
@@ -53,8 +53,8 @@
                 <%--未解析--%>
                 <td>
                     <c:choose>
-                        <c:when test="${!empty p.unResolved }">
-                            ${p.unResolved}
+                        <c:when test="${!empty p.unResolved && p.unResolved>0}">
+                        <a href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.status=UNRESOLVED" nav-target="mainFrame" class="co-blue">${p.unResolved}</a>
                         </c:when>
                         <c:otherwise>
                             0
@@ -66,8 +66,8 @@
                     <%--服务器不通--%>
                 <td>
                     <c:choose>
-                        <c:when test="${!empty p.serverUnreachable}">
-                            ${p.serverUnreachable}
+                        <c:when test="${!empty p.serverUnreachable && p.serverUnreachable>0}">
+                        <a href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.status=SERVER_UNREACHABLE" nav-target="mainFrame" class="co-blue">${p.serverUnreachable}</a>
                         </c:when>
                         <c:otherwise>
                             0
@@ -78,8 +78,8 @@
                     <%--未知错误--%>
                 <td>
                     <c:choose>
-                        <c:when test="${!empty p.unknown}">
-                            ${p.unknown}
+                        <c:when test="${!empty p.unknown && p.unknown>0}">
+                        <a href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.status=UNKNOWN_ERR" nav-target="mainFrame" class="co-blue">${p.unknown}</a>
                         </c:when>
                         <c:otherwise>
                             0
@@ -89,8 +89,8 @@
                     <%--域名未授权--%>
                 <td>
                     <c:choose>
-                        <c:when test="${!empty p.unAuthorized}">
-                            ${p.unAuthorized}
+                        <c:when test="${!empty p.unAuthorized && p.unAuthorized>0}">
+                            <a href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.status=UNAUTHORIZED" nav-target="mainFrame" class="co-blue">${p.unAuthorized}</a>
                         </c:when>
                         <c:otherwise>
                             0
@@ -101,8 +101,8 @@
                     <%--被跳转--%>
                 <td>
                     <c:choose>
-                        <c:when test="${!empty p.redirect}">
-                            ${p.redirect}
+                        <c:when test="${!empty p.redirect &&  p.redirect>0}">
+                        <a href="/operation/domainCheckResult/list.html?search.domain=${p.domain}&search.status=REDIRECT" nav-target="mainFrame" class="co-blue">${p.redirect}</a>
                         </c:when>
                         <c:otherwise>
                             0
