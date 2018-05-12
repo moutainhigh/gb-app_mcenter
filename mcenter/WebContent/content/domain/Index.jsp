@@ -111,7 +111,7 @@
                 <div class="modal-body" style="padding: 20px 50px;">
                     <h3 class=" co-blue">${views.content['您体系下的总代']}</h3>
                         <div class="line-hi25">${views.content['在您添加的任意指向域名为']}</div>
-                        <div class="line-hi25">${views.content['如']}：gamebox.com/tcenter</div>
+                        <div class="line-hi25">${views.content['如']}：${domain}/tcenter</div>
                 </div>
                 <div class="modal-footer">
 
