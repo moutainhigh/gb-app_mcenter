@@ -286,12 +286,12 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             List<VActivityMessage> vActivityMessages = loadActivityMessageByActivityType(code, activityMessageVo.getResult().getId());
             String combinedRanks = getCombinedRanks(vActivityMessages);
             Map<String, Object> objectMap = isAllRank(combinedRanks);
-            Map<String, Object> map = filterRanksAndConvertRankIdToName(vActivityMessages);
-            model.addAttribute("playerRank", combinedRanks);
-            model.addAttribute("playerRanks", map.get("playerRanks"));
-            model.addAttribute("isAllRank", objectMap.get("isAllRank"));
-            model.addAttribute("vActivityMessages", vActivityMessages);
-            model.addAttribute("type", "edit");
+//            Map<String, Object> map = filterRanksAndConvertRankIdToName(vActivityMessages);
+//            model.addAttribute("playerRank", combinedRanks);
+//            model.addAttribute("playerRanks", map.get("playerRanks"));
+//            model.addAttribute("isAllRank", objectMap.get("isAllRank"));
+//            model.addAttribute("vActivityMessages", vActivityMessages);
+//            model.addAttribute("type", "edit");
             //获取其他存就送存款方式
             String otherUsedDepositWay = getOtherUsedDepositWay(vActivityMessages);
             model.addAttribute("otherUsedDepositWay", otherUsedDepositWay);

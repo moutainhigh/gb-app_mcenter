@@ -288,12 +288,12 @@
                         <c:forEach items="${playerRanks}" var="a">
                             <c:set value="${a.id}," var="b"></c:set>
                             <label class="m-r-sm">
-                                <c:if test="${activityType.result.code eq 'deposit_send'}">
-                                    <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${ fn:contains(playerRank,b)?" disabled":""}>
-                                </c:if>
-                                <c:if test="${activityType.result.code ne 'deposit_send'}">
+                                <%--<c:if test="${activityType.result.code eq 'deposit_send'}">--%>
+                                    <%--<input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${ fn:contains(playerRank,b)?" disabled":""}>--%>
+                                <%--</c:if>--%>
+                                <%--<c:if test="${activityType.result.code ne 'deposit_send'}">--%>
                                     <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""}>
-                                 </c:if>
+                                 <%--</c:if>--%>
 
 
 
@@ -308,11 +308,11 @@
                                 &lt;%&ndash;</c:forEach>&ndash;%&gt;
                             </c:forEach>--%>
 
-                        <c:if test="${ activityType.result.code eq 'deposit_send'}">
-                            <div id="getRankActivityMessage">
-                                <%@include file="rule.include/GetRankActivityMessage.jsp"%>
-                            </div>
-                        </c:if>
+                        <%--<c:if test="${ activityType.result.code eq 'deposit_send'}">--%>
+                            <%--<div id="getRankActivityMessage">--%>
+                                <%--<%@include file="rule.include/GetRankActivityMessage.jsp"%>--%>
+                            <%--</div>--%>
+                        <%--</c:if>--%>
                     </div>
                 </div>
             </c:if>
