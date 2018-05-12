@@ -72,6 +72,7 @@ import so.wwb.gamebox.model.master.player.vo.RemarkListVo;
 import so.wwb.gamebox.model.master.player.vo.UserAgentVo;
 import so.wwb.gamebox.model.master.player.vo.UserBankcardVo;
 import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.common.token.Token;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -451,6 +452,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
      * @return
      */
     @RequestMapping("/putConfirmCheck")
+    @Token(generate = true)
     public String putConfirmCheck(VAgentWithdrawOrderVo objVo, Model model) {
         if(objVo.getSearch().getId()!=null){
             objVo = ServiceSiteTool.getVAgentWithdrawOrderService().search(objVo);
@@ -485,6 +487,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
      */
     @RequestMapping("/putAuditStatus")
     @ResponseBody
+    @Token(valid = true)
     public Map putAuditStatus(AgentWithdrawOrderVo objVo, UserAgentVo vo, Remark remark) {
         objVo = ServiceSiteTool.getAgentWithdrawOrderService().get(objVo);
 
