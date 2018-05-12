@@ -292,7 +292,7 @@
                                     <%--<input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""} ${ fn:contains(playerRank,b)?" disabled":""}>--%>
                                 <%--</c:if>--%>
                                 <%--<c:if test="${activityType.result.code ne 'deposit_send'}">--%>
-                                    <input type="checkbox" class="i-checks" name="activityRule.rank" value="${a.id}" ${empty isAllRank and isAllRank ? "" : (fn:contains(playerRank,b) || fn:contains(bb,b))?"checked":""}>
+                                    <input type="checkbox" class="i-checks" name="activityRule.rank" value="${b}" ${(not empty isAllRank and isAllRank) || fn:contains(bb,b)?"checked":""}><%--当前活动是全部层级或者当前活动包含这个层级--%>
                                  <%--</c:if>--%>
 
 
