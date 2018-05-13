@@ -97,8 +97,22 @@ public class SiteDailyController {
     @RequestMapping("/operationSummaryDataOfChoiceDays")
     @ResponseBody
     public String operationSummaryDataOfChoiceDays(OperationSummaryVo vo) {
-        vo = ServiceSiteTool.operationSummaryService().getOperationSummaryDataByDays(vo);
-        return JsonTool.toJson(vo.getEntities());
+        try{
+            if (vo.getSearch().getStaticTime() != null) {
+                vo.setBeginTime(DateTool.convertDateByTimezone(vo.getSearch().getStaticTime(), SessionManager.getTimeZone()));
+            }
+            if (vo.getSearch().getStaticTimeEnd() == null) {
+                vo.setEndTime(DateQuickPickerTool.getInstance().getDay(SessionManager.getTimeZone()));
+            } else {
+                vo.setEndTime(DateTool.convertDateByTimezone(vo.getSearch().getStaticTimeEnd(), SessionManager.getTimeZone()));
+            }
+            vo = ServiceSiteTool.operationSummaryService().getOperationSummaryDataByDays(vo);
+            return JsonTool.toJson(vo.getEntities());
+
+        } catch (ParseException e) {
+            LOG.error("operationSummaryDataOfChoiceDays convertDateByTimezone error:", e);
+        }
+        return null;
     }
 
     /**
