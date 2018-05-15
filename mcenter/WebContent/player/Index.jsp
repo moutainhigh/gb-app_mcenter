@@ -258,10 +258,14 @@
                                     </div>
                                 </div>
                                     <%--来源终端ok--%>
-                                <div class="form-group clearfix pull-left col-md-1 col-sm-12 m-b-sm padding-r-none-sm h-line-a">
+                                <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                                     <div class="input-group">
                                         <span class="input-group-addon bg-gray">${views.player_auto['来源终端']}</span>
                                         <gb:select name="search.createChannel" list="<%=DictTool.get(DictEnum.PLAYER_CREATE_CHANNEL)%>" prompt="${views.player_auto['全部']}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix pull-left col-md-1 col-sm-12 m-b-sm padding-r-none-sm h-line-a">
+                                    <div class="input-group">
                                     </div>
                                 </div>
                                     <%--钱包余额等ok--%>
