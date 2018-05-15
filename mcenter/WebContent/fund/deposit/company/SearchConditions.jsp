@@ -1,4 +1,5 @@
-<%--@elvariable id="command" type="so.wwb.gamebox.model.master.fund.vo.VPlayerDepositListVo"--%>
+<%@ page import="org.soul.commons.dict.DictTool" %>
+<%@ page import="so.wwb.gamebox.model.DictEnum" %><%--@elvariable id="command" type="so.wwb.gamebox.model.master.fund.vo.VPlayerDepositListVo"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/include/include.inc.jsp" %>
 
@@ -84,24 +85,10 @@
                 </div>
             </div>
             <%--来源终端--%>
-            <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm h-line-a senior hide origin">
+            <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm senior hide origin">
                 <div class="input-group">
                     <span class="input-group-addon bg-gray">${views.fund['来源终端']}</span>
-                            <span class=" input-group-addon bdn  right-btn-down">
-                            <div class="btn-group table-desc-right-t-dropdown">
-                                <ul role="menu">
-                                    <li role="presentation">
-                                        <label><input type="radio" value="" name="search.origin" ${empty command.search.origin?'checked':''}> ${views.fund['全部']}</label>
-                                    </li>
-                                    <li role="presentation">
-                                        <label><input type="radio" value="PC" name="search.origin" ${command.search.origin == 'PC'?'checked':''}> ${views.fund['PC端']}</label>
-                                    </li>
-                                    <li role="presentation">
-                                        <label><input type="radio" value="MOBILE" name="search.origin" ${command.search.origin == 'MOBILE'?'checked':''}> ${views.fund['手机端']}</label>
-                                    </li>
-                                </ul>
-                            </div>
-                        </span>
+                    <gb:select name="search.origin" list="<%=DictTool.get(DictEnum.COMMON_TERMINAL_TYPE)%>" prompt="${views.player_auto['全部']}"/>
                 </div>
             </div>
             <%--高级搜索下拉框--%>
