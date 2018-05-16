@@ -1,3 +1,5 @@
+<%@ page import="org.soul.commons.dict.DictTool" %>
+<%@ page import="so.wwb.gamebox.model.DictEnum" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/include/include.inc.jsp" %>
 
@@ -88,26 +90,10 @@
                         </div>
                     </div>
                         <%--来源终端ok--%>
-                    <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm h-line-a">
+                    <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group">
                             <span class="input-group-addon bg-gray">${views.player_auto['来源终端']}</span>
-                            <input type="hidden" id="channelTerminal" value="${command.search.channelTerminal}">
-                            <span class=" input-group-addon bdn  right-btn-down">
-                                <div class="btn-group table-desc-right-t-dropdown">
-                                            <label><input type="radio" name="search.channelTerminal"
-                                                          value="" ${empty command.search.channelTerminal?'checked':''}>
-                                                    ${views.player_auto['全部']}</label>
-                                            <label><input type="radio"
-                                                          name="search.channelTerminal" ${command.search.channelTerminal=='PC'?'checked':''}
-                                                          value="PC">${views.player_auto['PC端']}</label>
-                                            <label><input type="radio"
-                                                          name="search.channelTerminal" ${command.search.channelTerminal=='App'?'checked':''}
-                                                          value="App">${views.player_auto['手机端APP']}</label>
-                                                <label><input type="radio"
-                                                              name="search.channelTerminal" ${command.search.channelTerminal=='Mobile'?'checked':''}
-                                                              value="Mobile">${views.player_auto['手机端Web']}</label>
-                                </div>
-                            </span>
+                            <gb:select name="search.channelTerminal" list="<%=DictTool.get(DictEnum.COMMON_TERMINAL_TYPE)%>" prompt="${views.player_auto['全部']}"/>
                         </div>
                     </div>
                     <span class="input-group-btn">

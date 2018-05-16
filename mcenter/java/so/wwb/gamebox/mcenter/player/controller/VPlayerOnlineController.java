@@ -83,7 +83,7 @@ public class VPlayerOnlineController extends BaseCrudController<IVPlayerOnlineSe
             Long seconds = DateTool.secondsBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime()) - hours * 3600 - minutes * 60;
             Session session=redisSessionDao.getSessionByKey(MessageFormat.format("{0}:{1},{2},{3}",
                     redisSessionDao.genPrefix(),UserTypeEnum.PLAYER.getCode(),list.get(i).getId().toString(),list.get(i).getSessionKey()));
-            String userClient="PC";
+            String userClient="8";//终端类型改了后，默认值改为1
             if(session!=null && session.getAttributeKeys().contains(SessionKey.S_USER_CLINT_INFO)){
                 userClient=String.valueOf(session.getAttribute(SessionKey.S_USER_CLINT_INFO));
             }
