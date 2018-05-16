@@ -13,6 +13,7 @@
     <input type="hidden" name="username" value="${command.result.username}"/>
     <form:input type="hidden" path="search.id" value="${command.result.id}"/>
     <form:input type="hidden" path="search.transactionStatus" value="2"/>
+    <gb:token/>
 
     <div class="modal-body clearfix">
         <div class="m-b">

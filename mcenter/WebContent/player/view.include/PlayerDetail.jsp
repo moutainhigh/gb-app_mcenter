@@ -15,6 +15,7 @@
         </div>
         <div class="col-lg-12">
             <input type="hidden" name="result.id" value="${command.result.id}" id="userId">
+            <input type="hidden" value="${toRecovery}" id="toRecovery" name="toRecovery">
             <div class="wrapper white-bg clearfix shadow">
                 <div class="sys_tab_wrap clearfix m-b-sm">
                     <div class="m-sm">
@@ -627,12 +628,12 @@
                                       data-html="true" data-content="${views.content['annotation.favorable']}">
                                     <i class="fa fa-question-circle" ></i>
                                 </span>${views.player_auto['获得优惠']}
-                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable&search.transactionType=<%=TransactionTypeEnum.FAVORABLE.getCode()%>" nav-target="mainFrame">
+                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable&search.transactionWays=<%=TransactionWayEnum.FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.SECOND_DEPOSIT.getCode()%>,<%=TransactionWayEnum.THIRD_DEPOSIT.getCode()%>,<%=TransactionWayEnum.EVERYDAY_FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.DEPOSIT_SEND.getCode()%>,<%=TransactionWayEnum.REGIST_SEND.getCode()%>,<%=TransactionWayEnum.RELIEF_FUND.getCode()%>,<%=TransactionWayEnum.PROFIT_LOSS.getCode()%>,<%=TransactionWayEnum.EFFECTIVE_TRANSACTION.getCode()%>,<%=TransactionWayEnum.MONEY.getCode()%>,<%=TransactionWayEnum.SINGLE_REWARD.getCode()%>,<%=TransactionWayEnum.BONUS_AWARDS.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame">
                                     <span class="co-blue" id="favCount">${views.player_auto['计算中']}...</span>
                                 </a>
                                 ${views.player_auto['次']}，
                                 ${views.player_auto['共计']}${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable&search.transactionType=<%=TransactionTypeEnum.FAVORABLE.getCode()%>" nav-target="mainFrame">
+                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable&search.transactionWays=<%=TransactionWayEnum.FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.SECOND_DEPOSIT.getCode()%>,<%=TransactionWayEnum.THIRD_DEPOSIT.getCode()%>,<%=TransactionWayEnum.EVERYDAY_FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.DEPOSIT_SEND.getCode()%>,<%=TransactionWayEnum.REGIST_SEND.getCode()%>,<%=TransactionWayEnum.RELIEF_FUND.getCode()%>,<%=TransactionWayEnum.PROFIT_LOSS.getCode()%>,<%=TransactionWayEnum.EFFECTIVE_TRANSACTION.getCode()%>,<%=TransactionWayEnum.MONEY.getCode()%>,<%=TransactionWayEnum.SINGLE_REWARD.getCode()%>,<%=TransactionWayEnum.BONUS_AWARDS.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame">
                                     <span class="co-blue" id="favMoney">${views.player_auto['计算中']}...</span>
                                 </a>；
                                 <a href="/fund/deposit/company/list.html?search.username=${command.result.username}&search.playerId=${command.result.id}" class="btn btn-link co-blue" nav-target="mainFrame">${views.player_auto['公司入款记录']}</a>
@@ -713,15 +714,7 @@
                                                  text="${dicts.log.op_type['update']}" opType="dialog" cssClass="btn btn-link co-blue"/>
                                 <c:if test="${command.result.riskDataType.length() == 8 && command.result.riskDataType.contains('2')}">
                                     ${views.player_auto['由系统风控大数据识别']}:
-                                    <c:if test="${command.result.riskDataType.substring(5,6) eq '2'}">
-                                        ${views.common['MALICIOUS']},
-                                    </c:if>
-                                    <c:if test="${command.result.riskDataType.substring(6,7) eq '2'}">
-                                        ${views.common['MONEY_LAUNDERING']},
-                                    </c:if>
-                                    <c:if test="${command.result.riskDataType.substring(7,8) eq '2'}">
-                                        ${views.common['INTEREST_ARBITRAGE']}
-                                    </c:if>
+                                    ${gbFn:getRiskString(command.result.riskDataType.replace('1','0'))}<!-- 1为玩家添加的不显示，2系统标识的显示出来 -->
                                     <span  data-placement="bottom" data-trigger="focus" data-toggle="popover" data-container="body" data-html="true" role="button" class="ico-lock" tabindex="0" data-original-title="" title="" style="font-size: 14px;color: #9c9c9c; display: inline-block;">
                                             (${views.player_auto['系统识别数据仅供参考']})
                                     </span>

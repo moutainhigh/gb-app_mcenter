@@ -111,72 +111,70 @@
                                 <div class="col-sm-8">
                                     <!--    盈亏送-->
                                     <c:if test="${p.activityTypeCode eq 'profit_loss'}">
-                                        <table class="table table-bordered">
-                                            <tr>
-                                                <th>${views.operation['Activity.rule']}</th>
-                                                <th colspan="2">${views.operation['Activity.step.offerForm']}</th>
-                                            </tr>
-                                            <tr>
-                                                <td>${views.operation['Activity.step.profit']}</td>
-                                                <td>${views.operation['Activity.step.caijin']}<%=SessionManager.getUser().getDefaultCurrency()%></td>
-                                                <td>${views.operation['Activity.step.audit']}</td>
-                                            </tr>
-                                            <c:forEach items="${preferentialWayRelation[p.id]}" var="item">
-                                                <c:forEach items="${item.child}" var="child">
-                                                        <c:if test="${child.preferentialCode eq 'profit_ge' && item.orderColumn eq child.orderColumn}">
-                                                            <tr>
-                                                                <td>${views.operation['Activity.step.full']}${child.preferentialValue}${views.operation['Activity.step.more']}</td>
-                                                                <td>${views.operation['Activity.step.send']}${child.wayPreferentialValue}</td>
-                                                                <td>
-                                                                    <c:choose>
-                                                                        <c:when test="${child.wayPreferentialAudit==''}">
-                                                                            ---
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            ${child.wayPreferentialAudit}
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-                                                                </td>
-                                                            </tr>
-                                                        </c:if>
+                                        <c:if test="${not empty profitPreferential}">
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <th>${views.operation['Activity.rule']}</th>
+                                                    <th colspan="2">${views.operation['Activity.step.offerForm']}</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>${views.operation['Activity.step.profit']}</td>
+                                                    <td>${views.operation['Activity.step.caijin']}<%=SessionManager.getUser().getDefaultCurrency()%></td>
+                                                    <td>${views.operation['Activity.step.audit']}</td>
+                                                </tr>
+                                                <c:forEach items="${profitPreferential}" var="preferential">
+
+                                                    <tr>
+                                                        <td>${views.operation['Activity.step.full']}${preferential.preferential_value}${views.operation['Activity.step.more']}</td>
+                                                        <td>${views.operation['Activity.step.send']}${preferential.preferential_val}</td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${preferential.preferential_audit==''}">
+                                                                    ---
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    ${preferential.preferential_audit}
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                    </tr>
+
                                                 </c:forEach>
-                                            </c:forEach>
-                                        </table>
+                                            </table>
+                                        </c:if>
                                         <hr/>
-                                        <table class="table table-bordered">
-                                            <tr>
-                                                <th>${views.operation['Activity.rule']}</th>
-                                                <th colspan="2">${views.operation['Activity.step.offerForm']}</th>
-                                            </tr>
-                                            <tr>
-                                                <td>${views.operation['Activity.step.loss']}</td>
-                                                <td>${views.operation['Activity.step.caijin']}<%=SessionManager.getUser().getDefaultCurrency()%></td>
-                                                <td>${views.operation['Activity.step.audit']}</td>
-                                            </tr>
+                                        <c:if test="${not empty lossPreferential}">
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <th>${views.operation['Activity.rule']}</th>
+                                                    <th colspan="2">${views.operation['Activity.step.offerForm']}</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>${views.operation['Activity.step.loss']}</td>
+                                                    <td>${views.operation['Activity.step.caijin']}<%=SessionManager.getUser().getDefaultCurrency()%></td>
+                                                    <td>${views.operation['Activity.step.audit']}</td>
+                                                </tr>
 
-                                            <c:forEach items="${preferentialWayRelation[p.id]}" var="item">
-                                                <c:forEach items="${item.child}" var="child">
-
-                                                    <c:if test="${child.preferentialCode eq 'loss_ge' && item.orderColumn eq child.orderColumn}">
-                                                        <tr>
-                                                            <td>${views.operation['Activity.step.full']}${child.preferentialValue}${views.operation['Activity.step.more']}</td>
-                                                            <td>${views.operation['Activity.step.send']}${child.wayPreferentialValue}</td>
-                                                            <td>
-                                                                <c:choose>
-                                                                    <c:when test="${child.wayPreferentialAudit==''}">
-                                                                        ---
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        ${child.wayPreferentialAudit}
-                                                                    </c:otherwise>
-                                                                </c:choose>
-                                                            </td>
-                                                        </tr>
-                                                    </c:if>
+                                                <c:forEach items="${lossPreferential}" var="preferential">
+                                                    <tr>
+                                                        <td>${views.operation['Activity.step.full']}${preferential.preferential_value}${views.operation['Activity.step.more']}</td>
+                                                        <td>${views.operation['Activity.step.send']}${preferential.preferential_val}</td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${preferential.preferential_audit==''}">
+                                                                    ---
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    ${preferential.preferential_audit}
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                    </tr>
                                                 </c:forEach>
-                                            </c:forEach>
-                                        </table>
+                                            </table>
+                                        </c:if>
                                     </c:if>
+
                                     <!--    首存送 存就送-->
                                     <c:if test="${ is123Deposit || p.activityTypeCode eq 'deposit_send'}">
                                         <table class="table  table-bordered">
@@ -524,7 +522,7 @@
                         </c:if>
 
 
-                        <c:if test="${p.activityTypeCode eq 'first_deposit' || p.activityTypeCode eq 'deposit_send'}">
+                        <c:if test="${is123Deposit || p.activityTypeCode eq 'deposit_send'}">
                             <div class="clearfix m-l-lg line-hi34">
                                 <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.depositWay']}</label>
                                 <div class="col-sm-5">
@@ -597,7 +595,7 @@
                                         <span>
                                             <a href="javascript:void(0)" id="${lang.language}" name="${status.index}"
                                                class="btn <c:if test="${status.index!=0}">btn-outline</c:if> btn-filter btn-sm activityTag" >
-                                                    ${dicts.common.local[lang.language]}
+                                                    ${dicts.common.local[lang.language]}PC
                                             </a>
                                         </span>
                                 </c:forEach>

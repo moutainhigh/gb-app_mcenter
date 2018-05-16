@@ -965,6 +965,16 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         playerApiListVo.getSearch().setPlayerId(searchId);
         playerApiListVo.setType(ApiQueryTypeEnum.ALL_API.getCode());
         ShareController.lastSynchroApiCash(userPlayerVo , playerApiListVo);
+
+        //判断玩家最后登录时间,当最后登录时间 > 30天，点击玩家详情时系统自行回收资金
+        Date lastLoginTime = vUserPlayerVo.getResult().getLoginTime();
+        if(lastLoginTime!=null){
+            long date = DateTool.daysBetween(new Date(),lastLoginTime);
+            LOG.info("玩家ID：{0}，最后登录时间：{1}，与最近一次查看玩家详细的时间相差天数为：{2}",searchId,lastLoginTime,date);
+            if (date>30){
+                model.addAttribute("toRecovery",true);
+            }
+        }
         return "/player/view.include/PlayerDetail";
     }
 
@@ -3334,34 +3344,22 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //把页面传入的xx;yy;zz;转成数据库中的字符串00000111的代码方便存储
         setRiskSet(userPlayerVo);
         userPlayerVo.setProperties(UserPlayer.PROP_RISK_DATA_TYPE);
-        userPlayerVo = ServiceSiteTool.userPlayerService().updateOnly(userPlayerVo);
 
-        //是否推送总控
-        Boolean is2Boss = StringTool.isNotBlank(userPlayerVo.getResult().getRiskDataType());
+        //推送到boss的风控数据信息
+        RiskManagementCheckVo riskManagementVo = new RiskManagementCheckVo();
+        RiskManagementCheck riskManagement = new RiskManagementCheck();
+        riskManagement.setCreateTime(DateQuickPicker.getInstance().getNow());
+        riskManagement.setCreateUserId(SessionManager.getUserId());
+        riskManagement.setCreateUserName(SessionManager.getUserName());
+        riskManagement.setSiteId(SessionManager.getSiteId());
+        riskManagementVo.setResult(riskManagement);
+        userPlayerVo.setRiskManagementVo(riskManagementVo);
+
+        userPlayerVo = ServiceSiteTool.userPlayerService().savePlayerRiskAndAddBoss(userPlayerVo);
 
         //日志;添加完日志后，userPlayerVo的risk值有改变，后续使用注意
         addModifyRiskLog(userPlayerVo);
 
-        //推送到总控
-        if (userPlayerVo.isSuccess() && is2Boss) {
-
-            //设置风控审核数据内容
-            RiskManagementCheckVo riskManagementVo = new RiskManagementCheckVo();
-            RiskManagementCheck riskManagement = new RiskManagementCheck();
-            riskManagement.setCreateTime(DateQuickPicker.getInstance().getNow());
-            riskManagement.setCreateUserId(SessionManager.getUserId());
-            riskManagement.setCreateUserName(SessionManager.getUserName());
-            riskManagement.setSiteId(SessionManager.getSiteId());
-            riskManagementVo.setResult(riskManagement);
-            //查询其他按数据并发送
-            userPlayerVo = ServiceSiteTool.vUserPlayerService().addRiskToBoss(userPlayerVo, riskManagementVo);
-        }
-
-        if (userPlayerVo.isSuccess()) {
-            regMap.put("state", true);
-        } else {
-            regMap.put("state", false);
-        }
         return this.getVoMessage(userPlayerVo);
     }
 
@@ -3429,6 +3427,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             if (riskDataType.charAt(5) != '0') {
                 riskSet.add(PlayerRiskDataTypeEnum.INTEREST_ARBITRAGE.getCode());
             }
+            if (riskDataType.charAt(4) != '0') {
+                riskSet.add(PlayerRiskDataTypeEnum.PAY_PROFESSIONAL_COMPLAINT.getCode());
+            }
         }
         userPlayerVo.getResult().setRiskSet(riskSet);
     }
@@ -3442,6 +3443,11 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         if (StringTool.isNotBlank(riskDataType)) {
             StringBuilder str = new StringBuilder();
             Set<String> set = new HashSet<>(Arrays.asList(riskDataType.split(";")));
+            if (set.contains(PlayerRiskDataTypeEnum.PAY_PROFESSIONAL_COMPLAINT.getCode())) {
+                str.append("1");
+            } else {
+                str.append("0");
+            }
             if (set.contains(PlayerRiskDataTypeEnum.INTEREST_ARBITRAGE.getCode())) {
                 str.append("1");
             } else {

@@ -292,6 +292,18 @@
                                                         <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${favorable}" name="search.transactionWays" value="money">
                                                         <span class="m-l-xs">${views.report_auto['红包']}</span>
                                                     </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${favorable}" name="search.transactionWays" value="second_deposit">
+                                                        <span class="m-l-xs">${views.report_auto['次存送']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${favorable}" name="search.transactionWays" value="third_deposit">
+                                                        <span class="m-l-xs">${views.report_auto['三存送']}</span>
+                                                    </label>
+                                                    <label class="fwn m-r-sm">
+                                                        <input type="checkbox" class="i-checks tranType" data-type="4" transaction-type="${favorable}" name="search.transactionWays" value="everyday_first_deposit">
+                                                        <span class="m-l-xs">${views.report_auto['每日首存']}</span>
+                                                    </label>
                                                 </td>
                                             </tr>
                                             </tbody>

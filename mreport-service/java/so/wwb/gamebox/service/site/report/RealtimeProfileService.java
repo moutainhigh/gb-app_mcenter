@@ -21,7 +21,7 @@ public class RealtimeProfileService extends BaseService<RealtimeProfileMapper, R
     public List<RealtimeProfile> queryRealtimeCartogram(RealtimeProfileVo condition) {
         RealtimeProfile realtimeProfile = new RealtimeProfile();
         realtimeProfile.setCreateTime(new Date());
-        List<RealtimeProfile> profiles = this.mapper.queryRealtimeCartogram();
+        List<RealtimeProfile> profiles = this.mapper.queryRealtimeCartogram(condition);
 
         /*Calendar createDate = Calendar.getInstance();
         createDate.set(Calendar.HOUR,0);
@@ -46,9 +46,13 @@ public class RealtimeProfileService extends BaseService<RealtimeProfileMapper, R
     public List<RealtimeProfileVo> queryHistoryReportForm(RealtimeProfileVo condition) {
         RealtimeProfile realtimeProfile = new RealtimeProfile();
         realtimeProfile.setCreateTime(new Date());
-        List<RealtimeProfileVo> profileVos = this.mapper.queryHistoryReportForm();
+        List<RealtimeProfileVo> profileVos = this.mapper.queryHistoryReportForm(condition);
         return profileVos;
 
     }
 
+    @Override
+    public List<RealtimeProfile> queryNowAndYesterdayData(RealtimeProfileVo condition) {
+        return this.mapper.queryNowAndYesterdayData(condition);
+    }
 }

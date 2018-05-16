@@ -1,6 +1,8 @@
 package so.wwb.gamebox.mcenter.session;
 
+import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.model.common.SessionKey;
+import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.web.SessionManagerCommon;
 
 /**
@@ -18,6 +20,14 @@ public class SessionManager extends SessionManagerCommon {
 
     public static void setUserId(Integer userId) {
         setAttribute(SessionKey.S_USER_ID, userId);
+    }
+
+    /**
+     * 站长中心子账号处理
+     * @return
+     */
+    public static String getSubSysCode() {
+        return ConfigManager.getConfigration().getSubsysCode();
     }
 
     /**
@@ -46,5 +56,13 @@ public class SessionManager extends SessionManagerCommon {
 
     public static void removeManualToken() {
         removeAttribute(SESSION_MANUAL_TOKEN);
+    }
+
+    public static String getLogoutUrl() {
+        if (getUser() != null) {
+            return "/passport/logout.html";
+        } else {
+            return "";
+        }
     }
 }

@@ -72,6 +72,7 @@ import so.wwb.gamebox.model.master.player.vo.RemarkListVo;
 import so.wwb.gamebox.model.master.player.vo.UserAgentVo;
 import so.wwb.gamebox.model.master.player.vo.UserBankcardVo;
 import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.common.token.Token;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -255,6 +256,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
     }
 
     @RequestMapping("/showAgentAuditView")
+    @Token(generate = true)
     public String showAgentAuditView(VAgentWithdrawOrderVo vo, Model model){
         vo = setAuditData(vo, model);
         setOtherData(vo, model);
@@ -451,6 +453,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
      * @return
      */
     @RequestMapping("/putConfirmCheck")
+    @Token(generate = true)
     public String putConfirmCheck(VAgentWithdrawOrderVo objVo, Model model) {
         if(objVo.getSearch().getId()!=null){
             objVo = ServiceSiteTool.getVAgentWithdrawOrderService().search(objVo);
@@ -485,6 +488,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
      */
     @RequestMapping("/putAuditStatus")
     @ResponseBody
+    @Token(valid = true)
     public Map putAuditStatus(AgentWithdrawOrderVo objVo, UserAgentVo vo, Remark remark) {
         objVo = ServiceSiteTool.getAgentWithdrawOrderService().get(objVo);
 
@@ -667,7 +671,9 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
      * @param model
      * @return
      */
+
     @RequestMapping("/putConfirmRefuses")
+    @Token(generate = true)
     public String putConfirmRefuses(VAgentWithdrawOrderVo objVo, Model model) {
         objVo = ServiceSiteTool.getVAgentWithdrawOrderService().get(objVo);
 
@@ -689,6 +695,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
      * @return
      */
     @RequestMapping("/putCheckFailure")
+    @Token(generate = true)
     public String putCheckFailure(VAgentWithdrawOrderVo objVo, Remark remark, Model model) {
         objVo = ServiceSiteTool.getVAgentWithdrawOrderService().get(objVo);
 

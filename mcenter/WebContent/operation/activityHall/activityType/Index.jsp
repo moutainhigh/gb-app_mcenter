@@ -23,7 +23,7 @@
                     <c:forEach items="${command}" var="p" varStatus="status">
                         <li class="col-lg-3 col-md-4 col-sm-6">
                             <div class="item">
-                                <div class="title clearfix">
+                                <div class="title clearfix activity-new-title">
                                     <img src="${resRoot}${p.logo}">
                                     <div>
                                         <h3>${views.operation[p.code]}</h3>
@@ -42,7 +42,7 @@
                                         ${views.operation['Activity.create']}
                                 </a>
 
-                                <c:if test="${p.code ne 'content' && p.code ne 'money' && p.code ne 'second_deposit' && p.code ne 'third_deposit' && p.code ne 'everyday_first_deposit'}">
+                                <c:if test="${p.code ne 'content'}">
                                     <a href="/activityHall/activityType/chooseCase.html?result.code=${p.code}"
                                        nav-target="mainFrame" class="btn js">${views.operation['Activity.introduction']}</a>
                                 </c:if>

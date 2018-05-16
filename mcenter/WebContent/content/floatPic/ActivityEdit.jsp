@@ -365,7 +365,7 @@
                         <div class="col-sm-5">
                             <div id="service_show_page" class="<%--${command.result.picType=='1'? '' : 'hide'}--%>">
                                 <c:forEach items="${floatPicDisplayInMaps}" var="map">
-                                    <input type="checkbox" class="i-checks show_page_${map.key}" name="result.displayInPages" value="${map.key}" checked><span class="show_page_span_${map.key}">${views.content['floatPic.displayIn.'.concat(map.key)]}</span>&nbsp;
+                                    <input type="checkbox" class="i-checks show_page_${map.key}" name="result.displayInPages" value="${map.key}" ${fn:contains(command.result.displayInPages, map.key) ? 'checked' : ''}><span class="show_page_span_${map.key}">${views.content['floatPic.displayIn.'.concat(map.key)]}</span>&nbsp;
                                 </c:forEach>
                             </div>
                         </div>

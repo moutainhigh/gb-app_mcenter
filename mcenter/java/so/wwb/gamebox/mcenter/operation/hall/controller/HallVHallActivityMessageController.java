@@ -419,7 +419,7 @@ public class HallVHallActivityMessageController extends HallActivityController<I
             assignment(activityTypeVo, vActivityMessageVo);
 
 
-            boolean success = ServiceActivityTool.vActivityMessageService().activityRelease(vActivityMessageVo);
+            boolean success = ServiceActivityTool.hallVActivityMessageService().activityRelease(vActivityMessageVo);
 
             if (success) {
                 updateSiteContentAudit();
@@ -495,7 +495,7 @@ public class HallVHallActivityMessageController extends HallActivityController<I
     @RequestMapping(value = "/changeDisplayStatus")
     @ResponseBody
     public Map changeDisplayStatus(ActivityMessageVo activityMessageVo) {
-        activityMessageVo = ServiceActivityTool.activityMessageService().updateDisplayStatus(activityMessageVo);
+        activityMessageVo = ServiceActivityTool.hallActivityMessageService().updateDisplayStatus(activityMessageVo);
         /*activityMessageVo.setProperties(ActivityMessage.PROP_IS_DISPLAY);
         activityMessageVo = ServiceSiteTool.activityMessageService().updateOnly(activityMessageVo);
         */
@@ -531,7 +531,7 @@ public class HallVHallActivityMessageController extends HallActivityController<I
                 || ActivityTypeEnum.THIRD_DEPOSIT.getCode().equals(code)
                 || ActivityTypeEnum.EVERYDAY_FIRST_DEPOSIT.getCode().equals(code)
                 || ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
-            activityRule = JsRuleCreator.create(ActivityRuleFirstDepositForm.class);
+            activityRule = JsRuleCreator.create(HallActivityRuleFirstDepositForm.class);
         }
         if (ActivityTypeEnum.REGIST_SEND.getCode().equals(code)) {
             activityRule = JsRuleCreator.create(ActivityRuleRegistSendForm.class);
