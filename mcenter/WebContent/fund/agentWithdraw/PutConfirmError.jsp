@@ -14,6 +14,7 @@
     <input type="hidden" name="username" value="${command.result.username}"/>
     <form:input type="hidden" path="search.id" value="${command.result.id}"/>
     <form:input type="hidden" path="search.transactionStatus" value="3"/>
+    <gb:token></gb:token>
 
     <c:if test="${fn:length(failReasons)>0}">
         <div class="modal-body clearfix">
