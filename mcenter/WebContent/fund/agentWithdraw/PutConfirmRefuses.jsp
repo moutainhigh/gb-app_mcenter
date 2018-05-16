@@ -12,6 +12,7 @@
 <form:form action="${root}/fund/withdraw/withdrawList.html" method="post">
     <input type="hidden" name="remarkContent" value="${remark.remarkContent}"/>
     <input type="hidden" name="username" value="${command.result.username}"/>
+    <gb:token></gb:token>
     <form:input type="hidden" path="search.id" value="${command.result.id}"/>
     <form:input type="hidden" path="search.transactionStatus" value="4"/>
 
