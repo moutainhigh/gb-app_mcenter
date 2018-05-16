@@ -216,7 +216,6 @@ public class ManualController {
     @Token(valid = true)
     @Audit(module = Module.FUND, moduleType = ModuleType.FUND_MANUAL, opType = OpType.RECHARGE)
     public Map<String, Object> manualDeposit(PlayerRechargeVo playerRechargeVo, @FormModel @Valid ManualDepositForm form, BindingResult result) {
-        addDepositLog(playerRechargeVo, form);//添加日志
         Map<String, Object> map = new HashMap<>(5, 1f);
         if (result.hasErrors()) {
             return errorMsg(map);
@@ -241,6 +240,11 @@ public class ManualController {
             map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
             LogFactory.getLog(this.getClass()).error(ex, "人工存入出错");
         }
+        //存入成功添加日志
+        if (MapTool.getBoolean(map, "state")) {
+            addDepositLog(playerRechargeVo, form);//添加日志
+        }
+
 
         return map;
     }
@@ -252,53 +256,57 @@ public class ManualController {
      * @param form
      */
     private void addDepositLog(PlayerRechargeVo playerRechargeVo, @FormModel @Valid ManualDepositForm form) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        LogVo logVo = new LogVo();
-        List<String> params = new ArrayList<>();
-        Boolean isAuditRecharge = playerRechargeVo.getResult().getIsAuditRecharge();//存款稽核
-        if (isAuditRecharge == null&&playerRechargeVo.getAuditMultiple()==null){
-            isAuditRecharge = false;
-        }else if (isAuditRecharge == null){
-            isAuditRecharge =  true;
-        }
-        PlayerFavorable playerFavorable = playerRechargeVo.getPlayerFavorable();
-        params.add(form.get$userNames());
-        if (playerFavorable.getFavorable() != null) {
-            String favorableType = "recharge_type." + playerRechargeVo.getFavorableType();
-            String localStr = I18nTool.getLocalStr(favorableType, DictEnum.FUND_RECHARGE_TYPE.getModule().getCode(),
-                    "dicts", CommonContext.get().getLocale());
-            Boolean isAuditFavorable = playerFavorable.getIsAuditFavorable();
-            params.add(playerFavorable.getFavorable().toString());
-            params.add(localStr);
-            params.add(isAuditFavorable.toString());
-            if (isAuditFavorable) {
-                params.add(playerFavorable.getAuditFavorableMultiple().toString());
+        try {
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            LogVo logVo = new LogVo();
+            List<String> params = new ArrayList<>();
+            Boolean isAuditRecharge = playerRechargeVo.getResult().getIsAuditRecharge();//存款稽核
+            if (isAuditRecharge == null && playerRechargeVo.getAuditMultiple() == null) {
+                isAuditRecharge = false;
+            } else if (isAuditRecharge == null) {
+                isAuditRecharge = true;
             }
-        } else {
-            PlayerRecharge result = playerRechargeVo.getResult();
-            String rechargeType = "recharge_type." + result.getRechargeType();
-            String localStr = I18nTool.getLocalStr(rechargeType, DictEnum.FUND_RECHARGE_TYPE.getModule().getCode(),
-                    "dicts", CommonContext.get().getLocale());
-            params.add(result.getRechargeAmount().toString());//存款金额
-            params.add(localStr);//存款类型
-            params.add(String.valueOf(isAuditRecharge));//是否稽核
-            if (isAuditRecharge) {
-                params.add("是");
-                params.add(playerRechargeVo.getAuditMultiple().toString());//稽核倍数
+            PlayerFavorable playerFavorable = playerRechargeVo.getPlayerFavorable();
+            params.add(form.get$userNames());
+            if (playerFavorable.getFavorable() != null) {
+                String favorableType = "recharge_type." + playerRechargeVo.getFavorableType();
+                String localStr = I18nTool.getLocalStr(favorableType, DictEnum.FUND_RECHARGE_TYPE.getModule().getCode(),
+                        "dicts", CommonContext.get().getLocale());
+                Boolean isAuditFavorable = playerFavorable.getIsAuditFavorable();
+                params.add(playerFavorable.getFavorable().toString());
+                params.add(localStr);
+                params.add(isAuditFavorable.toString());
+                if (isAuditFavorable) {
+                    params.add(playerFavorable.getAuditFavorableMultiple().toString());
+                }
             } else {
-                params.add("否");
-                params.add("0");
+                PlayerRecharge result = playerRechargeVo.getResult();
+                String rechargeType = "recharge_type." + result.getRechargeType();
+                String localStr = I18nTool.getLocalStr(rechargeType, DictEnum.FUND_RECHARGE_TYPE.getModule().getCode(),
+                        "dicts", CommonContext.get().getLocale());
+                params.add(result.getRechargeAmount().toString());//存款金额
+                params.add(localStr);//存款类型
+                params.add(String.valueOf(isAuditRecharge));//是否稽核
+                if (isAuditRecharge) {
+                    params.add("是");
+                    params.add(playerRechargeVo.getAuditMultiple().toString());//稽核倍数
+                } else {
+                    params.add("否");
+                    params.add("0");
+                }
             }
+            if (playerRechargeVo.getActivityName() != null) {
+                params.add(playerRechargeVo.getActivityName());
+            }
+            BaseLog baseLog = logVo.addBussLog();
+            for (String param : params) {
+                baseLog.addParam(param);
+            }
+            baseLog.setDescription("fund.manual.deposit");
+            request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+        } catch (Exception ex) {
+            LOG.error(ex,"人工存入保存日志异常");
         }
-        if (playerRechargeVo.getActivityName() != null) {
-            params.add(playerRechargeVo.getActivityName());
-        }
-        BaseLog baseLog = logVo.addBussLog();
-        for (String param : params) {
-            baseLog.addParam(param);
-        }
-        baseLog.setDescription("fund.manual.deposit");
-        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
     }
 
     /**
@@ -315,7 +323,6 @@ public class ManualController {
     @Audit(module = Module.FUND, moduleType = ModuleType.FUND_MANUAL, opType = OpType.WITHDRAW)
     public Map<String, Object> manualWithdraw(PlayerWithdrawVo playerWithdrawVo, @FormModel @Valid ManualWithdrawForm form, BindingResult result) {
         Map<String, Object> map = new HashMap<>(3, 1f);
-        addWithdrawLog(playerWithdrawVo);//添加日志
         if (result.hasErrors()) {
             return errorMsg(map);
         }
@@ -323,7 +330,12 @@ public class ManualController {
             playerWithdrawVo.getResult().setCheckUserId(SessionManager.getUserId());
             playerWithdrawVo.setOperator(SessionManager.getAuditUserName());
             playerWithdrawVo = ServiceSiteTool.playerWithdrawService().manualWithdraw(playerWithdrawVo);
+            //取款成功添加日志
+            if (playerWithdrawVo.isSuccess()){
+                addWithdrawLog(playerWithdrawVo);//添加日志
+            }
             if (playerWithdrawVo.isSuccess() && !TransactionWayEnum.MANUAL_PAYOUT.getCode().equals(playerWithdrawVo.getResult().getWithdrawType())) {
+
                 map.put("id", playerWithdrawVo.getResult().getId());
                 PlayerWithdraw playerWithdraw = playerWithdrawVo.getResult();
                 sendNotice(AutoNoticeEvent.MANUAL_WITHDRAWAL, new Integer[]{playerWithdraw.getPlayerId()}, playerWithdraw.getWithdrawAmount(), playerWithdraw.getCreateTime());
@@ -346,27 +358,31 @@ public class ManualController {
      * @param playerWithdrawVo
      */
     private void addWithdrawLog(PlayerWithdrawVo playerWithdrawVo) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        LogVo logVo = new LogVo();
-        List<String> params = new ArrayList<>();
-        PlayerWithdraw result = playerWithdrawVo.getResult();
-        params.add(playerWithdrawVo.getUsername());
-        params.add(result.getWithdrawAmount().toString());
-        String withdrawType = "withdraw_type." + result.getWithdrawType();
-        String localStr = I18nTool.getLocalStr(withdrawType, DictEnum.WITHDRAW_TYPE.getModule().getCode(),
-                "dicts", CommonContext.get().getLocale());
-        params.add(localStr);//取款类型
-        if (result.getIsClearAudit() != null) {
-            params.add("是");//清除稽核点
-        } else {
-            params.add("否");
+        try {
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            LogVo logVo = new LogVo();
+            List<String> params = new ArrayList<>();
+            PlayerWithdraw result = playerWithdrawVo.getResult();
+            params.add(playerWithdrawVo.getUsername());
+            params.add(result.getWithdrawAmount().toString());
+            String withdrawType = "withdraw_type." + result.getWithdrawType();
+            String localStr = I18nTool.getLocalStr(withdrawType, DictEnum.WITHDRAW_TYPE.getModule().getCode(),
+                    "dicts", CommonContext.get().getLocale());
+            params.add(localStr);//取款类型
+            if (result.getIsClearAudit() != null) {
+                params.add("是");//清除稽核点
+            } else {
+                params.add("否");
+            }
+            BaseLog baseLog = logVo.addBussLog();
+            for (String param : params) {
+                baseLog.addParam(param);
+            }
+            baseLog.setDescription("fund.manual.withdraw");
+            request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+        } catch (Exception ex) {
+            LOG.error(ex,"人工取出保存日志异常");
         }
-        BaseLog baseLog = logVo.addBussLog();
-        for (String param : params) {
-            baseLog.addParam(param);
-        }
-        baseLog.setDescription("fund.manual.withdraw");
-        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
     }
 
     private void sendNotice(AutoNoticeEvent autoNoticeEvent, Integer[] userIds, Double amount, Date createTime) {

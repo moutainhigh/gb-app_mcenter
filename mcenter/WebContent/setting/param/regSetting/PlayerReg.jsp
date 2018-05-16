@@ -54,10 +54,10 @@
                                                     <span val="${empty order.isOnly ? '2' : order.isOnly}" id="isOnly" style="padding-left: 10px;">${dicts.setting.isOnly[order.isOnly]}</span>
                                                 </c:if>
                                                 <c:if test="${order.name=='110'}">
-                                                    <span class="co-grayc2" ${command.phoneParam.active?'':'hidden'}>(${dicts.setting.PlayerReg[command.phoneParam.paramValue]})</span>
+                                                    <span class="co-grayc2" ${command.phoneParam.active?'':'hidden'}>${dicts.setting.PlayerReg[command.phoneParam.paramValue]}</span>
                                                 </c:if>
                                                 <c:if test="${order.name=='201'}">
-                                                    <span class="co-grayc2" ${command.mailParam.active?'':'hidden'}>(${dicts.setting.PlayerReg[command.mailParam.paramValue]})</span>
+                                                    <span class="co-grayc2" ${command.mailParam.active?'':'hidden'}>${dicts.setting.PlayerReg[command.mailParam.paramValue]}</span>
                                                 </c:if>
                                             </td>
                                         </tr>
