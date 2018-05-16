@@ -1,4 +1,5 @@
-<%--@elvariable id="command" type="so.wwb.gamebox.model.master.player.vo.VUserPlayerListVo"--%>
+<%@ page import="org.soul.commons.dict.DictTool" %>
+<%@ page import="so.wwb.gamebox.model.DictEnum" %><%--@elvariable id="command" type="so.wwb.gamebox.model.master.player.vo.VUserPlayerListVo"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/include/include.inc.jsp" %>
 
@@ -257,45 +258,13 @@
                                     </div>
                                 </div>
                                     <%--来源终端ok--%>
-                                <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm h-line-a">
+                                <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                                     <div class="input-group">
                                         <span class="input-group-addon bg-gray">${views.player_auto['来源终端']}</span>
-                                        <input type="hidden" id="createChannel" value="${command.search.createChannel}">
-                                        <span class=" input-group-addon bdn  right-btn-down">
-                                            <div class="btn-group table-desc-right-t-dropdown">
-                                                <ul role="menu">
-                                                    <li role="presentation">
-                                                        <label><input type="radio" name="search.createChannel"
-                                                                      value="" ${empty command.search.createChannel?'checked':''}>
-                                                                ${views.player_auto['全部']}</label>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <label><input type="radio"
-                                                                      name="search.createChannel" ${command.search.createChannel=='1'?'checked':''}
-                                                                      value="1">${views.player_auto['PC端']}</label>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <label><input type="radio"
-                                                                      name="search.createChannel" ${command.search.createChannel=='2'?'checked':''}
-                                                                      value="2">${views.player_auto['后台注册']}</label>
-                                                    </li>
-                                                    <c:if test="${command.search.hasTransfer}">
-                                                        <li role="presentation">
-                                                            <label><input type="radio"
-                                                                          name="search.createChannel" ${command.search.createChannel=='3'?'checked':''}
-                                                                          value="3">${views.player_auto['导入玩家']}</label>
-                                                        </li>
-                                                    </c:if>
-                                                    <li role="presentation">
-                                                        <label><input type="radio"
-                                                                      name="search.createChannel" ${command.search.createChannel=='4'?'checked':''}
-                                                                      value="4">${views.player_auto['手机端']}</label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </span>
+                                        <gb:select name="search.createChannel" list="<%=DictTool.get(DictEnum.PLAYER_CREATE_CHANNEL)%>" prompt="${views.player_auto['全部']}"/>
                                     </div>
                                 </div>
+
                                     <%--钱包余额等ok--%>
                                 <div class="form-group clearfix pull-left col-md-3 col-sm-12 m-b-sm padding-r-none-sm">
                                     <div class="input-group time-select-a">
