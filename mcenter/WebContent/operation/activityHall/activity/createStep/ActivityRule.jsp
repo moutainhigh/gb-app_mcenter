@@ -249,7 +249,7 @@
                 <div class="clearfix m-t-md line-hi34">
                     <label class="ft-bold col-sm-3 al-right">${views.operation['Activity.step.rank']}：</label>
                     <label class="col-sm-5">
-                        <input type="checkbox" class="i-checks" id="levels" name="activityRule.isAllRank" ${activityRule.isAllRank?"checked":""} ${type eq 'edit' ? " disabled":""}/>
+                        <input type="checkbox" class="i-checks" id="levels" name="activityRule.isAllRank" ${activityRule.isAllRank?"checked":""} <%--${type eq 'edit' ? " disabled":""}--%>/>
                         ${views.operation['Activity.step.allRank']}
                     </label>
                     <div class="col-sm-5 col-sm-offset-3" id="playerRank">

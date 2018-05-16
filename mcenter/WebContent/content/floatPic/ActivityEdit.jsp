@@ -128,8 +128,7 @@
                         <div class="form-group clearfix">
                             <label class="ft-bold col-sm-3 al-right">${views.column['CttFloatPic.type']}</label>
                             <div class="col-sm-3">
-                                <input type="radio" class="i-checks" name="result.picType" value="2" ${command.result.picType == '2' ? 'checked' : ''}>${views.column['CttFloatPic.template.type.promo']}
-                                <%--<input type="radio" class="i-checks" name="result.picType" value="3" ${command.result.picType == '3' || empty command.result.picType? 'checked' : ''}>老虎机--%>
+                                <input type="radio" class="i-checks" name="result.picType" value="2" ${empty command.result.picType || command.result.picType == '2' ? 'checked' : ''}>${views.column['CttFloatPic.template.type.promo']}
                             </div>
                         </div>
 
@@ -146,12 +145,12 @@
                             <div class="col-sm-8">
                                 <%-- 单图模式的模板 --%>
                             <div class="${command.result.singleMode==false?'hide':''}" id="singleMode_templateType_div">
-                                <ul class="tempstyle clearfix ${command.result.picType=='2' ? '' : 'hide'}" id="singleMode_promo_pic">
+                                <ul class="tempstyle clearfix ${command.result.picType=='2' || empty command.result.picType ? '' : 'hide'}" id="singleMode_promo_pic">
                                     <li>
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-first.png")}" data-image=""
                                              alt="${command.result.title}" class="singleModeTemplateImageType" style="max-width: 160px">
                                             <%--<img src="${resRoot}/images/floatpic/panel-red.png" class="singleModeTemplateImageType">--%>
-                                        <input type="radio" name="templateType" class="i-checks" value="7" ${command.result.tempId==7 ?"checked":""}>
+                                        <input type="radio" name="templateType" class="i-checks" value="7" ${empty command.result.tempId || command.result.tempId==7 ?"checked":""}>
                                     </li>
                                     <li>
                                         <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-second.png")}"
@@ -166,27 +165,6 @@
                                         <input type="radio" name="templateType" class="i-checks" value="9" ${command.result.tempId==9?"checked":""}>
                                     </li>
                                 </ul>
-
-                                <ul class="tempstyle clearfix ${command.result.picType=='3' || empty command.result.picType ? '' : 'hide'}" id="singleMode_service_pic">
-                                    <li>
-                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-red.png")}" data-image=""
-                                             alt="${command.result.title}" class="singleModeTemplateImageType">
-                                            <%--<img src="${resRoot}/images/floatpic/panel-red.png" class="singleModeTemplateImageType">--%>
-                                        <input type="radio" name="templateType" class="i-checks" value="1" ${empty command.result.tempId || command.result.tempId==1 || !(command.result.tempId>0&&command.result.tempId<10)?"checked":""}>
-                                    </li>
-                                    <li>
-                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-gold.png")}"
-                                             alt="${command.result.title}" class="singleModeTemplateImageType">
-                                            <%--<img src="${resRoot}/images/floatpic/panel-gold.png" class="singleModeTemplateImageType">--%>
-                                        <input type="radio" name="templateType" class="i-checks" value="2" ${command.result.tempId==2?"checked":""}>
-                                    </li>
-                                    <li>
-                                        <img src="${soulFn:getImagePath(domain, "floatImage/floatpic/panel-green.png")}"
-                                             alt="${command.result.title}" class="singleModeTemplateImageType">
-                                            <%--<img src="${resRoot}/images/floatpic/panel-green.png" class="singleModeTemplateImageType">--%>
-                                        <input type="radio" name="templateType" class="i-checks" value="3" ${command.result.tempId==3?"checked":""}>
-                                    </li>
-                                </ul>
                             </div>
 
                         </div>
@@ -194,112 +172,181 @@
                     </div>
                         <%--end模板模式--%>
 
-                    <div class="form-group clearfix hide" id="">
-                            <label class="ft-bold col-sm-3 al-right line-hi34">${views.column['CttFloatPic.image.link']}</label>
-                            <div class="col-sm-3">
-                                <div class="input-group date">
-                                    <div class="input-group" style="width:100%;">
-                                        <div class="input-group-btn">
-                                            <div class="bg-gray">
-                                                <select class="chosen-select-no-single" name="floatPicItem.imgLinkType" callback="changeSelect">
-                                                    <c:forEach items="${floatPicLinkTypeMaps}" var="map">
-                                                        <c:if test="${map.key ne 'close_btn'}">
-                                                            <option value="${map.key}" ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == map.key) ? 'selected' : '' }>${views.content['floatPic.linkType.'.concat(map.key)]}</option>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <select name="imgServiceValue" class="btn-group chosen-select-no-single content_float_pic_image_service_value ${empty command.floatPicItem.imgLinkType || (command.floatPicItem.imgLinkType == 'customer_service') ? '' : 'hide'}">
-                                            <c:if test="${fn:length(SiteCustomerService) > 0}">
-                                                <c:forEach items="${SiteCustomerService}" var="cs">
-                                                    <option value="${cs.id}" ${not empty command.floatPicItem.imgLinkValue && (command.floatPicItem.imgLinkValue.toString() == cs.id.toString()) ? 'selected' : '' }>${cs.name}</option>
+                        <%-- 单图模式的链接 --%>
+                    <div class="form-group clearfix hide" id="content_float_pic_single_link_div">
+                        <label class="ft-bold col-sm-3 al-right line-hi34">${views.column['CttFloatPic.image.link']}</label>
+                        <div class="col-sm-3">
+                            <div class="input-group date">
+                                <div class="input-group" style="width:100%;">
+                                    <div class="input-group-btn">
+                                        <div class="bg-gray">
+                                            <select class="chosen-select-no-single" name="floatPicItem.imgLinkType" callback="changeSelect">
+                                                <c:forEach items="${floatPicLinkTypeMaps}" var="map">
+                                                    <c:if test="${map.key ne 'close_btn'}">
+                                                        <option value="${map.key}" ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == map.key) ? 'selected' : '' }>${views.content['floatPic.linkType.'.concat(map.key)]}</option>
+                                                    </c:if>
                                                 </c:forEach>
-                                            </c:if>
-                                        </select>
-                                    <span class="input-group-btn ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}" id="content_float_pic_type_http">
-                                        <gb:select name="floatPicItem.imgLinkProtocol" prompt="" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
-                                    </span>
-                                        <input type="text" name="imgLinkTypeValue" class="form-control ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}" value="${command.floatPicItem.imgLinkType == 'link' ? command.floatPicItem.imgLinkValue : ''}">
-                                    <span class="input-group-addon bdn _editTags">
-                                        <a href="javascript:void(0)" name="placeholder"
-                                           class="variable ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}">
-                                                ${views.operation['MassInformation.step3.website']}<span>{website}</span>
-                                        </a>
-                                    </span>
-                                        <input type="hidden" name="floatPicItem.imgLinkValue" class="float_pic_list_item_link_type_value" value="${command.floatPicItem.imgLinkType == 'link' ? (empty command.floatPicItem.imgLinkType ? SiteCustomerService[0].id : command.floatPicItem.imgLinkValue) : ''}"/>
-                                    <span class="input-group-addon bdn ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? 'hide' : '' }" id="content_float_pic_type_custom_service_setting_link">
-                                        <a href="/param/siteParam.html?hasReturn=true&index=li_top_1" nav-target="mainFrame" class="m-l-sm">${views.column['CttFloatPic.image.setting']}</a>
-                                    </span>
+                                            </select>
+                                        </div>
                                     </div>
-
+                                    <select name="imgServiceValue" class="btn-group chosen-select-no-single content_float_pic_image_service_value ${empty command.floatPicItem.imgLinkType || (command.floatPicItem.imgLinkType == 'customer_service') ? '' : 'hide'}">
+                                        <c:if test="${fn:length(SiteCustomerService) > 0}">
+                                            <c:forEach items="${SiteCustomerService}" var="cs">
+                                                <option value="${cs.id}" ${not empty command.floatPicItem.imgLinkValue && (command.floatPicItem.imgLinkValue.toString() == cs.id.toString()) ? 'selected' : '' }>${cs.name}</option>
+                                            </c:forEach>
+                                        </c:if>
+                                    </select>
+                                <span class="input-group-btn ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}" id="content_float_pic_type_http">
+                                    <gb:select name="floatPicItem.imgLinkProtocol" prompt="" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                                </span>
+                                    <input type="text" name="imgLinkTypeValue" class="form-control ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}" value="${command.floatPicItem.imgLinkType == 'link' ? command.floatPicItem.imgLinkValue : ''}">
+                                <span class="input-group-addon bdn _editTags">
+                                    <a href="javascript:void(0)" name="placeholder"
+                                       class="variable ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}">
+                                            ${views.operation['MassInformation.step3.website']}<span>{website}</span>
+                                    </a>
+                                </span>
+                                    <input type="hidden" name="floatPicItem.imgLinkValue" class="float_pic_list_item_link_type_value" value="${command.floatPicItem.imgLinkType == 'link' ? (empty command.floatPicItem.imgLinkType ? SiteCustomerService[0].id : command.floatPicItem.imgLinkValue) : ''}"/>
+                                <span class="input-group-addon bdn ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? 'hide' : '' }" id="content_float_pic_type_custom_service_setting_link">
+                                    <a href="/param/siteParam.html?hasReturn=true&index=li_top_1" nav-target="mainFrame" class="m-l-sm">${views.column['CttFloatPic.image.setting']}</a>
+                                </span>
                                 </div>
+
+                            </div>
+                        </div>
+                    </div>
+                        <%--自定义模板--%>
+                        <div class="form-group clearfix ${empty command.result.singleMode || command.result.singleMode==true?'hide':''}" id="float_template_list_div">
+                            <label class="ft-bold col-sm-3 al-right line-hi34"></label>
+                            <div class="col-sm-5">
+                                <ul class="middle-img-list">
+                                    <c:forEach var="item" items="${command.itemList}" varStatus="vs">
+                                        <li>
+                                            <div class="tit">${views.content['float.picture']}<span>${vs.index+1}</span>
+                                                <soul:button cssClass="co-gray" target="removeAddOne" text="${views.common['delete']}" opType="function"><i class="fa fa-times"></i></soul:button>
+                                            </div>
+                                            <div class="form-group date m-b-sm normalEffectDiv">
+                                                <span class=""><b>${views.content['float.normalEffect']}</b></span>
+                                                <div id="normalEffectImgDiv${vs.index+1}">
+                                                    <c:if test="${not empty item.normalEffect}">
+                                                        <img id="normalEffectImg${vs.index+1}" src="${soulFn:getThumbPath(domain, item.normalEffect,0,0)}" />
+                                                    </c:if>
+                                                </div>
+                                                <input class="file" type="file" accept="image/*" name="normalEffect" target="itemList[${vs.index}].normalEffect">
+                                                <input type="hidden" name="itemList[${vs.index}].normalEffect" value="${item.normalEffect}">
+                                                <input type="hidden" name="itemList[${vs.index}].imgWidth" value="${item.imgWidth}">
+                                                <input type="hidden" name="itemList[${vs.index}].imgHeight" value="${item.imgHeight}">
+                                            </div>
+                                            <div class="form-group date m-b-sm mouseInEffectDiv ${not empty item.mouseInEffect?'':'hide'}">
+                                                <span class=""><b>${views.content['float.mouseInEffect']}</b></span>
+                                                <div id="mouseInEffectImgDiv${vs.index+1}">
+                                                    <c:if test="${not empty item.mouseInEffect}">
+                                                        <img id="mouseInEffectImg${vs.index+1}" src="${soulFn:getThumbPath(domain, item.mouseInEffect,0,0)}" />
+                                                    </c:if>
+                                                </div>
+                                                <input class="file" type="file" accept="image/*" target="itemList[${vs.index}].mouseInEffect">
+                                                <input type="hidden" name="itemList[${vs.index}].mouseInEffect" value="${item.mouseInEffect}">
+                                            </div>
+                                            <div class="input-group select_float_pic_link_type" style="width:100%;">
+                                                <div class="input-group-btn">
+                                                    <div class="bg-gray">
+                                                        <select class="chosen-select-no-single float_pic_list_item_link_type" name="itemList[${vs.index}].imgLinkType">
+                                                            <c:forEach items="${floatPicLinkTypeMaps}" var="map">
+                                                                <option value="${map.key}" ${not empty item.imgLinkType && (item.imgLinkType == map.key) ? 'selected' : '' }>${views.content['floatPic.linkType.'.concat(map.key)]}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <select name="imgServiceValue${vs.index+1}" class="btn-group chosen-select-no-single float_pic_list_item_service_value ${empty item.imgLinkType || (item.imgLinkType == 'customer_service') ? '' : 'hide'}">
+                                                    <c:if test="${fn:length(SiteCustomerService) > 0}">
+                                                        <c:forEach items="${SiteCustomerService}" var="cs">
+                                                            <option value="${cs.id}" ${not empty item.imgLinkValue && (item.imgLinkValue.toString() == cs.id.toString()) ? 'selected' : '' }>${cs.name}</option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                                <span class="input-group-btn float_pic_list_item_http ${not empty item.imgLinkType && (item.imgLinkType == 'link') ? '' : 'hide'}" id="content_float_pic_type_http${vs.index+1}">
+                                                <gb:select name="itemList[${vs.index}].imgLinkProtocol" prompt="" value="${item.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                                            </span>
+                                                <input type="text" name="imgLinkTypeValue${vs.index+1}" class="form-control float_pic_list_item_link_value ${not empty item.imgLinkType && (item.imgLinkType == 'link') ? '' : 'hide'}" value="${item.imgLinkType == 'link' ? item.imgLinkValue : ''}">
+                                                <span class="input-group-addon ${command.result.singleMode ?'hide':''} bdn _editTags">
+                                                <a href="javascript:void(0)" name="float_pic_list_item_placeholder"
+                                                   class="variable ${not empty item.imgLinkType && (item.imgLinkType == 'link') ? '' : 'hide'}">
+                                                        ${views.operation['MassInformation.step3.website']}<span>{website}</span>
+                                                </a>
+                                            </span>
+                                                <input type="hidden" name="itemList[${vs.index}].imgLinkValue" class="float_pic_list_item_link_type_value" value="${item.imgLinkType == 'link' ? item.imgLinkValue : (empty item.imgLinkType ? SiteCustomerService[0].id : item.imgLinkValue)}"/>
+                                                <span class="input-group-addon bdn ${vs.index > 0 || (item.imgLinkType != 'customer_service') ? 'hide' : '' } setting">
+                                                <a href="/param/siteParam.html?hasReturn=true&index=li_top_1" nav-target="mainFrame" class="m-l-sm">${views.column['CttFloatPic.image.setting']}</a>
+                                            </span>
+                                            </div>
+                                        </li>
+                                    </c:forEach>
+                                    <c:if test="${empty command.itemList}">
+                                        <li>
+                                            <div class="tit">${views.content['float.picture']}<span>1</span>
+                                                <soul:button cssClass="co-gray" target="removeAddOne" text="${views.common['delete']}" opType="function"><i class="fa fa-times"></i></soul:button>
+                                            </div>
+                                            <div class="form-group date m-b-sm normalEffectDiv">
+                                                <span class=""><b>${views.content['float.normalEffect']}</b></span>
+                                                <div>
+                                                    <input class="file" type="file" accept="image/*" target="itemList[0].normalEffect">
+                                                    <input type="hidden" name="itemList[0].normalEffect">
+                                                    <input type="hidden" name="itemList[0].imgWidth">
+                                                    <input type="hidden" name="itemList[0].imgHeight">
+                                                </div>
+                                            </div>
+                                            <div class="form-group date m-b-sm mouseInEffectDiv hide">
+                                                <span class=""><b>${views.content['float.mouseInEffect']}</b></span>
+                                                <div>
+                                                    <input class="file" type="file" accept="image/*" target="itemList[0].mouseInEffect">
+                                                    <input type="hidden" name="itemList[0].mouseInEffect">
+                                                </div>
+                                            </div>
+                                            <div class="input-group select_float_pic_link_type" style="width:100%;">
+                                                <div class="input-group-btn">
+                                                    <div class="bg-gray">
+                                                        <select class="chosen-select-no-single float_pic_list_item_link_type" name="itemList[0].imgLinkType" name="floatPicItem.imgLinkType">
+                                                            <c:forEach items="${floatPicLinkTypeMaps}" var="map">
+                                                                <option value="${map.key}" >${views.content['floatPic.linkType.'.concat(map.key)]}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <select name="imgServiceValue0" class="btn-group chosen-select-no-single float_pic_list_item_service_value">
+                                                    <c:if test="${fn:length(SiteCustomerService) > 0}">
+                                                        <c:forEach items="${SiteCustomerService}" var="cs">
+                                                            <option value="${cs.id}" >${cs.name}</option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                                <span class="input-group-btn hide float_pic_list_item_http" id="content_float_pic_type_http0">
+                                                <gb:select name="itemList[0].imgLinkProtocol" prompt="" value="${command.floatPicItem.imgLinkProtocol}" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                                                <%--<select name="itemList[0].imgLinkProtocol" >
+                                                    <option value="">请选择</option>
+                                                    <option class="imgLinkProtocolValue" value="http://" ${command.floatPicItem.imgLinkProtocol=='http://'?'select':''}>http://</option>
+                                                    <option class="imgLinkProtocolValue" value="https://" ${command.floatPicItem.imgLinkProtocol=='https://'?'selected':''}>https://</option>
+                                                </select>
+                                                <input type="hidden" name="floatPicItem.imgLinkProtocol" value="">--%>
+                                            </span>
+                                                <input type="text" name="imgLinkTypeValue0" class="form-control hide float_pic_list_item_link_value" value="">
+                                                <span class="input-group-addon ${command.result.singleMode ?'hide':''} bdn _editTags">
+                                                <a href="javascript:void(0)" name="float_pic_list_item_placeholder"
+                                                   class="variable ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}">
+                                                        ${views.operation['MassInformation.step3.website']}<span>{website}</span>
+                                                </a>
+                                            </span>
+                                                <input type="hidden" name="itemList[0].imgLinkValue" class="float_pic_list_item_link_type_value" value="${SiteCustomerService[0].id}"/>
+                                                <span class="input-group-addon bdn ${vs.index>0 ? 'hide' : '' } setting">
+                                                <a href="/param/siteParam.html?hasReturn=true&index=li_top_1" nav-target="mainFrame" class="m-l-sm">${views.column['CttFloatPic.image.setting']}</a>
+                                            </span>
+                                            </div>
+                                        </li>
+                                    </c:if>
+                                    <li><soul:button target="addMiddleImage" text="+ ${views.common['addOne']}" opType="function"/></li>
+                                </ul>
                             </div>
                         </div>
                         <%--自定义模板--%>
-                    <div class="form-group clearfix ${empty command.result.singleMode || command.result.singleMode==true?'hide':''}" id="float_template_list_div">
-                        <label class="ft-bold col-sm-3 al-right line-hi34"></label>
-                        <div class="col-sm-5">
-                            <ul class="middle-img-list">
-                                <c:forEach var="item" items="${command.itemList}" varStatus="vs">
-                                    <li>
-                                        <div class="tit">${views.content['float.picture']}<span>${vs.index+1}</span>
-                                            <soul:button cssClass="co-gray" target="removeAddOne" text="${views.common['delete']}" opType="function"><i class="fa fa-times"></i></soul:button>
-                                        </div>
-                                        <div class="form-group date m-b-sm normalEffectDiv">
-                                            <span class=""><b>${views.content['float.normalEffect']}</b></span>
-                                            <div id="normalEffectImgDiv${vs.index+1}">
-                                                <c:if test="${not empty item.normalEffect}">
-                                                    <img id="normalEffectImg${vs.index+1}" src="${soulFn:getThumbPath(domain, item.normalEffect,0,0)}" />
-                                                </c:if>
-                                            </div>
-                                            <input class="file" type="file" accept="image/*" name="normalEffect" target="itemList[${vs.index}].normalEffect">
-                                            <input type="hidden" name="itemList[${vs.index}].normalEffect" value="${item.normalEffect}">
-                                            <input type="hidden" name="itemList[${vs.index}].imgWidth" value="${item.imgWidth}">
-                                            <input type="hidden" name="itemList[${vs.index}].imgHeight" value="${item.imgHeight}">
-                                        </div>
-                                        <div class="form-group date m-b-sm mouseInEffectDiv ${not empty item.mouseInEffect?'':'hide'}">
-                                            <span class=""><b>${views.content['float.mouseInEffect']}</b></span>
-                                            <div id="mouseInEffectImgDiv${vs.index+1}">
-                                                <c:if test="${not empty item.mouseInEffect}">
-                                                    <img id="mouseInEffectImg${vs.index+1}" src="${soulFn:getThumbPath(domain, item.mouseInEffect,0,0)}" />
-                                                </c:if>
-                                            </div>
-                                            <input class="file" type="file" accept="image/*" target="itemList[${vs.index}].mouseInEffect">
-                                            <input type="hidden" name="itemList[${vs.index}].mouseInEffect" value="${item.mouseInEffect}">
-                                        </div>
-                                    </li>
-                                </c:forEach>
-                                <c:if test="${empty command.itemList}">
-                                    <li>
-                                        <div class="tit">${views.content['float.picture']}<span>1</span>
-                                            <soul:button cssClass="co-gray" target="removeAddOne" text="${views.common['delete']}" opType="function"><i class="fa fa-times"></i></soul:button>
-                                        </div>
-                                        <div class="form-group date m-b-sm normalEffectDiv">
-                                            <span class=""><b>${views.content['float.normalEffect']}</b></span>
-                                            <div>
-                                                <input class="file" type="file" accept="image/*" target="itemList[0].normalEffect">
-                                                <input type="hidden" name="itemList[0].normalEffect">
-                                                <input type="hidden" name="itemList[0].imgWidth">
-                                                <input type="hidden" name="itemList[0].imgHeight">
-                                            </div>
-                                        </div>
-                                        <div class="form-group date m-b-sm mouseInEffectDiv hide">
-                                            <span class=""><b>${views.content['float.mouseInEffect']}</b></span>
-                                            <div>
-                                                <input class="file" type="file" accept="image/*" target="itemList[0].mouseInEffect">
-                                                <input type="hidden" name="itemList[0].mouseInEffect">
-                                            </div>
-                                        </div>
-                                    </li>
-                                </c:if>
-                                <li><soul:button target="addMiddleImage" text="+ ${views.common['addOne']}" opType="function"/></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <%--自定义模板--%>
-
-
 
                         <%--显示效果--%>
                     <div class="form-group clearfix" id="pic_showEffect">
@@ -311,9 +358,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
 
                         <%-- 展示页面 --%>
                     <div class="form-group clearfix">
@@ -356,6 +400,38 @@
                     <input class="file imageFileInput" type="file" accept="image/*" target="itemList[1].mouseInEffect">
                     <input type="hidden" class="imageHiddenValue">
                 </div>
+            </div>
+            <div class="input-group select_float_pic_link_type" style="width:100%;">
+                <div class="input-group-btn">
+                    <div class="bg-gray">
+                        <select class="btn-group chosen-select-no-single float_pic_list_item_link_type" name="itemList[1].imgLinkType">
+                            <c:forEach items="${floatPicLinkTypeMaps}" var="map">
+                                <option value="${map.key}" >${views.content['floatPic.linkType.'.concat(map.key)]}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+                <select name="imgServiceValue1" class="btn-group chosen-select-no-single float_pic_list_item_service_value">
+                    <c:if test="${fn:length(SiteCustomerService) > 0}">
+                        <c:forEach items="${SiteCustomerService}" var="cs">
+                            <option value="${cs.id}" >${cs.name}</option>
+                        </c:forEach>
+                    </c:if>
+                </select>
+                <span class="input-group-btn hide float_pic_list_item_http" id="content_float_pic_type_http1">
+                    <gb:select name="itemList[1].imgLinkProtocol" value="${command.floatPicItem.imgLinkProtocol}" prompt="" list="${protocol}" listKey="key" listValue="value"></gb:select>
+                </span>
+                <input type="text" name="imgLinkTypeValue1" class="form-control hide float_pic_list_item_link_value" value="">
+                <span class="input-group-addon bdn _editTags">
+                    <a href="javascript:void(0)" name="float_pic_list_item_placeholder"
+                       class="variable ${not empty command.floatPicItem.imgLinkType && (command.floatPicItem.imgLinkType == 'link') ? '' : 'hide'}">
+                            ${views.operation['MassInformation.step3.website']}<span>{website}</span>
+                    </a>
+                </span>
+                <input type="hidden" name="itemList[1].imgLinkValue" class="float_pic_list_item_link_type_value" value="${SiteCustomerService[0].id}"/>
+                <span class="input-group-addon bdn ${vs.index>0 ? 'hide' : '' } setting">
+                    <a href="/param/siteParam.html?hasReturn=true&index=li_top_1" nav-target="mainFrame" class="m-l-sm">${views.column['CttFloatPic.image.setting']}</a>
+                </span>
             </div>
         </li>
     </div>

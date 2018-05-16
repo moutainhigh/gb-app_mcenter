@@ -146,14 +146,14 @@ public class ManualController {
         model.addAttribute("username", username);
         String transactionNo = request.getParameter("transactionNo");
         model.addAttribute("transactionNo", transactionNo);
-        model.addAttribute("activityType",ActivityTypeEnum.values());
+        model.addAttribute("activityType", ActivityTypeEnum.values());
 //        sales(model, transactionNo);//优惠活动
         return MANUAL_DEPOSIT;
     }
 
     @RequestMapping("/sales")
     @ResponseBody
-    private List<Map<String, Object>> sales(String favorableType ,String transactionNo) {
+    private List<Map<String, Object>> sales(String favorableType, String transactionNo) {
         if (StringTool.isBlank(favorableType)) {
             return null;
         }
@@ -164,7 +164,7 @@ public class ManualController {
         if (StringTool.isNotBlank(transactionNo)) {
             vActivityMessageListVo.getSearch().setCodes(new String[]{ActivityTypeEnum.DEPOSIT_SEND.getCode(), ActivityTypeEnum.FIRST_DEPOSIT.getCode()});
         }
-        vActivityMessageListVo.setProperties(VActivityMessage.PROP_ID, VActivityMessage.PROP_ACTIVITY_NAME,VActivityMessage.PROP_CODE);
+        vActivityMessageListVo.setProperties(VActivityMessage.PROP_ID, VActivityMessage.PROP_ACTIVITY_NAME, VActivityMessage.PROP_CODE);
         List<Map<String, Object>> mapList = ServiceActivityTool.vActivityMessageService().searchProperties(vActivityMessageListVo);
         return mapList;
     }
@@ -247,17 +247,23 @@ public class ManualController {
 
     /**
      * 人工存入日志
+     *
      * @param playerRechargeVo
      * @param form
      */
     private void addDepositLog(PlayerRechargeVo playerRechargeVo, @FormModel @Valid ManualDepositForm form) {
-        HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        LogVo logVo=new LogVo();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        LogVo logVo = new LogVo();
         List<String> params = new ArrayList<>();
         Boolean isAuditRecharge = playerRechargeVo.getResult().getIsAuditRecharge();//存款稽核
+        if (isAuditRecharge == null&&playerRechargeVo.getAuditMultiple()==null){
+            isAuditRecharge = false;
+        }else if (isAuditRecharge == null){
+            isAuditRecharge =  true;
+        }
         PlayerFavorable playerFavorable = playerRechargeVo.getPlayerFavorable();
         params.add(form.get$userNames());
-        if (playerFavorable.getFavorable()!=null){
+        if (playerFavorable.getFavorable() != null) {
             String favorableType = "recharge_type." + playerRechargeVo.getFavorableType();
             String localStr = I18nTool.getLocalStr(favorableType, DictEnum.FUND_RECHARGE_TYPE.getModule().getCode(),
                     "dicts", CommonContext.get().getLocale());
@@ -265,30 +271,30 @@ public class ManualController {
             params.add(playerFavorable.getFavorable().toString());
             params.add(localStr);
             params.add(isAuditFavorable.toString());
-            if (isAuditFavorable){
+            if (isAuditFavorable) {
                 params.add(playerFavorable.getAuditFavorableMultiple().toString());
             }
-        }else {
+        } else {
             PlayerRecharge result = playerRechargeVo.getResult();
             String rechargeType = "recharge_type." + result.getRechargeType();
             String localStr = I18nTool.getLocalStr(rechargeType, DictEnum.FUND_RECHARGE_TYPE.getModule().getCode(),
                     "dicts", CommonContext.get().getLocale());
             params.add(result.getRechargeAmount().toString());//存款金额
             params.add(localStr);//存款类型
-            params.add(isAuditRecharge.toString());//是否稽核
-            if (isAuditRecharge){
+            params.add(String.valueOf(isAuditRecharge));//是否稽核
+            if (isAuditRecharge) {
                 params.add("是");
                 params.add(playerRechargeVo.getAuditMultiple().toString());//稽核倍数
-            }else {
+            } else {
                 params.add("否");
                 params.add("0");
             }
         }
-        if (playerRechargeVo.getActivityName()!=null){
+        if (playerRechargeVo.getActivityName() != null) {
             params.add(playerRechargeVo.getActivityName());
         }
         BaseLog baseLog = logVo.addBussLog();
-        for (String param : params){
+        for (String param : params) {
             baseLog.addParam(param);
         }
         baseLog.setDescription("fund.manual.deposit");
@@ -336,11 +342,12 @@ public class ManualController {
 
     /**
      * 人工取出日志
+     *
      * @param playerWithdrawVo
      */
     private void addWithdrawLog(PlayerWithdrawVo playerWithdrawVo) {
-        HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        LogVo logVo=new LogVo();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        LogVo logVo = new LogVo();
         List<String> params = new ArrayList<>();
         PlayerWithdraw result = playerWithdrawVo.getResult();
         params.add(playerWithdrawVo.getUsername());
@@ -349,13 +356,13 @@ public class ManualController {
         String localStr = I18nTool.getLocalStr(withdrawType, DictEnum.WITHDRAW_TYPE.getModule().getCode(),
                 "dicts", CommonContext.get().getLocale());
         params.add(localStr);//取款类型
-        if (result.getIsClearAudit()!= null){
+        if (result.getIsClearAudit() != null) {
             params.add("是");//清除稽核点
-        }else {
+        } else {
             params.add("否");
         }
         BaseLog baseLog = logVo.addBussLog();
-        for (String param : params){
+        for (String param : params) {
             baseLog.addParam(param);
         }
         baseLog.setDescription("fund.manual.withdraw");
@@ -488,18 +495,18 @@ public class ManualController {
     public String depositView(PlayerTransactionVo playerTransactionVo, Model model) {
         playerTransactionVo = ServiceSiteTool.getPlayerTransactionService().get(playerTransactionVo);
         model.addAttribute("command", playerTransactionVo);
-        Map transactionDataMap = JsonTool.fromJson(playerTransactionVo.getResult().getTransactionData(),HashMap.class);
-        String activityId = MapTool.getString(transactionDataMap,"activityId");
-        model.addAttribute("activityId",activityId);
-        if(StringTool.isNotEmpty(activityId)){
+        Map transactionDataMap = JsonTool.fromJson(playerTransactionVo.getResult().getTransactionData(), HashMap.class);
+        String activityId = MapTool.getString(transactionDataMap, "activityId");
+        model.addAttribute("activityId", activityId);
+        if (StringTool.isNotEmpty(activityId)) {
             ActivityMessageVo activityMessageVo = new ActivityMessageVo();
             activityMessageVo.getSearch().setId(Integer.valueOf(activityId));
             activityMessageVo = ServiceActivityTool.activityMessageService().get(activityMessageVo);
-            model.addAttribute("activityMessage",activityMessageVo.getResult());
+            model.addAttribute("activityMessage", activityMessageVo.getResult());
         }
-        model.addAttribute("activityName",MapTool.getString(transactionDataMap,"activityName"));
-        model.addAttribute("_activityName",MapTool.getString(transactionDataMap,"_activityName"));
-        model.addAttribute("activityType",MapTool.getString(transactionDataMap,"activityType"));
+        model.addAttribute("activityName", MapTool.getString(transactionDataMap, "activityName"));
+        model.addAttribute("_activityName", MapTool.getString(transactionDataMap, "_activityName"));
+        model.addAttribute("activityType", MapTool.getString(transactionDataMap, "activityType"));
         PlayerTransaction playerTransaction = playerTransactionVo.getResult();
         LOG.info("查询人工存款详细，交易号{0}", playerTransaction.getTransactionNo());
         if (TransactionTypeEnum.DEPOSIT.getCode().equals(playerTransaction.getTransactionType())) {

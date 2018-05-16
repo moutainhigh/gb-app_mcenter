@@ -299,7 +299,7 @@
                                             </c:forEach>
                                         </c:if>
                                     </table>
-                                    <table style="width: 791px">
+                                    <div style="margin-right:33px" class="modal-footer">
                                         <tr>
                                             <td style="width: 100%;padding-right: 47px;padding-top: 10px;padding-bottom: 10px">
                                                 <soul:button target="copyAppDomain" text="" opType="function"
@@ -308,7 +308,7 @@
                                                 </soul:button>
                                             </td>
                                         </tr>
-                                    </table>
+                                    </div>
                                 </div>
                                 <br/>
                             </div>

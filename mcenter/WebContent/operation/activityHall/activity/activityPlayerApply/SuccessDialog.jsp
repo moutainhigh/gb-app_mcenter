@@ -32,9 +32,9 @@
                 class="fa fa-exclamation-circle m-r-sm"></i>${views.operation['Activity.apply.list.message1']}</div>
     </div>
     <div class="modal-footer">
-        <soul:button cssClass="btn btn-filter" text="${views.common['confirmPass']}" opType="function"
+        <soul:button permission="operate:activityHall_checkapply" cssClass="btn btn-filter" text="${views.common['confirmPass']}" opType="function"
                      target="auditStatus"/>
-        <soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter"
+        <soul:button permission="operate:activityHall_checkapply" target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter"
                      opType="function"/>
     </div>
 </form:form>
