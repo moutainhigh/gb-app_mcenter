@@ -43,7 +43,6 @@
                         </td>
                         <td class="fd_regularHandsel_column">
                             <div class="content-width-limit-10 input-group">
-                                <span class="input-group-addon">${views.operation['Activity.step.send']}</span>
                                 <input type="text" disabled="disabled" class="form-control fd_regularHandsel" value="${f.preferential_form eq 'regular_handsel'?f.preferential_val:''}" name="regularHandsel[${status.index}].preferentialValue" data-name="regularHandsel[{n}].preferentialValue">
                             </div>
                         </td>
@@ -72,7 +71,6 @@
                             </div></td>
                         <td class="fd_regularHandsel_column">
                             <div class="content-width-limit-10 input-group">
-                                <span class="input-group-addon">${views.operation['Activity.step.send']}</span>
                                 <input type="text" disabled="disabled" class="form-control fd_regularHandsel" placeholder="" name="regularHandsel[0].preferentialValue" data-name="regularHandsel[{n}].preferentialValue">
                             </div>
                         </td>

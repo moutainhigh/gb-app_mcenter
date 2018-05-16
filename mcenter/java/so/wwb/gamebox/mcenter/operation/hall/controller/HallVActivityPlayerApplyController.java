@@ -37,6 +37,7 @@ import so.wwb.gamebox.model.master.enums.*;
 import so.wwb.gamebox.model.master.operation.po.*;
 import so.wwb.gamebox.model.master.operation.vo.*;
 import so.wwb.gamebox.model.master.player.po.Remark;
+import so.wwb.gamebox.web.common.token.Token;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -142,6 +143,7 @@ public class HallVActivityPlayerApplyController extends BaseCrudController<IVAct
      * @return
      */
     @RequestMapping("/successDialog")
+    @Token(generate = true)
     public String successDialog(VActivityMessageListVo vMessageListVo, String ids, String code, String sumPerson, Model model) {
         String[] id = ids.split(",");
         ActivityPlayerApplyListVo plistVo = new ActivityPlayerApplyListVo();
@@ -219,6 +221,7 @@ public class HallVActivityPlayerApplyController extends BaseCrudController<IVAct
      */
     @RequestMapping("/auditStatus")
     @ResponseBody
+    @Token(valid = true)
     public Map auditStatus(ActivityPlayerApplyVo vo, String ids) {
         LOG.info("[活动优惠审核]进入方法auditStatus:{0}",ids);
         HashMap map = new HashMap(2,1f);
