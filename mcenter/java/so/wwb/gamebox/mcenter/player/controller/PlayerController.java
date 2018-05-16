@@ -967,7 +967,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         ShareController.lastSynchroApiCash(userPlayerVo , playerApiListVo);
 
         //判断玩家最后登录时间,当最后登录时间 > 30天，点击玩家详情时系统自行回收资金
-        Date lastLoginTime = vUserPlayerVo.getResult().getLastLoginTime();
+        Date lastLoginTime = vUserPlayerVo.getResult().getLoginTime();
         if(lastLoginTime!=null){
             long date = DateTool.daysBetween(new Date(),lastLoginTime);
             LOG.info("玩家ID：{0}，最后登录时间：{1}，与最近一次查看玩家详细的时间相差天数为：{2}",searchId,lastLoginTime,date);
