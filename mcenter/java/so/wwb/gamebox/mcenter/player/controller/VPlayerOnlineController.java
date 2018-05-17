@@ -1,6 +1,5 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
-import org.apache.shiro.session.Session;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
@@ -20,14 +19,12 @@ import so.wwb.gamebox.mcenter.player.form.VPlayerOnlineSearchForm;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
-import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.player.po.VPlayerOnline;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.player.vo.VPlayerOnlineListVo;
 import so.wwb.gamebox.model.master.player.vo.VPlayerOnlineVo;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,8 +77,6 @@ public class VPlayerOnlineController extends BaseCrudController<IVPlayerOnlineSe
             Long hours = DateTool.hoursBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime());
             Long minutes = DateTool.minutesBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime()) - hours * 60;
             Long seconds = DateTool.secondsBetween(list.get(i).getLastActiveTime(), list.get(i).getLoginTime()) - hours * 3600 - minutes * 60;
-            Session session=redisSessionDao.getSessionByKey(MessageFormat.format("{0}:{1},{2},{3}",
-                    redisSessionDao.genPrefix(),UserTypeEnum.PLAYER.getCode(),list.get(i).getId().toString(),list.get(i).getSessionKey()));
 
             list.get(i).setHours(hours);
             list.get(i).setMinutes(minutes);
