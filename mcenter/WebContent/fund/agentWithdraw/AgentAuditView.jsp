@@ -21,6 +21,7 @@
         <input type="hidden" name="result.agentId" value="${command.result.agentId}"/>
         <input type="hidden" name="withdrawAmount" value="${command.result.withdrawAmount}"/>
         <input type="hidden" name="transactionStatus" value="${command.result.transactionStatus}"/>
+        <gb:token></gb:token>
         <div class="modal-body clearfix">
             <table class="table no-border table-desc-list">
                 <tbody>

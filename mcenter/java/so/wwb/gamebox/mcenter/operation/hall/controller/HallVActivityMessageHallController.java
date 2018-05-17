@@ -1,7 +1,9 @@
 package so.wwb.gamebox.mcenter.operation.hall.controller;
 
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.query.sort.Direction;
+import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,8 @@ import so.wwb.gamebox.mcenter.operation.form.VActivityMessageHallForm;
 import so.wwb.gamebox.mcenter.operation.form.VActivityMessageHallSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.TerminalEnum;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.master.operation.po.VActivityMessageHall;
@@ -95,6 +99,12 @@ public class HallVActivityMessageHallController extends BaseCrudController<IVAct
 
     @Override
     public String list(VActivityMessageHallListVo listVo, @FormModel("search") @Valid VActivityMessageHallSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
+        //判断活动大厅开关,只有开着才运行参加
+        SysParam ActivityHallSwitchSysParam = ParamTool.getSysParam(SiteParamEnum.ACTIVITY_HALL_SWITCH);
+        if (ActivityHallSwitchSysParam == null || StringTool.isBlank(ActivityHallSwitchSysParam.getParamValue())
+                || !"true".equals(ActivityHallSwitchSysParam.getParamValue())) {
+            return "Index";
+        }
         return super.list(listVo, form, result, model, request, response);
     }
 

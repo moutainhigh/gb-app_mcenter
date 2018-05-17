@@ -256,6 +256,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
     }
 
     @RequestMapping("/showAgentAuditView")
+    @Token(generate = true)
     public String showAgentAuditView(VAgentWithdrawOrderVo vo, Model model){
         vo = setAuditData(vo, model);
         setOtherData(vo, model);
@@ -309,6 +310,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
     }
 
     @RequestMapping("/showAgentAuditDetail")
+    @Token(generate = true)
     public String showAgentAuditDetail(VAgentWithdrawOrderVo vo, RemarkListVo listVo, Model model){
         vo = setAuditDetailData(vo, listVo, model);
         setOtherData(vo, model);
@@ -670,7 +672,9 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
      * @param model
      * @return
      */
+
     @RequestMapping("/putConfirmRefuses")
+    @Token(generate = true)
     public String putConfirmRefuses(VAgentWithdrawOrderVo objVo, Model model) {
         objVo = ServiceSiteTool.getVAgentWithdrawOrderService().get(objVo);
 
@@ -692,6 +696,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
      * @return
      */
     @RequestMapping("/putCheckFailure")
+    @Token(generate = true)
     public String putCheckFailure(VAgentWithdrawOrderVo objVo, Remark remark, Model model) {
         objVo = ServiceSiteTool.getVAgentWithdrawOrderService().get(objVo);
 
