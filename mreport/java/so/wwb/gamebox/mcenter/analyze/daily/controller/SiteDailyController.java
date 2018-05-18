@@ -4,12 +4,16 @@ import com.alibaba.fastjson.JSON;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.lang.DateQuickPickerTool;
+import org.soul.commons.lang.DateTool;
+import org.soul.commons.log.Log;
+import org.soul.commons.log.LogFactory;
 import org.soul.commons.query.Paging;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.tools.DataTransTool;
 import so.wwb.gamebox.model.WeekTool;
 import so.wwb.gamebox.model.company.setting.po.ApiGametypeRelation;
@@ -25,6 +29,7 @@ import so.wwb.gamebox.model.site.report.vo.RealtimeProfileListVo;
 import so.wwb.gamebox.model.site.report.vo.RealtimeProfileVo;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -35,6 +40,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/daily")
 public class SiteDailyController {
+
+    private static final Log LOG = LogFactory.getLog(SiteDailyController.class);
 
     private static final String OPERATION_SUMMARY = "/daily/OperationSummary";
 
@@ -90,8 +97,22 @@ public class SiteDailyController {
     @RequestMapping("/operationSummaryDataOfChoiceDays")
     @ResponseBody
     public String operationSummaryDataOfChoiceDays(OperationSummaryVo vo) {
-        vo = ServiceSiteTool.operationSummaryService().getOperationSummaryDataByDays(vo);
-        return JsonTool.toJson(vo.getEntities());
+        try{
+            if (vo.getSearch().getStaticTime() != null) {
+                vo.setBeginTime(DateTool.convertDateByTimezone(vo.getSearch().getStaticTime(), SessionManager.getTimeZone()));
+            }
+            if (vo.getSearch().getStaticTimeEnd() == null) {
+                vo.setEndTime(DateQuickPickerTool.getInstance().getDay(SessionManager.getTimeZone()));
+            } else {
+                vo.setEndTime(DateTool.convertDateByTimezone(vo.getSearch().getStaticTimeEnd(), SessionManager.getTimeZone()));
+            }
+            vo = ServiceSiteTool.operationSummaryService().getOperationSummaryDataByDays(vo);
+            return JsonTool.toJson(vo.getEntities());
+
+        } catch (ParseException e) {
+            LOG.error("operationSummaryDataOfChoiceDays convertDateByTimezone error:", e);
+        }
+        return null;
     }
 
     /**
@@ -101,10 +122,21 @@ public class SiteDailyController {
     @RequestMapping("/searchOperationSummaryByDays")
     @ResponseBody
     public OperationSummaryVo searchOperationSummaryByDays(OperationSummaryVo vo) {
-        if (vo.getEndTime() == null) {
-            vo.setEndTime(DateQuickPickerTool.getInstance().getNow());
+        try {
+            if (vo.getBeginTime() != null) {
+                vo.setBeginTime(DateTool.convertDateByTimezone(vo.getBeginTime(), SessionManager.getTimeZone()));
+            }
+            if (vo.getEndTime() == null) {
+                vo.setEndTime(DateQuickPickerTool.getInstance().getDay(SessionManager.getTimeZone()));
+            } else {
+                vo.setEndTime(DateTool.convertDateByTimezone(vo.getEndTime(), SessionManager.getTimeZone()));
+            }
+            return ServiceSiteTool.operationSummaryService().searchOperationSummaryByDays(vo);
+
+        } catch (ParseException e) {
+            LOG.error("searchOperationSummaryByDays convertDateByTimezone error:", e);
         }
-        return ServiceSiteTool.operationSummaryService().searchOperationSummaryByDays(vo);
+        return null;
     }
 
     /**
@@ -136,6 +168,7 @@ public class SiteDailyController {
      */
     @RequestMapping({"/realTimeSummary"})
     public String realTimeSummaryData(RealtimeProfileVo condition, Model model) {
+        condition.setCurrentTimeZone(WeekTool.getTimeZoneInterval());
         List<RealtimeProfile> profiles = ServiceSiteTool.realtimeProfileService().queryRealtimeCartogram(condition);
         List<RealtimeProfile> realtimedata = ServiceSiteTool.realtimeProfileService().queryNowAndYesterdayData(condition);
         List<RealtimeProfileVo> historyReportForm = ServiceSiteTool.realtimeProfileService().queryHistoryReportForm(condition);
