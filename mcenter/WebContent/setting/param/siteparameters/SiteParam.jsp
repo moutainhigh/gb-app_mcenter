@@ -145,7 +145,7 @@
                                             </c:forEach>
                                             <div class="pull-right inline">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-link dropdown-toggle fzyx"
+                                                    <button type="button" class="btn btn-link dropdown-toggle fzyx showDropDown"
                                                             data-toggle="dropdown">${views.setting['serviceTrems.copy']}&nbsp;&nbsp;<span
                                                             class="caret"></span></button>
                                                     <ul class="dropdown-menu pull-right">
