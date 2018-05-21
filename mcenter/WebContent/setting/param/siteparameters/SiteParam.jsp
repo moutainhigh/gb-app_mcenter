@@ -99,7 +99,11 @@
                                                                       src="${resRoot}/${lang.logo}">${dicts.common.nations[lang.language]}</span>
                                                 <span class="co-grayc2 m-r-sm fs12 control_state_2">${dicts.common.local[lang.language]}</span>
                                                 <span class="${lang.status=="1"?"co-green":"co-grayc2"} fs12"
-                                                      id="languageStatus${statu.index}">${lang.transLangByLocale}</span>
+                                                      id="languageStatus${statu.index}">
+                                                    <c:if test="${lang.status==0}">${views.setting['site_operate.0']}</c:if>
+                                                    <c:if test="${lang.status==1}">${views.setting['site_operate.1']}</c:if>
+                                                    <c:if test="${lang.status==2}">${views.setting['site_operate.2']}</c:if>
+                                                </span>
                                                 <span class="pull-right"><input
                                                         address="/param/changeLanguage.html?result.id=${lang.id}"
                                                         statusId="languageStatus${statu.index}" type="checkbox"

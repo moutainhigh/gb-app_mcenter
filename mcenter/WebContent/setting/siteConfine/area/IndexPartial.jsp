@@ -31,7 +31,7 @@
             <tbody>
             <c:forEach items="${command.result}" var="p" varStatus="status">
                 <tr class="tab-detail">
-                    <th><input type="checkbox" value="${p.id}" ></th>
+                    <th><input type="checkbox" value="${p.id}" ${p.builtIn?'disabled':''}></th>
                     <td>${dicts.region.region[p.nation]}${p.province.length()>0?"-":""}${dicts.state[p.nation][p.province]}${p.city.length()>0?"-":""}${dicts.city[p.nation.concat("_").concat(p.province)][p.city]}</td>
                     <td>${dicts.setting.siteConfine[p.timeType]}</td>
                     <c:choose>
@@ -47,7 +47,10 @@
                     <td>${p.remark}</td>
                     <td><span class="${p.status=='expired'?"label label-danger":"label label-success"}">${dicts.setting.site_confine_status[p.status]}</span></td>
                     <td>
-                        <soul:button target="${root}/siteConfineArea/edit.html?id=${p.id}" size="open-dialog-50" text="${views.common['edit']}" cssClass="co-blue m-r-xs m-l-xs" opType="dialog" callback="query" />
+                        <c:if test="${!p.builtIn}">
+                            <soul:button target="${root}/siteConfineArea/edit.html?id=${p.id}" size="open-dialog-50" text="${views.common['edit']}" cssClass="co-blue m-r-xs m-l-xs" opType="dialog" callback="query" />
+                        </c:if>
+
                     </td>
                 </tr>
             </c:forEach>

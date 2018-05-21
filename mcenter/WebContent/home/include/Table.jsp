@@ -154,7 +154,7 @@
                                             ${sign}0
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${10 + vs.count}&search.origin=MOBILE" nav-target="mainFrame">
+                                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${10 + vs.count}&search.transactionType=deposit&search.origin=2,8,12,16" nav-target="mainFrame">
                                                 ${sign}${soulFn:formatInteger(mobile)}<i>${soulFn:formatDecimals(mobile)}</i>
                                             </a>
                                         </c:otherwise>

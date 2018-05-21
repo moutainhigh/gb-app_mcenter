@@ -47,6 +47,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ModuleType;
+import so.wwb.gamebox.model.TerminalEnum;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.AutoCompleter;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
@@ -56,7 +57,6 @@ import so.wwb.gamebox.model.company.site.po.SiteCustomerService;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.enums.ActivityTypeEnum;
 import so.wwb.gamebox.model.master.enums.RemarkEnum;
-import so.wwb.gamebox.model.master.enums.TransactionOriginEnum;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeParentEnum;
 import so.wwb.gamebox.model.master.fund.enums.TransactionTypeEnum;
 import so.wwb.gamebox.model.master.fund.enums.TransactionWayEnum;
@@ -230,7 +230,7 @@ public class ManualController {
                 return map;
             }
             List<SysUser> existUser = (List<SysUser>) existNameMap.get("existUser");
-            playerRechargeVo.setOrigin(TransactionOriginEnum.PC.getCode());
+            playerRechargeVo.setOrigin(TerminalEnum.PC.getCode());
             map = handleManualDeposit(playerRechargeVo, existUser, map);
             if (!MapTool.getBoolean(map, "state")) {
                 map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());

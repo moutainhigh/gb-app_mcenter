@@ -310,6 +310,7 @@ public class VAgentWithdrawOrderController extends BaseCrudController<IVAgentWit
     }
 
     @RequestMapping("/showAgentAuditDetail")
+    @Token(generate = true)
     public String showAgentAuditDetail(VAgentWithdrawOrderVo vo, RemarkListVo listVo, Model model){
         vo = setAuditDetailData(vo, listVo, model);
         setOtherData(vo, model);

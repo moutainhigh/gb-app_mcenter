@@ -7,34 +7,46 @@
                 <table class="table table-striped table-bordered table-hover dataTable m-b-none text-center" aria-describedby="editable_info">
                     <thead>
                     <tr class="bg-gray">
-                        <th>${views.lottery_auto['号码']}</th>
-                        <th>${views.lottery_auto['当前赔率']}</th>
-                        <th>${views.lottery_auto['号码']}</th>
-                        <th>${views.lottery_auto['当前赔率']}</th>
-                        <th>${views.lottery_auto['号码']}</th>
-                        <th>${views.lottery_auto['当前赔率']}</th>
-                        <th>${views.lottery_auto['号码']}</th>
-                        <th>${views.lottery_auto['当前赔率']}</th>
-                        <th>${views.lottery_auto['号码']}</th>
-                        <th>${views.lottery_auto['当前赔率']}</th>
+                        <th>号码</th>
+                        <th>当前赔率</th>
+                        <th>当前返点</th>
+                        <th>号码</th>
+                        <th>当前赔率</th>
+                        <th>当前返点</th>
+                        <th>号码</th>
+                        <th>当前赔率</th>
+                        <th>当前返点</th>
+                        <th>号码</th>
+                        <th>当前赔率</th>
+                        <th>当前返点</th>
+                        <th>号码</th>
+                        <th>当前赔率</th>
+                        <th>当前返点</th>
+
                     </tr>
                     </thead>
                     <tbody>
-                    <%@include file="../include/Digist.jsp"%>
 
+                    <%@include file="../include/DigistA.jsp"%>
+                    <input type="hidden" value="" id="lhca" >
                     <tr>
-                        <th>${views.lottery_auto['大']}</th>
+                        <th>大</th>
                         <td>
                             <div class="input-group content-width-limit-10">
-                                <input type="hidden" value="${command['大'].id}" name="lotteryOdds[80].id">
-                                <input type="hidden" value="${command['大'].code}" name="lotteryOdds[80].code">
-                                <input type="hidden" value="${command['大'].betCode}" name="lotteryOdds[80].betCode">
-                                <input type="hidden" value="${command['大'].siteId}" name="lotteryOdds[80].siteId">
-                                <input type="hidden" value="${command['大'].betNum}" name="lotteryOdds[80].betNum">
-                                <input type="text" class="form-control input-sm" placeholder="<=${command['大'].oddLimit}" data-limit="${command['大'].oddLimit}" data-value="${command['大'].odd}" name="lotteryOdds[80].odd" value="${command['大'].odd}">
+                                <input type="hidden" value="${command['大'].id}" name="lotteryOdds[59].id">
+                                <input type="hidden" value="${command['大'].code}" name="lotteryOdds[59].code">
+                                <input type="hidden" value="${command['大'].betCode}" name="lotteryOdds[59].betCode">
+                                <input type="hidden" value="${command['大'].siteId}" name="lotteryOdds[59].siteId">
+                                <input type="hidden" value="${command['大'].betNum}" name="lotteryOdds[59].betNum">
+                                <input type="text" class="form-control input-sm" placeholder="<=${command['大'].oddLimit}" data-limit="${command['大'].oddLimit}" data-value="${command['大'].odd}" name="lotteryOdds[59].odd" value="${command['大'].odd}">
                             </div>
                         </td>
-                        <th>${views.lottery_auto['小']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['大'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['大'].rebateLimit}" data-value="${command['大'].rebate}" value="${command['大'].rebate}">
+                            </div>
+                        </td>
+                        <th>小</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['小'].id}" name="lotteryOdds[50].id">
@@ -45,7 +57,12 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['小'].oddLimit}" data-limit="${command['小'].oddLimit}" data-value="${command['小'].odd}" name="lotteryOdds[50].odd" value="${command['小'].odd}">
                             </div>
                         </td>
-                        <th>${views.lottery_auto['单']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['小'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['小'].rebateLimit}" data-value="${command['小'].rebate}" value="${command['小'].rebate}">
+                            </div>
+                        </td>
+                        <th>单</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['单'].id}" name="lotteryOdds[51].id">
@@ -56,7 +73,12 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['单'].oddLimit}" data-limit="${command['单'].oddLimit}" data-value="${command['单'].odd}" name="lotteryOdds[51].odd" value="${command['单'].odd}">
                             </div>
                         </td>
-                        <th>${views.lottery_auto['双']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['单'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['单'].rebateLimit}" data-value="${command['单'].rebate}" value="${command['单'].rebate}">
+                            </div>
+                        </td>
+                        <th>双</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['双'].id}" name="lotteryOdds[52].id">
@@ -67,10 +89,15 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['双'].oddLimit}" data-limit="${command['双'].oddLimit}" data-value="${command['双'].odd}" name="lotteryOdds[52].odd" value="${command['双'].odd}">
                             </div>
                         </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['双'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['双'].rebateLimit}" data-value="${command['双'].rebate}" value="${command['双'].rebate}">
+                            </div>
+                        </td>
                         <th colspan="2"></th>
                     </tr>
                     <tr>
-                        <th>${views.lottery_auto['合大']}</th>
+                        <th>合大</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['合大'].id}" name="lotteryOdds[53].id">
@@ -81,7 +108,12 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['合大'].oddLimit}" data-limit="${command['合大'].oddLimit}" data-value="${command['合大'].odd}" name="lotteryOdds[53].odd" value="${command['合大'].odd}">
                             </div>
                         </td>
-                        <th>${views.lottery_auto['合小']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['合大'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['合大'].rebateLimit}" data-value="${command['合大'].rebate}" value="${command['合大'].rebate}">
+                            </div>
+                        </td>
+                        <th>合小</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['合小'].id}" name="lotteryOdds[54].id">
@@ -92,7 +124,12 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['合小'].oddLimit}" data-limit="${command['合小'].oddLimit}" data-value="${command['合小'].odd}" name="lotteryOdds[54].odd" value="${command['合小'].odd}">
                             </div>
                         </td>
-                        <th>${views.lottery_auto['合单']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['合小'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['合小'].rebateLimit}" data-value="${command['合小'].rebate}" value="${command['合小'].rebate}">
+                            </div>
+                        </td>
+                        <th>合单</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['合单'].id}" name="lotteryOdds[55].id">
@@ -103,7 +140,12 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['合单'].oddLimit}" data-limit="${command['合单'].oddLimit}" data-value="${command['合单'].odd}" name="lotteryOdds[55].odd" value="${command['合单'].odd}">
                             </div>
                         </td>
-                        <th>${views.lottery_auto['合双']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['合单'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['合单'].rebateLimit}" data-value="${command['合单'].rebate}" value="${command['合单'].rebate}">
+                            </div>
+                        </td>
+                        <th>合双</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['合双'].id}" name="lotteryOdds[56].id">
@@ -114,10 +156,15 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['合双'].oddLimit}" data-limit="${command['合双'].oddLimit}" data-value="${command['合双'].odd}" name="lotteryOdds[56].odd" value="${command['合双'].odd}">
                             </div>
                         </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['合双'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['合双'].rebateLimit}" data-value="${command['合双'].rebate}" value="${command['合双'].rebate}">
+                            </div>
+                        </td>
                         <th colspan="2"></th>
                     </tr>
                     <tr>
-                        <th>${views.lottery_auto['尾大']}</th>
+                        <th>尾大</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['尾大'].id}" name="lotteryOdds[57].id">
@@ -128,7 +175,12 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['尾大'].oddLimit}" data-limit="${command['尾大'].oddLimit}" data-value="${command['尾大'].odd}" name="lotteryOdds[57].odd" value="${command['尾大'].odd}">
                             </div>
                         </td>
-                        <th>${views.lottery_auto['尾小']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['尾大'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['尾大'].rebateLimit}" data-value="${command['尾大'].rebate}" value="${command['尾大'].rebate}">
+                            </div>
+                        </td>
+                        <th>尾小</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['尾小'].id}" name="lotteryOdds[58].id">
@@ -139,34 +191,15 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['尾小'].oddLimit}" data-limit="${command['尾小'].oddLimit}" data-value="${command['尾小'].odd}" name="lotteryOdds[58].odd" value="${command['尾小'].odd}">
                             </div>
                         </td>
-                        <%--<th>${views.lottery_auto['尾单']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['尾单'].id}" name="lotteryOdds[59].id">--%>
-                                <%--<input type="hidden" value="${command['尾单'].code}" name="lotteryOdds[59].code">--%>
-                                <%--<input type="hidden" value="${command['尾单'].betCode}" name="lotteryOdds[59].betCode">--%>
-                                <%--<input type="hidden" value="${command['尾单'].siteId}" name="lotteryOdds[59].siteId">--%>
-                                <%--<input type="hidden" value="${command['尾单'].betNum}" name="lotteryOdds[59].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[59].odd" value="${command['尾单'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
-                        <%--<th>${views.lottery_auto['尾双']}</th>--%>
-                        <%--<td>--%>
-                            <%--<div class="input-group content-width-limit-10">--%>
-                                <%--<input type="hidden" value="${command['尾双'].id}" name="lotteryOdds[60].id">--%>
-                                <%--<input type="hidden" value="${command['尾双'].code}" name="lotteryOdds[60].code">--%>
-                                <%--<input type="hidden" value="${command['尾双'].betCode}" name="lotteryOdds[60].betCode">--%>
-                                <%--<input type="hidden" value="${command['尾双'].siteId}" name="lotteryOdds[60].siteId">--%>
-                                <%--<input type="hidden" value="${command['尾双'].betNum}" name="lotteryOdds[60].betNum">--%>
-                                <%--<input type="text" class="form-control input-sm" name="lotteryOdds[60].odd" value="${command['尾双'].odd}">--%>
-                            <%--</div>--%>
-                        <%--</td>--%>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['尾小'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['尾小'].rebateLimit}" data-value="${command['尾小'].rebate}" value="${command['尾小'].rebate}">
+                            </div>
+                        </td>
                         <th colspan="6"></th>
                     </tr>
-
-
                     <tr>
-                        <th>${views.lottery_auto['红波']}</th>
+                        <th>红波</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['红波'].id}" name="lotteryOdds[61].id">
@@ -177,7 +210,12 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['红波'].oddLimit}" data-limit="${command['红波'].oddLimit}" data-value="${command['红波'].odd}" name="lotteryOdds[61].odd" value="${command['红波'].odd}">
                             </div>
                         </td>
-                        <th>${views.lottery_auto['蓝波']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['红波'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['红波'].rebateLimit}" data-value="${command['红波'].rebate}" value="${command['红波'].rebate}">
+                            </div>
+                        </td>
+                        <th>蓝波</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['蓝波'].id}" name="lotteryOdds[62].id">
@@ -188,7 +226,12 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['蓝波'].oddLimit}" data-limit="${command['蓝波'].oddLimit}" data-value="${command['蓝波'].odd}" name="lotteryOdds[62].odd" value="${command['蓝波'].odd}">
                             </div>
                         </td>
-                        <th>${views.lottery_auto['绿波']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['蓝波'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['蓝波'].rebateLimit}" data-value="${command['蓝波'].rebate}" value="${command['蓝波'].rebate}">
+                            </div>
+                        </td>
+                        <th>绿波</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['绿波'].id}" name="lotteryOdds[63].id">
@@ -199,12 +242,17 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['绿波'].oddLimit}" data-limit="${command['绿波'].oddLimit}" data-value="${command['绿波'].odd}" name="lotteryOdds[63].odd" value="${command['绿波'].odd}">
                             </div>
                         </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['绿波'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['绿波'].rebateLimit}" data-value="${command['绿波'].rebate}" value="${command['绿波'].rebate}">
+                            </div>
+                        </td>
                         <th colspan="4"></th>
                     </tr>
 
 
                     <tr>
-                        <th>${views.lottery_auto['大单']}</th>
+                        <th>大单</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['大单'].id}" name="lotteryOdds[64].id">
@@ -215,7 +263,12 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['大单'].oddLimit}" data-limit="${command['大单'].oddLimit}" data-value="${command['大单'].odd}" name="lotteryOdds[64].odd" value="${command['大单'].odd}">
                             </div>
                         </td>
-                        <th>${views.lottery_auto['小单']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['大单'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['大单'].rebateLimit}" data-value="${command['大单'].rebate}" value="${command['大单'].rebate}">
+                            </div>
+                        </td>
+                        <th>小单</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['小单'].id}" name="lotteryOdds[65].id">
@@ -226,7 +279,12 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['小单'].oddLimit}" data-limit="${command['小单'].oddLimit}" data-value="${command['小单'].odd}" name="lotteryOdds[65].odd" value="${command['小单'].odd}">
                             </div>
                         </td>
-                        <th>${views.lottery_auto['大双']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['小单'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['小单'].rebateLimit}" data-value="${command['小单'].rebate}" value="${command['小单'].rebate}">
+                            </div>
+                        </td>
+                        <th>大双</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['大双'].id}" name="lotteryOdds[66].id">
@@ -237,7 +295,12 @@
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['大双'].oddLimit}" data-limit="${command['大双'].oddLimit}" data-value="${command['大双'].odd}" name="lotteryOdds[66].odd" value="${command['大双'].odd}">
                             </div>
                         </td>
-                        <th>${views.lottery_auto['小双']}</th>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['大双'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['大双'].rebateLimit}" data-value="${command['大双'].rebate}" value="${command['大双'].rebate}">
+                            </div>
+                        </td>
+                        <th>小双</th>
                         <td>
                             <div class="input-group content-width-limit-10">
                                 <input type="hidden" value="${command['小双'].id}" name="lotteryOdds[67].id">
@@ -246,6 +309,11 @@
                                 <input type="hidden" value="${command['小双'].siteId}" name="lotteryOdds[67].siteId">
                                 <input type="hidden" value="${command['小双'].betNum}" name="lotteryOdds[67].betNum">
                                 <input type="text" class="form-control input-sm" placeholder="<=${command['小双'].oddLimit}" data-limit="${command['小双'].oddLimit}" data-value="${command['小双'].odd}" name="lotteryOdds[67].odd" value="${command['小双'].odd}">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group content-width-limit-10">
+                                <input type="text" class="form-control input-sm rebate" placeholder="<=${command['小双'].rebateLimit}" name="lotteryOdds[59].rebate" data-limit="${command['小双'].rebateLimit}" data-value="${command['小双'].rebate}" value="${command['小双'].rebate}">
                             </div>
                         </td>
                     </tr>

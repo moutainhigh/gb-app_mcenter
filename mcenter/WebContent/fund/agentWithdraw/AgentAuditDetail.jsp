@@ -18,6 +18,7 @@
             <input type="hidden" name="result.agentId" value="${vo.result.agentId}"/>
             <input type="hidden" name="nextRecordId" value="${commandNextId.result.id}">
             <input type="hidden" name="transactionStatus" value="${vo.result.transactionStatus}"/>
+            <gb:token></gb:token>
         </div>
         <div class="col-lg-12">
             <div class="panel panel-default">
