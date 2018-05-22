@@ -1267,7 +1267,9 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         //int count = ServiceSiteTool.getPlayerTransactionService().batchUpdateOnly(transactionVo);
         result.put("state", true);
         //添加成功日志
-        addUpdateAuditLog(jsonObject,objVo);
+        Integer playerId=jsonObject.getInteger("playerId");
+        objVo.getSearch().setPlayerId(playerId);
+        addUpdateAuditLog(objVo,"FUN_UPDATE_AUDIT_SUCCESS");
         return result;
     }
 
@@ -1288,6 +1290,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             VPlayerTransactionSo search = JSONObject.parseObject(searchJson, VPlayerTransactionSo.class);
             objVo.setSearch(search);
 
+
             JSONArray feeArray = jsonObject.getJSONArray("feeList");
             for (Object obj : feeArray) {
                 JSONObject jobj = (JSONObject) obj;
@@ -1302,7 +1305,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             Map map = reAuditTransaction(objVo.getSearch().getPlayerId(), new Date());
             updateWithdrawRecord(objVo.getSearch().getPlayerId(), map);
             //操作成功记录日志
-            addUpdateAuditLog(jsonObject,objVo);
+            addUpdateAuditLog(objVo,"PLAYER_FUN_UPDATE_AUDIT_SUCCESS");
         } catch (Exception ex) {
             result.put("state", false);
             result.put("msg", ex.getMessage());
@@ -1315,24 +1318,16 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     /**
      * 添加修改稽核日志
-     * @param jsonObject
      * @param objectVo
      */
-    private void addUpdateAuditLog(JSONObject jsonObject, VPlayerTransactionVo objectVo) {
+    private void addUpdateAuditLog(VPlayerTransactionVo objectVo,String logDesc) {
         try {
-            PlayerTransactionListVo listVo = new PlayerTransactionListVo();
-            listVo._setContextParam(objectVo._getContextParam());
-            listVo.getSearch().setPlayerId(objectVo.getSearch().getPlayerId());
-            List<PlayerTransaction> playerTransactions = ServiceSiteTool.getPlayerTransactionService().searchAuditLog(listVo);
-
+            //取玩家名称
             SysUserVo sysUserVo = new SysUserVo();
             sysUserVo._setContextParam(objectVo._getContextParam());
             sysUserVo.getSearch().setId(objectVo.getSearch().getPlayerId());
             sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
-
-            String s = JsonTool.toJson(playerTransactions);
-            BussAuditLogTool.addLog("FUN_UPDATE_AUDIT_SUCCESS", sysUserVo.getResult()==null?"":sysUserVo.getResult().getUsername(),
-                    jsonObject.toJSONString(), JsonTool.toJson(playerTransactions).toString());
+            BussAuditLogTool.addLog(logDesc, sysUserVo.getResult()==null?"":sysUserVo.getResult().getUsername());
         } catch (Exception ex) {
             LOG.error("修改稽核成功后，添加日志报错");
         }
