@@ -28,11 +28,11 @@ public class PlayerRankSearchForm implements IForm {
     /**
      * 下限金额
      */
-    private Integer onlinePayMin;
+    private Long onlinePayMin;
     /**
      * 上限金额
      */
-    private Integer onlinePayMax;
+    private Long onlinePayMax;
     /**
      * 手续费时限/小时
      */
@@ -92,7 +92,7 @@ public class PlayerRankSearchForm implements IForm {
     @Max(9999999999999L)
     @Compare(message = "playerRank.must.more.than.min", logic = CompareLogic.GE, anotherProperty = "result_onlinePayMin")
     @Comment("充值单笔上限金额")
-    public Integer getOnlinePayMax() {
+    public Long getOnlinePayMax() {
         return onlinePayMax;
     }
 
@@ -101,7 +101,7 @@ public class PlayerRankSearchForm implements IForm {
     @Range(min = 0, max = 9999999999999L)
     //@Compare(message = "playerRank.must.lower.than.max",logic = CompareLogic.LE,anotherProperty = "result_onlinePayMax")
     @Comment("充值单笔下限金额")
-    public Integer getOnlinePayMin() {
+    public Long getOnlinePayMin() {
         return onlinePayMin;
     }
 
@@ -196,11 +196,11 @@ public class PlayerRankSearchForm implements IForm {
         return $returnFixedAmount;
     }
 
-    public void setOnlinePayMin(Integer onlinePayMin) {
+    public void setOnlinePayMin(Long onlinePayMin) {
         this.onlinePayMin = onlinePayMin;
     }
 
-    public void setOnlinePayMax(Integer onlinePayMax) {
+    public void setOnlinePayMax(Long onlinePayMax) {
         this.onlinePayMax = onlinePayMax;
     }
 

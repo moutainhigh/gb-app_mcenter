@@ -16,15 +16,15 @@ public class RebateSetFeeForm implements IForm {
     //region your codes 2
     private Double[] sysParam$$_paramValue;
 
-    private Integer sysParamLimit$$_paramValue;
+    private Long sysParamLimit$$_paramValue;
 
     @NotNull
     @Range(max = 9999999999999L, min = 1, message = "setting.rakeback.withdraw.limitRange")
-    public Integer getSysParamLimit$$_paramValue() {
+    public Long getSysParamLimit$$_paramValue() {
         return sysParamLimit$$_paramValue;
     }
 
-    public void setSysParamLimit$$_paramValue(Integer sysParamLimit$$_paramValue) {
+    public void setSysParamLimit$$_paramValue(Long sysParamLimit$$_paramValue) {
         this.sysParamLimit$$_paramValue = sysParamLimit$$_paramValue;
     }
 

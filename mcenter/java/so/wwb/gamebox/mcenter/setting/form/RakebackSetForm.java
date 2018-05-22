@@ -34,9 +34,9 @@ public class RakebackSetForm implements IForm {
     private String result_remark;
 
     /*有效交易量　必填，仅支持数值在0—99,999，999（九千九百九十九万）范围内的正整数；*/
-    private BigDecimal[] rakebackGrads$$_validValue;
+    private Long[] rakebackGrads$$_validValue;
     /*每期返水上限　非必填，仅支持数值在1—99,999，999（九千九百九十九万）范围内的正整数；*/
-    private BigDecimal[] rakebackGrads$$_maxRakeback;
+    private Long[] rakebackGrads$$_maxRakeback;
 
     /*api占比　必填，支持数值在0—100以内的正数和小数（可为0和100）；*/
     private BigDecimal rakebackGrads$$_rakebackGradsApis$$_ratio;
@@ -75,20 +75,20 @@ public class RakebackSetForm implements IForm {
     @Range(max = 9999999999999L,min = 0,message = "setting.rakeback.edit.validValueRange")
     @Digits(integer = 14,fraction = 0,message = "setting.rakeback.edit.validValueFormt")
     @Series(message = "setting.rakeback.edit.validValueSeries",type = SeriesType.INC)
-    public BigDecimal[] getRakebackGrads$$_validValue() {
+    public Long[] getRakebackGrads$$_validValue() {
         return rakebackGrads$$_validValue;
     }
-    public void setRakebackGrads$$_validValue(BigDecimal[] rakebackGrads$$_validValue) {
+    public void setRakebackGrads$$_validValue(Long[] rakebackGrads$$_validValue) {
         this.rakebackGrads$$_validValue = rakebackGrads$$_validValue;
     }
 
     @Range(max = 9999999999999L,min = 1,message = "setting.rakeback.edit.maxRakebackRange")
     @Digits(integer = 14,fraction = 0,message = "setting.rakeback.edit.maxRakebackFormt")
-    public BigDecimal[] getRakebackGrads$$_maxRakeback() {
+    public Long[] getRakebackGrads$$_maxRakeback() {
         return rakebackGrads$$_maxRakeback;
     }
 
-    public void setRakebackGrads$$_maxRakeback(BigDecimal[] rakebackGrads$$_maxRakeback) {
+    public void setRakebackGrads$$_maxRakeback(Long[] rakebackGrads$$_maxRakeback) {
         this.rakebackGrads$$_maxRakeback = rakebackGrads$$_maxRakeback;
     }
 
