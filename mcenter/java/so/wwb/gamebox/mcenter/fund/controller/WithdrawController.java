@@ -27,7 +27,6 @@ import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Direction;
 import org.soul.commons.security.CryptoTool;
 import org.soul.commons.security.key.CryptoKey;
-import org.soul.commons.spring.utils.SpringTool;
 import org.soul.commons.support._Module;
 import org.soul.model.comet.vo.MessageVo;
 import org.soul.model.listop.po.SysListOperator;
@@ -46,7 +45,6 @@ import org.soul.model.sys.so.SysDictSo;
 import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.controller.NoMappingCrudController;
 import org.soul.web.listop.ListOpTool;
-import org.soul.web.session.RedisSessionDao;
 import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
@@ -1241,6 +1239,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     @RequestMapping("/updateAuditFee")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.FUN_UPDATE_AUDIT_SUCCESS, opType = OpType.UPDATE)
     public Map updateAuditFee(HttpServletRequest request) {
         Map result = new HashMap();
         VPlayerTransactionVo objVo = new VPlayerTransactionVo();
@@ -1267,11 +1266,16 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 //        transactionVo.setProperties(PlayerTransaction.PROP_DEDUCT_FAVORABLE, PlayerTransaction.PROP_ADMINISTRATIVE_FEE);
         //int count = ServiceSiteTool.getPlayerTransactionService().batchUpdateOnly(transactionVo);
         result.put("state", true);
+        //添加成功日志
+        Integer playerId=jsonObject.getInteger("playerId");
+        objVo.getSearch().setPlayerId(playerId);
+        addUpdateAuditLog(objVo,"FUN_UPDATE_AUDIT_SUCCESS");
         return result;
     }
 
     @RequestMapping("/clearAudit")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.FUN_UPDATE_AUDIT_SUCCESS, opType = OpType.UPDATE)
     public Map clearAudit(HttpServletRequest request) {
         Map result = new HashMap();
         try {
@@ -1286,6 +1290,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             VPlayerTransactionSo search = JSONObject.parseObject(searchJson, VPlayerTransactionSo.class);
             objVo.setSearch(search);
 
+
             JSONArray feeArray = jsonObject.getJSONArray("feeList");
             for (Object obj : feeArray) {
                 JSONObject jobj = (JSONObject) obj;
@@ -1299,13 +1304,33 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             result.put("state", true);
             Map map = reAuditTransaction(objVo.getSearch().getPlayerId(), new Date());
             updateWithdrawRecord(objVo.getSearch().getPlayerId(), map);
+            //操作成功记录日志
+            addUpdateAuditLog(objVo,"PLAYER_FUN_UPDATE_AUDIT_SUCCESS");
         } catch (Exception ex) {
             result.put("state", false);
             result.put("msg", ex.getMessage());
             LOG.error(ex, "即时稽核清修改稽核点出错：{0}", ex.getMessage());
         }
 
+
         return result;
+    }
+
+    /**
+     * 添加修改稽核日志
+     * @param objectVo
+     */
+    private void addUpdateAuditLog(VPlayerTransactionVo objectVo,String logDesc) {
+        try {
+            //取玩家名称
+            SysUserVo sysUserVo = new SysUserVo();
+            sysUserVo._setContextParam(objectVo._getContextParam());
+            sysUserVo.getSearch().setId(objectVo.getSearch().getPlayerId());
+            sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
+            BussAuditLogTool.addLog(logDesc, sysUserVo.getResult()==null?"":sysUserVo.getResult().getUsername());
+        } catch (Exception ex) {
+            LOG.error("修改稽核成功后，添加日志报错");
+        }
     }
 
 

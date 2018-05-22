@@ -10,6 +10,7 @@
 </head>
 <body>
 <form:form>
+    <input type="hidden" name="playerId" value="${user.id}"/>
     <div class="modal-body" style="" id="modal-body">
         <%@include file="AuditListRecord.jsp"%>
     </div>
