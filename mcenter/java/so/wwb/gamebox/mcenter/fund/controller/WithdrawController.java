@@ -1239,7 +1239,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     @RequestMapping("/updateAuditFee")
     @ResponseBody
-    @Audit(module = Module.FUND, moduleType = ModuleType.FUN_UPDATE_AUDIT_SUCCESS, opType = OpType.AUDIT)
+    @Audit(module = Module.FUND, moduleType = ModuleType.FUN_UPDATE_AUDIT_SUCCESS, opType = OpType.UPDATE)
     public Map updateAuditFee(HttpServletRequest request) {
         Map result = new HashMap();
         VPlayerTransactionVo objVo = new VPlayerTransactionVo();
@@ -1275,7 +1275,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     @RequestMapping("/clearAudit")
     @ResponseBody
-    @Audit(module = Module.FUND, moduleType = ModuleType.FUN_UPDATE_AUDIT_SUCCESS, opType = OpType.AUDIT)
+    @Audit(module = Module.FUND, moduleType = ModuleType.FUN_UPDATE_AUDIT_SUCCESS, opType = OpType.UPDATE)
     public Map clearAudit(HttpServletRequest request) {
         Map result = new HashMap();
         try {
