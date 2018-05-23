@@ -27,7 +27,7 @@ public class RebateSetForm implements IForm {
     //region your codes 2
 
     //盈利总额 必填，仅支持数值在0—99,999,999（九千九百九十九万）范围内的正整数；
-    private BigDecimal[] $rebateGrads$$_totalProfit;
+    private Long[] $rebateGrads$$_totalProfit;
 
     //有效玩家 必填，仅支持数值在0—999（九百九十九）范围内的正整数；
     private Integer[] $rebateGrads$$_validPlayerNum;
@@ -37,10 +37,10 @@ public class RebateSetForm implements IForm {
 
     private BigDecimal[] $rebateGrads$$_otherRatio;
 
-    private BigDecimal[] $rebateGrads$$_maxRebate;
+    private Long[] $rebateGrads$$_maxRebate;
 
     //有效玩家交易量
-    private BigDecimal result_validValue;
+    private Long result_validValue;
 
     //各个游戏占成
     private BigDecimal[] rebateGrads$$_rebateGradsApis$$_ratio;
@@ -55,11 +55,11 @@ public class RebateSetForm implements IForm {
     @Range(max = 9999999999999L,min = -9999999999999L,message = "setting.rebate.edit.totalProfitRange")
     @Digits(integer = 13,fraction = 0,message = "setting.rebate.edit.totalProfitDigits")
     @Series(message = "setting.rebate.edit.totalProfitSeries",type = SeriesType.INC)
-    public BigDecimal[] get$rebateGrads$$_totalProfit() {
+    public Long[] get$rebateGrads$$_totalProfit() {
         return $rebateGrads$$_totalProfit;
     }
 
-    public void set$rebateGrads$$_totalProfit(BigDecimal[] $rebateGrads$$_totalProfit) {
+    public void set$rebateGrads$$_totalProfit(Long[] $rebateGrads$$_totalProfit) {
         this.$rebateGrads$$_totalProfit = $rebateGrads$$_totalProfit;
     }
 
@@ -79,11 +79,11 @@ public class RebateSetForm implements IForm {
     @NotNull(message = "setting.rebate.edit.validValueNotNull")
     @Range(max = 9999999999999L,min = 0,message = "setting.rebate.edit.validValueRange")
     @Digits(integer = 13,fraction = 0,message = "setting.rebate.edit.validValueRange")
-    public BigDecimal getResult_validValue() {
+    public Long getResult_validValue() {
         return result_validValue;
     }
 
-    public void setResult_validValue(BigDecimal result_validValue) {
+    public void setResult_validValue(Long result_validValue) {
         this.result_validValue = result_validValue;
     }
 
@@ -119,11 +119,11 @@ public class RebateSetForm implements IForm {
 
     @Range(max = 9999999999999L,min = 1,message = "setting.rebate.edit.maxRakebackRange")
     @Digits(integer = 13,fraction = 0,message = "setting.rebate.edit.maxRakebackFormt")
-    public BigDecimal[] get$rebateGrads$$_maxRebate() {
+    public Long[] get$rebateGrads$$_maxRebate() {
         return $rebateGrads$$_maxRebate;
     }
 
-    public void set$rebateGrads$$_maxRebate(BigDecimal[] $rebateGrads$$_maxRebate) {
+    public void set$rebateGrads$$_maxRebate(Long[] $rebateGrads$$_maxRebate) {
         this.$rebateGrads$$_maxRebate = $rebateGrads$$_maxRebate;
     }
 
