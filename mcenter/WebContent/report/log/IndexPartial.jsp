@@ -63,7 +63,15 @@
             </td>
             <td>${soulFn:formatDateTz(cmd.operateTime, DateFormat.DAY_SECOND, timeZone)}</td>
             <td>${soulFn:formatIp(cmd.operateIp)}<br>${gbFn:getIpRegion(cmd.operateIpDictCode)}</td>
-            <td>${views.report['log.label.os']}${cmd.clientOs}&nbsp;&nbsp;${views.report['log.label.browser']}${cmd.clientBrowser}</td>
+            <td>
+                    ${views.report['log.label.os']}${cmd.clientOs}&nbsp;&nbsp;${views.report['log.label.browser']}${cmd.clientBrowser}
+                    <c:if test="${cmd.moduleType == '1' && command.search.roleType == 'player'}">
+                        <br/>
+                        ${cmd.requestReferer}
+                    </c:if>
+
+
+            </td>
             <c:choose>
                 <c:when test="${'41'.equals(cmd.moduleType) || '42'.equals(cmd.moduleType)}">
                     <td >
