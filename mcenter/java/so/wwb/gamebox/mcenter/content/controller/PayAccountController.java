@@ -599,7 +599,6 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         //操作日志
         LogVo logVo = new LogVo();
         BaseLog baseLog = logVo.addBussLog();
-        addLog(vo, request, logVo, baseLog);
         if (!result.hasErrors()) {
             vo.getResult().setAccount(vo.getResult().getAccount().trim());
             // 设置支付方式
@@ -613,6 +612,7 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
             } else {
                 vo = this.getService().updatePayAccountEdit(vo);
             }
+            addLog(vo, request, logVo, baseLog);
         } else {
             vo.setSuccess(false);
             Map voMessage = this.getVoMessage(vo);

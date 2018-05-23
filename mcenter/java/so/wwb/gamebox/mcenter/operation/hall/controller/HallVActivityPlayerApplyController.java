@@ -185,6 +185,7 @@ public class HallVActivityPlayerApplyController extends BaseCrudController<IVAct
      * @return
      */
     @RequestMapping("/failDialog")
+    @Token(generate = true)
     public String failDialog(VActivityPlayerApplyVo vo, String ids, Model model) {
         //查询失败原因模板
         NoticeVo noticeVo = new NoticeVo();

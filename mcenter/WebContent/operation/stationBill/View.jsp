@@ -22,7 +22,7 @@
 				<div class="m line-hi25">
 					<h3>${views.operation['Bill.station.view.dear']} ${siteName}${views.operation['Bill.station.view.hello']}</h3>
 					<p>
-							${fn:replace(views.operation['Bill.station.view.message4'],"{0}" ,centerName)}${objectVo.result.billName}
+						${views.operation['Bill.station.view.message4']}${objectVo.result.billName}
 					</p>
 					<p><b>${views.operation['Bill.period']}：</b>
 							${soulFn:formatDateTz(objectVo.result.firstDateOfMonth,DateFormat.DAY,timeZone)}~${soulFn:formatDateTz(objectVo.result.lastDateOfMonth,DateFormat.DAY,timeZone)}
@@ -91,10 +91,10 @@
 											<td>
 													${soulFn:formatCurrency(s.profitLoss)}
 											</td>
-											<td class="${s.cssClass}">
-												<c:if test="${s.amountPayable gt 0}">+</c:if>
-													${soulFn:formatCurrency(s.amountPayable)}
-											</td>
+											<%--<td class="${s.cssClass}">--%>
+												<%--<c:if test="${s.amountPayable gt 0}">+</c:if>--%>
+													<%--${soulFn:formatCurrency(s.amountPayable)}--%>
+											<%--</td>--%>
 										</tr>
 									</c:forEach>
 								</c:forEach>

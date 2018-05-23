@@ -42,12 +42,12 @@
                                     <i class="fa fa-question-circle"></i>
                                 </span>${views.home_auto['人工存入']}
                             </td>
-                            <td class="ft-bold t-a-r">
+                            <%--<td class="ft-bold t-a-r">
                                 <span tabindex="0" class=" help-popover m-r-xs" role="button" data-container="body" data-toggle="popover" data-trigger="focus"
                                       data-placement="top" data-html="true" data-content="${views.home_auto['来自手机提交的所有存款总额']}" data-original-title="" title="">
                                     <i class="fa fa-question-circle"></i>
                                 </span>${views.home_auto['手机存款']}
-                            </td>
+                            </td>--%>
                             <td class="ft-bold t-a-c">${views.home_auto['投注人数']}</td>
                             <td class="ft-bold t-a-c">
                                 <span tabindex="0" class=" help-popover m-r-xs" role="button" data-container="body" data-toggle="popover" data-trigger="focus"
@@ -147,7 +147,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
-                                <td class="t-a-r money">
+                                <%--<td class="t-a-r money">
                                     <c:set var="mobile" value="${r.mobile}" />
                                     <c:choose>
                                         <c:when test="${mobile == null || mobile == 0}">
@@ -159,7 +159,7 @@
                                             </a>
                                         </c:otherwise>
                                     </c:choose>
-                                </td>
+                                </td>--%>
                                 <td class="t-a-c">
                                     <c:set var="bet" value="${r.bet}" />
                                     <c:choose>

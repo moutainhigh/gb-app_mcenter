@@ -219,7 +219,7 @@
     </div>
     <div class="modal-footer">
         <c:if test="${fn:length(listVo)>0 && user.status ne '2'}">
-        <soul:button permission="fund:playerwithdraw_editAudit" cssClass="btn btn-filter btn-edit-audit" opType="ajax" target="${root}/fund/withdraw/clearAudit.html"
+        <soul:button permission="fund:playerwithdraw_editAudit" cssClass="btn btn-filter btn-edit-audit" opType="ajax" target="${root}/fund/withdraw/clearAudit.html?puid=${command.search.playerId}"
              post="buildPostData" precall="myValidateForm" text="${views.common['save']}" callback="clearCallback"/>
         </c:if>
         <soul:button cssClass="btn btn-outline btn-filter" opType="function" target="closePage" text="${views.common['cancel']}"/>
