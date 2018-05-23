@@ -78,7 +78,7 @@
 
                 <td>
                     <c:choose>
-                        <c:when test="${pt.origin eq '2'}">
+                        <c:when test="${pt.origin eq '2' || pt.origin eq 'MOBILE'}">
                             <span class="fa fa-mobile mobile" data-content="${views.report_auto['手机订单']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
                             </span>
                         </c:when>
