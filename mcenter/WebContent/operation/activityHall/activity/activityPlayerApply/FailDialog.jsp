@@ -13,6 +13,7 @@
     <input type="hidden" name="ids" value="${ids}"/>
     <input type="hidden" name="result.checkState" value="3"/>
     <input type="hidden" name="activityType" value="${command.search.activityTypeCode}"/>
+    <gb:token></gb:token>
 
     <!--选择优惠失败原因-->
     <c:if test="${fn:length(failReasons)>0}">
