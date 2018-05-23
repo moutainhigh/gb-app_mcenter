@@ -120,7 +120,7 @@
                                         {{:_recharge_status_dicts}}
                                 </span>
                             </a>&nbsp;
-                            {{if origin =='2' || origin == 'MOBILE'}}
+                            {{if origin =='2' or origin == 'MOBILE'}}
                                 <span class="fa fa-mobile mobile" data-content="${views.fund_auto['手机存款']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
                                 </span>
                             {{else origin =='8'}}
