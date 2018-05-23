@@ -13,8 +13,20 @@
                         ${views.report['operate.search.account.agent']}<span class="co-blue">${command.userAgent.username}</span>
                     </c:when>
                     <c:otherwise>
-                        ${views.report['operate.search.account.topagent']}<span class="co-blue">${command.userTop.username}</span> -
-			            ${views.report['operate.search.account.agent']}<span class="co-blue">${command.userAgent.username}</span>
+                        ${views.report['operate.search.account.topagent']}
+                        <span class="co-blue">
+                            <c:if test="${not empty command.userTop.username}">${command.userTop.username}</c:if>
+                            <c:if test="${empty command.userTop.username && command.result.size() > 0 && not empty command.result.get(0)}">
+                                ${command.result.get(0).topagentName}
+                            </c:if>
+                        </span> -
+			            ${views.report['operate.search.account.agent']}
+                        <span class="co-blue">
+                            <c:if test="${not empty command.userAgent.username}">${command.userAgent.username}</c:if>
+                            <c:if test="${empty command.userAgent.username && command.result.size() > 0 && not empty command.result.get(0)}">
+                                ${command.result.get(0).agentName}
+                            </c:if>
+                        </span>
                     </c:otherwise>
                 </c:choose>
             </h2>
