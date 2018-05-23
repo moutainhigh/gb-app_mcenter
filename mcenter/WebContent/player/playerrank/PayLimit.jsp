@@ -50,13 +50,13 @@
                         <div class="clearfix m-t m-b fzcs">
                             <b class="pull-left col-sm-3 al-right line-hi34">${views.role['paylimit.online.min']}${siteCurrency}</b>
                             <div class="col-sm-5">
-                                <form:input path="result.onlinePayMin" id="onlinePayMin" cssClass="form-control" maxlength="8"/>
+                                <form:input path="result.onlinePayMin" id="onlinePayMin" cssClass="form-control" maxlength="13"/>
                             </div>
                         </div>
                         <div class="clearfix m-t m-b fzcs">
                             <b class="pull-left col-sm-3 al-right line-hi34">${views.role['paylimit.online.max']}${siteCurrency}</b>
                             <div class="col-sm-5">
-                                <form:input path="result.onlinePayMax" id="onlinePayMax" cssClass="form-control" maxlength="8"/>
+                                <form:input path="result.onlinePayMax" id="onlinePayMax" cssClass="form-control" maxlength="13"/>
                             </div>
                         </div>
                         <hr class="m-t-xs">

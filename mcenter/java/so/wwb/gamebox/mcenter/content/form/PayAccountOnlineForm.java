@@ -157,7 +157,7 @@ public class PayAccountOnlineForm implements IForm {
 
     @Comment("单笔存款最小值")
     @Range(min = 0, max = 9999999999999L)
-    @Digits(integer = 8, fraction = 0, message = "content.payAccount.tips1")
+    @Digits(integer = 13, fraction = 0, message = "content.payAccount.tips1")
     public Long getResult_singleDepositMin() {
         return result_singleDepositMin;
     }
@@ -165,7 +165,7 @@ public class PayAccountOnlineForm implements IForm {
 
     @Comment("单笔存款最大值")
     @Range(min = 1, max = 9999999999999L)
-    @Digits(integer = 8, fraction = 0, message = "content.payAccount.tips1")
+    @Digits(integer = 13, fraction = 0, message = "content.payAccount.tips1")
     @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin", logic = CompareLogic.GE, anotherProperty = "result_singleDepositMin")
     public Long getResult_singleDepositMax() {
         return result_singleDepositMax;
