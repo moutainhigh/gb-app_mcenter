@@ -64,11 +64,11 @@ public class PayAccountOnlineForm implements IForm {
     /**
      * 单笔存款最小值
      */
-    private Integer result_singleDepositMin;
+    private Long result_singleDepositMin;
     /**
      * 单笔存款最大值
      */
-    private Integer result_singleDepositMax;
+    private Long result_singleDepositMax;
     /**
      * 货币字符串
      **/
@@ -157,17 +157,17 @@ public class PayAccountOnlineForm implements IForm {
 
     @Comment("单笔存款最小值")
     @Range(min = 0, max = 9999999999999L)
-    @Digits(integer = 8, fraction = 0, message = "content.payAccount.tips1")
-    public Integer getResult_singleDepositMin() {
+    @Digits(integer = 13, fraction = 0, message = "content.payAccount.tips1")
+    public Long getResult_singleDepositMin() {
         return result_singleDepositMin;
     }
 
 
     @Comment("单笔存款最大值")
     @Range(min = 1, max = 9999999999999L)
-    @Digits(integer = 8, fraction = 0, message = "content.payAccount.tips1")
+    @Digits(integer = 13, fraction = 0, message = "content.payAccount.tips1")
     @Compare(message = "content.payAccount.singleDepositMaxGTsingleDepositMin", logic = CompareLogic.GE, anotherProperty = "result_singleDepositMin")
-    public Integer getResult_singleDepositMax() {
+    public Long getResult_singleDepositMax() {
         return result_singleDepositMax;
     }
 
@@ -220,11 +220,11 @@ public class PayAccountOnlineForm implements IForm {
         this.$rankStr = $rankStr;
     }
 
-    public void setResult_singleDepositMin(Integer result_singleDepositMin) {
+    public void setResult_singleDepositMin(Long result_singleDepositMin) {
         this.result_singleDepositMin = result_singleDepositMin;
     }
 
-    public void setResult_singleDepositMax(Integer result_singleDepositMax) {
+    public void setResult_singleDepositMax(Long result_singleDepositMax) {
         this.result_singleDepositMax = result_singleDepositMax;
     }
 
