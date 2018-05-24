@@ -2,10 +2,8 @@ package so.wwb.gamebox.mcenter.setting.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.collections.map.HashedMap;
-import org.apache.http.io.SessionInputBuffer;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
-import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
@@ -20,8 +18,6 @@ import org.soul.model.pay.enums.CommonFieldsConst;
 import org.soul.model.pay.enums.PayApiTypeConst;
 import org.soul.model.pay.vo.OnlinePayVo;
 import org.soul.model.security.privilege.vo.SysUserRoleVo;
-import org.soul.model.sys.po.SysDict;
-import org.soul.model.sys.po.SysParam;
 import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -47,12 +43,10 @@ import so.wwb.gamebox.model.company.credit.vo.VSysCreditVo;
 import so.wwb.gamebox.model.company.enums.CreditAccountPayTypeEnum;
 import so.wwb.gamebox.model.company.enums.CreditRecordStatusEnum;
 import so.wwb.gamebox.model.company.setting.vo.CurrencyExchangeRateVo;
-import so.wwb.gamebox.model.company.sys.po.SysSite;
 import so.wwb.gamebox.model.company.sys.po.VSysSiteDomain;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.master.enums.CurrencyEnum;
 import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
@@ -79,7 +73,8 @@ public class CreditPayController {
 
     @RequestMapping("/pay")
     @Token(generate = true)
-    public String pay(Model model) {addPayLog(null);
+    public String pay(Model model) {
+        addPayLog(null);
         //站点信息
         SysSiteCreditVo sysSiteCreditVo = new SysSiteCreditVo();
         sysSiteCreditVo.getSearch().setId(SessionManager.getSiteId());
@@ -93,20 +88,20 @@ public class CreditPayController {
             model.addAttribute("profit", sysSiteCredit.getMaxProfit());
         }
         model.addAttribute("creditLine", sysSiteCredit.getCreditLine());
-        double defaultProfit = sysSiteCredit.getDefaultProfit()== null ? 0d :sysSiteCredit.getDefaultProfit();
-        model.addAttribute("defaultProfit", defaultProfit/10000);
+        double defaultProfit = sysSiteCredit.getDefaultProfit() == null ? 0d : sysSiteCredit.getDefaultProfit();
+        model.addAttribute("defaultProfit", defaultProfit / 10000);
         double transferOutSum = sysSiteCredit.getTransferOutSum() == null ? 0 : sysSiteCredit.getTransferOutSum();
         double transferIntoSum = sysSiteCredit.getTransferIntoSum() == null ? 0 : sysSiteCredit.getTransferIntoSum();
         //转入api余额扣除（转出到api金额-转入到钱包余额）
         model.addAttribute("transferLimit", transferOutSum - transferIntoSum);
         Double transferLimit = sysSiteCredit.getCurrentTransferLimit() == null ? 0d : sysSiteCredit.getCurrentTransferLimit();
-        if (sysSiteCredit.getTransferLine() != null){
-            model.addAttribute("currentTransferLimit", transferLimit+sysSiteCredit.getTransferLine());
-        }else {
+        if (sysSiteCredit.getTransferLine() != null) {
+            model.addAttribute("currentTransferLimit", transferLimit + sysSiteCredit.getTransferLine());
+        } else {
             model.addAttribute("currentTransferLimit", transferLimit);
         }
-        double defaultTransferLimit = sysSiteCredit.getDefaultTransferLimit()== null ? 0d :sysSiteCredit.getDefaultTransferLimit();
-        model.addAttribute("defaultTransferLimit", defaultTransferLimit/10000);
+        double defaultTransferLimit = sysSiteCredit.getDefaultTransferLimit() == null ? 0d : sysSiteCredit.getDefaultTransferLimit();
+        model.addAttribute("defaultTransferLimit", defaultTransferLimit / 10000);
         Date profitTime = sysSiteCredit.getProfitTime();
         Date transferTime = sysSiteCredit.getTransferLimitTime();
         if (profitTime != null || transferTime != null) { //如果时间为空就说明还没有提醒无需显示倒计时
@@ -121,8 +116,8 @@ public class CreditPayController {
         }
         /*SysParam scaleParam = ParamTool.getSysParam(BossParamEnum.SETTING_CREDIT_SCALE);
         model.addAttribute("scaleParam", scaleParam);*/
-        model.addAttribute("profitRatio",sysSiteCredit.getProfitRatio());
-        model.addAttribute("transferRatio",sysSiteCredit.getTransferRatio());
+        model.addAttribute("profitRatio", sysSiteCredit.getProfitRatio());
+        model.addAttribute("transferRatio", sysSiteCredit.getTransferRatio());
         CreditAccountVo creditAccountVo = new CreditAccountVo();
         creditAccountVo.setCurrency(CurrencyEnum.CNY.getCode());
         creditAccountVo.getSearch().setUseSites(SessionManager.getSiteId().toString());
@@ -139,14 +134,14 @@ public class CreditPayController {
         VSysCreditVo vSysCreditVo = new VSysCreditVo();
         vSysCreditVo.getSearch().setId(SessionManager.getSiteId());
         vSysCreditVo = ServiceTool.vSysCreditService().get(vSysCreditVo);
-        model.addAttribute("authorizeStatus",vSysCreditVo.getResult().getAuthorizeStatus());
+        model.addAttribute("authorizeStatus", vSysCreditVo.getResult().getAuthorizeStatus());
     }
 
     @RequestMapping("/submit")
     @ResponseBody
     @Token(valid = true)
     @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.MASTER_SETTING_CREDITPAY_SUCCESS, opType = OpType.UPDATE)
-    public Map<String, Object> submit(CreditRecordVo creditRecordVo) {
+    public Map<String, Object> submit(HttpServletRequest request, CreditRecordVo creditRecordVo) {
         CreditRecord creditRecord = creditRecordVo.getResult();
         creditRecord.setIp(SessionManager.getIpDb().getIp());
         creditRecord.setIpDictCode(SessionManagerBase.getIpDictCode());
@@ -162,14 +157,14 @@ public class CreditPayController {
         sysSiteCreditVo.getSearch().setId(SessionManager.getSiteId());
         sysSiteCreditVo = ServiceTool.sysSiteCreditService().get(sysSiteCreditVo);
         SysSiteCredit sysSiteCredit = sysSiteCreditVo.getResult();
-        if(sysSiteCredit.getProfitRatio()!=null){
+        if (sysSiteCredit.getProfitRatio() != null) {
             creditRecord.setPayScale(sysSiteCredit.getProfitRatio());
-        }else {
+        } else {
             creditRecord.setPayScale(DEFAULT_SCALE);
         }
-        if (sysSiteCredit.getTransferRatio()!=null){
+        if (sysSiteCredit.getTransferRatio() != null) {
             creditRecord.setTransferScale(sysSiteCredit.getTransferRatio());
-        }else {
+        } else {
             creditRecord.setTransferScale(20d);
         }
         creditRecord.setPayUserId(SessionManager.getUserId());
@@ -184,6 +179,8 @@ public class CreditPayController {
         } else {
             //通知boss用户
             sendMessage(creditRecord);
+            String creditPayUrl = creditPayUrl(request, creditRecordVo.getCreditAccount(), creditRecordVo);
+            map.put("payUrl", creditPayUrl);
         }
         map.put("state", creditRecordVo.isSuccess());
         map.put("transactionNo", creditRecordVo.getResult().getTransactionNo());
@@ -193,7 +190,8 @@ public class CreditPayController {
     }
 
     /**
-     *　充值记录日志
+     * 　充值记录日志
+     *
      * @param creditRecordVo
      */
     private void addPayLog(CreditRecordVo creditRecordVo) {
@@ -214,17 +212,17 @@ public class CreditPayController {
             LOG.info("添加额度充值日志报错:bankCode:{0},金额：{1}", bankCode, amount);
         }
     }
+
     /**
-     *设置汇率
-     *
+     * 设置汇率
      */
     private void setExchangeRate(CreditRecord creditRecord) {
-        SysSiteVo sysSiteVo=new SysSiteVo();
+        SysSiteVo sysSiteVo = new SysSiteVo();
         sysSiteVo.getSearch().setId(creditRecord.getSiteId());
         sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
         String mainCurrency = sysSiteVo.getResult().getMainCurrency();
         //如果是日语站的话,设置汇率
-        if (CurrencyEnum.JPY.getCode().equals(mainCurrency)){
+        if (CurrencyEnum.JPY.getCode().equals(mainCurrency)) {
             CurrencyExchangeRateVo currencyExchangeRateVo = new CurrencyExchangeRateVo();
             currencyExchangeRateVo.getSearch().setIfromCurrency(CurrencyEnum.CNY.getCode());
             currencyExchangeRateVo.getSearch().setItoCurrency(CurrencyEnum.JPY.getCode());
@@ -234,8 +232,33 @@ public class CreditPayController {
         return;
     }
 
+    private String creditPayUrl(HttpServletRequest request, CreditAccount creditAccount, CreditRecordVo creditRecordVo) {
+        List<Map<String, String>> accountJson = JsonTool.fromJson(creditAccount.getChannelJson(), new TypeReference<ArrayList<Map<String, String>>>() {
+        });
+        String domain = ServletTool.getDomainPath(request);
+        for (Map<String, String> map : accountJson) {
+            if (map.get("column").equals(CommonFieldsConst.PAYDOMAIN)) {
+                domain = map.get("value");
+                break;
+            }
+        }
+        String url = "";
+        if (domain != null) {
+            CreditRecord creditRecord = creditRecordVo.getResult();
+            String uri = "/creditPay/toPay.html?search.transactionNo=" + creditRecord.getTransactionNo() + "&origin=" + TerminalEnum.PC.getCode();
+            domain = getDomain(domain, creditAccount);
+            url = domain + uri;
+            //添加支付网址
+            creditRecord.setPayUrl(domain);
+            creditRecordVo.setProperties(CreditRecord.PROP_PAY_URL);
+            ServiceTool.creditRecordService().updateOnly(creditRecordVo);
+        }
+        return url;
+    }
+
     /**
      * 调用第三方接口
+     * todo::by cherry will to del
      *
      * @param creditRecordVo
      * @param response
@@ -380,22 +403,23 @@ public class CreditPayController {
         }
         return true;
     }
+
     @RequestMapping(value = "disableTransfer")
     @ResponseBody
-    public Map disableTransfer(SysSiteCreditVo sysSiteCreditVo){
-        Map resMap = new HashedMap(2,1f);
-        try{
+    public Map disableTransfer(SysSiteCreditVo sysSiteCreditVo) {
+        Map resMap = new HashedMap(2, 1f);
+        try {
             Integer siteId = SessionManager.getSiteId();
             sysSiteCreditVo.getSearch().setId(siteId);
             sysSiteCreditVo = ServiceTool.sysSiteCreditService().openDisableTransfer(sysSiteCreditVo);
-            resMap.put("state",sysSiteCreditVo.isSuccess());
-            if(!sysSiteCreditVo.isSuccess()){
-                resMap.put("msg","开启禁用转账功能失败");
+            resMap.put("state", sysSiteCreditVo.isSuccess());
+            if (!sysSiteCreditVo.isSuccess()) {
+                resMap.put("msg", "开启禁用转账功能失败");
             }
-        }catch (Exception ex){
-            resMap.put("state",false);
-            resMap.put("msg","开启禁用转账功能异常");
-            LOG.error(ex,"开启禁用转账功能异常");
+        } catch (Exception ex) {
+            resMap.put("state", false);
+            resMap.put("msg", "开启禁用转账功能异常");
+            LOG.error(ex, "开启禁用转账功能异常");
         }
 
         return resMap;
