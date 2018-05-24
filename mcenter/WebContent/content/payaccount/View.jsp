@@ -68,8 +68,7 @@
                                                varStatus="vs">
                                         <th>${messages.content['pay_channel.'.concat(json.get("view"))]}：</th>
                                         <td>
-                                            <div style="width: 200px;overflow: hidden;height: 20px"
-                                                 title="${json.get("value")}">${json.get("value")}</div>
+                                            <div style="width: 200px;cursor: pointer;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;" title="${json.get("value")}">${json.get("value")}</div>
                                         </td>
                                     </c:forEach>
                                     <c:if test="${channelLength<4}">
