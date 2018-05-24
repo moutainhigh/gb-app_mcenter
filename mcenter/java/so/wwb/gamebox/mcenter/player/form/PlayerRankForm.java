@@ -129,9 +129,10 @@ public class PlayerRankForm implements IForm {
     }
 
 
-    @Digits(integer = 8,fraction = 2,message = "common.POSITIVE")
+
     @Min(value = 1,message = "player_auto.请输入大于0的正数")
     @Max(99999999)
+    @Digits(integer = 8,fraction = 2,message = "common.POSITIVE")
     @Comment("手续费上限")
     public Double getResult_withdrawMaxFee() {
         return result_withdrawMaxFee;
@@ -147,8 +148,9 @@ public class PlayerRankForm implements IForm {
         return $returnPercentageAmount;
     }
 
-    @Digits(integer = 8,fraction = 2,message = "player_auto.请输入正数和小数")
+
     @Compare(message = "playerRank.withdrawLimit.le.withdrawMaxFee",logic = CompareLogic.LE,anotherProperty = "result_withdrawMaxFee")
+    @Digits(integer = 8,fraction = 2,message = "player_auto.请输入正数和小数")
     @Comment("手续费上限金额")
     public Double get$returnFixedAmount() {
         return $returnFixedAmount;
