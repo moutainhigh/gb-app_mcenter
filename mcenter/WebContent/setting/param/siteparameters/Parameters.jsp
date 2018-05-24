@@ -473,7 +473,81 @@
                     </div>
                 </div>
                 </shiro:hasPermission>
-            </div>
+
+                <div class="clearfix" id="siteMaintainTipsDiv">
+                    <div class="col-lg-6 site-switch">
+                        <h3>${views.setting_auto['站点维护公告设置']}</h3>
+                        <input type="hidden" name="siteInfo.id" value="${siteInfo.id}">
+                        <div class="content clearfix" style="padding-top: 10px">
+                            <div id="resource">
+                                <div class="modal-body">
+                                    <div class="clearfix save lgg-version">
+                                        <c:forEach items="${command.siteLanguageList}" var="p" varStatus="status">
+                                            <a id="tag${status.index+1}"
+                                               aria-expanded="${index.index==0?'true':'false'}" name="tag"
+                                               tagIndex="${status.index+1}"
+                                               class="${status.index=='0'?'current':''} a_${p.language} tag${status.index+1}"
+                                               tagIndex="${status.index+1}" siteSize="${siteTile.size()}"
+                                               href="javascript:void(0)"
+                                               local="${p.language}">${dicts.common.local[p.language]}</a>
+                                        </c:forEach>
+                                        <div class="pull-right inline">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-link dropdown-toggle fzyx showDropDown"
+                                                        data-toggle="dropdown">${views.setting['serviceTrems.copy']}&nbsp;&nbsp;<span
+                                                        class="caret"></span></button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <c:forEach items="${command.siteLanguageList}" var="p" varStatus="status">
+                                                        <li id="option${p.language}" class="temp">
+                                                            <a class="co-gray copy" href="javascript:void(0)" local="${p.language}"
+                                                                style="height: 100%; text-align: center; padding-top: 12px;">${dicts.common.local[p.language]}</a>
+                                                        </li>
+                                                    </c:forEach>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <c:set var="tipIndex" value="0"/>
+                                        <c:forEach items="${command.siteLanguageList}" var="lang" varStatus="status">
+                                            <div tt="${lang.language}"
+                                                 style="display: ${status.index=='0'?'':'none'};width: 1000px;margin-top: 20px;"
+                                                 name="result[${status.index}].content"
+                                                 class="clearfix contentSource ann m-b content${status.index} content${lang.language} contentVal${lang.language}">
+                                                <input type="hidden" name="siteI18ns[${tipIndex}].id" value="${siteMaintainTip.get(lang.language).id}">
+                                                <input type="hidden" name="siteI18ns[${tipIndex}].locale" value="${lang.language}">
+                                                <div class="clearfix m-b">
+                                                    <div class="col-xs-5" style="padding-left: 0px; width: 70%;">
+                                                        <textarea name="siteI18ns[${tipIndex}].value" style="height:150px;"
+                                                                  class="form-control siteDescription${lang.language}"
+                                                                  placeholder="${views.setting_auto['请输入站点维护公告']}">${siteMaintainTip.get(lang.language).value}</textarea>
+                                                    </div>
+                                                </div>
+                                                <c:set var="tipIndex" value="${tipIndex+1}"/>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+
+                                <c:set var="siteLang" value="${command.siteLanguageList}"/>
+                                <input type="hidden" placeholder="" class="form-control m-b" name="langSize" value="${siteLang.size()}">
+                                <div class="modal-footer">
+                                    <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
+                                                 opType="ajax"
+                                                 dataType="json"
+                                                 target="${root}/siteI18n/batchSaveMaintainTips.html"
+                                                 precall="" post="getSiteMaintainTipFormData"
+                                                 callback="isRefresh"/>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="space" class="col-lg-6 site-switch">
+                </div>
+
         </div>
     </div>
 </form:form>

@@ -95,4 +95,46 @@ public class SiteI18nController extends BaseCrudController<ISiteI18nService, Sit
         return map;
     }
 
+    /**
+     * 批量保存站点维护公告
+     * @param listVo
+     * @return
+     */
+    @RequestMapping("/batchSaveMaintainTips")
+    @ResponseBody
+    public Map batchSaveMaintainTip(SiteI18nVo objectVo, SiteI18nListVo listVo, BindingResult result) {
+        Map<String,Object> map = new HashMap<>(2,1f);
+        if (result.hasErrors()) {
+            map.put("state",false);
+            map.put("msg",LocaleTool.tranMessage("setting_auto","保存失败"));
+            return map;
+        }
+        List<SiteI18n> siteI18ns = listVo.getSiteI18ns();
+        for (int i = 0; i < siteI18ns.size(); i++) {
+            SiteI18n siteI18n = siteI18ns.get(i);
+            siteI18n.setSiteId(CommonContext.get().getSiteId());
+            siteI18n.setModule(Module.COMPANY_SETTING.getCode());
+            siteI18n.setType(SiteI18nEnum.SETTING_SITE_MAINTAIN_TIP.getType());
+            siteI18n.setKey(SiteI18nEnum.SETTING_SITE_MAINTAIN_TIP.getCode());
+            siteI18n.setRemark("站点维护公告");
+            objectVo.setResult(siteI18n);
+            if (siteI18n.getId() == null) {
+                getService().insert(objectVo);
+            } else {
+                getService().update(objectVo);
+            }
+        }
+
+        if (listVo.isSuccess()) {
+            map.put("state",true);
+            map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
+            Cache.refreshSiteI18n(SiteI18nEnum.SETTING_SITE_MAINTAIN_TIP);
+            Cache.refreshCurrentSitePageCache();
+        } else {
+            map.put("state",false);
+            map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
+        }
+        return map;
+    }
+
 }
