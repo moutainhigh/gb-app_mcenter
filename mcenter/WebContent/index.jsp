@@ -5,7 +5,7 @@
 <head>
     <title>${views.common['首页']} - ${views.common['站长中心']} - ${siteName}</title>
     <%@ include file="/include/include.head.jsp" %>
-    <link rel="icon" type="image/png" href="../ftl/${siteDomain.templateCode}/zh_TW/images/favicon.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="${cdnUrl}/ftl/${siteDomain.templateCode}/zh_TW/images/favicon.png" sizes="32x32">
     <style type="text/css">
         .carousel-fill {
             background-position: center;
