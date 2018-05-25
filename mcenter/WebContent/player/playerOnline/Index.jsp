@@ -93,7 +93,7 @@
                     <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm">
                         <div class="input-group">
                             <span class="input-group-addon bg-gray">${views.player_auto['来源终端']}</span>
-                            <gb:select name="search.channelTerminal" list="<%=DictTool.get(DictEnum.COMMON_TERMINAL_TYPE)%>" prompt="${views.player_auto['全部']}"/>
+                            <gb:select name="search.channelTerminal" list="<%=DictTool.get(DictEnum.PLAYER_CREATE_CHANNEL)%>" prompt="${views.player_auto['全部']}"/>
                         </div>
                     </div>
                     <span class="input-group-btn">
