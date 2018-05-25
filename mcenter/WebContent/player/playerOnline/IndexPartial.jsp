@@ -46,7 +46,7 @@
                     <td>${soulFn:formatInteger(p.assets)}${soulFn:formatDecimals(p.assets)}</td>
                     <td>
                         <span>
-                                ${dicts.player.create_channel[p.channelTerminal]}
+                                ${dicts.common.terminal_type[p.terminal]}
                         </span>
                     </td>
                     <td>
