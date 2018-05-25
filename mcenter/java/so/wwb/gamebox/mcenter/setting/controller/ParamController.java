@@ -645,9 +645,12 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("siteTile", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_TITLE));
         model.addAttribute("siteKeywords", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_KEYWORDS));
         model.addAttribute("siteDescription", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_DESCRIPTION));
+        model.addAttribute("siteMaintainTip", Cache.getSiteI18n(SiteI18nEnum.SETTING_SITE_MAINTAIN_TIP));
         //该运营商下站长开通的语言
-        List<String> list = ServiceTool.siteLanguageService().masterIsUse(sysSiteVo);
-        model.addAttribute("masterIsUseLanguage", list);
+        SiteLanguageListVo siteLanguageVo = new SiteLanguageListVo();
+        siteLanguageVo.getSearch().setSiteId(SessionManager.getSiteId());
+        List<SiteLanguage> languageList = ServiceTool.siteLanguageService().availableLanguage(siteLanguageVo);//TODO 站长语言
+        model.addAttribute("masterIsUseLanguage", languageList);
         //查询多语言站点名称
         setVerificationData(model);
         setEmailInterface(model);
@@ -1534,7 +1537,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
 
     /**
      * 保存短信开关
-     * @param siteParamVo
+     * @param siteParamVol
      * @return
      */
     @RequestMapping("/saveSmsInterfaceParam")
