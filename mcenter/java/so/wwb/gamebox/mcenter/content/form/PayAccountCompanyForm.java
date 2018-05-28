@@ -224,7 +224,8 @@ public class PayAccountCompanyForm implements IForm {
     }
 
     @Depends(property = "result_accountType", operator = Operator.EQ, value = {PayAccountType.ONLINE_ACCOUNT_CODE})
-    @Length(min = 1, max = 64)
+    @Length(min = 1, max = 30, message = "content.payAccount.form.account1.pattern30")
+    @Pattern(regexp = FormValidRegExps.ENGLISH_NUMBER_COMMA, message = "content.payAccount.form.account1.pattern30")
     @Remote(checkClass = PayAccountController.class, checkMethod = "checkChnnel", additionalProperties = {"result.bankCode", "result.account", "result.id"}, message = "content_auto.该渠道的账号已存在")
     public String get$account2() {
         return $account2;
