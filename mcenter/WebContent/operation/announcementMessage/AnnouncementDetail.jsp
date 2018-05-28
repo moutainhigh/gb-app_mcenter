@@ -21,11 +21,11 @@
             <div class="wrapper white-bg shadow">
                 <br>
                 <div class="al-right pull-right">
-                    <c:if test="${commandList.paging.pageNumber != 1}">
+                    <c:if test="${commandList.paging.pageNumber != 1 && commandList.result != null}">
                         <a href="/operation/announcementMessage/announcementDetail.html?search.id=${s.id}&paging.pageNumber=${commandList.paging.pageNumber-1}"  nav-target="mainFrame" class="co-gray6">${views.column['上一条']}</a>
                     </c:if>
                     &nbsp;
-                    <c:if test="${commandList.paging.pageNumber != commandList.paging.totalCount}">
+                    <c:if test="${commandList.paging.pageNumber != commandList.paging.totalCount && commandList.result != null}">
                         <a href="/operation/announcementMessage/announcementDetail.html?search.id=${s.id}&paging.pageNumber=${commandList.paging.pageNumber+1}"  nav-target="mainFrame" class="co-gray6">${views.column['下一条']}</a>
                     </c:if>
                     &nbsp;&nbsp;&nbsp;

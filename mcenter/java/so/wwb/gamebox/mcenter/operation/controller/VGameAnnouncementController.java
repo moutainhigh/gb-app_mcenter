@@ -5,6 +5,8 @@ import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.DateQuickPicker;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.commons.log.Log;
+import org.soul.commons.log.LogFactory;
 import org.soul.commons.math.NumberTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.support._Module;
@@ -57,6 +59,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/operation/announcementMessage")
 public class VGameAnnouncementController extends BaseCrudController<ISystemAnnouncementService, SystemAnnouncementListVo, SystemAnnouncementVo, SystemAnnouncementSearchForm, SystemAnnouncementForm, SystemAnnouncement, Integer> {
+    Log LOG = LogFactory.getLog(VGameAnnouncementController.class);
 
     private static final String MESSAGE_INDEX_URL = "/operation/announcementMessage/Index";
     private static final String ANNOUNCEMENT_DETAIL_URL = "/operation/announcementMessage/AnnouncementDetail";
@@ -146,29 +149,31 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
      */
     @RequestMapping("/announcementDetail")
     public String announcementDetail(VNoticeReceivedTextVo vo,VNoticeReceivedTextListVo listVo, NoticeReceiveVo noticeReceiveVo, Model model, HttpServletRequest request) {
-        //使用个分页的方法查找到信息，方便显示上一个下一个，即为上一页，下一页
-        listVo.getPaging().setPageSize(1);
-        listVo.getSearch().setReceiverId(SessionManager.getUserId());
-        listVo = ServiceTool.noticeService().fetchReceivedSiteMsg(listVo);
-        if(listVo.getResult().size()>0){
-            vo.setResult(listVo.getResult().get(0));
-            noticeReceiveVo.getSearch().setId(listVo.getResult().get(0).getId());
-        }
-
         List list = new ArrayList();
         list.add(noticeReceiveVo.getSearch().getId());
         noticeReceiveVo.setIds(list);
         boolean read = ServiceTool.noticeService().markSiteMsg(noticeReceiveVo);
-
-
-//        vo = ServiceTool.noticeService().fetchReceivedSiteMsgDetail(vo);
+        //使用个分页的方法查找到信息，方便显示上一个下一个，即为上一页，下一页
+        //站长中心右上角有系统提示直接通过id查找，列表中通过页码查找，所以要先判断请求来源,请求参数中有paging.pageNumber的为从列表请求的
+        String pageNumber = request.getParameter("paging.pageNumber");
+        if(StringTool.isNotBlank(pageNumber)){
+            listVo.getPaging().setPageSize(1);
+            listVo.getSearch().setReceiverId(SessionManager.getUserId());
+            listVo = ServiceTool.noticeService().fetchReceivedSiteMsg(listVo);
+            if(listVo.getResult().size()>0){
+                vo.setResult(listVo.getResult().get(0));
+                noticeReceiveVo.getSearch().setId(listVo.getResult().get(0).getId());
+            }
+            model.addAttribute("commandList", listVo);
+        }else{
+            vo = ServiceTool.noticeService().fetchReceivedSiteMsgDetail(vo);
+        }
         /*替换内容包含${user}的内容 */
         if (vo.getResult() != null && StringTool.isNotBlank(vo.getResult().getContent()) && vo.getResult().getContent().contains("${user}")) {
             String replace = vo.getResult().getContent().replace("${user}", SessionManager.getUserName());
             vo.getResult().setContent(replace);
         }
         model.addAttribute("command", vo);
-        model.addAttribute("commandList", listVo);
         model.addAttribute("read", read);
         return ANNOUNCEMENT_DETAIL_URL;
     }
