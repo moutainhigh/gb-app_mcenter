@@ -4,6 +4,7 @@ import org.soul.commons.bean.Pair;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.enums.SupportTerminal;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.DateQuickPicker;
@@ -393,6 +394,11 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                     vo.getResult().setTransactionData(map.get(SessionManager.getLocale().toString()).toString());
                 } else if (map.get("activityName") != null) {
                     vo.getResult().setTransactionData(map.get("activityName").toString());
+                }
+                //活动大厅中把活动的所有名称都写入了，这里只取pc_local
+                else if (map.get(SupportTerminal.PC.getCode()+"-"+SessionManager.getLocale().toString()) != null) {
+//                    CollectionTool.
+                    vo.getResult().setTransactionData(map.get(SupportTerminal.PC.getCode()+"-"+SessionManager.getLocale().toString()).toString());
                 }
             }
         } else if (StringTool.equals(transactionType, TransactionTypeEnum.BACKWATER.getCode())) {
