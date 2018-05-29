@@ -152,6 +152,9 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             } else {
                 //查询列表
                 if (listVo.isAnalyzeNewAgent()) {
+                    int rawOffset = SessionManager.getTimeZone().getRawOffset();
+                    int hour = rawOffset / 1000 / 3600;
+                    listVo.getSearch().setTimeZoneInterval(hour);
                     listVo.getSearch().setOrigin("");
                     Integer searchType = listVo.getSearchType();
                     if (searchType != null) {
@@ -357,6 +360,10 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
         if (listVo.isAnalyzeNewAgent()) {
             Integer searchType = listVo.getSearchType();
             if (searchType != null) {
+                int rawOffset = SessionManager.getTimeZone().getRawOffset();
+                int hour = rawOffset / 1000 / 3600;
+                listVo.getSearch().setTimeZoneInterval(hour);
+
                 if (searchType == 1 || searchType == 2) {
                     sumMoney = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionOrderSum(listVo);
                 } else if (searchType == 3 || searchType == 4) {
