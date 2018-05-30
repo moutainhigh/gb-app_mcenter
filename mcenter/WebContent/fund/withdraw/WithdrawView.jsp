@@ -91,7 +91,7 @@
                                 </a>
 
 
-                                <a href="/report/gameTransaction/init.html?isLink=true&search.username=${command.result.username}&searchKey=search.username" nav-target="mainFrame" class="btn btn-info-hide">
+                                <a href="/report/gameTransaction/list.html?isLink=true&search.username=${command.result.username}&searchKey=search.username" nav-target="mainFrame" class="btn btn-info-hide">
                                     ${views.fund_auto['查看投注记录']}
                                 </a>
                                 <a href="/report/vPlayerFundsRecord/fundsLog.html?search.userTypes=username&search.usernames=${command.result.username}&search.hasReturn=true" nav-target="mainFrame" class="btn btn-info-hide">
