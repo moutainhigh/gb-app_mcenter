@@ -66,7 +66,7 @@
                                 ${views.role['Player.detail.resetpayPwd']}
                             </soul:button>
                             </shiro:hasPermission>
-                            <c:if test="${command.result.createChannel=='1' || command.result.createChannel=='4'}">
+                            <c:if test="${command.result.createChannel=='1' || command.result.createChannel=='4' || command.result.createChannel=='8'|| command.result.createChannel=='12' ||  command.result.createChannel=='16'}">
                                 <div style="font-size: 12px;margin-top: 10px;color: #9c9c9c;">
                                         ${fn:replace(fn:replace(fn:replace(views.player_auto['于通过'],"[0]",soulFn:formatDateTz(command.result.createTime, DateFormat.DAY_SECOND,timeZone)),"[1]",soulFn:formatTimeMemo(command.result.createTime,locale)),"[2]",dicts.player.create_channel[command.result.createChannel])}
                                     <a href="/player/list.html?search.registerIpv4=${soulFn:formatIp(command.result.registerIp)}" nav-target="mainFrame">${soulFn:formatIp(command.result.registerIp)}</a>
