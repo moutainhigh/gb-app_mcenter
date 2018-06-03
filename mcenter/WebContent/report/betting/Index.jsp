@@ -4,6 +4,8 @@
 <div class="row">
     <form:form name="gameOrderForm" action="${root}/report/gameTransaction/list.html" method="post">
         <form:hidden id="apitypeList" cssClass="search" path="search.apiTypeList"/>
+        <input type="hidden" name="search.siteId" value="<%=SessionManager.getSiteId()%>"/>
+
        <%-- <form:hidden id="apiList" cssClass="search" path="search.apiList"/>--%>
         <input type="hidden" name="search.apiTypeId" value="${command.search.apiTypeId}"/>
         <div id="validateRule" style="display: none">${command.validateRule}</div>

@@ -94,5 +94,4 @@ public class SiteI18nController extends BaseCrudController<ISiteI18nService, Sit
         }
         return map;
     }
-
 }

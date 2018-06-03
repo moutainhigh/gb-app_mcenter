@@ -89,21 +89,15 @@ import java.util.*;
  * @time 2015-8-17 10:07:49
  */
 @Controller
-//region your codes 1
 @RequestMapping("/param")
 public class ParamController extends BaseCrudController<ISysParamService, SysParamListVo, SysParamVo, SysParamSearchForm, SysParamForm, SysParam, Integer> {
-    //endregion your codes 1
-    private static final Log LOG = LogFactory.getLog(ParamController.class);
 
+    private static final Log LOG = LogFactory.getLog(ParamController.class);
 
     @Override
     protected String getViewBasePath() {
-        //region your codes 2
         return "/setting/param/";
-        //endregion your codes 2
     }
-
-    //region your codes 3
 
     /**
      * 开关设置
@@ -189,8 +183,6 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_SMS);
         Cache.refreshCurrentSitePageCache();
         return this.getVoMessage(vo);
-
-
     }
 
     private void toUserIds(NoticeVo noticeVo) {
@@ -233,7 +225,6 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
                 siteI18n = Cache.getSiteI18n(SiteI18nEnum.SETTING_SYSTEM_SETTINGS_AGENT);
                 break;
         }
-
 
         command.setValidateRule(JsRuleCreator.create(Sitei18nForm.class, "result"));
         model.addAttribute("list", search);
@@ -1534,7 +1525,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
 
     /**
      * 保存短信开关
-     * @param siteParamVo
+     * @param siteParamVol
      * @return
      */
     @RequestMapping("/saveSmsInterfaceParam")

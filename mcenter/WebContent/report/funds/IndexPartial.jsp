@@ -156,8 +156,20 @@
                 </td>
                 <td>
                     <c:choose>
-                        <c:when test="${pt.origin eq 'MOBILE'}">
-                            <span class="fa fa-mobile mobile" title="${views.report_auto['手机订单']}" data-content="${views.report_auto['手机订单']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
+                        <c:when test="${pt.origin eq '2' || pt.origin eq 'MOBILE'}">
+                            <span class="fa fa-mobile mobile" data-content="${views.report_auto['手机订单']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
+                            </span>
+                        </c:when>
+                        <c:when test="${pt.origin eq '8'}">
+                            <span class="fa gui-html5 mobile" data-content="${views.report_auto['手机端H5订单']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
+                            </span>
+                        </c:when>
+                        <c:when test="${pt.origin eq '12'}">
+                            <span class="fa gui-android mobile" data-content="${views.report_auto['手机端ANDROID订单']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
+                            </span>
+                        </c:when>
+                        <c:when test="${pt.origin eq '16'}">
+                            <span class="fa gui-apple mobile" data-content="${views.report_auto['手机IOS订单']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
                             </span>
                         </c:when>
                         <c:otherwise>

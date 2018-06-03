@@ -128,20 +128,20 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         if (!ActivityTypeEnum.BACK_WATER.getCode().equals(code)) {
             if (ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
                 List<VActivityMessage> vActivityMessages = loadActivityMessageByActivityType(code);
-                String combinedRanks = getCombinedRanks(vActivityMessages);
-                Map<String, Object> objectMap = isAllRank(combinedRanks);
-                Map<String, Object> map = filterRanksAndConvertRankIdToName(vActivityMessages);
-                model.addAttribute("playerRank", combinedRanks);
-                model.addAttribute("playerRanks", map.get("playerRanks"));
-                model.addAttribute("isAllRank", objectMap.get("isAllRank"));
+//                String combinedRanks = getCombinedRanks(vActivityMessages);
+//                Map<String, Object> objectMap = isAllRank(combinedRanks);
+//                Map<String, Object> map = filterRanksAndConvertRankIdToName(vActivityMessages);
+//                model.addAttribute("playerRank", combinedRanks);
+//                model.addAttribute("playerRanks", map.get("playerRanks"));
+//                model.addAttribute("isAllRank", objectMap.get("isAllRank"));
                 model.addAttribute("vActivityMessages", vActivityMessages);
                 //获取其他存就送存款方式
                 String otherUsedDepositWay = getOtherUsedDepositWay(vActivityMessages);
                 model.addAttribute("otherUsedDepositWay", otherUsedDepositWay);
-            } else {
-                List<PlayerRank> playerRanks = getNormalPlayRanks();
-                model.addAttribute("playerRanks", playerRanks);
             }
+            List<PlayerRank> playerRanks = getNormalPlayRanks();
+            model.addAttribute("playerRanks", playerRanks);
+
 
             if (VActivityMessageVo.is123Deposit(code) || ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
                 model.addAttribute("activityDepositWays", getDepositWays());
@@ -284,14 +284,14 @@ public class HallActivityTypeController extends HallActivityController<IActivity
 
         if (ActivityTypeEnum.DEPOSIT_SEND.getCode().equals(code)) {
             List<VActivityMessage> vActivityMessages = loadActivityMessageByActivityType(code, activityMessageVo.getResult().getId());
-            String combinedRanks = getCombinedRanks(vActivityMessages);
-            Map<String, Object> objectMap = isAllRank(combinedRanks);
-            Map<String, Object> map = filterRanksAndConvertRankIdToName(vActivityMessages);
-            model.addAttribute("playerRank", combinedRanks);
-            model.addAttribute("playerRanks", map.get("playerRanks"));
-            model.addAttribute("isAllRank", objectMap.get("isAllRank"));
+//            String combinedRanks = getCombinedRanks(vActivityMessages);
+//            Map<String, Object> objectMap = isAllRank(combinedRanks);
+//            Map<String, Object> map = filterRanksAndConvertRankIdToName(vActivityMessages);
+//            model.addAttribute("playerRank", combinedRanks);
+//            model.addAttribute("playerRanks", map.get("playerRanks"));
+//            model.addAttribute("isAllRank", objectMap.get("isAllRank"));
             model.addAttribute("vActivityMessages", vActivityMessages);
-            model.addAttribute("type", "edit");
+//            model.addAttribute("type", "edit");
             //获取其他存就送存款方式
             String otherUsedDepositWay = getOtherUsedDepositWay(vActivityMessages);
             model.addAttribute("otherUsedDepositWay", otherUsedDepositWay);

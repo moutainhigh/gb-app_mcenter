@@ -52,10 +52,10 @@
                     </span>
                 </li>
                 <c:if test="${fn:length(listVo)>0 && user.status ne '2'}">
-                    <soul:button target="showEditField" text="${views.fund['withdraw.index.editAudit']}" opType="function"  style="right:80px" cssClass="pull-right-examine edit-field-btn show-edit-field btndist"/>
-                    <soul:button target="hideEditField" text="${views.player_auto['取消修改']}" opType="function"  cssClass="pull-right-examine cancel-field-btn show-edit-field hide"/>
+                    <soul:button  permission="fund:playerwithdraw_editAudit" target="showEditField" text="${views.fund['withdraw.index.editAudit']}" opType="function"  style="right:80px" cssClass="pull-right-examine edit-field-btn show-edit-field btndist"/>
+                    <soul:button  permission="fund:playerwithdraw_editAudit" target="hideEditField" text="${views.player_auto['取消修改']}" opType="function"  cssClass="pull-right-examine cancel-field-btn show-edit-field hide"/>
 
-                    <soul:button cssClass="pull-right-examine clear-all hide-edit-field " opType="ajax" target="${root}/fund/withdraw/clearAudit.html"
+                    <soul:button permission="fund:playerwithdraw_editAudit" cssClass="pull-right-examine clear-all hide-edit-field " opType="ajax" target="${root}/fund/withdraw/clearAudit.html"
                              post="buildPostData" precall="clearAllAuditPoing" text="${views.player_auto['清除稽核点']}" callback="clearCallback"/>
                     <span id="disable-clear-all" class="pull-right-examine hide-edit-field hide">${views.player_auto['清除稽核点']}</span>
                     <span tabindex="0" class=" help-popover pull-right-examine" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" data-content="${views.player_auto['将该玩家当前列表所有存款的稽核全部通过，通过后将不会扣除行政费和优惠。']}"><i class="fa fa-question-circle"></i></span>
@@ -219,7 +219,7 @@
     </div>
     <div class="modal-footer">
         <c:if test="${fn:length(listVo)>0 && user.status ne '2'}">
-        <soul:button cssClass="btn btn-filter btn-edit-audit" opType="ajax" target="${root}/fund/withdraw/clearAudit.html"
+        <soul:button permission="fund:playerwithdraw_editAudit" cssClass="btn btn-filter btn-edit-audit" opType="ajax" target="${root}/fund/withdraw/clearAudit.html?puid=${command.search.playerId}"
              post="buildPostData" precall="myValidateForm" text="${views.common['save']}" callback="clearCallback"/>
         </c:if>
         <soul:button cssClass="btn btn-outline btn-filter" opType="function" target="closePage" text="${views.common['cancel']}"/>

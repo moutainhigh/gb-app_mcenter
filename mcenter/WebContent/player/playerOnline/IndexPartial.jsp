@@ -45,27 +45,27 @@
                     <td>${p.realName}</td>
                     <td>${soulFn:formatInteger(p.assets)}${soulFn:formatDecimals(p.assets)}</td>
                     <td>
-                        <c:if test="${p.channelTerminal=='PC'}">
                         <span>
-                                ${dicts.player.channel_terminal[p.channelTerminal]}
+                                ${dicts.common.terminal_type[p.terminal]}
                         </span>
-                        </c:if>
-                        <c:if test="${p.channelTerminal=='Mobile'}">
-                        <span>
-                                ${dicts.player.channel_terminal[p.channelTerminal]}
-                        </span>
-                        </c:if>
-                        <c:if test="${p.channelTerminal=='App'}">
-                        <span>
-                                ${dicts.player.channel_terminal[p.channelTerminal]}
-                        </span>
-                        </c:if>
                     </td>
                     <td>
                         <c:if test="${p.terminal eq '2'}">
                             <span class="fa fa-mobile mobile" data-content="${views.player_auto['手机登录']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
-                            </span>
+                        </span>
                         </c:if>
+                        <c:if test="${p.terminal eq '8'}">
+                            <span class="fa gui-html5 mobile" data-content="${views.player_auto['手机端H5登录']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
+                        </span>
+                        </c:if>
+                        <c:if test="${p.terminal eq '12'}">
+                            <span class="fa gui-android mobile" data-content="${views.player_auto['手机端ANDROID登录']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
+                        </span>
+                        </c:if>
+                        <c:if test="${p.terminal eq '16'}">
+                            <span class="fa gui-apple mobile" data-content="${views.player_auto['手机端IOS登录']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
+                            </span>
+                        </c:if>&nbsp;&nbsp;
                         ${soulFn:formatDateTz(p.loginTime, DateFormat.DAY_SECOND,timeZone)}
                         <br><span class="co-red" style="padding-left: 0px">
                         ${soulFn:formatIp(p.loginIp)}

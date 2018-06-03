@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="lot_two_menu">
     <%@ include file="/include/include.inc.jsp" %>
-    <a href="javascript:void(0)" type="special" betCode="special" page="special">特码/特肖</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+    <a href="javascript:void(0)" type="special" betCode="special_a" page="speciala">特码A</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+    <a href="javascript:void(0)" type="special" betCode="special_b" page="specialb">特码B</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+    <a href="javascript:void(0)" type="special" betCode="special" page="special">特肖</a>&nbsp;&nbsp;-&nbsp;&nbsp;
     <a href="javascript:void(0)" type="positiveNum" betCode="positive_first" page="positiveNum">正码一</a>&nbsp;&nbsp;-&nbsp;&nbsp;
     <a href="javascript:void(0)" type="positiveNum" betCode="positive_second" page="positiveNum">正码二</a>&nbsp;&nbsp;-&nbsp;&nbsp;
     <a href="javascript:void(0)" type="positiveNum" betCode="positive_third" page="positiveNum">正码三</a>&nbsp;&nbsp;-&nbsp;&nbsp;

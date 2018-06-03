@@ -3,7 +3,7 @@ package so.wwb.gamebox.mcenter.controller;
 import org.json.JSONObject;
 import org.soul.commons.bean.Pair;
 import org.soul.commons.collections.CollectionQueryTool;
-import org.soul.commons.collections.CollectionTool;
+import org.soul.commons.collections.MapTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.init.context.CommonContext;
@@ -16,7 +16,6 @@ import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.math.NumberTool;
 import org.soul.commons.query.sort.Order;
-import org.soul.commons.spring.utils.CommonBeanFactory;
 import org.soul.commons.tree.TreeNode;
 import org.soul.model.msg.notice.po.VNoticeReceivedText;
 import org.soul.model.msg.notice.vo.CometMsg;
@@ -625,9 +624,11 @@ public class IndexController extends BasePhoneApiController {
 
     @RequestMapping("/index/showPop")
     @ResponseBody
-    public Map showPop() {
+    public Map showPop(HttpServletRequest request) {
         Map result = new HashMap();
         SysParamVo sysParamVo = getSysParamVo();
+        String content = request.getParameter("content");
+        LOG.info("收到消息弹窗的内容:{0}",content);
         if (sysParamVo.getResult() == null) {
             insertPersonParam(sysParamVo);
             result.put("isShow", "true");
@@ -805,6 +806,18 @@ public class IndexController extends BasePhoneApiController {
         playerGameOrderVo.getSearch().setEndPayoutTime(DateTool.addDays(today, 1));
         Double todayProfit = ServiceSiteTool.playerGameOrderService().queryProfit(playerGameOrderVo);
         return todayProfit == null ? 0d : -todayProfit;
+    }
+
+    @RequestMapping("/printPlayLog")
+    @ResponseBody
+    public Map printPlayLog(HttpServletRequest request){
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        if(MapTool.isNotEmpty(parameterMap)){
+            for (String paramter : parameterMap.keySet()) {
+                LOG.info("播放声音参数:{0}--{1}",paramter,parameterMap.get(paramter));
+            }
+        }
+        return parameterMap;
     }
 
     @Override

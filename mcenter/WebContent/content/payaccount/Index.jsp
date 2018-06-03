@@ -42,7 +42,7 @@
                  <%--               <span tabindex="0" class="m-l-sm help-popover" role="button" data-container="body" data-toggle="popover"  data-trigger="focus" data-placement="top" data-content="开启后，前端存款界面将只展示收款银行和姓名，不展示账号。避免账号被恶意举报">
                                     <i class="fa fa-question-circle"></i>
                                 </span>--%>
-                                <a nav-target="mainFrame" href="/param/basicSettingIndex.html" style="display: none">
+                                <a nav-target="mainFrame" href="/param/siteParam.html" style="display: none">
                                 </a>
                             </c:if>
                             <soul:button target="${root}/cttAnnouncement/addAnnouncement.html?announcementType=2" title="${views.content_auto['公告']}" tag="button" opType="dialog"

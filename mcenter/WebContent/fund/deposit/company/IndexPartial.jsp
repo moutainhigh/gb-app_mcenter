@@ -193,10 +193,19 @@
                         <span class="label {{:statusCss}} p-x-md">{{:_recharge_status_dicts}}</span>
                         </a>
                     {{/if}}
-                    {{if origin =='MOBILE'}}
+                    {{if origin =='2' or origin =='MOBILE'}}
                         <span class="fa fa-mobile mobile" data-content="${views.fund_auto['手机存款']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
                         </span>
-                    {{else}}
+                    {{else origin =='8'}}
+                        <span class="fa gui-html5 mobile" data-content="${views.fund_auto['手机端H5存款']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
+                        </span>
+                    {{else origin =='12'}}
+                        <span class="fa gui-android mobile" data-content="${views.fund_auto['手机端ANDROID存款']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
+                        </span>
+                    {{else origin =='16'}}
+                        <span class="fa gui-apple mobile" data-content="${views.fund_auto['手机端IOS存款']}" data-placement="top" data-trigger="focus" data-toggle="popover" data-container="body" role="button" class="help-popover" tabindex="0">
+                        </span>
+                    {{else }}
                         <span style="width:8px; display: inline-block"></span>
                     {{/if}}
                 </td>
