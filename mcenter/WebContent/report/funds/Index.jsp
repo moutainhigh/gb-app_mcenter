@@ -502,7 +502,8 @@
                                         <span class="input-group-addon bg-gray">${views.report_auto['创建时间']}</span>
                                         <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:38%" useRange="true"
                                                       maxDate="${maxDate}" opens="right" position="down"
-                                                      startDate="${command.search.startCreateTime}"
+                                                      minDate="<%=DateTool.addMonths(DateQuickPickerTool.getInstance().getToday(),-6)%>"
+                                                      startDate="${command.search.startCreateTime }"
                                                       endDate="${command.search.endCreateTime}"
                                                       startName="search.startCreateTime" endName="search.endCreateTime"/>
                                     </div>
