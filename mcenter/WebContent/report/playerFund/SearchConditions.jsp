@@ -1,4 +1,5 @@
-<%--@elvariable id="command" type="so.wwb.gamebox.model.master.report.vo.VPlayerFundsRecordListVo"--%>
+<%@ page import="org.soul.commons.lang.DateQuickPickerTool" %>
+<%@ page import="org.soul.commons.lang.DateTool" %><%--@elvariable id="command" type="so.wwb.gamebox.model.master.report.vo.VPlayerFundsRecordListVo"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/include/include.inc.jsp" %>
 <div class="m-t-md">
@@ -37,6 +38,7 @@
                         <span class="input-group-addon bg-gray">${views.player_auto['查询时间']}</span>
                         <gb:dateRange format="${DateFormat.DAY}" style="width:38%" useRange="true"
                                       maxDate="${maxDate}" opens="right" position="down"
+                                      minDate="<%=DateTool.addMonths(DateQuickPickerTool.getInstance().getToday(),-6)%>"
                                       startDate="${command.search.fundSearch.searchStartDate}"
                                       endDate="${command.search.fundSearch.searchEndDate}"
                                       startName="search.fundSearch.searchStartDate" endName="search.fundSearch.searchEndDate"/>

@@ -1,4 +1,5 @@
-<%--@elvariable id="command" type="org.soul.model.sys.vo.SysAuditLogListVo"--%>
+<%@ page import="org.soul.commons.lang.DateQuickPickerTool" %>
+<%@ page import="org.soul.commons.lang.DateTool" %><%--@elvariable id="command" type="org.soul.model.sys.vo.SysAuditLogListVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <!--//region your codes 1-->
@@ -38,6 +39,7 @@
                                 <span class="input-group-addon abroder-no"><b>${views.report['log.query.time']}</b></span>
                                 <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:160px;" useRange="true"
                                               opens="right" position="down"
+                                              minDate="<%=DateTool.addMonths(DateQuickPickerTool.getInstance().getToday(),-6)%>"
                                               startName="search.operatorBegin" endName="search.operatorEnd"
                                               startDate="${command.search.operatorBegin}" endDate="${command.search.operatorEnd}"/>
                             </div>
