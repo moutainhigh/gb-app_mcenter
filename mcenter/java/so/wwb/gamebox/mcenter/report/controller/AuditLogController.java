@@ -91,6 +91,7 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
         if (ServletTool.isAjaxSoulRequest(request)) {
             return getViewBasePath() + "IndexPartial";
         } else {
+            model.addAttribute("validateRule", JsRuleCreator.create(SysAuditLogSearchForm.class));
             return getViewBasePath() + "Index";
         }
     }

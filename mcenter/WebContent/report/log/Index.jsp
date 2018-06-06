@@ -6,7 +6,7 @@
 
 <!--//endregion your codes 1-->
 <form:form action="${root}/report/log/logList.html?search.roleType=${command.search.roleType}&search.entityUserId=${command.search.entityUserId}" method="post">
-    <div id="validateRule" style="display: none">${command.validateRule}</div>
+    <div id="validateRule" style="display: none">${validateRule}</div>
     <c:if test="${not empty command.search.moduleTypes}">
         <c:forEach var="type" items="${command.search.moduleTypes}">
             <input type="hidden" name="search.moduleTypes" value="${type}">
@@ -67,7 +67,7 @@
                             <c:if test="${command.search.entityUserId!=null && command.search.entityUserId!=''}">
                                 <input type="hidden" name="search.entityUserId" value="${command.search.entityUserId}"/>
                             </c:if>
-                            <soul:button target="query" opType="function" text="${views.common['query']}" cssClass="btn btn-filter pull-right btnQuery _enter_submit" />
+                            <soul:button target="query" precall="validateForm" opType="function" text="${views.common['query']}" cssClass="btn btn-filter pull-right btnQuery _enter_submit" />
                         </div>
                     </div>
                 </div>
