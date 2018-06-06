@@ -21,5 +21,12 @@
     <li id="li_top_6" class="<c:if test="${'carousel_type_ad_register'.equals(webType)}">active</c:if>">
         <a href="/content/vCttCarousel/viewRegister.html" nav-target="mainFrame">PC端注册页广告</a>
     </li>
+    <li id="li_top_7" class="<c:if test="${'carousel_type_app_push_ad'.equals(webType)}">active</c:if>">
+        <a href="/content/vCttCarousel/viewAppPushAd.html" nav-target="mainFrame">APP推送广告</a>
+    </li>
+    <li id="li_top_8" class="<c:if test="${'carousel_type_app_start_page'.equals(webType)}">active</c:if>
+        <c:if test="${paramValue == 'false'}">hide</c:if>">
+        <a href="/content/vCttCarousel/viewAppStartPage.html" nav-target="mainFrame">APP启动页</a>
+    </li>
 </ul>
 <!--//endregion your codes 1-->

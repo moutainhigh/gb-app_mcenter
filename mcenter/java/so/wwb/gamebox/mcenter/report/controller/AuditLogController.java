@@ -2,6 +2,7 @@ package so.wwb.gamebox.mcenter.report.controller;
 
 import org.soul.commons.bean.Pair;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.lang.DateQuickPickerTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.net.ServletTool;
@@ -33,7 +34,6 @@ import so.wwb.gamebox.web.cache.ExportCriteriaTool;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -91,6 +91,7 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
         if (ServletTool.isAjaxSoulRequest(request)) {
             return getViewBasePath() + "IndexPartial";
         } else {
+            model.addAttribute("validateRule", JsRuleCreator.create(SysAuditLogSearchForm.class));
             return getViewBasePath() + "Index";
         }
     }
@@ -109,7 +110,7 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
             roleKeys.add(new Pair(UserTypeEnum.TOP_AGENT_SUB.getCode(),LocaleTool.tranView("report_auto","总代-子账号")));
         }
         if(listVo.getSearch().getOperatorBegin()==null&&listVo.getSearch().getOperatorEnd()==null) {
-            listVo.getSearch().setOperatorEnd(new Date());
+            listVo.getSearch().setOperatorEnd(DateQuickPickerTool.getInstance().getTomorrow());
             listVo.getSearch().setOperatorBegin(SessionManager.getDate().addDays(-7));
         }
         /* 清除下拉筛选角色时，多次赋值*//*

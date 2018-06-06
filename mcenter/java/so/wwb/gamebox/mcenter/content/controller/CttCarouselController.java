@@ -270,6 +270,28 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         return getVoMessage(objectVo);
     }
 
+    @RequestMapping({"appPushAd/persist"})
+    @ResponseBody
+    public Map appPushAdPersist(CttCarouselVo objectVo, @FormModel("result") @Valid CttCarouselAppPushAdForm form, BindingResult result) {
+        if(result.hasErrors()) {
+            objectVo.setSuccess(false);
+            return getVoMessage(objectVo);
+        }
+        objectVo = this.doPersist(objectVo);
+        return getVoMessage(objectVo);
+    }
+
+    @RequestMapping({"appStartPage/persist"})
+    @ResponseBody
+    public Map appStartPagePersist(CttCarouselVo objectVo, @FormModel("result") @Valid CttCarouselAppStartPageForm form, BindingResult result) {
+        if(result.hasErrors()) {
+            objectVo.setSuccess(false);
+            return getVoMessage(objectVo);
+        }
+        objectVo = this.doPersist(objectVo);
+        return getVoMessage(objectVo);
+    }
+
     @RequestMapping({"pcenterAD/persist"})
     @ResponseBody
     public Map pcenterPersist(CttCarouselVo objectVo, @FormModel("result") @Valid CttCarouselPcenterAdForm form, BindingResult result) {
@@ -295,7 +317,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         if(objectVo.getSearch().getId() !=null && objectVo.getResult().getId() == null){
         objectVo.getResult().setCreateUser(SessionManager.getUserId());
         objectVo.getResult().setCreateTime(new Date());
-            objectVo.getResult().setId(objectVo.getSearch().getId());
+        objectVo.getResult().setId(objectVo.getSearch().getId());
         }
         objectVo.getResult().setStatus(true);
         objectVo = getService().saveCarousel(objectVo);
@@ -494,6 +516,62 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_AD_REGISTER.getCode());
         commonEdit(cttCarouselVo, model);
         return getViewBasePath() + "registerAd/Edit";
+    }
+
+    /**
+     * app推送广告新增
+     * @param cttCarouselVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/appPushAd/create")
+    public String appPushAdCreate(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselAppPushAdForm.class));
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_APP_PUSH_AD.getCode());
+        commonCreate(cttCarouselVo, model);
+        return getViewBasePath() + "appPushAd/Edit";
+    }
+
+    /**
+     * app推送广告编辑
+     * @param cttCarouselVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/appPushAd/edit")
+    public String appPushAdEdit(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselAppPushAdForm.class));
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_APP_PUSH_AD.getCode());
+        commonEdit(cttCarouselVo, model);
+        return getViewBasePath() + "appPushAd/Edit";
+    }
+
+    /**
+     * app启动页新增
+     * @param cttCarouselVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/appStartPage/create")
+    public String appStartPageCreate(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselAppStartPageForm.class));
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_APP_START_PAGE.getCode());
+        commonCreate(cttCarouselVo, model);
+        return getViewBasePath() + "appStartPage/Edit";
+    }
+
+    /**
+     * app启动页编辑
+     * @param cttCarouselVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/appStartPage/edit")
+    public String appStartPageEdit(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselAppStartPageForm.class));
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_APP_START_PAGE.getCode());
+        commonEdit(cttCarouselVo, model);
+        return getViewBasePath() + "appStartPage/Edit";
     }
 
     private CttCarouselVo commonEdit(CttCarouselVo cttCarouselVo, Model model) {

@@ -1,11 +1,13 @@
 package so.wwb.gamebox.mcenter.report.form;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
 
 import javax.validation.constraints.Digits;
+import java.util.Date;
 
 
 /**
@@ -51,6 +53,14 @@ public class UserPlayerFundSearchForm implements IForm {
     /** 损益 */
     private  Double search_fundSearch_profitLossStartAmount;
     private  Double search_fundSearch_profitLossEndAmount;
+
+    //开始时间
+    private Date search_fundSearch_searchStartDate;
+
+    @NotBlank
+    public Date getSearch_fundSearch_searchStartDate() {
+        return search_fundSearch_searchStartDate;
+    }
 
     @Range(min = 0, max = 99999999)
     public Double getSearch_fundSearch_rakebackStartAmount() {
