@@ -91,10 +91,10 @@
 											<td>
 													${soulFn:formatCurrency(s.profitLoss)}
 											</td>
-											<%--<td class="${s.cssClass}">--%>
-												<%--<c:if test="${s.amountPayable gt 0}">+</c:if>--%>
-													<%--${soulFn:formatCurrency(s.amountPayable)}--%>
-											<%--</td>--%>
+											<td class="${s.cssClass}">
+												<c:if test="${s.amountPayable gt 0}">+</c:if>
+													${soulFn:formatCurrency(s.amountPayable)}
+											</td>
 										</tr>
 									</c:forEach>
 								</c:forEach>
