@@ -112,6 +112,7 @@
                                     <span class="input-group-addon bg-gray">${views.report_auto['完成时间']}</span>
                                     <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:44%" useRange="true"
                                                   opens="right" position="down" minDate="<%=DateTool.addMonths(DateQuickPickerTool.getInstance().getToday(),-6)%>"
+                                                  maxDate="<%=DateQuickPickerTool.getInstance().getTomorrow()%>"
                                                   startDate="${command.search.startTime}"
                                                   endDate="${command.search.endTime}"
                                                   startName="search.startTime" endName="search.endTime"/>
@@ -123,6 +124,7 @@
                                     <span class="input-group-addon bg-gray">${views.report_auto['创建时间']}</span>
                                     <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:44%" useRange="true"
                                                   opens="right" position="down" minDate="<%=DateTool.addMonths(DateQuickPickerTool.getInstance().getToday(),-6)%>"
+                                                  maxDate="<%=DateQuickPickerTool.getInstance().getTomorrow()%>"
                                                   startDate="${command.search.beginCreateTime}"
                                                   endDate="${command.search.endCreateTime}"
                                                   startName="search.beginCreateTime" endName="search.endCreateTime"/>

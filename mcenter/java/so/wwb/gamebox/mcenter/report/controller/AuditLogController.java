@@ -22,6 +22,7 @@ import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.report.IAuditLogService;
 import so.wwb.gamebox.mcenter.report.form.SysAuditLogForm;
 import so.wwb.gamebox.mcenter.report.form.SysAuditLogSearchForm;
+import so.wwb.gamebox.mcenter.report.form.VPlayerApiTransactionSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.SysExportForm;
 import so.wwb.gamebox.model.DictEnum;
@@ -91,7 +92,7 @@ public class AuditLogController extends BaseCrudController<IAuditLogService, Sys
         if (ServletTool.isAjaxSoulRequest(request)) {
             return getViewBasePath() + "IndexPartial";
         } else {
-            model.addAttribute("validateRule", JsRuleCreator.create(SysAuditLogSearchForm.class));
+            model.addAttribute("validateRule", JsRuleCreator.create(VPlayerApiTransactionSearchForm.class));
             return getViewBasePath() + "Index";
         }
     }

@@ -155,14 +155,19 @@ public class VPlayerApiTransactionController extends AbstractExportController<IV
 
     private void initDate(VPlayerApiTransactionListVo listVo) {
         if (listVo.getSearch().getType() == null || listVo.getSearch().getType().equals("")) {
-            listVo.getSearch().setBeginCreateTime(SessionManagerBase.getDate().getToday());
-            listVo.getSearch().setEndCreateTime(SessionManagerBase.getDate().getTomorrow());
             listVo.getSearch().setType("noFirst");
         }
         if (listVo.getSearch().getTransactionType() == null) {
             listVo.getSearch().setTransactionType("transfers");
         }
-
+        //默认值
+        if (listVo.getSearch().getStartTime()==null
+                || listVo.getSearch().getStartTime().getTime()< DateTool.addMonths(listVo.getSearch().getStartTime(),-6).getTime()){
+            listVo.getSearch().setStartTime(SessionManagerBase.getDate().getToday());
+        }
+        if (listVo.getSearch().getEndTime()==null){
+            listVo.getSearch().setEndTime(SessionManagerBase.getDate().getTomorrow());
+        }
     }
 
     /**

@@ -37,7 +37,8 @@
                     <div class="input-group date time-select-a">
                         <span class="input-group-addon bg-gray">${views.player_auto['查询时间']}</span>
                         <gb:dateRange format="${DateFormat.DAY}" style="width:38%" useRange="true"
-                                      maxDate="${maxDate}" opens="right" position="down"
+                                      opens="right" position="down"
+                                      maxDate="<%=DateQuickPickerTool.getInstance().getTomorrow()%>"
                                       minDate="<%=DateTool.addMonths(DateQuickPickerTool.getInstance().getToday(),-6)%>"
                                       startDate="${command.search.fundSearch.searchStartDate}"
                                       endDate="${command.search.fundSearch.searchEndDate}"

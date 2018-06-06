@@ -40,6 +40,7 @@
                                 <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:160px;" useRange="true"
                                               opens="right" position="down"
                                               minDate="<%=DateTool.addMonths(DateQuickPickerTool.getInstance().getToday(),-6)%>"
+                                              maxDate="<%=DateQuickPickerTool.getInstance().getTomorrow()%>"
                                               startName="search.operatorBegin" endName="search.operatorEnd"
                                               startDate="${command.search.operatorBegin}" endDate="${command.search.operatorEnd}"/>
                             </div>

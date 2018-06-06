@@ -1,7 +1,6 @@
 package so.wwb.gamebox.mcenter.report.form;
 
 import org.hibernate.validator.constraints.Range;
-import org.soul.commons.validation.form.constraints.AtLeast;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
@@ -31,7 +30,6 @@ public class VPlayerApiTransactionSearchForm implements IForm {
     private Date search_startTime;
     private Date search_beginCreateTime;
 
-    @AtLeast(groups = VPlayerFundsRecordSearchForm.StartBothNull.class, message = "common.不能同时为空")
     public Date getSearch_startTime() {
         return search_startTime;
     }
@@ -40,7 +38,6 @@ public class VPlayerApiTransactionSearchForm implements IForm {
         this.search_startTime = search_startTime;
     }
 
-    @AtLeast(groups = VPlayerFundsRecordSearchForm.StartBothNull.class, message = "common.不能同时为空")
     public Date getSearch_beginCreateTime() {
         return search_beginCreateTime;
     }
