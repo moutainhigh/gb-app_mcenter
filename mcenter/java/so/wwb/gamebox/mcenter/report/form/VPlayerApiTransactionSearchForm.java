@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.report.form;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.support.CompareLogic;
@@ -28,22 +29,16 @@ public class VPlayerApiTransactionSearchForm implements IForm {
 
     //开始时间
     private Date search_startTime;
-    private Date search_beginCreateTime;
+    private Date search_endTime;
 
+    @NotBlank
     public Date getSearch_startTime() {
         return search_startTime;
     }
 
-    public void setSearch_startTime(Date search_startTime) {
-        this.search_startTime = search_startTime;
-    }
-
-    public Date getSearch_beginCreateTime() {
-        return search_beginCreateTime;
-    }
-
-    public void setSearch_beginCreateTime(Date search_beginCreateTime) {
-        this.search_beginCreateTime = search_beginCreateTime;
+    @NotBlank
+    public Date getSearch_endTime() {
+        return search_endTime;
     }
 
     //交易号
