@@ -19,6 +19,7 @@ import so.wwb.gamebox.mcenter.content.form.VCttCarouselForm;
 import so.wwb.gamebox.mcenter.content.form.VCttCarouselSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.ParamEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.master.content.enums.IntervalTimeEnum;
@@ -239,6 +240,40 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
             return getViewBasePath() + "registerAd/Index";
         }
     }
+
+    /**
+     * app推送广告
+     * @param vCttCarouselListVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/viewAppPushAd")
+    public String viewAppPushAd(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
+        String code = CttCarouselTypeEnum.CAROUSEL_TYPE_APP_PUSH_AD.getCode();
+        commonViewCarousel(vCttCarouselListVo, model, code);
+        if (ServletTool.isAjaxSoulRequest(request)) {
+            return getViewBasePath() + "appPushAd/IndexPartial";
+        }else {
+            return getViewBasePath() + "appPushAd/Index";
+        }
+    }
+
+    /**
+     * app启动页广告
+     * @param vCttCarouselListVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/viewAppStartPage")
+    public String viewAppStartPage(VCttCarouselListVo vCttCarouselListVo,Model model,HttpServletRequest request){
+        String code = CttCarouselTypeEnum.CAROUSEL_TYPE_APP_START_PAGE.getCode();
+        commonViewCarousel(vCttCarouselListVo, model, code);
+        if (ServletTool.isAjaxSoulRequest(request)) {
+            return getViewBasePath() + "appStartPage/IndexPartial";
+        }else {
+            return getViewBasePath() + "appStartPage/Index";
+        }
+    }
     /**
      * 广告管理公共方法
      * @param vCttCarouselListVo
@@ -253,6 +288,11 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
         vCttCarouselListVo.setUseStatus(useStatus);
         getCurrentLangCarousel(vCttCarouselListVo);
         vCttCarouselListVo = ServiceSiteTool.vCttCarouselService().search(vCttCarouselListVo);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APPSTARTPAGE);
+        if (sysParam !=null) {
+            String paramValue = sysParam.getParamValue() == null ? sysParam.getDefaultValue() : sysParam.getParamValue();
+            model.addAttribute("paramValue", paramValue);
+        }
         model.addAttribute("command",vCttCarouselListVo);
         model.addAttribute("webType", code);
         model.addAttribute("type",vCttCarouselListVo.getSearch().getType());
