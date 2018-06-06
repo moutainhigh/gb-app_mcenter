@@ -19,6 +19,7 @@ import so.wwb.gamebox.mcenter.content.form.VCttCarouselForm;
 import so.wwb.gamebox.mcenter.content.form.VCttCarouselSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.ParamEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.master.content.enums.IntervalTimeEnum;
@@ -287,6 +288,11 @@ public class VCttCarouselController extends BaseCrudController<IVCttCarouselServ
         vCttCarouselListVo.setUseStatus(useStatus);
         getCurrentLangCarousel(vCttCarouselListVo);
         vCttCarouselListVo = ServiceSiteTool.vCttCarouselService().search(vCttCarouselListVo);
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APPSTARTPAGE);
+        if (sysParam !=null) {
+            String paramValue = sysParam.getParamValue() == null ? sysParam.getDefaultValue() : sysParam.getParamValue();
+            model.addAttribute("paramValue", paramValue);
+        }
         model.addAttribute("command",vCttCarouselListVo);
         model.addAttribute("webType", code);
         model.addAttribute("type",vCttCarouselListVo.getSearch().getType());
