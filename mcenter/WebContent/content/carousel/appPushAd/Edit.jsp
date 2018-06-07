@@ -55,6 +55,56 @@
         </div>
 
 
+        <div class="form-group">
+            <label>${views.content['carousel.pushTime']}：</label>
+            <div class="input-group" id="" style="">
+                <label class="m-r-sm">
+                    <input type="checkbox" value="09:00:00" name="pushTimes"
+                           <c:forEach items="${pushTimeList}" var="pushTime"><c:if test="${pushTime=='09:00:00'}">checked</c:if></c:forEach>/>&nbsp;&nbsp;09:00:00
+                </label>
+                <label class="m-r-sm">
+                    <input type="checkbox" value="10:00:00" name="pushTimes"
+                           <c:forEach items="${pushTimeList}" var="pushTime"><c:if test="${pushTime=='10:00:00'}">checked</c:if></c:forEach>/>&nbsp;&nbsp;10:00:00
+                </label>
+                <label class="m-r-sm">
+                    <input type="checkbox" value="12:00:00" name="pushTimes"
+                           <c:forEach items="${pushTimeList}" var="pushTime"><c:if test="${pushTime=='12:00:00'}">checked</c:if></c:forEach>/>&nbsp;&nbsp;12:00:00
+                </label>
+                <label class="m-r-sm">
+                    <input type="checkbox" value="13:00:00" name="pushTimes"
+                           <c:forEach items="${pushTimeList}" var="pushTime"><c:if test="${pushTime=='13:00:00'}">checked</c:if></c:forEach>/>&nbsp;&nbsp;13:00:00
+                </label>
+                <label class="m-r-sm">
+                    <input type="checkbox" value="14:00:00" name="pushTimes"
+                           <c:forEach items="${pushTimeList}" var="pushTime"><c:if test="${pushTime=='14:00:00'}">checked</c:if></c:forEach>/>&nbsp;&nbsp;14:00:00
+                </label>
+            </div>
+            <div class="input-group" id="" style="">
+                <label class="m-r-sm">
+                    <input type="checkbox" value="18:00:00" name="pushTimes"
+                           <c:forEach items="${pushTimeList}" var="pushTime"><c:if test="${pushTime=='18:00:00'}">checked</c:if></c:forEach>/>&nbsp;&nbsp;18:00:00
+                </label>
+                <label class="m-r-sm">
+                    <input type="checkbox" value="19:00:00" name="pushTimes"
+                           <c:forEach items="${pushTimeList}" var="pushTime"><c:if test="${pushTime=='19:00:00'}">checked</c:if></c:forEach>/>&nbsp;&nbsp;19:00:00
+                </label>
+                <label class="m-r-sm">
+                    <input type="checkbox" value="20:00:00" name="pushTimes"
+                           <c:forEach items="${pushTimeList}" var="pushTime"><c:if test="${pushTime=='20:00:00'}">checked</c:if></c:forEach>/>&nbsp;&nbsp;20:00:00
+                </label>
+                <label class="m-r-sm">
+                    <input type="checkbox" value="21:00:00" name="pushTimes"
+                           <c:forEach items="${pushTimeList}" var="pushTime"><c:if test="${pushTime=='21:00:00'}">checked</c:if></c:forEach>/>&nbsp;&nbsp;21:00:00
+                </label>
+                <label class="m-r-sm">
+                    <input type="checkbox" value="22:00:00" name="pushTimes"
+                           <c:forEach items="${pushTimeList}" var="pushTime"><c:if test="${pushTime=='22:00:00'}">checked</c:if></c:forEach>/>&nbsp;&nbsp;22:00:00
+                </label>
+            </div>
+
+        </div>
+
+
         <div class="clearfix save lgg-version">
             <c:forEach items="${command.siteLanguages}" var="p" varStatus="status">
                 <a id="tag${status.index+1}" aria-expanded="${index.index==0?'true':'false'}" name="tag" tagIndex="${status.index+1}"
