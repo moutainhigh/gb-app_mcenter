@@ -1,4 +1,6 @@
 <%@ page import="org.soul.commons.dict.DictTool" %>
+<%@ page import="org.soul.commons.lang.DateQuickPickerTool" %>
+<%@ page import="org.soul.commons.lang.DateTool" %>
 <%@ page import="so.wwb.gamebox.model.DictEnum" %>
 <%@ page import="so.wwb.gamebox.model.master.fund.enums.TransactionTypeEnum" %><%--@elvariable id="command" type="so.wwb.gamebox.model.master.report.vo.VPlayerFundsRecordListVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -357,7 +359,7 @@
                             <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group date time-select-a">
                                     <span class="input-group-addon bg-gray">${views.report_auto['完成时间']}</span>
-                                    <gb:dateRange format="${DateFormat.DAY_SECOND}"  minDate="${minDate}" useRange="true" style="width:38%;" useToday="true" btnClass="search" startName="search.startTime" endName="search.endTime" startDate="${command.search.startTime}" endDate="${command.search.endTime}"/>
+                                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="<%=DateTool.addMonths(DateQuickPickerTool.getInstance().getToday(),-6)%>" useRange="true" style="width:38%;" useToday="true" btnClass="search" startName="search.startTime" endName="search.endTime" startDate="${command.search.startTime}" endDate="${command.search.endTime}"/>
 
                                    <%-- <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:43%" useRange="true"
                                                   opens="right" position="down"
