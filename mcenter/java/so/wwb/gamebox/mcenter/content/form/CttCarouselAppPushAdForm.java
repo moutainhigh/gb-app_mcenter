@@ -23,6 +23,7 @@ public class CttCarouselAppPushAdForm implements IForm {
     private String result_endTime;
     private String[] cttCarouselI18n$$_name;
     private String[] cttCarouselI18n$$_content;
+    private String pushTimes;
 
     @NotBlank(message = "carousel.startTimeNotBlank")
     public String getResult_startTime() {
@@ -60,6 +61,15 @@ public class CttCarouselAppPushAdForm implements IForm {
 
     public void setCttCarouselI18n$$_content(String[] cttCarouselI18n$$_content) {
         this.cttCarouselI18n$$_content = cttCarouselI18n$$_content;
+    }
+
+    @NotBlank
+    public String getPushTimes() {
+        return pushTimes;
+    }
+
+    public void setPushTimes(String pushTimes) {
+        this.pushTimes = pushTimes;
     }
 
     //endregion your codes 2
