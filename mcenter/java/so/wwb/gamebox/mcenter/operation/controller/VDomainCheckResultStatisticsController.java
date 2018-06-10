@@ -6,6 +6,8 @@ import org.soul.commons.dict.DictTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.ServletTool;
+import org.soul.commons.query.Criterion;
+import org.soul.commons.query.enums.Operator;
 import org.soul.model.sys.po.SysDict;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
@@ -25,6 +27,7 @@ import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.company.enums.DomainCheckResultImportStatusEnum;
 import so.wwb.gamebox.model.company.enums.DomainCheckResultStatusEnum;
+import so.wwb.gamebox.model.company.sys.po.DomainCheckResultBatchLog;
 import so.wwb.gamebox.model.company.sys.po.VDomainCheckResultStatistics;
 import so.wwb.gamebox.model.company.sys.vo.*;
 import so.wwb.gamebox.web.SessionManagerCommon;
@@ -150,22 +153,34 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
         DomainCheckResultBatchLogListVo logListVo = new DomainCheckResultBatchLogListVo();
         logListVo.getSearch().setTaskId(taskId);
         logListVo.getSearch().setSiteId(SessionManagerCommon.getSiteId());
+        logListVo.getQuery().setCriterions(new Criterion[]{
+                new Criterion(DomainCheckResultBatchLog.PROP_SITE_ID, Operator.EQ, SessionManagerCommon.getSiteId()),
+                new Criterion(DomainCheckResultBatchLog.TASK_ID,Operator.EQ,taskId)
+        });
         DomainCheckResultBatchLogListVo search = ServiceTool.domainCheckResultBatchLogService().search(logListVo);
         if (CollectionTool.isEmpty(search.getResult())) {
             return DomainCheckResultImportStatusEnum.EXCEPTION.getCode();
         }
-        //同为运行中为正常状态，提示运行中,状态不一致为异常
-        else if (DomainCheckResultImportStatusEnum.PROCESS.getCode().equals(search.getResult().get(0).getStatus())) {
+        //GB,OP同为运行中为正常状态，提示运行中;状态不一致为异常
+        else if (new Integer(DomainCheckResultImportStatusEnum.PROCESS.getCode()).equals(search.getResult().get(0).getStatus())) {
             //httpclient查询OP任务情况
             String domainStr = request.getParameter("domain");
             DomainCheckRequestVo requestVo = new DomainCheckRequestVo();
             requestVo.setSiteId(SessionManager.getSiteId());
             requestVo.setDomainStr(domainStr);
+            requestVo.setTaskId(taskId);
             String taskState = ServiceTool.vDomainCheckResultStatisticsService().getTaskState(requestVo);
             if ("pedding".equals(taskState)){
                 return DomainCheckResultImportStatusEnum.PROCESS.getCode();
             }
             else{
+                //GB,OP状态不一致为异常，GB端终止任务，提示失败
+                LOG.warn("[域名检测]GB和OP两端域名检测任务状态不一致，修改GB端任务状态为失败");
+                DomainCheckResultBatchLogVo batchLogVo = new DomainCheckResultBatchLogVo();
+                batchLogVo.setResult(search.getResult().get(0));
+                batchLogVo.getResult().setStatus(new Integer(DomainCheckResultImportStatusEnum.EXCEPTION.getCode()));
+                batchLogVo.setProperties(DomainCheckResultBatchLog.PROP_STATUS);
+                batchLogVo = ServiceTool.domainCheckResultBatchLogService().updateOnly(batchLogVo);
                 return DomainCheckResultImportStatusEnum.EXCEPTION.getCode();
             }
         }
