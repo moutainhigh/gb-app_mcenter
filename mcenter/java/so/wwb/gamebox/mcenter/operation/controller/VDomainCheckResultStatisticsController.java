@@ -3,7 +3,6 @@ package so.wwb.gamebox.mcenter.operation.controller;
 
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.dict.DictTool;
-import org.soul.commons.lang.DateTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.ServletTool;
@@ -11,29 +10,32 @@ import org.soul.model.sys.po.SysDict;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.sys.IVDomainCheckResultStatisticsService;
+import so.wwb.gamebox.mcenter.operation.form.VDomainCheckResultStatisticsForm;
+import so.wwb.gamebox.mcenter.operation.form.VDomainCheckResultStatisticsSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.BossParamEnum;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.company.enums.DomainCheckResultImportStatusEnum;
 import so.wwb.gamebox.model.company.enums.DomainCheckResultStatusEnum;
-import so.wwb.gamebox.model.company.enums.DomainCheckStatusEnum;
 import so.wwb.gamebox.model.company.sys.po.VDomainCheckResultStatistics;
 import so.wwb.gamebox.model.company.sys.vo.*;
-import so.wwb.gamebox.mcenter.operation.form.VDomainCheckResultStatisticsForm;
-import so.wwb.gamebox.mcenter.operation.form.VDomainCheckResultStatisticsSearchForm;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import so.wwb.gamebox.web.SessionManagerCommon;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -147,9 +149,25 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
         String taskId = request.getParameter("taskId");
         DomainCheckResultBatchLogListVo logListVo = new DomainCheckResultBatchLogListVo();
         logListVo.getSearch().setTaskId(taskId);
+        logListVo.getSearch().setSiteId(SessionManagerCommon.getSiteId());
         DomainCheckResultBatchLogListVo search = ServiceTool.domainCheckResultBatchLogService().search(logListVo);
         if (CollectionTool.isEmpty(search.getResult())) {
             return DomainCheckResultImportStatusEnum.EXCEPTION.getCode();
+        }
+        //同为运行中为正常状态，提示运行中,状态不一致为异常
+        else if (DomainCheckResultImportStatusEnum.PROCESS.getCode().equals(search.getResult().get(0).getStatus())) {
+            //httpclient查询OP任务情况
+            String domainStr = request.getParameter("domain");
+            DomainCheckRequestVo requestVo = new DomainCheckRequestVo();
+            requestVo.setSiteId(SessionManager.getSiteId());
+            requestVo.setDomainStr(domainStr);
+            String taskState = ServiceTool.vDomainCheckResultStatisticsService().getTaskState(requestVo);
+            if ("pedding".equals(taskState)){
+                return DomainCheckResultImportStatusEnum.PROCESS.getCode();
+            }
+            else{
+                return DomainCheckResultImportStatusEnum.EXCEPTION.getCode();
+            }
         }
         return search.getResult().get(0).getStatus() + "";
     }
