@@ -26,7 +26,7 @@
     </li>
     <li id="li_top_8" class="<c:if test="${'carousel_type_app_start_page'.equals(webType)}">active</c:if>
         <c:if test="${paramValue == 'false'}">hide</c:if>">
-        <a href="/content/vCttCarousel/viewAppStartPage.html" nav-target="mainFrame">APP启动页</a>
+        <a href="/content/vCttCarousel/viewAppStartPage.html" nav-target="mainFrame">APP启动页广告</a>
     </li>
 </ul>
 <!--//endregion your codes 1-->
