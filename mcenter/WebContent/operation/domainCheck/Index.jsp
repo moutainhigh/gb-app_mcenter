@@ -182,7 +182,7 @@
                         <c:choose>
                             <c:when test="${command.domainCheckResultListVo.checkTaskStatus == 0}">处理中</c:when>
                             <c:when test="${command.domainCheckResultListVo.checkTaskStatus == 1}">正常</c:when>
-                            <c:when test="${command.domainCheckResultListVo.checkTaskStatus == 10}">部分检测数据未正确写入</c:when>
+                            <c:when test="${command.domainCheckResultListVo.checkTaskStatus == 10}">部分检测数据未正确保存</c:when>
                             <c:otherwise>
                                 异常
                             </c:otherwise>
