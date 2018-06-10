@@ -97,7 +97,7 @@
                         <input type="hidden" name="cttCarouselI18n[${index.index}].id" value="${carousel.id}">
                         <input type="hidden" name="cttCarouselI18n[${index.index}].carouselId" value="${carousel.carouselId}">
                         <input type="hidden" name="cttCarouselI18n[${index.index}].language" value="${carousel.language}">
-                        <div class="content${p.language} ann tab-pane" style="display: ${index.index=='0'?'':'none'}" lang="${p.language}">
+                        <div class="content${p.language} ann tab-pane content_div" style="display: ${index.index=='0'?'':'none'}" lang="${p.language}">
                             <div class="form-group" >
                                 <div class="clearfix">
                                     <label>${views.column['CttCarouselI18n.name']}：</label>
