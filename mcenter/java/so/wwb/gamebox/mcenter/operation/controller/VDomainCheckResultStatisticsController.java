@@ -293,7 +293,7 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
         batchLog.setSiteId(siteId);
         batchLog.setCheckPointCount(0);
         batchLogVo.setResult(batchLog);
-        LOG.info("保存导入日志表batchLogVo bean:{0}", batchLogVo);
+        LOG.info("保存任务日志表batchLogVo bean:{0}", batchLogVo);
         ServiceTool.domainCheckResultBatchLogService().insert(batchLogVo);
     }
 
