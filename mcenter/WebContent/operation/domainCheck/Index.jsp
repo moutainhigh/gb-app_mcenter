@@ -168,16 +168,27 @@
                         <span class="hd">&nbsp;${views.common['search']}</span>
                     </soul:button>
 
+                    <soul:button text="" target="detectionall" opType="function" cssClass="btn btn-filter _enter_submit detection_btn" tag="button">
+                        <i class=""></i>
+                        <span class="hd" id="detection_show">&nbsp;${views.common['detectionall']}</span>
+                    </soul:button>
+
                 </div>
                 <div class="clearfix filter-wraper line-hi34 pull-left">
                     <span class="co-yellow"><i class="fa fa-exclamation-circle"></i></span>
                         ${views.operation['检测时间：']}${soulFn:formatDateTz(command.domainCheckResultListVo.checkTime, DateFormat.DAY_SECOND, timeZone )}
+                    &nbsp;&nbsp;状态：
+                    <span id="taskStateSpan">
+                        <c:choose>
+                            <c:when test="${command.domainCheckResultListVo.checkTaskStatus == 0}">处理中</c:when>
+                            <c:when test="${command.domainCheckResultListVo.checkTaskStatus == 1}">正常</c:when>
+                            <c:when test="${command.domainCheckResultListVo.checkTaskStatus == 10}">部分检测数据未正确保存</c:when>
+                            <c:otherwise>
+                                异常
+                            </c:otherwise>
+                        </c:choose>
+                    </span>
                 </div>
-
-                <soul:button text="" target="detectionall" opType="function" cssClass="btn btn-filter _enter_submit detection_btn" tag="button">
-                    <i class=""></i>
-                    <span class="hd" id="detection_show">&nbsp;${views.common['detectionall']}</span>
-                </soul:button>
 
                 <div class="clearfix filter-wraper line-hi34 al-right pull-right">
                         ${views.operation['所有域名检测结果仅供参考，不完全代表整个区域的实际解析情况，不具备故障证据之作用！如有需要请自行核实域名实际情况！']}

@@ -359,7 +359,10 @@
                             <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group date time-select-a">
                                     <span class="input-group-addon bg-gray">${views.report_auto['完成时间']}</span>
-                                    <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="<%=DateTool.addMonths(DateQuickPickerTool.getInstance().getToday(),-6)%>" useRange="true" style="width:38%;" useToday="true" btnClass="search" startName="search.startTime" endName="search.endTime" startDate="${command.search.startTime}" endDate="${command.search.endTime}"/>
+                                    <gb:dateRange format="${DateFormat.DAY_SECOND}"
+                                                  maxDate="<%=DateQuickPickerTool.getInstance().getTomorrow()%>"
+                                                  minDate="<%=DateTool.addMonths(DateQuickPickerTool.getInstance().getToday(),-6)%>"
+                                                  useRange="true" style="width:38%;" useToday="true" btnClass="search" startName="search.startTime" endName="search.endTime" startDate="${command.search.startTime}" endDate="${command.search.endTime}"/>
 
                                    <%-- <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:43%" useRange="true"
                                                   opens="right" position="down"
@@ -501,7 +504,8 @@
                                     <div class="input-group date time-select-a">
                                         <span class="input-group-addon bg-gray">${views.report_auto['创建时间']}</span>
                                         <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:38%" useRange="true"
-                                                      maxDate="${maxDate}" opens="right" position="down"
+                                                      opens="right" position="down"
+                                                      maxDate="<%=DateQuickPickerTool.getInstance().getTomorrow()%>"
                                                       minDate="<%=DateTool.addMonths(DateQuickPickerTool.getInstance().getToday(),-6)%>"
                                                       startDate="${command.search.startCreateTime }"
                                                       endDate="${command.search.endCreateTime}"
