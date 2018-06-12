@@ -1,6 +1,5 @@
 package so.wwb.gamebox.mcenter.report.form;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.support.CompareLogic;
@@ -34,12 +33,10 @@ public class VPlayerFundsRecordSearchForm implements IForm {
     private Date search_startTime;
     private Date search_endTime;
 
-    @NotBlank
     public Date getSearch_startTime() {
         return search_startTime;
     }
 
-    @NotBlank
     public Date getSearch_endTime() {
         return search_endTime;
     }

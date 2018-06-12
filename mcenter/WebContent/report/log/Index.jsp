@@ -1,12 +1,11 @@
-<%@ page import="org.soul.commons.lang.DateQuickPickerTool" %>
-<%@ page import="org.soul.commons.lang.DateTool" %><%--@elvariable id="command" type="org.soul.model.sys.vo.SysAuditLogListVo"--%>
+<%--@elvariable id="command" type="org.soul.model.sys.vo.SysAuditLogListVo"--%>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <!--//region your codes 1-->
 
 <!--//endregion your codes 1-->
 <form:form action="${root}/report/log/logList.html?search.roleType=${command.search.roleType}&search.entityUserId=${command.search.entityUserId}" method="post">
-    <div id="validateRule" style="display: none">${validateRule}</div>
+    <div id="validateRule" style="display: none">${command.validateRule}</div>
     <c:if test="${not empty command.search.moduleTypes}">
         <c:forEach var="type" items="${command.search.moduleTypes}">
             <input type="hidden" name="search.moduleTypes" value="${type}">
@@ -39,8 +38,6 @@
                                 <span class="input-group-addon abroder-no"><b>${views.report['log.query.time']}</b></span>
                                 <gb:dateRange format="${DateFormat.DAY_SECOND}" style="width:160px;" useRange="true"
                                               opens="right" position="down"
-                                              minDate="<%=DateTool.addMonths(DateQuickPickerTool.getInstance().getToday(),-6)%>"
-                                              maxDate="<%=DateQuickPickerTool.getInstance().getTomorrow()%>"
                                               startName="search.operatorBegin" endName="search.operatorEnd"
                                               startDate="${command.search.operatorBegin}" endDate="${command.search.operatorEnd}"/>
                             </div>
@@ -68,7 +65,7 @@
                             <c:if test="${command.search.entityUserId!=null && command.search.entityUserId!=''}">
                                 <input type="hidden" name="search.entityUserId" value="${command.search.entityUserId}"/>
                             </c:if>
-                            <soul:button target="query" precall="validateForm" opType="function" text="${views.common['query']}" cssClass="btn btn-filter pull-right btnQuery _enter_submit" />
+                            <soul:button target="query" opType="function" text="${views.common['query']}" cssClass="btn btn-filter pull-right btnQuery _enter_submit" />
                         </div>
                     </div>
                 </div>
