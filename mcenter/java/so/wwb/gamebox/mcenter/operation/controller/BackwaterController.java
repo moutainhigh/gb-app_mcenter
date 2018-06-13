@@ -373,7 +373,7 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
         vo.getResult().setUsername(SessionManager.getUserName());
         vo.setSettlementName(vo.getResult().getSettlementName());
         if (ServletTool.isMobile(request)) {
-            vo.setOrigin(TerminalEnum.MOBILE.getName());
+            vo.setOrigin(TerminalEnum.MOBILE.getCode());
         }
 
         vo = getService().saveSettlementBackwater(vo, ids, SettlementStateEnum.LSSUING.getCode());
