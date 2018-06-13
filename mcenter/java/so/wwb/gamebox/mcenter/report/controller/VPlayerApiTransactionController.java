@@ -8,7 +8,6 @@ import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.ServletTool;
-import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -159,14 +158,6 @@ public class VPlayerApiTransactionController extends AbstractExportController<IV
         }
         if (listVo.getSearch().getTransactionType() == null) {
             listVo.getSearch().setTransactionType("transfers");
-        }
-        //默认值
-        if (listVo.getSearch().getStartTime()==null
-                || listVo.getSearch().getStartTime().getTime()< DateTool.addMonths(listVo.getSearch().getStartTime(),-6).getTime()){
-            listVo.getSearch().setStartTime(SessionManagerBase.getDate().getToday());
-        }
-        if (listVo.getSearch().getEndTime()==null){
-            listVo.getSearch().setEndTime(SessionManagerBase.getDate().getTomorrow());
         }
     }
 

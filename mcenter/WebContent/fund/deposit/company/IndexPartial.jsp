@@ -105,14 +105,18 @@
                         </a>
                     </td>
                     <td>
-                        <a href="/vPayAccount/detail.html?result.id={{:payAccountId}}&search.type=1" nav-target="mainFrame">
-                            {{if customBankName!=='' && customBankName!==null}}
-                                {{:customBankName}}-
-                            {{else}}
-                                {{:_dicts_common_bankname_bankCode}}
-                            {{/if}}
-                            {{:fullName}}
-                        </a>
+                        {{if payAccountId<0}}
+                            {{:receiveAccount}}-{{:receiveName}}
+                        {{else}}
+                            <a href="/vPayAccount/detail.html?result.id={{:payAccountId}}&search.type=1" nav-target="mainFrame">
+                                {{if customBankName!=='' && customBankName!==null}}
+                                    {{:customBankName}}-
+                                {{else}}
+                                    {{:_dicts_common_bankname_bankCode}}
+                                {{/if}}
+                                {{:fullName}}
+                            </a>
+                        {{/if}}
                     </td>
                     <td class="money">
                         {{if favorableTotalAmount>0}}
