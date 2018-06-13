@@ -3106,9 +3106,9 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         //判断当前站长导出的玩家信息是否可以包含玩家联系方式
         SysParam param = ParamTool.getSysParam(SiteParamEnum.SITE_PLAYER_CONTACT_EXPORT, SessionManager.getSiteId());
         if (param != null && "true".equalsIgnoreCase(param.getParamValue())) {
-            vo.setConfigKey("VUserPlayerExportItemConf");
+            vo.setConfigKey("sitePlayerExport");
         } else {
-            vo.setConfigKey("VUserPlayerExportItemConfNoContact");
+            vo.setConfigKey("sitePlayerExportNoContact");
         }
 
         if (listVo.getComp() == null) {
