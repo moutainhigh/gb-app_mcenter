@@ -12,9 +12,18 @@
             <th>${views.column['VActivityPlayerApply.playerName']}</th>
             <th>${views.column['VActivityMessage.activityName']}</th>
             <th>${views.column['VActivityPlayerApply.applyTime']}</th>
+            <th class="inline">
+                <gb:select name="search.code" value="${command.search.code}" cssClass="btn-group chosen-select-no-single" callback="query" prompt="${views.operation['Activity.list.allType']}" list="${activityType}"></gb:select>
+            </th>
             <th>${views.operation['申请优惠金额']}</th>
             <th>${views.operation['Activity.step.audit']}</th>
-            <th>${views.operation['脚本校验情况']}</th>
+            <th>
+                <span title="${views.operation['仅展示检测通过的玩家申请']}">
+                 ${views.operation['活动检测结果']}
+                     <i class="fa fa-question-circle"></i>
+                </span>
+
+            </th>
             <%--<th class="inline">--%>
                 <%--<gb:select name="search.code" value="${command.search.code}"--%>
                            <%--cssClass="btn-group chosen-select-no-single" callback="query"--%>
@@ -57,6 +66,7 @@
                 </td>
                 <td>${p.activityName}</td>
                 <td>${soulFn:formatDateTz(p.applyTime,DateFormat.DAY_SECOND,timeZone)}</td>
+                <td>${views.operation[p.code]}</td>
                 <td>${p.preferentialValue}</td>
                 <td>${p.preferentialAudit}</td>
                 <td>
