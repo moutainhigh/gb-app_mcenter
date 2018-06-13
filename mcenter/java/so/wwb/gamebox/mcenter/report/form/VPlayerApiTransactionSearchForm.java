@@ -31,12 +31,10 @@ public class VPlayerApiTransactionSearchForm implements IForm {
     private Date search_startTime;
     private Date search_endTime;
 
-    @NotBlank
     public Date getSearch_startTime() {
         return search_startTime;
     }
 
-    @NotBlank
     public Date getSearch_endTime() {
         return search_endTime;
     }

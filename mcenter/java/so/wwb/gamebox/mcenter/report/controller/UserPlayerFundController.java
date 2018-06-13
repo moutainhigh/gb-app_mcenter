@@ -62,10 +62,7 @@ public class UserPlayerFundController{
         model.addAttribute("queryParamsJson", queryParamsJson);
         model.addAttribute("validateRule", JsRuleCreator.create(UserPlayerFundSearchForm.class));
         Date today = DateQuickPicker.getInstance().getTomorrow();
-        //默认6月内
-        if(listVo.getSearch().getFundSearch().getSearchStartDate()==null
-                || listVo.getSearch().getFundSearch().getSearchStartDate().getTime()
-                < DateTool.addMonths(listVo.getSearch().getFundSearch().getSearchStartDate(),-6).getTime()){
+        if(listVo.getSearch().getFundSearch().getSearchStartDate()==null){
             Date startDate = DateTool.addDays(today, -7);
             listVo.getSearch().getFundSearch().setSearchStartDate(startDate);
         }

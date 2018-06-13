@@ -34,6 +34,7 @@ import so.wwb.gamebox.model.master.operation.vo.VActivityMonitorListVo;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMonitorVo;
 import so.wwb.gamebox.web.SessionManagerCommon;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Map;
 
@@ -66,7 +67,9 @@ public class HallVActivityMonitorController extends BaseCrudController<IVActivit
         HallVActivityMessageHallController.setActivitySelectBtnDicts(model);
         listVo.getSearch().setActivityVersion(SessionManager.getLocale().toString());
         listVo.getSearch().setActivityTerminalType(TerminalEnum.PC.getCode());
-
+        //活动类型
+        Map<String, Serializable> activityType = DictTool.get(DictEnum.ACTIVITY_TYPE);
+        model.addAttribute("activityType", activityType);
         //状态列表
 
         //审核状态字典
