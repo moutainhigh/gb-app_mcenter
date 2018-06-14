@@ -88,8 +88,8 @@
                         </div>
                         <div class="form-group clearfix pull-right col-md-2 col-sm-12 m-b-sm padding-r-none-sm function-menu-show hide">
                             <div class="function-menu-show hide">
-                                <soul:button target="successDialog" text="${views.operation['批量通过']}" opType="function" cssClass="btn btn-outline btn-filter"/>
-                                <soul:button target="${root}/activityHall/vActivityPlayerApply/auditStatus.html?&result.checkState=3&activityType="
+                                <soul:button permission="operate:activityHall_checkapply"  target="successDialog" text="${views.operation['批量通过']}" opType="function" cssClass="btn btn-outline btn-filter"/>
+                                <soul:button permission="operate:activityHall_checkapply"  target="${root}/activityHall/vActivityPlayerApply/auditStatus.html?&result.checkState=3&activityType="
                                              text="${views.operation['批量拒绝']}" opType="ajax" post="getSelectIds" precall="hasFailReason" callback="query"
                                              cssClass="btn btn-outline btn-filter"/>
                             </div>
