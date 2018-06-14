@@ -34,12 +34,12 @@
                     <%--</soul:button>--%>
                 <%--</c:when>--%>
                 <c:when test="${resetPwdVo.login}">
-                    <soul:button target="resetPwdLoginConfirm" tag="button" opType="function" cssClass="btn-qfdx"
-                                 text="${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}">
+                    <%--<soul:button target="resetPwdLoginConfirm" tag="button" opType="function" cssClass="btn-qfdx"--%>
+                                 <%--text="${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}">--%>
 
-                        <i class="fa fa-envelope-o"></i>${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}
+                        <%--<i class="fa fa-envelope-o"></i>${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}--%>
 
-                    </soul:button>
+                    <%--</soul:button>--%>
                 </c:when>
                 <%--<c:otherwise>--%>
                     <%--<soul:button target="resetPwdByEmailConfirm" callback="" tag="button" opType="function" cssClass="btn-qfdx"--%>
