@@ -153,10 +153,10 @@
                                             <%-- <div class="m-t-md fs16">${views.setting_auto['您将获得']} <span class="co-green">50万</span> ${views.setting_auto['额度']}</div>--%>
                                             <div class="m-t-md">
                                                 <c:choose>
-                                                    <c:when test="${rate < PAY_LIMIT_PERSENT && authorizeStatus!=true}">
+                                                    <c:when test="${rate < 50 && authorizeStatus!=true}">
                                                         <soul:button target="submit" precall="validateForm" text="${views.setting_auto['确认']}" cssClass="btn btn-filter btn-lg btn-block" opType="function"/>
                                                     </c:when>
-                                                    <c:when test="${rate >= PAY_LIMIT_PERSENT}">
+                                                    <c:when test="${rate >= 50}">
                                                         <soul:button target="submit" precall="validateForm" text="${views.setting_auto['确认']}" cssClass="btn btn-filter btn-lg btn-block" opType="function"/>
                                                     </c:when>
                                                     <c:otherwise>
