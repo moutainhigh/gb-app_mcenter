@@ -516,7 +516,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (StringTool.isNotBlank(search.getUsername())) {
             String[] split = search.getUsername().split(",");
             if (split.length == 1) {
-                search.setUsername(search.getUsername().replaceAll("_", "\\\\_"));
+                search.setUsername(search.getUsername().replaceAll("_", "\\_"));
             }
         }
         if (StringTool.isNotBlank(search.getPayeeName())) {

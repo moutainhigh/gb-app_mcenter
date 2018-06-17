@@ -3102,6 +3102,15 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             vo.setResult(new SysExport());
         }
         vo.getResult().setService(IVUserPlayerService.class.getName());
+
+        //判断当前站长导出的玩家信息是否可以包含玩家联系方式
+        SysParam param = ParamTool.getSysParam(SiteParamEnum.SITE_PLAYER_CONTACT_EXPORT, SessionManager.getSiteId());
+        if (param != null && "true".equalsIgnoreCase(param.getParamValue())) {
+            vo.setConfigKey("sitePlayerExport");
+        } else {
+            vo.setConfigKey("sitePlayerExportNoContact");
+        }
+
         if (listVo.getComp() == null) {
             vo.getResult().setMethod("searchByCustom");
         } else {
@@ -3112,7 +3121,6 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             } else if (listVo.getComp() == 3) { // 投注玩家
                 vo.getResult().setMethod("queryOutLinkBetPlayer");
             }
-
         }
         //vo.setTemplateFileName("gb/0/exportTemplate/232/1516517552234.xls");
         vo.setExportFileType(ExportFileTypeEnum.PLAYER_MANAGE.getCode());

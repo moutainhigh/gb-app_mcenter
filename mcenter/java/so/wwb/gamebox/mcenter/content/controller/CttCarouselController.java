@@ -3,12 +3,15 @@ package so.wwb.gamebox.mcenter.content.controller;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.lang.DateQuickPickerTool;
+import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.sys.po.SysDict;
 import org.soul.web.controller.BaseCrudController;
+import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -27,8 +30,10 @@ import so.wwb.gamebox.model.company.site.po.SiteApi;
 import so.wwb.gamebox.model.company.site.po.SiteApiTypeRelation;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
+import so.wwb.gamebox.model.master.content.po.CarouselPushTime;
 import so.wwb.gamebox.model.master.content.po.CttCarousel;
 import so.wwb.gamebox.model.master.content.po.CttCarouselI18n;
+import so.wwb.gamebox.model.master.content.vo.CarouselPushTimeListVo;
 import so.wwb.gamebox.model.master.content.vo.CttCarouselListVo;
 import so.wwb.gamebox.model.master.content.vo.CttCarouselVo;
 import so.wwb.gamebox.model.master.enums.CarouselTypeEnum;
@@ -38,7 +43,10 @@ import so.wwb.gamebox.web.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.*;
+
+import static org.soul.commons.lang.DateTool.convertDateByTimezone;
 
 
 /**
@@ -270,6 +278,40 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         return getVoMessage(objectVo);
     }
 
+    @RequestMapping({"appPushAd/persist"})
+    @ResponseBody
+    public Map appPushAdPersist(CttCarouselVo objectVo, @FormModel("result") @Valid CttCarouselAppPushAdForm form, BindingResult result) throws ParseException {
+        if(result.hasErrors()) {
+            objectVo.setSuccess(false);
+            return getVoMessage(objectVo);
+        }
+        String pushTimes = objectVo.getPushTimes();
+        String[] times = StringTool.split(pushTimes, ',');
+        if (times != null && times.length > 0){
+            List<String> pushTimeList = new ArrayList();
+            for (int i=0; i<times.length; i++) {
+                Date pushTimeTemp = DateTool.parseDate(times[i], DateTool.HH_mm_ss);
+                Date pushTimeTemp2 = DateTool.changeTimeZone(pushTimeTemp, SessionManager.getTimeZone(), TimeZone.getTimeZone("GMT+0"));
+                String pushTime = DateTool.formatDate(pushTimeTemp2, DateTool.HH_mm_ss);
+                pushTimeList.add(pushTime);
+            }
+            objectVo.setPushTimeList(pushTimeList);
+        }
+        objectVo = this.doPersist(objectVo);
+        return getVoMessage(objectVo);
+    }
+
+    @RequestMapping({"appStartPage/persist"})
+    @ResponseBody
+    public Map appStartPagePersist(CttCarouselVo objectVo, @FormModel("result") @Valid CttCarouselAppStartPageForm form, BindingResult result) {
+        if(result.hasErrors()) {
+            objectVo.setSuccess(false);
+            return getVoMessage(objectVo);
+        }
+        objectVo = this.doPersist(objectVo);
+        return getVoMessage(objectVo);
+    }
+
     @RequestMapping({"pcenterAD/persist"})
     @ResponseBody
     public Map pcenterPersist(CttCarouselVo objectVo, @FormModel("result") @Valid CttCarouselPcenterAdForm form, BindingResult result) {
@@ -295,7 +337,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         if(objectVo.getSearch().getId() !=null && objectVo.getResult().getId() == null){
         objectVo.getResult().setCreateUser(SessionManager.getUserId());
         objectVo.getResult().setCreateTime(new Date());
-            objectVo.getResult().setId(objectVo.getSearch().getId());
+        objectVo.getResult().setId(objectVo.getSearch().getId());
         }
         objectVo.getResult().setStatus(true);
         objectVo = getService().saveCarousel(objectVo);
@@ -494,6 +536,78 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_AD_REGISTER.getCode());
         commonEdit(cttCarouselVo, model);
         return getViewBasePath() + "registerAd/Edit";
+    }
+
+    /**
+     * app推送广告新增
+     * @param cttCarouselVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/appPushAd/create")
+    public String appPushAdCreate(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselAppPushAdForm.class));
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_APP_PUSH_AD.getCode());
+        commonCreate(cttCarouselVo, model);
+        return getViewBasePath() + "appPushAd/Edit";
+    }
+
+    /**
+     * app推送广告编辑
+     * @param cttCarouselVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/appPushAd/edit")
+    public String appPushAdEdit(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselAppPushAdForm.class));
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_APP_PUSH_AD.getCode());
+        commonEdit(cttCarouselVo, model);
+        //回填推送时间
+        int carouselId = cttCarouselVo.getSearch().getId();
+        CarouselPushTimeListVo carouselPushTimeListVo = new CarouselPushTimeListVo();
+        carouselPushTimeListVo.setProperties(CarouselPushTime.PROP_PUSH_TIME);
+        carouselPushTimeListVo.getSearch().setCarouselId(carouselId);
+        List<String> list = ServiceSiteTool.carouselPushTimeService().searchProperty(carouselPushTimeListVo);
+        if (CollectionTool.isNotEmpty(list)) {
+            List<String> pushTimeList = new ArrayList<>(list.size());
+            for (String time : list){//为了转换时区
+                Date pushTimeTemp = DateTool.parseDate(time, DateTool.HH_mm_ss);
+                Date pushTimeTemp2 = DateTool.changeTimeZone(pushTimeTemp, TimeZone.getTimeZone("GMT+0"), SessionManager.getTimeZone());
+                String pushTime = DateTool.formatDate(pushTimeTemp2, DateTool.HH_mm_ss);
+                pushTimeList.add(pushTime);
+            }
+            model.addAttribute("pushTimeList", pushTimeList);
+        }
+        return getViewBasePath() + "appPushAd/Edit";
+    }
+
+    /**
+     * app启动页新增
+     * @param cttCarouselVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/appStartPage/create")
+    public String appStartPageCreate(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselAppStartPageForm.class));
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_APP_START_PAGE.getCode());
+        commonCreate(cttCarouselVo, model);
+        return getViewBasePath() + "appStartPage/Edit";
+    }
+
+    /**
+     * app启动页编辑
+     * @param cttCarouselVo
+     * @param model
+     * @return
+     */
+    @RequestMapping("/appStartPage/edit")
+    public String appStartPageEdit(CttCarouselVo cttCarouselVo,Model model){
+        cttCarouselVo.setValidateRule(JsRuleCreator.create(CttCarouselAppStartPageForm.class));
+        cttCarouselVo.getSearch().setType(CttCarouselTypeEnum.CAROUSEL_TYPE_APP_START_PAGE.getCode());
+        commonEdit(cttCarouselVo, model);
+        return getViewBasePath() + "appStartPage/Edit";
     }
 
     private CttCarouselVo commonEdit(CttCarouselVo cttCarouselVo, Model model) {

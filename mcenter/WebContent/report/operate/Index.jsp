@@ -22,6 +22,7 @@
         <input type="hidden" name="role.topAgent" value="<%=SubSysCodeEnum.MCENTER_TOP_AGENT.getCode() %>" />
         <input type="hidden" name="role.agent" value="<%=SubSysCodeEnum.MCENTER_AGENT.getCode() %>" />
         <input type="hidden" name="role.player" value="<%=SubSysCodeEnum.PCENTER.getCode() %>" />
+        <input type="hidden" name="search.apiTypeList" value="" />
 
         <c:set var="ssCode" value="${command.subSysCode}" />
         <div class="col-lg-12 search-list-condition">

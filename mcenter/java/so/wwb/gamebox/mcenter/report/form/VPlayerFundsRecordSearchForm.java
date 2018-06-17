@@ -7,6 +7,7 @@ import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
 
 import javax.validation.constraints.Pattern;
+import java.util.Date;
 
 
 /**
@@ -27,6 +28,18 @@ public class VPlayerFundsRecordSearchForm implements IForm {
     private String search_usernames;
     //交易号
     private  String search_transactionNo;
+
+    //开始时间
+    private Date search_startTime;
+    private Date search_endTime;
+
+    public Date getSearch_startTime() {
+        return search_startTime;
+    }
+
+    public Date getSearch_endTime() {
+        return search_endTime;
+    }
 
     @Range(min = -99999999, max = 99999999)
     public Double getSearch_startMoney() {
@@ -52,6 +65,7 @@ public class VPlayerFundsRecordSearchForm implements IForm {
     public void setSearch_transactionNo(String search_transactionNo) {
         this.search_transactionNo = search_transactionNo;
     }
+
 //endregion your codes 2
 
 }

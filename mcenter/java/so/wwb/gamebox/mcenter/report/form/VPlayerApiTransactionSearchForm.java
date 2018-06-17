@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.report.form;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.support.CompareLogic;
@@ -8,6 +9,7 @@ import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
 
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
+import java.util.Date;
 
 
 /**
@@ -24,6 +26,18 @@ public class VPlayerApiTransactionSearchForm implements IForm {
     private BigDecimal search_startMoney;
 
     private BigDecimal search_endMoney;
+
+    //开始时间
+    private Date search_startTime;
+    private Date search_endTime;
+
+    public Date getSearch_startTime() {
+        return search_startTime;
+    }
+
+    public Date getSearch_endTime() {
+        return search_endTime;
+    }
 
     //交易号
     private  String search_transactionNo;
@@ -46,6 +60,10 @@ public class VPlayerApiTransactionSearchForm implements IForm {
 
     public void setSearch_transactionNo(String search_transactionNo) {
         this.search_transactionNo = search_transactionNo;
+    }
+
+    interface StartBothNull {
+
     }
     //endregion your codes 2
 

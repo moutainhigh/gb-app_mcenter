@@ -20,6 +20,7 @@
         </div>
 
         <div class="hide apiHide"><%-- 隐藏的选择 --%></div>
+        <div class="hide apiTypeListHide"><%-- 隐藏的选择 --%></div>
         <div class="sys_tab_wrap shadow m-t clearfix" style="border-bottom: 0; border-top:1px solid #e6e6e6; margin-bottom: -5px;">
             <div class=" clearfix m-sm">
                 <b>${views.report['operate.list.select']}</b>
