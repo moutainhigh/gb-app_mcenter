@@ -123,7 +123,7 @@ public class SiteConfineIpController extends BaseCrudController<ISiteConfineIpSe
     }
 
     /**
-     * 是否已包
+     * 判断当前IP是否已经存在
      * @param objectVo
      * @return
      */
