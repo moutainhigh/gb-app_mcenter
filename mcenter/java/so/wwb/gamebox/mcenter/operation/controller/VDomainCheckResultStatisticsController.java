@@ -61,7 +61,8 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
     private static final String PROP_ACTIVITY_INDEX = "/operation/domainCheck/Index";
 
     private static final String MANUAL_CHECK_ERROR = "0";
-    private static final String DOMAIN_CHECK_URL = "http://data-ops.gbboss.com:20111";
+    //private static final String DOMAIN_CHECK_URL = "http://data-ops.gbboss.com:20111";//地址是写死的，OP修改接口地址
+    private static final String DOMAIN_CHECK_URL = "http://domaincheck.dayu-boss.com:20111";
     private static final String DOMAIN_CHECK_URL_CREATE_TASK = DOMAIN_CHECK_URL + "/check_domain";
     private static final String DOMAIN_CHECK_URL_TASK_STATE = DOMAIN_CHECK_URL + "/get_task_state";
 
