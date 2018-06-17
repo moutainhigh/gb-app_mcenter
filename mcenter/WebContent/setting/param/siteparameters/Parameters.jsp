@@ -255,6 +255,10 @@
                                        style='float:left'> ${views.setting_auto['IOS']}：</label>
                                 <textarea class="form-control m-b" name="iosDownloadAddress" style="min-height:30px;"
                                           placeholder="${views.setting_auto['请输入IOS地址']}">${iosDownloadAddress}</textarea>
+                                <label class="ft-bold">IOS安装包:</label>
+                                <a target="_blank" href="${iosPlistUrl}">plist下载</a>&nbsp;&nbsp;
+                                <a target="_blank" href="${iosIpaUrl}">ipa下载</a>&nbsp;&nbsp;
+                                <span style="font-size: 12px; color: #e3e3e3;">提示:下载后完成后,请手动修改plist文件中ipa关联地址.</span>
                             </div>
                             <br/>
                             <div class="clearfix m-b downloadUrl"
@@ -263,6 +267,8 @@
                                        style='float:left'> ${views.setting_auto['Android']}：</label>
                                 <textarea class="form-control m-b" name="androidDownloadAddress" style="min-height:30px;"
                                           placeholder="${views.setting_auto['请输入Android地址']}">${androidDownloadAddress}</textarea>
+                                <label class="ft-bold">Android安装包:</label>
+                                <a target="_blank" href="${androidUrl}">下载</a>
                             </div>
                             <br/>
                             <div id="appDomain" style="${fn:length(iosDownloadAddress) >0 || fn:length(androidDownloadAddress) >0  ? 'display:none;':''}">
