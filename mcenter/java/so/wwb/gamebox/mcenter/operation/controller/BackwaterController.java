@@ -52,7 +52,6 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ModuleType;
-import so.wwb.gamebox.model.TerminalEnum;
 import so.wwb.gamebox.model.boss.enums.TaskScheduleEnum;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
@@ -69,6 +68,7 @@ import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.player.vo.RemarkVo;
 import so.wwb.gamebox.model.report.enums.SettlementStateEnum;
 import so.wwb.gamebox.web.BussAuditLogTool;
+import so.wwb.gamebox.web.SessionManagerCommon;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 
@@ -372,9 +372,7 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
         vo.getResult().setUserId(SessionManager.getUserId());
         vo.getResult().setUsername(SessionManager.getUserName());
         vo.setSettlementName(vo.getResult().getSettlementName());
-        if (ServletTool.isMobile(request)) {
-            vo.setOrigin(TerminalEnum.MOBILE.getName());
-        }
+        vo.setOrigin(SessionManagerCommon.getTerminal(request));
 
         vo = getService().saveSettlementBackwater(vo, ids, SettlementStateEnum.LSSUING.getCode());
         if (vo.isSuccess()) {

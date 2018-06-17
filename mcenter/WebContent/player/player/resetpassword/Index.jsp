@@ -25,29 +25,29 @@
         <input type="hidden" id="userId" name="userId" value="${resetPwdVo.userId}">
         <div id="reset-pwd-div">
             <c:choose>
-                <c:when test="${resetPwdVo.result.mail eq null || resetPwdVo.result.mail eq ''}">
-                    <soul:button target="playerHasNoEmail" tag="button" opType="function" cssClass="btn-qfdx"
-                                 text="${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}">
+                <%--<c:when test="${resetPwdVo.result.mail eq null || resetPwdVo.result.mail eq ''}">--%>
+                    <%--<soul:button target="playerHasNoEmail" tag="button" opType="function" cssClass="btn-qfdx"--%>
+                                 <%--text="${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}">--%>
 
-                        <i class="fa fa-envelope-o"></i>${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}
+                        <%--<i class="fa fa-envelope-o"></i>${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}--%>
 
-                    </soul:button>
-                </c:when>
+                    <%--</soul:button>--%>
+                <%--</c:when>--%>
                 <c:when test="${resetPwdVo.login}">
-                    <soul:button target="resetPwdLoginConfirm" tag="button" opType="function" cssClass="btn-qfdx"
-                                 text="${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}">
+                    <%--<soul:button target="resetPwdLoginConfirm" tag="button" opType="function" cssClass="btn-qfdx"--%>
+                                 <%--text="${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}">--%>
 
-                        <i class="fa fa-envelope-o"></i>${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}
+                        <%--<i class="fa fa-envelope-o"></i>${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}--%>
 
-                    </soul:button>
+                    <%--</soul:button>--%>
                 </c:when>
-                <c:otherwise>
-                    <soul:button target="resetPwdByEmailConfirm" callback="" tag="button" opType="function" cssClass="btn-qfdx"
-                                 confirmMessage="${fn:replace(fn:replace(views.role['resetPwdByMailNotLoginConfirm'],'{userName}' ,resetPwdVo.result.username ),'{resetTypeName}',resetTypeName)}"
-                                 text="${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}">
-                        <i class="fa fa-envelope-o"></i>${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}
-                    </soul:button>
-                </c:otherwise>
+                <%--<c:otherwise>--%>
+                    <%--<soul:button target="resetPwdByEmailConfirm" callback="" tag="button" opType="function" cssClass="btn-qfdx"--%>
+                                 <%--confirmMessage="${fn:replace(fn:replace(views.role['resetPwdByMailNotLoginConfirm'],'{userName}' ,resetPwdVo.result.username ),'{resetTypeName}',resetTypeName)}"--%>
+                                 <%--text="${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}">--%>
+                        <%--<i class="fa fa-envelope-o"></i>${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}--%>
+                    <%--</soul:button>--%>
+                <%--</c:otherwise>--%>
             </c:choose>
 
             <%-- 短信功能二期
