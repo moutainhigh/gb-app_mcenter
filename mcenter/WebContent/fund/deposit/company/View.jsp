@@ -175,15 +175,20 @@
 						<tr>
 							<th scope="row" class="text-right">${views.column['VPlayerRecharge.masterBankcard']}</th>
 							<td>
-								<a href="/vPayAccount/detail.html?result.id=${r.payAccountId}&search.type=1" nav-target="mainFrame" class="btn btn-link co-blue">${dicts.common.bankname[r.bankCode]}-${r.fullName}</a>
-                                <c:if test="${r.rechargeStatus=='1'}">
-									<c:set var="paStatus" value="${r.payAccountStatus}" />
+								<c:if test="${r.payAccountId<0}">
+									<a class="btn btn-link co-blue">${r.receiveName}-${r.receiveAccount}</a>
+								</c:if>
+								<c:if test="${r.payAccountId>0}">
+									<a href="/vPayAccount/detail.html?result.id=${r.payAccountId}&search.type=1" nav-target="mainFrame" class="btn btn-link co-blue">${dicts.common.bankname[r.bankCode]}-${r.fullName}</a>
+									<c:if test="${r.rechargeStatus=='1'}">
+										<c:set var="paStatus" value="${r.payAccountStatus}" />
 									<span class="btn btn-sm
                                         ${paStatus == '1' ? 'btn-info' : ''}
                                         ${paStatus == '2' ? 'btn-danger' : ''}
                                         ${paStatus == '3' ? 'btn-warning' : ''} btn-stroke m-l-sm">
-										${dicts.content.pay_account_status[paStatus]}
+											${dicts.content.pay_account_status[paStatus]}
 									</span>
+									</c:if>
 								</c:if>
 							</td>
 						</tr>
