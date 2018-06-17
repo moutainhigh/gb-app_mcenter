@@ -26,7 +26,7 @@
         <input type="hidden" id="mail" value="${resetPwdVo.result.mail}"/>
         <input type="hidden" id="login" value="${resetPwdVo.login}"/>
 
-        <c:choose>
+        <%--<c:choose>--%>
             <%--<c:when test="${resetPwdVo.result.mail eq null || resetPwdVo.result.mail eq ''}">--%>
                 <%--<soul:button target="userHasNoEmail" tag="button" opType="function" cssClass="btn-qfdx"--%>
                      <%--text="${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}">--%>
@@ -46,7 +46,7 @@
                     <%--<i class="fa fa-envelope-o"></i>${fn:replace(views.role['resetPwdByMail'],'{resetTypeName}',resetTypeName)}--%>
                 <%--</soul:button>--%>
             <%--</c:otherwise>--%>
-        </c:choose>
+        <%--</c:choose>--%>
 
         <%-- 短信功能二期
             <button type="button" class="btn-qfdx" data-toggle="modal" data-target="#pwd-con"><i class="fa fa-comment-o"></i>${views.player_auto['发送短信重置密码']}</button>
