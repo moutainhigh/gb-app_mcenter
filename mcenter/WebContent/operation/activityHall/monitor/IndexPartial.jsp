@@ -101,7 +101,15 @@
                         <%--<span class="label label-warning">${dicts.operation.activity_apply_check_status[p.checkState]}</span>--%>
                         <soul:button permission="operate:activityHall_checkapply"  target="${root}/activityHall/vActivityPlayerApply/successDialog.html?code=${p.code}&ids=${p.id}&sumPerson=1"
                                      text="${views.operation['同意派奖']}" opType="dialog" callback="callBackQuery"/>
-                        <soul:button permission="operate:activityHall_checkapply" cssClass="co-red3" target="${root}/activityHall/vActivityPlayerApply/failDialog.html?ids=${p.id}&search.activityName=${p.activityName}&search.activityTypeCode=${p.code}" text="${views.operation['拒绝派奖']}" opType="dialog" callback="callBackQuery"/>
+
+                        <soul:button permission="operate:activityHall_checkapply"  target="${root}/activityHall/vActivityPlayerApply/auditStatus.html?&result.checkState=3&activityType=&ids=${p.id}"
+                                     text="${views.operation['拒绝派奖']}" opType="ajax" post="" precall="hasFailReason" callback="query"
+                                     cssClass="co-red3" applyId="${p.id}"/>
+                        <shiro:lacksPermission name="operate:activityHall_checkapply">
+                            ${views.operation['待处理']}
+                        </shiro:lacksPermission>
+
+
 
                     </c:if>
                     <c:if test="${p.checkState eq '2'}">

@@ -72,6 +72,12 @@
 </form:form>
 </body>
 <%@ include file="/include/include.js.jsp" %>
-<soul:import res="site/fund/withdraw/WithdrawAuditSubmit"/>
+<script type="text/javascript">
+    curl(['clipboard','site/fund/withdraw/WithdrawAuditSubmit'], function(Clipboard, Page) {
+        window.clipboard = Clipboard;
+        page = new Page();
+        page.bindButtonEvents();
+    });
+</script>
 </html>
 

@@ -58,7 +58,7 @@
 </body>
 <%@ include file="/include/include.js.jsp" %>
 <script type="text/javascript">
-    curl(['site/fund/withdraw/WithdrawAuditSubmit',"site/share/ReasonPreviewMore"], function(Page,ReasonPreviewMore) {
+    curl(['clipboard','site/fund/withdraw/WithdrawAuditSubmit',"site/share/ReasonPreviewMore"], function(Clipboard, Page,ReasonPreviewMore) {
         page = new Page();
         page.bindButtonEvents();
         page.reasonPreviewMore  = new ReasonPreviewMore();
