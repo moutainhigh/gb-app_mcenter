@@ -1,5 +1,6 @@
 package so.wwb.gamebox.mcenter.setting.controller;
 
+import jxl.biff.CountryCode;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.lang.ArrayTool;
@@ -25,12 +26,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import so.wwb.gamebox.common.dubbo.ServiceBossTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.site.ISiteConfineIpService;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.SiteConfineIpForm;
 import so.wwb.gamebox.mcenter.setting.form.SiteConfineIpSearchForm;
 import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.boss.sys.ip.po.IpDb;
+import so.wwb.gamebox.model.boss.sys.ip.vo.IpDbVo;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.company.enums.SiteConfineIpTypeEnum;
 import so.wwb.gamebox.model.company.site.po.SiteConfineIp;
@@ -43,27 +47,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 
-
 /**
  * 限制/允许访问站点/管理中心的IP表控制器
- *
  * @author loong
  * @time 2015-8-11 11:18:00
  */
 @Controller
-//region your codes 1
 @RequestMapping("/siteConfineIp")
 public class SiteConfineIpController extends BaseCrudController<ISiteConfineIpService, SiteConfineIpListVo, SiteConfineIpVo, SiteConfineIpSearchForm, SiteConfineIpForm, SiteConfineIp, Integer> {
-//endregion your codes 1
 
     @Override
     protected String getViewBasePath() {
-        //region your codes 2
         return "/setting/siteConfine/ip/";
-        //endregion your codes 2
     }
-
-    //region your codes 3
 
     @Override
     protected SiteConfineIpVo doEdit(SiteConfineIpVo objectVo, Model model) {
@@ -116,7 +112,7 @@ public class SiteConfineIpController extends BaseCrudController<ISiteConfineIpSe
         objectVo.getResult().setCreateUser(SessionManagerBase.getUserId());
         if (objectVo.isSuccess()) {
             objectVo.getResult().setCreateTime(new Date());
-            if(ipContains(objectVo)){
+            if(isContainsIp(objectVo)){
                 objectVo.setSuccess(false);
                 return objectVo;
             }
@@ -125,14 +121,34 @@ public class SiteConfineIpController extends BaseCrudController<ISiteConfineIpSe
         CacheBase.refreshSiteConfineIp();
         return objectVo;
     }
-    @RequestMapping({"/ipContains"})
-    @ResponseBody
-    public boolean ipContains(SiteConfineIpVo objectVo){
-        SiteConfineIp ip=objectVo.getResult();
+
+    /**
+     * 是否已包
+     * @param objectVo
+     * @return
+     */
+    private boolean isContainsIp(SiteConfineIpVo objectVo) {
+        Map<Object, Object> model = new HashMap<Object, Object>();
+        SiteConfineIp ip = objectVo.getResult();
         ip.setSiteId(SessionManager.getSiteId());
         int count = this.getService().ipContains(objectVo);
-        return count>0;
+        return count > 0;
     }
+
+    @RequestMapping({"/ipContains"})
+    @ResponseBody
+    public Map<Object, Object> ipContains(SiteConfineIpVo objectVo) {
+        Map<Object, Object> model = new HashMap<Object, Object>();
+        model.put("isExistIp", isContainsIp(objectVo));
+        IpDbVo ipDbVo = new IpDbVo();
+        ipDbVo.setResult(new IpDb());
+        ipDbVo.getResult().setIpStartStr(objectVo.getResult().getStartIpStr());
+        ipDbVo.getResult().setIpEndStr(objectVo.getResult().getEndIpStr());
+        ipDbVo.getResult().setCountry(CountryCode.CHINA.getCode());
+        model.put("isContainsCnIp", ServiceBossTool.ipDbService().isContainsCountryIp(ipDbVo));
+        return model;
+    }
+
     @RequestMapping({"/batchDeleteArea"})
     @ResponseBody
     public Map batchDeleteArea(Integer[] ids) {
@@ -168,8 +184,8 @@ public class SiteConfineIpController extends BaseCrudController<ISiteConfineIpSe
             }
         }
         return false;
-
     }
+
     @RequestMapping({"/getSettingParam"})
     public String getSettingParam(SiteConfineIpListVo listVo,Model model,String type){
         listVo = getVisitSysParam(listVo);
@@ -292,8 +308,4 @@ public class SiteConfineIpController extends BaseCrudController<ISiteConfineIpSe
         }
         request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
     }
-
-
-    //endregion your codes 3
-
 }
