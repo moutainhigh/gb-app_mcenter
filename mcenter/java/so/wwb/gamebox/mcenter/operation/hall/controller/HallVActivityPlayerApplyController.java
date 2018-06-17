@@ -222,7 +222,6 @@ public class HallVActivityPlayerApplyController extends BaseCrudController<IVAct
      */
     @RequestMapping("/auditStatus")
     @ResponseBody
-    @Token(valid = true)
     public Map auditStatus(ActivityPlayerApplyVo vo, String ids) {
         LOG.info("[活动优惠审核]进入方法auditStatus:{0}",ids);
         HashMap map = new HashMap(2,1f);

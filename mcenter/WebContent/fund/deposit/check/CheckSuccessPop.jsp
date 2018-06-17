@@ -59,6 +59,12 @@
         </div>
     </form:form>
 </body>
-<soul:import res="site/fund/deposit/check/ConfirmCheck"/>
+<script type="text/javascript">
+    curl(['clipboard','site/fund/deposit/check/ConfirmCheck'], function(Clipboard, Page) {
+        window.clipboard = Clipboard;
+        page = new Page();
+        page.bindButtonEvents();
+    });
+</script>
 </html>
 
