@@ -16,6 +16,7 @@ import org.soul.commons.log.LogFactory;
 import org.soul.commons.math.NumberTool;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.Criteria;
+import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.support._Module;
 import org.soul.iservice.taskschedule.ITaskScheduleService;
@@ -263,14 +264,39 @@ public class BackwaterController extends BaseCrudController<IRakebackBillService
      */
     @RequestMapping("/saveBackwaterActual")
     @ResponseBody
+    @Audit(module = Module.FUND, moduleType = ModuleType.BACKWATER_ACTUAL_UPDATE_SUCCESS, opType = OpType.AUDIT)
     protected Map saveBackwaterActual(RakebackPlayerVo vo, @FormModel @Valid BackwaterActualForm form, BindingResult result) {
         if (result.hasErrors()) {
             return null;
         }
         LOG.info("账号{0}修改实付返水:{1}", SessionManager.getUserName(), vo.getResult().getRakebackActual());
         vo = getService().saveBackwaterActual(vo);//修改实付返水
+        //日志
+        if(vo.isSuccess()){
+            addSaveBackwaterActualLog(vo);
+        }
         return this.getVoMessage(vo);
     }
+
+    //修改返水日志
+    private void addSaveBackwaterActualLog(RakebackPlayerVo vo) {
+        try {
+            vo.getSearch().setId(vo.getResult().getId());
+            RakebackPlayerVo rakebackPlayerVo = ServiceSiteTool.rakebackPlayerService().get(vo);
+            RakebackBillVo rakebackBillVo = new RakebackBillVo();
+            rakebackBillVo.getQuery().setCriterions(new Criterion[]{
+                    new Criterion(RakebackBill.PROP_ID, Operator.EQ, rakebackPlayerVo.getResult().getRakebackBillId())
+            });
+            RakebackBillVo search = ServiceSiteTool.rakebackBillService().search(rakebackBillVo);
+            BussAuditLogTool.addLog("BACKWATER_ACTUAL_UPDATE_SUCCESS", rakebackPlayerVo.getResult().getUsername(),
+                    search.getResult().getPeriod(),
+                    rakebackPlayerVo.getResult().getRakebackActual() != null ? rakebackPlayerVo.getResult().getRakebackActual().toString() : "");
+
+        } catch (Exception ex) {
+
+        }
+    }
+
 
     /**
      * 跳转确认结算页面
