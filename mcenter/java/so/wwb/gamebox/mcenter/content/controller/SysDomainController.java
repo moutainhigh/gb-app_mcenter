@@ -2,6 +2,7 @@ package so.wwb.gamebox.mcenter.content.controller;
 
 import org.soul.commons.collections.CollectionQueryTool;
 import org.soul.commons.collections.ListTool;
+import org.soul.commons.collections.MapTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.exception.SystemException;
 import org.soul.commons.init.context.CommonContext;
@@ -12,6 +13,7 @@ import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.ServletTool;
 import org.soul.commons.support._Module;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.security.privilege.po.SysUser;
 import org.soul.model.security.privilege.vo.SysUserListVo;
 import org.soul.model.sys.po.SysParam;
@@ -29,10 +31,8 @@ import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.sys.ISysDomainService;
 import so.wwb.gamebox.mcenter.content.form.*;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.BossParamEnum;
-import so.wwb.gamebox.model.CacheBase;
-import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SubSysCodeEnum;
+import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.enums.DomainCheckStatusEnum;
 import so.wwb.gamebox.model.company.enums.DomainPageUrlEnum;
@@ -49,6 +49,7 @@ import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.player.po.VUserAgent;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentListVo;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentVo;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
@@ -297,12 +298,16 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
 
     @RequestMapping("/delDomain")
     @ResponseBody
+    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.DEL_DOMAIN, opType = OpType.DELETE)
     public Map delDomain(SysDomainVo sysDomainVo) {
         sysDomainVo._setDataSourceId(SessionManager.getSiteParentId());
         if (this.getService().delDomain(sysDomainVo)) {
             sysDomainVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else {
             sysDomainVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
+        }
+        if (sysDomainVo.isSuccess()){
+            BussAuditLogTool.addLog("DEL_DOMAIN",sysDomainVo.getResult().getDomain());
         }
         return getVoMessage(sysDomainVo);
     }
@@ -876,6 +881,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     @RequestMapping({"/persistDomain"})
     @ResponseBody
     @Token(valid = true)
+    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.PERSIST_DOMAIN, opType = OpType.CREATE)
     public Map persistDomain(SysDomainVo objectVo, @FormModel("result") @Valid SysDomainForm form, BindingResult result) {
         Map map = new HashMap();
         if (!result.hasErrors()) {
@@ -897,6 +903,9 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
             map.put("state",false);
             map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
             return map;
+        }
+        if (MapTool.getBoolean(map,"state")){
+            BussAuditLogTool.addLog("PERSIST_DOMAIN",objectVo.getResult().getDomain());
         }
         return map;
     }
