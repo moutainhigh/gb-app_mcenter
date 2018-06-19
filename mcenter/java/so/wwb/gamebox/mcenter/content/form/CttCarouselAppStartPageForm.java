@@ -24,6 +24,7 @@ public class CttCarouselAppStartPageForm implements IForm {
     private String[] cttCarouselI18n$$_name;
     private String[] cttCarouselI18n$$_cover;
     @NotBlank(message = "carousel.startTimeNotBlank")
+    @Remote(message = "carousel.endTimeLEstartTime",checkClass = CttCarouselController.class,checkMethod = "checkTime",additionalProperties = {"result_endTime"})
     public String getResult_startTime() {
         return result_startTime;
     }
