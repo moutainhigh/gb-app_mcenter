@@ -263,9 +263,10 @@
                             <div class="content">
                                 ${views.player_auto['共返水']}
                                 ${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                                    <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.userTypes=username&search.usernames=${command.result.username}&search.transactionWays=<%=TransactionWayEnum.BACK_WATER.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_RAKEBACK.getCode()%>" nav-target="mainFrame">
+                                    <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.userTypes=username&search.usernames=${command.result.username}&search.transactionWays=back_water&search.manualSaves=manual_rakeback" size="open-dialog-95p"
+                                                 callback="" text="" title="返水详情" opType="dialog">
                                         ${soulFn:formatInteger(command.result.rakeback)}${soulFn:formatDecimals(command.result.rakeback)}
-                                    </a>，
+                                    </soul:button>，
                                     ${views.player_auto['返水方案为']}
                                     <c:if test="${not empty command.result.rakebackId}">
                                         <a href="/setting/vRakebackSet/view.html?id=${command.result.rakebackId}" nav-target="mainFrame">
@@ -603,20 +604,33 @@
                                       data-html="true" data-content="${views.fund_auto['包含人工存入的“人工存取/派彩/其他”']}<br/>PS:${views.fund_auto['仅统计“免稽核”和“存款稽核”类的“派彩/其他“订单']}">
                                     <i class="fa fa-question-circle" ></i>
                                 </span>${views.player_auto['存款']}
-                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=<%=TransactionTypeEnum.DEPOSIT.getCode()%>&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username" nav-target="mainFrame">
-                                    <span class="co-blue" id="rechargeCount">${views.player_auto['计算中']}...</span></a>${views.player_auto['次']}，
+
+                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.transactionType=deposit&search.usernames=${command.result.username}&search.userTypes=username" size="open-dialog-95p"
+                                             callback="" text="" title="存款详情" opType="dialog">
+                                    <span class="co-blue" id="rechargeCount">${views.player_auto['计算中']}...</span>
+                                </soul:button>
+                                ${views.player_auto['次']}，
                                 ${views.player_auto['共计']}${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=<%=TransactionTypeEnum.DEPOSIT.getCode()%>&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username" nav-target="mainFrame">
+                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.transactionType=deposit&search.usernames=${command.result.username}&search.userTypes=username" size="open-dialog-95p"
+                                             callback="" text="" title="存款详情" opType="dialog">
                                     <span class="co-blue" id="rechargeTotal">${views.player_auto['计算中']}...</span>
-                                </a>；
+                                </soul:button>；
+
                                 <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
                                       data-html="true" data-content="${views.player_auto['包含人工取出的所有类型']}。">
                                     <i class="fa fa-question-circle" ></i>
                                 </span>${views.player_auto['取款']}
-                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username&search.transactionType=<%=TransactionTypeEnum.WITHDRAWALS.getCode()%>" nav-target="mainFrame"><span class="co-blue" id="withdrawCountTime">${views.player_auto['计算中']}...</span></a>${views.player_auto['次']}，
+                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${command.result.username}&search.userTypes=username&search.transactionType=withdrawals" size="open-dialog-95p"
+                                             callback="" text="" title="取款详情" opType="dialog">
+                                    <span class="co-blue" id="withdrawCountTime">${views.player_auto['计算中']}...</span>
+                                </soul:button>
+                                ${views.player_auto['次']}，
                                 ${views.player_auto['共计']}
                                 ${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.hasReturn=true&search.usernames=${command.result.username}&search.userTypes=username&search.transactionType=<%=TransactionTypeEnum.WITHDRAWALS.getCode()%>" nav-target="mainFrame"><span class="co-blue" id="withdrawTotalMoney">${views.player_auto['计算中']}...</span></a>；
+                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${command.result.username}&search.userTypes=username&search.transactionType=withdrawals" size="open-dialog-95p"
+                                             callback="" text="" title="取款详情" opType="dialog">
+                                    <span class="co-blue" id="withdrawTotalMoney">${views.player_auto['计算中']}...</span>
+                                </soul:button>；
                                 <span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
                                       data-html="true" data-width="500px" data-content="${views.content['annotation.totalProfitLoss']}">
                                     <i class="fa fa-question-circle" ></i>
@@ -628,14 +642,19 @@
                                       data-html="true" data-content="${views.content['annotation.favorable']}">
                                     <i class="fa fa-question-circle" ></i>
                                 </span>${views.player_auto['获得优惠']}
-                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable&search.transactionWays=<%=TransactionWayEnum.FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.SECOND_DEPOSIT.getCode()%>,<%=TransactionWayEnum.THIRD_DEPOSIT.getCode()%>,<%=TransactionWayEnum.EVERYDAY_FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.DEPOSIT_SEND.getCode()%>,<%=TransactionWayEnum.REGIST_SEND.getCode()%>,<%=TransactionWayEnum.RELIEF_FUND.getCode()%>,<%=TransactionWayEnum.PROFIT_LOSS.getCode()%>,<%=TransactionWayEnum.EFFECTIVE_TRANSACTION.getCode()%>,<%=TransactionWayEnum.MONEY.getCode()%>,<%=TransactionWayEnum.SINGLE_REWARD.getCode()%>,<%=TransactionWayEnum.BONUS_AWARDS.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame">
+                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${command.result.username}&search.userTypes=username&search.orderType=playerFavable&search.transactionWays=first_deposit,second_deposit,third_deposit,everyday_first_deposit,deposit_send,regist_send,relief_fund,profit_loss,effective_transaction,money,single_reward,bonus_awards&search.manualSaves=manual_favorable,manual_payout,manual_other" size="open-dialog-95p"
+                                             callback="" text="" title="优惠详情" opType="dialog">
                                     <span class="co-blue" id="favCount">${views.player_auto['计算中']}...</span>
-                                </a>
+                                </soul:button>
                                 ${views.player_auto['次']}，
                                 ${views.player_auto['共计']}${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable&search.transactionWays=<%=TransactionWayEnum.FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.SECOND_DEPOSIT.getCode()%>,<%=TransactionWayEnum.THIRD_DEPOSIT.getCode()%>,<%=TransactionWayEnum.EVERYDAY_FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.DEPOSIT_SEND.getCode()%>,<%=TransactionWayEnum.REGIST_SEND.getCode()%>,<%=TransactionWayEnum.RELIEF_FUND.getCode()%>,<%=TransactionWayEnum.PROFIT_LOSS.getCode()%>,<%=TransactionWayEnum.EFFECTIVE_TRANSACTION.getCode()%>,<%=TransactionWayEnum.MONEY.getCode()%>,<%=TransactionWayEnum.SINGLE_REWARD.getCode()%>,<%=TransactionWayEnum.BONUS_AWARDS.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame">
+                                <%--<a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable&search.transactionWays=<%=TransactionWayEnum.FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.SECOND_DEPOSIT.getCode()%>,<%=TransactionWayEnum.THIRD_DEPOSIT.getCode()%>,<%=TransactionWayEnum.EVERYDAY_FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.DEPOSIT_SEND.getCode()%>,<%=TransactionWayEnum.REGIST_SEND.getCode()%>,<%=TransactionWayEnum.RELIEF_FUND.getCode()%>,<%=TransactionWayEnum.PROFIT_LOSS.getCode()%>,<%=TransactionWayEnum.EFFECTIVE_TRANSACTION.getCode()%>,<%=TransactionWayEnum.MONEY.getCode()%>,<%=TransactionWayEnum.SINGLE_REWARD.getCode()%>,<%=TransactionWayEnum.BONUS_AWARDS.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame">
                                     <span class="co-blue" id="favMoney">${views.player_auto['计算中']}...</span>
-                                </a>；
+                                </a>--%>
+                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${command.result.username}&search.userTypes=username&search.orderType=playerFavable&search.transactionWays=first_deposit,second_deposit,third_deposit,everyday_first_deposit,deposit_send,regist_send,relief_fund,profit_loss,effective_transaction,money,single_reward,bonus_awards&search.manualSaves=manual_favorable,manual_payout,manual_other" size="open-dialog-95p"
+                                             callback="" text="" title="优惠详情" opType="dialog">
+                                    <span class="co-blue" id="favMoney">${views.player_auto['计算中']}...</span>
+                                </soul:button>；
                                 <a href="/fund/deposit/company/list.html?search.username=${command.result.username}&search.playerId=${command.result.id}" class="btn btn-link co-blue" nav-target="mainFrame">${views.player_auto['公司入款记录']}</a>
                                 <a href="/fund/deposit/online/list.html?search.username=${command.result.username}&search.playerId=${command.result.id}" class="btn btn-link co-blue" nav-target="mainFrame">${views.player_auto['线上支付记录']}</a>
                                 <a href="/fund/withdraw/withdrawList.html?search.username=${command.result.username}&search.playerId=${command.result.id}" class="btn btn-link co-blue" nav-target="mainFrame">${views.player_auto['取款记录']}</a>
@@ -649,14 +668,15 @@
                                     <i class="fa fa-question-circle" ></i>
                                 </span>${views.player_auto['当前投注额']}
                                 ${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                                <a href="/report/gameTransaction/init.html?isLink=true&search.username=${command.result.username}&searchKey=search.username" nav-target="mainFrame">
+                                <soul:button target="${root}/report/gameOrderLinkPopup/effectiveGameTransaction.html?search.playerId=${command.result.id}" size="open-dialog-95p"
+                                             callback="" text="" title="当前投注额" opType="dialog">
                                     <span class="co-blue" id="singleamount">${views.player_auto['计算中']}...</span>
-                                </a>，
+                                </soul:button>，
                                 ${views.player_auto['有效投注额']}${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                                <a href="/report/gameTransaction/init.html?isLink=true&search.username=${command.result.username}&searchKey=search.username" nav-target="mainFrame">
+                                <soul:button target="${root}/report/gameOrderLinkPopup/effectiveGameTransaction.html?search.playerId=${command.result.id}" size="open-dialog-95p"
+                                             callback="" text="" title="当前投注额" opType="dialog">
                                     <span class="co-blue" id="effectivetradeamount">${views.player_auto['计算中']}...</span>
-                                </a>
-                                ，
+                                </soul:button>，
                                 <%--<span tabindex="0" class="" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
                                   data-html="true" data-content="${views.player_auto['仅统计近40天（含今日）的派彩总和。']}">
                                 <i class="fa fa-question-circle" ></i>

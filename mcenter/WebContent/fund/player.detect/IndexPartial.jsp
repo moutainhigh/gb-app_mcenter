@@ -150,15 +150,17 @@
                         ${views.fund['playerDetect.view.totalDeposit']}：
                     </th>
                     <td style="width: 150px">
-                        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=deposit&search.hasReturn=true&search.usernames=${command1.result.username}&search.userTypes=username" nav-target="mainFrame">
+                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.transactionType=deposit&search.usernames=${command1.result.username}&search.userTypes=username" size="open-dialog-95p"
+                                     callback="" text="" title="存款详情" opType="dialog">
                             ${empty playerMoneyData.depositcounttime?'0':playerMoneyData.depositcounttime}
-                        </a>
+                        </soul:button>
                     </td>
                     <th class="bg-tbcolor" style="width: 150px;text-align: right">${views.fund['playerDetect.view.totalDepositAmount']}：</th>
                     <td style="width: 150px">
-                        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.transactionType=deposit&search.hasReturn=true&search.usernames=${command1.result.username}&search.userTypes=username" nav-target="mainFrame">
+                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.transactionType=deposit&search.usernames=${command1.result.username}&search.userTypes=username" size="open-dialog-95p"
+                                     callback="" text="" title="存款详情" opType="dialog">
                             ${empty playerMoneyData.deposittotalmoney?'0':playerMoneyData.deposittotalmoney}
-                        </a>
+                        </soul:button>
                     </td>
                     <th class="bg-tbcolor" style="width: 150px;text-align: right">${views.fund['playerDetect.view.recentRecharge']}：</th>
                     <td>${soulFn:formatDateTz(transactionMap.despoit_time, DateFormat.DAY_SECOND,timeZone)}</td>
@@ -172,15 +174,17 @@
                         ${views.fund['playerDetect.view.totalWithdraw']}：
                     </th>
                     <td>
-                        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.hasReturn=true&search.usernames=${command1.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.PLAYER_WITHDRAW.getCode()%>&search.manualWithdraws=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_RAKEBACK.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame">
+                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${command1.result.username}&search.userTypes=username&search.transactionWays=player_withdraw&search.manualWithdraws=manual_deposit,manual_favorable,manual_rakeback,manual_payout,manual_other" size="open-dialog-95p"
+                                     callback="" text="" title="取款详情" opType="dialog">
                             ${empty playerMoneyData.withdrawcounttime?'0':playerMoneyData.withdrawcounttime}
-                        </a>
+                        </soul:button>
                     </td>
                     <th class="bg-tbcolor" style="text-align: right">${views.fund['playerDetect.view.totalWithdrawAmount']}：</th>
                     <td>
-                        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.outer=-1&search.hasReturn=true&search.usernames=${command1.result.username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.PLAYER_WITHDRAW.getCode()%>&search.manualWithdraws=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_RAKEBACK.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame">
+                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${command1.result.username}&search.userTypes=username&search.transactionWays=player_withdraw&search.manualWithdraws=manual_deposit,manual_favorable,manual_rakeback,manual_payout,manual_other" size="open-dialog-95p"
+                                     callback="" text="" title="取款详情" opType="dialog">
                             ${empty playerMoneyData.withdrawtotalmoney?'0':playerMoneyData.withdrawtotalmoney}
-                        </a>
+                        </soul:button>
                     </td>
                     <th class="bg-tbcolor" style="text-align: right">${views.fund['playerDetect.view.recentWithdraw']}：</th>
                     <td>${soulFn:formatDateTz(transactionMap.withdraw_time, DateFormat.DAY_SECOND,timeZone)}</td>
