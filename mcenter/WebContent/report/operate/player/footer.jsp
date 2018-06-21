@@ -126,7 +126,11 @@
                             <c:forEach var="res" items="${command.result}">
                                 <tr>
                                     <c:set var="url" value="/report/gameTransaction/list.html?isLink=true&search.outer=7&search.siteId=${command.search.siteId}&search.username=${res.playerName}&search.searchCondition=true&search.payoutStart=${command.search.startDate}&search.payoutEnd=${command.search.endDate}&search.apiTypeList=${command.search.apiTypeList}&search.orderState=settle"/>
-                                    <td><a href="${url}" nav-target="mainFrame">${res.playerName}</a>
+                                    <td>
+                                        <soul:button target="${root}/report/gameOrderLinkPopup/gameTransaction.html?linkType=byOperate&search.siteId=${command.search.siteId}&search.username=${res.playerName}&search.searchCondition=true&search.payoutStart=${command.search.startDate}&search.payoutEnd=${command.search.endDate}&search.apiTypeList=${command.search.apiTypeList}&search.orderState=settle" size="open-dialog-95p"
+                                                     callback="" text="" title="投注记录" opType="dialog">${res.playerName}
+                                        </soul:button>
+                                        <a href="${url}" nav-target="mainFrame">${res.playerName}</a>
                                         ${gbFn:riskImgByName(res.playerName)}
                                     </td>
                                     <td>${soulFn:formatNumber(res.transactionOrder)}</td>

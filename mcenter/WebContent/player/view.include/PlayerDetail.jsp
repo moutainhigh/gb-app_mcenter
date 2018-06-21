@@ -668,12 +668,12 @@
                                     <i class="fa fa-question-circle" ></i>
                                 </span>${views.player_auto['当前投注额']}
                                 ${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                                <soul:button target="${root}/report/gameOrderLinkPopup/effectiveGameTransaction.html?search.playerId=${command.result.id}" size="open-dialog-95p"
+                                <soul:button target="${root}/report/gameOrderLinkPopup/gameTransaction.html?linkType=byPlayerDetail&search.playerId=${command.result.id}" size="open-dialog-95p"
                                              callback="" text="" title="当前投注额" opType="dialog">
                                     <span class="co-blue" id="singleamount">${views.player_auto['计算中']}...</span>
                                 </soul:button>，
                                 ${views.player_auto['有效投注额']}${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                                <soul:button target="${root}/report/gameOrderLinkPopup/effectiveGameTransaction.html?search.playerId=${command.result.id}" size="open-dialog-95p"
+                                <soul:button target="${root}/report/gameOrderLinkPopup/gameTransaction.html?linkType=byPlayerDetail&search.playerId=${command.result.id}" size="open-dialog-95p"
                                              callback="" text="" title="当前投注额" opType="dialog">
                                     <span class="co-blue" id="effectivetradeamount">${views.player_auto['计算中']}...</span>
                                 </soul:button>，
