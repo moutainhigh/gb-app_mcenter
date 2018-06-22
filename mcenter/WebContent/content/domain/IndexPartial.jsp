@@ -132,7 +132,7 @@
                             <%--取消--%>
                             <c:if test="${s.resolveStatus=='3'}">
                                 <soul:button
-                                        target="${root}/content/sysDomain/changeResolveStatus.html?result.code=${s.code}&result.resolveStatus=5&result.id=${s.id}"
+                                        target="${root}/content/sysDomain/changeResolveStatus.html?result.code=${s.code}&result.resolveStatus=5&result.domain=${s.domain}&result.id=${s.id}"
                                         precall="cancelMessage" callback="query" text="${views.common['cancel']}"
                                         opType="ajax" cssClass="co-blue"/>
                             </c:if>

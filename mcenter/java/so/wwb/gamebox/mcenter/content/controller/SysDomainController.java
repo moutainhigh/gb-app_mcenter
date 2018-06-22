@@ -6,6 +6,7 @@ import org.soul.commons.collections.MapTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.exception.SystemException;
 import org.soul.commons.init.context.CommonContext;
+import org.soul.commons.lang.BooleanTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
@@ -298,7 +299,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
 
     @RequestMapping("/delDomain")
     @ResponseBody
-    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.DEL_DOMAIN, opType = OpType.DELETE)
+    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.MASTER_SETTING_DEL_DOMAIN, opType = OpType.DELETE)
     public Map delDomain(SysDomainVo sysDomainVo) {
         sysDomainVo._setDataSourceId(SessionManager.getSiteParentId());
         if (this.getService().delDomain(sysDomainVo)) {
@@ -320,6 +321,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
      */
     @RequestMapping("/changeResolveStatus")
     @ResponseBody
+    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.MASTER_SETTING_CHANGE_RESOLVE_STATUS, opType = OpType.UPDATE)
     public Map changeResolveStatus(SysDomainVo sysDomainVo) {
         //
         sysDomainVo._setDataSourceId(SessionManager.getSiteParentId());
@@ -345,6 +347,10 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         CacheBase.refreshSiteDomain(sysDomainVo.getResult().getDomain());
         map.put("msg", StringTool.isNotBlank(sysDomainVo.getOkMsg()) ? sysDomainVo.getOkMsg() : sysDomainVo.getErrMsg());
         map.put("state", sysDomainVo.isSuccess());
+        if (MapTool.getBoolean(map,"state")){
+            BussAuditLogTool.addLog("MASTER_SETTING_CHANGE_RESOLVE_STATUS",sysDomainVo.getResult().getDomain(),
+                    ResolveStatusEnum.TOBETIEDUP.getCode().equals(sysDomainVo.getResult().getResolveStatus())?ResolveStatusEnum.TOBETIEDUP.getTrans():"取消");
+        }
         return map;
     }
 
@@ -860,6 +866,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
 
     @RequestMapping({"/updateName"})
     @ResponseBody
+    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.MASTER_SETTING_UPDATE_DOMAIN, opType = OpType.UPDATE)
     public Map updateMainManager(SysDomainVo sysDomainVo, @FormModel("result") @Valid SysDomainMainManagerEditForm form, BindingResult result) {
         Map map = new HashMap();
         if (!result.hasErrors()) {
@@ -870,6 +877,8 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
             }
             sysDomainVo.getResult().setUpdateUser(SessionManager.getUserId());
             this.getService().updateNameAndIsDefault(sysDomainVo);
+            SysDomain result1 = sysDomainVo.getResult();
+            BussAuditLogTool.addLog("UPDATE_DOMAIN",result1.getId().toString(),result1.getName(), BooleanTool.isTrue(result1.getIsDefault())?"是":"否",BooleanTool.isTrue(result1.getForAgent())?"是":"否");
             return this.getVoMessage(sysDomainVo);
         }else {
             map.put("state",false);
@@ -881,7 +890,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     @RequestMapping({"/persistDomain"})
     @ResponseBody
     @Token(valid = true)
-    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.PERSIST_DOMAIN, opType = OpType.CREATE)
+    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.MASTER_SETTING_PERSIST_DOMAIN, opType = OpType.CREATE)
     public Map persistDomain(SysDomainVo objectVo, @FormModel("result") @Valid SysDomainForm form, BindingResult result) {
         Map map = new HashMap();
         if (!result.hasErrors()) {
@@ -905,7 +914,9 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
             return map;
         }
         if (MapTool.getBoolean(map,"state")){
-            BussAuditLogTool.addLog("PERSIST_DOMAIN",objectVo.getResult().getDomain());
+            SysDomain result1 = objectVo.getResult();
+            BussAuditLogTool.addLog("PERSIST_DOMAIN",result1.getDomain(),result1.getName(),result1.getIsDefault()?"是":"否",result1.getForAgent()?"是":"否");
+
         }
         return map;
     }
