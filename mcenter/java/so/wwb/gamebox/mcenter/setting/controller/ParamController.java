@@ -42,8 +42,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceBossTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
+import so.wwb.gamebox.iservice.company.sys.ISysDomainService;
 import so.wwb.gamebox.mcenter.content.form.RegLimitForm;
 import so.wwb.gamebox.mcenter.player.form.RecommendedForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -53,20 +55,21 @@ import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.CometSubscribeType;
-import so.wwb.gamebox.model.company.site.po.SiteConfineArea;
-import so.wwb.gamebox.model.company.site.po.SiteI18n;
-import so.wwb.gamebox.model.company.site.po.SiteLanguage;
-import so.wwb.gamebox.model.company.site.po.SiteOperateArea;
+import so.wwb.gamebox.model.company.enums.DomainPageUrlEnum;
+import so.wwb.gamebox.model.company.enums.ResolveStatusEnum;
+import so.wwb.gamebox.model.company.site.po.*;
 import so.wwb.gamebox.model.company.site.vo.*;
 import so.wwb.gamebox.model.company.sys.po.SysDomain;
 import so.wwb.gamebox.model.company.sys.po.SysSite;
 import so.wwb.gamebox.model.company.sys.vo.SysDomainListVo;
+import so.wwb.gamebox.model.company.sys.vo.SysDomainVo;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.agent.po.VSubAccount;
 import so.wwb.gamebox.model.master.agent.vo.VSubAccountListVo;
 import so.wwb.gamebox.model.master.content.vo.CttLogoVo;
 import so.wwb.gamebox.model.master.content.vo.PayAccountVo;
+import so.wwb.gamebox.model.master.enums.AppTypeEnum;
 import so.wwb.gamebox.model.master.operation.vo.PlayerRankAppDomainListVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.setting.po.FieldSort;
@@ -665,6 +668,9 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam iosDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_IOS_DOWNLOAD_ADDRESS);
         SysParam activityHallSwitch = ParamTool.getSysParam(SiteParamEnum.ACTIVITY_HALL_SWITCH);//打开活动大厅，关闭活动管理
         String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManagerCommon.getSiteId());
+        String androidUrl = getAndroidUrl();
+        getIosUrl(model);
+        model.addAttribute("androidUrl", androidUrl);
         model.addAttribute("poone_number",phoneNumber);
         model.addAttribute("phone_url",phoneUrl);
         model.addAttribute("player_stationmaster",stationmaster);
@@ -698,6 +704,63 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         return "/setting/param/siteparameters/Parameters";
     }
 
+    /**
+     * 获取安卓下载地址
+     *
+     */
+    private String getAndroidUrl() {
+        Integer siteId = CommonContext.get().getSiteId();
+        String appDomain;
+        SysParam param = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_ACCESS_DOMAIN, siteId);
+        if (param != null && StringTool.isNotBlank(param.getParamValue())) {
+            appDomain = param.getParamValue();
+        } else {
+            ISysDomainService domainService = ServiceTool.sysDomainService();
+            SysDomainVo vo = new SysDomainVo();
+            vo.getSearch().setSiteId(siteId);
+            vo.getSearch().setPageUrl(DomainPageUrlEnum.INDEX.getCode());
+            vo.getSearch().setSubsysCode(SubSysCodeEnum.MSITES.getCode());
+            vo.getSearch().setResolveStatus(ResolveStatusEnum.SUCCESS.getCode());
+            appDomain = domainService.querySiteDomain(vo).get(0);
+        }
+        SiteAppUpdateVo androidVo = new SiteAppUpdateVo();
+        androidVo.getSearch().setAppType(AppTypeEnum.ANDROID.getCode());
+        androidVo.getSearch().setSiteId(siteId);
+        SiteAppUpdate androidApp = ServiceBossTool.siteAppUpdateService().queryNewApp(androidVo);
+        if (androidApp == null) {
+            return null;
+        }
+        String code = CommonContext.get().getSiteCode();
+        String versionName = androidApp.getVersionName();
+        String appUrl = androidApp.getAppUrl();
+        String url = String.format("https://%s%s%s/app_%s_%s.apk", appDomain, appUrl,
+                versionName, code, versionName);
+        return url;
+    }
+
+    /**
+     * 获取IOS下载地址,传到页面
+     *
+     * @param model
+     */
+    private void getIosUrl(Model model) {
+        Integer siteId = CommonContext.get().getSiteId();
+        String code = CommonContext.get().getSiteCode();
+        SiteAppUpdateVo iosVo = new SiteAppUpdateVo();
+        iosVo.getSearch().setAppType(AppTypeEnum.IOS.getCode());
+        iosVo.getSearch().setSiteId(siteId);
+        SiteAppUpdate iosApp = ServiceBossTool.siteAppUpdateService().queryNewApp(iosVo);
+        if (iosApp != null) {
+            String versionName = iosApp.getVersionName();
+            String appUrl = iosApp.getAppUrl();
+            String plistUrl = String.format("https://%s%s/%s/app_%s_%s.plist", appUrl,
+                    versionName, code, code, versionName);
+            String ipaUrl = String.format("https://%s%s/%s/app_%s_%s.ipa", appUrl,
+                    versionName, code, code, versionName);
+            model.addAttribute("iosPlistUrl", plistUrl);
+            model.addAttribute("iosIpaUrl", ipaUrl);
+        }
+    }
 
     /**
      * 设置取款打款方式
