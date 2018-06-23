@@ -302,6 +302,7 @@ public class OperateReportController extends BaseOperateController {
         }
         model.addAttribute("conditionJson", ExportCriteriaTool.criteriaToJson(listVo.getExportJsonCondition()));
         model.addAttribute("command", listVo);
+        searchApiCondition(listVo,model);
     }
 
     /**
@@ -520,5 +521,15 @@ public class OperateReportController extends BaseOperateController {
         vo = ServiceSiteTool.vUserAgentService().search(vo);
         String agentName = vo.getResult().getUsername();
         return agentName;
+    }
+
+    /**
+     * API搜索条件，供弹窗查询投注记录使用
+     * @param listVo
+     * @param model
+     */
+    private void searchApiCondition(OperatePlayerListVo listVo , Model model){
+        String searchApiCondition = listVo.getSearchApiCondition();
+        model.addAttribute("searchApiCondition",searchApiCondition);
     }
 }
