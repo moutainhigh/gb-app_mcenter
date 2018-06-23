@@ -200,8 +200,6 @@
 									</c:otherwise>
 								</c:choose>
 							</td>
-							<th class="bg-tbcolor">${views.player_auto['余额稽核']}：</th>
-							<td>${empty p.withdrawDiscountAudit ?'':soulFn:formatInteger(p.withdrawDiscountAudit).concat(soulFn:formatDecimals(p.withdrawDiscountAudit))}</td>
 							<th class="bg-tbcolor">${views.player_auto['优惠稽核']}：</th>
 							<td>${p.favorableAudit}</td>
 

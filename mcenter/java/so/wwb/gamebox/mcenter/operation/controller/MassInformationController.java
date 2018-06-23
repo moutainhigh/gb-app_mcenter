@@ -366,6 +366,13 @@ public class MassInformationController {
             //设置的时间已经小于当前时间,则改为立即发送,定时发送无效
             massInformationVo.setTiming(null);
         }
+        String[] titles = massInformationVo.getTitle();
+        String[] titlesTemp = new String[titles.length];
+        for (int i=0; i<titles.length; i++) {
+            String title = StringTool.replace(titles[i],"\"", "&quot;");
+            titlesTemp[i] = title;
+        }
+        massInformationVo.setTitle(titlesTemp);
         model.addAttribute("massInformationVo", massInformationVo);
         return EDIT_CONTENT;
     }
