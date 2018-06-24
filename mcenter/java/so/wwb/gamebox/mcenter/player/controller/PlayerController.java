@@ -2782,7 +2782,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             //日志参数,日志vo
             List<String> list = new ArrayList<>();
             list.add(sysUserVo.getResult().getUsername());
-            list.add(sysUserVo.getResult().getRealName() != null ? StringTool.overlayName(sysUserVo.getResult().getRealName()) : " ");
+            list.add(StringTool.isNotBlank(sysUserVo.getResult().getRealName()) ? StringTool.overlayName(sysUserVo.getResult().getRealName()) : " ");
             list.add(StringTool.overlayName(userPlayerVo.getRealName()));
             AddLogVo addLogVo = new AddLogVo();
             addLogVo.setResult(new SysAuditLog());
