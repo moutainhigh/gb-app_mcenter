@@ -1208,8 +1208,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             //日志参数,日志vo
             List<String> list = new ArrayList<>();
             list.add(sysUserVo.getResult().getUsername());
-            list.add(sysUserVo.getResult().getNickname());//旧的玩家真实姓名暂时保存在nickname中
-            list.add(sysUserVo.getResult().getRealName());
+            list.add(StringTool.overlayName(sysUserVo.getResult().getNickname()));//旧的玩家真实姓名暂时保存在nickname中
+            list.add(StringTool.overlayName(sysUserVo.getResult().getRealName()));
             AddLogVo addLogVo = new AddLogVo();
             addLogVo.setResult(new SysAuditLog());
             addLogVo.setList(list);
@@ -1440,7 +1440,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     }
 
     @RequestMapping("/view/bankCardSave")
-    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.BANKCARD_EDIT, opType = OpType.CREATE)
+    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.BANKCARD_EDIT, opType = OpType.UPDATE)
     @ResponseBody
     @Token(valid = true)
     public Map bankCardSave(UserBankcardVo objVo, @FormModel @Valid UserBankcardForm form, BindingResult result) {
@@ -2782,8 +2782,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             //日志参数,日志vo
             List<String> list = new ArrayList<>();
             list.add(sysUserVo.getResult().getUsername());
-            list.add(sysUserVo.getResult().getRealName() != null ? sysUserVo.getResult().getRealName() : null);
-            list.add(userPlayerVo.getRealName());
+            list.add(sysUserVo.getResult().getRealName() != null ? StringTool.overlayName(sysUserVo.getResult().getRealName()) : " ");
+            list.add(StringTool.overlayName(userPlayerVo.getRealName()));
             AddLogVo addLogVo = new AddLogVo();
             addLogVo.setResult(new SysAuditLog());
             addLogVo.setList(list);
