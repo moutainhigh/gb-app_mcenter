@@ -1488,45 +1488,47 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      * @param vUserPlayerVo
      */
     private void addLog(UserBankcardVo objVo, HttpServletRequest request, LogVo logVo, List<String> params, BaseLog baseLog, UserBankcardVo vo, VUserPlayerVo vUserPlayerVo) {
-        UserBankcard userBankcard = null;
-        if (objVo.getResult().getId() != null) {
-            vo.getSearch().setId(objVo.getResult().getId());
-            vo = ServiceSiteTool.userBankcardService().get(vo);
-            userBankcard = vo.getResult();
-            baseLog.setDescription("setting.bankCard.edit");
-            baseLog.setOpType(OpType.UPDATE);
-        } else {
-            baseLog.setDescription("setting.bankCard.add");
-        }
-        if (userBankcard != null) {
-            vUserPlayerVo.getSearch().setId(userBankcard.getUserId());
+        try{
+            UserBankcard userBankcard = null;
+            if (objVo.getResult().getId() != null) {
+                vo.getSearch().setId(objVo.getResult().getId());
+                vo = ServiceSiteTool.userBankcardService().get(vo);
+                userBankcard = vo.getResult();
+                baseLog.setDescription("setting.bankCard.edit");
+                baseLog.setOpType(OpType.UPDATE);
+            } else {
+                baseLog.setDescription("setting.bankCard.add");
+            }
+            if (userBankcard != null) {
+                vUserPlayerVo.getSearch().setId(userBankcard.getUserId());
+                vUserPlayerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
+                params.add(vUserPlayerVo.getResult().getUsername());
+                params.add(StringTool.overlay(userBankcard.getBankcardNumber(),"****",userBankcard.getBankcardNumber().length()-1-4,userBankcard.getBankcardNumber().length()-1));
+                params.add(LocaleTool.tranDict(DictEnum.BANKNAME, userBankcard.getBankName()));
+                if (userBankcard.getBankDeposit() != null && !userBankcard.getBankDeposit().equals("")) {
+                    params.add(userBankcard.getBankDeposit());
+                } else {
+                    params.add(LocaleTool.tranView("player_auto", "未设置"));
+                }
+            }
+            vUserPlayerVo.getSearch().setId(objVo.getResult().getUserId());
             vUserPlayerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
             params.add(vUserPlayerVo.getResult().getUsername());
-            params.add(userBankcard.getBankcardNumber());
-            params.add(LocaleTool.tranDict(DictEnum.BANKNAME, userBankcard.getBankName()));
-            if (userBankcard.getBankDeposit() != null && !userBankcard.getBankDeposit().equals("")) {
-                params.add(userBankcard.getBankDeposit());
+            params.add(StringTool.overlay(objVo.getResult().getBankcardNumber(),"****",objVo.getResult().getBankcardNumber().length()-1-4,objVo.getResult().getBankcardNumber().length()-1));
+            params.add(LocaleTool.tranDict(DictEnum.BANKNAME, objVo.getResult().getBankName()));
+            if (objVo.getResult().getBankDeposit() != null && !objVo.getResult().getBankDeposit().equals("")) {
+                params.add(objVo.getResult().getBankDeposit());
             } else {
                 params.add(LocaleTool.tranView("player_auto", "未设置"));
             }
-        }
-        vUserPlayerVo.getSearch().setId(objVo.getResult().getUserId());
-        vUserPlayerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
-        params.add(vUserPlayerVo.getResult().getUsername());
-        params.add(objVo.getResult().getBankcardNumber());
-        params.add(LocaleTool.tranDict(DictEnum.BANKNAME, objVo.getResult().getBankName()));
-        if (objVo.getResult().getBankDeposit() != null && !objVo.getResult().getBankDeposit().equals("")) {
-            params.add(objVo.getResult().getBankDeposit());
-        } else {
-            params.add(LocaleTool.tranView("player_auto", "未设置"));
-        }
-        AddLogVo addLogVo = new AddLogVo();
-        addLogVo.setResult(new SysAuditLog());
-        addLogVo.setList(params);
-        for (String param : params) {
-            baseLog.addParam(param);
-        }
-        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+            AddLogVo addLogVo = new AddLogVo();
+            addLogVo.setResult(new SysAuditLog());
+            addLogVo.setList(params);
+            for (String param : params) {
+                baseLog.addParam(param);
+            }
+            request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+        }catch(Exception ex){}
     }
 
   /*  @RequestMapping("/view/checkBankcardNumber")
