@@ -2593,7 +2593,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     }
 
     /**
-     * 安全问题日志
+     * 安全问题,联系方式日志
      * @param vUserPlayerVo
      * @param oldObjectVo
      */
@@ -2619,25 +2619,24 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
                 BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.PLAYER_RESET_PROTECTION_SUCCESS, OpType.UPDATE, "PLAYER_RESET_PROTECTION_SUCCESS",
                         username, oldQuestionLang+" ", questionLang+" " );
             }
-            //联系方式
-            for (NoticeContactWay oldContact : oldObjectVo.getNoticeContactWays()) {
-                String oldContactType = oldContact.getContactType();
-                String oldContactValue = oldContact.getContactValue();
-                String contactValue = vUserPlayerVo.getPhone().getContactValue();
-                if ("110".equals(oldContact.getContactType()) && !vUserPlayerVo.getPhone().getContactValue().equals(oldContactValue)) {
-                    BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.PLAYER_RESET_MOBILE_SUCCESS, OpType.UPDATE, "PLAYER_RESET_MOBILE_SUCCESS",
-                            username, oldContactValue + " ", vUserPlayerVo.getPhone().getContactValue() + " ");
-                } else if ("201".equals(oldContact.getContactType()) && !vUserPlayerVo.getEmail().getContactValue().equals(oldContactValue)) {
-                    BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.PLAYER_RESET_EMAIL_SUCCESS, OpType.UPDATE, "PLAYER_RESET_EMAIL_SUCCESS",
-                            username, oldContactValue + " ", vUserPlayerVo.getEmail().getContactValue() + " ");
-                }
-                /*if ("301".equals(oldContact.getContactType())) {
-                    description = "PLAYER_RESET_MOBILE_SUCCESS";
-                }
-                if ("201".equals(oldContact.getContactType())) {
-                    description = "PLAYER_RESET_MOBILE_SUCCESS";
-                }*/
+            oldObjectVo.getNoticeContactWays();
+            Map<Object, NoticeContactWay> contactWayMap = CollectionTool.toEntityMap(oldObjectVo.getNoticeContactWays(), NoticeContactWay.PROP_CONTACT_TYPE);
+            //email修改
+            NoticeContactWay oldContactWayEmail = contactWayMap.get(ContactWayTypeEnum.EMAIL.getCode());
+            String oldEmail = (oldContactWayEmail==null?"":oldContactWayEmail.getContactValue());
+            if ( !vUserPlayerVo.getEmail().getContactValue().equals(oldEmail)) {
+                String s = StringTool.isBlank(oldEmail) ? oldEmail : "";
+                BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.PLAYER_RESET_EMAIL_SUCCESS, OpType.UPDATE, "PLAYER_RESET_EMAIL_SUCCESS",
+                        username, StringTool.overlayEmail(oldEmail) + " ", StringTool.overlayEmail(vUserPlayerVo.getEmail().getContactValue()) + " ");
             }
+            //手机
+            NoticeContactWay oldContactWayMobile = contactWayMap.get(ContactWayTypeEnum.MOBILE.getCode());
+            String oldMobile = (oldContactWayMobile==null?"":oldContactWayMobile.getContactValue());
+            if ( !vUserPlayerVo.getPhone().getContactValue().equals(oldMobile)) {
+                BussAuditLogTool.addBussLog(Module.PLAYER, ModuleType.PLAYER_RESET_MOBILE_SUCCESS, OpType.UPDATE, "PLAYER_RESET_MOBILE_SUCCESS",
+                        username, StringTool.overlayTel(oldMobile )+ " ", StringTool.overlayTel(vUserPlayerVo.getPhone().getContactValue()) + " ");
+            }
+
         } catch (Exception ex) {
             LOG.warn("修改玩家详细信息记录日志时发生错误{0}", ex.getStackTrace());
             ex.printStackTrace();
