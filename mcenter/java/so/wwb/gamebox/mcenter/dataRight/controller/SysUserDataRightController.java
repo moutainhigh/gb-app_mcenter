@@ -3,6 +3,8 @@ package so.wwb.gamebox.mcenter.dataRight.controller;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
+import org.soul.commons.query.Criterion;
+import org.soul.commons.query.enums.Operator;
 import org.soul.commons.support._Module;
 import org.soul.web.controller.BaseCrudController;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import so.wwb.gamebox.iservice.master.dataRight.ISysUserDataRightService;
 import so.wwb.gamebox.mcenter.dataRight.form.SysUserDataRightForm;
 import so.wwb.gamebox.mcenter.dataRight.form.SysUserDataRightSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.model.RankStatusEnum;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.master.dataRight.DataRightModuleType;
 import so.wwb.gamebox.model.master.dataRight.SysResourceEnum;
@@ -56,7 +59,16 @@ public class SysUserDataRightController extends BaseCrudController<ISysUserDataR
     @RequestMapping("/editDataRights")
     @Token(generate = true)
     public String editDataRights(SysUserDataRightVo objectVo, Model model) {
-        List<PlayerRank> playerRanks = ServiceSiteTool.playerRankService().allSearch(new PlayerRankListVo());
+        PlayerRankListVo playerRankListVo = new PlayerRankListVo();
+        //2018.6.20 问了cherry层级只有normal,delete,只展示normal,
+        // (默认数据权限不勾选即为所有层级，修改后带来一个问题,如果只有被删除的层级先前是勾选的，修改后就不显示了，master看到的一个都没有勾选，但是还是没有所有权限：站长重新保存即可)
+        // 或者删掉已经被删的层级的数据权限：delete from sys_user_data_right where entity_id in ( select id from player_rank where status <> '1'  )
+        playerRankListVo.getQuery().setCriterions(new Criterion[]{
+               new Criterion(PlayerRank.PROP_STATUS, Operator.EQ, RankStatusEnum.NORMAL.getCode())
+        });
+        playerRankListVo.getPaging().setPageSize(Integer.MAX_VALUE);//查询所有层级
+        playerRankListVo = ServiceSiteTool.playerRankService().search(playerRankListVo);
+        List<PlayerRank> playerRanks = playerRankListVo.getResult();
         model.addAttribute("playerRanks",playerRanks);
         model.addAttribute("subAccountName",objectVo.getSearch().getSubAccountName());
 
