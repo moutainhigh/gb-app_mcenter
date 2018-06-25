@@ -1208,8 +1208,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             //日志参数,日志vo
             List<String> list = new ArrayList<>();
             list.add(sysUserVo.getResult().getUsername());
-            list.add(sysUserVo.getResult().getNickname());//旧的玩家真实姓名暂时保存在nickname中
-            list.add(sysUserVo.getResult().getRealName());
+            list.add(StringTool.overlayName(sysUserVo.getResult().getNickname()));//旧的玩家真实姓名暂时保存在nickname中
+            list.add(StringTool.overlayName(sysUserVo.getResult().getRealName()));
             AddLogVo addLogVo = new AddLogVo();
             addLogVo.setResult(new SysAuditLog());
             addLogVo.setList(list);
@@ -1440,7 +1440,7 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
     }
 
     @RequestMapping("/view/bankCardSave")
-    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.BANKCARD_EDIT, opType = OpType.CREATE)
+    @Audit(module = Module.MASTER_SETTING, moduleType = ModuleType.BANKCARD_EDIT, opType = OpType.UPDATE)
     @ResponseBody
     @Token(valid = true)
     public Map bankCardSave(UserBankcardVo objVo, @FormModel @Valid UserBankcardForm form, BindingResult result) {
@@ -1488,45 +1488,47 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
      * @param vUserPlayerVo
      */
     private void addLog(UserBankcardVo objVo, HttpServletRequest request, LogVo logVo, List<String> params, BaseLog baseLog, UserBankcardVo vo, VUserPlayerVo vUserPlayerVo) {
-        UserBankcard userBankcard = null;
-        if (objVo.getResult().getId() != null) {
-            vo.getSearch().setId(objVo.getResult().getId());
-            vo = ServiceSiteTool.userBankcardService().get(vo);
-            userBankcard = vo.getResult();
-            baseLog.setDescription("setting.bankCard.edit");
-            baseLog.setOpType(OpType.UPDATE);
-        } else {
-            baseLog.setDescription("setting.bankCard.add");
-        }
-        if (userBankcard != null) {
-            vUserPlayerVo.getSearch().setId(userBankcard.getUserId());
+        try{
+            UserBankcard userBankcard = null;
+            if (objVo.getResult().getId() != null) {
+                vo.getSearch().setId(objVo.getResult().getId());
+                vo = ServiceSiteTool.userBankcardService().get(vo);
+                userBankcard = vo.getResult();
+                baseLog.setDescription("setting.bankCard.edit");
+                baseLog.setOpType(OpType.UPDATE);
+            } else {
+                baseLog.setDescription("setting.bankCard.add");
+            }
+            if (userBankcard != null) {
+                vUserPlayerVo.getSearch().setId(userBankcard.getUserId());
+                vUserPlayerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
+                params.add(vUserPlayerVo.getResult().getUsername());
+                params.add(StringTool.overlay(userBankcard.getBankcardNumber(),"****",userBankcard.getBankcardNumber().length()-1-4,userBankcard.getBankcardNumber().length()-1));
+                params.add(LocaleTool.tranDict(DictEnum.BANKNAME, userBankcard.getBankName()));
+                if (userBankcard.getBankDeposit() != null && !userBankcard.getBankDeposit().equals("")) {
+                    params.add(userBankcard.getBankDeposit());
+                } else {
+                    params.add(LocaleTool.tranView("player_auto", "未设置"));
+                }
+            }
+            vUserPlayerVo.getSearch().setId(objVo.getResult().getUserId());
             vUserPlayerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
             params.add(vUserPlayerVo.getResult().getUsername());
-            params.add(userBankcard.getBankcardNumber());
-            params.add(LocaleTool.tranDict(DictEnum.BANKNAME, userBankcard.getBankName()));
-            if (userBankcard.getBankDeposit() != null && !userBankcard.getBankDeposit().equals("")) {
-                params.add(userBankcard.getBankDeposit());
+            params.add(StringTool.overlay(objVo.getResult().getBankcardNumber(),"****",objVo.getResult().getBankcardNumber().length()-1-4,objVo.getResult().getBankcardNumber().length()-1));
+            params.add(LocaleTool.tranDict(DictEnum.BANKNAME, objVo.getResult().getBankName()));
+            if (objVo.getResult().getBankDeposit() != null && !objVo.getResult().getBankDeposit().equals("")) {
+                params.add(objVo.getResult().getBankDeposit());
             } else {
                 params.add(LocaleTool.tranView("player_auto", "未设置"));
             }
-        }
-        vUserPlayerVo.getSearch().setId(objVo.getResult().getUserId());
-        vUserPlayerVo = ServiceSiteTool.vUserPlayerService().get(vUserPlayerVo);
-        params.add(vUserPlayerVo.getResult().getUsername());
-        params.add(objVo.getResult().getBankcardNumber());
-        params.add(LocaleTool.tranDict(DictEnum.BANKNAME, objVo.getResult().getBankName()));
-        if (objVo.getResult().getBankDeposit() != null && !objVo.getResult().getBankDeposit().equals("")) {
-            params.add(objVo.getResult().getBankDeposit());
-        } else {
-            params.add(LocaleTool.tranView("player_auto", "未设置"));
-        }
-        AddLogVo addLogVo = new AddLogVo();
-        addLogVo.setResult(new SysAuditLog());
-        addLogVo.setList(params);
-        for (String param : params) {
-            baseLog.addParam(param);
-        }
-        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+            AddLogVo addLogVo = new AddLogVo();
+            addLogVo.setResult(new SysAuditLog());
+            addLogVo.setList(params);
+            for (String param : params) {
+                baseLog.addParam(param);
+            }
+            request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
+        }catch(Exception ex){}
     }
 
   /*  @RequestMapping("/view/checkBankcardNumber")
@@ -2780,8 +2782,8 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
             //日志参数,日志vo
             List<String> list = new ArrayList<>();
             list.add(sysUserVo.getResult().getUsername());
-            list.add(sysUserVo.getResult().getRealName() != null ? sysUserVo.getResult().getRealName() : null);
-            list.add(userPlayerVo.getRealName());
+            list.add(StringTool.isNotBlank(sysUserVo.getResult().getRealName()) ? StringTool.overlayName(sysUserVo.getResult().getRealName()) : " ");
+            list.add(StringTool.overlayName(userPlayerVo.getRealName()));
             AddLogVo addLogVo = new AddLogVo();
             addLogVo.setResult(new SysAuditLog());
             addLogVo.setList(list);
