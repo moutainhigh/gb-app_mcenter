@@ -39,7 +39,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/report/gameOrderLinkPopup")
 public class GameOrderLinkPopupController extends BaseCrudController<IVPlayerGameOrderService, VPlayerGameOrderListVo, VPlayerGameOrderVo, VPlayerGameOrderSearchForm, VPlayerGameOrderForm, VPlayerGameOrder, Integer> {
-    private static final Log LOG = LogFactory.getLog(GameOrderController.class);
+    private static final Log LOG = LogFactory.getLog(GameOrderLinkPopupController.class);
 
     @Override
     protected String getViewBasePath() {
