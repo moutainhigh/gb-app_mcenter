@@ -961,10 +961,10 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         model.addAttribute("riskSet", userPlayerVo.getResult()!=null?userPlayerVo.getResult().getRiskSet():null);
 
         //上次同步API余额时间
-        PlayerApiListVo playerApiListVo = new PlayerApiListVo();
+       /* PlayerApiListVo playerApiListVo = new PlayerApiListVo();
         playerApiListVo.getSearch().setPlayerId(searchId);
         playerApiListVo.setType(ApiQueryTypeEnum.ALL_API.getCode());
-        ShareController.lastSynchroApiCash(userPlayerVo , playerApiListVo);
+        ShareController.lastSynchroApiCash(userPlayerVo , playerApiListVo);*/
 
         //判断玩家最后登录时间,当最后登录时间 > 30天，点击玩家详情时系统自行回收资金
         Date lastLoginTime = vUserPlayerVo.getResult().getLoginTime();

@@ -24,6 +24,7 @@ import so.wwb.gamebox.mcenter.share.controller.ShareController;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.api.vo.ApiFundRecoveryVo;
 import so.wwb.gamebox.model.company.site.po.SiteApi;
+import so.wwb.gamebox.model.enums.ApiQueryTypeEnum;
 import so.wwb.gamebox.model.master.player.po.PlayerApi;
 import so.wwb.gamebox.model.master.player.po.PlayerApiAccount;
 import so.wwb.gamebox.model.master.player.po.PlayerTransaction;
@@ -37,7 +38,7 @@ import java.util.*;
 
 /**
  * 玩家信息-资金
- * <p>
+ * <p/>
  * Created by cheery on 15-6-23.
  */
 @Controller
@@ -115,19 +116,17 @@ public class PlayerFundsController extends BaseCrudController<IPlayerTransaction
     }
 
     private void queryApiData(Model model, PlayerApiListVo listVo) {
-
-        //上次同步API余额时间
-        /*UserPlayerVo userPlayerVo = new UserPlayerVo();
-        userPlayerVo.getSearch().setId(listVo.getSearch().getPlayerId());
-        userPlayerVo = ServiceSiteTool.userPlayerService().get(userPlayerVo);
-        ShareController.lastSynchroApiCash(userPlayerVo , listVo);*/
-        //同步玩家api余额
-        ShareController.fetchPlayerApiBalance(listVo);
         //查询玩家api数据
         VUserPlayerVo vo = new VUserPlayerVo();
         vo.getSearch().setId(listVo.getSearch().getPlayerId());
         vo = ServiceSiteTool.vUserPlayerService().get(vo);
         model.addAttribute("player", vo.getResult());
+        //上次同步API余额时间
+        PlayerApiListVo playerApiListVo = new PlayerApiListVo();
+        playerApiListVo.getSearch().setPlayerId(listVo.getSearch().getPlayerId());
+        playerApiListVo.setType(ApiQueryTypeEnum.ALL_API.getCode());
+        ShareController.fetchPlayerApiBalanceByTimeLimit(vo.getResult().getSynchronizationTime(), playerApiListVo);
+
         refreshFunds(listVo.getSearch().getPlayerId(), model);
     }
 
@@ -292,7 +291,7 @@ public class PlayerFundsController extends BaseCrudController<IPlayerTransaction
      * @return Map
      */
     private Map showMap(PlayerApiVo apiVo) {
-        Map<String, Object> map = new HashMap<>(2,1f);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         //map.put("msg", LocaleTool.tranMessage(_Module.COMMON, "recovery.process"));
         map.put("state", apiVo.isSuccess());
         return map;
