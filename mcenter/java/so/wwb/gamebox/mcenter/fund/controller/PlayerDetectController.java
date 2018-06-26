@@ -2,6 +2,7 @@ package so.wwb.gamebox.mcenter.fund.controller;
 
 import org.soul.commons.collections.MapTool;
 import org.soul.commons.init.context.Const;
+import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
@@ -23,6 +24,7 @@ import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerForm;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerSearchForm;
+import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.share.controller.ShareController;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ModuleType;
@@ -42,10 +44,7 @@ import so.wwb.gamebox.web.cache.Cache;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by suyj on 15-8-14.
@@ -104,7 +103,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
     public String userPlayView(VUserPlayerVo objVo, Model model, HttpServletRequest request) {
         VUserPlayerSo so = objVo.getSearch();
         SysParam telemarketing = ParamTool.getSysParam(SiteParamEnum.ELECTRIC_PIN_SWITCH);
-        model.addAttribute("electric_pin",telemarketing);
+        model.addAttribute("electric_pin", telemarketing);
         if (StringTool.isBlank(so.getUsername())) {
             objVo = new VUserPlayerVo();
         } else {
@@ -351,14 +350,21 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
 
     @RequestMapping("/fundRecord")
     public String fundRecord(PlayerApiListVo listVo, Model model) {
-        //同步玩家api余额
-        ShareController.fetchPlayerApiBalance(listVo);
-
         //查询玩家api余额
         Integer playerId = listVo.getSearch().getPlayerId();
         VUserPlayerVo objVo = new VUserPlayerVo();
         objVo.getSearch().setId(playerId);
         objVo = getService().get(objVo);
+
+        Date lastSynTime = objVo.getResult().getSynchronizationTime();
+        long between = DateTool.secondsBetween(SessionManager.getDate().getNow(), lastSynTime);
+        if (between > 60) {
+            //同步玩家api余额
+            ShareController.fetchPlayerApiBalance(listVo);
+        } else {
+            LOG.info("玩家检测查询玩家{0}资金查询api资金在{1}s内已经查询过了,防止查询太频繁", objVo.getResult().getUsername(), between);
+        }
+
         playerApiList(playerId, model);
         model.addAttribute("command", objVo);
         return FUND_RECORD_URI;
