@@ -23,7 +23,7 @@
                                 <td class="ft-bold t-a-c" colspan="3" style="text-align: center;">${views.home_auto['新玩家']}</td>
                                 <td class="ft-bold t-a-r" rowspan="2">
                                 <span tabindex="0" class=" help-popover m-r-xs" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
-                                      data-html="true" data-content="${views.content['annotation.deposit']}">
+                                      data-html="true" data-content="${views.home_auto['含人工存入的人工存取/派彩/其他']}">
                                     <i class="fa fa-question-circle"></i>
                                 </span>${views.home_auto['存款总额']}
                                 </td>
