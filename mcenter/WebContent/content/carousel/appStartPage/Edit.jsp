@@ -103,7 +103,7 @@
                                     <label>${views.column['CttCarouselI18n.name']}：</label>
                                 </div>
                                 <div>
-                                    <input type="text" placeholder="" tt="${p.language}" class="form-control field carouselNameVal${p.language} _edit"
+                                    <input type="text" placeholder="1-40个字符" tt="${p.language}" class="form-control field carouselNameVal${p.language} _edit"
                                            maxlength="40"   name="cttCarouselI18n[${index.index}].name" value="${carousel.name}">
                                 </div>
                             </div>
