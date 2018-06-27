@@ -181,6 +181,9 @@ public class VPlayerFundsRecordLinkPopupController extends BaseCrudController<IV
                 case 2: // 昨日
                     listVo.getSearch().setStartTime(SessionManager.getDate().getYestoday());
                     listVo.getSearch().setEndTime(today);
+                case 11:
+                    listVo.getSearch().setStartTime(SessionManager.getDate().getYestoday());
+                    listVo.getSearch().setEndTime(today);
                     break;
                 case 3: // 本周
                     listVo.getSearch().setStartTime(weekStartDate);
