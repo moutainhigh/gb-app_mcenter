@@ -14,7 +14,7 @@
             ${views.fund['fund.playerDetect.index.totalFavorable']}
         </b>
 
-        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${username}&search.userTypes=username&search.transactionWays=first_deposit,second_deposit,third_deposit,everyday_first_deposit,deposit_send,regist_send,relief_fund,profit_loss,effective_transaction,money,single_reward,bonus_awards&search.manualSaves=manual_favorable,manual_payout,manual_other&search.orderType=playerFavable" size="open-dialog-95p"
+        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.usernames=${username}&search.userTypes=username&search.transactionWays=first_deposit,second_deposit,third_deposit,everyday_first_deposit,deposit_send,regist_send,relief_fund,profit_loss,effective_transaction,money,single_reward,bonus_awards&search.manualSaves=manual_favorable,manual_payout,manual_other&search.orderType=playerFavable" size="open-dialog-95p"
                      callback="" text="" title="优惠详情" opType="dialog">
             <span class="pull-right co-blue">${favorableVal}</span>
         </soul:button>
@@ -27,7 +27,7 @@
                                 </span>
             ${views.fund['playerDetect.view.discountNum']}：
         </b>
-        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${username}&search.userTypes=username&search.transactionWays=first_deposit,second_deposit,third_deposit,everyday_first_deposit,deposit_send,regist_send,relief_fund,profit_loss,effective_transaction,money,single_reward,bonus_awards&search.manualSaves=manual_favorable,manual_payout,manual_other&search.orderType=playerFavable" size="open-dialog-95p"
+        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.usernames=${username}&search.userTypes=username&search.transactionWays=first_deposit,second_deposit,third_deposit,everyday_first_deposit,deposit_send,regist_send,relief_fund,profit_loss,effective_transaction,money,single_reward,bonus_awards&search.manualSaves=manual_favorable,manual_payout,manual_other&search.orderType=playerFavable" size="open-dialog-95p"
                      callback="" text="" title="优惠详情" opType="dialog">
             <span class="pull-right co-blue">${favorableCount}${views.fund['fund.playerDetect.index.second']}</span>
         </soul:button>
@@ -40,7 +40,7 @@
                                 </span>
         ${views.fund['playerDetect.view.totalAmount']}：</b>
         <span class="pull-right co-blue">
-            <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${username}&search.userTypes=username&search.transactionWays=back_water&search.manualSaves=manual_rakeback&search.outer=-1" size="open-dialog-95p"
+            <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.usernames=${username}&search.userTypes=username&search.transactionWays=back_water&search.manualSaves=manual_rakeback&search.outer=-1" size="open-dialog-95p"
                          callback="" text="" title="返水详情" opType="dialog">
                 ${soulFn:formatCurrency(rakeback)}
             </soul:button>
