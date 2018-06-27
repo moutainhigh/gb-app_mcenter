@@ -98,9 +98,15 @@ public class ShareController {
      * 判断上次同步api时间是否在10分钟前
      */
     public static void lastSynchroApiCash(UserPlayerVo userPlayerVo, PlayerApiListVo playerApiListVo) {
-        Date transactionSynTime = userPlayerVo.getResult().getTransactionSynTime();
+        fetchPlayerApiBalanceByTimeLimit(userPlayerVo.getResult().getSynchronizationTime(), playerApiListVo);
+    }
+
+    /**
+     * 判断上次同步api时间是否在10分钟前
+     */
+    public static void fetchPlayerApiBalanceByTimeLimit(Date lastSynTime, PlayerApiListVo playerApiListVo) {
         Date nowTime = SessionManager.getDate().getNow();
-        if (transactionSynTime == null || DateTool.minutesBetween(nowTime, transactionSynTime) > TEN_MINUTE_TO_MS) {
+        if (lastSynTime == null || DateTool.minutesBetween(nowTime, lastSynTime) > 10) {
             ShareController.fetchPlayerApiBalance(playerApiListVo);
         }
     }
