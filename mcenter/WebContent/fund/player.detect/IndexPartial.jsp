@@ -150,14 +150,14 @@
                         ${views.fund['playerDetect.view.totalDeposit']}：
                     </th>
                     <td style="width: 150px">
-                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.transactionType=deposit&search.usernames=${command1.result.username}&search.userTypes=username" size="open-dialog-95p"
+                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.transactionType=deposit&search.usernames=${command1.result.username}&search.userTypes=username" size="open-dialog-95p"
                                      callback="" text="" title="存款详情" opType="dialog">
                             ${empty playerMoneyData.depositcounttime?'0':playerMoneyData.depositcounttime}
                         </soul:button>
                     </td>
                     <th class="bg-tbcolor" style="width: 150px;text-align: right">${views.fund['playerDetect.view.totalDepositAmount']}：</th>
                     <td style="width: 150px">
-                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.transactionType=deposit&search.usernames=${command1.result.username}&search.userTypes=username" size="open-dialog-95p"
+                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.transactionType=deposit&search.usernames=${command1.result.username}&search.userTypes=username" size="open-dialog-95p"
                                      callback="" text="" title="存款详情" opType="dialog">
                             ${empty playerMoneyData.deposittotalmoney?'0':playerMoneyData.deposittotalmoney}
                         </soul:button>
@@ -174,14 +174,14 @@
                         ${views.fund['playerDetect.view.totalWithdraw']}：
                     </th>
                     <td>
-                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${command1.result.username}&search.userTypes=username&search.transactionWays=player_withdraw&search.manualWithdraws=manual_deposit,manual_favorable,manual_rakeback,manual_payout,manual_other" size="open-dialog-95p"
+                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.usernames=${command1.result.username}&search.userTypes=username&search.transactionWays=player_withdraw&search.manualWithdraws=manual_deposit,manual_favorable,manual_rakeback,manual_payout,manual_other" size="open-dialog-95p"
                                      callback="" text="" title="取款详情" opType="dialog">
                             ${empty playerMoneyData.withdrawcounttime?'0':playerMoneyData.withdrawcounttime}
                         </soul:button>
                     </td>
                     <th class="bg-tbcolor" style="text-align: right">${views.fund['playerDetect.view.totalWithdrawAmount']}：</th>
                     <td>
-                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${command1.result.username}&search.userTypes=username&search.transactionWays=player_withdraw&search.manualWithdraws=manual_deposit,manual_favorable,manual_rakeback,manual_payout,manual_other" size="open-dialog-95p"
+                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.usernames=${command1.result.username}&search.userTypes=username&search.transactionWays=player_withdraw&search.manualWithdraws=manual_deposit,manual_favorable,manual_rakeback,manual_payout,manual_other" size="open-dialog-95p"
                                      callback="" text="" title="取款详情" opType="dialog">
                             ${empty playerMoneyData.withdrawtotalmoney?'0':playerMoneyData.withdrawtotalmoney}
                         </soul:button>

@@ -263,7 +263,7 @@
                             <div class="content">
                                 ${views.player_auto['共返水']}
                                 ${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                                    <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.userTypes=username&search.usernames=${command.result.username}&search.transactionWays=back_water&search.manualSaves=manual_rakeback" size="open-dialog-95p"
+                                    <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.userTypes=username&search.usernames=${command.result.username}&search.transactionWays=back_water&search.manualSaves=manual_rakeback" size="open-dialog-95p"
                                                  callback="" text="" title="返水详情" opType="dialog">
                                         ${soulFn:formatInteger(command.result.rakeback)}${soulFn:formatDecimals(command.result.rakeback)}
                                     </soul:button>，
@@ -605,13 +605,13 @@
                                     <i class="fa fa-question-circle" ></i>
                                 </span>${views.player_auto['存款']}
 
-                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.transactionType=deposit&search.usernames=${command.result.username}&search.userTypes=username" size="open-dialog-95p"
+                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.transactionType=deposit&search.usernames=${command.result.username}&search.userTypes=username" size="open-dialog-95p"
                                              callback="" text="" title="存款详情" opType="dialog">
                                     <span class="co-blue" id="rechargeCount">${views.player_auto['计算中']}...</span>
                                 </soul:button>
                                 ${views.player_auto['次']}，
                                 ${views.player_auto['共计']}${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.transactionType=deposit&search.usernames=${command.result.username}&search.userTypes=username" size="open-dialog-95p"
+                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.transactionType=deposit&search.usernames=${command.result.username}&search.userTypes=username" size="open-dialog-95p"
                                              callback="" text="" title="存款详情" opType="dialog">
                                     <span class="co-blue" id="rechargeTotal">${views.player_auto['计算中']}...</span>
                                 </soul:button>；
@@ -620,14 +620,14 @@
                                       data-html="true" data-content="${views.player_auto['包含人工取出的所有类型']}。">
                                     <i class="fa fa-question-circle" ></i>
                                 </span>${views.player_auto['取款']}
-                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${command.result.username}&search.userTypes=username&search.transactionType=withdrawals" size="open-dialog-95p"
+                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.usernames=${command.result.username}&search.userTypes=username&search.transactionType=withdrawals" size="open-dialog-95p"
                                              callback="" text="" title="取款详情" opType="dialog">
                                     <span class="co-blue" id="withdrawCountTime">${views.player_auto['计算中']}...</span>
                                 </soul:button>
                                 ${views.player_auto['次']}，
                                 ${views.player_auto['共计']}
                                 ${dicts.common.currency_symbol[command.result.defaultCurrency]}
-                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${command.result.username}&search.userTypes=username&search.transactionType=withdrawals" size="open-dialog-95p"
+                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.usernames=${command.result.username}&search.userTypes=username&search.transactionType=withdrawals" size="open-dialog-95p"
                                              callback="" text="" title="取款详情" opType="dialog">
                                     <span class="co-blue" id="withdrawTotalMoney">${views.player_auto['计算中']}...</span>
                                 </soul:button>；
@@ -642,7 +642,7 @@
                                       data-html="true" data-content="${views.content['annotation.favorable']}">
                                     <i class="fa fa-question-circle" ></i>
                                 </span>${views.player_auto['获得优惠']}
-                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${command.result.username}&search.userTypes=username&search.orderType=playerFavable&search.transactionWays=first_deposit,second_deposit,third_deposit,everyday_first_deposit,deposit_send,regist_send,relief_fund,profit_loss,effective_transaction,money,single_reward,bonus_awards&search.manualSaves=manual_favorable,manual_payout,manual_other" size="open-dialog-95p"
+                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.usernames=${command.result.username}&search.userTypes=username&search.orderType=playerFavable&search.transactionWays=first_deposit,second_deposit,third_deposit,everyday_first_deposit,deposit_send,regist_send,relief_fund,profit_loss,effective_transaction,money,single_reward,bonus_awards&search.manualSaves=manual_favorable,manual_payout,manual_other" size="open-dialog-95p"
                                              callback="" text="" title="优惠详情" opType="dialog">
                                     <span class="co-blue" id="favCount">${views.player_auto['计算中']}...</span>
                                 </soul:button>
@@ -651,7 +651,7 @@
                                 <%--<a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${command.result.username}&search.userTypes=username&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable&search.transactionWays=<%=TransactionWayEnum.FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.SECOND_DEPOSIT.getCode()%>,<%=TransactionWayEnum.THIRD_DEPOSIT.getCode()%>,<%=TransactionWayEnum.EVERYDAY_FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.DEPOSIT_SEND.getCode()%>,<%=TransactionWayEnum.REGIST_SEND.getCode()%>,<%=TransactionWayEnum.RELIEF_FUND.getCode()%>,<%=TransactionWayEnum.PROFIT_LOSS.getCode()%>,<%=TransactionWayEnum.EFFECTIVE_TRANSACTION.getCode()%>,<%=TransactionWayEnum.MONEY.getCode()%>,<%=TransactionWayEnum.SINGLE_REWARD.getCode()%>,<%=TransactionWayEnum.BONUS_AWARDS.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame">
                                     <span class="co-blue" id="favMoney">${views.player_auto['计算中']}...</span>
                                 </a>--%>
-                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?search.usernames=${command.result.username}&search.userTypes=username&search.orderType=playerFavable&search.transactionWays=first_deposit,second_deposit,third_deposit,everyday_first_deposit,deposit_send,regist_send,relief_fund,profit_loss,effective_transaction,money,single_reward,bonus_awards&search.manualSaves=manual_favorable,manual_payout,manual_other" size="open-dialog-95p"
+                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.usernames=${command.result.username}&search.userTypes=username&search.orderType=playerFavable&search.transactionWays=first_deposit,second_deposit,third_deposit,everyday_first_deposit,deposit_send,regist_send,relief_fund,profit_loss,effective_transaction,money,single_reward,bonus_awards&search.manualSaves=manual_favorable,manual_payout,manual_other" size="open-dialog-95p"
                                              callback="" text="" title="优惠详情" opType="dialog">
                                     <span class="co-blue" id="favMoney">${views.player_auto['计算中']}...</span>
                                 </soul:button>；
