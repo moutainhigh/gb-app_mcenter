@@ -628,7 +628,6 @@ public class IndexController extends BasePhoneApiController {
         Map result = new HashMap();
         SysParamVo sysParamVo = getSysParamVo();
         String content = request.getParameter("content");
-        LOG.info("收到消息弹窗的内容:{0}",content);
         if (sysParamVo.getResult() == null) {
             insertPersonParam(sysParamVo);
             result.put("isShow", "true");
