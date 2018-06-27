@@ -1,6 +1,7 @@
 package so.wwb.gamebox.mcenter.share.controller;
 
 import org.soul.commons.collections.CollectionTool;
+import org.soul.commons.lang.DateTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.spring.utils.SpringTool;
@@ -97,13 +98,16 @@ public class ShareController {
      * 判断上次同步api时间是否在10分钟前
      */
     public static void lastSynchroApiCash(UserPlayerVo userPlayerVo, PlayerApiListVo playerApiListVo) {
-        Date transactionSynTime = userPlayerVo.getResult().getTransactionSynTime();
-        boolean isSynchroApiCash = transactionSynTime == null ? true : (new Date().getTime() - transactionSynTime.getTime()) > TEN_MINUTE_TO_MS;
-        if (isSynchroApiCash) {
+        fetchPlayerApiBalanceByTimeLimit(userPlayerVo.getResult().getSynchronizationTime(), playerApiListVo);
+    }
+
+    /**
+     * 判断上次同步api时间是否在10分钟前
+     */
+    public static void fetchPlayerApiBalanceByTimeLimit(Date lastSynTime, PlayerApiListVo playerApiListVo) {
+        Date nowTime = SessionManager.getDate().getNow();
+        if (lastSynTime == null || DateTool.minutesBetween(nowTime, lastSynTime) > 10) {
             ShareController.fetchPlayerApiBalance(playerApiListVo);
-            userPlayerVo.getResult().setTransactionSynTime(new Date());
-            userPlayerVo.setProperties(UserPlayer.PROP_TRANSACTION_SYN_TIME);
-            ServiceSiteTool.userPlayerService().updateOnly(userPlayerVo);
         }
     }
 

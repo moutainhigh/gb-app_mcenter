@@ -115,7 +115,7 @@
                         <%--删除--%>
                     <c:choose>
                         <c:when test="${s.resolveStatus=='1'||s.resolveStatus=='6'}">
-                            <soul:button target="${root}/content/sysDomain/delDomain.html?result.id=${s.id}&result.code=${s.code}"
+                            <soul:button target="${root}/content/sysDomain/delDomain.html?result.id=${s.id}&result.code=${s.code}&result.domain=${s.domain}"
                                          precall="deleteMessage" callback="query" text="${views.common['delete']}"
                                          opType="ajax" cssClass="co-blue"/>
                             <%--<soul:button target="${root}/content/sysDomain/mainManagerEdit.html?search.id=${s.id}" text="${views.common['delete']}" tag="a" opType="dialog" callback="query"></soul:button>--%>
@@ -132,7 +132,7 @@
                             <%--取消--%>
                             <c:if test="${s.resolveStatus=='3'}">
                                 <soul:button
-                                        target="${root}/content/sysDomain/changeResolveStatus.html?result.code=${s.code}&result.resolveStatus=5&result.id=${s.id}"
+                                        target="${root}/content/sysDomain/changeResolveStatus.html?result.code=${s.code}&result.resolveStatus=5&result.domain=${s.domain}&result.id=${s.id}"
                                         precall="cancelMessage" callback="query" text="${views.common['cancel']}"
                                         opType="ajax" cssClass="co-blue"/>
                             </c:if>

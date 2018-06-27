@@ -17,7 +17,7 @@
                 <%@include file="../CarouselTop.jsp"%>
                 <div class="clearfix filter-wraper border-b-1 wrapper">
                     <soul:button target="${root}/content/cttCarousel/appStartPage/create.html" callback="query"
-                                 cssClass="btn btn-info btn-addon" text="新增PC端注册页广告" opType="dialog" tag="button">
+                                 cssClass="btn btn-info btn-addon" text="新增APP启动页广告" opType="dialog" tag="button">
                         <i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span>
                     </soul:button>
                     <div class="function-menu-show hide">
