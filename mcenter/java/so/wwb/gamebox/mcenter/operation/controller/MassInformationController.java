@@ -178,7 +178,6 @@ public class MassInformationController {
                 vNoticeReceivedTexts = CollectionQueryTool.pagingQuery(vNoticeReceivedTexts, null, listVo.getPaging().getPageNumber(), listVo.getPaging().getPageSize());
                 listVo.setResult(vNoticeReceivedTexts);
             }
-
         }
         model.addAttribute("command", listVo);
         //return BASE_URL + "SiteMsgList";
