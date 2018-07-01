@@ -96,11 +96,46 @@
                         <soul:button target="effectivePlayerCount" text="${views.analyze_auto['分析']}" opType="function" cssClass="analyzeButton"/>
                     </td>
                     <td><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&startTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&endTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=3" nav-target='mainFrame'>${p.agentNewDepositPlayerCount}</a></td>
-                    <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=1&search.outer=-1" nav-target='mainFrame'>${soulFn:formatCurrency(p.agentNewPlayerDepositCount)}</a></td>
-                    <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=2&search.outer=-1" nav-target='mainFrame'>${soulFn:formatCurrency(p.agentNewPlayerWithdrawCount)}</a></td>
+                    <td>
+                        <%--存款--%>
+                        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=1&search.outer=-1" nav-target='mainFrame'>${soulFn:formatCurrency(p.agentNewPlayerDepositCount)}</a>
+
+                            <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=analyzeNewAgent&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=1&search.outer=-1" size="open-dialog-95p"
+                                         callback="" text="" title="" opType="dialog">
+                                <span class="co-blue" id="rechargeCount">${soulFn:formatCurrency(p.agentNewPlayerDepositCount)}</span>
+                            </soul:button>
+
+                    </td>
+                    <td>
+                        <%--取款--%>
+                        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=2&search.outer=-1" nav-target='mainFrame'>${soulFn:formatCurrency(p.agentNewPlayerWithdrawCount)}</a>
+
+                            <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=analyzeNewAgent&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=2&search.outer=-1" size="open-dialog-95p"
+                                         callback="" text="" title="" opType="dialog">
+                                <span class="co-blue" id="rechargeCount">${soulFn:formatCurrency(p.agentNewPlayerWithdrawCount)}</span>
+                            </soul:button>
+                    </td>
                     <td>${p.allDepositPlayerCount}</td>
-                    <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=3&search.outer=-1" nav-target='mainFrame'>${soulFn:formatCurrency(p.allDepositCount)}</a></td>
-                    <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=4&search.outer=-1" nav-target='mainFrame'>${soulFn:formatCurrency(p.allWithdrawCount)}</a></td>
+                    <td><%-- 存款总额--%>
+                        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=3&search.outer=-1" nav-target='mainFrame'>${soulFn:formatCurrency(p.allDepositCount)}</a>
+
+
+                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=analyzeNewAgent&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=3&search.outer=-1" size="open-dialog-95p"
+                                     callback="" text="" title="" opType="dialog">
+                            <span class="co-blue" id="rechargeCount">${soulFn:formatCurrency(p.allDepositCount)}</span>
+                        </soul:button>
+
+                    </td>
+                    <td><%--取款总额 --%>
+                        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=4&search.outer=-1" nav-target='mainFrame'>${soulFn:formatCurrency(p.allWithdrawCount)}</a>
+
+
+                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=analyzeNewAgent&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=4&search.outer=-1" size="open-dialog-95p"
+                                     callback="" text="" title="" opType="dialog">
+                            <span class="co-blue" id="rechargeCount">${soulFn:formatCurrency(p.allWithdrawCount)}</span>
+                        </soul:button>
+
+                    </td>
                     <td>${soulFn:formatCurrency(p.payoutAmount)}</td>
                 </tr>
         </c:forEach>

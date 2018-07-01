@@ -240,7 +240,6 @@ public class FundsLogController extends AbstractExportController<IVPlayerTransac
         }
         List<SysSite> temp = ServiceTool.sysSiteService().bySysUserId(listVo).getResult();
         for (SysSite site:temp){
-            site.calStatus();
             //if (StringTool.equals(site.getStatus(), SiteStatusEnum.NORMAL.getCode())){
             if(!SiteStatusEnum.DISABLED.getCode().equals(site.getStatus())&&!SiteStatusEnum.UN_BUILD.getCode().equals(site.getStatus())){
                 String siteLocaleName = "";

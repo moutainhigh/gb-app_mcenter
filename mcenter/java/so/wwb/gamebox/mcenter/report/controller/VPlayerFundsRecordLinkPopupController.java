@@ -50,6 +50,8 @@ public class VPlayerFundsRecordLinkPopupController extends BaseCrudController<IV
 
     private static final String BY_HOME_INDEX="byHomeIndex";//首页
 
+    private static final String BY_ANALYZE_NEW_AGENT="analyzeNewAgent";//首页
+
 
     @Override
     protected String getViewBasePath() {
@@ -84,6 +86,8 @@ public class VPlayerFundsRecordLinkPopupController extends BaseCrudController<IV
             byPlayerDetail(listVo, model);
         } else if (BY_HOME_INDEX.equals(linkType)) {//首页
             byHomeIndex(listVo, model);
+        } else if (BY_ANALYZE_NEW_AGENT.equals(linkType)) {//代理新进
+            byAnalyzeNewAgent(listVo, model);
         } else {
             model.addAttribute("command", listVo);
         }
@@ -94,6 +98,22 @@ public class VPlayerFundsRecordLinkPopupController extends BaseCrudController<IV
             return getViewBasePath() + "Index";
         }
     }
+
+    /**
+     * 代理新进查询
+     * @param listVo
+     * @param model
+     */
+    private void byAnalyzeNewAgent(VPlayerFundsRecordListVo listVo,Model model){
+        listVo.getSearch().setOrigin("all");
+        listVo = VPlayerFundsRecordController.getFundsListByAnalyzeNewAgent(listVo);
+        //根据条件汇总总金额
+        listVo.setPropertyName(VPlayerFundsRecord.PROP_TRANSACTION_MONEY);
+        Number sumMoney = VPlayerFundsRecordController.getAmountSumByAnalyzeNewAgent(listVo);
+        model.addAttribute("command", listVo);
+        model.addAttribute("sumMoney",CurrencyTool.formatCurrency(sumMoney == null ? 0 : sumMoney));
+    }
+
 
     private void byPlayerDetail(VPlayerFundsRecordListVo listVo,Model model){
 
