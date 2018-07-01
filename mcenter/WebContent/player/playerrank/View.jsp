@@ -37,7 +37,12 @@
 							</td>
 								<%--玩家数--%>
 							<th class="bg-tbcolor">${views.role['PlayerRank.view.playerNum']}：</th>
-							<td><a href="/player/list.html?search.rankId=${p.id}" nav-target="mainFrame">${p.playerNum}</a></td>
+							<td>
+								<soul:button target="${root}/player/popup/list.html.html?search.rankId=${p.id}" size="open-dialog-95p"
+											 callback="" text="" title="玩家" opType="dialog">
+									${p.playerNum}
+								</soul:button>
+							</td>
 								<%--公司入款限额--%>
 							<th class="bg-tbcolor">${views.role['PlayerRank.view.gsrkxe']}：</th>
 							<td>${p.onlinePayMin}~${p.onlinePayMax}</td>

@@ -38,7 +38,12 @@
                     </c:choose>
                     <c:choose>
                         <c:when test="${r.playerCount>0}">
-                            <td class="co-blue"><a nav-target="mainFrame" href="/player/list.html?search.rakebackId=${r.id}&search.hasReturn=true"> ${r.playerCount}</a></td>
+                            <td class="co-blue">
+                                <soul:button target="${root}/player/popup/list.html.html?search.rakebackId=${r.id}" size="open-dialog-95p"
+                                             callback="" text="" title="玩家" opType="dialog">
+                                    ${r.playerCount}
+                                </soul:button>
+                            </td>
                         </c:when>
                         <c:otherwise>
                             <td> ${r.playerCount}</td>

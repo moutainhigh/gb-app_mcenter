@@ -36,7 +36,7 @@
         <input name="comp" value="${command.comp}" type="hidden"/>
         <input type="hidden" name="search.tagId" value="${tagIds}">
         <%--返水方案--%>
-        <%--<input name="search.rakebackId" value="${command.search.rakebackId}" type="hidden">--%>
+        <input name="search.rakebackId" value="${command.search.rakebackId}" type="hidden">
         <%--<input name="search.lastLoginIp" value="${command.search.lastLoginIp}" type="hidden"/>--%>
         <%-- //没有这几项从检测页面跳转过来时如果有翻页会有问题，但又会和查询条件冲突
         <input name="search.qq" value="${command.search.qq}" type="hidden"/>

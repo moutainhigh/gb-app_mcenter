@@ -44,7 +44,12 @@
                     <td><a href="/userAgent/agent/detail.html?search.id=${p.agentId }" nav-target="mainFrame" class="co-blue">${p.agentName}</a></td>
                     <td>${p.agentNewPlayerCount}</td>
                     <%--<td>${p.agentNewEffectivePlayerCount}</td>--%>
-                    <td><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&analyzeNewAgent=true&searchType=1" nav-target='mainFrame'>${p.agentNewDepositPlayerCount}</a></td>
+                    <td>
+                        <soul:button target="${root}/player/popup/list.html.html?search.hasReturn=true&search.agentId=${p.agentId}&analyzeNewAgent=true&searchType=1" size="open-dialog-95p"
+                                     callback="" text="" title="玩家" opType="dialog">
+                            ${p.agentNewDepositPlayerCount}
+                        </soul:button>
+                    </td>
                     <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.agentid=${p.agentId}&search.transactionType=deposit&analyzeNewAgent=true&searchType=5" nav-target="mainFrame" class="co-blue">${soulFn:formatCurrency(p.allDepositCount)}</a></td>
                     <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.agentid=${p.agentId}&search.transactionType=withdraw&analyzeNewAgent=true&searchType=6" nav-target="mainFrame" class="co-blue">${soulFn:formatCurrency(p.allWithdrawCount)}</a></td>
                     <td>${soulFn:formatCurrency(p.payoutAmount)}</td>

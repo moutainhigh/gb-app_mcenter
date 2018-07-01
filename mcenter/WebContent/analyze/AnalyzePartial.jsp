@@ -91,11 +91,22 @@
                 <tr class="tab-detail">
                     <td>${(command.paging.pageNumber - 1) * command.paging.pageSize + status.count}</td>
                     <td><a href="/userAgent/agent/detail.html?search.id=${p.agentId}" nav-target="mainFrame" class="co-blue">${p.agentName}</a></td>
-                    <td><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&search.createTimeBegin=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&search.createTimeEnd=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}" nav-target='mainFrame'>${p.agentNewPlayerCount}</a></td>
-                    <td data-value="&search.agentId=${p.agentId}"><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&startTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&endTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&rechargeCount=${command.depositParam.paramValue}&rechargeTotal=${command.depositCountParam.paramValue}&totalEffectiveVolume=${command.effectiveParam.paramValue}&analyzeNewAgent=true&searchType=2" nav-target='mainFrame'></a>
+                    <td>
+                        <soul:button target="${root}/player/popup/list.html.html?search.hasReturn=true&search.agentId=${p.agentId}&search.createTimeBegin=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&search.createTimeEnd=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}" size="open-dialog-95p"
+                                     callback="" text="" title="玩家" opType="dialog">
+                            ${p.agentNewPlayerCount}
+                        </soul:button>
+                    </td>
+                    <td data-value="&search.agentId=${p.agentId}">
+                        <a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&startTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&endTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&rechargeCount=${command.depositParam.paramValue}&rechargeTotal=${command.depositCountParam.paramValue}&totalEffectiveVolume=${command.effectiveParam.paramValue}&analyzeNewAgent=true&searchType=2" nav-target='mainFrame'></a>
                         <soul:button target="effectivePlayerCount" text="${views.analyze_auto['分析']}" opType="function" cssClass="analyzeButton"/>
                     </td>
-                    <td><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&startTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&endTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=3" nav-target='mainFrame'>${p.agentNewDepositPlayerCount}</a></td>
+                    <td>
+                        <soul:button target="${root}/player/popup/list.html?search.hasReturn=true&search.agentId=${p.agentId}&startTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&endTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=3" size="open-dialog-95p"
+                                     callback="" text="" title="玩家" opType="dialog">
+                            ${p.agentNewDepositPlayerCount}
+                        </soul:button>
+                    </td>
                     <td>
                         <%--存款--%>
                         <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=1&search.outer=-1" nav-target='mainFrame'>${soulFn:formatCurrency(p.agentNewPlayerDepositCount)}</a>
