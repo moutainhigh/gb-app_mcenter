@@ -114,7 +114,12 @@
                 </c:if>
             </td>
             <th class="bg-tbcolor">${views.column['VUserAgentManage.playerNum']}：</th>
-            <td><a href="/player/list.html.html?search.agentId=${map.id}&search.hasReturn=true" nav-target="mainFrame">${map.player_num}</a></td>
+            <td>
+                <soul:button target="${root}/player/popup/list.html.html?search.agentId=${map.id}" size="open-dialog-95p"
+                             callback="" text="" title="玩家" opType="dialog">
+                    ${map.player_num}
+                </soul:button>
+            </td>
         </tr>
         <shiro:hasPermission name="role:agent_addsubagent">
             <tr  class="tab-title">
