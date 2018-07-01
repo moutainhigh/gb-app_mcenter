@@ -125,8 +125,11 @@ public class PlayerFundsController extends BaseCrudController<IPlayerTransaction
         PlayerApiListVo playerApiListVo = new PlayerApiListVo();
         playerApiListVo.getSearch().setPlayerId(listVo.getSearch().getPlayerId());
         playerApiListVo.setType(ApiQueryTypeEnum.ALL_API.getCode());
-        ShareController.fetchPlayerApiBalanceByTimeLimit(vo.getResult().getSynchronizationTime(), playerApiListVo);
-
+        Date nowTime = SessionManager.getDate().getNow();
+        Date lastSynTime = vo.getResult().getSynchronizationTime();
+        if (lastSynTime == null || DateTool.minutesBetween(nowTime, lastSynTime) > 2) {
+            ShareController.fetchPlayerApiBalance(playerApiListVo);
+        }
         refreshFunds(listVo.getSearch().getPlayerId(), model);
     }
 
