@@ -60,7 +60,9 @@ import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerWithdrawListVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerGameOrderVo;
 import so.wwb.gamebox.model.master.player.vo.VPayRankVo;
+import so.wwb.gamebox.model.master.setting.po.NoticePopup;
 import so.wwb.gamebox.model.master.setting.po.VUserShortcutMenu;
+import so.wwb.gamebox.model.master.setting.vo.NoticePopupVo;
 import so.wwb.gamebox.model.master.setting.vo.VUserShortcutMenuListVo;
 import so.wwb.gamebox.model.master.tasknotify.po.UserTaskReminder;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderListVo;
@@ -626,43 +628,34 @@ public class IndexController extends BasePhoneApiController {
     @ResponseBody
     public Map showPop(HttpServletRequest request) {
         Map result = new HashMap();
-        SysParamVo sysParamVo = getSysParamVo();
-        String content = request.getParameter("content");
-        if (sysParamVo.getResult() == null) {
-            insertPersonParam(sysParamVo);
+        NoticePopupVo noticePopupVo = getNoticePopupVo();
+        if (noticePopupVo.getResult() == null){
+            insertNoticePopup(noticePopupVo);
             result.put("isShow", "true");
         } else {
-            result.put("isShow", sysParamVo.getResult().getParamValue());
+            String isShow = String.valueOf(noticePopupVo.getResult().getShow());
+            result.put("isShow", isShow);
         }
-
         return result;
     }
 
-    private void insertPersonParam(SysParamVo sysParamVo) {
-        SysParam sysParam = new SysParam();
-        sysParam.setModule(Module.MASTER_SETTING.getCode());
-        sysParam.setParamType(SiteParamEnum.SETTING_SHOWPOP.getType());
-        sysParam.setParamCode(SessionManager.getUserId().toString());
-        if (StringTool.isBlank(sysParamVo.getSearch().getParamValue())) {
-            sysParam.setParamValue("true");
-        } else {
-            sysParam.setParamValue(sysParamVo.getSearch().getParamValue());
-        }
-
-        sysParam.setDefaultValue("true");
-        sysParam.setActive(true);
-        sysParam.setRemark("是否弹窗提醒");
-        sysParamVo.setResult(sysParam);
-        ServiceSiteTool.siteSysParamService().insert(sysParamVo);
+    private NoticePopupVo getNoticePopupVo() {
+        NoticePopupVo noticePopupVo = new NoticePopupVo();
+        noticePopupVo.getSearch().setUserId(SessionManager.getUserId());
+        noticePopupVo = ServiceSiteTool.noticePopupService().search(noticePopupVo);
+        return noticePopupVo;
     }
 
-    private SysParamVo getSysParamVo() {
-        SysParamVo sysParamVo = new SysParamVo();
-        sysParamVo.getSearch().setModule(Module.MASTER_SETTING.getCode());
-        sysParamVo.getSearch().setParamType(SiteParamEnum.SETTING_SHOWPOP.getType());
-        sysParamVo.getSearch().setParamCode(SessionManager.getUserId().toString());
-        sysParamVo = ServiceSiteTool.siteSysParamService().searchByModuleTypeCode(sysParamVo);
-        return sysParamVo;
+    private void insertNoticePopup(NoticePopupVo noticePopupVo) {
+        NoticePopup noticePopup = new NoticePopup();
+        noticePopup.setUserId(SessionManager.getUserId());
+        if(noticePopupVo.getSearch().getShow() == null){
+            noticePopup.setShow(true);
+        }else{
+            noticePopup.setShow(noticePopupVo.getSearch().getShow());
+        }
+        noticePopupVo.setResult(noticePopup);
+        ServiceSiteTool.noticePopupService().insert(noticePopupVo);
     }
 
     @RequestMapping("/index/savePersonShowpop")
@@ -670,20 +663,19 @@ public class IndexController extends BasePhoneApiController {
     public Map savePersonShowpop(String isShow) {
         Map result = new HashMap();
         try {
-            SysParamVo sysParamVo = getSysParamVo();
-            if (sysParamVo.getResult() == null) {
-                sysParamVo.getSearch().setParamValue(isShow);
-                insertPersonParam(sysParamVo);
+            NoticePopupVo noticePopupVo = getNoticePopupVo();
+            if (noticePopupVo.getResult() == null) {
+                noticePopupVo.getSearch().setShow(Boolean.valueOf(isShow));
+                insertNoticePopup(noticePopupVo);
             } else {
-                sysParamVo.getResult().setParamValue(isShow);
-                sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
-                ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
+                noticePopupVo.getResult().setShow(Boolean.valueOf(isShow));
+                noticePopupVo.setProperties(NoticePopup.PROP_SHOW);
+                ServiceSiteTool.noticePopupService().updateOnly(noticePopupVo);
             }
             result.put("state", true);
         } catch (Exception ex) {
             result.put("state", false);
         }
-
         return result;
     }
 

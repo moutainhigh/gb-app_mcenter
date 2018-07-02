@@ -3555,6 +3555,25 @@ public class PlayerController extends BaseCrudController<IVUserPlayerService, VU
         }
     }
 
+    /**
+     * 判断真实姓名的唯一性
+     *
+     * @return
+     */
+    @RequestMapping(value = "/checkRealNameExist")
+    @ResponseBody
+    public String checkRealNameExist(@RequestParam("result.realName") String realName) {
+        if (!ParamTool.isOnlyFiled("realName")) {
+            return "true";
+        }
+        SysUserVo sysUserVo = new SysUserVo();
+        sysUserVo.getSearch().setRealName(realName);
+        sysUserVo.getSearch().setSiteId(SessionManager.getSiteId());
+        sysUserVo.getSearch().setSubsysCode(SubSysCodeEnum.PCENTER.getCode());
+        String isExistRealName = ServiceSiteTool.userAgentService().isExistRealName(sysUserVo);
+        return isExistRealName;
+    }
+
 
 
 
