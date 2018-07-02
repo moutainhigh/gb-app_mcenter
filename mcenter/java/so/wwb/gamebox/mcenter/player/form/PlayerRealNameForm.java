@@ -26,7 +26,7 @@ public class PlayerRealNameForm implements IForm {
     @Comment("玩家真实姓名")
     @NotBlank(message = "player.realName.notBlank")
     @Pattern(message = "player.realName.length", regexp = RegExpConstants.REALNAME)
-    @Remote(message = "player.realName.exist",checkMethod = "checkRealNameExist",checkClass = PlayerController.class)
+    /*@Remote(message = "player.realName.exist",checkMethod = "checkRealNameExist",checkClass = PlayerController.class)*/
     public String getResult_realName() {
         return result_realName;
     }
