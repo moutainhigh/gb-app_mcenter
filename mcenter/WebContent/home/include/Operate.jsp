@@ -86,7 +86,10 @@
                                                 0
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="/player/list.html?outer=${vs.count}&search.hasReturn=true" nav-target="mainFrame">${newPlayer}</a>
+                                                <soul:button target="${root}/player/popup/list.html.html?outer=${vs.count}" size="open-dialog-95p"
+                                                             callback="" text="" title="玩家" opType="dialog">
+                                                    ${newPlayer}
+                                                </soul:button>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
@@ -97,7 +100,10 @@
                                                 0
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="/player/list.html?outer=${vs.count}&comp=1&search.hasReturn=true" nav-target="mainFrame">${newDeposit}</a>
+                                                <soul:button target="${root}/player/popup/list.html.html?outer=${vs.count}&comp=1&search.hasReturn=true" size="open-dialog-95p"
+                                                             callback="" text="" title="玩家" opType="dialog">
+                                                    ${newDeposit}
+                                                </soul:button>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>

@@ -51,7 +51,10 @@
 					<label class="ft-bold al-right content-width-limit-10">${views.setting['rakeback.view.playerAmountOfSchedule']}：</label>
 					<c:choose>
 						<c:when test="${command.result.playerCount gt 0}">
-							<a nav-target="mainFrame" href="/player/list.html?search.rakebackId=${command.result.id}&search.hasReturn=true">${command.result.playerCount}</a>
+							<soul:button target="${root}/player/popup/list.html.html?search.rakebackId=${command.result.id}" size="open-dialog-95p"
+										 callback="" text="" title="玩家" opType="dialog">
+								${command.result.playerCount}
+							</soul:button>
 						</c:when>
 						<c:otherwise>
 							${command.result.playerCount}

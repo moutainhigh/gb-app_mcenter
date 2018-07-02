@@ -56,7 +56,10 @@
                           data-original-title="" title=""><i class="fa fa-question-circle"></i></span>--%>
                 </td>
                 <td>
-                    <a href="/player/list.html?search.hasReturn=true&search.rankId=${p.id}" nav-target="mainFrame">${p.playerNum}</a>
+                    <soul:button target="${root}/player/popup/list.html?search.rankId=${p.id}" size="open-dialog-95p"
+                                 callback="" text="" title="玩家" opType="dialog">
+                        ${p.playerNum}
+                    </soul:button>
                 </td>
                 <td>
                     <c:choose>

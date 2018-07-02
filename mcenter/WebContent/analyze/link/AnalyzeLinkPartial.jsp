@@ -94,12 +94,22 @@
                 <td>${(command.paging.pageNumber - 1) * command.paging.pageSize + status.count}</td>
                 <td>${p.promoteLink}</td>
                 <td><a href="/userAgent/agent/detail.html?search.id=${p.agentId}" nav-target="mainFrame" class="co-blue">${p.agentName}</a></td>
-                <td><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&search.createTimeBegin=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&search.createTimeEnd=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&search.registerSite=${p.promoteLink}" nav-target='mainFrame'>${p.agentNewPlayerCount}</a></td>
+                <td>
+                    <soul:button target="${root}/player/popup/list.html.html?search.hasReturn=true&search.agentId=${p.agentId}&search.createTimeBegin=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&search.createTimeEnd=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&search.registerSite=${p.promoteLink}" size="open-dialog-95p"
+                                 callback="" text="" title="玩家" opType="dialog">
+                        ${p.agentNewPlayerCount}
+                    </soul:button>
+                </td>
                 <%--<td>${p.agentNewEffectivePlayerCount}</td>--%>
                 <td data-value="&search.promoteLink=${p.promoteLink}&search.agentId=${p.agentId}"><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&startTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&endTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&rechargeCount=${command.depositParam.paramValue}&rechargeTotal=${command.depositCountParam.paramValue}&totalEffectiveVolume=${command.effectiveParam.paramValue}&analyzeNewAgent=true&searchType=2&promoteLink=${p.promoteLink}" nav-target='mainFrame'></a>
                     <soul:button target="effectivePlayerCount" text="${views.analyze['分析']}" opType="function" cssClass="analyzeButton"/>
                 </td>
-                <td><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&startTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&endTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=3&promoteLink=${p.promoteLink}" nav-target='mainFrame'>${p.agentNewDepositPlayerCount}</a></td>
+                <td>
+                    <soul:button target="${root}/player/popup/list.html.html?search.hasReturn=true&search.agentId=${p.agentId}&startTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&endTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=3&promoteLink=${p.promoteLink}" size="open-dialog-95p"
+                                 callback="" text="" title="玩家" opType="dialog">
+                        ${p.agentNewDepositPlayerCount}
+                    </soul:button>
+                </td>
                 <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=1&promoteLink=${p.promoteLink}" nav-target='mainFrame'>${soulFn:formatCurrency(p.agentNewPlayerDepositCount)}</a></td>
                 <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=2&promoteLink=${p.promoteLink}" nav-target='mainFrame'>${soulFn:formatCurrency(p.agentNewPlayerWithdrawCount)}</a></td>
                 <td>${p.allDepositPlayerCount}</td>
