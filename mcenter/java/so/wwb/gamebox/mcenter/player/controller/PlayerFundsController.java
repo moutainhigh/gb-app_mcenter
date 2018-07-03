@@ -127,8 +127,11 @@ public class PlayerFundsController extends BaseCrudController<IPlayerTransaction
         playerApiListVo.setType(ApiQueryTypeEnum.ALL_API.getCode());
         Date nowTime = SessionManager.getDate().getNow();
         Date lastSynTime = vo.getResult().getSynchronizationTime();
-        if (lastSynTime == null || DateTool.minutesBetween(nowTime, lastSynTime) > 2) {
+        long between =  DateTool.secondsBetween(nowTime, lastSynTime);
+        if (lastSynTime == null || between > 120) {
             ShareController.fetchPlayerApiBalance(playerApiListVo);
+        } else {
+            LOG.info("玩家检测查询玩家{0}资金查询api资金在{1}s内已经查询过了,防止查询太频繁",listVo.getSearch().getPlayerId(), between);
         }
         refreshFunds(listVo.getSearch().getPlayerId(), model);
     }
