@@ -62,9 +62,9 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
 
     private static final String MANUAL_CHECK_ERROR = "0";
     //private static final String DOMAIN_CHECK_URL = "http://data-ops.gbboss.com:20111";//地址是写死的，OP修改接口地址
-    private static final String DOMAIN_CHECK_URL = "http://domaincheck.dayu-boss.com:20111";
-    private static final String DOMAIN_CHECK_URL_CREATE_TASK = DOMAIN_CHECK_URL + "/check_domain";
-    private static final String DOMAIN_CHECK_URL_TASK_STATE = DOMAIN_CHECK_URL + "/get_task_state";
+//    private static final String DOMAIN_CHECK_URL = "http://domaincheck.dayu-boss.com:20111";
+//    private static final String DOMAIN_CHECK_URL_CREATE_TASK = DOMAIN_CHECK_URL + "/check_domain";
+//    private static final String DOMAIN_CHECK_URL_TASK_STATE = DOMAIN_CHECK_URL + "/get_task_state";
 
     @Override
     protected String getViewBasePath() {
@@ -164,7 +164,7 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
         logListVo.getSearch().setSiteId(SessionManagerCommon.getSiteId());
         logListVo.getQuery().setCriterions(new Criterion[]{
                 new Criterion(DomainCheckResultBatchLog.PROP_SITE_ID, Operator.EQ, SessionManagerCommon.getSiteId()),
-                new Criterion(DomainCheckResultBatchLog.TASK_ID,Operator.EQ,taskId)
+                new Criterion(DomainCheckResultBatchLog.TASK_ID, Operator.EQ,taskId)
         });
         DomainCheckResultBatchLogListVo search = ServiceTool.domainCheckResultBatchLogService().search(logListVo);
         if (CollectionTool.isEmpty(search.getResult())) {
@@ -211,13 +211,19 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
         //进行http请求
         //gb生成reqTaskId
         String reqTaskId = UUID.randomUUID().toString().replace("-","");
-        String domain_check_url = DOMAIN_CHECK_URL_CREATE_TASK + "?platform=gb&site_id=" + requestVo.getSiteId() + "&task_id=" + reqTaskId;
-        //TODO 测试使用start
-//        String domain_check_url = DOMAIN_CHECK_URL_CREATE_TASK + "?platform=gb&site_id=65" + "&task_id=" + reqTaskId;
-//        domain_check_url = domain_check_url+"&callback=http://boss.ampinplayopt0matrix.com/boss-api/facade/domain/import.html";
+        String domainCheckUrl = getDomainCheckUrl();
+        if (StringTool.isBlank(domainCheckUrl)){
+            LOG.error("未获取到域名检测地址参数OP_DOMAIN_CHECK_ADDR");
+            return MANUAL_CHECK_ERROR;
+        }
+        String domainCheckCreateTaskUrl = domainCheckUrl + "/check_domain" + "?platform=gb&site_id=" + requestVo.getSiteId() + "&task_id=" + reqTaskId;
+        //TODO 测试使用start 直接访问的是OP的生产地址，OP默认会把检测后的数据写入到生产库，所以测试时候加一个回调到对外的测试环境地址
+//        String domainCheckCreateTaskUrl = domainCheckCreateTaskUrl + "?platform=gb&site_id=65" + "&task_id=" + reqTaskId;
+//        domainCheckCreateTaskUrl = domainCheckCreateTaskUrl
+// +"&callback=http://boss.ampinplayopt0matrix.com/boss-api/facade/domain/import.html";
         //TODO 测试使用end
-        LOG.info("域名检测调用,请求地址：{0}", new Object[]{domain_check_url});
-        HttpClientParam param = new HttpClientParam(domain_check_url);
+        LOG.info("域名检测调用,请求地址：{0}", new Object[]{domainCheckCreateTaskUrl});
+        HttpClientParam param = new HttpClientParam(domainCheckCreateTaskUrl);
         param.setMethod(HttpRequestMethod.GET);
         String result = HttpClientTool.sync(param);
         LOG.info("域名检测返回值内容：{0}", new Object[]{result});
@@ -241,17 +247,21 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
      * @param requestVo
      * @return
      */
-    private String getOPTaskState(DomainCheckRequestVo requestVo,String taskId) {
+    private String getOPTaskState(DomainCheckRequestVo requestVo, String taskId) {
 
         //进行http请求
-        //gb生成reqTaskId
-        String domain_check_url = DOMAIN_CHECK_URL_TASK_STATE + "?platform=gb&site_id=" + requestVo.getSiteId() + "&task_id=" + taskId;
+        String domainCheckUrl = getDomainCheckUrl();
+        if (StringTool.isBlank(domainCheckUrl)){
+            LOG.error("未获取到域名检测地址参数OP_DOMAIN_CHECK_ADDR");
+            return "error";
+        }
+        String domainCheckUrlTaskState = domainCheckUrl + "/get_task_state" + "?platform=gb&site_id=" + requestVo.getSiteId() + "&task_id=" + taskId;
         //TODO 测试使用start
 //        String domain_check_url = DOMAIN_CHECK_URL_TASK_STATE + "?platform=gb&site_id=65" + "&task_id=" + requestVo.getTaskId();
 //        domain_check_url = domain_check_url+"&callback=http://boss.ampinplayopt0matrix.com/boss-api/facade/domain/import.html";
         //TODO 测试使用end
-        LOG.info("域名检测状态调用,请求地址：{0}", new Object[]{domain_check_url});
-        HttpClientParam param = new HttpClientParam(domain_check_url);
+        LOG.info("域名检测状态调用,请求地址：{0}", new Object[]{domainCheckUrlTaskState});
+        HttpClientParam param = new HttpClientParam(domainCheckUrlTaskState);
         param.setMethod(HttpRequestMethod.GET);
         String result = HttpClientTool.sync(param);
         LOG.info("域名检测状态返回值内容：{0}", new Object[]{result});
@@ -296,6 +306,18 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
         batchLogVo.setResult(batchLog);
         LOG.info("保存任务日志表batchLogVo bean:{0}", batchLogVo);
         ServiceTool.domainCheckResultBatchLogService().insert(batchLogVo);
+    }
+
+    /**
+     * 获取OP域名检测地址
+     * @return
+     */
+    public String getDomainCheckUrl(){
+        SysParam sysParam = ParamTool.getSysParam(BossParamEnum.OP_DOMAIN_CHECK_ADDR);
+        if (sysParam != null && StringTool.isNotBlank(sysParam.getParamValue())){
+            return sysParam.getParamValue();
+        }
+        return "";
     }
 
 

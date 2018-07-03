@@ -2,9 +2,11 @@ package so.wwb.gamebox.mcenter.player.form;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.soul.commons.validation.form.constraints.Compare;
+import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.commons.validation.form.support.Comment;
 import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
+import so.wwb.gamebox.mcenter.player.controller.PlayerController;
 import so.wwb.gamebox.model.common.RegExpConstants;
 
 import javax.validation.constraints.Pattern;
@@ -24,6 +26,7 @@ public class PlayerRealNameForm implements IForm {
     @Comment("玩家真实姓名")
     @NotBlank(message = "player.realName.notBlank")
     @Pattern(message = "player.realName.length", regexp = RegExpConstants.REALNAME)
+    /*@Remote(message = "player.realName.exist",checkMethod = "checkRealNameExist",checkClass = PlayerController.class)*/
     public String getResult_realName() {
         return result_realName;
     }
