@@ -29,7 +29,7 @@
                                           startName="search.startStaticTime" endName="search.endStaticTime"
                                           startDate="${command.search.startStaticTime}"
                                           endDate="${command.search.endStaticTime}"/>
-                        </div><%--代理新进是每日任务，查询static_date加上时分秒没有用，只查日期就够了--%>
+                        </div><%--2018.7.4 steffan 代理新进是每日任务，查询static_date加上时分秒没有用，只查日期就够了--%>
                     </div>
 
 
