@@ -110,11 +110,32 @@
                         ${p.agentNewDepositPlayerCount}
                     </soul:button>
                 </td>
-                <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=1&promoteLink=${p.promoteLink}" nav-target='mainFrame'>${soulFn:formatCurrency(p.agentNewPlayerDepositCount)}</a></td>
-                <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=2&promoteLink=${p.promoteLink}" nav-target='mainFrame'>${soulFn:formatCurrency(p.agentNewPlayerWithdrawCount)}</a></td>
+                <td>
+                    <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=analyzeNewAgent&search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=1&promoteLink=${p.promoteLink}" size="open-dialog-95p"
+                                 callback="" text="" title="" opType="dialog">
+                        <span class="co-blue" id="rechargeCount">${soulFn:formatCurrency(p.agentNewPlayerDepositCount)}</span>
+                    </soul:button>
+                </td>
+                <td>
+                    <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=analyzeNewAgent&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=2&promoteLink=${p.promoteLink}" size="open-dialog-95p"
+                                 callback="" text="" title="" opType="dialog">
+                        <span class="co-blue" id="rechargeCount">${soulFn:formatCurrency(p.agentNewPlayerWithdrawCount)}</span>
+                    </soul:button>
+                </td>
                 <td>${p.allDepositPlayerCount}</td>
-                <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=3&promoteLink=${p.promoteLink}" nav-target='mainFrame'>${soulFn:formatCurrency(p.allDepositCount)}</a></td>
-                <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=4&promoteLink=${p.promoteLink}" nav-target='mainFrame'>${soulFn:formatCurrency(p.allWithdrawCount)}</a></td>
+                <td>
+                    <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=analyzeNewAgent&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=3&promoteLink=${p.promoteLink}" size="open-dialog-95p"
+                                 callback="" text="" title="" opType="dialog">
+                        <span class="co-blue" id="rechargeCount">${soulFn:formatCurrency(p.allDepositCount)}</span>
+                    </soul:button>
+                </td>
+                <td>
+                    <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=analyzeNewAgent&search.agentid=${p.agentId}&analyzeStartTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&analyzeEndTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY ,timeZone )}&analyzeNewAgent=true&searchType=4&promoteLink=${p.promoteLink}" size="open-dialog-95p"
+                                 callback="" text="" title="" opType="dialog">
+                        <span class="co-blue" id="rechargeCount">${soulFn:formatCurrency(p.allWithdrawCount)}</span>
+                    </soul:button>
+
+                </td>
                 <td>${soulFn:formatCurrency(p.payoutAmount)}</td>
             </tr>
         </c:forEach>
