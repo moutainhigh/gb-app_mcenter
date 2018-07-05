@@ -50,8 +50,24 @@
                             ${p.agentNewDepositPlayerCount}
                         </soul:button>
                     </td>
-                    <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.agentid=${p.agentId}&search.transactionType=deposit&analyzeNewAgent=true&searchType=5" nav-target="mainFrame" class="co-blue">${soulFn:formatCurrency(p.allDepositCount)}</a></td>
-                    <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.agentid=${p.agentId}&search.transactionType=withdraw&analyzeNewAgent=true&searchType=6" nav-target="mainFrame" class="co-blue">${soulFn:formatCurrency(p.allWithdrawCount)}</a></td>
+                    <td>
+                        <%--<a href="/report/vPlayerFundsRecord/fundsLog.html?search.agentid=${p.agentId}&search.transactionType=deposit&analyzeNewAgent=true&searchType=5" nav-target="mainFrame" class="co-blue">${soulFn:formatCurrency(p.allDepositCount)}</a>--%>
+
+                    <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=analyzeNewAgent&search.agentid=${p.agentId}&search.transactionType=deposit&analyzeNewAgent=true&searchType=5" size="open-dialog-95p"
+                                 callback="" text="" title="" opType="dialog">
+                        <span class="co-blue" id="rechargeCount">${soulFn:formatCurrency(p.allDepositCount)}</span>
+                    </soul:button>
+                    </td>
+                    <td>
+                        <%--<a href="/report/vPlayerFundsRecord/fundsLog.html?search.agentid=${p.agentId}&search.transactionType=withdraw&analyzeNewAgent=true&searchType=6" nav-target="mainFrame" class="co-blue">${soulFn:formatCurrency(p.allWithdrawCount)}</a>--%>
+
+                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=analyzeNewAgent&search.agentid=${p.agentId}&search.transactionType=withdraw&analyzeNewAgent=true&searchType=6" size="open-dialog-95p"
+                                     callback="" text="" title="" opType="dialog">
+                            <span class="co-blue" id="rechargeCount">${soulFn:formatCurrency(p.allWithdrawCount)}</span>
+                        </soul:button>
+
+
+                    </td>
                     <td>${soulFn:formatCurrency(p.payoutAmount)}</td>
                     <td>${soulFn:formatCurrency(p.difference)}</td>
                     <%--<td>${soulFn:formatCurrency(p.accountBalance)}</td>--%>
