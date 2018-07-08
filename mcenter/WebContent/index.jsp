@@ -27,9 +27,8 @@
             transition: 0.3s ease-in-out left;
         }
 
-        /*.popover {
-            max-width:330px;
-        }*/
+
+
     </style>
     <script type="text/javascript" src="${root}/message_<%=SessionManagerCommon.getLocale().toString()%>.js?v=${rcVersion}"></script>
     <script type="text/javascript">
