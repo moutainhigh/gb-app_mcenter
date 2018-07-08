@@ -23,6 +23,7 @@
         <tr role="row" class="bg-gray">
             <th>${views.common['number']}</th>
             <th>${views.report['fund.list.playerAccount']}</th>
+            <th>${views.fund_auto['所属代理']}</th>
             <soul:orderColumn poType="${poType}" property="completionTime" column="${views.report['fund.list.completionTime']}"/>
             <th>
                 <gb:select name="search.fundType" value="${command.search.fundType}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
@@ -132,6 +133,7 @@
                     <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                     ${gbFn:riskImgByName(pt.username)}
                 </td>
+                <td>${pt.agentname}</td>
                 <td>
                     <c:set value="${soulFn:formatDateTz(pt.completionTime, DateFormat.DAY_SECOND,timeZone)}" var="completionTime"></c:set>
                     <c:set value="${soulFn:formatDateTz(pt.createTime, DateFormat.DAY_SECOND,timeZone)}" var="createTime"></c:set>
