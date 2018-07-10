@@ -50,7 +50,7 @@ public class VPlayerFundsRecordLinkPopupController extends BaseCrudController<IV
 
     private static final String BY_HOME_INDEX="byHomeIndex";//首页
 
-    private static final String BY_ANALYZE_NEW_AGENT="analyzeNewAgent";//首页
+    private static final String BY_ANALYZE_NEW_AGENT="analyzeNewAgent";//代理新进
 
 
     @Override
