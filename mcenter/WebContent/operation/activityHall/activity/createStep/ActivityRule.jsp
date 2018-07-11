@@ -191,6 +191,9 @@
                                         <c:forEach items="${activityRIGMap[apiGametypeRelations.key]}" var="activityRIG">
                                                 ${apiGametypeRelation.apiId == activityRIG.apiId ? 'checked':''}
                                         </c:forEach>
+                                        <c:forEach items="${activityERIGMap[apiGametypeRelations.key]}" var="activityERIG">
+                                                ${apiGametypeRelation.apiId == activityERIG.apiId ? 'disabled':''}
+                                        </c:forEach>
                                         />${gbFn:getApiName(apiGametypeRelation.apiId)}
                                     </label>
                                         <input type="hidden" name="ActivityRuleIncludeGames[${index.index}][${v.index}].gameType" value="${apiGametypeRelations.key}">

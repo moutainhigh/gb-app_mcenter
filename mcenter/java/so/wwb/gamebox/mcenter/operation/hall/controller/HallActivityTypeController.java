@@ -179,6 +179,10 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code) || ActivityTypeEnum.RELIEF_FUND.getCode().equals(code) || ActivityTypeEnum.PROFIT.getCode().equals(code)) {
             getApiGameTypeRelation(model);
         }
+        if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code)) {
+            getExistRuleIncludeGameMap(null, model);
+        }
+
         return OPERATION_ACTIVITY_STEP;
     }
 
@@ -341,6 +345,10 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             getApiGameTypeRelation(model);
             getActivityRuleIncludeGameMap(activityMessageVo, model);
         }
+
+        if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code)) {
+            getExistRuleIncludeGameMap(activityMessageVo.getResult().getId(), model);
+        }
         return OPERATION_ACTIVITY_STEP;
     }
 
@@ -369,6 +377,17 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         if (CollectionTool.isNotEmpty(activityRuleIncludeGameList)) {
             Map<String, List<ActivityRuleIncludeGame>> activityRIGMap = CollectionTool.groupByProperty(activityRuleIncludeGameList, ActivityRuleIncludeGame.PROP_GAME_TYPE, String.class);
             model.addAttribute("activityRIGMap", activityRIGMap);
+        }
+    }
+
+    private void getExistRuleIncludeGameMap(Integer activityMessageId, Model model) {
+        ActivityRuleIncludeGameListVo activityRuleIncludeGameListVo = new ActivityRuleIncludeGameListVo();
+        activityRuleIncludeGameListVo.getSearch().setActivityMessageId(activityMessageId);
+        activityRuleIncludeGameListVo = ServiceActivityTool.activityRuleIncludeGameService().getExistRuleIncludeGame(activityRuleIncludeGameListVo);
+        List<ActivityRuleIncludeGame> activityRuleIncludeGameList = activityRuleIncludeGameListVo.getResult();
+        if (CollectionTool.isNotEmpty(activityRuleIncludeGameList)) {
+            Map<String, List<ActivityRuleIncludeGame>> activityERIGMap = CollectionTool.groupByProperty(activityRuleIncludeGameList, ActivityRuleIncludeGame.PROP_GAME_TYPE, String.class);
+            model.addAttribute("activityERIGMap", activityERIGMap);
         }
     }
 
