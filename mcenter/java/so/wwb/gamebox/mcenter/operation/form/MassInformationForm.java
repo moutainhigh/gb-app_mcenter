@@ -25,7 +25,7 @@ public class MassInformationForm implements IForm {
     private String title$$;
 
     @NotBlank(message = "operation_auto.消息内容不能为空")
-    @Length(min = 1,max = 150)
+    @Length(min = 1,max = 1000)
     @Comment("消息内容")
     public String getContent$$() {
         return content$$;
@@ -36,7 +36,7 @@ public class MassInformationForm implements IForm {
     }
 
     @NotBlank(message = "operation_auto.标题不能为空")
-    @Length(min = 1,max = 10)
+    @Length(min = 1,max = 50)
     @Comment("消息标题")
     public String getTitle$$() {
         return title$$;
