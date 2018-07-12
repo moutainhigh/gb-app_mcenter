@@ -45,7 +45,7 @@
                     <td>${p.agentNewPlayerCount}</td>
                     <%--<td>${p.agentNewEffectivePlayerCount}</td>--%>
                     <td>
-                        <soul:button target="${root}/player/popup/list.html.html?search.hasReturn=true&search.agentId=${p.agentId}&analyzeNewAgent=true&searchType=1" size="open-dialog-95p"
+                        <soul:button target="${root}/player/popup/list.html?search.hasReturn=true&search.agentId=${p.agentId}&analyzeNewAgent=true&searchType=1" size="open-dialog-95p"
                                      callback="" text="" title="玩家" opType="dialog">
                             ${p.agentNewDepositPlayerCount}
                         </soul:button>

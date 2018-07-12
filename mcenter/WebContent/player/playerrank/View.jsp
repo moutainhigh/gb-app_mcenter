@@ -38,7 +38,7 @@
 								<%--玩家数--%>
 							<th class="bg-tbcolor">${views.role['PlayerRank.view.playerNum']}：</th>
 							<td>
-								<soul:button target="${root}/player/popup/list.html.html?search.rankId=${p.id}" size="open-dialog-95p"
+								<soul:button target="${root}/player/popup/list.html?search.rankId=${p.id}" size="open-dialog-95p"
 											 callback="" text="" title="玩家" opType="dialog">
 									${p.playerNum}
 								</soul:button>
