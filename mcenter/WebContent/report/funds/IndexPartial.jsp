@@ -229,19 +229,16 @@
                         <c:choose>
                             <c:when test='${pt.checkStatus eq "payment_processing"}'> <%--状态：处理中 --%>
                                 <c:set var="status_class" value="label label-info"></c:set>
-                                <c:set var="status_value" value="payment_processing"></c:set>
                             </c:when>
                             <c:when test='${pt.checkStatus eq "payment_success"}'><%--状态：成功 --%>
                                 <c:set var="status_class" value="label label-success"></c:set>
-                                <c:set var="status_value" value="payment_success"></c:set>
                             </c:when>
                             <c:when test='${pt.checkStatus eq "payment_fail"}'> <%--状态：失败 --%>
                                 <c:set var="status_class" value="label"></c:set>
-                                <c:set var="status_value" value="payment_fail"></c:set>
                             </c:when>
-                            <c:otherwise><c:set var="status_value" value="other"></c:set></c:otherwise>
+                            <c:otherwise>--</c:otherwise>
                         </c:choose>
-                        <span class="${status_class}" title="${dicts.fund.withdraw_check_status[pt.checkStatus]}">${dicts.fund.withdraw_check_status[status_value]}</span>
+                        <span class="${status_class}" title="${dicts.fund.withdraw_check_status[pt.checkStatus]}">${dicts.fund.withdraw_check_status[pt.checkStatus]}</span>
                     </td>
                 </c:if>
                 <td>
