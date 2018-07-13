@@ -501,9 +501,9 @@ public class OperateReportController extends BaseOperateController {
         UserAgentVo userAgentVo = new UserAgentVo();
         userAgentVo.getSearch().setId(agentId);
         Map map = ServiceSiteTool.userAgentService().queryAgentLine(userAgentVo);
-        String name = this.getAgentNameByAgentId(agentId);
         StringBuilder agentLines = new StringBuilder(MapTool.getString(map,"parent_name_array")==null?"":MapTool.getString(map,"parent_name_array"));
         if(StringTool.isBlank(agentName)){
+            String name = this.getAgentNameByAgentId(agentId);
             agentLines.append(" > "+name);
         }
         listVo.setAgentLines(agentLines.toString());
@@ -519,7 +519,10 @@ public class OperateReportController extends BaseOperateController {
         VUserAgentVo vo = new VUserAgentVo();
         vo.getSearch().setId(agentId);
         vo = ServiceSiteTool.vUserAgentService().search(vo);
-        String agentName = vo.getResult().getUsername();
+        String agentName = "";
+        if (vo.getResult()!=null) {
+            agentName = vo.getResult().getUsername();
+        }
         return agentName;
     }
 
