@@ -227,9 +227,15 @@
                     <td>
                         <c:set value="" var="status_class"></c:set>
                         <c:choose>
-                            <c:when test='${pt.checkStatus eq "payment_processing"}'> <%--状态：处理中 --%> <c:set var="status_class" value="label label-info"></c:set></c:when>
-                            <c:when test='${pt.checkStatus eq "payment_success"}'> <%--状态：成功 --%> <c:set var="status_class" value="label label-success"></c:set></c:when>
-                            <c:when test='${pt.checkStatus eq "payment_fail"}'> <%--状态：失败 --%> <c:set var="status_class" value="label"></c:set></c:when>
+                            <c:when test='${pt.checkStatus eq "payment_processing"}'> <%--状态：处理中 --%>
+                                <c:set var="status_class" value="label label-info"></c:set>
+                            </c:when>
+                            <c:when test='${pt.checkStatus eq "payment_success"}'><%--状态：成功 --%>
+                                <c:set var="status_class" value="label label-success"></c:set>
+                            </c:when>
+                            <c:when test='${pt.checkStatus eq "payment_fail"}'> <%--状态：失败 --%>
+                                <c:set var="status_class" value="label"></c:set>
+                            </c:when>
                             <c:otherwise>--</c:otherwise>
                         </c:choose>
                         <span class="${status_class}" title="${dicts.fund.withdraw_check_status[pt.checkStatus]}">${dicts.fund.withdraw_check_status[pt.checkStatus]}</span>

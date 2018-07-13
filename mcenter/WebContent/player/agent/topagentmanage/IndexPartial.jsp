@@ -76,7 +76,12 @@
                             <td><a href="/vUserAgentManage/list.html?search.parentId=${p.id}" nav-target='mainFrame'>${p.childAgentNum}</a></td>
                         </c:when>
                         <c:when test="${f.key=='playerNum'}">
-                            <td><a href="/player/list.html.html?search.generalAgentId=${p.id}" nav-target='mainFrame'>${p.playerNum}</a></td>
+                            <td>
+                                <soul:button target="${root}/player/popup/list.html?search.generalAgentId=${p.id}" size="open-dialog-95p"
+                                             callback="" text="" title="玩家" opType="dialog">
+                                    ${p.playerNum}
+                                </soul:button>
+                            </td>
                         </c:when>
                         <c:when test="${f.key=='country'}">
                             <td>

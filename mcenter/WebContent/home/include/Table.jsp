@@ -82,7 +82,7 @@
                                             0
                                         </c:when>
                                         <c:otherwise>
-                                            <soul:button target="${root}/player/popup/list.html.html?outer=${10 + vs.count}&search.hasReturn=true" size="open-dialog-95p"
+                                            <soul:button target="${root}/player/popup/list.html?outer=${10 + vs.count}&search.hasReturn=true" size="open-dialog-95p"
                                                          callback="" text="" title="玩家" opType="dialog">
                                                 ${player}
                                             </soul:button>
@@ -96,7 +96,7 @@
                                             0
                                         </c:when>
                                         <c:otherwise>
-                                            <soul:button target="${root}/player/popup/list.html.html?outer=${10 + vs.count}&comp=1&search.hasReturn=true" size="open-dialog-95p"
+                                            <soul:button target="${root}/player/popup/list.html?outer=${10 + vs.count}&comp=1&search.hasReturn=true" size="open-dialog-95p"
                                                          callback="" text="" title="玩家" opType="dialog">
                                                 ${deposit}
                                             </soul:button>
@@ -110,7 +110,7 @@
                                             0
                                         </c:when>
                                         <c:otherwise>
-                                            <soul:button target="${root}/player/popup/list.html.html?outer=${10+vs.count}&comp=2&search.hasReturn=true" size="open-dialog-95p"
+                                            <soul:button target="${root}/player/popup/list.html?outer=${10+vs.count}&comp=2&search.hasReturn=true" size="open-dialog-95p"
                                                          callback="" text="" title="玩家" opType="dialog">
                                                 ${depositPlayer}
                                             </soul:button>
@@ -179,7 +179,7 @@
                                             0
                                         </c:when>
                                         <c:otherwise>
-                                            <soul:button target="${root}/player/popup/list.html.html?outer=${10 + vs.count}&comp=3&search.hasReturn=true" size="open-dialog-95p"
+                                            <soul:button target="${root}/player/popup/list.html?outer=${10 + vs.count}&comp=3&search.hasReturn=true" size="open-dialog-95p"
                                                          callback="" text="" title="玩家" opType="dialog">
                                                 ${bet}
                                             </soul:button>
