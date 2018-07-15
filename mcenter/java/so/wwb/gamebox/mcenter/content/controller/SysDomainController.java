@@ -84,12 +84,9 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
 
     //region your codes 3
 
-//    private static final String RANKS = "/content/domain/ranks";
+    //    private static final String RANKS = "/content/domain/ranks";
     private static final String SETTING = "/content/domain/Setting";
     private static final String SETTING_PART = "/content/domain/SettingPart";
-
-
-
 
 
     @Override
@@ -99,7 +96,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         Collection<SysParam> sysParams = ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX);
         Collection<SysParam> sysParams1 = new ArrayList<>();
         for (SysParam sysParam : sysParams) {
-            if (!"creditPay".equals(sysParam.getParamCode())){
+            if (!"creditPay".equals(sysParam.getParamCode())) {
                 sysParams1.add(sysParam);
             }
         }
@@ -110,15 +107,15 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     @Override
     protected SysDomainVo doSave(SysDomainVo sysDomainVo) {
         SysDomain sysDomain = sysDomainVo.getResult();
-        if(DomainPageUrlEnum.AGENT.getCode().equals(sysDomainVo.getResult().getPageUrl())){
+        if (DomainPageUrlEnum.AGENT.getCode().equals(sysDomainVo.getResult().getPageUrl())) {
             sysDomain.setSubsysCode(SubSysCodeEnum.MCENTER_AGENT.getCode());
-        }else if(DomainPageUrlEnum.TOPAGENT.getCode().equals(sysDomainVo.getResult().getPageUrl())){
+        } else if (DomainPageUrlEnum.TOPAGENT.getCode().equals(sysDomainVo.getResult().getPageUrl())) {
             sysDomain.setSubsysCode(SubSysCodeEnum.MCENTER_TOP_AGENT.getCode());
-        }else if(DomainPageUrlEnum.VIP.getCode().equals(sysDomainVo.getResult().getPageUrl())
-                ||DomainPageUrlEnum.INDEX.getCode().equals(sysDomainVo.getResult().getPageUrl())
-                ||DomainPageUrlEnum.DETECTION.getCode().equals(sysDomainVo.getResult().getPageUrl())){
+        } else if (DomainPageUrlEnum.VIP.getCode().equals(sysDomainVo.getResult().getPageUrl())
+                || DomainPageUrlEnum.INDEX.getCode().equals(sysDomainVo.getResult().getPageUrl())
+                || DomainPageUrlEnum.DETECTION.getCode().equals(sysDomainVo.getResult().getPageUrl())) {
             sysDomain.setSubsysCode(SubSysCodeEnum.MSITES.getCode());
-        }else{
+        } else {
             sysDomain.setSubsysCode(SubSysCodeEnum.MCENTER.getCode());
         }
 
@@ -132,6 +129,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
 
     /**
      * 初始审核表数据
+     *
      * @param sysDomainVo
      * @return
      */
@@ -151,6 +149,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
 
     /**
      * 初始数据
+     *
      * @param sysDomain
      */
     private void setDomainData(SysDomain sysDomain) {
@@ -159,7 +158,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         sysDomain.setBuildIn(false);
         sysDomain.setResolveStatus(ResolveStatusEnum.TOBEBOUND.getCode());
         sysDomain.setIsTemp(false);
-        sysDomain.setCode(UUID.randomUUID().toString().replace("-",""));
+        sysDomain.setCode(UUID.randomUUID().toString().replace("-", ""));
         sysDomain.setIsEnable(true);
         sysDomain.setSysUserId(SessionManager.getSiteUserId());
         sysDomain.setSiteId(SessionManager.getSiteId());
@@ -174,16 +173,16 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     protected SysDomainVo doUpdate(SysDomainVo sysDomainVo) {
         sysDomainVo.getResult().setUpdateTime(new Date());
         sysDomainVo.getResult().setUpdateUser(SessionManager.getUserId());
-        if(sysDomainVo.getResult().getForAgent()!=null){
-            sysDomainVo.getResult().setForAgent(sysDomainVo.getResult().getForAgent()?true:false);
-        }else{
+        if (sysDomainVo.getResult().getForAgent() != null) {
+            sysDomainVo.getResult().setForAgent(sysDomainVo.getResult().getForAgent() ? true : false);
+        } else {
             sysDomainVo.getResult().setForAgent(false);
         }
-        if(DomainPageUrlEnum.AGENT.getCode().equals(sysDomainVo.getResult().getPageUrl())){
+        if (DomainPageUrlEnum.AGENT.getCode().equals(sysDomainVo.getResult().getPageUrl())) {
             sysDomainVo.getResult().setSubsysCode(SubSysCodeEnum.MCENTER_AGENT.getCode());
-        }else if(DomainPageUrlEnum.TOPAGENT.getCode().equals(sysDomainVo.getResult().getPageUrl())){
+        } else if (DomainPageUrlEnum.TOPAGENT.getCode().equals(sysDomainVo.getResult().getPageUrl())) {
             sysDomainVo.getResult().setSubsysCode(SubSysCodeEnum.MCENTER_TOP_AGENT.getCode());
-        }else{
+        } else {
             sysDomainVo.getResult().setSubsysCode(SubSysCodeEnum.MSITES.getCode());
         }
 
@@ -197,17 +196,6 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
     @Override
     @Token(generate = true)
     public String create(SysDomainVo objectVo, Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -215,16 +203,6 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
 
         return super.create(objectVo, model, request, response);
     }
-
-
-
-
-
-
-
-
-
-
 
 
     @Override
@@ -272,8 +250,8 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         Collection<SysParam> sysParams = ParamTool.getSysParams(BossParamEnum.CONTENT_DOMAIN_TYPE_INDEX);
         Collection<SysParam> sysParams1 = new ArrayList<>();
         for (SysParam sysParam : sysParams) {
-            if (!"creditPay".equals(sysParam.getParamCode())){
-                 sysParams1.add(sysParam);
+            if (!"creditPay".equals(sysParam.getParamCode())) {
+                sysParams1.add(sysParam);
             }
         }
         sysDomainVo.setDomainTypes(sysParams1);
@@ -307,8 +285,8 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         } else {
             sysDomainVo.setErrMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
         }
-        if (sysDomainVo.isSuccess()){
-            BussAuditLogTool.addLog("DEL_DOMAIN",sysDomainVo.getResult().getDomain());
+        if (sysDomainVo.isSuccess()) {
+            BussAuditLogTool.addLog("DEL_DOMAIN", sysDomainVo.getResult().getDomain());
         }
         return getVoMessage(sysDomainVo);
     }
@@ -337,7 +315,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         }
 
         domainSaveMsg(sysDomainVo);
-        Map<String, Object> map = new HashMap<>(2,1f);
+        Map<String, Object> map = new HashMap<>(2, 1f);
         if (sysDomainVo.isSuccess() && sysDomainVo.getResult().getResolveStatus().equals("5")) {
             sysDomainVo.setOkMsg(LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.OPERATION_SUCCESS));
 
@@ -347,9 +325,9 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         CacheBase.refreshSiteDomain(sysDomainVo.getResult().getDomain());
         map.put("msg", StringTool.isNotBlank(sysDomainVo.getOkMsg()) ? sysDomainVo.getOkMsg() : sysDomainVo.getErrMsg());
         map.put("state", sysDomainVo.isSuccess());
-        if (MapTool.getBoolean(map,"state")){
-            BussAuditLogTool.addLog("MASTER_SETTING_CHANGE_RESOLVE_STATUS",sysDomainVo.getResult().getDomain(),
-                    ResolveStatusEnum.TOBETIEDUP.getCode().equals(sysDomainVo.getResult().getResolveStatus())?ResolveStatusEnum.TOBETIEDUP.getTrans():"取消");
+        if (MapTool.getBoolean(map, "state")) {
+            BussAuditLogTool.addLog("MASTER_SETTING_CHANGE_RESOLVE_STATUS", sysDomainVo.getResult().getDomain(),
+                    ResolveStatusEnum.TOBETIEDUP.getCode().equals(sysDomainVo.getResult().getResolveStatus()) ? ResolveStatusEnum.TOBETIEDUP.getTrans() : "取消");
         }
         return map;
     }
@@ -493,7 +471,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         listVo.getSearch().setUsername(agentUserName);
         listVo.getSearch().setUserType(UserTypeEnum.AGENT.getCode());
         VUserAgentListVo search = ServiceSiteTool.vUserAgentService().search(listVo);
-        if (search.getResult()!=null&&search.getResult().size() > 0) {
+        if (search.getResult() != null && search.getResult().size() > 0) {
             SysDomainListVo sysDomainListVo = new SysDomainListVo();
             sysDomainListVo.getSearch().setAgentId(search.getResult().get(0).getId());
             sysDomainListVo.getSearch().setType(UserTypeEnum.AGENT.getCode());
@@ -559,7 +537,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
             setDomainData(sysDomain);
             //按账号查出该代理ID
             Integer agentId = getAgentId(sysDomainVo);
-            if(agentId!=null){
+            if (agentId != null) {
                 sysDomain.setAgentId(agentId);
                 sysDomainVo.setResult(sysDomain);
                 sysDomainVo = initSysDomainCheckData(sysDomainVo);
@@ -568,21 +546,21 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
                 sysDomainVo = this.getService().batchSaveDomain(sysDomainVo);
                 sysDomainVo.getResult().setPageUrl(DomainPageUrlEnum.INDEX.getCode());
                 this.domainSaveMsg(sysDomainVo);
-            }else{
+            } else {
                 sysDomainVo.setSuccess(false);
-                sysDomainVo.setErrMsg(LocaleTool.tranMessage("content_auto","找不到代理对象"));
+                sysDomainVo.setErrMsg(LocaleTool.tranMessage("content_auto", "找不到代理对象"));
             }
             return this.getVoMessage(sysDomainVo);
         }
         return null;
     }
 
-    private Integer getAgentId(SysDomainVo sysDomainVo){
+    private Integer getAgentId(SysDomainVo sysDomainVo) {
         VUserAgentListVo listVo = new VUserAgentListVo();
         listVo.getSearch().setUsername(sysDomainVo.getAgentUserName());
         listVo.getSearch().setUserType(UserTypeEnum.AGENT.getCode());
         VUserAgentListVo vUserAgentListVo = ServiceSiteTool.vUserAgentService().search(listVo);
-        if(vUserAgentListVo==null||vUserAgentListVo.getResult()==null||vUserAgentListVo.getResult().size()==0){
+        if (vUserAgentListVo == null || vUserAgentListVo.getResult() == null || vUserAgentListVo.getResult().size() == 0) {
             return null;
         }
         return vUserAgentListVo.getResult().get(0).getId();
@@ -608,7 +586,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     @Token(valid = true)
     public Map updateAgentDomain(SysDomainVo sysDomainVo, @FormModel("result") @Valid SysDomainAgentForm form, BindingResult result) {
         Map map = new HashMap();
-        try{
+        try {
             List<String> properties = ListTool.newArrayList();
             properties.add(SysDomain.PROP_DOMAIN);
             properties.add(SysDomain.PROP_RESOLVE_STATUS);
@@ -623,14 +601,14 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
             sysDomain.setUpdateUser(SessionManager.getSiteUserId());
 
             sysDomainVo = this.getService().updateOnly(sysDomainVo);
-            map =  this.getVoMessage(sysDomainVo);
-            if(!sysDomainVo.isSuccess()){
-                map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+            map = this.getVoMessage(sysDomainVo);
+            if (!sysDomainVo.isSuccess()) {
+                map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
             }
-        }catch (Exception ex){
-            map.put("state",false);
-            map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
-            LogFactory.getLog(this.getClass()).error(ex,"修改代理域出错");
+        } catch (Exception ex) {
+            map.put("state", false);
+            map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
+            LogFactory.getLog(this.getClass()).error(ex, "修改代理域出错");
         }
         return map;
     }
@@ -664,7 +642,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         Date create = this.getService().getTempDate(sysDomainListVo);
         if (create != null) {
             create = DateTool.addDays(create, 15);
-        }else{
+        } else {
 
         }
         model.addAttribute("create", create);
@@ -693,9 +671,9 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         }
         sysDomainListVo.getSearch().setSiteId(SessionManager.getSiteId());
         Date create = this.getService().getTempDate(sysDomainListVo);
-        if(create!=null){
+        if (create != null) {
             create = DateTool.addDays(create, 15);
-        }else {
+        } else {
             create = new Date();
         }
 
@@ -870,19 +848,19 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
     public Map updateMainManager(SysDomainVo sysDomainVo, @FormModel("result") @Valid SysDomainMainManagerEditForm form, BindingResult result) {
         Map map = new HashMap();
         if (!result.hasErrors()) {
-            if(DomainPageUrlEnum.INDEX.getCode().equals(sysDomainVo.getResult().getPageUrl()) || DomainPageUrlEnum.INDEXCNAME.getCode().equals(sysDomainVo.getResult().getPageUrl())){
-                sysDomainVo.setProperties(SysDomain.PROP_NAME,SysDomain.PROP_FOR_AGENT,SysDomain.PROP_UPDATE_USER,SysDomain.PROP_IS_DEFAULT);
-            }else {
-                sysDomainVo.setProperties(SysDomain.PROP_NAME,SysDomain.PROP_UPDATE_USER,SysDomain.PROP_IS_DEFAULT);
+            if (DomainPageUrlEnum.INDEX.getCode().equals(sysDomainVo.getResult().getPageUrl()) || DomainPageUrlEnum.INDEXCNAME.getCode().equals(sysDomainVo.getResult().getPageUrl())) {
+                sysDomainVo.setProperties(SysDomain.PROP_NAME, SysDomain.PROP_FOR_AGENT, SysDomain.PROP_UPDATE_USER, SysDomain.PROP_IS_DEFAULT);
+            } else {
+                sysDomainVo.setProperties(SysDomain.PROP_NAME, SysDomain.PROP_UPDATE_USER, SysDomain.PROP_IS_DEFAULT);
             }
             sysDomainVo.getResult().setUpdateUser(SessionManager.getUserId());
             this.getService().updateNameAndIsDefault(sysDomainVo);
             SysDomain result1 = sysDomainVo.getResult();
-            BussAuditLogTool.addLog("UPDATE_DOMAIN",result1.getId().toString(),result1.getName(), BooleanTool.isTrue(result1.getIsDefault())?"是":"否",BooleanTool.isTrue(result1.getForAgent())?"是":"否");
+            BussAuditLogTool.addLog("UPDATE_DOMAIN", result1.getId().toString(), result1.getName(), BooleanTool.isTrue(result1.getIsDefault()) ? "是" : "否", BooleanTool.isTrue(result1.getForAgent()) ? "是" : "否");
             return this.getVoMessage(sysDomainVo);
-        }else {
-            map.put("state",false);
-            map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+        } else {
+            map.put("state", false);
+            map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
             return map;
         }
     }
@@ -899,24 +877,29 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
                 objectVo = this.doPersist(objectVo);
                 this.domainSaveMsg(objectVo);
                 map = this.getVoMessage(objectVo);
-                if(!objectVo.isSuccess()){
-                    map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+                if (!objectVo.isSuccess()) {
+                    map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
                 }
-            }catch (Exception ex){
-                map.put("state",false);
-                map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
-                LogFactory.getLog(this.getClass()).error(ex,"保存域名出错");
+            } catch (Exception ex) {
+                map.put("state", false);
+                map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
+                LogFactory.getLog(this.getClass()).error(ex, "保存域名出错");
             }
 
         } else {
-            map.put("state",false);
-            map.put(TokenHandler.TOKEN_VALUE,TokenHandler.generateGUID());
+            map.put("state", false);
+            map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
             return map;
         }
-        if (MapTool.getBoolean(map,"state")){
+        if (MapTool.getBoolean(map, "state")) {
             SysDomain result1 = objectVo.getResult();
-            BussAuditLogTool.addLog("PERSIST_DOMAIN",result1.getDomain(),result1.getName(),result1.getIsDefault()?"是":"否",result1.getForAgent()?"是":"否");
-
+            if (result1 != null) {
+                try {
+                    BussAuditLogTool.addLog("PERSIST_DOMAIN", result1.getDomain(), result1.getName(), BooleanTool.isTrue(result1.getIsDefault()) ? "是" : "否", BooleanTool.isTrue(result1.getForAgent()) ? "是" : "否");
+                } catch (Exception e) {
+                    LOG.error(e);
+                }
+            }
         }
         return map;
     }

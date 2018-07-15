@@ -107,7 +107,7 @@
                         <c:choose>
                             <%--进行中的有待审核的不能编辑删除 --%>
                             <c:when test="${(p.acount>0 && p.isAudit)}">
-                                <span class="co-gray">${p.activityState eq "draft"?views.common['continueEditing']:views.common['edit']}</span>
+                                <span class="co-gray" title="${views.operation['请在活动监控中审核活动优惠后，再编辑活动']}">${p.activityState eq "draft"?views.common['continueEditing']:views.common['edit']}</span>
                             </c:when>
                             <c:otherwise>
                                 <a href="/activityHall/activityType/activityEdit.html?search.id=${p.id}&states=${p.states}" nav-target="mainFrame">${(p.activityState eq "draft")?views.common['continueEditing']:views.common['edit']}</a>
@@ -133,10 +133,10 @@
                     <c:choose>
                         <%--进行中且有待审核需要审核的不能删除--%>
                         <c:when test="${(p.isAudit && p.acount>0)}">
-                            <span class="co-gray">${views.common['delete']}</span>
+                            <span class="co-gray" title="${views.operation['请在活动监控中审核活动优惠后，再删除活动']}">${views.common['delete']}</span>
                         </c:when>
                         <c:otherwise>
-                            <soul:button permission="operate:activityHall_delete" target="${root}/activityHall/activity/deleteActivity.html?result.id=${p.id}" text="${views.common['delete']}" opType="ajax" callback="query" confirm="${p.states eq 'notStarted'?views.operation['Activity.list.notStarted']:views.operation['Activity.list.delete']}"/>
+                            <soul:button  permission="operate:activityHall_delete" target="${root}/activityHall/activity/deleteActivity.html?result.id=${p.id}" text="${views.common['delete']}" opType="ajax" callback="query" confirm="${p.states eq 'notStarted'?views.operation['Activity.list.notStarted']:views.operation['Activity.list.delete']}"/>
                         </c:otherwise>
                         <%--<c:when test="${(p.checkStatus eq '1' and p.states eq 'finished' and p.acount eq 0)
                         || (p.checkStatus eq '1' and p.states eq 'notStarted') || p.checkStatus eq '0' || p.checkStatus eq '2' || p.activityState eq 'draft' || p.isRemove}">
