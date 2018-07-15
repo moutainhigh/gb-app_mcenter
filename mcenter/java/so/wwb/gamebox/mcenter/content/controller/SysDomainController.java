@@ -895,7 +895,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
             SysDomain result1 = objectVo.getResult();
             if (result1 != null) {
                 try {
-                    BussAuditLogTool.addLog("PERSIST_DOMAIN", result1.getDomain(), result1.getName(), result1.getIsDefault() ? "是" : "否", result1.getForAgent() ? "是" : "否");
+                    BussAuditLogTool.addLog("PERSIST_DOMAIN", result1.getDomain(), result1.getName(), BooleanTool.isTrue(result1.getIsDefault()) ? "是" : "否", BooleanTool.isTrue(result1.getForAgent()) ? "是" : "否");
                 } catch (Exception e) {
                     LOG.error(e);
                 }
