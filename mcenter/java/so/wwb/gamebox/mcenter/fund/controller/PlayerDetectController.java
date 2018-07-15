@@ -358,7 +358,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
 
         Date lastSynTime = objVo.getResult().getSynchronizationTime();
         long between = DateTool.secondsBetween(SessionManager.getDate().getNow(), lastSynTime);
-        if (lastSynTime == null || between > 60) {
+        if (lastSynTime == null || between >= 60) {
             //同步玩家api余额
             ShareController.fetchPlayerApiBalance(listVo);
         } else {
