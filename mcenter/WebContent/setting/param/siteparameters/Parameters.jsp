@@ -265,13 +265,15 @@
                                  style="${fn:length(androidDownloadAddress) >0 ? '':'display:none;'}">
                                 <label class="ft-bold pull-left m-r"
                                        style='float:left'> ${views.setting_auto['Android']}：</label>
-                                <textarea class="form-control m-b" name="androidDownloadAddress" style="min-height:30px;"
+                                <textarea class="form-control m-b" name="androidDownloadAddress"
+                                          style="min-height:30px;"
                                           placeholder="${views.setting_auto['请输入Android地址']}">${androidDownloadAddress}</textarea>
                                 <label class="ft-bold">Android安装包:</label>
                                 <a target="_top" href="${androidUrl}">下载</a>
                             </div>
                             <br/>
-                            <div id="appDomain" style="${fn:length(iosDownloadAddress) >0 || fn:length(androidDownloadAddress) >0  ? 'display:none;':''}">
+                            <div id="appDomain"
+                                 style="${fn:length(iosDownloadAddress) >0 || fn:length(androidDownloadAddress) >0  ? 'display:none;':''}">
                                 <div class="clearfix m-b">
                                     <div class="ft-bold pull-left line-hi34">
                                             ${views.setting_auto['APP默认下载域名']}
@@ -354,6 +356,50 @@
                                 </td>
                             </tr>
                         </table>
+
+                        <%--棋牌分享图片--%>
+                        <div id="chessSharePicture" class="content clearfix">
+                            <h3>棋牌分享图片</h3>
+                            <div class="content clearfix" style="padding-top: 10px">
+                                <div class="clearfix m-b">
+                                    <div class="ft-bold pull-left line-hi34"
+                                         style="width: 100px;text-align: right;">
+                                        <table style="width: 500px;">
+                                            <thead>
+                                                <tr role="row" align="center">
+                                                    <td>图片（点击预览）</td>
+                                                    <td>操作</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:if test="${not empty chessSharePicture}">
+                                                <tr class="tab-detail" align="center">
+                                                    <td>
+                                                        <soul:button target="viewImg" text="" opType="function" tag="a">
+                                                        <img data-src="${soulFn:getImagePath(domain,chessSharePicture)}"
+                                                             src="${soulFn:getThumbPath(domain,chessSharePicture,100,40)}">
+                                                        </soul:button>
+                                                    </td>
+                                                    <td>
+                                                        <soul:button target="${root}/param/chessSharePictureUpload.html" text="上传图片" tag="a" opType="dialog" callback="reloadParamters">修改</soul:button>
+                                                    </td>
+                                                </tr>
+                                                </c:if>
+                                                <c:if test="${empty chessSharePicture}">
+                                                    <tr class="tab-detail" align="center">
+                                                        <td>--</td>
+                                                        <td>
+                                                            <soul:button target="${root}/param/chessSharePictureUpload.html" text="上传图片" tag="a" opType="dialog" callback="reloadParamters">上传</soul:button>
+                                                        </td>
+                                                    </tr>
+                                                </c:if>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div id="accessDomain" class="col-lg-6 site-switch">
                         <h3>${views.setting_auto['访问域名设置']}</h3>
@@ -377,21 +423,21 @@
                             </div>
                         </div>
                     </div>
-                    <%--<div id="openActivityHall_div" class="col-lg-6 site-switch">--%>
+                        <%--<div id="openActivityHall_div" class="col-lg-6 site-switch">--%>
                         <%--<h3>${views.setting_auto['是否打开活动大厅']}</h3>--%>
                         <%--<div class="content clearfix" style="padding-top: 10px">--%>
-                            <%--<div class="clearfix m-b">--%>
+                        <%--<div class="clearfix m-b">--%>
 
-                                <%--<div style="padding-top: 10px">--%>
-                                    <%--<label class="ft-bold pull-left m-r"--%>
-                                           <%--style='float:left;margin-top:4px'>&nbsp;&nbsp; ${views.setting_auto['是否打开活动大厅']}：</label>--%>
-                                    <%--<input type="checkbox" name="activityHallSwitch" data-size="mini" ${activityHallSwitch.paramValue =="true" ?'checked':''}/>--%>
-                                        <%--${views.setting_auto['开启后，打开活动大厅']}--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
+                        <%--<div style="padding-top: 10px">--%>
+                        <%--<label class="ft-bold pull-left m-r"--%>
+                        <%--style='float:left;margin-top:4px'>&nbsp;&nbsp; ${views.setting_auto['是否打开活动大厅']}：</label>--%>
+                        <%--<input type="checkbox" name="activityHallSwitch" data-size="mini" ${activityHallSwitch.paramValue =="true" ?'checked':''}/>--%>
+                        <%--${views.setting_auto['开启后，打开活动大厅']}--%>
+                        <%--</div>--%>
+                        <%--</div>--%>
 
                         <%--</div>--%>
-                    <%--</div>--%>
+                        <%--</div>--%>
                     <shiro:hasPermission name="system:electricpin_switch ">
                     <div id="accessDomains" class="col-lg-6 site-switch">
                         <h3>${views.setting_auto['电销参数设置']}</h3>
@@ -408,7 +454,8 @@
                                     <div class="clearfix m-b">
                                         <div style="padding-top: 10px">
                                             <label class="ft-bold pull-left m-r"
-                                                   style='float:left;margin-top:4px'>&nbsp;&nbsp; ${views.setting_auto['电销开关']}：</label>
+                                                   style='float:left;margin-top:4px'>
+                                                &nbsp;&nbsp; ${views.setting_auto['电销开关']}：</label>
                                             <input id="phonePin" type="checkbox" name="electric_pin" data-size="mini"
                                                 ${electric_pin.paramValue =="true" ?'checked':''} />
                                                 <%--<label class="m-r-md ">${views.setting_auto['您还未接入电销接口，请联系客服进行设置']}</label>--%>
@@ -477,8 +524,8 @@
                             </div>
                         </div>
                     </div>
+                    </shiro:hasPermission>
                 </div>
-                </shiro:hasPermission>
             </div>
         </div>
     </div>
