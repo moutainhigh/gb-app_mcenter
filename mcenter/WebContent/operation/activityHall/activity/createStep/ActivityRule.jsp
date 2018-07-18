@@ -187,7 +187,7 @@
                             <div id="game_tab${index.index}" class="tab-pane ${index.index==0?'active':''} game_div" aaa="${index.index}">
                                 <c:forEach items="${apiGametypeRelations.value}" var="apiGametypeRelation" varStatus="v">
                                     <label class="m-r-sm">
-                                        <input type="checkbox" value="${apiGametypeRelation.apiId}" name="ActivityRuleIncludeGames[${index.index}][${v.index}].apiId"  aaa="${index.index}" class="game"
+                                        <input type="checkbox" value="${apiGametypeRelation.apiId}" name="activityRuleIncludeGames[${index.index}][${v.index}].apiId"  aaa="${index.index}" class="game"
                                         <c:forEach items="${activityRIGMap[apiGametypeRelations.key]}" var="activityRIG">
                                                 ${apiGametypeRelation.apiId == activityRIG.apiId ? 'checked':''}
                                         </c:forEach>
@@ -196,7 +196,7 @@
                                         </c:forEach>
                                         />${gbFn:getApiName(apiGametypeRelation.apiId)}
                                     </label>
-                                        <input type="hidden" name="ActivityRuleIncludeGames[${index.index}][${v.index}].gameType" value="${apiGametypeRelations.key}">
+                                        <input type="hidden" name="activityRuleIncludeGames[${index.index}][${v.index}].gameType" value="${apiGametypeRelations.key}">
 
                                 </c:forEach>
                             </div>
