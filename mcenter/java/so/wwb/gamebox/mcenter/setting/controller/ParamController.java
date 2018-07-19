@@ -667,6 +667,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam androidDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_ANDROID_DOWNLOAD_ADDRESS);
         SysParam iosDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_IOS_DOWNLOAD_ADDRESS);
         SysParam activityHallSwitch = ParamTool.getSysParam(SiteParamEnum.ACTIVITY_HALL_SWITCH);//打开活动大厅，关闭活动管理
+        SysParam chessSharePicture = ParamTool.getSysParam(SiteParamEnum.CHESS_SHARE_PICTURE);
         String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManagerCommon.getSiteId());
         String androidUrl = getAndroidUrl();
         getIosUrl(model);
@@ -687,6 +688,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("webtype", "5");
         model.addAttribute("androidDownloadAddress",androidDownloadAddress != null ? androidDownloadAddress.getParamValue():"");
         model.addAttribute("iosDownloadAddress",iosDownloadAddress != null ? iosDownloadAddress.getParamValue():"");
+        model.addAttribute("chessSharePicture",chessSharePicture != null ? chessSharePicture.getParamValue():"");
+
         //判断是否为站长主账号
         if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
             Integer masterId = sysSiteVo.getResult().getSysUserId();
@@ -1588,7 +1591,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
 
     /**
      * 保存短信开关
-     * @param siteParamVol
+     * @param siteParamVo
      * @return
      */
     @RequestMapping("/saveSmsInterfaceParam")
@@ -1646,6 +1649,54 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             SessionManagerCommon.setUser(sysUser);
         }*/
         return getVoMessage(sysUserVo);
+    }
+
+
+    /**
+     * 上传棋牌包网分享图片
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("/chessSharePictureUpload")
+    public String chessSharePictureUpload(Model model){
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.CHESS_SHARE_PICTURE);
+        model.addAttribute("chessShareParam",sysParam);
+        return getViewBasePath() + "UploadChessSharePicture";
+    }
+
+    /**
+     * 保存棋牌包网分享图片
+     *
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/saveChessSharePicture")
+    @ResponseBody
+    public SysParamVo saveUserDefinedTone(SysParamVo sysParamVo) {
+        Integer id = sysParamVo.getResult().getId();
+        if (id==null){
+            LOG.info("保存上传棋牌包网分享图片失败，站点ID：{0}，更新参数id为空",SessionManager.getSiteId());
+            sysParamVo.setSuccess(false);
+            return sysParamVo;
+        }
+        String paramValue = sysParamVo.getResult().getParamValue();
+        if (StringTool.isBlank(paramValue)){
+            LOG.info("保存上传棋牌包网分享图片失败，站点ID：{0}，更新参数值为空",SessionManager.getSiteId());
+            sysParamVo.setSuccess(false);
+            return sysParamVo;
+        }
+        sysParamVo.getResult().setParamValue(paramValue);
+        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+        sysParamVo = ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
+        if (sysParamVo.isSuccess()) {
+            ParamTool.refresh(SiteParamEnum.CHESS_SHARE_PICTURE);
+            return sysParamVo;
+        }else {
+            LOG.info("保存上传棋牌包网分享图片失败，站点ID：{0}，更新参数失败",SessionManager.getSiteId());
+            sysParamVo.setSuccess(false);
+        }
+        return sysParamVo;
     }
 
     //endregion your codes 3
