@@ -18,13 +18,17 @@ import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.chess.form.VSiteGameSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.company.site.po.SiteGame;
+import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteGameVo;
+import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
 import so.wwb.gamebox.model.company.site.vo.VSiteGameListVo;
 import so.wwb.gamebox.model.company.site.vo.VSiteGameVo;
+import so.wwb.gamebox.model.gameapi.enums.ApiTypeEnum;
 import so.wwb.gamebox.web.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -68,10 +72,10 @@ public class ChessSiteGameController {
     @RequestMapping("/updateStatus")
     @ResponseBody
     private Map<String, Object> updateStatus(SiteGameVo siteGameVo) {
-        Integer siteId = siteGameVo.getSearch().getSiteId();
+        Integer siteId = SessionManager.getSiteId();
         Integer gameId = siteGameVo.getSearch().getGameId();
         Integer apiId = siteGameVo.getSearch().getApiId();
-        Integer apiTypeId = siteGameVo.getSearch().getApiTypeId();
+        Integer apiTypeId = ApiTypeEnum.CHESS.getCode();
         if (siteId == null || gameId == null || apiId == null || apiTypeId == null) {
             LOG.error("参数缺失：siteId={0}，gameId={1}，apiId={2}，apiTypeId={3}", siteId, gameId, apiId, apiTypeId);
             siteGameVo.setSuccess(false);
@@ -88,11 +92,30 @@ public class ChessSiteGameController {
         siteGameVo.setProperties(SiteGame.PROP_STATUS);
         siteGameVo = ServiceTool.siteGameService().updateOnly(siteGameVo);
         if (siteGameVo.isSuccess()) {
-            Cache.refreshSiteGame(siteId);
+            //刷新站点手机端棋牌游戏
+            refreshSiteGameCache(siteId,apiTypeId);
         }
         return getVoMessage(siteGameVo);
     }
 
+    /**
+     * 刷新手机端游戏缓存
+     *
+     * @param siteId
+     * @param apiTypeId
+     */
+    private void refreshSiteGameCache(Integer siteId,Integer apiTypeId) {
+        Cache.refreshSiteGame(siteId);
+        Cache.refreshVSiteGame(siteId);
+
+        SiteLanguageListVo siteLanguageListVo = new SiteLanguageListVo();
+        siteLanguageListVo.getSearch().setSiteId(siteId);
+        List<SiteLanguage> languageList = ServiceTool.siteLanguageService().availableLanguage(siteLanguageListVo);
+        for (SiteLanguage language : languageList) {
+            Cache.refreshMobileGameCacheEntity(String.valueOf(siteId), language.getLanguage(), String.valueOf(apiTypeId));
+            Cache.refreshMobileGameByApiType(String.valueOf(siteId), language.getLanguage(), String.valueOf(apiTypeId));
+        }
+    }
 
     private Map getVoMessage(BaseVo baseVo) {
         HashMap map = new HashMap(2, 1.0F);
@@ -133,7 +156,8 @@ public class ChessSiteGameController {
     @ResponseBody
     public boolean saveSiteGameOrder(@RequestBody VSiteGameVo vSiteGameVo) {
         ServiceTool.vSiteGameService().saveSiteGameOrder(vSiteGameVo);
-        Cache.refreshSiteGame(SessionManager.getSiteId());
+        //刷新站点手机端棋牌游戏
+        refreshSiteGameCache(SessionManager.getSiteId(), ApiTypeEnum.CHESS.getCode());
         return true;
     }
     //endregion your codes 3
