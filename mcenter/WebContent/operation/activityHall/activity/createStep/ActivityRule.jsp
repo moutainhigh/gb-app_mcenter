@@ -164,7 +164,7 @@
                     <table class="table no-border table-desc-list">
                         <tbody>
                             <tr>
-                                <th scope="row" class="text-right col-sm-3">${views.operation['指定游戏分类']}:</th>
+                                <th scope="row" class="text-right col-sm-3 game_select_tips">${views.operation['指定游戏分类']}:</th>
                                 <%--<label class="col-sm-3 al-right">${views.operation['指定游戏分类']}:</label>--%>
                                 <td>
                                     <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
@@ -180,7 +180,7 @@
                 </div>
 
 
-                <div class="panel-body">
+                <div class="panel-body ">
                     <div class="tab-content">
                         <span class="col-sm-3"></span>
                         <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
