@@ -13,7 +13,7 @@ import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.SmsInterfaceForm;
 import so.wwb.gamebox.mcenter.setting.form.SmsInterfaceSearchForm;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import java.util.Map;
 

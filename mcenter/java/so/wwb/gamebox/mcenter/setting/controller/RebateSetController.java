@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.setting.IRebateSetService;
-import so.wwb.gamebox.mcenter.player.form.UserBankcardForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.RebateSetFeeForm;
 import so.wwb.gamebox.mcenter.setting.form.RebateSetForm;
@@ -43,7 +42,7 @@ import so.wwb.gamebox.model.master.setting.po.RebateGrads;
 import so.wwb.gamebox.model.master.setting.po.RebateSet;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetListVo;
 import so.wwb.gamebox.model.master.setting.vo.RebateSetVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
 

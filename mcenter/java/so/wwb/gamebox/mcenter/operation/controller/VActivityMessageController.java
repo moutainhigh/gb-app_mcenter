@@ -24,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceActivityTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.operation.ActivityMoneyPeriodTool;
@@ -47,9 +48,9 @@ import so.wwb.gamebox.model.master.enums.UserTaskEnum;
 import so.wwb.gamebox.model.master.operation.po.*;
 import so.wwb.gamebox.model.master.operation.vo.*;
 import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.validation.Valid;
 import java.io.Serializable;
@@ -154,7 +155,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         if (activityMessageVo.isSuccess()) {
             Cache.refreshMobileActivityMessages();
             Cache.refreshPcActivityMessages();
-            Cache.refreshCurrentSitePageCache();
+            Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
             map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else {
             map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
@@ -229,7 +230,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
             map.put("state", state);
             if (state) {
                 CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
-                Cache.refreshCurrentSitePageCache();
+                Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
             } else {
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
@@ -277,7 +278,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         map.put("state", state);
         if (state) {
             CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
-            Cache.refreshCurrentSitePageCache();
+            Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else {
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
@@ -305,7 +306,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         listVo = ServiceTool.siteI18nService().saveClassification(listVo);
         if (listVo.isSuccess()) {
             CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
-            Cache.refreshCurrentSitePageCache();
+            Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         }
         return getVoMessage(listVo);
     }
@@ -426,7 +427,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
                 updateSiteContentAudit();
                 Cache.refreshPcActivityMessages();
                 Cache.refreshMobileActivityMessages();
-                Cache.refreshCurrentSitePageCache();
+                Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
                 map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 //日志
                 String logPara1 = activityTypeVo.getResult() == null ? "" : activityTypeVo.getResult().getName();
@@ -503,7 +504,7 @@ public class VActivityMessageController extends ActivityController<IVActivityMes
         Cache.refreshMobileActivityMessages();
         Cache.refreshPcActivityMessages();
         Cache.refreshActivityMessages(SessionManager.getSiteId());
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         Map map = new HashMap();
         map.put("state", activityMessageVo.isSuccess());
         return map;

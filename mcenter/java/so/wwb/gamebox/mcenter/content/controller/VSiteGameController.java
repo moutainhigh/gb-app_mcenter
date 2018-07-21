@@ -33,7 +33,7 @@ import so.wwb.gamebox.model.company.site.vo.*;
 import so.wwb.gamebox.model.master.player.vo.PlayerApiListVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerGameLogVo;
 import so.wwb.gamebox.model.master.player.vo.VPlayerApiListVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import java.util.Date;
 import java.util.HashMap;

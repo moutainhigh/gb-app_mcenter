@@ -40,7 +40,7 @@ import so.wwb.gamebox.model.report.operation.po.StationProfitLoss;
 import so.wwb.gamebox.model.report.operation.vo.StationBillListVo;
 import so.wwb.gamebox.model.report.operation.vo.StationBillOtherListVo;
 import so.wwb.gamebox.model.report.operation.vo.StationBillVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.stationbill.controller.StationBillController;
 

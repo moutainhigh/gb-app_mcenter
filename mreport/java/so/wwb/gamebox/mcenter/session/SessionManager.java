@@ -1,9 +1,8 @@
 package so.wwb.gamebox.mcenter.session;
 
-import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.model.common.SessionKey;
-import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.web.SessionManagerCommon;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 /**
  * @author martin
@@ -27,7 +26,7 @@ public class SessionManager extends SessionManagerCommon {
      * @return
      */
     public static String getSubSysCode() {
-        return ConfigManager.getConfigration().getSubsysCode();
+        return ConfigBase.get().getSubsysCode();
     }
 
     /**

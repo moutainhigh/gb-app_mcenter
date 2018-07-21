@@ -25,16 +25,15 @@ import org.soul.model.security.privilege.po.VSysUserResource;
 import org.soul.model.security.privilege.vo.SysResourceVo;
 import org.soul.model.session.SessionKey;
 import org.soul.model.sys.po.SysParam;
-import org.soul.model.sys.vo.SysParamVo;
 import org.soul.web.security.privilege.controller.SysResourceController;
 import org.soul.web.session.SessionManagerBase;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
-import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminder;
 import so.wwb.gamebox.mcenter.taskReminder.TaskReminderHelp;
@@ -48,9 +47,9 @@ import so.wwb.gamebox.model.company.operator.po.VSystemAnnouncement;
 import so.wwb.gamebox.model.company.operator.vo.VSystemAnnouncementListVo;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
+import so.wwb.gamebox.model.company.sys.po.SysSite;
 import so.wwb.gamebox.model.company.sys.po.VSysSiteUser;
 import so.wwb.gamebox.model.company.sys.vo.SysDomainListVo;
-import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.company.sys.vo.VSysSiteUserListVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.gameapi.enums.ApiProviderEnum;
@@ -67,7 +66,7 @@ import so.wwb.gamebox.model.master.setting.vo.VUserShortcutMenuListVo;
 import so.wwb.gamebox.model.master.tasknotify.po.UserTaskReminder;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderListVo;
 import so.wwb.gamebox.model.report.vo.OperationProfileVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.init.ConfigBase;
 import so.wwb.gamebox.web.phoneapi.controller.BasePhoneApiController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -107,7 +106,7 @@ public class IndexController extends BasePhoneApiController {
             default:
                 break;
         }
-        o.getSearch().setSubsysCode(ConfigManager.getConfigration().getSubsysCode());
+        o.getSearch().setSubsysCode(ConfigBase.get().getSubsysCode());
         o.getSearch().setParentId(parentId);
         List<TreeNode<VSysUserResource>> menuNodeList = ServiceTool.sysResourceService().getSubMenus(o);
         SysResourceController.loadLocal(menuNodeList);
@@ -408,13 +407,11 @@ public class IndexController extends BasePhoneApiController {
     @RequestMapping(value = "/index/getUserTimeZoneDate")
     @ResponseBody
     public String getUserTimeZoneDate(HttpServletRequest request) {
-        SysSiteVo sysSiteVo = new SysSiteVo();
-        sysSiteVo.getSearch().setId(SessionManager.getSiteId());
-        sysSiteVo = ServiceTool.sysSiteService().get(sysSiteVo);
+        SysSite sysSite = Cache.getSysSite().get(CommonContext.get().getSiteId().toString());
         Map<String, String> map = new HashMap<>(2, 1f);
         map.put("dateTimeFromat", CommonContext.getDateFormat().getDAY_SECOND());
         map.put("dateTime", SessionManager.getUserDate(CommonContext.getDateFormat().getDAY_SECOND()));
-        map.put("dateTime", DateTool.formatDate(new Date(), SessionManagerBase.getLocale(), TimeZone.getTimeZone(sysSiteVo.getResult().getTimezone()), CommonContext.getDateFormat().getDAY_SECOND()));
+        map.put("dateTime", DateTool.formatDate(new Date(), SessionManagerBase.getLocale(), TimeZone.getTimeZone(sysSite.getTimezone()), CommonContext.getDateFormat().getDAY_SECOND()));
         map.put("time", String.valueOf(new Date().getTime()));
         return JsonTool.toJson(map);
     }

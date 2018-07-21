@@ -24,7 +24,7 @@ import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
 import so.wwb.gamebox.model.master.setting.po.RakebackSet;
 import so.wwb.gamebox.model.master.setting.vo.RakebackSetListVo;
 import so.wwb.gamebox.model.master.setting.vo.RakebackSetVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 
 import javax.servlet.http.HttpServletRequest;

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.setting.ISysRoleService;
-import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.SysRoleForm;
 import so.wwb.gamebox.mcenter.setting.form.SysRoleSearchForm;
@@ -22,6 +21,7 @@ import so.wwb.gamebox.model.listop.StatusEnum;
 import so.wwb.gamebox.model.master.setting.po.SysRole;
 import so.wwb.gamebox.model.master.setting.vo.SysRoleListVo;
 import so.wwb.gamebox.model.master.setting.vo.SysRoleVo;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -51,7 +51,7 @@ public class MSysRoleController extends BaseCrudController<ISysRoleService, SysR
     @Override
     protected SysRoleListVo doList(SysRoleListVo listVo, SysRoleSearchForm form, BindingResult result, Model model) {
         listVo.getSearch().setCreateUser(SessionManager.getUserId());
-        listVo.getSearch().setSubsysCode(ConfigManager.getConfigration().getSubsysCode());
+        listVo.getSearch().setSubsysCode(ConfigBase.get().getSubsysCode());
         listVo.getSearch().setSiteId(SessionManager.getSiteId());
         listVo = super.doList(listVo, form, result, model);
         listVo.setAllFieldLists(new HashMap<String, SysListOperator>());
@@ -62,7 +62,7 @@ public class MSysRoleController extends BaseCrudController<ISysRoleService, SysR
     protected SysRoleVo doCreate(SysRoleVo objectVo, Model model) {
         try {
             SysRole sysRole = new SysRole();
-            sysRole.setSubsysCode(ConfigManager.getConfigration().getSubsysCode());
+            sysRole.setSubsysCode(ConfigBase.get().getSubsysCode());
 
             objectVo.setResult(sysRole);
         } catch (Exception e) {
@@ -81,7 +81,7 @@ public class MSysRoleController extends BaseCrudController<ISysRoleService, SysR
     protected SysRoleVo doPersist(SysRoleVo sysRoleVo) {
         Integer id = sysRoleVo.getResult().getId();
 
-        sysRoleVo.getResult().setSubsysCode(ConfigManager.getConfigration().getSubsysCode());
+        sysRoleVo.getResult().setSubsysCode(ConfigBase.get().getSubsysCode());
         sysRoleVo.getResult().setBuiltIn(false);
         if (sysRoleVo.getResult().getStatus()==null) {
             //TODO: bool 类型统一使用 YesNot enum
@@ -155,7 +155,7 @@ public class MSysRoleController extends BaseCrudController<ISysRoleService, SysR
     public String checkSameRoleName(@RequestParam("result.name") String name) {
         SysRoleVo vo = new SysRoleVo();
         vo.getSearch().setName(name);
-        vo.getSearch().setSubsysCode(ConfigManager.getConfigration().getSubsysCode());
+        vo.getSearch().setSubsysCode(ConfigBase.get().getSubsysCode());
         return ServiceSiteTool.mSysRoleService().checkSameRoleName(vo);
     }
 

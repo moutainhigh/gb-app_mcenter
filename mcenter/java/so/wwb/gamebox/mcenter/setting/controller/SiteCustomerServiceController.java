@@ -12,9 +12,9 @@ import org.soul.web.validation.form.annotation.FormModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.site.ISiteCustomerServiceService;
@@ -36,10 +36,8 @@ import so.wwb.gamebox.model.master.content.vo.VFloatPicListVo;
 import so.wwb.gamebox.model.master.enums.FloatPicLinkTypeEnum;
 import so.wwb.gamebox.model.master.operation.po.PlayerRankAppDomain;
 import so.wwb.gamebox.model.master.operation.vo.PlayerRankAppDomainListVo;
-import so.wwb.gamebox.model.master.operation.vo.PlayerRankAppDomainVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.init.ConfigBase;
 
-import javax.swing.plaf.nimbus.State;
 import javax.validation.Valid;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -129,7 +127,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
         objectVo = this.getService().insert(objectVo);
         Cache.refreshCustomerService();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return objectVo;
     }
 
@@ -142,7 +140,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
         objectVo = this.getService().updateOnly(objectVo);
         Cache.refreshCustomerService();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return objectVo;
     }
 
@@ -240,7 +238,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
 
         }
         Cache.refreshCustomerService();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
 
         return map;
     }
@@ -278,7 +276,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
                 map.put("state", true);
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 Cache.refreshCustomerService();
-                Cache.refreshCurrentSitePageCache();
+                Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
             } else {
                 map.put("state", false);
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
@@ -323,7 +321,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
                 map.put("state", true);
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 Cache.refreshCustomerService();
-                Cache.refreshCurrentSitePageCache();
+                Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
             } else {
                 map.put("state", false);
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));

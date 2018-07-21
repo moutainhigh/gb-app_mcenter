@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IUserPlayerService;
-import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.player.form.UserPlayerForm;
 import so.wwb.gamebox.mcenter.player.form.UserPlayerSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -35,6 +34,7 @@ import so.wwb.gamebox.model.master.player.vo.UserPlayerListVo;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerVo;
 import so.wwb.gamebox.model.master.player.vo.VUserPlayerVo;
 import so.wwb.gamebox.web.BussAuditLogTool;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -183,7 +183,7 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
 //        userPlayerVo.getResult().setMobilePhone(s);
 //
 //        userPlayerVo.getSysUser().setCreateTime(new Date());
-//        userPlayerVo.getSysUser().setSubsysCode(ConfigManager.getConfigration().getSubsysCode());
+//        userPlayerVo.getSysUser().setSubsysCode(ConfigBase.get().getSubsysCode());
 //        if(userPlayerVo.getResult().getSex().isEmpty()){
 //            userPlayerVo.getResult().setSex(SexEnum.SECRET.getCode());
 //        }
@@ -334,7 +334,7 @@ public class UserPlayerController extends BaseCrudController<IUserPlayerService,
     @ResponseBody
     public String checkUserName(@RequestParam("sysUser.username") String userName){
         SysUserVo sysUserVo = new SysUserVo();
-        String subsysCode = ConfigManager.getConfigration().getSubsysCode();
+        String subsysCode = ConfigBase.get().getSubsysCode();
         sysUserVo.getSearch().setSubsysCode(subsysCode);
         sysUserVo.getSearch().setUsername(userName);
         sysUserVo.getSearch().setSiteId(SessionManager.getSiteId());

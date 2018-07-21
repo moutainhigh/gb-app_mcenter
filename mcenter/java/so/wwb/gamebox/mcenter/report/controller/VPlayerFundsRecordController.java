@@ -45,7 +45,7 @@ import so.wwb.gamebox.model.master.report.po.VPlayerFundsRecord;
 import so.wwb.gamebox.model.master.report.so.VPlayerFundsRecordSo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerFundsRecordListVo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerFundsRecordVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.web.report.controller.AbstractExportController;
 
 import javax.servlet.http.HttpServletRequest;

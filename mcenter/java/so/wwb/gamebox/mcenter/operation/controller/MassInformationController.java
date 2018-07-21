@@ -61,7 +61,7 @@ import so.wwb.gamebox.model.master.enums.PublishMethodEnum;
 import so.wwb.gamebox.model.master.operation.vo.MassInformationVo;
 import so.wwb.gamebox.model.master.player.po.*;
 import so.wwb.gamebox.model.master.player.vo.*;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 
 import javax.servlet.http.HttpServletRequest;

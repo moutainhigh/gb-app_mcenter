@@ -31,7 +31,7 @@ import so.wwb.gamebox.model.master.player.po.PlayerTransaction;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionListVo;
 import so.wwb.gamebox.web.api.IApiFundRecoveryService;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;

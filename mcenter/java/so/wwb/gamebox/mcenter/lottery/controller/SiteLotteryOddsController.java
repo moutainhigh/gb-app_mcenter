@@ -29,7 +29,7 @@ import so.wwb.gamebox.model.company.lottery.po.SiteLotteryOdd;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryOddListVo;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryOddVo;
 import so.wwb.gamebox.model.enums.lottery.LotteryTypeEnum;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;

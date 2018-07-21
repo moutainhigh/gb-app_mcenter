@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttLogoService;
@@ -30,9 +31,9 @@ import so.wwb.gamebox.model.master.content.vo.CttLogoListVo;
 import so.wwb.gamebox.model.master.content.vo.CttLogoVo;
 import so.wwb.gamebox.model.master.content.vo.VCttLogoUserVo;
 import so.wwb.gamebox.model.master.enums.UserTaskEnum;
-import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -93,7 +94,7 @@ public class CttLogoController extends BaseCrudController<ICttLogoService, CttLo
             LogFactory.getLog(this.getClass()).error(ex,"保存LOGO出错");
         }
         Cache.refreshSiteLogo(SessionManager.getSiteId());
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return map;
     }
 
@@ -270,7 +271,7 @@ public class CttLogoController extends BaseCrudController<ICttLogoService, CttLo
             return map;
         }
         Cache.refreshSiteLogo(SessionManager.getSiteId());
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return map;
     }
 
@@ -339,7 +340,7 @@ public class CttLogoController extends BaseCrudController<ICttLogoService, CttLo
             msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED);
         }
         Cache.refreshSiteLogo();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         HashMap map = new HashMap(2,1f);
         map.put("msg", msg);
         map.put("state", cttLogoVo.isSuccess());

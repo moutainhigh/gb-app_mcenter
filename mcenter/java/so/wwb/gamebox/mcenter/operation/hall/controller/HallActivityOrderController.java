@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.iservice.master.operation.IActivityMessageService;
 import so.wwb.gamebox.mcenter.operation.form.VActivityMessageForm;
 import so.wwb.gamebox.mcenter.operation.form.VActivityMessageSearchForm;
@@ -26,7 +27,7 @@ import so.wwb.gamebox.model.master.operation.vo.ActivityMessageListVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMessageOrderVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMessageVo;
 import so.wwb.gamebox.model.master.operation.vo.PlayerActivityMessage;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -107,7 +108,7 @@ public class HallActivityOrderController extends BaseCrudController<IActivityMes
         getService().updateOrderList(activityMessageVo);
         Cache.refreshPcActivityMessages();
         Cache.refreshMobileActivityMessages();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return activityMessageVo.isSuccess();
 
     }

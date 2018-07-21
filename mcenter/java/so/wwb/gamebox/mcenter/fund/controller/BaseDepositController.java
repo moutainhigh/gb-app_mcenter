@@ -42,7 +42,6 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.*;
 import so.wwb.gamebox.model.bitcoin.vo.PoloniexOrderResult;
 import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
-import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
 import so.wwb.gamebox.model.common.notice.enums.NoticeParamEnum;
 import so.wwb.gamebox.model.company.setting.po.SysCurrency;
@@ -74,7 +73,7 @@ import so.wwb.gamebox.model.master.operation.vo.VActivityMessageListVo;
 import so.wwb.gamebox.model.master.player.po.PlayerRank;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankListVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import java.util.*;
 

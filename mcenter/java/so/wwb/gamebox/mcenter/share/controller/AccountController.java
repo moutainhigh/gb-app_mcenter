@@ -33,14 +33,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.mcenter.player.controller.PlayerResetPwdController;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.BussAuditLogDescEnum;
 import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.ModuleType;
@@ -55,11 +52,10 @@ import so.wwb.gamebox.model.listop.FreezeType;
 import so.wwb.gamebox.model.master.player.po.UserPlayer;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 

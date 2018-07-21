@@ -112,7 +112,7 @@
     <div id="task_music" class="hide"></div>
     <div id="auto_alert" class="hide"></div>
 </head>
-<body class="background-gray" subsysCode="<%=so.wwb.gamebox.mcenter.init.ConfigManager.getConfigration().getSubsysCode()%>">
+<body class="background-gray">
 <div class="top">
     <a href="/exports/exportHistoryList.html?search.hasReturn=true" nav-target="mainFrame" class="hide" id="toExportHistory"></a>
     <a name="menuToUrl" id="menuToUrl" href="" nav-target="mainFrame" class="hide"></a>

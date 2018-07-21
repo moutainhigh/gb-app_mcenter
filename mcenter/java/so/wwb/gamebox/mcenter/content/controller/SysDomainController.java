@@ -27,6 +27,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.sys.ISysDomainService;
@@ -51,9 +52,9 @@ import so.wwb.gamebox.model.master.player.po.VUserAgent;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentListVo;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentVo;
 import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -123,7 +124,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         sysDomainVo = initSysDomainCheckData(sysDomainVo);
         sysDomainVo = getService().batchSaveDomain(sysDomainVo);
         Cache.refreshSiteDomain(sysDomain.getDomain());
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return sysDomainVo;
     }
 
@@ -400,7 +401,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
         sysDomainVo.setProperties(SysDomain.PROP_IS_ENABLE);
         sysDomainVo = getService().updateOnly(sysDomainVo);
         Cache.refreshSiteDomain(sysDomainVo.getResult().getDomain());
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return getVoMessage(sysDomainVo);
     }
 
@@ -736,7 +737,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
             this.getService().saveSiteDomain(sysDomainVo);
             domainSaveMsg(sysDomainVo);
             Cache.refreshSiteDomain(sysDomainVo.getResult().getDomain());
-            Cache.refreshCurrentSitePageCache();
+            Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
             return this.getVoMessage(sysDomainVo);
         }
         return null;
@@ -781,7 +782,7 @@ public class SysDomainController extends BaseCrudController<ISysDomainService, S
             this.getService().saveSiteDomain(sysDomainVo);
             domainSaveMsg(sysDomainVo);
             Cache.refreshSiteDomain(sysDomainVo.getResult().getDomain());
-            Cache.refreshCurrentSitePageCache();
+            Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
             return this.getVoMessage(sysDomainVo);
         }
         return null;

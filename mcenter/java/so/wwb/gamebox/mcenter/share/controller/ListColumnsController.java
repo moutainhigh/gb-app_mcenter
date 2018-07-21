@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.filter.ISysMasterListOperatorService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
-import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.share.form.SysListOperatorForm;
 import so.wwb.gamebox.mcenter.share.form.SysListOperatorSearchForm;
 import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.common.MessageI18nConst;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,7 +76,7 @@ public class ListColumnsController extends BaseCrudController<ISysMasterListOper
                 sysListOperatorList.get(i).setIsDefault(false);
             }
             sysListOperatorList.get(i).setOpType(2);
-            sysListOperatorList.get(i).setSubsysCode(ConfigManager.getConfigration().getSubsysCode());
+            sysListOperatorList.get(i).setSubsysCode(ConfigBase.get().getSubsysCode());
             sysListOperatorList.get(i).setSiteId(SessionManager.getSiteId());
         }
         //判斷全部操作是否成功

@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttDocumentI18nService;
@@ -35,9 +36,9 @@ import so.wwb.gamebox.model.master.content.vo.CttDocumentI18nVo;
 import so.wwb.gamebox.model.master.content.vo.CttDocumentListVo;
 import so.wwb.gamebox.model.master.content.vo.CttDocumentVo;
 import so.wwb.gamebox.model.master.enums.UserTaskEnum;
-import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -247,7 +248,7 @@ public class CttDocumentI18nController extends BaseCrudController<ICttDocumentI1
         }
         Cache.refreshContentDocument();
         Cache.refreshContentDocumentI18n();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return objectVo;
     }
     private void updateSiteContentAudit() {
