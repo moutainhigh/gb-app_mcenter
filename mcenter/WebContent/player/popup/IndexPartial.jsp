@@ -1,10 +1,7 @@
-<%--@elvariable id="command" type="so.wwb.gamebox.model.master.player.vo.VUserPlayerListVo"--%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
 <%@ page import="so.wwb.gamebox.model.master.player.po.VUserPlayer" %>
 <c:set var="poType" value="<%= VUserPlayer.class %>"></c:set>
-<%@ page import="org.soul.commons.lang.reflect.MethodTool" %>
-<%@ page import="org.soul.model.common.Sortable" %>
 <div class="table-responsive table-min-h">
     <input type="hidden" name="search.rankId" value="${command.search.rankId}">
     <table class="table table-striped table-hover dataTable" id="editable" aria-describedby="editable_info">
