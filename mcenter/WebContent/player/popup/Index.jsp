@@ -27,23 +27,13 @@
         <input name="search.timeZoneInterval" value="${command.search.timeZoneInterval}" type="hidden">
         <input name="analyzeNewAgent" value="${command.analyzeNewAgent}" type="hidden">
         <input name="searchType" value="${command.searchType}" type="hidden">
-        <input name="startTime" value="${soulFn:formatDateTz(command.startTime,DateFormat.DAY_SECOND,timeZone)}"
-               type="hidden">
-        <input name="endTime" value="${soulFn:formatDateTz(command.endTime,DateFormat.DAY_SECOND ,timeZone )}"
-               type="hidden">
+        <input name="startTime" value="${soulFn:formatDateTz(command.startTime,DateFormat.DAY_SECOND,timeZone)}" type="hidden">
+        <input name="endTime" value="${soulFn:formatDateTz(command.endTime,DateFormat.DAY_SECOND ,timeZone )}" type="hidden">
         <input name="search.registerIp" value="${command.search.registerIp}" type="hidden"/>
         <input name="outer" value="${command.outer}" type="hidden"/>
         <input name="comp" value="${command.comp}" type="hidden"/>
         <input type="hidden" name="search.tagId" value="${tagIds}">
-        <%--返水方案--%>
         <input name="search.rakebackId" value="${command.search.rakebackId}" type="hidden">
-        <%--<input name="search.lastLoginIp" value="${command.search.lastLoginIp}" type="hidden"/>--%>
-        <%-- //没有这几项从检测页面跳转过来时如果有翻页会有问题，但又会和查询条件冲突
-        <input name="search.qq" value="${command.search.qq}" type="hidden"/>
-        <input name="search.mobilePhone" value="${command.search.mobilePhone}" type="hidden"/>
-        <input name="search.mail" value="${command.search.mail}" type="hidden"/>
-        <input name="search.weixin" value="${command.search.weixin}" type="hidden"/>
-        --%>
         <div class="modal-body">
             <div class="col-lg-12">
                 <div class="wrapper white-bg shadow">
