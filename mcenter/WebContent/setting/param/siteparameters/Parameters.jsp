@@ -13,7 +13,9 @@
             <%@include file="../ParamTop.jsp" %>
             <div id="content-div">
                 <div id="validateRule" style="display: none">${command.validateRule}</div>
+                <%--第一列--%>
                 <div class="clearfix">
+                    <%--统计代码--%>
                     <div class="col-lg-6 site-switch">
                         <h3>${views.setting['basic.otherSet']}</h3>
                         <div class="content line-hi34 clearfix">
@@ -51,6 +53,7 @@
                         </div>
                     </div>
 
+                    <%--短信参数设置--%>
                     <div id="smsSetting" class="col-lg-6 site-switch">
                         <h3>${views.setting_auto['短信参数设置']}</h3>
                         <ul class="content clearfix" style="padding-top: 10px">
@@ -94,40 +97,7 @@
                                                typeName="playerPhoneParam"
                                                data-size="mini" ${playerPhoneParam.active?"checked":""}>
                                     </div>
-
-                                        <%--<div class="col-xs-5">
-                                                &lt;%&ndash;暂时隐藏，当开启手机验证时开启&ndash;%&gt;
-                                            <input type="checkbox" class="_switch" name="sms-checkbox" typeName="phoneParam" data-size="mini" ${phoneParam.active?"checked":""}>
-                                                &lt;%&ndash;暂时隐藏，当开启手机验证时开启&ndash;%&gt;
-                                            <span id="isShowphoneParam" ${phoneParam.active?"":"hidden"}>
-                                                <label  class="m-r-sm"><input type="radio" class="i-checks" name="phoneParam.paramValue" value="before" ${phoneParam.paramValue=="before"?"checked":""}> ${views.setting['PlayerReg.before']}</label>
-                                                <span tabindex="0" class=" help-popover" role="button" data-container="body"
-                                                      data-toggle="popover" data-trigger="focus" data-placement="top"
-                                                      data-content="${views.setting['PlayerReg.help.phone.befor']}">
-                                                    <i class="fa fa-question-circle"></i>
-                                                </span>
-                                                <label class="m-r-sm m-l-xs">
-                                                    <input type="radio" class="i-checks" value="after" ${phoneParam.paramValue=="after"?"checked":""} name="phoneParam.paramValue">
-                                                     ${views.setting['PlayerReg.after']}
-                                                </label>
-                                                <span tabindex="0" class=" help-popover" role="button" data-container="body"
-                                                      data-toggle="popover" data-trigger="focus" data-placement="top"
-                                                      data-content="${views.setting['PlayerReg.help.phone.last']}">
-                                                    <i class="fa fa-question-circle"></i>
-                                                </span>
-                                            </span>
-                                        </div>--%>
                                 </div>
-                                <%--<div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
-                                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
-                                        代理手机验证：
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <input name="agentPhoneParam.id" type="hidden" value="${agentPhoneParam.id}">
-                                        <input id="agentPhoneParam" name="agentPhoneParam.active" type="hidden" value="${agentPhoneParam.active}">
-                                        <input type="checkbox" class="_switch" name="sms-checkbox" typeName="agentPhoneParam" data-size="mini" ${agentPhoneParam.active?"checked":""}>
-                                    </div>
-                                </div>--%>
                                 <div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
                                     <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
                                         手机找回密码：
@@ -141,14 +111,6 @@
                                                data-size="mini" ${recoverPasswordParam.active?"checked":""}>
                                     </div>
                                 </div>
-                                <%--<div class="clearfix m-b _smsSwitchIsShow ${smsSwitch.active?"":"hidden"}">
-                                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
-                                        短信模板：
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <input type="checkbox" class="_switch" name="" data-size="mini">
-                                    </div>
-                                </div>--%>
                                 <div class="modal-footer">
                                     <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
                                                  opType="ajax"
@@ -161,7 +123,10 @@
                         </ul>
                     </div>
                 </div>
+
+                <%--第二列--%>
                 <div class="clearfix">
+                    <%--PC端客服参数--%>
                     <div id="pcCustomService" class="col-lg-6 site-switch">
                         <h3>${views.setting['PC端客服参数']}</h3>
                         <input type="hidden" name="pc.id" value="${pcCustomerService.id}">
@@ -194,6 +159,7 @@
                             </div>
                         </div>
                     </div>
+                    <%--手机端客服参数--%>
                     <div id="mobileCustomService" class="col-lg-6 site-switch">
                         <h3>${views.setting_auto['手机端客服参数']}</h3>
                         <input type="hidden" name="mobile.id" value="${mobileCustomerService.id}">
@@ -228,8 +194,9 @@
                     </div>
                 </div>
 
-
+                <%--第三列--%>
                 <div class="clearfix">
+                    <%--APP下载域名设置--%>
                     <div class="col-lg-6 site-switch">
                         <h3>${views.setting_auto['APP下载域名设置']}</h3>
                         <div id="appDownloadDomain" class="content clearfix">
@@ -338,7 +305,6 @@
                                              precall="validRankByDomain"
                                              post="getAppDomainFormData" callback="saveCallbak"/>
                             </div>
-
                         </div>
                         <table id="app-domain-template" style="display: none;">
                             <tr>
@@ -356,51 +322,8 @@
                                 </td>
                             </tr>
                         </table>
-
-                        <%--棋牌分享图片--%>
-                        <div id="chessSharePicture" class="content clearfix">
-                            <h3>棋牌分享图片</h3>
-                            <div class="content clearfix" style="padding-top: 10px">
-                                <div class="clearfix m-b">
-                                    <div class="ft-bold pull-left line-hi34"
-                                         style="width: 100px;text-align: right;">
-                                        <table style="width: 500px;">
-                                            <thead>
-                                                <tr role="row" align="center">
-                                                    <td>图片（点击预览）</td>
-                                                    <td>操作</td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <c:if test="${not empty chessSharePicture}">
-                                                <tr class="tab-detail" align="center">
-                                                    <td>
-                                                        <soul:button target="viewImg" text="" opType="function" tag="a">
-                                                        <img data-src="${soulFn:getImagePath(domain,chessSharePicture)}"
-                                                             src="${soulFn:getThumbPath(domain,chessSharePicture,100,40)}">
-                                                        </soul:button>
-                                                    </td>
-                                                    <td>
-                                                        <soul:button target="${root}/param/chessSharePictureUpload.html" text="上传图片" tag="a" opType="dialog" callback="reloadParamters">修改</soul:button>
-                                                    </td>
-                                                </tr>
-                                                </c:if>
-                                                <c:if test="${empty chessSharePicture}">
-                                                    <tr class="tab-detail" align="center">
-                                                        <td>--</td>
-                                                        <td>
-                                                            <soul:button target="${root}/param/chessSharePictureUpload.html" text="上传图片" tag="a" opType="dialog" callback="reloadParamters">上传</soul:button>
-                                                        </td>
-                                                    </tr>
-                                                </c:if>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+
                     <div id="accessDomain" class="col-lg-6 site-switch">
                         <h3>${views.setting_auto['访问域名设置']}</h3>
                         <div class="content clearfix" style="padding-top: 10px">
@@ -423,21 +346,7 @@
                             </div>
                         </div>
                     </div>
-                        <%--<div id="openActivityHall_div" class="col-lg-6 site-switch">--%>
-                        <%--<h3>${views.setting_auto['是否打开活动大厅']}</h3>--%>
-                        <%--<div class="content clearfix" style="padding-top: 10px">--%>
-                        <%--<div class="clearfix m-b">--%>
 
-                        <%--<div style="padding-top: 10px">--%>
-                        <%--<label class="ft-bold pull-left m-r"--%>
-                        <%--style='float:left;margin-top:4px'>&nbsp;&nbsp; ${views.setting_auto['是否打开活动大厅']}：</label>--%>
-                        <%--<input type="checkbox" name="activityHallSwitch" data-size="mini" ${activityHallSwitch.paramValue =="true" ?'checked':''}/>--%>
-                        <%--${views.setting_auto['开启后，打开活动大厅']}--%>
-                        <%--</div>--%>
-                        <%--</div>--%>
-
-                        <%--</div>--%>
-                        <%--</div>--%>
                     <shiro:hasPermission name="system:electricpin_switch ">
                     <div id="accessDomains" class="col-lg-6 site-switch">
                         <h3>${views.setting_auto['电销参数设置']}</h3>
@@ -525,6 +434,70 @@
                         </div>
                     </div>
                     </shiro:hasPermission>
+                </div>
+
+                <%--第四列--%>
+                <div class="clearfix">
+                    <%--棋牌分享图片--%>
+                    <div id="chessSharePicture" class="col-lg-6 site-switch content">
+                        <h3>棋牌分享图片</h3>
+                        <div class="content clearfix" style="padding-top: 10px">
+                            <div class="clearfix m-b">
+                                <div class="ft-bold pull-left line-hi34"
+                                     style="width: 100px;text-align: right;">
+                                    <table style="width: 500px;">
+                                        <thead>
+                                        <tr role="row" align="center">
+                                            <td>图片（点击预览）</td>
+                                            <td>操作</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:if test="${not empty chessSharePicture}">
+                                            <tr class="tab-detail" align="center">
+                                                <td>
+                                                    <soul:button target="viewImg" text="" opType="function" tag="a">
+                                                        <img data-src="${soulFn:getImagePath(domain,chessSharePicture)}"
+                                                             src="${soulFn:getThumbPath(domain,chessSharePicture,100,40)}">
+                                                    </soul:button>
+                                                </td>
+                                                <td>
+                                                    <soul:button target="${root}/param/chessSharePictureUpload.html" text="上传图片" tag="a" opType="dialog" callback="reloadParamters">修改</soul:button>
+                                                </td>
+                                            </tr>
+                                        </c:if>
+                                        <c:if test="${empty chessSharePicture}">
+                                            <tr class="tab-detail" align="center">
+                                                <td>--</td>
+                                                <td>
+                                                    <soul:button target="${root}/param/chessSharePictureUpload.html" text="上传图片" tag="a" opType="dialog" callback="reloadParamters">上传</soul:button>
+                                                </td>
+                                            </tr>
+                                        </c:if>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%--APP启动页设置--%>
+                    <div class="col-lg-6 site-switch content">
+                        <h3>APP启动页设置</h3>
+                        <c:set var="startPage" value="${startPageParam}"></c:set>
+                        <div class="content clearfix" style="padding-top: 10px;">
+                            <div class="clearfix m-b" style="padding-bottom: 20px;">
+                                <div class="clearfix" style="margin-top: 20px">
+                                    <div class="ft-bold pull-left" style="width: 150px;text-align: right;">APP启动页开关：</div>
+                                    <div class="col-xs-5">
+                                        <input id="startPage" type="checkbox" name="appStartPage" sysParamId="${startPage.id}"
+                                               data-size="mini" ${startPage.paramValue=="true" ? 'checked' : '' }>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
