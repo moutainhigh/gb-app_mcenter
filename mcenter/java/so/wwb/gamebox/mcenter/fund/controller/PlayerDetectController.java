@@ -39,7 +39,7 @@ import so.wwb.gamebox.model.master.player.so.VUserPlayerSo;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionListVo;
 import so.wwb.gamebox.web.bank.BankHelper;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;

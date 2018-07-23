@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.site.ISiteApiI18nService;
 import so.wwb.gamebox.mcenter.content.form.SiteApiI18nForm;
@@ -21,7 +22,7 @@ import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteApiI18nListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteApiI18nVo;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,7 +85,7 @@ public class SiteApiI18nController extends BaseCrudController<ISiteApiI18nServic
         Cache.refreshSiteApiI18n();
         Cache.refreshSiteApi();
         Cache.refreshSiteApiTypeRelation();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return objectVo;
     }
 

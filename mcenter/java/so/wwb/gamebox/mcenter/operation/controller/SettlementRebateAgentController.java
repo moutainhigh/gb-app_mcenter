@@ -40,7 +40,7 @@ import so.wwb.gamebox.model.master.operation.vo.RebateAgentVo;
 import so.wwb.gamebox.model.master.operation.vo.RebateBillVo;
 import so.wwb.gamebox.model.master.player.po.Remark;
 import so.wwb.gamebox.model.master.player.vo.RemarkVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 
 import javax.servlet.http.HttpServletRequest;

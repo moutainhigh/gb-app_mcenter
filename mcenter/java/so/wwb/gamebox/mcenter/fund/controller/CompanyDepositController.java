@@ -46,7 +46,7 @@ import so.wwb.gamebox.model.master.player.vo.PlayerTransactionVo;
 import so.wwb.gamebox.web.IpRegionTool;
 import so.wwb.gamebox.web.RiskTagTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;

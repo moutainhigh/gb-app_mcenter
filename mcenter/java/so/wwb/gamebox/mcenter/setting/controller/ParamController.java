@@ -42,6 +42,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceBossTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
@@ -76,8 +77,8 @@ import so.wwb.gamebox.model.master.setting.po.FieldSort;
 import so.wwb.gamebox.model.master.setting.po.GradientTemp;
 import so.wwb.gamebox.model.master.setting.vo.PlayerItemMessage;
 import so.wwb.gamebox.web.SessionManagerCommon;
-import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.SiteCustomerServiceHelper;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -184,7 +185,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
 
         ParamTool.refresh(SiteParamEnum.SETTING_OPERATE_MANAGE_LINE);
         ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_SMS);
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return this.getVoMessage(vo);
     }
 
@@ -320,7 +321,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_SMS);
             Cache.refreshSiteI18n(SiteI18nEnum.SETTING_OPERATE_MANAGE_CLOSURE);
             Cache.refreshSiteI18n(SiteI18nEnum.SETTING_SYSTEM_SETTINGS_PLAYER);
-            Cache.refreshCurrentSitePageCache();
+            Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
             return this.getVoMessage(objectVo);
         }
         return null;
@@ -927,7 +928,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         siteCurrencyVo.setProperties(properties);
         ServiceTool.sysSiteCurrencyService().updateOnly(siteCurrencyVo);
         Cache.refreshSiteCurrency();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
     }
 
     /**
@@ -945,7 +946,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         siteLanguageVo.getResult().setOpenTime(new Date());
         ServiceTool.siteLanguageService().updateOnly(siteLanguageVo);
         Cache.refreshSiteLanguage();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
     }
 
     //加载注册设置
@@ -1015,7 +1016,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_FIELD_AGENT);
             ParamTool.refresh(SiteParamEnum.SETTING_REG_LIMIT_IP_DAY_MAX_REGNUM);
 
-            Cache.refreshCurrentSitePageCache();
+            Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
 
             return this.getVoMessage(siteConfineAreaVo);
         }
@@ -1035,7 +1036,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             vo.setProperties(SysSite.PROP_TRAFFIC_STATISTICS);
             ServiceTool.sysSiteService().updateOnly(vo);
             Cache.refreshSysSite();
-            Cache.refreshCurrentSitePageCache();
+            Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
             return this.getVoMessage(vo);
         } else {
             Map<String, Object> msg = new HashMap<>();
@@ -1069,7 +1070,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_FIELD_SETTING_AGENT);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_FIELD_SETTING);
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return this.getVoMessage(sysParamVo);
     }
 
@@ -1159,7 +1160,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         //刷新缓存
         Cache.refreshSiteI18n(SiteI18nEnum.MASTER_SERVICE_TERMS);
         Cache.refreshSiteI18n(SiteI18nEnum.MASTER_SERVICE_TERMS_AGENT);
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         ServiceSiteTool.siteSysParamService().saveServiceTrems(siteConfineAreaVo);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SERVICE_TERMS_SHOW);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SERVICE_TERMS_SHOW_AGENT);
@@ -1401,7 +1402,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
           ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_QQ);
           ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_SKYPE);
           ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_COPYRIGHT_INFORMATION);
-          Cache.refreshCurrentSitePageCache();
+          Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
       }
 
         return map;
@@ -1604,7 +1605,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
 //        ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION_AGENT);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_RECOVER_PASSWORD);
         ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
-        Cache.refreshCurrentSitePageCache(SessionManager.getSiteId());
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey(),SessionManager.getSiteId());
         return getVoMessage(siteParamVo);
     }
 

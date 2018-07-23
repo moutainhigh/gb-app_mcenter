@@ -3,7 +3,6 @@ package so.wwb.gamebox.mcenter.content.controller;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
-import org.soul.commons.lang.DateQuickPickerTool;
 import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.log.Log;
@@ -11,13 +10,13 @@ import org.soul.commons.log.LogFactory;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.sys.po.SysDict;
 import org.soul.web.controller.BaseCrudController;
-import org.soul.web.session.SessionManagerBase;
 import org.soul.web.validation.form.annotation.FormModel;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttCarouselService;
@@ -39,14 +38,12 @@ import so.wwb.gamebox.model.master.content.vo.CttCarouselVo;
 import so.wwb.gamebox.model.master.enums.CarouselTypeEnum;
 import so.wwb.gamebox.model.master.enums.CttCarouselTypeEnum;
 import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.*;
-
-import static org.soul.commons.lang.DateTool.convertDateByTimezone;
 
 
 /**
@@ -194,7 +191,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         cttCarouselVo.setProperties(CttCarousel.PROP_STATUS);
         cttCarouselVo = ServiceSiteTool.cttCarouselService().changeStopStatus(cttCarouselVo);
         Cache.refreshSiteCarousel();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return getVoMessage(cttCarouselVo);
     }
 
@@ -208,7 +205,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
     public Boolean deleteByBatch(CttCarouselListVo cttCarouselListVo){
         Boolean success = ServiceSiteTool.cttCarouselService().deleteBatch(cttCarouselListVo);
         Cache.refreshSiteCarousel();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return success;
     }
 
@@ -223,7 +220,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         cttCarouselVo = getService().resetCarouselSort(cttCarouselVo);
         ParamTool.refresh(SiteParamEnum.CONTENT_CAROUSEL_INTERVAL_TIME);
         Cache.refreshSiteCarousel();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return getVoMessage(cttCarouselVo);
     }
 
@@ -239,7 +236,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         objectVo.getResult().setPublishTime(new Date());
         objectVo = super.doPersist(objectVo);
         Cache.refreshSiteCarousel();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         //日志
         if (objectVo.isSuccess()) {
             BussAuditLogTool.addBussLog(Module.MASTER_CONTENT, ModuleType.MASTER_CONTENT_CTTCAROUSEL_TIME_SUCCESS, OpType.UPDATE,

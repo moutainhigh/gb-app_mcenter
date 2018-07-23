@@ -111,7 +111,7 @@ import so.wwb.gamebox.model.master.report.so.VPlayerTransactionSo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionVo;
 import so.wwb.gamebox.model.master.setting.vo.NoticeTmplVo;
 import so.wwb.gamebox.web.*;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;

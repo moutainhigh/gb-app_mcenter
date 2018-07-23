@@ -16,9 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
+import so.wwb.gamebox.common.cache.ExportCriteriaTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.report.IVRakebackReportService;
-import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.report.rakeback.form.RakebackBillSearchForm;
 import so.wwb.gamebox.mcenter.report.rakeback.form.VRakebackReportForm;
 import so.wwb.gamebox.mcenter.report.rakeback.form.VRakebackReportSearchForm;
@@ -35,8 +36,7 @@ import so.wwb.gamebox.model.master.operation.vo.RakebackBillVo;
 import so.wwb.gamebox.model.master.report.po.VRakebackReport;
 import so.wwb.gamebox.model.master.report.vo.VRakebackReportListVo;
 import so.wwb.gamebox.model.master.report.vo.VRakebackReportVo;
-import so.wwb.gamebox.web.cache.Cache;
-import so.wwb.gamebox.web.cache.ExportCriteriaTool;
+import so.wwb.gamebox.web.init.ConfigBase;
 import so.wwb.gamebox.web.report.controller.AbstractExportController;
 
 import javax.validation.Valid;
@@ -113,7 +113,7 @@ public class VRakebackReportController extends AbstractExportController<IVRakeba
         Map<String, VSysSiteUser> map = Cache.getSysSiteUser();
         List<VSysSiteUser> sites = new ArrayList<>();
         for (VSysSiteUser site : map.values()) {
-            if ((ConfigManager.getConfigration().getSubsysCode()).equals(site.getSubsysCode())
+            if ((ConfigBase.get().getSubsysCode()).equals(site.getSubsysCode())
                     && SessionManager.getMasterUserId().intValue() == site.getSysUserId().intValue()
                     && SiteStatusEnum.NORMAL.getCode().equals(site.getStatus())) {
                 sites.add(site);

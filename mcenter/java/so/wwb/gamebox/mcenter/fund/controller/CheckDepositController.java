@@ -41,7 +41,7 @@ import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositListVo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerDepositVo;
 import so.wwb.gamebox.model.master.setting.vo.NoticeTmplVo;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import javax.validation.Valid;
 import java.util.Calendar;

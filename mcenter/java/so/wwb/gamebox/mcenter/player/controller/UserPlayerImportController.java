@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import so.wwb.gamebox.common.export.core.conf.FileTypeEnum;
 import so.wwb.gamebox.iservice.master.player.IUserPlayerImportService;
-import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.player.form.UserPlayerImportForm;
 import so.wwb.gamebox.mcenter.player.form.UserPlayerImportSearchForm;
 import so.wwb.gamebox.mcenter.setting.support.UserPlayerImportSupport;
@@ -23,6 +22,7 @@ import so.wwb.gamebox.model.Module;
 import so.wwb.gamebox.model.master.player.po.UserPlayerImport;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerImportListVo;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerImportVo;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -147,7 +147,7 @@ public class UserPlayerImportController extends BaseCrudController<IUserPlayerIm
         java.io.BufferedOutputStream bos = null;
         try {
             //long fileLength = new File(downLoadPath).length();
-            String resRoot = ConfigManager.getConfigration().getResRoot();
+            String resRoot = ConfigBase.get().getResRoot();
             LOG.debug("Rcenter路径：{0}", resRoot);
             resRoot = MessageFormat.format(resRoot,request.getServerName());
             LOG.debug("格式化后的路径：{0}", resRoot);

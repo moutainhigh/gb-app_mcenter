@@ -42,7 +42,7 @@ import so.wwb.gamebox.model.master.player.vo.VUserAgentManageVo;
 import so.wwb.gamebox.model.master.player.vo.VUserPlayerVo;
 import so.wwb.gamebox.model.master.player.vo.VUserTopAgentManageVo;
 import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.web.shiro.common.filter.KickoutFilter;
 
 import javax.servlet.http.HttpServletRequest;

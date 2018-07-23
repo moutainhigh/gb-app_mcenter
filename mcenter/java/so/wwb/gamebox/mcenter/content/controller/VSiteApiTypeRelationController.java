@@ -21,7 +21,7 @@ import so.wwb.gamebox.model.company.site.po.VSiteApiTypeRelation;
 import so.wwb.gamebox.model.company.site.vo.VSiteApiTypeRelationListVo;
 import so.wwb.gamebox.model.company.site.vo.VSiteApiTypeRelationVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerGameLogVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import java.util.Date;
 import java.util.Map;

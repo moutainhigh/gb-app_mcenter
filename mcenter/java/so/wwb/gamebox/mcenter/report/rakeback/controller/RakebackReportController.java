@@ -32,7 +32,7 @@ import so.wwb.gamebox.model.master.operation.vo.RakebackBillListVo;
 import so.wwb.gamebox.model.master.operation.vo.RakebackBillVo;
 import so.wwb.gamebox.model.master.report.po.HighChart;
 import so.wwb.gamebox.model.report.rakeback.vo.SiteRakebackPlayerVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;

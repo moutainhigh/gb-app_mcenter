@@ -24,7 +24,7 @@ import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.master.enums.SiteLangStatusEnum;
 import so.wwb.gamebox.model.master.player.vo.UserPlayerVo;
 import so.wwb.gamebox.model.master.setting.vo.VNoticeEmailRankListVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import java.util.ArrayList;
 import java.util.HashMap;

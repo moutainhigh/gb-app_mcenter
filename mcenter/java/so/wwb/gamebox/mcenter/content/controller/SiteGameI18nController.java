@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.site.ISiteGameI18nService;
 import so.wwb.gamebox.mcenter.content.form.SiteGameI18nForm;
@@ -20,7 +21,7 @@ import so.wwb.gamebox.model.company.site.vo.SiteGameI18nListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteGameI18nVo;
 import so.wwb.gamebox.model.company.site.vo.SiteGameTagListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,7 +88,7 @@ public class SiteGameI18nController extends BaseCrudController<ISiteGameI18nServ
         Cache.refreshSiteGameI18n();
         Cache.refreshSiteGame();
         Cache.refreshSiteGameTag();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return objectVo;
     }
 

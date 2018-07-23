@@ -9,19 +9,21 @@ import org.soul.commons.query.sort.Direction;
 import org.soul.commons.support._Module;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.sys.po.SysDict;
-import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttAnnouncementService;
 import so.wwb.gamebox.mcenter.content.form.CttAnnouncementForm;
 import so.wwb.gamebox.mcenter.content.form.CttAnnouncementSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.DictEnum;
+import so.wwb.gamebox.model.Module;
+import so.wwb.gamebox.model.ModuleType;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteLanguage;
@@ -32,12 +34,15 @@ import so.wwb.gamebox.model.master.content.po.CttAnnouncement;
 import so.wwb.gamebox.model.master.content.vo.CttAnnouncementListVo;
 import so.wwb.gamebox.model.master.content.vo.CttAnnouncementVo;
 import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -134,7 +139,7 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         listVo.setUserId(SessionManager.getUserId());
         listVo = ServiceTool.cttAnnouncementService().updateAnnouncement(listVo);
         Cache.refreshSiteAnnouncement();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         Map<String, Object> map = getVoMessage(listVo);
         if (!listVo.isSuccess()) {
             map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
@@ -179,7 +184,7 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         map.put("state", success);
         //
         Cache.refreshSiteAnnouncement();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return map;
     }
 
@@ -239,7 +244,7 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         vo.setProperties(CttAnnouncement.PROP_DISPLAY);
         vo = getService().changeAnnouncementStatus(vo);
         Cache.refreshSiteAnnouncement();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return getVoMessage(vo);
     }
 
@@ -259,7 +264,7 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
     public boolean saveCttAnnouncementOrder(@RequestBody CttAnnouncementVo cttAnnouncementVo, Model model){
         this.getService().saveCttAnnouncementOrder(cttAnnouncementVo);
         Cache.refreshSiteAnnouncement();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return true;
     }
     //endregion your codes 3

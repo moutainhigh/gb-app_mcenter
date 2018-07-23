@@ -32,7 +32,7 @@ import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryQuotaListVo;
 import so.wwb.gamebox.model.company.lottery.vo.SiteLotteryQuotaVo;
 import so.wwb.gamebox.model.enums.lottery.LotteryEnum;
 import so.wwb.gamebox.model.enums.lottery.LotteryPlayEnum;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;

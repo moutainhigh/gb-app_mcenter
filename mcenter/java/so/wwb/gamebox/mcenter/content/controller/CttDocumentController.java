@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttDocumentService;
@@ -21,7 +22,7 @@ import so.wwb.gamebox.model.master.content.vo.CttDocumentI18nListVo;
 import so.wwb.gamebox.model.master.content.vo.CttDocumentListVo;
 import so.wwb.gamebox.model.master.content.vo.CttDocumentVo;
 import so.wwb.gamebox.model.master.content.vo.VCttDocumentUserVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +55,7 @@ public class CttDocumentController extends BaseCrudController<ICttDocumentServic
         this.getService().updateDocumentOrder(cttDocumentVo);
         Cache.refreshContentDocument();
         Cache.refreshContentDocumentI18n();
-        Cache.refreshCurrentSitePageCache();
+        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
         return true;
     }
     @RequestMapping(value = "/showDocumentDetail")

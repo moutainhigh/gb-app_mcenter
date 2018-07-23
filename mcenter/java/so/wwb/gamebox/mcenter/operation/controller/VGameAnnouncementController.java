@@ -44,7 +44,7 @@ import so.wwb.gamebox.model.master.player.po.PlayerAdvisory;
 import so.wwb.gamebox.model.master.player.po.VPlayerAdvisory;
 import so.wwb.gamebox.model.master.player.vo.PlayerAdvisoryVo;
 import so.wwb.gamebox.model.master.player.vo.VPlayerAdvisoryListVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -282,7 +282,7 @@ public class VGameAnnouncementController extends BaseCrudController<ISystemAnnou
         vSystemAnnouncementListVo.getSearch().setLocal(SessionManager.getLocale().toString());
         vSystemAnnouncementListVo.getSearch().setPublishTime(SessionManager.getUser().getCreateTime());
         vSystemAnnouncementListVo.getSearch().setReceiveUserType(UserTypeEnum.MASTER.getCode());
-        
+
         vSystemAnnouncementListVo.getSearch().setLocal(SessionManager.getLocale().toString());
         vSystemAnnouncementListVo = ServiceTool.vSystemAnnouncementService().searchMasterSystemNotice(vSystemAnnouncementListVo);
         model.addAttribute("vSystemAnnouncementListVo", vSystemAnnouncementListVo);
