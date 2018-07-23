@@ -28,7 +28,7 @@ import so.wwb.gamebox.model.company.site.vo.VGameTypeListVo;
 import so.wwb.gamebox.model.master.setting.po.VRakebackSet;
 import so.wwb.gamebox.model.master.setting.vo.VRakebackSetListVo;
 import so.wwb.gamebox.model.master.setting.vo.VRakebackSetVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import java.util.*;
 

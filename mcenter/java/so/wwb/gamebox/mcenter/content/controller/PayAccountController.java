@@ -84,7 +84,7 @@ import so.wwb.gamebox.model.master.setting.enums.SiteCurrencyEnum;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderVo;
 import so.wwb.gamebox.model.report.vo.AddLogVo;
 import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
 

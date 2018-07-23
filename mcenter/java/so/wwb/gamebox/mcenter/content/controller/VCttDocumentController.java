@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.IVCttDocumentService;
 import so.wwb.gamebox.mcenter.content.form.VCttDocumentForm;
@@ -20,7 +21,7 @@ import so.wwb.gamebox.model.master.content.po.VCttDocument;
 import so.wwb.gamebox.model.master.content.vo.CttDocumentI18nVo;
 import so.wwb.gamebox.model.master.content.vo.VCttDocumentListVo;
 import so.wwb.gamebox.model.master.content.vo.VCttDocumentVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -80,7 +81,7 @@ public class VCttDocumentController extends BaseCrudController<IVCttDocumentServ
         this.getService().deleteCttDocumentById(vCttDocumentVo);
         Cache.refreshContentDocument();
         Cache.refreshContentDocumentI18n();
-        Cache.refreshCurrentSitePageCache();
+        CachePage.refreshCurrentSitePageCache();
         Map<String,Object> res = new HashMap<String,Object>();
         res.put("status",vCttDocumentVo.isSuccess());
         res.put("errMsg",vCttDocumentVo.getErrMsg());
@@ -92,7 +93,7 @@ public class VCttDocumentController extends BaseCrudController<IVCttDocumentServ
         vCttDocumentVo = this.getService().updateCttDocumentStatus(vCttDocumentVo);
         Cache.refreshContentDocument();
         Cache.refreshContentDocumentI18n();
-        Cache.refreshCurrentSitePageCache();
+        CachePage.refreshCurrentSitePageCache();
         Map<String,Object> res = new HashMap<String,Object>();
         res.put("state",vCttDocumentVo.isSuccess());
         if(StringTool.isNotBlank(vCttDocumentVo.getErrMsg())){

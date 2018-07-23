@@ -12,7 +12,7 @@ public class ConfigManager extends so.wwb.gamebox.web.init.ConfigBase {
      * MCenter配置信息
      * @return
      */
-    public static MReportConfigration getConfigration() {
+    public static MReportConfigration get() {
         return SpringTool.getBean(MReportConfigration.class);
     }
 

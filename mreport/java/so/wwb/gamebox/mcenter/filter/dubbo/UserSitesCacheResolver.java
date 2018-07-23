@@ -4,8 +4,8 @@ import org.soul.commons.collections.MapTool;
 import org.soul.commons.dubbo.IUserSitesCacheResolver;
 import org.soul.commons.init.context.ContextParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.model.company.sys.po.VSysSiteUser;
-import so.wwb.gamebox.web.cache.Cache;
 import so.wwb.gamebox.web.init.ExtBaseWebConf;
 
 import java.util.ArrayList;

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.chess.form.VSiteGameSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -24,8 +25,6 @@ import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
 import so.wwb.gamebox.model.company.site.vo.VSiteGameListVo;
 import so.wwb.gamebox.model.company.site.vo.VSiteGameVo;
 import so.wwb.gamebox.model.gameapi.enums.ApiTypeEnum;
-import so.wwb.gamebox.web.cache.Cache;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;

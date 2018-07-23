@@ -36,8 +36,8 @@ import so.wwb.gamebox.model.master.fund.vo.PlayerFavorableVo;
 import so.wwb.gamebox.model.master.report.po.VPlayerTransaction;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionListVo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionVo;
-import so.wwb.gamebox.web.cache.Cache;
-import so.wwb.gamebox.web.cache.ExportCriteriaTool;
+import so.wwb.gamebox.common.cache.Cache;
+import so.wwb.gamebox.common.cache.ExportCriteriaTool;
 import so.wwb.gamebox.web.report.controller.AbstractExportController;
 
 import javax.servlet.http.HttpServletRequest;

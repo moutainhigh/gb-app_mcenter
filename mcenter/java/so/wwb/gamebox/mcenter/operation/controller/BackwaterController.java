@@ -70,7 +70,7 @@ import so.wwb.gamebox.model.master.player.vo.RemarkVo;
 import so.wwb.gamebox.model.report.enums.SettlementStateEnum;
 import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 
 import javax.servlet.http.HttpServletRequest;

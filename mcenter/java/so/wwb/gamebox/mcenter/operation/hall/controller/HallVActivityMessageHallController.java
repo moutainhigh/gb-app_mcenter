@@ -25,7 +25,7 @@ import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.master.operation.po.VActivityMessageHall;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMessageHallListVo;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMessageHallVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

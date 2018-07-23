@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.site.ISiteGameTagService;
 import so.wwb.gamebox.mcenter.content.form.SiteGameTagForm;
@@ -31,7 +32,7 @@ import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteGameTag;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.vo.*;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -167,7 +168,7 @@ public class SiteGameTagController extends BaseCrudController<ISiteGameTagServic
             listVo.setSiteId(SessionManager.getSiteId());
             listVo = ServiceTool.siteI18nService().saveGameTagI18n(listVo);
             Cache.refreshSiteI18n(SiteI18nEnum.MASTER_GAME_TAG);
-            Cache.refreshCurrentSitePageCache();
+            CachePage.refreshCurrentSitePageCache();
         }
 
         return getVoMessage(listVo);
@@ -221,7 +222,7 @@ public class SiteGameTagController extends BaseCrudController<ISiteGameTagServic
         Map<String, Object> tempMap = deleteSiteGameTag(key);
         map.putAll(tempMap);
         Cache.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
-        Cache.refreshCurrentSitePageCache();
+        CachePage.refreshCurrentSitePageCache();
         return map;
     }
 

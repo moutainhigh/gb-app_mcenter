@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.iservice.company.site.ISiteI18nService;
 import so.wwb.gamebox.mcenter.setting.form.SiteI18nSearchForm;
 import so.wwb.gamebox.mcenter.setting.form.Sitei18nForm;
@@ -17,7 +18,7 @@ import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.vo.SiteI18nListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteI18nVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -87,7 +88,7 @@ public class SiteI18nController extends BaseCrudController<ISiteI18nService, Sit
             Cache.refreshSiteI18n(SiteI18nEnum.SETTING_SITE_TITLE);
             Cache.refreshSiteI18n(SiteI18nEnum.SETTING_SITE_KEYWORDS);
             Cache.refreshSiteI18n(SiteI18nEnum.SETTING_SITE_DESCRIPTION);
-            Cache.refreshCurrentSitePageCache();
+            CachePage.refreshCurrentSitePageCache();
         } else {
             map.put("state",false);
             map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));

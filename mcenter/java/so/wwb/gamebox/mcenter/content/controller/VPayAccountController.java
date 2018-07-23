@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.IVPayAccountService;
@@ -63,7 +64,7 @@ import so.wwb.gamebox.model.master.player.po.PayRank;
 import so.wwb.gamebox.model.master.player.po.PlayerRank;
 import so.wwb.gamebox.model.master.player.vo.PayRankListVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -329,7 +330,7 @@ public class VPayAccountController extends BaseCrudController<IVPayAccountServic
         listVo.setSiteId(SessionManager.getSiteId());
         ServiceTool.siteI18nService().hideInsertI18n(listVo);
         Cache.refreshSiteI18n(SiteI18nEnum.MASTER_CONTENT_HIDE_ACCOUNT_CONTENT);
-        Cache.refreshCurrentSitePageCache();
+        CachePage.refreshCurrentSitePageCache();
         //保存隐藏开关
         sysParamVo.setResult(vPayAccountListVo.getPlayerAccountHide());
         sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
