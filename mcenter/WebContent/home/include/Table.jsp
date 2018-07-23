@@ -76,42 +76,45 @@
                             <tr class="tab-detail">
                                 <td class="t-a-c">${r.date}</td>
                                 <td class="t-a-c">
+                                    <%--近日数据/新增玩家--%>
                                     <c:set var="player" value="${r.player}" />
                                     <c:choose>
                                         <c:when test="${player == null || player == 0}">
                                             0
                                         </c:when>
                                         <c:otherwise>
-                                            <soul:button target="${root}/player/popup/list.html?outer=${10 + vs.count}&search.hasReturn=true" size="open-dialog-95p"
-                                                         callback="" text="" title="玩家" opType="dialog">
+                                            <soul:button target="${root}/player/popup/list.html?outer=${10 + vs.count}" size="open-dialog-95p"
+                                                         callback="" text="" title="玩家列表" opType="dialog">
                                                 ${player}
                                             </soul:button>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
                                 <td class="t-a-c">
+                                    <%--近日数据/新增存款玩家--%>
                                     <c:set var="deposit" value="${r.deposit}" />
                                     <c:choose>
                                         <c:when test="${deposit == null || deposit == 0}">
                                             0
                                         </c:when>
                                         <c:otherwise>
-                                            <soul:button target="${root}/player/popup/list.html?outer=${10 + vs.count}&comp=1&search.hasReturn=true" size="open-dialog-95p"
-                                                         callback="" text="" title="玩家" opType="dialog">
+                                            <soul:button target="${root}/player/popup/list.html?outer=${10 + vs.count}&comp=3" size="open-dialog-95p"
+                                                         callback="" text="" title="玩家列表" opType="dialog">
                                                 ${deposit}
                                             </soul:button>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
                                 <td class="t-a-c">
+                                    <%--近日数据/存款总人数--%>
                                     <c:set var="depositPlayer" value="${r.depositPlayer}" />
                                     <c:choose>
                                         <c:when test="${depositPlayer == null || depositPlayer == 0}">
                                             0
                                         </c:when>
                                         <c:otherwise>
-                                            <soul:button target="${root}/player/popup/list.html?outer=${10+vs.count}&comp=2&search.hasReturn=true" size="open-dialog-95p"
-                                                         callback="" text="" title="玩家" opType="dialog">
+                                            <soul:button target="${root}/player/popup/list.html?outer=${10+vs.count}&comp=4" size="open-dialog-95p"
+                                                         callback="" text="" title="玩家列表" opType="dialog">
                                                 ${depositPlayer}
                                             </soul:button>
                                         </c:otherwise>
@@ -159,28 +162,17 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
-                                <%--<td class="t-a-r money">
-                                    <c:set var="mobile" value="${r.mobile}" />
-                                    <c:choose>
-                                        <c:when test="${mobile == null || mobile == 0}">
-                                            ${sign}0
-                                        </c:when>
-                                        <c:otherwise>
-                                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${10 + vs.count}&search.transactionType=deposit&search.origin=2,8,12,16" nav-target="mainFrame">
-                                                ${sign}${soulFn:formatInteger(mobile)}<i>${soulFn:formatDecimals(mobile)}</i>
-                                            </a>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>--%>
                                 <td class="t-a-c">
+                                    <%--近日数据/投注人数--%>
                                     <c:set var="bet" value="${r.bet}" />
                                     <c:choose>
                                         <c:when test="${bet == null || bet == 0}">
                                             0
                                         </c:when>
                                         <c:otherwise>
-                                            <soul:button target="${root}/player/popup/list.html?outer=${10 + vs.count}&comp=3&search.hasReturn=true" size="open-dialog-95p"
-                                                         callback="" text="" title="玩家" opType="dialog">
+                                            <soul:button
+                                                    target="${root}/player/popup/list.html?outer=${10 + vs.count}&comp=5"
+                                                    size="open-dialog-95p" callback="" text="" title="玩家列表" opType="dialog">
                                                 ${bet}
                                             </soul:button>
                                         </c:otherwise>

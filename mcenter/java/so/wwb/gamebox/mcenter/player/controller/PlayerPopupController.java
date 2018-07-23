@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.player.controller;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
+import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.DateFormat;
@@ -22,12 +23,14 @@ import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerForm;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
+import so.wwb.gamebox.model.WeekTool;
 import so.wwb.gamebox.model.master.player.po.VUserPlayer;
 import so.wwb.gamebox.model.master.player.vo.VUserPlayerListVo;
 import so.wwb.gamebox.model.master.player.vo.VUserPlayerVo;
 import so.wwb.gamebox.web.RiskTagTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -89,10 +92,16 @@ public class PlayerPopupController extends BaseCrudController<IVUserPlayerServic
         int rawOffset = SessionManager.getTimeZone().getRawOffset();
         int hour = rawOffset / 1000 / 3600;
         listVo.getSearch().setTimeZoneInterval(hour);
-        if (listVo.getComp() != null && listVo.getComp() == 1) {        // 新增玩家查询
+        if (listVo.getComp() != null && listVo.getComp() == 1) {        // 代理分析/新增玩家查询
             listVo = ServiceSiteTool.vUserPlayerService().queryNewPlayer(listVo);
-        } else if (listVo.getComp() != null && listVo.getComp() == 2) { // 新增存款玩家查询
+        } else if (listVo.getComp() != null && listVo.getComp() == 2) { // 代理分析/新增存款玩家查询
             listVo = ServiceSiteTool.vUserPlayerService().queryTotalDepositPlayer(listVo);
+        } else if (listVo.getComp() != null && listVo.getComp() == 3) { // 首页/新增存款玩家
+            listVo = ServiceSiteTool.vUserPlayerService().queryOutLinkPlayer(listVo);
+        } else if (listVo.getComp() != null && listVo.getComp() == 4) { // 首页/存款总人数
+            listVo = ServiceSiteTool.vUserPlayerService().queryOutLinkRechargePlayer(listVo);
+        } else if (listVo.getComp() != null && listVo.getComp() == 5) { // 首页/投注玩家
+            listVo = ServiceSiteTool.vUserPlayerService().queryOutLinkBetPlayer(listVo);
         } else {
             listVo = ServiceSiteTool.vUserPlayerService().searchByCustom(listVo);
         }
@@ -171,6 +180,70 @@ public class PlayerPopupController extends BaseCrudController<IVUserPlayerServic
             if (listVo.getSearch().getCreateTimeEnd() == null
                     || listVo.getSearch().getCreateTimeEnd().after(listVo.getEndTime()))
                 listVo.getSearch().setCreateTimeEnd(listVo.getEndTime());
+        }
+
+        Integer outer = listVo.getOuter() == null ? 0 : listVo.getOuter();
+        if (outer != 0) {
+            if (listVo.getSearch().getCreateTimeBegin() != null && listVo.getSearch().getCreateTimeEnd() != null) {
+                return;
+            }
+            Date today = SessionManager.getDate().getToday();
+            Date now = SessionManager.getDate().getNow();
+            Date weekStartDate = WeekTool.getWeekStartDate(today, null);
+            Date monthStartDate = WeekTool.getMonthStartDate(today);
+            switch (outer) {
+                case 1: // 今日
+                    listVo.getSearch().setCreateTimeBegin(today);
+                    listVo.getSearch().setCreateTimeEnd(now);
+                    break;
+                case 2: // 昨日
+                case 11:
+                    listVo.getSearch().setCreateTimeBegin(SessionManager.getDate().getYestoday());
+                    listVo.getSearch().setCreateTimeEnd(today);
+                    break;
+                case 3: // 本周
+                    listVo.getSearch().setCreateTimeBegin(weekStartDate);
+                    listVo.getSearch().setCreateTimeEnd(today);
+                    break;
+                case 4: // 上周
+                    listVo.getSearch().setCreateTimeBegin(DateTool.addDays(weekStartDate, -7));
+                    listVo.getSearch().setCreateTimeEnd(weekStartDate);
+                    break;
+                case 5: // 本月
+                    listVo.getSearch().setCreateTimeBegin(monthStartDate);
+                    listVo.getSearch().setCreateTimeEnd(today);
+                    break;
+                case 6: // 上月
+                    Date lastMonthFirstDay = SessionManager.getDate().getLastMonthFirstDay(SessionManager.getTimeZone
+                            ());
+                    listVo.getSearch().setCreateTimeBegin(lastMonthFirstDay);
+                    listVo.getSearch().setCreateTimeEnd(monthStartDate);
+                    break;
+                case 12: // 前天
+                    listVo.getSearch().setCreateTimeBegin(DateTool.addDays(today, -2));
+                    listVo.getSearch().setCreateTimeEnd(SessionManager.getDate().getYestoday());
+                    break;
+                case 13: // 大前天
+                    listVo.getSearch().setCreateTimeBegin(DateTool.addDays(today, -3));
+                    listVo.getSearch().setCreateTimeEnd(DateTool.addDays(today, -2));
+                    break;
+                case 14: // 大大前天
+                    listVo.getSearch().setCreateTimeBegin(DateTool.addDays(today, -4));
+                    listVo.getSearch().setCreateTimeEnd(DateTool.addDays(today, -3));
+                    break;
+                case 15: // 大大大前天
+                    listVo.getSearch().setCreateTimeBegin(DateTool.addDays(today, -5));
+                    listVo.getSearch().setCreateTimeEnd(DateTool.addDays(today, -4));
+                    break;
+                case 16: // 大大大大前天
+                    listVo.getSearch().setCreateTimeBegin(DateTool.addDays(today, -6));
+                    listVo.getSearch().setCreateTimeEnd(DateTool.addDays(today, -5));
+                    break;
+                case 17: // 大大大大大前天
+                    listVo.getSearch().setCreateTimeBegin(DateTool.addDays(today, -7));
+                    listVo.getSearch().setCreateTimeEnd(DateTool.addDays(today, -6));
+                    break;
+            }
         }
     }
 }

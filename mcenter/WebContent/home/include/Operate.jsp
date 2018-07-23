@@ -80,6 +80,7 @@
                                         </c:choose>
                                     </td>
                                     <td class="t-a-c">
+                                        <%--运营状况/新增玩家--%>
                                         <c:set var="newPlayer" value="${v.newPlayer}" />
                                         <c:choose>
                                             <c:when test="${newPlayer == 0}">
@@ -87,21 +88,22 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <soul:button target="${root}/player/popup/list.html?outer=${vs.count}" size="open-dialog-95p"
-                                                             callback="" text="" title="玩家" opType="dialog">
+                                                             callback="" text="" title="玩家列表" opType="dialog">
                                                     ${newPlayer}
                                                 </soul:button>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
                                     <td class="t-a-c">
+                                        <%--运营状况/新增存款玩家--%>
                                         <c:set var="newDeposit" value="${v.newPlayerDeposit}" />
                                         <c:choose>
                                             <c:when test="${newDeposit == 0}">
                                                 0
                                             </c:when>
                                             <c:otherwise>
-                                                <soul:button target="${root}/player/popup/list.html?outer=${vs.count}&comp=1&search.hasReturn=true" size="open-dialog-95p"
-                                                             callback="" text="" title="玩家" opType="dialog">
+                                                <soul:button target="${root}/player/popup/list.html?outer=${vs.count}&comp=3" size="open-dialog-95p"
+                                                             callback="" text="" title="玩家列表" opType="dialog">
                                                     ${newDeposit}
                                                 </soul:button>
                                             </c:otherwise>
