@@ -1,15 +1,10 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
 
-import org.soul.commons.bean.BeanTool;
-import org.soul.commons.bean.IEntity;
-import org.soul.commons.bean.Pair;
-import org.soul.commons.collections.CollectionQueryTool;
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
-import org.soul.commons.lang.DateTool;
 import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.DateFormat;
@@ -17,40 +12,6 @@ import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.query.Paging;
-import org.soul.commons.query.enums.Operator;
-import org.soul.commons.query.sort.Direction;
-import org.soul.commons.query.sort.Order;
-import org.soul.commons.security.Base36;
-import org.soul.commons.security.CryptoTool;
-import org.soul.commons.security.key.CryptoKey;
-import org.soul.commons.support._Module;
-import org.soul.commons.validation.form.PasswordRule;
-import org.soul.iservice.taskschedule.ITaskScheduleService;
-import org.soul.model.listop.po.SysListOperator;
-import org.soul.model.listop.vo.SysListOperatorListVo;
-import org.soul.model.log.audit.enums.OpMode;
-import org.soul.model.log.audit.enums.OpType;
-import org.soul.model.log.audit.vo.BaseLog;
-import org.soul.model.log.audit.vo.LogVo;
-import org.soul.model.msg.notice.po.NoticeContactWay;
-import org.soul.model.msg.notice.po.VNoticeSendText;
-import org.soul.model.msg.notice.vo.NoticeLocaleTmpl;
-import org.soul.model.msg.notice.vo.NoticeVo;
-import org.soul.model.msg.notice.vo.VNoticeReceivedTextVo;
-import org.soul.model.msg.notice.vo.VNoticeSendTextListVo;
-import org.soul.model.security.privilege.po.SysUser;
-import org.soul.model.security.privilege.po.SysUserProtection;
-import org.soul.model.security.privilege.po.SysUserStatus;
-import org.soul.model.security.privilege.vo.SysUserProtectionVo;
-import org.soul.model.security.privilege.vo.SysUserVo;
-import org.soul.model.sys.po.SysAuditLog;
-import org.soul.model.sys.po.SysDict;
-import org.soul.model.sys.po.SysParam;
-import org.soul.model.sys.so.SysAuditLogSo;
-import org.soul.model.sys.vo.SysAuditLogListVo;
-import org.soul.model.sys.vo.SysParamVo;
-import org.soul.model.taskschedule.po.TaskSchedule;
-import org.soul.model.taskschedule.vo.TaskScheduleVo;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
@@ -60,64 +21,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
-import so.wwb.gamebox.common.dubbo.ServiceTool;
-import so.wwb.gamebox.iservice.master.player.IUserPlayerService;
 import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerForm;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.mcenter.share.form.SysListOperatorForm;
-import so.wwb.gamebox.model.*;
-import so.wwb.gamebox.model.boss.enums.ExportFileTypeEnum;
-import so.wwb.gamebox.model.boss.enums.TemplateCodeEnum;
-import so.wwb.gamebox.model.common.Audit;
+import so.wwb.gamebox.model.DictEnum;
 import so.wwb.gamebox.model.common.Const;
-import so.wwb.gamebox.model.common.MessageI18nConst;
-import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
-import so.wwb.gamebox.model.common.notice.enums.ManualNoticeEvent;
-import so.wwb.gamebox.model.company.risk.po.RiskManagementCheck;
-import so.wwb.gamebox.model.company.risk.vo.RiskManagementCheckVo;
-import so.wwb.gamebox.model.company.setting.po.SysExport;
-import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
-import so.wwb.gamebox.model.company.site.po.SiteCurrency;
-import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
-import so.wwb.gamebox.model.company.vo.BankListVo;
-import so.wwb.gamebox.model.enums.UserTypeEnum;
-import so.wwb.gamebox.model.listop.FilterRow;
-import so.wwb.gamebox.model.listop.FilterSelectConstant;
-import so.wwb.gamebox.model.listop.FreezeType;
-import so.wwb.gamebox.model.listop.TabTypeEnum;
-import so.wwb.gamebox.model.master.enums.*;
-import so.wwb.gamebox.model.master.fund.po.PlayerWithdraw;
-import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawListVo;
-import so.wwb.gamebox.model.master.fund.vo.PlayerWithdrawVo;
-import so.wwb.gamebox.model.master.operation.po.PlayerAdvisoryRead;
-import so.wwb.gamebox.model.master.operation.vo.PlayerAdvisoryReadVo;
-import so.wwb.gamebox.model.master.player.enums.PlayerAdvisoryEnum;
-import so.wwb.gamebox.model.master.player.enums.PlayerRiskDataTypeEnum;
-import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
-import so.wwb.gamebox.model.master.player.enums.UserBankcardTypeEnum;
-import so.wwb.gamebox.model.master.player.po.*;
-import so.wwb.gamebox.model.master.player.so.VUserPlayerSo;
-import so.wwb.gamebox.model.master.player.vo.*;
-import so.wwb.gamebox.model.master.report.vo.PlayerRecommendAwardListVo;
-import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionListVo;
-import so.wwb.gamebox.model.master.setting.po.FieldSort;
-import so.wwb.gamebox.model.master.setting.po.RakebackSet;
-import so.wwb.gamebox.model.master.setting.vo.NoticeTmplVo;
-import so.wwb.gamebox.model.master.setting.vo.RakebackSetListVo;
-import so.wwb.gamebox.model.master.setting.vo.RakebackSetVo;
-import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderVo;
-import so.wwb.gamebox.model.report.vo.AddLogVo;
-import so.wwb.gamebox.web.BussAuditLogTool;
+import so.wwb.gamebox.model.master.enums.PlayerStatusEnum;
+import so.wwb.gamebox.model.master.player.po.VUserPlayer;
+import so.wwb.gamebox.model.master.player.vo.VUserPlayerListVo;
+import so.wwb.gamebox.model.master.player.vo.VUserPlayerVo;
 import so.wwb.gamebox.web.RiskTagTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * Created by kobe on 18-6-28.
@@ -258,7 +180,7 @@ public class PlayerPopupController extends BaseCrudController<IVUserPlayerServic
 
     /**
      * 初使化查询条件
-     * @param vo
+     * @param listVo
      */
     private void initCondition(VUserPlayerListVo listVo) {
         // 玩家账号查询条件
