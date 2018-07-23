@@ -41,7 +41,7 @@ import so.wwb.gamebox.model.master.content.vo.CttFloatPicListVo;
 import so.wwb.gamebox.model.master.content.vo.CttFloatPicVo;
 import so.wwb.gamebox.model.master.enums.FloatPicInteractivityEnum;
 import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.web.init.ConfigBase;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import java.io.Serializable;
 import java.util.*;
@@ -139,7 +139,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
     private void refreshFloatPicCache() {
         Cache.refreshFloatPic();
         Cache.refreshFloatPicItem();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
     }
 
     @Override
@@ -431,7 +431,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
     public boolean saveFloatOrder(@RequestBody CttFloatPicVo cttFloatPicVo, Model model){
         this.getService().saveCttFloatOrder(cttFloatPicVo);
         Cache.refreshFloatPic();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return true;
     }
     //endregion your codes 3

@@ -21,7 +21,7 @@ import so.wwb.gamebox.model.company.site.vo.SiteGameI18nListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteGameI18nVo;
 import so.wwb.gamebox.model.company.site.vo.SiteGameTagListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
-import so.wwb.gamebox.web.init.ConfigBase;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,7 +88,7 @@ public class SiteGameI18nController extends BaseCrudController<ISiteGameI18nServ
         Cache.refreshSiteGameI18n();
         Cache.refreshSiteGame();
         Cache.refreshSiteGameTag();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return objectVo;
     }
 

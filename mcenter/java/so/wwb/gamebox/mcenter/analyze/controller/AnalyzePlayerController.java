@@ -24,7 +24,7 @@ import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.model.ParamTool;
 import so.wwb.gamebox.model.SiteParamEnum;
 import so.wwb.gamebox.model.common.Const;
-import so.wwb.gamebox.model.company.enums.SysSiteStatusEnum;
+import so.wwb.gamebox.model.company.enums.SiteStatusEnum;
 import so.wwb.gamebox.model.company.sys.vo.SysSiteVo;
 import so.wwb.gamebox.model.master.analyze.po.AnalyzePlayer;
 import so.wwb.gamebox.model.master.analyze.vo.AnalyzePlayerListVo;
@@ -156,7 +156,7 @@ public class AnalyzePlayerController extends BaseCrudController<IAnalyzePlayerSe
         siteVo = ServiceTool.sysSiteService().get(siteVo);
 
         Date convertDate = DateTool.changeTimeZone(date, TimeZone.getTimeZone(siteVo.getResult().getTimezone()),TimeZone.getTimeZone("GMT+0"));
-        if(siteVo.getResult().getStatus().equals(SysSiteStatusEnum.NORMAL.getCode()) && siteVo.getResult().getId()>0){
+        if(siteVo.getResult().getStatus().equals(SiteStatusEnum.NORMAL.getCode()) && siteVo.getResult().getId()>0){
             VAnalyzePlayerListVo vo = new VAnalyzePlayerListVo();
             for(int i=1;i<=times;i++){
                 convertDate = DateTool.addDays(convertDate,1);

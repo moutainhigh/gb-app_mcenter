@@ -31,9 +31,9 @@ import so.wwb.gamebox.model.master.content.vo.CttLogoListVo;
 import so.wwb.gamebox.model.master.content.vo.CttLogoVo;
 import so.wwb.gamebox.model.master.content.vo.VCttLogoUserVo;
 import so.wwb.gamebox.model.master.enums.UserTaskEnum;
+import so.wwb.gamebox.web.cache.CachePage;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
-import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -94,7 +94,7 @@ public class CttLogoController extends BaseCrudController<ICttLogoService, CttLo
             LogFactory.getLog(this.getClass()).error(ex,"保存LOGO出错");
         }
         Cache.refreshSiteLogo(SessionManager.getSiteId());
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return map;
     }
 
@@ -271,7 +271,7 @@ public class CttLogoController extends BaseCrudController<ICttLogoService, CttLo
             return map;
         }
         Cache.refreshSiteLogo(SessionManager.getSiteId());
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return map;
     }
 
@@ -340,7 +340,7 @@ public class CttLogoController extends BaseCrudController<ICttLogoService, CttLo
             msg = LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED);
         }
         Cache.refreshSiteLogo();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         HashMap map = new HashMap(2,1f);
         map.put("msg", msg);
         map.put("state", cttLogoVo.isSuccess());

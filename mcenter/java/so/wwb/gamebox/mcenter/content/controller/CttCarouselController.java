@@ -38,7 +38,7 @@ import so.wwb.gamebox.model.master.content.vo.CttCarouselVo;
 import so.wwb.gamebox.model.master.enums.CarouselTypeEnum;
 import so.wwb.gamebox.model.master.enums.CttCarouselTypeEnum;
 import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.web.init.ConfigBase;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -191,7 +191,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         cttCarouselVo.setProperties(CttCarousel.PROP_STATUS);
         cttCarouselVo = ServiceSiteTool.cttCarouselService().changeStopStatus(cttCarouselVo);
         Cache.refreshSiteCarousel();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return getVoMessage(cttCarouselVo);
     }
 
@@ -205,7 +205,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
     public Boolean deleteByBatch(CttCarouselListVo cttCarouselListVo){
         Boolean success = ServiceSiteTool.cttCarouselService().deleteBatch(cttCarouselListVo);
         Cache.refreshSiteCarousel();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return success;
     }
 
@@ -220,7 +220,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         cttCarouselVo = getService().resetCarouselSort(cttCarouselVo);
         ParamTool.refresh(SiteParamEnum.CONTENT_CAROUSEL_INTERVAL_TIME);
         Cache.refreshSiteCarousel();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return getVoMessage(cttCarouselVo);
     }
 
@@ -236,7 +236,7 @@ public class CttCarouselController extends BaseCrudController<ICttCarouselServic
         objectVo.getResult().setPublishTime(new Date());
         objectVo = super.doPersist(objectVo);
         Cache.refreshSiteCarousel();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         //日志
         if (objectVo.isSuccess()) {
             BussAuditLogTool.addBussLog(Module.MASTER_CONTENT, ModuleType.MASTER_CONTENT_CTTCAROUSEL_TIME_SUCCESS, OpType.UPDATE,

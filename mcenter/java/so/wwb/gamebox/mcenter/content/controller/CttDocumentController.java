@@ -22,7 +22,7 @@ import so.wwb.gamebox.model.master.content.vo.CttDocumentI18nListVo;
 import so.wwb.gamebox.model.master.content.vo.CttDocumentListVo;
 import so.wwb.gamebox.model.master.content.vo.CttDocumentVo;
 import so.wwb.gamebox.model.master.content.vo.VCttDocumentUserVo;
-import so.wwb.gamebox.web.init.ConfigBase;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +55,7 @@ public class CttDocumentController extends BaseCrudController<ICttDocumentServic
         this.getService().updateDocumentOrder(cttDocumentVo);
         Cache.refreshContentDocument();
         Cache.refreshContentDocumentI18n();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return true;
     }
     @RequestMapping(value = "/showDocumentDetail")

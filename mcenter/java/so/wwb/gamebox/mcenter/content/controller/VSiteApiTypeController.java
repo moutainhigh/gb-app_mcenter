@@ -30,7 +30,7 @@ import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
 import so.wwb.gamebox.model.company.site.vo.VSiteApiTypeListVo;
 import so.wwb.gamebox.model.company.site.vo.VSiteApiTypeVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerGameLogVo;
-import so.wwb.gamebox.web.init.ConfigBase;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import java.util.Date;
 import java.util.List;
@@ -101,7 +101,7 @@ public class VSiteApiTypeController extends BaseCrudController<IVSiteApiTypeServ
         try{
             this.getService().saveSietApiTypeOrder(vSiteApiTypeVo);
             Cache.refreshSiteApiType();
-            Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+            CachePage.refreshCurrentSitePageCache();
             return true;
         }catch (Exception e){
             LOG.error(e);

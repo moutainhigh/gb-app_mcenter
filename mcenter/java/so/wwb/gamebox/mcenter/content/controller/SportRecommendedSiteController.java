@@ -24,7 +24,7 @@ import so.wwb.gamebox.model.company.sport.vo.SportRecommendedSiteListVo;
 import so.wwb.gamebox.model.company.sport.vo.SportRecommendedSiteVo;
 import so.wwb.gamebox.model.company.sport.vo.VSportRecommendedListVo;
 import so.wwb.gamebox.model.company.sport.vo.VSportRecommendedVo;
-import so.wwb.gamebox.web.init.ConfigBase;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -128,7 +128,7 @@ public class SportRecommendedSiteController extends BaseCrudController<IVSportRe
             ServiceTool.sportRecommendedSiteService().deleteByRecommandId(vo);
         }
         Cache.refreshSportRecommendedToDisplay();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return this.getVoMessage(vo);
     }
 

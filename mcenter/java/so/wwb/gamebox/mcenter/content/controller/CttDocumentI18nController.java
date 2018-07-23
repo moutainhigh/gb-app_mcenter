@@ -36,9 +36,9 @@ import so.wwb.gamebox.model.master.content.vo.CttDocumentI18nVo;
 import so.wwb.gamebox.model.master.content.vo.CttDocumentListVo;
 import so.wwb.gamebox.model.master.content.vo.CttDocumentVo;
 import so.wwb.gamebox.model.master.enums.UserTaskEnum;
+import so.wwb.gamebox.web.cache.CachePage;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
-import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -248,7 +248,7 @@ public class CttDocumentI18nController extends BaseCrudController<ICttDocumentI1
         }
         Cache.refreshContentDocument();
         Cache.refreshContentDocumentI18n();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return objectVo;
     }
     private void updateSiteContentAudit() {

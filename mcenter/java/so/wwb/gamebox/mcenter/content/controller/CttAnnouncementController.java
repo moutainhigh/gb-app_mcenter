@@ -34,9 +34,9 @@ import so.wwb.gamebox.model.master.content.po.CttAnnouncement;
 import so.wwb.gamebox.model.master.content.vo.CttAnnouncementListVo;
 import so.wwb.gamebox.model.master.content.vo.CttAnnouncementVo;
 import so.wwb.gamebox.web.BussAuditLogTool;
+import so.wwb.gamebox.web.cache.CachePage;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
-import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -139,7 +139,7 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         listVo.setUserId(SessionManager.getUserId());
         listVo = ServiceTool.cttAnnouncementService().updateAnnouncement(listVo);
         Cache.refreshSiteAnnouncement();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         Map<String, Object> map = getVoMessage(listVo);
         if (!listVo.isSuccess()) {
             map.put(TokenHandler.TOKEN_VALUE, TokenHandler.generateGUID());
@@ -184,7 +184,7 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         map.put("state", success);
         //
         Cache.refreshSiteAnnouncement();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return map;
     }
 
@@ -244,7 +244,7 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
         vo.setProperties(CttAnnouncement.PROP_DISPLAY);
         vo = getService().changeAnnouncementStatus(vo);
         Cache.refreshSiteAnnouncement();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return getVoMessage(vo);
     }
 
@@ -264,7 +264,7 @@ public class CttAnnouncementController extends BaseCrudController<ICttAnnounceme
     public boolean saveCttAnnouncementOrder(@RequestBody CttAnnouncementVo cttAnnouncementVo, Model model){
         this.getService().saveCttAnnouncementOrder(cttAnnouncementVo);
         Cache.refreshSiteAnnouncement();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return true;
     }
     //endregion your codes 3

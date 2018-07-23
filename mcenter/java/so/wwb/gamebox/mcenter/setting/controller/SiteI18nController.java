@@ -18,7 +18,7 @@ import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.vo.SiteI18nListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteI18nVo;
-import so.wwb.gamebox.web.init.ConfigBase;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -88,7 +88,7 @@ public class SiteI18nController extends BaseCrudController<ISiteI18nService, Sit
             Cache.refreshSiteI18n(SiteI18nEnum.SETTING_SITE_TITLE);
             Cache.refreshSiteI18n(SiteI18nEnum.SETTING_SITE_KEYWORDS);
             Cache.refreshSiteI18n(SiteI18nEnum.SETTING_SITE_DESCRIPTION);
-            Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+            CachePage.refreshCurrentSitePageCache();
         } else {
             map.put("state",false);
             map.put("msg",LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));

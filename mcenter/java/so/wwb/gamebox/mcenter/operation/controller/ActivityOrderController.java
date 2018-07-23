@@ -25,7 +25,7 @@ import so.wwb.gamebox.model.master.operation.vo.ActivityMessageListVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMessageOrderVo;
 import so.wwb.gamebox.model.master.operation.vo.ActivityMessageVo;
 import so.wwb.gamebox.model.master.operation.vo.PlayerActivityMessage;
-import so.wwb.gamebox.web.init.ConfigBase;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -91,7 +91,7 @@ public class ActivityOrderController extends BaseCrudController<IActivityMessage
         getService().updateOrderList(activityMessageVo);
         Cache.refreshPcActivityMessages();
         Cache.refreshMobileActivityMessages();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return activityMessageVo.isSuccess();
 
     }

@@ -36,7 +36,7 @@ import so.wwb.gamebox.model.master.content.vo.VFloatPicListVo;
 import so.wwb.gamebox.model.master.enums.FloatPicLinkTypeEnum;
 import so.wwb.gamebox.model.master.operation.po.PlayerRankAppDomain;
 import so.wwb.gamebox.model.master.operation.vo.PlayerRankAppDomainListVo;
-import so.wwb.gamebox.web.init.ConfigBase;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -127,7 +127,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
         objectVo = this.getService().insert(objectVo);
         Cache.refreshCustomerService();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return objectVo;
     }
 
@@ -140,7 +140,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
         }
         objectVo = this.getService().updateOnly(objectVo);
         Cache.refreshCustomerService();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return objectVo;
     }
 
@@ -238,7 +238,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
 
         }
         Cache.refreshCustomerService();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
 
         return map;
     }
@@ -276,7 +276,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
                 map.put("state", true);
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 Cache.refreshCustomerService();
-                Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+                CachePage.refreshCurrentSitePageCache();
             } else {
                 map.put("state", false);
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));
@@ -321,7 +321,7 @@ public class SiteCustomerServiceController extends BaseCrudController<ISiteCusto
                 map.put("state", true);
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 Cache.refreshCustomerService();
-                Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+                CachePage.refreshCurrentSitePageCache();
             } else {
                 map.put("state", false);
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_FAILED));

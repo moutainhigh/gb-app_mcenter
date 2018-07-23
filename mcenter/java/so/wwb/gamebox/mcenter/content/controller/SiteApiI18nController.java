@@ -22,7 +22,7 @@ import so.wwb.gamebox.model.company.site.po.SiteLanguage;
 import so.wwb.gamebox.model.company.site.vo.SiteApiI18nListVo;
 import so.wwb.gamebox.model.company.site.vo.SiteApiI18nVo;
 import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
-import so.wwb.gamebox.web.init.ConfigBase;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,7 +85,7 @@ public class SiteApiI18nController extends BaseCrudController<ISiteApiI18nServic
         Cache.refreshSiteApiI18n();
         Cache.refreshSiteApi();
         Cache.refreshSiteApiTypeRelation();
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return objectVo;
     }
 

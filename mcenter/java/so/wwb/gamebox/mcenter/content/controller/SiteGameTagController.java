@@ -32,7 +32,7 @@ import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.company.site.po.SiteGameTag;
 import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.company.site.vo.*;
-import so.wwb.gamebox.web.init.ConfigBase;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -168,7 +168,7 @@ public class SiteGameTagController extends BaseCrudController<ISiteGameTagServic
             listVo.setSiteId(SessionManager.getSiteId());
             listVo = ServiceTool.siteI18nService().saveGameTagI18n(listVo);
             Cache.refreshSiteI18n(SiteI18nEnum.MASTER_GAME_TAG);
-            Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+            CachePage.refreshCurrentSitePageCache();
         }
 
         return getVoMessage(listVo);
@@ -222,7 +222,7 @@ public class SiteGameTagController extends BaseCrudController<ISiteGameTagServic
         Map<String, Object> tempMap = deleteSiteGameTag(key);
         map.putAll(tempMap);
         Cache.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
-        Cache.refreshCurrentSitePageCache(ConfigBase.get().getPageKey());
+        CachePage.refreshCurrentSitePageCache();
         return map;
     }
 
