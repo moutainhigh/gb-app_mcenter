@@ -49,20 +49,14 @@ import java.util.Map;
 public class VAnalyzePlayerController extends BaseCrudController<IVAnalyzePlayerService, VAnalyzePlayerListVo, VAnalyzePlayerVo, VAnalyzePlayerSearchForm, VAnalyzePlayerForm, VAnalyzePlayer, Integer> {
 
     private static final Log LOG = LogFactory.getLog(VAnalyzePlayerController.class);
-//endregion your codes 1
 
     @Override
     protected String getViewBasePath() {
-        //region your codes 2
         return "/analyze/";
-        //endregion your codes 2
     }
-
-    //region your codes 3
 
     /**
      * 代理新近
-     *
      * @param listVo
      * @param model
      * @param request
@@ -88,7 +82,6 @@ public class VAnalyzePlayerController extends BaseCrudController<IVAnalyzePlayer
     }
     /**
      * 代理新近-总况
-     *
      * @param listVo
      * @param model
      * @param request
