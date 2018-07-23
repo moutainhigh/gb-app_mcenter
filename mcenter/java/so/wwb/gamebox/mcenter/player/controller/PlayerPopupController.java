@@ -1,10 +1,8 @@
 package so.wwb.gamebox.mcenter.player.controller;
 
-
 import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
-import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
 import org.soul.commons.locale.DateFormat;
@@ -13,7 +11,6 @@ import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.query.Paging;
 import org.soul.web.controller.BaseCrudController;
-import org.soul.web.validation.form.js.JsRuleCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,18 +22,12 @@ import so.wwb.gamebox.iservice.master.player.IVUserPlayerService;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerForm;
 import so.wwb.gamebox.mcenter.player.form.VUserPlayerSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.common.Const;
-import so.wwb.gamebox.model.master.enums.PlayerStatusEnum;
 import so.wwb.gamebox.model.master.player.po.VUserPlayer;
 import so.wwb.gamebox.model.master.player.vo.VUserPlayerListVo;
 import so.wwb.gamebox.model.master.player.vo.VUserPlayerVo;
 import so.wwb.gamebox.web.RiskTagTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
 
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -54,28 +45,6 @@ public class PlayerPopupController extends BaseCrudController<IVUserPlayerServic
     @Override
     protected String getViewBasePath() {
         return "/player/popup/";
-    }
-
-    @Override
-    protected VUserPlayerListVo doList(VUserPlayerListVo listVo, VUserPlayerSearchForm form, BindingResult result, Model model) {
-        Map<String, Serializable> status = DictTool.get(DictEnum.PLAYER_STATUS);
-        status.remove(PlayerStatusEnum.ACCOUNTEXPIRED.getCode());
-        model.addAttribute("playerStatus", status);
-        model.addAttribute("tagIds",listVo.getSearch().getTagId());
-        model.addAttribute("operateIp", listVo.getSearch().getIp());
-        model.addAttribute("validateRule", JsRuleCreator.create(VUserPlayerSearchForm.class));
-
-        /*玩家检测真实姓名*/
-        if (listVo.getSearch().isHasReturn() && StringTool.isNotBlank(listVo.getSearch().getRealName())) {
-            try {
-                String realName = URLDecoder.decode(listVo.getSearch().getRealName(), Const.DEFAULT_CHARACTER);
-                listVo.getSearch().setRealName(realName);
-            } catch (UnsupportedEncodingException e) {
-                LOG.error(e, "玩家检测页面--解码真实姓名");
-            }
-        }
-        listVo = ServiceSiteTool.vUserPlayerService().countTransfer(listVo);
-        return listVo;
     }
 
     /**
@@ -120,13 +89,9 @@ public class PlayerPopupController extends BaseCrudController<IVUserPlayerServic
         int rawOffset = SessionManager.getTimeZone().getRawOffset();
         int hour = rawOffset / 1000 / 3600;
         listVo.getSearch().setTimeZoneInterval(hour);
-        if (listVo.getComp() != null && listVo.getComp() == 1) {      // 新增存款玩家
-            listVo = ServiceSiteTool.vUserPlayerService().queryOutLinkPlayer(listVo);
-        } else if (listVo.getComp() != null && listVo.getComp() == 2) { // 存款玩家
-            listVo = ServiceSiteTool.vUserPlayerService().queryOutLinkRechargePlayer(listVo);
-        } else if (listVo.getComp() != null && listVo.getComp() == 3) { // 投注玩家
-            listVo = ServiceSiteTool.vUserPlayerService().queryOutLinkBetPlayer(listVo);
-        } else if (listVo.getComp() != null && listVo.getComp() == 4) { // 代理新进分析/总存款玩家
+        if (listVo.getComp() != null && listVo.getComp() == 1) {        // 新增玩家查询
+            listVo = ServiceSiteTool.vUserPlayerService().queryNewPlayer(listVo);
+        } else if (listVo.getComp() != null && listVo.getComp() == 2) { // 新增存款玩家查询
             listVo = ServiceSiteTool.vUserPlayerService().queryTotalDepositPlayer(listVo);
         } else {
             listVo = ServiceSiteTool.vUserPlayerService().searchByCustom(listVo);
