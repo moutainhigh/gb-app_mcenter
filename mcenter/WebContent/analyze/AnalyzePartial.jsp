@@ -92,8 +92,9 @@
                     <td>${(command.paging.pageNumber - 1) * command.paging.pageSize + status.count}</td>
                     <td><a href="/userAgent/agent/detail.html?search.id=${p.agentId}" nav-target="mainFrame" class="co-blue">${p.agentName}</a></td>
                     <td>
-                        <soul:button target="${root}/player/popup/list.html.html?search.hasReturn=true&search.agentId=${p.agentId}&search.createTimeBegin=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&search.createTimeEnd=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY ,timeZone )}" size="open-dialog-95p"
-                                     callback="" text="" title="玩家" opType="dialog">
+                        <soul:button
+                                target="${root}/player/popup/list.html.html?search.agentId=${p.agentId}&comp=1&startTime=${soulFn:formatDateTz(command.timeStart,DateFormat.DAY,timeZone)}&endTime=${soulFn:formatDateTz(command.timeEnd,DateFormat.DAY,timeZone)}"
+                                size="open-dialog-95p" callback="" text="" title="玩家" opType="dialog">
                             ${p.agentNewPlayerCount}
                         </soul:button>
                     </td>
