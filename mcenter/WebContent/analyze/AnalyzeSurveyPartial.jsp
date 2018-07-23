@@ -41,7 +41,7 @@
                     <td>${p.agentNewPlayerCount}</td>
                     <td>
                         <c:if test="${p.agentNewDepositPlayerCount > 0}">
-                            <soul:button target="${root}/player/popup/list.html?search.agentId=${p.agentId}&comp=4&startTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&endTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY,timeZone)}"
+                            <soul:button target="${root}/player/popup/list.html?search.agentId=${p.agentId}&comp=2&startTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&endTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY,timeZone)}"
                                          size="open-dialog-95p" callback="" text="" title="存款玩家列表" opType="dialog">
                                 ${p.agentNewDepositPlayerCount}
                             </soul:button>
