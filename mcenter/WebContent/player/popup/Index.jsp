@@ -17,22 +17,14 @@
             <span>${views.sysResource['角色']}</span><span>/</span>
             <span>${views.sysResource['玩家管理']}</span>
         </div>
-
-        <input name="search.rankId" value="${command.search.rankId}" type="hidden">
         <input name="search.agentId" value="${command.search.agentId}" type="hidden">
-        <input name="search.generalAgentId" value="${command.search.generalAgentId}" type="hidden">
         <input name="search.ip" value="${operateIp}" type="hidden"/>
-        <input name="search.recommendUserId" value="${command.search.recommendUserId}" type="hidden"/>
-        <input name="search.timeZoneInterval" value="${command.search.timeZoneInterval}" type="hidden">
-        <input name="analyzeNewAgent" value="${command.analyzeNewAgent}" type="hidden">
-        <input name="searchType" value="${command.searchType}" type="hidden">
         <input name="startTime" value="${soulFn:formatDateTz(command.startTime,DateFormat.DAY_SECOND,timeZone)}" type="hidden">
         <input name="endTime" value="${soulFn:formatDateTz(command.endTime,DateFormat.DAY_SECOND ,timeZone )}" type="hidden">
-        <input name="search.registerIp" value="${command.search.registerIp}" type="hidden"/>
+        <input name="promoteLink" value="${command.promoteLink}" type="hidden"/>
         <input name="outer" value="${command.outer}" type="hidden"/>
         <input name="comp" value="${command.comp}" type="hidden"/>
-        <input type="hidden" name="search.tagId" value="${tagIds}">
-        <input name="search.rakebackId" value="${command.search.rakebackId}" type="hidden">
+        <input name="search.tagId" value="${tagIds}" type="hidden">
         <div class="modal-body">
             <div class="col-lg-12">
                 <div class="wrapper white-bg shadow">

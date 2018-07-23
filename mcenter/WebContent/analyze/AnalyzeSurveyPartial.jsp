@@ -40,13 +40,14 @@
                     <td><a href="/userAgent/agent/detail.html?search.id=${p.agentId }" nav-target="mainFrame" class="co-blue">${p.agentName}</a></td>
                     <td>${p.agentNewPlayerCount}</td>
                     <td>
-                        <c:if test="${p.agentNewDepositPlayerCount > 0}">
-                            <soul:button target="${root}/player/popup/list.html?search.agentId=${p.agentId}&comp=2&startTime=${soulFn:formatDateTz(command.search.startStaticTime,DateFormat.DAY,timeZone)}&endTime=${soulFn:formatDateTz(command.search.endStaticTime,DateFormat.DAY,timeZone)}"
-                                         size="open-dialog-95p" callback="" text="" title="存款玩家列表" opType="dialog">
+                        <%--总存款玩家--%>
+                        <c:if test="${p.agentNewDepositPlayerCount>0}">
+                            <soul:button target="${root}/player/popup/list.html?search.agentId=${p.agentId}&comp=2"
+                                         size="open-dialog-95p" callback="" text="" title="玩家列表" opType="dialog">
                                 ${p.agentNewDepositPlayerCount}
                             </soul:button>
                         </c:if>
-                        <c:if test="${p.agentNewDepositPlayerCount == 0}">
+                        <c:if test="${p.agentNewDepositPlayerCount==0}">
                             ${p.agentNewDepositPlayerCount}
                         </c:if>
                     </td>
