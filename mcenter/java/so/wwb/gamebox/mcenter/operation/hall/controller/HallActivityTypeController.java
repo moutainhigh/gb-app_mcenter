@@ -368,6 +368,11 @@ public class HallActivityTypeController extends HallActivityController<IActivity
 
 //    public
 
+    /**
+     * 有效投注额自己勾选的游戏
+     * @param activityMessageVo
+     * @param model
+     */
     private void getActivityRuleIncludeGameMap(ActivityMessageVo activityMessageVo, Model model) {
         ActivityRuleIncludeGameListVo activityRuleIncludeGameListVo = new ActivityRuleIncludeGameListVo();
         activityRuleIncludeGameListVo.getSearch().setActivityMessageId(activityMessageVo.getResult().getId());
@@ -380,6 +385,11 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         }
     }
 
+    /**
+     * 已经被其他有效投注额勾选的游戏
+     * @param activityMessageId
+     * @param model
+     */
     private void getExistRuleIncludeGameMap(Integer activityMessageId, Model model) {
         ActivityRuleIncludeGameListVo activityRuleIncludeGameListVo = new ActivityRuleIncludeGameListVo();
         activityRuleIncludeGameListVo.getSearch().setActivityMessageId(activityMessageId);

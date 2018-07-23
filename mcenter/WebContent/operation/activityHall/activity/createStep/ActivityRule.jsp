@@ -183,16 +183,19 @@
                 <div class="panel-body ">
                     <div class="tab-content">
                         <span class="col-sm-3"></span>
+                            <%--apiGametypeRelationMap  现有的api--%>
+                            <%--activityRIGMap     自己勾选的--%>
+                            <%--activityERIGMap    别的勾选的--%>
                         <c:forEach items="${apiGametypeRelationMap}" var="apiGametypeRelations" varStatus="index">
                             <div id="game_tab${index.index}" class="tab-pane ${index.index==0?'active':''} game_div" aaa="${index.index}">
-                                <c:forEach items="${apiGametypeRelations.value}" var="apiGametypeRelation" varStatus="v">
+                                <c:forEach items="${apiGametypeRelations.value}" var="apiGametypeRelation" varStatus="v"><!--游戏大类下的每一个具体api,checked自己勾选，disable别人勾选-->
                                     <label class="m-r-sm">
                                         <input type="checkbox" value="${apiGametypeRelation.apiId}" name="activityRuleIncludeGames[${index.index}][${v.index}].apiId"  aaa="${index.index}" class="game"
                                         <c:forEach items="${activityRIGMap[apiGametypeRelations.key]}" var="activityRIG">
-                                                ${apiGametypeRelation.apiId == activityRIG.apiId ? 'checked':''}
+                                                ${apiGametypeRelation.apiId == activityRIG.apiId ? ' checked ':' '}
                                         </c:forEach>
                                         <c:forEach items="${activityERIGMap[apiGametypeRelations.key]}" var="activityERIG">
-                                                ${apiGametypeRelation.apiId == activityERIG.apiId ? 'disabled':''}
+                                                ${apiGametypeRelation.apiId == activityERIG.apiId ? ' disabled ':' '}
                                         </c:forEach>
                                         />${gbFn:getApiName(apiGametypeRelation.apiId)}
                                     </label>
