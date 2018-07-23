@@ -1,6 +1,5 @@
 <%@ page import="org.soul.commons.dict.DictTool" %>
 <%@ page import="so.wwb.gamebox.model.DictEnum" %>
-<%--@elvariable id="command" type="so.wwb.gamebox.model.master.player.vo.VUserPlayerListVo"--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/include/include.inc.jsp" %>
@@ -83,7 +82,7 @@
                 </div>
             </div>
             <!--表格内容-->
-            <div class="search-list-container" style="min-height: 1150px">
+            <div class="search-list-container" style="min-height: 500px">
                 <%@ include file="IndexPartial.jsp" %>
             </div>
         </div>
