@@ -18,6 +18,9 @@ import org.soul.commons.net.ServletTool;
 import org.soul.commons.security.CryptoTool;
 import org.soul.commons.support._Module;
 import org.soul.iservice.sys.ISysParamService;
+import org.soul.model.log.audit.enums.OpType;
+import org.soul.model.log.audit.vo.BaseLog;
+import org.soul.model.log.audit.vo.LogVo;
 import org.soul.model.msg.notice.enums.NoticePublishMethod;
 import org.soul.model.msg.notice.po.NoticeEmailInterface;
 import org.soul.model.msg.notice.vo.NoticeEmailInterfaceVo;
@@ -27,6 +30,7 @@ import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.model.sms_interface.po.SmsInterface;
 import org.soul.model.sms_interface.vo.SmsInterfaceListVo;
 import org.soul.model.sms_interface.vo.SmsInterfaceVo;
+import org.soul.model.sys.po.SysAuditLog;
 import org.soul.model.sys.po.SysDict;
 import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamListVo;
@@ -52,6 +56,7 @@ import so.wwb.gamebox.mcenter.player.form.RecommendedForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.*;
 import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
@@ -412,13 +417,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         return "setting/param/siteparameters/SiteParam";
     }
 
-
-
-
-
     /**
      * 加载站点参数-基本设置信息
-     *
      * @param sysSiteVo
      * @param model
      * @return
@@ -472,12 +472,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         return "/setting/param/siteparameters/BasicSetting";
     }
 
-
-
-
     /**
      * 前端展示
-     *
      * @param sysSiteVo
      * @param model
      * @return
@@ -561,7 +557,6 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
      * @param itemMessage
      * @return
      */
-
     @RequestMapping({"/savePlayerItem"})
     @ResponseBody
     public Map savePlayerItem(PlayerItemMessage itemMessage){
@@ -599,13 +594,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         return map;
     }
 
-
-
-
-
     /**
      * 参数设置
-     *
      * @param sysSiteVo
      * @param model
      * @return
@@ -690,6 +680,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("androidDownloadAddress",androidDownloadAddress != null ? androidDownloadAddress.getParamValue():"");
         model.addAttribute("iosDownloadAddress",iosDownloadAddress != null ? iosDownloadAddress.getParamValue():"");
         model.addAttribute("chessSharePicture",chessSharePicture != null ? chessSharePicture.getParamValue():"");
+        SysParam startPageParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APPSTARTPAGE, SessionManagerCommon.getSiteId());
+        model.addAttribute("startPageParam", startPageParam);
 
         //判断是否为站长主账号
         if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
@@ -1379,12 +1371,11 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         return map;
     }
 
-
-    /*
-    *
-    * pc端联方式设置
-    *
-    * */
+    /**
+     * pc端联方式设置
+     * @param sysSiteVo
+     * @return
+     */
     @RequestMapping("/saveContactInformation")
     @ResponseBody
     public Map saveContactInformation(SysSiteVo sysSiteVo){
@@ -1392,25 +1383,26 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParamVo sysParamVo=new SysParamVo();
         sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
         SysParam[] sysParam = sysSiteVo.getSysParam();
-      if (sysParam!=null){
-          for (SysParam sysParam1:sysParam){
-              sysParamVo.setResult(sysParam1);
-              SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
-          }
-          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PHONE_NUMBER);
-          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
-          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_QQ);
-          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_SKYPE);
-          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_COPYRIGHT_INFORMATION);
-          CachePage.refreshCurrentSitePageCache();
-      }
-
+        if (sysParam != null) {
+            for (SysParam sysParam1 : sysParam) {
+                sysParamVo.setResult(sysParam1);
+                SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            }
+            ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PHONE_NUMBER);
+            ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
+            ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_QQ);
+            ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_SKYPE);
+            ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_COPYRIGHT_INFORMATION);
+            CachePage.refreshCurrentSitePageCache();
+        }
         return map;
     }
-    /*
-    * 玩家中心弹窗开关
-    *
-    * */
+
+    /**
+     * 玩家中心弹窗开关
+     * @param sysParamVo
+     * @return
+     */
     @RequestMapping("/updatesysParam")
     @ResponseBody
     public  Map updatesysParam(SysParamVo sysParamVo){
@@ -1427,10 +1419,12 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         }
         return  map;
     }
-    /*
-      * 登录二维码显示开关
-      *
-      * */
+
+    /**
+     * 登录二维码显示开关
+     * @param sysParamVo
+     * @return
+     */
     @RequestMapping("/updateQrSwitch")
     @ResponseBody
     public  Map updateQrSwitch(SysParamVo sysParamVo){
@@ -1491,7 +1485,6 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         }
         return  map;
     }
-
 
     /***
      * 电话是否加密
@@ -1611,7 +1604,6 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
 
     /**
      * 设置站长（主账号）坐席号
-     *
      * @param objectVo
      * @return
      */
@@ -1641,21 +1633,11 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         sysUser.setIdcard(idCard);
         sysUserVo.setResult(sysUser);
         sysUserVo = ServiceTool.myAccountService().updateSysUser(sysUserVo);
-       /* sysUserVo.getResult().setIdcard(idCard);
-        sysUserVo.setProperties(SysUser.PROP_IDCARD);
-        sysUserVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
-        if(sysUserVo.isSuccess()){
-            SysUser sysUser = SessionManagerCommon.getUser();
-            sysUser.setIdcard(sysUserVo.getResult().getIdcard());
-            SessionManagerCommon.setUser(sysUser);
-        }*/
         return getVoMessage(sysUserVo);
     }
 
-
     /**
      * 上传棋牌包网分享图片
-     *
      * @param model
      * @return
      */
@@ -1668,7 +1650,6 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
 
     /**
      * 保存棋牌包网分享图片
-     *
      * @param sysParamVo
      * @return
      */
@@ -1698,6 +1679,38 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             sysParamVo.setSuccess(false);
         }
         return sysParamVo;
+    }
+
+    /**
+     * 修改app启动页开关
+     * @param sysParamVo
+     * @return
+     */
+    @Audit(module = Module.Log, moduleType = ModuleType.APP_START_PAGE, opType = OpType.UPDATE)
+    @RequestMapping("/updateStartPage")
+    @ResponseBody
+    public Map updateStartPage(SysParamVo sysParamVo, HttpServletRequest request) {
+        Integer siteId = SessionManager.getSiteId();
+        sysParamVo._setDataSourceId(siteId);
+        sysParamVo.getResult().setSiteId(siteId);
+        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+        sysParamVo = ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
+        if (sysParamVo.isSuccess()) {
+            addLogOfAppStartPage(request);
+            ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APPSTARTPAGE, siteId);
+        }
+        return getVoMessage(sysParamVo);
+    }
+
+    /**
+     * app启动页参数修改日志
+     * @param request
+     */
+    private void addLogOfAppStartPage(HttpServletRequest request) {
+        LogVo logVo = new LogVo();
+        BaseLog baseLog = logVo.addBussLog();
+        baseLog.setDescription(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APPSTARTPAGE.getCode());
+        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
     }
 
     //endregion your codes 3
