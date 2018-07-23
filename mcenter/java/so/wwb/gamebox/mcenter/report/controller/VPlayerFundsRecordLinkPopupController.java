@@ -207,7 +207,7 @@ public class VPlayerFundsRecordLinkPopupController extends BaseCrudController<IV
                     break;
                 case 3: // 本周
                     listVo.getSearch().setStartTime(weekStartDate);
-                    listVo.getSearch().setEndTime(tomorrow);
+                    listVo.getSearch().setEndTime(today);
                     break;
                 case 4: // 上周
                     listVo.getSearch().setStartTime(DateTool.addDays(weekStartDate, -7));
@@ -215,7 +215,7 @@ public class VPlayerFundsRecordLinkPopupController extends BaseCrudController<IV
                     break;
                 case 5: // 本月
                     listVo.getSearch().setStartTime(monthStartDate);
-                    listVo.getSearch().setEndTime(tomorrow);
+                    listVo.getSearch().setEndTime(today);
                     break;
                 case 6: // 上月
                     Date lastMonthDay = DateQuickPicker.getInstance().getLastMonthFirstDay(SessionManager.getTimeZone());
