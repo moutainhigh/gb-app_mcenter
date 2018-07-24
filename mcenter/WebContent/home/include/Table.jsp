@@ -213,17 +213,11 @@
                                         <c:when test="${profit == null || profit == 0.0}">
                                             ${sign}0
                                         </c:when>
+                                        <c:when test="${profit gt 0}">
+                                            ${sign}${soulFn:formatInteger(profit)}<i>${soulFn:formatDecimals(profit)}</i>
+                                        </c:when>
                                         <c:otherwise>
-                                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${10 + vs.count}&search.transactionWays=<%=TransactionWayEnum.ONLINE_DEPOSIT.getCode()%>,<%=TransactionWayEnum.ONLINE_BANK.getCode()%>,<%=TransactionWayEnum.WECHATPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ALIPAY_SCAN.getCode()%>,<%=TransactionWayEnum.WECHATPAY_FAST.getCode()%>,<%=TransactionWayEnum.ALIPAY_FAST.getCode()%>,<%=TransactionWayEnum.ATM_COUNTER.getCode()%>,<%=TransactionWayEnum.ATM_MONEY.getCode()%>,<%=TransactionWayEnum.ATM_RECHARGE.getCode()%>,<%=TransactionWayEnum.OTHER_FAST.getCode()%>,<%=TransactionWayEnum.PLAYER_WITHDRAW.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_RAKEBACK.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>&search.manualWithdraws=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_RAKEBACK.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame">
-                                                <c:choose>
-                                                    <c:when test="${profit gt 0}">
-                                                        ${sign}${soulFn:formatInteger(profit)}<i>${soulFn:formatDecimals(profit)}</i>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <strong class="co-tomato">${sign}${soulFn:formatInteger(profit)}<i>${soulFn:formatDecimals(profit)}</i></strong>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </a>
+                                            <strong class="co-tomato">${sign}${soulFn:formatInteger(profit)}<i>${soulFn:formatDecimals(profit)}</i></strong>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
@@ -234,23 +228,21 @@
                                             ${sign}0
                                         </c:when>
                                         <c:otherwise>
-                                            <%--<a href="#" nav-target="mainFrame">--%>
-                                                <c:choose>
-                                                    <c:when test="${payout > 0}">
-                                                        <a href="/report/operate/operateIndex.html?outer=${10 + vs.count}" nav-target="mainFrame">
-                                                            ${sign}${soulFn:formatInteger(payout)}<i>${soulFn:formatDecimals(payout)}</i>
-                                                        </a>
-                                                    </c:when>
-                                                    <c:when test="${payout < 0}">
-                                                        <a href="/report/operate/operateIndex.html?outer=${10 + vs.count}" nav-target="mainFrame">
-                                                            <strong class="co-tomato">${sign}${soulFn:formatInteger(payout)}<i>${soulFn:formatDecimals(payout)}</i></strong>
-                                                        </a>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        0
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            <%--</a>--%>
+                                            <c:choose>
+                                                <c:when test="${payout > 0}">
+                                                    <a href="/report/operate/operateIndex.html?outer=${10 + vs.count}" nav-target="mainFrame">
+                                                        ${sign}${soulFn:formatInteger(payout)}<i>${soulFn:formatDecimals(payout)}</i>
+                                                    </a>
+                                                </c:when>
+                                                <c:when test="${payout < 0}">
+                                                    <a href="/report/operate/operateIndex.html?outer=${10 + vs.count}" nav-target="mainFrame">
+                                                        <strong class="co-tomato">${sign}${soulFn:formatInteger(payout)}<i>${soulFn:formatDecimals(payout)}</i></strong>
+                                                    </a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    0
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
