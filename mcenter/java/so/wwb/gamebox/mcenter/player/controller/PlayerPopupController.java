@@ -148,6 +148,13 @@ public class PlayerPopupController extends BaseCrudController<IVUserPlayerServic
                 player.set_views_riskDataType(RiskTagTool.getRiskImg(player.getId()));
                 orderNumber++;
                 player.set_paging_orderNumber(orderNumber);
+                /*清空玩家联系方式*/
+                player.setMail(null);
+                player.setMobilePhone(null);
+                player.setSkype(null);
+                player.setMsn(null);
+                player.setQq(null);
+                player.setWeixin(null);
             }
         }
     }
