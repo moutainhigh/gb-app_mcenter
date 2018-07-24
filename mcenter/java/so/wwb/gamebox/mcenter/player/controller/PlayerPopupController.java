@@ -221,8 +221,7 @@ public class PlayerPopupController extends BaseCrudController<IVUserPlayerServic
                     listVo.getSearch().setCreateTimeEnd(today);
                     break;
                 case 6: // 上月
-                    Date lastMonthFirstDay = SessionManager.getDate().getLastMonthFirstDay(SessionManager.getTimeZone
-                            ());
+                    Date lastMonthFirstDay = SessionManager.getDate().getLastMonthFirstDay(SessionManager.getTimeZone());
                     listVo.getSearch().setCreateTimeBegin(lastMonthFirstDay);
                     listVo.getSearch().setCreateTimeEnd(monthStartDate);
                     break;
