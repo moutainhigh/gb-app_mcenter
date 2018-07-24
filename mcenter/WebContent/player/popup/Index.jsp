@@ -18,6 +18,7 @@
             <span>${views.sysResource['玩家管理']}</span>
         </div>
         <input name="search.agentId" value="${command.search.agentId}" type="hidden">
+        <input name="search.rakebackId" value="${command.search.rakebackId}" type="hidden">
         <input name="search.ip" value="${operateIp}" type="hidden"/>
         <input name="startTime" value="${soulFn:formatDateTz(command.startTime,DateFormat.DAY_SECOND,timeZone)}" type="hidden">
         <input name="endTime" value="${soulFn:formatDateTz(command.endTime,DateFormat.DAY_SECOND ,timeZone )}" type="hidden">
