@@ -207,14 +207,14 @@
                                     </c:choose>
                                 </td>
                                 <td class="t-a-r money">
+                                    <%--存款差额--%>
                                     <c:set var="profit" value="${r.profit}" />
                                     <c:choose>
                                         <c:when test="${profit == null || profit == 0.0}">
                                             ${sign}0
                                         </c:when>
                                         <c:otherwise>
-                                            <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byHomeIndex&search.outer=${10 + vs.count}&search.transactionType=deposit&search.transactionWays=player_withdraw&search.manualSaves=manual_deposit,manual_favorable,manual_rakeback,manual_payout,manual_other&search.manualWithdraws=manual_deposit,manual_favorable,manual_rakeback,manual_payout,manual_other"
-                                                         size="open-dialog-95p" callback="" text="" title="资金记录" opType="dialog">
+                                            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${10 + vs.count}&search.transactionWays=<%=TransactionWayEnum.ONLINE_DEPOSIT.getCode()%>,<%=TransactionWayEnum.ONLINE_BANK.getCode()%>,<%=TransactionWayEnum.WECHATPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ALIPAY_SCAN.getCode()%>,<%=TransactionWayEnum.WECHATPAY_FAST.getCode()%>,<%=TransactionWayEnum.ALIPAY_FAST.getCode()%>,<%=TransactionWayEnum.ATM_COUNTER.getCode()%>,<%=TransactionWayEnum.ATM_MONEY.getCode()%>,<%=TransactionWayEnum.ATM_RECHARGE.getCode()%>,<%=TransactionWayEnum.OTHER_FAST.getCode()%>,<%=TransactionWayEnum.PLAYER_WITHDRAW.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_RAKEBACK.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>&search.manualWithdraws=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_RAKEBACK.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame">
                                                 <c:choose>
                                                     <c:when test="${profit gt 0}">
                                                         ${sign}${soulFn:formatInteger(profit)}<i>${soulFn:formatDecimals(profit)}</i>
@@ -223,7 +223,7 @@
                                                         <strong class="co-tomato">${sign}${soulFn:formatInteger(profit)}<i>${soulFn:formatDecimals(profit)}</i></strong>
                                                     </c:otherwise>
                                                 </c:choose>
-                                            </soul:button>
+                                            </a>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
