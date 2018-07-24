@@ -34,8 +34,7 @@
             </th>
             <soul:orderColumn poType="${poType}" property="loginTime" column="${views.player_auto['最后登录时间']}"/>
             <th>
-                <gb:select name="search.status" value="${command.search.status}"
-                           prompt="${views.role['player.list.title.status']}" list="${playerStatus}" callback="query"/>
+                <span class="soul-table-th-text " style="">${views.role['player.list.title.status']}</span>
             </th>
         </tr>
         <tr class="bd-none hide">
