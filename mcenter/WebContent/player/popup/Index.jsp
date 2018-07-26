@@ -12,11 +12,6 @@
 <body id="mainFrame">
     <form action="${root}/player/popup/list.html" method="post" name="playerForm">
         <div id="validateRule" style="display: none">${validateRule}</div>
-        <div class="position-wrap clearfix">
-            <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
-            <span>${views.sysResource['角色']}</span><span>/</span>
-            <span>${views.sysResource['玩家管理']}</span>
-        </div>
         <%--代理ID过滤条件--%>
         <input name="search.agentId" value="${command.search.agentId}" type="hidden">
         <%--总代ID过滤条件--%>
@@ -31,8 +26,8 @@
         <input name="comp" value="${command.comp}" type="hidden"/>
         <input name="search.tagId" value="${tagIds}" type="hidden">
         <div class="modal-body">
-            <div class="col-lg-12">
-                <div class="wrapper white-bg shadow">
+            <div>
+                <div class="wrapper white-bg">
                     <div class="m-t-md">
                         <div class="m-b-xs clearfix">
                             <div class="col-sm-11 clearfix" style="padding-left: 0;">
@@ -78,7 +73,7 @@
                 </div>
             </div>
             <!--表格内容-->
-            <div class="search-list-container" style="min-height: 500px">
+            <div class="search-list-container">
                 <%@ include file="IndexPartial.jsp" %>
             </div>
         </div>
