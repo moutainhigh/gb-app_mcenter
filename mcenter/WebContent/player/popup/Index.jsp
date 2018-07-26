@@ -26,7 +26,7 @@
         <input name="comp" value="${command.comp}" type="hidden"/>
         <input name="search.tagId" value="${tagIds}" type="hidden">
         <div class="modal-body">
-            <div class="col-lg-12">
+            <div>
                 <div class="wrapper white-bg">
                     <div class="m-t-md">
                         <div class="m-b-xs clearfix">
@@ -73,7 +73,7 @@
                 </div>
             </div>
             <!--表格内容-->
-            <div class="search-list-container" style="min-height: 500px;">
+            <div class="search-list-container">
                 <%@ include file="IndexPartial.jsp" %>
             </div>
         </div>
