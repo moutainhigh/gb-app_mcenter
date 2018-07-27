@@ -39,6 +39,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
     private Map<String,Object> errorMap = new HashedMap();
     private List accountList;
 
+    private Map<Object,VUserPlayer> sysUserMap;
     private Map<Object,VUserAgent> agentMap;
     private Map<Object,VUserAgent> topagentMap;
     private Map<Object,UserPlayerTransfer> playerMap;
@@ -107,6 +108,7 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
         }
         try{
             int row = 0;
+            getAllSysUser();
             getAllTopagent();
             getAllAgent();
             getAllTransferPlayer();
@@ -146,6 +148,19 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
             topagentMap = CollectionTool.toEntityMap(agentListVo.getResult(), VUserAgent.PROP_USERNAME);
         }else{
             topagentMap = new HashMap<>();
+        }
+
+    }
+
+    private void getAllSysUser(){
+        VUserPlayerListVo userPlayerListVo = new VUserPlayerListVo();
+        userPlayerListVo.getSearch().setUserTypes(UserTypeEnum.PLAYER.getCode());
+        userPlayerListVo.setPaging(null);
+        userPlayerListVo = ServiceSiteTool.vUserPlayerService().search(userPlayerListVo);
+        if(userPlayerListVo!=null && userPlayerListVo.getResult()!=null){
+            sysUserMap = CollectionTool.toEntityMap(userPlayerListVo.getResult(),VUserPlayer.PROP_USERNAME);
+        }else{
+            sysUserMap = new HashMap<>();
         }
 
     }
@@ -309,9 +324,13 @@ public class UserPlayerImportSupport extends AbstractExcelImporter {
             setErrorMessage(row,"没有名称为【"+transfer.getPlayerRank()+"】的层级",transfer.getPlayerAccount());
         }
 
+        if(StringTool.isNotBlank(transfer.getPlayerAccount())&&sysUserMap.containsKey(transfer.getPlayerAccount())){
+            msg = "线上已存在该玩家账号";//"该账号已存在";
+            setErrorMessage(row,msg,transfer.getPlayerAccount());
+        }
 
         if(StringTool.isNotBlank(transfer.getPlayerAccount())&&playerMap.containsKey(transfer.getPlayerAccount())){
-            msg = LocaleTool.tranMessage(Module.COMPANY_SETTING, "sysParam.playerImport.playerAccountIsExist");//"该账号已存在";
+            msg = "导入玩家表已存在该玩家账号";//"该账号已存在";
             setErrorMessage(row,msg,transfer.getPlayerAccount());
         }
 
