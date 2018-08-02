@@ -283,6 +283,7 @@
                                 <td class="ft-bold t-a-r">${views.home_auto['电子游艺']}<br>${views.home_auto['有效投注额']}</td>
                                 <td class="ft-bold t-a-r">${views.home_auto['体育竞技']}<br>${views.home_auto['有效投注额']}</td>
                                 <td class="ft-bold t-a-r">${views.home_auto['彩票游戏']}<br>${views.home_auto['有效投注额']}</td>
+                                <td class="ft-bold t-a-r">${views.home_auto['棋牌']}<br>${views.home_auto['有效投注额']}</td>
                             </c:if>
                            <c:if test="${isLotterySite}">
                                <td class="ft-bold t-a-r">${views.home_auto['彩票游戏']}<br>${views.home_auto['有效投注额']}</td>
