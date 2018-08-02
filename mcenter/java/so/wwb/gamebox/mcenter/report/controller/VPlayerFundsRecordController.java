@@ -45,7 +45,7 @@ import so.wwb.gamebox.model.master.report.po.VPlayerFundsRecord;
 import so.wwb.gamebox.model.master.report.so.VPlayerFundsRecordSo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerFundsRecordListVo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerFundsRecordVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.web.report.controller.AbstractExportController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -152,32 +152,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             } else {
                 //查询列表
                 if (listVo.isAnalyzeNewAgent()) {
-                    int rawOffset = SessionManager.getTimeZone().getRawOffset();
-                    int hour = rawOffset / 1000 / 3600;
-                    listVo.getSearch().setTimeZoneInterval(hour);
-                    listVo.getSearch().setOrigin("");
-                    Integer searchType = listVo.getSearchType();
-                    if (searchType != null) {
-                        if (searchType == 1) {
-                            listVo.getSearch().setTransactionType("deposit");
-                            listVo = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionOrder(listVo);
-                        } else if (searchType == 2) {
-                            listVo.getSearch().setTransactionType("withdrawals");
-                            listVo = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionOrder(listVo);
-                        } else if (searchType == 3) {
-                            listVo.getSearch().setTransactionType("deposit");
-                            listVo = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrder(listVo);
-                        } else if (searchType == 4) {
-                            listVo.getSearch().setTransactionType("withdrawals");
-                            listVo = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrder(listVo);
-                        } else if (searchType == 5) {
-                            listVo.getSearch().setTransactionType("deposit");
-                            listVo = ServiceSiteTool.vPlayerFundsRecordService().queryTotalTransactionOrder(listVo);
-                        } else {
-                            listVo.getSearch().setTransactionType("withdrawals");
-                            listVo = ServiceSiteTool.vPlayerFundsRecordService().queryTotalTransactionOrder(listVo);
-                        }
-                    }
+                    listVo = getFundsListByAnalyzeNewAgent(listVo);
                 } else {
                     listVo = super.doList(listVo, form, result, model);
                 }
@@ -195,6 +170,41 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                 return getViewBasePath() + "Index";
             }
         }
+    }
+
+    /**
+     * 查询代理新近资金数据
+     * @param listVo
+     * @return
+     */
+    public static VPlayerFundsRecordListVo getFundsListByAnalyzeNewAgent(VPlayerFundsRecordListVo listVo) {
+        int rawOffset = SessionManager.getTimeZone().getRawOffset();
+        int hour = rawOffset / 1000 / 3600;
+        listVo.getSearch().setTimeZoneInterval(hour);
+        listVo.getSearch().setOrigin("");
+        Integer searchType = listVo.getSearchType();
+        if (searchType != null) {
+            if (searchType == 1) {
+                listVo.getSearch().setTransactionType("deposit");
+                listVo = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionOrder(listVo);
+            } else if (searchType == 2) {
+                listVo.getSearch().setTransactionType("withdrawals");
+                listVo = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionOrder(listVo);
+            } else if (searchType == 3) {
+                listVo.getSearch().setTransactionType("deposit");
+                listVo = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrder(listVo);
+            } else if (searchType == 4) {
+                listVo.getSearch().setTransactionType("withdrawals");
+                listVo = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrder(listVo);
+            } else if (searchType == 5) {
+                listVo.getSearch().setTransactionType("deposit");
+                listVo = ServiceSiteTool.vPlayerFundsRecordService().queryTotalTransactionOrder(listVo);
+            } else {
+                listVo.getSearch().setTransactionType("withdrawals");
+                listVo = ServiceSiteTool.vPlayerFundsRecordService().queryTotalTransactionOrder(listVo);
+            }
+        }
+        return listVo;
     }
 
     /**
@@ -358,24 +368,35 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
 
         }
         if (listVo.isAnalyzeNewAgent()) {
-            Integer searchType = listVo.getSearchType();
-            if (searchType != null) {
-                int rawOffset = SessionManager.getTimeZone().getRawOffset();
-                int hour = rawOffset / 1000 / 3600;
-                listVo.getSearch().setTimeZoneInterval(hour);
-
-                if (searchType == 1 || searchType == 2) {
-                    sumMoney = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionOrderSum(listVo);
-                } else if (searchType == 3 || searchType == 4) {
-                    sumMoney = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrderSum(listVo);
-                } else {
-                    sumMoney = ServiceSiteTool.vPlayerFundsRecordService().queryTotalTransactionOrderSum(listVo);
-                }
-            }
+            sumMoney = getAmountSumByAnalyzeNewAgent(listVo);
         } else {
             sumMoney = ServiceSiteTool.vPlayerFundsRecordService().AmountSum(listVo);
         }
         return CurrencyTool.formatCurrency(sumMoney == null ? 0 : sumMoney);
+    }
+
+    /**
+     * 代理新近总金额
+     * @param listVo
+     * @return
+     */
+    public static Number getAmountSumByAnalyzeNewAgent(VPlayerFundsRecordListVo listVo) {
+        Number sumMoney = 0;
+        Integer searchType = listVo.getSearchType();
+        if (searchType != null) {
+            int rawOffset = SessionManager.getTimeZone().getRawOffset();
+            int hour = rawOffset / 1000 / 3600;
+            listVo.getSearch().setTimeZoneInterval(hour);
+
+            if (searchType == 1 || searchType == 2) {
+                sumMoney = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionOrderSum(listVo);
+            } else if (searchType == 3 || searchType == 4) {
+                sumMoney = ServiceSiteTool.vPlayerFundsRecordService().queryPlayerTransactionTotalOrderSum(listVo);
+            } else {
+                sumMoney = ServiceSiteTool.vPlayerFundsRecordService().queryTotalTransactionOrderSum(listVo);
+            }
+        }
+        return sumMoney;
     }
 
     /**

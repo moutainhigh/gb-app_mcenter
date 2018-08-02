@@ -12,9 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
+import so.wwb.gamebox.common.cache.ExportCriteriaTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.report.IVRebateReportService;
-import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.report.rebate.form.VRebateReportForm;
 import so.wwb.gamebox.mcenter.report.rebate.form.VRebateReportSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
@@ -29,8 +30,7 @@ import so.wwb.gamebox.model.master.operation.vo.RebateBillVo;
 import so.wwb.gamebox.model.master.report.po.VRebateReport;
 import so.wwb.gamebox.model.master.report.vo.VRebateReportListVo;
 import so.wwb.gamebox.model.master.report.vo.VRebateReportVo;
-import so.wwb.gamebox.web.cache.Cache;
-import so.wwb.gamebox.web.cache.ExportCriteriaTool;
+import so.wwb.gamebox.web.init.ConfigBase;
 import so.wwb.gamebox.web.report.controller.AbstractExportController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -107,7 +107,7 @@ private static final Log LOG = LogFactory.getLog(VRebateReportController.class);
         Map<String, VSysSiteUser> map = Cache.getSysSiteUser();
         List<VSysSiteUser> sites = new ArrayList<>();
         for (VSysSiteUser site : map.values()) {
-            if ((ConfigManager.getConfigration().getSubsysCode()).equals(site.getSubsysCode())
+            if ((ConfigBase.get().getSubsysCode()).equals(site.getSubsysCode())
                     && SessionManager.getMasterUserId().intValue() == site.getSysUserId().intValue()
                     && SiteStatusEnum.NORMAL.getCode().equals(site.getStatus())) {
                 sites.add(site);

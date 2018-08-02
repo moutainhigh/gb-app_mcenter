@@ -23,6 +23,7 @@
         <tr role="row" class="bg-gray">
             <th>${views.common['number']}</th>
             <th>${views.report['fund.list.playerAccount']}</th>
+            <th>${views.fund_auto['所属代理']}</th>
             <soul:orderColumn poType="${poType}" property="completionTime" column="${views.report['fund.list.completionTime']}"/>
             <th>
                 <gb:select name="search.fundType" value="${command.search.fundType}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
@@ -132,6 +133,7 @@
                     <shiro:hasPermission name="role:player_detail"></a></shiro:hasPermission>
                     ${gbFn:riskImgByName(pt.username)}
                 </td>
+                <td>${pt.agentname}</td>
                 <td>
                     <c:set value="${soulFn:formatDateTz(pt.completionTime, DateFormat.DAY_SECOND,timeZone)}" var="completionTime"></c:set>
                     <c:set value="${soulFn:formatDateTz(pt.createTime, DateFormat.DAY_SECOND,timeZone)}" var="createTime"></c:set>
@@ -225,9 +227,15 @@
                     <td>
                         <c:set value="" var="status_class"></c:set>
                         <c:choose>
-                            <c:when test='${pt.checkStatus eq "payment_processing"}'> <%--状态：处理中 --%> <c:set var="status_class" value="label label-info"></c:set></c:when>
-                            <c:when test='${pt.checkStatus eq "payment_success"}'> <%--状态：成功 --%> <c:set var="status_class" value="label label-success"></c:set></c:when>
-                            <c:when test='${pt.checkStatus eq "payment_fail"}'> <%--状态：失败 --%> <c:set var="status_class" value="label"></c:set></c:when>
+                            <c:when test='${pt.checkStatus eq "payment_processing"}'> <%--状态：处理中 --%>
+                                <c:set var="status_class" value="label label-info"></c:set>
+                            </c:when>
+                            <c:when test='${pt.checkStatus eq "payment_success"}'><%--状态：成功 --%>
+                                <c:set var="status_class" value="label label-success"></c:set>
+                            </c:when>
+                            <c:when test='${pt.checkStatus eq "payment_fail"}'> <%--状态：失败 --%>
+                                <c:set var="status_class" value="label"></c:set>
+                            </c:when>
                             <c:otherwise>--</c:otherwise>
                         </c:choose>
                         <span class="${status_class}" title="${dicts.fund.withdraw_check_status[pt.checkStatus]}">${dicts.fund.withdraw_check_status[pt.checkStatus]}</span>

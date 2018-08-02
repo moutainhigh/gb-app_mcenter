@@ -23,7 +23,7 @@
                                 <td class="ft-bold t-a-c" colspan="3" style="text-align: center;">${views.home_auto['新玩家']}</td>
                                 <td class="ft-bold t-a-r" rowspan="2">
                                 <span tabindex="0" class=" help-popover m-r-xs" role="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top"
-                                      data-html="true" data-content="${views.content['annotation.deposit']}">
+                                      data-html="true" data-content="${views.home_auto['含人工存入的人工存取/派彩/其他']}">
                                     <i class="fa fa-question-circle"></i>
                                 </span>${views.home_auto['存款总额']}
                                 </td>
@@ -80,24 +80,32 @@
                                         </c:choose>
                                     </td>
                                     <td class="t-a-c">
+                                        <%--运营状况/新增玩家--%>
                                         <c:set var="newPlayer" value="${v.newPlayer}" />
                                         <c:choose>
                                             <c:when test="${newPlayer == 0}">
                                                 0
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="/player/list.html?outer=${vs.count}&search.hasReturn=true" nav-target="mainFrame">${newPlayer}</a>
+                                                <soul:button target="${root}/player/popup/list.html?outer=${vs.count}" size="open-dialog-95p"
+                                                             callback="" text="" title="玩家列表" opType="dialog">
+                                                    ${newPlayer}
+                                                </soul:button>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
                                     <td class="t-a-c">
+                                        <%--运营状况/新增存款玩家--%>
                                         <c:set var="newDeposit" value="${v.newPlayerDeposit}" />
                                         <c:choose>
                                             <c:when test="${newDeposit == 0}">
                                                 0
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="/player/list.html?outer=${vs.count}&comp=1&search.hasReturn=true" nav-target="mainFrame">${newDeposit}</a>
+                                                <soul:button target="${root}/player/popup/list.html?outer=${vs.count}&comp=3" size="open-dialog-95p"
+                                                             callback="" text="" title="玩家列表" opType="dialog">
+                                                    ${newDeposit}
+                                                </soul:button>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
@@ -108,10 +116,10 @@
                                                 ${sign}0
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.comp=1&search.hasReturn=true&search.outer=${vs.count}&search.comp=1&search.transactionWays=<%=TransactionWayEnum.ONLINE_DEPOSIT.getCode()%>,<%=TransactionWayEnum.ONLINE_BANK.getCode()%>,<%=TransactionWayEnum.WECHATPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ALIPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ATM_COUNTER.getCode()%>,<%=TransactionWayEnum.ATM_MONEY.getCode()%>,<%=TransactionWayEnum.ATM_RECHARGE.getCode()%>,<%=TransactionWayEnum.WECHATPAY_FAST.getCode()%>,<%=TransactionWayEnum.ALIPAY_FAST.getCode()%>,<%=TransactionWayEnum.OTHER_FAST.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>"
-                                                   nav-target="mainFrame">
-                                                        ${sign}${soulFn:formatInteger(depositNew)}<i>${soulFn:formatDecimals(depositNew)}</i>
-                                                </a>
+                                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byHomeIndex&search.outer=${vs.count}&search.comp=1&search.transactionWays=online_deposit,online_bank,wechatpay_scan,alipay_scan,qqwallet_scan,atm_counter,easy_pay,atm_money,wechatpay_fast,alipay_fast,bitcoin_fast,other_fast,atm_money,atm_counter,atm_recharge,digiccy_scan,jdwallet_fast,bdwallet_fast,onecodepay_fast,jdpay_scan,bdwallet_san,union_pay_scan,qqwallet_fast&search.manualSaves=manual_deposit"
+                                                             size="open-dialog-95p" callback="" text="" title="资金记录" opType="dialog">
+                                                    ${sign}${soulFn:formatInteger(depositNew)}<i>${soulFn:formatDecimals(depositNew)}</i>
+                                                </soul:button>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
@@ -123,9 +131,10 @@
                                                 ${sign}0
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${vs.count}&search.transactionWays=<%=TransactionWayEnum.ONLINE_DEPOSIT.getCode()%>,<%=TransactionWayEnum.ONLINE_BANK.getCode()%>,<%=TransactionWayEnum.WECHATPAY_SCAN.getCode()%>,<%=TransactionWayEnum.ALIPAY_SCAN.getCode()%>,<%=TransactionWayEnum.WECHATPAY_FAST.getCode()%>,<%=TransactionWayEnum.ALIPAY_FAST.getCode()%>,<%=TransactionWayEnum.OTHER_FAST.getCode()%>,<%=TransactionWayEnum.ATM_COUNTER.getCode()%>,<%=TransactionWayEnum.ATM_MONEY.getCode()%>,<%=TransactionWayEnum.ATM_RECHARGE.getCode()%>,<%=TransactionWayEnum.QQWALLET_SCAN.getCode()%>,<%=TransactionWayEnum.UNION_PAY_SCAN.getCode()%>,<%=TransactionWayEnum.BDWALLET_SAN.getCode()%>,<%=TransactionWayEnum.JDPAY_SCAN.getCode()%>,<%=TransactionWayEnum.BITCOIN_FAST.getCode()%>,<%=TransactionWayEnum.DIGICCY_SCAN.getCode()%>,<%=TransactionWayEnum.ONECODEPAY_FAST.getCode()%>,<%=TransactionWayEnum.BDWALLET_FAST.getCode()%>,<%=TransactionWayEnum.JDWALLET_FAST.getCode()%>,<%=TransactionWayEnum.QQWALLET_FAST.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>" nav-target="mainFrame">
-                                                        ${sign}${soulFn:formatInteger(deposit)}<i>${soulFn:formatDecimals(deposit)}</i>
-                                                </a>
+                                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byHomeIndex&search.outer=${vs.count}&search.transactionType=deposit"
+                                                             size="open-dialog-95p" callback="" text="" title="资金记录" opType="dialog">
+                                                    ${sign}${soulFn:formatInteger(deposit)}<i>${soulFn:formatDecimals(deposit)}</i>
+                                                </soul:button>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
@@ -136,9 +145,10 @@
                                                 ${sign}0
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="/report/vPlayerFundsRecord/fundsLog.html?search.hasReturn=true&search.outer=${vs.count}&search.transactionWays=<%=TransactionWayEnum.PLAYER_WITHDRAW.getCode()%>&search.manualWithdraws=<%=TransactionWayEnum.MANUAL_DEPOSIT.getCode()%>" nav-target="mainFrame">
-                                                        ${sign}${soulFn:formatInteger(withdraw)}<i>${soulFn:formatDecimals(withdraw)}</i>
-                                                </a>
+                                                <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byHomeIndex&search.outer=${vs.count}&search.transactionWays=player_withdraw&search.manualWithdraws=manual_deposit"
+                                                             size="open-dialog-95p" callback="" text="" title="资金记录" opType="dialog">
+                                                    ${sign}${soulFn:formatInteger(withdraw)}<i>${soulFn:formatDecimals(withdraw)}</i>
+                                                </soul:button>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>

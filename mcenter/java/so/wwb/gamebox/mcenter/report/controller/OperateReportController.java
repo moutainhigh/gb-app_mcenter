@@ -36,8 +36,6 @@ import so.wwb.gamebox.model.WeekTool;
 import so.wwb.gamebox.model.company.setting.po.SysExport;
 import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
-import so.wwb.gamebox.model.master.player.po.UserAgent;
-import so.wwb.gamebox.model.master.player.vo.UserAgentListVo;
 import so.wwb.gamebox.model.master.player.vo.UserAgentVo;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentVo;
 import so.wwb.gamebox.model.master.report.po.OperateAgent;
@@ -45,8 +43,8 @@ import so.wwb.gamebox.model.master.report.vo.OperateAgentListVo;
 import so.wwb.gamebox.model.master.report.vo.OperatePlayerListVo;
 import so.wwb.gamebox.model.master.report.vo.OperateTopagentListVo;
 import so.wwb.gamebox.model.report.operate.vo.SiteOperateListVo;
-import so.wwb.gamebox.web.cache.Cache;
-import so.wwb.gamebox.web.cache.ExportCriteriaTool;
+import so.wwb.gamebox.common.cache.Cache;
+import so.wwb.gamebox.common.cache.ExportCriteriaTool;
 import so.wwb.gamebox.web.report.controller.BaseOperateController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -302,6 +300,7 @@ public class OperateReportController extends BaseOperateController {
         }
         model.addAttribute("conditionJson", ExportCriteriaTool.criteriaToJson(listVo.getExportJsonCondition()));
         model.addAttribute("command", listVo);
+        searchApiCondition(listVo,model);
     }
 
     /**
@@ -500,9 +499,9 @@ public class OperateReportController extends BaseOperateController {
         UserAgentVo userAgentVo = new UserAgentVo();
         userAgentVo.getSearch().setId(agentId);
         Map map = ServiceSiteTool.userAgentService().queryAgentLine(userAgentVo);
-        String name = this.getAgentNameByAgentId(agentId);
         StringBuilder agentLines = new StringBuilder(MapTool.getString(map,"parent_name_array")==null?"":MapTool.getString(map,"parent_name_array"));
         if(StringTool.isBlank(agentName)){
+            String name = this.getAgentNameByAgentId(agentId);
             agentLines.append(" > "+name);
         }
         listVo.setAgentLines(agentLines.toString());
@@ -518,7 +517,20 @@ public class OperateReportController extends BaseOperateController {
         VUserAgentVo vo = new VUserAgentVo();
         vo.getSearch().setId(agentId);
         vo = ServiceSiteTool.vUserAgentService().search(vo);
-        String agentName = vo.getResult().getUsername();
+        String agentName = "";
+        if (vo.getResult()!=null) {
+            agentName = vo.getResult().getUsername();
+        }
         return agentName;
+    }
+
+    /**
+     * API搜索条件，供弹窗查询投注记录使用
+     * @param listVo
+     * @param model
+     */
+    private void searchApiCondition(OperatePlayerListVo listVo , Model model){
+        String searchApiCondition = listVo.getSearchApiCondition();
+        model.addAttribute("searchApiCondition",searchApiCondition);
     }
 }

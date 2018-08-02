@@ -126,14 +126,21 @@
                             <c:forEach var="res" items="${command.result}">
                                 <tr>
                                     <c:set var="url" value="/report/gameTransaction/list.html?isLink=true&search.outer=7&search.siteId=${command.search.siteId}&search.username=${res.playerName}&search.searchCondition=true&search.payoutStart=${command.search.startDate}&search.payoutEnd=${command.search.endDate}&search.apiTypeList=${command.search.apiTypeList}&search.orderState=settle"/>
-                                    <td><a href="${url}" nav-target="mainFrame">${res.playerName}</a>
+                                    <td>
+                                        <soul:button target="${root}/report/gameOrderLinkPopup/gameTransaction.html?linkType=byOperate&search.siteId=${command.search.siteId}&search.username=${res.playerName}&search.payoutStart=${command.search.startDate}&search.payoutEnd=${command.search.endDate}&search.orderState=settle&search.topagentid=${command.userTop.id}&search.agentid=${command.userAgent.id}&${searchApiCondition}" size="open-dialog-95p"
+                                                     callback="" text="" title="投注记录" opType="dialog">${res.playerName}
+                                        </soul:button>
                                         ${gbFn:riskImgByName(res.playerName)}
                                     </td>
                                     <td>${soulFn:formatNumber(res.transactionOrder)}</td>
                                     <td>${soulFn:formatCurrency(res.transactionVolume)}</td>
                                     <td>${soulFn:formatCurrency(res.effectiveTransaction)}</td>
                                     <td>${soulFn:formatCurrency(res.profitLoss)}</td>
-                                    <td><a href="${url}" nav-target="mainFrame">${views.common['detail']}</a></td>
+                                    <td>
+                                        <soul:button target="${root}/report/gameOrderLinkPopup/gameTransaction.html?linkType=byOperate&search.siteId=${command.search.siteId}&search.username=${res.playerName}&search.payoutStart=${command.search.startDate}&search.payoutEnd=${command.search.endDate}&search.orderState=settle&search.topagentid=${command.userTop.id}&search.agentid=${command.userAgent.id}&${searchApiCondition}" size="open-dialog-95p"
+                                                     callback="" text="" title="投注记录" opType="dialog">${views.common['detail']}
+                                        </soul:button>
+                                    </td>
                                 </tr>
                             </c:forEach>
                             </tbody>

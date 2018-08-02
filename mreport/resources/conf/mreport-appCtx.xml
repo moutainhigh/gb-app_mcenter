@@ -26,7 +26,7 @@
 	<bean id="filterAuditLog" class="so.wwb.gamebox.web.interceptor.FilterAuditLog"/>
 
 	<!--用户站点缓存解决方法-->
-	<!--<bean id="userSitesCacheResolver" class="so.wwb.gamebox.mcenter.filter.dubbo.UserSitesCacheResolver"/>-->
+	<bean id="userSitesCacheResolver" class="so.wwb.gamebox.mcenter.filter.dubbo.UserSitesCacheResolver"/>
 
 	<!--PageCache页面级缓存配置-->
 	<bean id="pageCacheConf" class="org.soul.web.cache.core.PageCacheConf">

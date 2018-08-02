@@ -18,6 +18,9 @@ import org.soul.commons.net.ServletTool;
 import org.soul.commons.security.CryptoTool;
 import org.soul.commons.support._Module;
 import org.soul.iservice.sys.ISysParamService;
+import org.soul.model.log.audit.enums.OpType;
+import org.soul.model.log.audit.vo.BaseLog;
+import org.soul.model.log.audit.vo.LogVo;
 import org.soul.model.msg.notice.enums.NoticePublishMethod;
 import org.soul.model.msg.notice.po.NoticeEmailInterface;
 import org.soul.model.msg.notice.vo.NoticeEmailInterfaceVo;
@@ -27,6 +30,7 @@ import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.model.sms_interface.po.SmsInterface;
 import org.soul.model.sms_interface.vo.SmsInterfaceListVo;
 import org.soul.model.sms_interface.vo.SmsInterfaceVo;
+import org.soul.model.sys.po.SysAuditLog;
 import org.soul.model.sys.po.SysDict;
 import org.soul.model.sys.po.SysParam;
 import org.soul.model.sys.vo.SysParamListVo;
@@ -42,6 +46,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceBossTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
@@ -51,6 +56,7 @@ import so.wwb.gamebox.mcenter.player.form.RecommendedForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.*;
 import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.Const;
 import so.wwb.gamebox.model.common.MessageI18nConst;
 import so.wwb.gamebox.model.common.notice.enums.AutoNoticeEvent;
@@ -76,7 +82,7 @@ import so.wwb.gamebox.model.master.setting.po.FieldSort;
 import so.wwb.gamebox.model.master.setting.po.GradientTemp;
 import so.wwb.gamebox.model.master.setting.vo.PlayerItemMessage;
 import so.wwb.gamebox.web.SessionManagerCommon;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.cache.CachePage;
 import so.wwb.gamebox.web.common.SiteCustomerServiceHelper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -184,7 +190,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
 
         ParamTool.refresh(SiteParamEnum.SETTING_OPERATE_MANAGE_LINE);
         ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_SMS);
-        Cache.refreshCurrentSitePageCache();
+        CachePage.refreshCurrentSitePageCache();
         return this.getVoMessage(vo);
     }
 
@@ -320,7 +326,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_SMS);
             Cache.refreshSiteI18n(SiteI18nEnum.SETTING_OPERATE_MANAGE_CLOSURE);
             Cache.refreshSiteI18n(SiteI18nEnum.SETTING_SYSTEM_SETTINGS_PLAYER);
-            Cache.refreshCurrentSitePageCache();
+            CachePage.refreshCurrentSitePageCache();
             return this.getVoMessage(objectVo);
         }
         return null;
@@ -411,13 +417,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         return "setting/param/siteparameters/SiteParam";
     }
 
-
-
-
-
     /**
      * 加载站点参数-基本设置信息
-     *
      * @param sysSiteVo
      * @param model
      * @return
@@ -471,12 +472,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         return "/setting/param/siteparameters/BasicSetting";
     }
 
-
-
-
     /**
      * 前端展示
-     *
      * @param sysSiteVo
      * @param model
      * @return
@@ -560,7 +557,6 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
      * @param itemMessage
      * @return
      */
-
     @RequestMapping({"/savePlayerItem"})
     @ResponseBody
     public Map savePlayerItem(PlayerItemMessage itemMessage){
@@ -598,13 +594,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         return map;
     }
 
-
-
-
-
     /**
      * 参数设置
-     *
      * @param sysSiteVo
      * @param model
      * @return
@@ -667,6 +658,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParam androidDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_ANDROID_DOWNLOAD_ADDRESS);
         SysParam iosDownloadAddress = ParamTool.getSysParam(SiteParamEnum.SETTING_IOS_DOWNLOAD_ADDRESS);
         SysParam activityHallSwitch = ParamTool.getSysParam(SiteParamEnum.ACTIVITY_HALL_SWITCH);//打开活动大厅，关闭活动管理
+        SysParam chessSharePicture = ParamTool.getSysParam(SiteParamEnum.CHESS_SHARE_PICTURE);
         String phoneUrl = Cache.getPhoneUrlBySiteId(SessionManagerCommon.getSiteId());
         String androidUrl = getAndroidUrl();
         getIosUrl(model);
@@ -687,6 +679,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         model.addAttribute("webtype", "5");
         model.addAttribute("androidDownloadAddress",androidDownloadAddress != null ? androidDownloadAddress.getParamValue():"");
         model.addAttribute("iosDownloadAddress",iosDownloadAddress != null ? iosDownloadAddress.getParamValue():"");
+        model.addAttribute("chessSharePicture",chessSharePicture != null ? chessSharePicture.getParamValue():"");
+        SysParam startPageParam = ParamTool.getSysParam(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APPSTARTPAGE, SessionManagerCommon.getSiteId());
+        model.addAttribute("startPageParam", startPageParam);
+
         //判断是否为站长主账号
         if (UserTypeEnum.MASTER.getCode().equals(SessionManager.getUserType().getCode())){
             Integer masterId = sysSiteVo.getResult().getSysUserId();
@@ -924,7 +920,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         siteCurrencyVo.setProperties(properties);
         ServiceTool.sysSiteCurrencyService().updateOnly(siteCurrencyVo);
         Cache.refreshSiteCurrency();
-        Cache.refreshCurrentSitePageCache();
+        CachePage.refreshCurrentSitePageCache();
     }
 
     /**
@@ -942,7 +938,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         siteLanguageVo.getResult().setOpenTime(new Date());
         ServiceTool.siteLanguageService().updateOnly(siteLanguageVo);
         Cache.refreshSiteLanguage();
-        Cache.refreshCurrentSitePageCache();
+        CachePage.refreshCurrentSitePageCache();
     }
 
     //加载注册设置
@@ -1012,7 +1008,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_FIELD_AGENT);
             ParamTool.refresh(SiteParamEnum.SETTING_REG_LIMIT_IP_DAY_MAX_REGNUM);
 
-            Cache.refreshCurrentSitePageCache();
+            CachePage.refreshCurrentSitePageCache();
 
             return this.getVoMessage(siteConfineAreaVo);
         }
@@ -1032,7 +1028,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             vo.setProperties(SysSite.PROP_TRAFFIC_STATISTICS);
             ServiceTool.sysSiteService().updateOnly(vo);
             Cache.refreshSysSite();
-            Cache.refreshCurrentSitePageCache();
+            CachePage.refreshCurrentSitePageCache();
             return this.getVoMessage(vo);
         } else {
             Map<String, Object> msg = new HashMap<>();
@@ -1066,7 +1062,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         sysParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_FIELD_SETTING_AGENT);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_FIELD_SETTING);
-        Cache.refreshCurrentSitePageCache();
+        CachePage.refreshCurrentSitePageCache();
         return this.getVoMessage(sysParamVo);
     }
 
@@ -1156,7 +1152,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         //刷新缓存
         Cache.refreshSiteI18n(SiteI18nEnum.MASTER_SERVICE_TERMS);
         Cache.refreshSiteI18n(SiteI18nEnum.MASTER_SERVICE_TERMS_AGENT);
-        Cache.refreshCurrentSitePageCache();
+        CachePage.refreshCurrentSitePageCache();
         ServiceSiteTool.siteSysParamService().saveServiceTrems(siteConfineAreaVo);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SERVICE_TERMS_SHOW);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SERVICE_TERMS_SHOW_AGENT);
@@ -1375,12 +1371,11 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         return map;
     }
 
-
-    /*
-    *
-    * pc端联方式设置
-    *
-    * */
+    /**
+     * pc端联方式设置
+     * @param sysSiteVo
+     * @return
+     */
     @RequestMapping("/saveContactInformation")
     @ResponseBody
     public Map saveContactInformation(SysSiteVo sysSiteVo){
@@ -1388,25 +1383,26 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         SysParamVo sysParamVo=new SysParamVo();
         sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
         SysParam[] sysParam = sysSiteVo.getSysParam();
-      if (sysParam!=null){
-          for (SysParam sysParam1:sysParam){
-              sysParamVo.setResult(sysParam1);
-              SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
-          }
-          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PHONE_NUMBER);
-          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
-          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_QQ);
-          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_SKYPE);
-          ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_COPYRIGHT_INFORMATION);
-          Cache.refreshCurrentSitePageCache();
-      }
-
+        if (sysParam != null) {
+            for (SysParam sysParam1 : sysParam) {
+                sysParamVo.setResult(sysParam1);
+                SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
+            }
+            ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PHONE_NUMBER);
+            ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_E_MAIL);
+            ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_QQ);
+            ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_SKYPE);
+            ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_COPYRIGHT_INFORMATION);
+            CachePage.refreshCurrentSitePageCache();
+        }
         return map;
     }
-    /*
-    * 玩家中心弹窗开关
-    *
-    * */
+
+    /**
+     * 玩家中心弹窗开关
+     * @param sysParamVo
+     * @return
+     */
     @RequestMapping("/updatesysParam")
     @ResponseBody
     public  Map updatesysParam(SysParamVo sysParamVo){
@@ -1423,10 +1419,12 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         }
         return  map;
     }
-    /*
-      * 登录二维码显示开关
-      *
-      * */
+
+    /**
+     * 登录二维码显示开关
+     * @param sysParamVo
+     * @return
+     */
     @RequestMapping("/updateQrSwitch")
     @ResponseBody
     public  Map updateQrSwitch(SysParamVo sysParamVo){
@@ -1487,7 +1485,6 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         }
         return  map;
     }
-
 
     /***
      * 电话是否加密
@@ -1588,7 +1585,7 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
 
     /**
      * 保存短信开关
-     * @param siteParamVol
+     * @param siteParamVo
      * @return
      */
     @RequestMapping("/saveSmsInterfaceParam")
@@ -1601,13 +1598,12 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
 //        ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_PHONE_VERIFCATION_AGENT);
         ParamTool.refresh(SiteParamEnum.SETTING_REG_SETTING_RECOVER_PASSWORD);
         ParamTool.refresh(SiteParamEnum.CONNECTION_SETTING_PERSONAL_INFORMATION);
-        Cache.refreshCurrentSitePageCache(SessionManager.getSiteId());
+        CachePage.refreshCurrentSitePageCache();
         return getVoMessage(siteParamVo);
     }
 
     /**
      * 设置站长（主账号）坐席号
-     *
      * @param objectVo
      * @return
      */
@@ -1637,15 +1633,84 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         sysUser.setIdcard(idCard);
         sysUserVo.setResult(sysUser);
         sysUserVo = ServiceTool.myAccountService().updateSysUser(sysUserVo);
-       /* sysUserVo.getResult().setIdcard(idCard);
-        sysUserVo.setProperties(SysUser.PROP_IDCARD);
-        sysUserVo = ServiceTool.sysUserService().updateOnly(sysUserVo);
-        if(sysUserVo.isSuccess()){
-            SysUser sysUser = SessionManagerCommon.getUser();
-            sysUser.setIdcard(sysUserVo.getResult().getIdcard());
-            SessionManagerCommon.setUser(sysUser);
-        }*/
         return getVoMessage(sysUserVo);
+    }
+
+    /**
+     * 上传棋牌包网分享图片
+     * @param model
+     * @return
+     */
+    @RequestMapping("/chessSharePictureUpload")
+    public String chessSharePictureUpload(Model model){
+        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.CHESS_SHARE_PICTURE);
+        model.addAttribute("chessShareParam",sysParam);
+        return getViewBasePath() + "UploadChessSharePicture";
+    }
+
+    /**
+     * 保存棋牌包网分享图片
+     * @param sysParamVo
+     * @return
+     */
+    @RequestMapping("/saveChessSharePicture")
+    @ResponseBody
+    public SysParamVo saveUserDefinedTone(SysParamVo sysParamVo) {
+        Integer id = sysParamVo.getResult().getId();
+        if (id==null){
+            LOG.info("保存上传棋牌包网分享图片失败，站点ID：{0}，更新参数id为空",SessionManager.getSiteId());
+            sysParamVo.setSuccess(false);
+            return sysParamVo;
+        }
+        String paramValue = sysParamVo.getResult().getParamValue();
+        if (StringTool.isBlank(paramValue)){
+            LOG.info("保存上传棋牌包网分享图片失败，站点ID：{0}，更新参数值为空",SessionManager.getSiteId());
+            sysParamVo.setSuccess(false);
+            return sysParamVo;
+        }
+        sysParamVo.getResult().setParamValue(paramValue);
+        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+        sysParamVo = ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
+        if (sysParamVo.isSuccess()) {
+            ParamTool.refresh(SiteParamEnum.CHESS_SHARE_PICTURE);
+            return sysParamVo;
+        }else {
+            LOG.info("保存上传棋牌包网分享图片失败，站点ID：{0}，更新参数失败",SessionManager.getSiteId());
+            sysParamVo.setSuccess(false);
+        }
+        return sysParamVo;
+    }
+
+    /**
+     * 修改app启动页开关
+     * @param sysParamVo
+     * @return
+     */
+    @Audit(module = Module.Log, moduleType = ModuleType.APP_START_PAGE, opType = OpType.UPDATE)
+    @RequestMapping("/updateStartPage")
+    @ResponseBody
+    public Map updateStartPage(SysParamVo sysParamVo, HttpServletRequest request) {
+        Integer siteId = SessionManager.getSiteId();
+        sysParamVo._setDataSourceId(siteId);
+        sysParamVo.getResult().setSiteId(siteId);
+        sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
+        sysParamVo = ServiceSiteTool.siteSysParamService().updateOnly(sysParamVo);
+        if (sysParamVo.isSuccess()) {
+            addLogOfAppStartPage(request);
+            ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APPSTARTPAGE, siteId);
+        }
+        return getVoMessage(sysParamVo);
+    }
+
+    /**
+     * app启动页参数修改日志
+     * @param request
+     */
+    private void addLogOfAppStartPage(HttpServletRequest request) {
+        LogVo logVo = new LogVo();
+        BaseLog baseLog = logVo.addBussLog();
+        baseLog.setDescription(SiteParamEnum.SETTING_SYSTEM_SETTINGS_APPSTARTPAGE.getCode());
+        request.setAttribute(SysAuditLog.AUDIT_LOG, logVo);
     }
 
     //endregion your codes 3

@@ -46,8 +46,8 @@ import so.wwb.gamebox.model.master.player.po.VUserAgentManage;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentManageListVo;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentManageVo;
 import so.wwb.gamebox.model.master.setting.po.RebateSet;
-import so.wwb.gamebox.web.cache.Cache;
-import so.wwb.gamebox.web.cache.ExportCriteriaTool;
+import so.wwb.gamebox.common.cache.Cache;
+import so.wwb.gamebox.common.cache.ExportCriteriaTool;
 import so.wwb.gamebox.web.report.controller.AbstractExportController;
 
 import javax.servlet.http.HttpServletRequest;

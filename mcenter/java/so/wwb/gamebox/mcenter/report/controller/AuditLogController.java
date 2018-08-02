@@ -30,7 +30,7 @@ import so.wwb.gamebox.model.company.setting.vo.SysExportVo;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.agent.enums.SysUserTypeEnum;
 import so.wwb.gamebox.model.report.vo.AddLogVo;
-import so.wwb.gamebox.web.cache.ExportCriteriaTool;
+import so.wwb.gamebox.common.cache.ExportCriteriaTool;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;

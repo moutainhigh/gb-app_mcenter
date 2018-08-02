@@ -29,8 +29,8 @@ import so.wwb.gamebox.model.master.report.po.VPlayerApiTransaction;
 import so.wwb.gamebox.model.master.report.so.VPlayerApiTransactionSo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerApiTransactionListVo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerApiTransactionVo;
-import so.wwb.gamebox.web.cache.Cache;
-import so.wwb.gamebox.web.cache.ExportCriteriaTool;
+import so.wwb.gamebox.common.cache.Cache;
+import so.wwb.gamebox.common.cache.ExportCriteriaTool;
 import so.wwb.gamebox.web.report.controller.AbstractExportController;
 
 import javax.servlet.http.HttpServletRequest;

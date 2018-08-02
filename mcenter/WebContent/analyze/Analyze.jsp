@@ -24,12 +24,12 @@
                     <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm ">
                         <div class="input-group date time-select-a">
                             <span class="input-group-addon bg-gray">${views.analyze_auto['时间']}</span>
-                            <gb:dateRange format="${DateFormat.DAY_SECOND}" minDate="${minDate}" maxDate="${maxDate}"
+                            <gb:dateRange format="${DateFormat.DAY}" minDate="${minDate}" maxDate="${maxDate}"
                                           useRange="true" style="width:40%;" useToday="true" btnClass="search"
                                           startName="search.startStaticTime" endName="search.endStaticTime"
                                           startDate="${command.search.startStaticTime}"
                                           endDate="${command.search.endStaticTime}"/>
-                        </div>
+                        </div><%--2018.7.4 steffan 代理新进是每日任务，查询static_date加上时分秒没有用，只查日期就够了--%>
                     </div>
 
 

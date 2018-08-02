@@ -14,10 +14,10 @@
             ${views.fund['fund.playerDetect.index.totalFavorable']}
         </b>
 
-        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.SECOND_DEPOSIT.getCode()%>,<%=TransactionWayEnum.THIRD_DEPOSIT.getCode()%>,<%=TransactionWayEnum.EVERYDAY_FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.DEPOSIT_SEND.getCode()%>,<%=TransactionWayEnum.REGIST_SEND.getCode()%>,<%=TransactionWayEnum.RELIEF_FUND.getCode()%>,<%=TransactionWayEnum.PROFIT_LOSS.getCode()%>,<%=TransactionWayEnum.EFFECTIVE_TRANSACTION.getCode()%>,<%=TransactionWayEnum.MONEY.getCode()%>,<%=TransactionWayEnum.SINGLE_REWARD.getCode()%>,<%=TransactionWayEnum.BONUS_AWARDS.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable" nav-target="mainFrame">
+        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.usernames=${username}&search.userTypes=username&search.transactionWays=first_deposit,second_deposit,third_deposit,everyday_first_deposit,deposit_send,regist_send,relief_fund,profit_loss,effective_transaction,money,single_reward,bonus_awards&search.manualSaves=manual_favorable,manual_payout,manual_other&search.orderType=playerFavable" size="open-dialog-95p"
+                     callback="" text="" title="优惠详情" opType="dialog">
             <span class="pull-right co-blue">${favorableVal}</span>
-        </a>
-
+        </soul:button>
     </li>
     <li>
         <b>
@@ -27,9 +27,10 @@
                                 </span>
             ${views.fund['playerDetect.view.discountNum']}：
         </b>
-        <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.SECOND_DEPOSIT.getCode()%>,<%=TransactionWayEnum.THIRD_DEPOSIT.getCode()%>,<%=TransactionWayEnum.EVERYDAY_FIRST_DEPOSIT.getCode()%>,<%=TransactionWayEnum.DEPOSIT_SEND.getCode()%>,<%=TransactionWayEnum.REGIST_SEND.getCode()%>,<%=TransactionWayEnum.RELIEF_FUND.getCode()%>,<%=TransactionWayEnum.PROFIT_LOSS.getCode()%>,<%=TransactionWayEnum.EFFECTIVE_TRANSACTION.getCode()%>,<%=TransactionWayEnum.MONEY.getCode()%>,<%=TransactionWayEnum.SINGLE_REWARD.getCode()%>,<%=TransactionWayEnum.BONUS_AWARDS.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_FAVORABLE.getCode()%>,<%=TransactionWayEnum.MANUAL_PAYOUT.getCode()%>,<%=TransactionWayEnum.MANUAL_OTHER.getCode()%>&search.outer=-1&search.hasReturn=true&search.orderType=playerFavable" nav-target="mainFrame">
+        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.usernames=${username}&search.userTypes=username&search.transactionWays=first_deposit,second_deposit,third_deposit,everyday_first_deposit,deposit_send,regist_send,relief_fund,profit_loss,effective_transaction,money,single_reward,bonus_awards&search.manualSaves=manual_favorable,manual_payout,manual_other&search.orderType=playerFavable" size="open-dialog-95p"
+                     callback="" text="" title="优惠详情" opType="dialog">
             <span class="pull-right co-blue">${favorableCount}${views.fund['fund.playerDetect.index.second']}</span>
-        </a>
+        </soul:button>
     </li>
     <li>
         <b>
@@ -39,7 +40,10 @@
                                 </span>
         ${views.fund['playerDetect.view.totalAmount']}：</b>
         <span class="pull-right co-blue">
-            <a href="/report/vPlayerFundsRecord/fundsLog.html?search.usernames=${username}&search.userTypes=username&search.transactionWays=<%=TransactionWayEnum.BACK_WATER.getCode()%>&search.manualSaves=<%=TransactionWayEnum.MANUAL_RAKEBACK.getCode()%>&search.outer=-1" nav-target="mainFrame">${soulFn:formatCurrency(rakeback)}</a>
+            <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=byPlayerDetail&search.usernames=${username}&search.userTypes=username&search.transactionWays=back_water&search.manualSaves=manual_rakeback&search.outer=-1" size="open-dialog-95p"
+                         callback="" text="" title="返水详情" opType="dialog">
+                ${soulFn:formatCurrency(rakeback)}
+            </soul:button>
         </span>
     </li>
 </ul>

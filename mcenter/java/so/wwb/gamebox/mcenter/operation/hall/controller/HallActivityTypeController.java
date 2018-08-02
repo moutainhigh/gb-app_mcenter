@@ -41,7 +41,7 @@ import so.wwb.gamebox.model.master.operation.vo.*;
 import so.wwb.gamebox.model.master.player.po.PlayerRank;
 import so.wwb.gamebox.model.master.setting.po.RakebackSet;
 import so.wwb.gamebox.model.master.setting.vo.RakebackSetListVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 
 import javax.servlet.http.HttpServletRequest;
@@ -179,6 +179,10 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code) || ActivityTypeEnum.RELIEF_FUND.getCode().equals(code) || ActivityTypeEnum.PROFIT.getCode().equals(code)) {
             getApiGameTypeRelation(model);
         }
+        if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code)) {
+            getExistRuleIncludeGameMap(null, model);
+        }
+
         return OPERATION_ACTIVITY_STEP;
     }
 
@@ -341,6 +345,10 @@ public class HallActivityTypeController extends HallActivityController<IActivity
             getApiGameTypeRelation(model);
             getActivityRuleIncludeGameMap(activityMessageVo, model);
         }
+
+        if (ActivityTypeEnum.EFFECTIVE_TRANSACTION.getCode().equals(code)) {
+            getExistRuleIncludeGameMap(activityMessageVo.getResult().getId(), model);
+        }
         return OPERATION_ACTIVITY_STEP;
     }
 
@@ -360,6 +368,11 @@ public class HallActivityTypeController extends HallActivityController<IActivity
 
 //    public
 
+    /**
+     * 有效投注额自己勾选的游戏
+     * @param activityMessageVo
+     * @param model
+     */
     private void getActivityRuleIncludeGameMap(ActivityMessageVo activityMessageVo, Model model) {
         ActivityRuleIncludeGameListVo activityRuleIncludeGameListVo = new ActivityRuleIncludeGameListVo();
         activityRuleIncludeGameListVo.getSearch().setActivityMessageId(activityMessageVo.getResult().getId());
@@ -369,6 +382,22 @@ public class HallActivityTypeController extends HallActivityController<IActivity
         if (CollectionTool.isNotEmpty(activityRuleIncludeGameList)) {
             Map<String, List<ActivityRuleIncludeGame>> activityRIGMap = CollectionTool.groupByProperty(activityRuleIncludeGameList, ActivityRuleIncludeGame.PROP_GAME_TYPE, String.class);
             model.addAttribute("activityRIGMap", activityRIGMap);
+        }
+    }
+
+    /**
+     * 已经被其他有效投注额勾选的游戏
+     * @param activityMessageId
+     * @param model
+     */
+    private void getExistRuleIncludeGameMap(Integer activityMessageId, Model model) {
+        ActivityRuleIncludeGameListVo activityRuleIncludeGameListVo = new ActivityRuleIncludeGameListVo();
+        activityRuleIncludeGameListVo.getSearch().setActivityMessageId(activityMessageId);
+        activityRuleIncludeGameListVo = ServiceActivityTool.activityRuleIncludeGameService().getExistRuleIncludeGame(activityRuleIncludeGameListVo);
+        List<ActivityRuleIncludeGame> activityRuleIncludeGameList = activityRuleIncludeGameListVo.getResult();
+        if (CollectionTool.isNotEmpty(activityRuleIncludeGameList)) {
+            Map<String, List<ActivityRuleIncludeGame>> activityERIGMap = CollectionTool.groupByProperty(activityRuleIncludeGameList, ActivityRuleIncludeGame.PROP_GAME_TYPE, String.class);
+            model.addAttribute("activityERIGMap", activityERIGMap);
         }
     }
 

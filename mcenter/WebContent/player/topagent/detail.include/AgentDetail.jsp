@@ -15,7 +15,12 @@
                         <th class="bg-tbcolor">${views.role['topAgent.edit.agentCount']}：</th>
                         <td><a href="/vUserAgentManage/list.html?search.parentId=${map.id}" nav-target="mainFrame">${map.child_agent_num}</a></td>
                         <th class="bg-tbcolor">${views.column['VUserAgentManage.playerNum']}：</th>
-                        <td><a href="/player/list.html.html?search.generalAgentId=${map.id}" nav-target="mainFrame">${map.player_num_for_topagent}</a></td>
+                        <td>
+                            <soul:button target="${root}/player/popup/list.html?search.generalAgentId=${map.id}" size="open-dialog-95p"
+                                         callback="" text="" title="玩家" opType="dialog">
+                                ${map.player_num_for_topagent}
+                            </soul:button>
+                        </td>
                     </tr>
 
                     <tr class="tab-title">

@@ -39,7 +39,7 @@ import so.wwb.gamebox.model.master.player.so.VUserPlayerSo;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionListVo;
 import so.wwb.gamebox.web.bank.BankHelper;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -358,7 +358,7 @@ public class PlayerDetectController extends BaseCrudController<IVUserPlayerServi
 
         Date lastSynTime = objVo.getResult().getSynchronizationTime();
         long between = DateTool.secondsBetween(SessionManager.getDate().getNow(), lastSynTime);
-        if (lastSynTime == null || between > 60) {
+        if (lastSynTime == null || between >= 60) {
             //同步玩家api余额
             ShareController.fetchPlayerApiBalance(listVo);
         } else {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.ICttFloatPicService;
@@ -40,7 +41,7 @@ import so.wwb.gamebox.model.master.content.vo.CttFloatPicListVo;
 import so.wwb.gamebox.model.master.content.vo.CttFloatPicVo;
 import so.wwb.gamebox.model.master.enums.FloatPicInteractivityEnum;
 import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import java.io.Serializable;
 import java.util.*;
@@ -138,7 +139,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
     private void refreshFloatPicCache() {
         Cache.refreshFloatPic();
         Cache.refreshFloatPicItem();
-        Cache.refreshCurrentSitePageCache();
+        CachePage.refreshCurrentSitePageCache();
     }
 
     @Override
@@ -430,7 +431,7 @@ public class CttFloatPicController extends BaseCrudController<ICttFloatPicServic
     public boolean saveFloatOrder(@RequestBody CttFloatPicVo cttFloatPicVo, Model model){
         this.getService().saveCttFloatOrder(cttFloatPicVo);
         Cache.refreshFloatPic();
-        Cache.refreshCurrentSitePageCache();
+        CachePage.refreshCurrentSitePageCache();
         return true;
     }
     //endregion your codes 3

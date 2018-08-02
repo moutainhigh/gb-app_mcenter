@@ -11,7 +11,6 @@
             <th>${views.analyze['序号']}</th>
             <th >${views.analyze['代理账号']}</th>
             <soul:orderColumn poType="${poType}" property="agentNewPlayerCount" column='${views.analyze_auto[\'玩家总数\']}'/>
-            <%--<soul:orderColumn poType="${poType}" property="agentNewEffectivePlayerCount" column='${views.analyze_auto['总有效玩家']}'/>--%>
             <soul:orderColumn poType="${poType}" property="agentNewDepositPlayerCount" column='${views.analyze_auto[\'总存款玩家\']}'/>
             <soul:orderColumn poType="${poType}" property="allDepositCount" column='${views.analyze_auto[\'存款总额\']}'/>
             <soul:orderColumn poType="${poType}" property="allWithdrawCount" column='${views.analyze_auto[\'取款总额\']}'/>
@@ -31,9 +30,6 @@
                 class="fa fa-question-circle"></i>
             </span>
             ${views.analyze_auto[\'存取差额\']}'/>
-
-            <%--<soul:orderColumn poType="${poType}" property="accountBalance" column='${views.analyze_auto['账户余额']}'/>--%>
-
             <soul:orderColumn poType="${poType}" property="rebateActual" column='${views.analyze_auto[\'返佣总额\']}'/>
         </tr>
         </thead>
@@ -43,13 +39,32 @@
                     <td>${(command.paging.pageNumber - 1) * command.paging.pageSize + status.count}</td>
                     <td><a href="/userAgent/agent/detail.html?search.id=${p.agentId }" nav-target="mainFrame" class="co-blue">${p.agentName}</a></td>
                     <td>${p.agentNewPlayerCount}</td>
-                    <%--<td>${p.agentNewEffectivePlayerCount}</td>--%>
-                    <td><a href="/player/list.html?search.hasReturn=true&search.agentId=${p.agentId}&analyzeNewAgent=true&searchType=1" nav-target='mainFrame'>${p.agentNewDepositPlayerCount}</a></td>
-                    <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.agentid=${p.agentId}&search.transactionType=deposit&analyzeNewAgent=true&searchType=5" nav-target="mainFrame" class="co-blue">${soulFn:formatCurrency(p.allDepositCount)}</a></td>
-                    <td><a href="/report/vPlayerFundsRecord/fundsLog.html?search.agentid=${p.agentId}&search.transactionType=withdraw&analyzeNewAgent=true&searchType=6" nav-target="mainFrame" class="co-blue">${soulFn:formatCurrency(p.allWithdrawCount)}</a></td>
+                    <td>
+                        <%--总存款玩家--%>
+                        <c:if test="${p.agentNewDepositPlayerCount>0}">
+                            <soul:button target="${root}/player/popup/list.html?search.agentId=${p.agentId}&comp=2"
+                                         size="open-dialog-95p" callback="" text="" title="玩家列表" opType="dialog">
+                                ${p.agentNewDepositPlayerCount}
+                            </soul:button>
+                        </c:if>
+                        <c:if test="${p.agentNewDepositPlayerCount==0}">
+                            ${p.agentNewDepositPlayerCount}
+                        </c:if>
+                    </td>
+                    <td>
+                    <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=analyzeNewAgent&search.agentid=${p.agentId}&search.transactionType=deposit&analyzeNewAgent=true&searchType=5" size="open-dialog-95p"
+                                 callback="" text="" title="" opType="dialog">
+                        <span class="co-blue" id="rechargeCount">${soulFn:formatCurrency(p.allDepositCount)}</span>
+                    </soul:button>
+                    </td>
+                    <td>
+                        <soul:button target="${root}/report/vPlayerFundsRecordLinkPopup/fundsRecord.html?linkType=analyzeNewAgent&search.agentid=${p.agentId}&search.transactionType=withdraw&analyzeNewAgent=true&searchType=6" size="open-dialog-95p"
+                                     callback="" text="" title="" opType="dialog">
+                            <span class="co-blue" id="rechargeCount">${soulFn:formatCurrency(p.allWithdrawCount)}</span>
+                        </soul:button>
+                    </td>
                     <td>${soulFn:formatCurrency(p.payoutAmount)}</td>
                     <td>${soulFn:formatCurrency(p.difference)}</td>
-                    <%--<td>${soulFn:formatCurrency(p.accountBalance)}</td>--%>
                     <td>${soulFn:formatCurrency(p.rebateActual)}</td>
                 </tr>
         </c:forEach>
@@ -58,4 +73,3 @@
 </div>
 
 <soul:pagination/>
-<!--//endregion your codes 1-->

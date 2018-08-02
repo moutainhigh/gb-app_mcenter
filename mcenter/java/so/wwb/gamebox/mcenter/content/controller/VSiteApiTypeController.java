@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.site.IVSiteApiTypeService;
@@ -29,7 +30,7 @@ import so.wwb.gamebox.model.company.site.vo.SiteLanguageListVo;
 import so.wwb.gamebox.model.company.site.vo.VSiteApiTypeListVo;
 import so.wwb.gamebox.model.company.site.vo.VSiteApiTypeVo;
 import so.wwb.gamebox.model.master.player.vo.PlayerGameLogVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import java.util.Date;
 import java.util.List;
@@ -100,7 +101,7 @@ public class VSiteApiTypeController extends BaseCrudController<IVSiteApiTypeServ
         try{
             this.getService().saveSietApiTypeOrder(vSiteApiTypeVo);
             Cache.refreshSiteApiType();
-            Cache.refreshCurrentSitePageCache();
+            CachePage.refreshCurrentSitePageCache();
             return true;
         }catch (Exception e){
             LOG.error(e);

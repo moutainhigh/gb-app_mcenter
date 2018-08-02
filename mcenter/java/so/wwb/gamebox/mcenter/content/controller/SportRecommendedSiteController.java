@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.company.sport.IVSportRecommendedService;
 import so.wwb.gamebox.mcenter.content.form.SportRecommendedSiteForm;
@@ -23,7 +24,7 @@ import so.wwb.gamebox.model.company.sport.vo.SportRecommendedSiteListVo;
 import so.wwb.gamebox.model.company.sport.vo.SportRecommendedSiteVo;
 import so.wwb.gamebox.model.company.sport.vo.VSportRecommendedListVo;
 import so.wwb.gamebox.model.company.sport.vo.VSportRecommendedVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.cache.CachePage;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -127,7 +128,7 @@ public class SportRecommendedSiteController extends BaseCrudController<IVSportRe
             ServiceTool.sportRecommendedSiteService().deleteByRecommandId(vo);
         }
         Cache.refreshSportRecommendedToDisplay();
-        Cache.refreshCurrentSitePageCache();
+        CachePage.refreshCurrentSitePageCache();
         return this.getVoMessage(vo);
     }
 

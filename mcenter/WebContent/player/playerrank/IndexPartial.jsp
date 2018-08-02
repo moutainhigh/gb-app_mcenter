@@ -51,14 +51,20 @@
                             </span>
                         </c:if>
                     </c:if>
-                    <%--<span tabindex="0" class="help-popover m-l-xs" role="button" data-container="body" data-toggle="popover"
-                          data-trigger="focus" data-placement="top" data-html="true" data-content="${views.player_auto['该代理体系下玩家获得的返水']}"
-                          data-original-title="" title=""><i class="fa fa-question-circle"></i></span>--%>
                 </td>
                 <td>
-                    <a href="/player/list.html?search.hasReturn=true&search.rankId=${p.id}" nav-target="mainFrame">${p.playerNum}</a>
+                    <%--玩家数量--%>
+                    <c:choose>
+                        <c:when test="${p.playerNum gt 0}">
+                            <a href="/player/list.html?search.hasReturn=true&search.rankId=${p.id}&search.playerRanks=${p.id}" nav-target="mainFrame">${p.playerNum}</a>
+                        </c:when>
+                        <c:otherwise>
+                            ${p.playerNum}
+                        </c:otherwise>
+                    </c:choose>
                 </td>
                 <td>
+                    <%--代理数量--%>
                     <c:choose>
                         <c:when test="${p.agentNum gt 0}">
                             <a href="/vUserAgentManage/list.html?search.hasReturn=true&search.playerRankId=${p.id}" nav-target="mainFrame">${p.agentNum}</a>
@@ -67,7 +73,6 @@
                             ${p.agentNum}
                         </c:otherwise>
                     </c:choose>
-
                 </td>
                 <td><a href="/setting/vRakebackSet/view.html?id=${p.rakebackId}" nav-target="mainFrame">${p.rakebackName}</a></td>
                 <td>${p.onlinePayMin}~${p.onlinePayMax}</td>
@@ -76,8 +81,8 @@
                     <c:if test="${not empty p.isFee&&empty p.isReturnFee}">
                         <c:if test="${p.isFee}">
                             <%--收取存款手续费--%>
-                            <%--● 固定收取手续费，显示为：收取¥10--%>
-                            <%--● 按比例收取手续费，显示为：收取10%，上限¥50--%>
+                            <%-- 固定收取手续费，显示为：收取¥10--%>
+                            <%-- 按比例收取手续费，显示为：收取10%，上限¥50--%>
                             <c:if test="${p.feeType=='1'}">
                                 <c:set var="maxFee" value="${siteCurrencySign}${soulFn:formatInteger(p.maxFee)}${soulFn:formatDecimals(p.maxFee)}"></c:set>
                                 ${views.player_auto['收取']}${p.feeMoney}%,&nbsp;${views.player_auto['上限']}${maxFee}

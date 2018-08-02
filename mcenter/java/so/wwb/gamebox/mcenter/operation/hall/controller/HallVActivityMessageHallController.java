@@ -1,7 +1,10 @@
 package so.wwb.gamebox.mcenter.operation.hall.controller;
 
+import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
 import org.soul.commons.lang.string.StringTool;
+import org.soul.commons.log.Log;
+import org.soul.commons.log.LogFactory;
 import org.soul.commons.query.sort.Direction;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
@@ -22,7 +25,7 @@ import so.wwb.gamebox.model.company.site.po.SiteI18n;
 import so.wwb.gamebox.model.master.operation.po.VActivityMessageHall;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMessageHallListVo;
 import so.wwb.gamebox.model.master.operation.vo.VActivityMessageHallVo;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.common.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,6 +56,7 @@ public class HallVActivityMessageHallController extends BaseCrudController<IVAct
     }
 
     //region your codes 3
+    Log LOG = LogFactory.getLog(HallVActivityMessageHallController.class);
 
     @Override
     protected VActivityMessageHallListVo doList(VActivityMessageHallListVo listVo, VActivityMessageHallSearchForm form, BindingResult result, Model model) {
@@ -62,7 +66,7 @@ public class HallVActivityMessageHallController extends BaseCrudController<IVAct
         listVo.getSearch().setIsDeleted(Boolean.FALSE);
         listVo.getSearch().setActivityTerminalType(TerminalEnum.PC.getCode());
 
-        listVo.getQuery().addOrder(VActivityMessageHall.PROP_LIST_ORDER_NUM, Direction.ASC).addOrder(VActivityMessageHall.PROP_START_TIME,Direction.DESC);
+        listVo.getQuery().addOrder(VActivityMessageHall.PROP_LIST_ORDER_NUM, Direction.ASC).addOrder(VActivityMessageHall.PROP_START_TIME, Direction.DESC);
 //        VActivityMessageHallListVo search = this.getService().search(listVo);
         return super.doList(listVo, form, result, model);
     }
@@ -103,6 +107,7 @@ public class HallVActivityMessageHallController extends BaseCrudController<IVAct
         SysParam ActivityHallSwitchSysParam = ParamTool.getSysParam(SiteParamEnum.ACTIVITY_HALL_SWITCH);
         if (ActivityHallSwitchSysParam == null || StringTool.isBlank(ActivityHallSwitchSysParam.getParamValue())
                 || !"true".equals(ActivityHallSwitchSysParam.getParamValue())) {
+            LOG.error("活动大厅关闭:{0}", JsonTool.toJson(ActivityHallSwitchSysParam));
             return "Index";
         }
         return super.list(listVo, form, result, model, request, response);

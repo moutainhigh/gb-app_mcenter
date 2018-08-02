@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.iservice.company.filter.ISysMasterListOperatorService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
-import so.wwb.gamebox.mcenter.init.ConfigManager;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.share.form.SysListOperatorForm;
 import so.wwb.gamebox.mcenter.share.form.SysListOperatorSearchForm;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import javax.validation.ConstraintViolation;
 import java.util.Collection;
@@ -66,7 +66,7 @@ public class ListFiltersController extends BaseCrudController<ISysMasterListOper
             }
             try{
                 operator.setSiteId(SessionManager.getSiteId());
-                operator.setSubsysCode(SessionManager.getUser() != null ? SessionManager.getUser().getSubsysCode() : ConfigManager.getConfigration().getSubsysCode());
+                operator.setSubsysCode(SessionManager.getUser() != null ? SessionManager.getUser().getSubsysCode() : ConfigBase.get().getSubsysCode());
                 operator.setOpType(OPTYPE);
                 objectVo.setResult(operator);
                 objectVo = this.doPersist(objectVo);

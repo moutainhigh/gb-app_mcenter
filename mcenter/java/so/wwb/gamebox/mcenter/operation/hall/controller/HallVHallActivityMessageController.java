@@ -24,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceActivityTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.operation.ActivityMoneyPeriodTool;
@@ -47,7 +48,7 @@ import so.wwb.gamebox.model.master.enums.UserTaskEnum;
 import so.wwb.gamebox.model.master.operation.po.*;
 import so.wwb.gamebox.model.master.operation.vo.*;
 import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.web.cache.Cache;
+import so.wwb.gamebox.web.cache.CachePage;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
 
@@ -153,7 +154,7 @@ public class HallVHallActivityMessageController extends HallActivityController<I
         if (activityMessageVo.isSuccess()) {
             Cache.refreshMobileActivityMessages();
             Cache.refreshPcActivityMessages();
-            Cache.refreshCurrentSitePageCache();
+            CachePage.refreshCurrentSitePageCache();
             map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else {
             map.put("errMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
@@ -228,7 +229,7 @@ public class HallVHallActivityMessageController extends HallActivityController<I
             map.put("state", state);
             if (state) {
                 CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
-                Cache.refreshCurrentSitePageCache();
+                CachePage.refreshCurrentSitePageCache();
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
             } else {
                 map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
@@ -276,7 +277,7 @@ public class HallVHallActivityMessageController extends HallActivityController<I
         map.put("state", state);
         if (state) {
             CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
-            Cache.refreshCurrentSitePageCache();
+            CachePage.refreshCurrentSitePageCache();
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_SUCCESS));
         } else {
             map.put("msg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.DELETE_FAILED));
@@ -304,7 +305,7 @@ public class HallVHallActivityMessageController extends HallActivityController<I
         listVo = ServiceTool.siteI18nService().saveClassification(listVo);
         if (listVo.isSuccess()) {
             CacheBase.refreshSiteI18n(SiteI18nEnum.OPERATE_ACTIVITY_CLASSIFY);
-            Cache.refreshCurrentSitePageCache();
+            CachePage.refreshCurrentSitePageCache();
         }
         return getVoMessage(listVo);
     }
@@ -425,7 +426,7 @@ public class HallVHallActivityMessageController extends HallActivityController<I
                 updateSiteContentAudit();
                 Cache.refreshMobileActivityMessages();
                 Cache.refreshPcActivityMessages();// 发布和编辑刷新缓存
-                Cache.refreshCurrentSitePageCache();
+                CachePage.refreshCurrentSitePageCache();
                 map.put("okMsg", LocaleTool.tranMessage(_Module.COMMON, MessageI18nConst.SAVE_SUCCESS));
                 //日志
                 String logPara1 = activityTypeVo.getResult() == null ? "" : activityTypeVo.getResult().getName();
@@ -501,7 +502,7 @@ public class HallVHallActivityMessageController extends HallActivityController<I
         */
         Cache.refreshMobileActivityMessages();
         Cache.refreshPcActivityMessages();
-        Cache.refreshCurrentSitePageCache();
+        CachePage.refreshCurrentSitePageCache();
         Map map = new HashMap();
         map.put("state", activityMessageVo.isSuccess());
         return map;
