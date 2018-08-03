@@ -165,6 +165,9 @@
 								<soul:button data="${r.id}" target="checkFailure" text="${views.common['checkFailure']}" opType="function" cssClass="btn btn-danger p-x-sm m-l-sm" callback="back" permission="fund:onlinedeposit_check">
 									<span class="fa fa-close"></span>${views.common['checkFailure']}
 								</soul:button>
+								<soul:button  target="${root}/fund/deposit/online/viewPayLog.html?search.orderId=${r.transactionNo}" text="${views.fund['查看日志']}" opType="dialog" cssClass="btn p-x-sm m-l-sm" callback="back" permission="" size="size-wide">
+									${views.fund['查看日志']}
+								</soul:button>
 								<a nav-target="mainFrame" style="display: none" name="editTmpl" href="/noticeTmpl/tmpIndex.html?lastPage=t">dddd</a>
 							</c:if>
 							<c:if test="${r.origin eq 'MOBILE'}">
