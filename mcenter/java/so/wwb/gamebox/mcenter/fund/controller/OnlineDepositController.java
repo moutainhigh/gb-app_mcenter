@@ -5,6 +5,7 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.currency.CurrencyTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.init.context.Const;
 import org.soul.commons.lang.ArrayTool;
 import org.soul.commons.lang.string.I18nTool;
 import org.soul.commons.lang.string.StringTool;
@@ -13,6 +14,7 @@ import org.soul.commons.locale.LocaleDateTool;
 import org.soul.commons.net.IpTool;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
+import org.soul.model.pay.vo.PayLogListVo;
 import org.soul.model.sys.po.SysDict;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.session.SessionManagerBase;
@@ -22,6 +24,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
+import so.wwb.gamebox.common.dubbo.ServiceBossTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerDepositSearchForm;
@@ -41,7 +45,6 @@ import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.web.IpRegionTool;
 import so.wwb.gamebox.web.RiskTagTool;
 import so.wwb.gamebox.web.SessionManagerCommon;
-import so.wwb.gamebox.common.cache.Cache;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -275,5 +278,24 @@ public class OnlineDepositController extends BaseDepositController {
         return confirmCheck(vo);
     }
 
+    /**
+     * 查看订单支付日志
+     *
+     * @param payLogListVo
+     * @return
+     */
+
+    @RequestMapping("/viewPayLog")
+    public String viewPayLog(PayLogListVo payLogListVo, Model mode){
+        String orderId = payLogListVo.getSearch().getOrderId();
+        if (StringTool.isNotBlank(orderId)){
+            Integer siteId = SessionManager.getSiteId();
+            payLogListVo.getSearch().setSiteId(siteId);
+            payLogListVo._setDataSourceId(Const.BOSS_DATASOURCE_ID);
+            payLogListVo = ServiceBossTool.payLogService().search(payLogListVo);
+        }
+        mode.addAttribute("command",payLogListVo);
+        return getViewBasePath() + "ViewPayLog";
+    }
 
 }
