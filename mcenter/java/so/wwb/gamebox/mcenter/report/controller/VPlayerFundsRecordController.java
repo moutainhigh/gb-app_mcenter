@@ -440,6 +440,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                 RakebackPlayerVo rakebackPlayerVo = new RakebackPlayerVo();
                 rakebackPlayerVo.getSearch().setPlayerId(vo.getResult().getPlayerId());
                 rakebackPlayerVo.getSearch().setRakebackBillId(rakebackBillVo.getResult().getId());
+                rakebackPlayerVo.getSearch().setAgentId(vo.getResult().getAgentid());
                 rakebackPlayerVo = ServiceSiteTool.rakebackPlayerService().getOneByPlayerAndBill(rakebackPlayerVo);
                 if (rakebackPlayerVo != null && rakebackPlayerVo.getResult() != null) {
                     vo.setBackwaterTotal(rakebackPlayerVo.getResult().getRakebackTotal());
