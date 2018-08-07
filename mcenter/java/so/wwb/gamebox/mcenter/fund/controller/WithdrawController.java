@@ -2262,6 +2262,34 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         SysParam siteParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
         sysParamVo.setResult(siteParam);
         Map<String, Object> paramValueMap = JsonTool.fromJson(siteParam.getParamValue(), Map.class);
+        List<Map<String, String>> channelJson = new ArrayList<>();
+        Map<String,String> map = new HashMap<>();
+        Map<String,String> rMap = new HashMap<>();
+        Map<String,String> tMap = new HashMap<>();
+        for (String str : paramValueMap.keySet()){
+            if ("merchantCode".equals(str)){
+                map.put("column","merchantCode");
+                map.put("value",paramValueMap.get(str).toString());
+                map.put("view","merchantCode");
+                channelJson.add(map);
+            }else if ("key".equals(str)){
+                rMap.put("column","key");
+                rMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                rMap.put("view","key");
+                channelJson.add(rMap);
+            }else if("publicKey".equals(str)){
+                rMap.put("column","publicKey");
+                rMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                rMap.put("view","publicKey");
+                channelJson.add(rMap);
+            }else if ("private_key".equals(str)){
+                tMap.put("column","private_key");
+                tMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                tMap.put("view","private_key");
+                channelJson.add(tMap);
+            }
+        }
+        model.addAttribute("channelJson", channelJson);
         model.addAttribute("paramValueMap", paramValueMap);
         model.addAttribute("command", sysParamVo);
 //        model.addAttribute("validateRule", JsRuleCreator.create(PlayerWithdrawForm.class));
@@ -2319,11 +2347,21 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (isActiveNew) {
             String paramValues = sysParamVo.getResult().getParamValue();
             String[] array = paramValues.split(",");
-//            Map<String, Object> paramValueMap = new HashMap<>();
-            paramValueMap.put("withdrawChannel", array[0]);
-            paramValueMap.put("merchantCode", array[1]);
-            paramValueMap.put("platformId", array[2]);
-            paramValueMap.put("key", array[3]);
+            if (array.length == 3 ){
+                paramValueMap.put("withdrawChannel", array[0]);
+                paramValueMap.put("key", CryptoTool.aesEncrypt(array[1]));
+                paramValueMap.put("merchantCode", array[2]);
+                paramValueMap.remove("publicKey");
+                paramValueMap.remove("private_key");
+            }else {
+                paramValueMap.put("withdrawChannel", array[0]);
+                paramValueMap.put("publicKey", CryptoTool.aesEncrypt(array[1]));
+                paramValueMap.put("private_key", CryptoTool.aesEncrypt(array[2]));
+                paramValueMap.put("merchantCode", array[3]);
+                paramValueMap.remove("key");
+
+            }
+
             if (!isActiveOld || isActiveOld == null) {//如果原来的出款账户状态为false，更新开启时间为当前时间
                 paramValueMap.put("accountEnableTime", String.valueOf(new Date().getTime()));
             }
