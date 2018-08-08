@@ -81,6 +81,15 @@
                                                 <%--<a tabindex="0" role="button" data-container="body" data-toggle="popover" data-trigger="focus"
                                              data-placement="top" data-html="true" data-content="<a href='#'>youtob.com/mens/html/5481?</a> "
                                              class="btn btn-link co-blue help-popover">查看来源URL</a>--%>
+                                    <c:if test="${not empty command.result.recommendUserId}">
+                                        ${views.player_auto['推荐人：']}
+                                        <c:if test="${command.result.recommendUserType eq '24'}">
+                                            <a href="/player/playerView.html?search.id=${command.result.recommendUserId}" nav-target="mainFrame">${command.result.recommendUsername}</a>
+                                        </c:if>
+                                        <c:if test="${command.result.recommendUserType eq '23'}">
+                                            <a href="/userAgent/agent/detail.html?search.id=${command.result.recommendUserId}" nav-target="mainFrame">${command.result.recommendUsername}</a>
+                                        </c:if>
+                                    </c:if>
                                 </div>
                             </c:if>
                             <c:if test="${command.result.createChannel=='2'}">
