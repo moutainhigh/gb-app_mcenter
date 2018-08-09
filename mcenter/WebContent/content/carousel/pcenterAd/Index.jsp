@@ -20,7 +20,7 @@
             <!--筛选条件-->
             <div class="clearfix filter-wraper border-b-1">
                 <soul:button target="${root}/content/cttCarousel/pcenterAd/create.html" callback="query"
-                             cssClass="btn btn-info btn-addon" text="${views.common['create']}" opType="dialog"
+                             cssClass="btn btn-info btn-addon" text="${views.content['新玩家中心首页广告']}" opType="dialog"
                               tag="button">
                     <i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span>
                 </soul:button>

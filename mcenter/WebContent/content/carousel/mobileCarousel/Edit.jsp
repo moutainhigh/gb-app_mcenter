@@ -125,7 +125,7 @@
 
                             <div class="form-group">
                                 <label>${views.content['carousel.uploadPicture']}：</label>
-                                <span class=" m-l-xs co-grayc2">${views.content['carousel.uploadPictureTips']}</span>
+                                <span class="co-grayc2">${views.content['carousel.uploadPictureTips']}</span>
                                 <div class="form-group m-b-sm">
                                     <div id="carouselI18nsCover${index.index}">
                                         <c:if test="${not empty carousel.cover}">
