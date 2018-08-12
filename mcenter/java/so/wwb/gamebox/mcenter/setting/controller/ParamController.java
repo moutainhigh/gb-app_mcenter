@@ -15,6 +15,8 @@ import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
 import org.soul.commons.net.ServletTool;
+import org.soul.commons.query.Criterion;
+import org.soul.commons.query.enums.Operator;
 import org.soul.commons.security.CryptoTool;
 import org.soul.commons.support._Module;
 import org.soul.iservice.sys.ISysParamService;
@@ -796,15 +798,29 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
     }
 
     public void getSmsInterfaceMessage(Model model) {
+        //站点正在使用的短信参数，页面显示默认值
         SmsInterfaceVo smsInterfaceVo = new SmsInterfaceVo();
         smsInterfaceVo._setDataSourceId(SessionManager.getSiteId());
         smsInterfaceVo = ServiceTool.smsInterfaceService().search(smsInterfaceVo);
+        smsInterfaceVo.getQuery().setCriterions(new Criterion[]{
+                new Criterion(SmsInterface.PROP_USE_STATUS, Operator.EQ,"1")
+        });
+        smsInterfaceVo = ServiceTool.smsInterfaceService().search(smsInterfaceVo);
         model.addAttribute("smsInterfaceVo", smsInterfaceVo);
 
+        //站点已经保存的短信参数,切换时页面显示默认值
+        SmsInterfaceListVo existedInterfaceListVo = new SmsInterfaceListVo();
+        existedInterfaceListVo._setDataSourceId(SessionManager.getSiteId());
+        existedInterfaceListVo = ServiceTool.smsInterfaceService().search(existedInterfaceListVo);
+        Map<Object, SmsInterface> existedSmsInterfaceMap = CollectionTool.toEntityMap(existedInterfaceListVo.getResult(), SmsInterface.PROP_ID);
+        model.addAttribute("existedSmsInterfaceMap", JsonTool.toJson(existedSmsInterfaceMap));
+
+        //boss配置的参数
         SmsInterfaceListVo interfaceListVo = new SmsInterfaceListVo();
         interfaceListVo._setDataSourceId(Integer.valueOf(UserTypeEnum.BOSS.getCode()));
         interfaceListVo = ServiceTool.smsInterfaceService().search(interfaceListVo);
         model.addAttribute("interfaceListVo", interfaceListVo.getResult());
+
     }
 
     private NoticeEmailInterface getDefaultEmailInterface() {
