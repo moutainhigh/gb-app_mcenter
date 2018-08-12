@@ -52,9 +52,7 @@ public class SmsInterfaceController extends BaseCrudController<ISmsInterfaceServ
         //把所有都置为0：状态1使用0停用
         SmsInterfaceListVo smsInterfaceListVo = new SmsInterfaceListVo();
         List<SmsInterface> smsInterfaces = ServiceTool.smsInterfaceService().allSearch(smsInterfaceListVo);
-        for (SmsInterface smsInterface:smsInterfaces){
-            smsInterface.setUseStatus("0");
-        }
+        smsInterfaces.forEach(si -> si.setUseStatus("0"));
         smsInterfaceVo.setEntities(smsInterfaces);
         smsInterfaceVo.setProperties(SmsInterface.PROP_USE_STATUS);
         ServiceTool.smsInterfaceService().batchUpdateOnly(smsInterfaceVo);
