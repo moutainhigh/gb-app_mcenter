@@ -39,6 +39,7 @@
             <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['出款渠道']}：</label>
             <div class="col-xs-8 p-x">
                 <input type="hidden" id="middleValue" name="middleValue" value="" />
+                <input type="hidden" id="lastSavedChannel" value="${paramValueMap.withdrawChannel}" />
                 <select  id="withdrawChannel" name="result.paramValue" class="chosen-select-no-single" callback="bankChannel">
                         <option value="">${views.common['pleaseSelect']}</option>
                     <c:if test="${command.result != null}">
