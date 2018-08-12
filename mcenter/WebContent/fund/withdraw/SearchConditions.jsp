@@ -195,7 +195,7 @@
                 <c:if test="${easyPaymentStatus eq 'true'}">
                 <div>
                     <shiro:hasPermission name="fund:withdraw_account">
-                        <soul:button callback="reloadMainFrame" size="size-wide" text="${views.fund_auto['易收付出款']}" opType="dialog" cssClass="btn btn-filter btn-outline pull-left" target="${root}/fund/withdraw/withdrawAccount.html">${views.fund_auto['易收付出款']}</soul:button>
+                        <soul:button callback="reloadMainFrame" size="size-wide" text="${views.fund_auto['代付账号设置']}" opType="dialog" cssClass="btn btn-filter btn-outline pull-left" target="${root}/fund/withdraw/withdrawAccount.html">${views.fund_auto['代付账号设置']}</soul:button>
                     </shiro:hasPermission>
                 </div>
                 </c:if>
