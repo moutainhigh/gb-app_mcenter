@@ -820,15 +820,8 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         siteInterfaceListVo = ServiceTool.smsInterfaceService().search(siteInterfaceListVo);
         Map<Object, SmsInterface> bossSmsInterfaceMap = CollectionTool.toEntityMap(bossInterfaceListVo.getResult(), SmsInterface.PROP_ID);
         Map<Object, SmsInterface> siteSmsInterfaceMap = CollectionTool.toEntityMap(siteInterfaceListVo.getResult(), SmsInterface.PROP_ID);
-        for (Object key : bossSmsInterfaceMap.keySet()) {
-            if (siteSmsInterfaceMap.get(key) != null) {
-                String extJson = bossSmsInterfaceMap.get(key).getExtJson();
-                bossSmsInterfaceMap.put(key, siteSmsInterfaceMap.get(key));
-                // extJson配置的是短信接口维护字段
-                bossSmsInterfaceMap.get(key).setExtJson(extJson);
-            }
-        }
         model.addAttribute("bossSmsInterfaceMap", JsonTool.toJson(bossSmsInterfaceMap));
+        model.addAttribute("siteSmsInterfaceMap", JsonTool.toJson(siteSmsInterfaceMap));
     }
 
     private NoticeEmailInterface getDefaultEmailInterface() {

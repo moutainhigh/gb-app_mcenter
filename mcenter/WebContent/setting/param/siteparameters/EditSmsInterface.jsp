@@ -13,6 +13,9 @@
     <div style="display: none" id="bossSmsInterfaceMap">
         ${bossSmsInterfaceMap}
     </div>
+    <div style="display: none" id="siteSmsInterfaceMap">
+        ${siteSmsInterfaceMap}
+    </div>
     <div class="clearfix">
         <div id="smsInterface" class="col-lg-6 site-switch">
             <ul class="clearfix">
@@ -25,51 +28,12 @@
                                    list="${interfaceListVo}" listKey="id" listValue="fullName" />
                     </div>
                 </div>
-                <div class="clearfix m-b sms-column sms-username">
-                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
-                        ${views.setting_auto['接口用户名']}：
-                    </div>
-                    <div class="col-xs-5">
-                        <input type="text" name="sms.username" value=""　class="form-control">
-                    </div>
-                </div>
-                <div class="clearfix m-b sms-column sms-password">
-                    <div class="ft-bold pull-left line-hi34"
-                         style="width: 100px;text-align: right;">${views.setting_auto['接口密码']}：
-                    </div>
-                    <div class="col-xs-5">
-                        <input type="text" name="sms.password" value="" class="form-control">
-                    </div>
-                </div>
-                <div class="clearfix m-b sms-column sms-appid">
-                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
-                        ${views.setting_auto['短信应用ID']}：
-                    </div>
-                    <div class="col-xs-5">
-                        <input type="text" name="sms.appId" value="" class="form-control">
-                    </div>
-                </div>
-                <div class="clearfix m-b sms-column sms-dataKey">
-                    <div class="ft-bold pull-left line-hi34"
-                         style="width: 100px;text-align: right;">${views.setting_auto['接口密钥']}：
-                    </div>
-                    <div class="col-xs-5">
-                        <textarea name="sms.dataKey"class="form-control"></textarea>
-                    </div>
-                </div>
-                <div class="clearfix m-b sms-column sms-signature">
-                    <div class="ft-bold pull-left line-hi34" style="width: 100px;text-align: right;">
-                        ${views.setting_auto['接口签名']}：
-                    </div>
-                    <div class="col-xs-5">
-                        <input type="text" name="sms.signature" maxlength="30" value="" class="form-control">
-                    </div>
-                </div>
+                <div id="smsInterfaceForm"></div>
                 <div class="modal-footer">
                     <soul:button cssClass="btn btn-filter" text="${views.common['save']}"
-                                 opType="ajax"
+                                 opType="function"
                                  dataType="json"
-                                 target="${root}/smsInterface/saveSmsInterface.html"
+                                 target="saveSubmit"
                                  precall="validSmsInterface"
                                  post="getSmsInterfaceDateForm" callback="saveCallbak"/>
                 </div>
