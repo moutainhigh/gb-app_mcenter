@@ -40,7 +40,7 @@
                                 <td><a href="javascript:void(0)">${result.account}</a></td>
                             </tr>
                             <tr class="tab-title">
-                                <th class="bg-tbcolor">存款渠道：</th>
+                                <th class="bg-tbcolor">出款渠道：</th>
                                 <td>${dicts.common.bankname[result.bankCode]}</td>
                                 <th class="bg-tbcolor">域名：</th>
                                 <td>${domain}</td>
