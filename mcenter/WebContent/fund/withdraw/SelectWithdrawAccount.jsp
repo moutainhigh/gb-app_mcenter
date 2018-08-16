@@ -16,29 +16,34 @@
 <body>
 <!--//region your codes 3-->
 <form:form action="${root}/fund/withdraw/WithdrawAccount">
-<form:hidden path="result.id" id="resultId" />
-
-    <%--<input type="hidden" value="${command.creditId}" name="creditId" id="creditId">--%>
-    <%--<div id="validateRule" style="display: none">${validateRule}</div>--%>
     <div class="modal-body">
+        <c:if test="${not empty accountListVo}">
+            <div class="form-group over clearfix">
+                <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['出款渠道']}1：</label>
+                <div class="col-xs-4 p-x">
+                    <gb:select name="search.centerId" list="${accountListVo.result}" listKey="id" listValue="account" prompt="${views.common['all']}" cssClass=""></gb:select>
+                </div>
+        </c:if>
 
+            <c:if test="${empty accountListVo}">
+                    <c:set value="${paramValueMap}" var="p"></c:set>
+                    <div class="form-group over clearfix">
+                        <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['出款渠道']}2：</label>
+                        <div class="col-xs-4 p-x">
+                            <input type="hidden" id="middleValue" name="middleValue" value="" />
+                            <input type="hidden" id="lastSavedChannel" value="${paramValueMap.withdrawChannel}" />
+                            <select  id="withdrawChannel" name="result.paramValue" class="chosen-select-no-single">
+                                <option value="">${views.common['pleaseSelect']}</option>
+                                <c:if test="${command.result != null}">
+                                    <c:forEach items="${bankList}" var="b">
+                                        <option value="${b.bankName}" ${p.get("withdrawChannel")==b.bankName?'selected':''}>${(dicts.common.bankname[b.bankName]==null)?b.bankShortName:dicts.common.bankname[b.bankName]}</option>
+                                    </c:forEach>
+                                </c:if>
+                            </select>
+                        </div>
+                    </div>
+            </c:if>
 
-        <c:set value="${paramValueMap}" var="p"></c:set>
-        <div class="form-group over clearfix">
-            <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['出款渠道']}：</label>
-            <div class="col-xs-8 p-x">
-                <input type="hidden" id="middleValue" name="middleValue" value="" />
-                <input type="hidden" id="lastSavedChannel" value="${paramValueMap.withdrawChannel}" />
-                <select  id="withdrawChannel" name="result.paramValue" class="chosen-select-no-single" callback="bankChannel">
-                        <option value="">${views.common['pleaseSelect']}</option>
-                    <c:if test="${command.result != null}">
-                        <c:forEach items="${bankList}" var="b">
-                            <option value="${b.bankName}" ${p.get("withdrawChannel")==b.bankName?'selected':''}>${(dicts.common.bankname[b.bankName]==null)?b.bankShortName:dicts.common.bankname[b.bankName]}</option>
-                        </c:forEach>
-                    </c:if>
-                </select>
-            </div>
-        </div>
 
     <div class="modal-footer">
         <soul:button precall="" cssClass="btn btn-filter" opType="ajax" dataType="json" text="${views.common['OK']}"
