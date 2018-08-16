@@ -53,6 +53,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.fund.IVPlayerWithdrawService;
@@ -85,6 +86,7 @@ import so.wwb.gamebox.model.listop.FilterRow;
 import so.wwb.gamebox.model.listop.FilterSelectConstant;
 import so.wwb.gamebox.model.listop.TabTypeEnum;
 import so.wwb.gamebox.model.master.content.vo.PayAccountListVo;
+import so.wwb.gamebox.model.master.content.vo.WithdrawAccountListVo;
 import so.wwb.gamebox.model.master.dataRight.DataRightModuleType;
 import so.wwb.gamebox.model.master.dataRight.po.SysUserDataRight;
 import so.wwb.gamebox.model.master.dataRight.vo.SysUserDataRightVo;
@@ -111,7 +113,6 @@ import so.wwb.gamebox.model.master.report.so.VPlayerTransactionSo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionVo;
 import so.wwb.gamebox.model.master.setting.vo.NoticeTmplVo;
 import so.wwb.gamebox.web.*;
-import so.wwb.gamebox.common.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -2320,6 +2321,16 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      */
     @RequestMapping("/selectWithdrawAccount")
     private String selectWithdrawAccount(SysParamVo sysParamVo, Model model) {
+
+        //获取可用的代付出款账户
+        WithdrawAccountListVo accountListVo = ServiceSiteTool.WithdrawAccountService().
+                selectUsingWithdrawAccount(new WithdrawAccountListVo());
+
+        if (accountListVo.isSuccess()){
+            model.addAttribute("command",accountListVo);
+            return SELECT_WITHDRAW_ACCOUNT;
+        }
+        //如果没有设置过出款(代付)账户，取v2029之前版本的易收付参数
         SysParam siteParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
         sysParamVo.setResult(siteParam);
         Map<String, Object> paramValueMap = JsonTool.fromJson(siteParam.getParamValue(), Map.class);
