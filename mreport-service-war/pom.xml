@@ -55,11 +55,6 @@
         </dependency>
         <dependency>
             <groupId>so.wwb.gamebox.monitor</groupId>
-            <artifactId>monitor-aopclient</artifactId>
-            <version>${monitor.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>so.wwb.gamebox.monitor</groupId>
             <artifactId>monitor-iservice</artifactId>
             <version>${monitor.version}</version>
         </dependency>

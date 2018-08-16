@@ -15,10 +15,9 @@
         <module>../base/iservice-mreport</module>
         <module>../base/webcommon</module>
         <module>../base/common</module>
-        <!--<module>../base/monitor/monitor-aopclient</module>
         <module>../base/monitor/monitor-client</module>
         <module>../base/monitor/monitor-iservice</module>
-        <module>../base/monitor/monitor-model</module>-->
+        <module>../base/monitor/monitor-model</module>
         <module>mcenter</module>
         <module>mreport-service</module>
         <module>mreport-service-war</module>
