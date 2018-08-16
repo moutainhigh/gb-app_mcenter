@@ -70,7 +70,7 @@
                         </div>
                     </div>
                         <%-- 域名 --%>
-                    <div class="form-group clearfix payDomain">
+                    <div class="form-group clearfix hide payDomain">
                         <label class="ft-bold col-sm-3 al-right line-hi34">
                             <span class="co-red m-r-sm">*</span>域名：
                         </label>
