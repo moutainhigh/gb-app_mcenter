@@ -164,6 +164,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     private static final String MCENTER_PLAYER_WITHDRAW_URL = "fund/withdraw/withdrawAuditView.html";
     //保存出款账户
     public static final String WITHDRAW_ACCOUNT = "fund/withdraw/WithdrawAccount";
+    //选择出款账户
+    public static final String SELECT_WITHDRAW_ACCOUNT = "fund/withdraw/SelectWithdrawAccount";
     //出款详细页面
     private static final String WITHDRAW_STATUS_VIEW_URl = "/fund/withdraw/withdrawStatusView";
     //确认重新出款页面
@@ -2309,6 +2311,65 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         }
         model.addAttribute("bankList", list);
         return WITHDRAW_ACCOUNT;
+    }
+    /**
+     * 出款账号选择页面
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping("/selectWithdrawAccount")
+    private String selectWithdrawAccount(SysParamVo sysParamVo, Model model) {
+        SysParam siteParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
+        sysParamVo.setResult(siteParam);
+        Map<String, Object> paramValueMap = JsonTool.fromJson(siteParam.getParamValue(), Map.class);
+        List<Map<String, String>> channelJson = new ArrayList<>();
+        Map<String,String> map = new HashMap<>();
+        Map<String,String> rMap = new HashMap<>();
+        Map<String,String> tMap = new HashMap<>();
+        for (String str : paramValueMap.keySet()){
+            if ("merchantCode".equals(str)){
+                map.put("column","merchantCode");
+                map.put("value",paramValueMap.get(str).toString());
+                map.put("view","merchantCode");
+                channelJson.add(map);
+            }else if ("key".equals(str)){
+                rMap.put("column","key");
+                rMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                rMap.put("view","key");
+                channelJson.add(rMap);
+            }else if("publicKey".equals(str)){
+                rMap.put("column","publicKey");
+                rMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                rMap.put("view","publicKey");
+                channelJson.add(rMap);
+            }else if ("private_key".equals(str)){
+                tMap.put("column","private_key");
+                tMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                tMap.put("view","private_key");
+                channelJson.add(tMap);
+            }
+        }
+        model.addAttribute("channelJson", channelJson);
+        model.addAttribute("paramValueMap", paramValueMap);
+        model.addAttribute("command", sysParamVo);
+//        model.addAttribute("validateRule", JsRuleCreator.create(PlayerWithdrawForm.class));
+        List<Bank> list = new ArrayList();
+        List<Bank> bankList = getBankList(BankPayTypeEnum.EASY_PAY.getCode());
+        if (bankList != null && bankList.size() > 0) {
+            for (Bank bank : bankList) {
+                //bankName国际化处理
+                String interlingua = LocaleTool.tranDict(DictEnum.BANKNAME, bank.getBankName());
+                if (StringTool.isNotEmpty(interlingua)) {
+                    bank.setInterlinguaBankName(interlingua);
+                } else {
+                    bank.setInterlinguaBankName(bank.getBankShortName());
+                }
+                list.add(bank);
+            }
+        }
+        model.addAttribute("bankList", list);
+        return SELECT_WITHDRAW_ACCOUNT;
     }
 
     /**
