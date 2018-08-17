@@ -24,7 +24,7 @@
             <div class="form-group over clearfix">
                 <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['出款渠道']}1：</label>
                 <div class="col-xs-4 p-x">
-                    <gb:select name="withdrawAccount.id" list="${accountListVo.result}" listKey="id" listValue="account"
+                    <gb:select name="withdrawAccount.id" list="${accountListVo.result}" listKey="id" listValue="withdrawName"
                                prompt="${views.common['all']}" cssClass=""></gb:select>
                 </div>
         </c:if>
