@@ -2327,7 +2327,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 selectUsingWithdrawAccount(new WithdrawAccountListVo());
 
         if (accountListVo.isSuccess()){
-            model.addAttribute("command",accountListVo);
+            model.addAttribute("accountListVo",accountListVo);
             return SELECT_WITHDRAW_ACCOUNT;
         }
         //如果没有设置过出款(代付)账户，取v2029之前版本的易收付参数
