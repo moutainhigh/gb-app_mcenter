@@ -209,7 +209,7 @@
                     {{if withdrawStatus=='4'}}
                         {{if checkStatus=='success' &&  checkTime >= _withdrawAccountEnableTime}}
                         <shiro:hasPermission name="fund:withdraw_payment">
-    <soul:button target="${root}/fund/withdraw/payment.html?search.transactionNo={{:transactionNo}}" callback="query" confirm="${views.fund_auto['确认出款？']}" cssClass="label label-info p-x-md" text="${views.fund_auto['出款']}" opType="ajax" />
+    <%--<soul:button target="${root}/fund/withdraw/payment.html?search.transactionNo={{:transactionNo}}" callback="query" confirm="${views.fund_auto['确认出款？']}" cssClass="label label-info p-x-md" text="${views.fund_auto['出款']}" opType="ajax" />--%>
                             <soul:button target="${root}/fund/withdraw/selectWithdrawAccount.html?search.transactionNo={{:transactionNo}}" callback="query" cssClass="label label-info p-x-md" text="${views.fund_auto['出款']}" opType="dialog" />
                         </shiro:hasPermission>
                         <shiro:lacksPermission name="fund:withdraw_payment">

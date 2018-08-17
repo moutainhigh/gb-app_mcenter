@@ -2320,7 +2320,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      * @return
      */
     @RequestMapping("/selectWithdrawAccount")
-    private String selectWithdrawAccount(SysParamVo sysParamVo, Model model) {
+    private String selectWithdrawAccount(VPlayerWithdrawVo objectVo,Model model) {
+        model.addAttribute("withdrawVo",objectVo);
 
         //获取可用的代付出款账户
         WithdrawAccountListVo accountListVo = ServiceSiteTool.WithdrawAccountService().
@@ -2332,6 +2333,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         }
         //如果没有设置过出款(代付)账户，取v2029之前版本的易收付参数
         SysParam siteParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
+        SysParamVo sysParamVo = new SysParamVo();
         sysParamVo.setResult(siteParam);
         Map<String, Object> paramValueMap = JsonTool.fromJson(siteParam.getParamValue(), Map.class);
         List<Map<String, String>> channelJson = new ArrayList<>();
