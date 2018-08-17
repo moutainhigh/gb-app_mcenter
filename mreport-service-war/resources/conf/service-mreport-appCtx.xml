@@ -12,28 +12,26 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
-    <import resource="classpath*:conf/dubbo-name-bean.xml"/>
-    <import resource="classpath*:conf/data-appCtx.xml" />
-    <!--soul配置文件-->
+    <!--数据源配置-->
+    <import resource="classpath*:conf/data-appCtx.xml"/>
+    <!--公共基础Bean配置-->
     <import resource="classpath*:conf/soul-commons.xml"/>
+    <!--缓存配置-->
     <import resource="classpath*:conf/soul-cache.xml"/>
-    <import resource="classpath*:conf/soul-dubbo-base.xml"/>
-    <import resource="classpath*:conf/soul-dubbo-provider-base.xml"/>
-
-    <!--boss begin-->
-    <import resource="classpath*:conf/service-dubbo-boss-bean.xml"/>
-    <import resource="classpath*:conf/service-dubbo-boss-provider.xml"/>
-    <import resource="classpath*:conf/service-boss-mq-producer.xml"/>
-    <!--//consumer-->
-    <import resource="classpath*:conf/service-boss-dubbo-consumer.xml"/>
-    <!--boss end-->
-
-    <import resource="classpath*:conf/service-*-bean.xml" />
-    <import resource="classpath*:conf/service-*-provider.xml" />
     <import resource="classpath*:conf/cache-bean.xml"/>
-    <import resource="classpath*:conf/soul-monitor-bean.xml"/>
-    <import resource="classpath*:conf/notify-bean-aop.xml"/>
+    <!--监控与通知-->
     <import resource="classpath*:conf/service-notify-consumer.xml"/>
+    <import resource="classpath*:conf/notify-bean-aop.xml"/>
+    <import resource="classpath*:conf/soul-monitor-bean.xml"/>
+    <!--Dubbo服务消费者基础配置-->
+    <import resource="classpath*:conf/dubbo-name-bean.xml"/>
+    <import resource="classpath*:conf/soul-dubbo-base.xml"/>
+    <import resource="classpath*:conf/service-mreport-dubbo-consumer.xml"/>
+    <!--Dubbo服务提供者配置-->
+    <import resource="classpath*:conf/soul-dubbo-provider-base.xml"/>
+    <import resource="classpath*:conf/service-dubbo-*-provider.xml"/>
+    <!--基础Bean配置-->
+    <import resource="classpath*:conf/service-*-bean.xml"/>
 
     <bean class="so.wwb.gamebox.mweb.init.ServiceConf">
         <constructor-arg index="0" value="${dubbo.application.name}"></constructor-arg>
