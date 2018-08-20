@@ -443,6 +443,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 vPlayerWithdraw.set_islockPersonId(SessionManager.getAuditUserId().equals(vPlayerWithdraw.getLockPersonId()));
                 vPlayerWithdraw.set_formatDateTz_withdrawCheckTime(LocaleDateTool.formatDate(vPlayerWithdraw.getWithdrawCheckTime(), dateFormat.getDAY_SECOND(), timeZone));
                 vPlayerWithdraw.set_views_riskDataType(RiskTagTool.getRiskImgByUsername(vPlayerWithdraw.getUsername()));
+                vPlayerWithdraw.set_withdrawAccountName(vPlayerWithdraw.getWithdrawAccountName());
             }
         }
     }

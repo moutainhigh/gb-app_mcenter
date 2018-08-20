@@ -22,7 +22,7 @@
                 <th>${views.fund_auto['玩家层级']}</th>
                 <th>${views.column["VPlayerWithdraw.createTime"]}</th>
                 <th>${views.column["VPlayerWithdraw.successCount"]}</th>
-                <th>${views.fund_auto['费用扣除']}</th>
+                <th>${views.fund_auto['费用扣出款账户除']}</th>
                 <th>${views.column["VPlayerWithdraw.withdrawActualAmount"]}</th>
                 <th class="inline" style="padding-left: 30px;">
                     <div>
@@ -34,6 +34,7 @@
                 <%--出款--%>
                 <c:if test="${isActive && easyPaymentStatus eq 'true'}">
                     <th>${views.fund_auto['出款确认']}</th>
+                    <th>${views.fund_auto['出款账户']}</th>
                     <th>${views.fund_auto['确认人']}</th>
                     <th>${views.fund_auto['确认时间']}</th>
                 </c:if>
@@ -233,6 +234,13 @@
                                 <%--<span class="label p-x-md">出款失败</span>--%>
                             <%--</shiro:lacksPermission>--%>
                         {{/if}}
+                    {{else}}
+                        --
+                    {{/if}}
+                </td>
+                <td>
+                    {{if withdrawAccountName!=null&&_withdrawAccountName!=''}}
+                        {{:_withdrawAccountName}}
                     {{else}}
                         --
                     {{/if}}
