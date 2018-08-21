@@ -11,9 +11,11 @@ import org.soul.commons.log.LogFactory;
 import org.soul.commons.query.sort.Direction;
 import org.soul.commons.security.CryptoTool;
 import org.soul.iservice.pay.IOnlinePayService;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.pay.vo.OnlinePayVo;
 import org.soul.model.sys.po.SysParam;
 import org.soul.web.controller.BaseCrudController;
+import org.soul.web.validation.form.annotation.FormModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,9 +27,8 @@ import so.wwb.gamebox.iservice.master.content.IWithdrawAccountService;
 import so.wwb.gamebox.mcenter.content.form.WithdrawAccountForm;
 import so.wwb.gamebox.mcenter.content.form.WithdrawAccountSearchForm;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.BossParamEnum;
-import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.ParamTool;
+import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.company.enums.BankEnum;
 import so.wwb.gamebox.model.company.enums.BankPayTypeEnum;
 import so.wwb.gamebox.model.company.enums.ResolveStatusEnum;
@@ -39,7 +40,12 @@ import so.wwb.gamebox.model.master.content.enums.PayAccountStatusEnum;
 import so.wwb.gamebox.model.master.content.po.WithdrawAccount;
 import so.wwb.gamebox.model.master.content.vo.WithdrawAccountListVo;
 import so.wwb.gamebox.model.master.content.vo.WithdrawAccountVo;
+import so.wwb.gamebox.web.BussAuditLogTool;
+import so.wwb.gamebox.web.common.token.Token;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -82,6 +88,7 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
 
 
     @Override
+    @Token(generate = true)
     protected WithdrawAccountVo doEdit(WithdrawAccountVo objectVo, Model model) {
         model.addAttribute("bankList", getBankList());
         objectVo = this.getService().get(objectVo);
@@ -99,6 +106,24 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
         }
         model.addAttribute("channelJson", channelJsonList);
         return objectVo;
+    }
+
+    @Override
+    @Token(generate = true)
+    public String create(WithdrawAccountVo objectVo, Model model, HttpServletRequest request, HttpServletResponse response) {
+        return super.create(objectVo, model, request, response);
+    }
+
+    @Override
+    @Token(generate = true)
+    public String edit(WithdrawAccountVo objectVo, Integer id, Model model, HttpServletRequest request, HttpServletResponse response) {
+        return super.edit(objectVo, id, model, request, response);
+    }
+
+    @Override
+    @Token(valid = true)
+    public Map persist(WithdrawAccountVo objectVo, @FormModel("result") @Valid WithdrawAccountForm form, BindingResult result) {
+        return super.persist(objectVo, form, result);
     }
 
     @Override
@@ -192,7 +217,7 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
                 list.add(bank);
             }
         }
-       return list;
+        return list;
     }
 
     /**
@@ -250,6 +275,7 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
     }
 
     @Override
+    @Audit(module = Module.PAY_OUT, moduleType = ModuleType.WITHDRAW_ACCOUNT_CREATE, opType = OpType.CREATE)
     protected WithdrawAccountVo doSave(WithdrawAccountVo objectVo) {
         WithdrawAccount withdrawAccount = objectVo.getResult();
         withdrawAccount.setStatus(PayAccountStatusEnum.USING.getCode());
@@ -258,16 +284,29 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
         withdrawAccount.setWithdrawCount(0);
         withdrawAccount.setWithdrawTotal(0.0);
         setParam(withdrawAccount);
-        return this.getService().saveAccount(objectVo);
+        objectVo = this.getService().saveAccount(objectVo);
+        //日志
+        if (objectVo.isSuccess()) {
+            String channelJson = objectVo.getResult().getChannelJson();
+            BussAuditLogTool.addLog("create.withdrawAccount",SessionManager.getUserId(),channelJson);
+        }
+        return objectVo;
     }
 
     @Override
+    @Audit(module = Module.PAY_OUT, moduleType = ModuleType.WITHDRAW_ACCOUNT_EDIT, opType = OpType.UPDATE)
     protected WithdrawAccountVo doUpdate(WithdrawAccountVo objectVo) {
         WithdrawAccount withdrawAccount = objectVo.getResult();
         withdrawAccount.setUpdateUser(SessionManager.getUserId());
         withdrawAccount.setUpdateTime(new Date());
         setParam(withdrawAccount);
-        return this.getService().saveAccount(objectVo);
+        objectVo = this.getService().saveAccount(objectVo);
+        //日志
+        if (objectVo.isSuccess()) {
+            String channelJson = objectVo.getResult().getChannelJson();
+            BussAuditLogTool.addLog("update.withdrawAccount",SessionManager.getUserId(),channelJson);
+        }
+        return objectVo;
     }
 
 
