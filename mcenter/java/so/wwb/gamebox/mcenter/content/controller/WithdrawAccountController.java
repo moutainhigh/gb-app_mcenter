@@ -122,6 +122,7 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
 
     @Override
     @Token(valid = true)
+    @Audit(module = Module.PAY_OUT, moduleType = ModuleType.WITHDRAW_ACCOUNT_PERSIST, opType = OpType.UPDATE)
     public Map persist(WithdrawAccountVo objectVo, @FormModel("result") @Valid WithdrawAccountForm form, BindingResult result) {
         return super.persist(objectVo, form, result);
     }
@@ -137,6 +138,7 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
 
 
     @Override
+    @Audit(module = Module.PAY_OUT, moduleType = ModuleType.WITHDRAW_ACCOUNT_PERSIST, opType = OpType.DELETE)
     public Map delete(WithdrawAccountVo objectVo, Integer id) {
         doDelete(objectVo);
         return getVoMessage(objectVo);
@@ -150,6 +152,7 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
         String status = PayAccountStatusEnum.DELETED.getCode();
         List<WithdrawAccount> list = new ArrayList<>(objectVo.getIds().size());
         WithdrawAccount withdrawAccount;
+        StringBuffer stringBuffer = new StringBuffer();
         for (Integer id : objectVo.getIds()) {
             withdrawAccount = new WithdrawAccount();
             withdrawAccount.setId(id);
@@ -157,10 +160,16 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
             withdrawAccount.setUpdateUser(SessionManager.getUserId());
             withdrawAccount.setUpdateTime(new Date());
             list.add(withdrawAccount);
+            stringBuffer.append("W"+String.valueOf(id)+";");
         }
         objectVo.setEntities(list);
         objectVo.setProperties(WithdrawAccount.PROP_STATUS,WithdrawAccount.PROP_UPDATE_USER,WithdrawAccount.PROP_UPDATE_TIME);
-        this.getService().batchUpdateOnly(objectVo);
+        int count= this.getService().batchUpdateOnly(objectVo);
+        //日志
+        if (count > 0) {
+            String codes = stringBuffer.toString();
+            BussAuditLogTool.addLog("delete.withdrawAccount", codes);
+        }
         LOG.info("站点ID：{0}，删除出款账户id：{1}，操作人：{2}",SessionManager.getSiteId(),objectVo.getIds(),SessionManager.getUserName());
     }
 
@@ -275,7 +284,6 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
     }
 
     @Override
-    @Audit(module = Module.PAY_OUT, moduleType = ModuleType.WITHDRAW_ACCOUNT_CREATE, opType = OpType.CREATE)
     protected WithdrawAccountVo doSave(WithdrawAccountVo objectVo) {
         WithdrawAccount withdrawAccount = objectVo.getResult();
         withdrawAccount.setStatus(PayAccountStatusEnum.USING.getCode());
@@ -288,13 +296,13 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
         //日志
         if (objectVo.isSuccess()) {
             String channelJson = objectVo.getResult().getChannelJson();
-            BussAuditLogTool.addLog("create.withdrawAccount",SessionManager.getUserId(),channelJson);
+            String withdrawName = objectVo.getResult().getWithdrawName();
+            BussAuditLogTool.addLog("create.withdrawAccount",withdrawName,channelJson);
         }
         return objectVo;
     }
 
     @Override
-    @Audit(module = Module.PAY_OUT, moduleType = ModuleType.WITHDRAW_ACCOUNT_EDIT, opType = OpType.UPDATE)
     protected WithdrawAccountVo doUpdate(WithdrawAccountVo objectVo) {
         WithdrawAccount withdrawAccount = objectVo.getResult();
         withdrawAccount.setUpdateUser(SessionManager.getUserId());
@@ -304,7 +312,8 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
         //日志
         if (objectVo.isSuccess()) {
             String channelJson = objectVo.getResult().getChannelJson();
-            BussAuditLogTool.addLog("update.withdrawAccount",SessionManager.getUserId(),channelJson);
+            String withdrawName = objectVo.getResult().getWithdrawName();
+            BussAuditLogTool.addLog("update.withdrawAccount",withdrawName,channelJson);
         }
         return objectVo;
     }
@@ -336,6 +345,7 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
      */
     @RequestMapping("/changeStatus")
     @ResponseBody
+    @Audit(module = Module.PAY_OUT, moduleType = ModuleType.WITHDRAW_ACCOUNT_PERSIST, opType = OpType.UPDATE)
     public Map<String, Object> changeStatus(WithdrawAccountVo vo, Boolean state) {
         Integer accountId = vo.getResult().getId();
         if (accountId == null){
@@ -344,12 +354,19 @@ public class WithdrawAccountController extends BaseCrudController<IWithdrawAccou
             return getVoMessage(vo);
         }
         String status = PayAccountStatusEnum.DISABLED.getCode();
+        String description = "status.withdrawAccount.false";
         if (state != null && state) {
             status = PayAccountStatusEnum.USING.getCode();
+            description = "status.withdrawAccount.true";
         }
         vo.getResult().setStatus(status);
         vo.setProperties(WithdrawAccount.PROP_STATUS);
         vo = this.getService().updateOnly(vo);
+        //日志
+        if (vo.isSuccess()) {
+            String code = "W"+String.valueOf(accountId);
+            BussAuditLogTool.addLog(description,code);
+        }
         LOG.error("站点：{0}，更新出款账户ID：{1}，状态为：{2}，是否更新成功：{3}，操作人：{4}",
                 SessionManager.getSiteId(),accountId,status,vo.isSuccess(),SessionManager.getUserName());
         return getVoMessage(vo);
