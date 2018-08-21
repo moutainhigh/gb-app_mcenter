@@ -241,6 +241,8 @@
                 <td>
                     {{if withdrawAccountName!=null&&_withdrawAccountName!=''}}
                         {{:_withdrawAccountName}}
+                    {{else bankCode!=null&&bankCode!=''}}
+                        {{:_bankCode}}
                     {{else}}
                         --
                     {{/if}}
