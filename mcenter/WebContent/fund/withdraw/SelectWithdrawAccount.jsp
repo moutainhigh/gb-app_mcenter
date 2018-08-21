@@ -45,7 +45,7 @@
                 <c:if test="${empty accountListVo || not empty command.result}">
                     <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['出款渠道']}：</label>
                     <div class="col-xs-4 p-x">
-                        <select name="" class="chosen-select-no-single">
+                        <select name="withdrawChannel" class="chosen-select-no-single">
                             <c:if test="${command.result != null}">
                                 <c:forEach items="${bankList}" var="b">
                                     <option value="${b.bankName}" ${p.get("withdrawChannel")==b.bankName?'selected':''}>
@@ -60,7 +60,7 @@
 
     <div class="modal-footer">
         <c:if test="${ (not empty accountListVo && accountListVo.result.size()>0) || (not empty command.result ) }">
-            <soul:button precall="" cssClass="btn btn-filter" opType="ajax" dataType="json" text="${views.common['OK']}"
+            <soul:button precall="checkSelectOption" cssClass="btn btn-filter" opType="ajax" dataType="json" text="${views.common['OK']}"
                          target="${root}/fund/withdraw/payment.html" post="getCurrentFormData" callback="saveCallbak"/>
         </c:if>
         <soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter" opType="function"/>
