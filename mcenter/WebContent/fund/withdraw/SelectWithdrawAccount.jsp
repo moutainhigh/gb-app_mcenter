@@ -20,29 +20,41 @@
 
 <br/>
     <div class="">
-        <c:if test="${not empty accountListVo}">
             <div class="form-group over clearfix">
                 <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['出款渠道']}1：</label>
                 <div class="col-xs-4 p-x">
-                    <gb:select name="withdrawAccount.id" list="${accountListVo.result}" listKey="id" listValue="withdrawName"
-                               prompt="${views.common['all']}" cssClass=""></gb:select>
-                </div>
-        </c:if>
-
-        <c:if test="${empty accountListVo}">
-                <div class="form-group over clearfix">
-                    <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['出款渠道']}2：</label>
-                    <div class="col-xs-4 p-x">
+                    <c:if test="${not empty accountListVo}">
+                        <gb:select name="withdrawAccount.id" list="${accountListVo.result}" listKey="id" listValue="withdrawName"
+                                   prompt="${views.common['all']}" cssClass=""></gb:select>
+                    </c:if>
+                    <c:if test="${empty accountListVo}">
                         <select name="" class="chosen-select-no-single">
                             <c:if test="${command.result != null}">
                                 <c:forEach items="${bankList}" var="b">
-                                    <option value="${b.bankName}" ${p.get("withdrawChannel")==b.bankName?'selected':''}>${(dicts.common.bankname[b.bankName]==null)?b.bankShortName:dicts.common.bankname[b.bankName]}</option>
+                                    <option value="${b.bankName}" ${p.get("withdrawChannel")==b.bankName?'selected':''}>
+                                        ${(dicts.common.bankname[b.bankName]==null)?b.bankShortName:dicts.common.bankname[b.bankName]}
+                                    </option>
                                 </c:forEach>
                             </c:if>
                         </select>
-                    </div>
+                    </c:if>
                 </div>
-        </c:if>
+
+
+        <%--<c:if test="${empty accountListVo}">--%>
+                <%--<div class="form-group over clearfix">--%>
+                    <%--<label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['出款渠道']}2：</label>--%>
+                    <%--<div class="col-xs-4 p-x">--%>
+                        <%--<select name="" class="chosen-select-no-single">--%>
+                            <%--<c:if test="${command.result != null}">--%>
+                                <%--<c:forEach items="${bankList}" var="b">--%>
+                                    <%--<option value="${b.bankName}" ${p.get("withdrawChannel")==b.bankName?'selected':''}>${(dicts.common.bankname[b.bankName]==null)?b.bankShortName:dicts.common.bankname[b.bankName]}</option>--%>
+                                <%--</c:forEach>--%>
+                            <%--</c:if>--%>
+                        <%--</select>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+        <%--</c:if>--%>
 
 
     <div class="modal-footer">
