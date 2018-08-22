@@ -243,6 +243,7 @@
                                            relSelect="result.agentId" value="" />
                                 <gb:select name="result.agentId" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single" callback="changeAgentLine"
                                            relSelectPath="${root}/player/getRank/#search.agentRanks#.html"  listKey="id" listValue="username" value=""/>
+                                <div style="display: inline-block; padding-right: 30px;" class="text-center co-gray9" id="loading_agent_data"><span class="fa fa-spinner fa-pulse"></span>${views.player_auto['数据加载中…']}</div>
                                 <soul:button target="updateAgentLine" text="${views.common['save']}" opType="function" cssClass="btn btn-link co-blue btn-save-agent hide" confirm="${messages.content['confirm.update.agent']}"></soul:button>
                                 <soul:button target="cancelEditAgentLine" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
                                 <div style="font-size: 12px;color: #9c9c9c; display: inline-block; padding-right: 30px;">${messages.content['prompt.update.agent']}</div>
