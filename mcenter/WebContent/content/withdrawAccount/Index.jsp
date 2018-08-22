@@ -20,7 +20,7 @@
                 <!--筛选条件-->
                 <div class="clearfix filter-wraper border-b-1">
                     <a href="/withdrawAccount/create.html" class="btn btn-info btn-addon pull-left m-r-sm" nav-target="mainFrame"><i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span></a>
-                    <soul:button tag="button" precall="refreshPage" target="query" opType="function" cssClass="btn btn-primary-hide" text="${views.common['refresh']}"><i class="fa fa-refresh"></i><span class="hd">${views.common['refresh']}</span></soul:button>
+                    <soul:button tag="button" precall="" target="query" opType="function" cssClass="btn btn-primary-hide" text="${views.common['refresh']}"><i class="fa fa-refresh"></i><span class="hd">${views.common['refresh']}</span></soul:button>
                         <%--删除--%>
                     <div class="function-menu-show hide">
                         <div class="btn-group" style="padding-left: 10px">
