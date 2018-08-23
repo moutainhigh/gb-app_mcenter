@@ -36,7 +36,8 @@
                     <c:if test="${accountListVo.result.size()>0}">
                         <gb:select name="withdrawAccount.id" list="${accountListVo.result}" listKey="id"
                                    listValue="withdrawName"
-                                   prompt="${views.common['all']}" cssClass=""></gb:select>
+                                   prompt="${views.common['pleaseSelect']}" cssClass="">
+                        </gb:select>
                     </c:if>
                     <c:if test="${accountListVo.result.size()==0}">
                         <span class="co-red m-r-sm">无可用的代付出款账户，请前往【运营-代付出款账户】设置出款账户</span>
