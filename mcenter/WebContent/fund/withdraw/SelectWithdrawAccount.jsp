@@ -65,7 +65,7 @@
             <div class="form-group over clearfix">
                 <label class="col-xs-3 al-right"><span class="co-red m-r-sm"></span></label>
                 <div class="col-xs-8 p-x">
-                    <span class="co-red m-r-sm">玩家取款审核下的易支付为过度版本，后续将会取消，请尽快设置代付出款账户：运营--代付出款账户</span>
+                    <span class="co-red m-r-sm">玩家取款审核下的易收付出款设置为过度版本，后续将会取消，请尽快前往代付出款账户重新设置【运营-代付出款账户】</span>
                 </div>
             </div>
         </c:if>
