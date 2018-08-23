@@ -46,7 +46,7 @@
 
 
             <%--v2029前易收付参数--%>
-        <c:if test="${empty accountListVo || not empty command.result}">
+        <c:if test="${empty accountListVo && not empty command.result && command.result.active}">
             <div class="form-group over clearfix">
                 <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['出款渠道']}：</label>
                 <div class="col-xs-4 p-x">
@@ -68,10 +68,22 @@
                 </div>
             </div>
         </c:if>
+
+        <c:if test="${  empty accountListVo && (not empty command.result && !command.result.active) }">
+
+            <div class="form-group over clearfix">
+                    <%--代付出款账户--%>
+                <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>代付出款账户：</label>
+                <div class="col-xs-8 p-x">
+                        <span class="co-red m-r-sm">当前无可用的代付出款账户，请前往【运营-代付出款账户】设置出款账户</span>
+                </div>
+            </div>
+        </c:if>
+
         <br><br><br><br>
     </div>
     <div class="modal-footer">
-        <c:if test="${ (not empty accountListVo && accountListVo.result.size()>0) || (not empty command.result ) }">
+        <c:if test="${ (not empty accountListVo && accountListVo.result.size()>0) || (not empty command.result && command.result.active) }">
             <soul:button precall="checkSelectOption" cssClass="btn btn-filter" opType="ajax" dataType="json"
                          text="${views.common['OK']}"
                          target="${root}/fund/withdraw/payment.html" post="getCurrentFormData" callback="saveCallbak"/>
