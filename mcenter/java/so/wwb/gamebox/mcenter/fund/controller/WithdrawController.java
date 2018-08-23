@@ -444,7 +444,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 vPlayerWithdraw.set_formatDateTz_withdrawCheckTime(LocaleDateTool.formatDate(vPlayerWithdraw.getWithdrawCheckTime(), dateFormat.getDAY_SECOND(), timeZone));
                 vPlayerWithdraw.set_views_riskDataType(RiskTagTool.getRiskImgByUsername(vPlayerWithdraw.getUsername()));
                 vPlayerWithdraw.set_withdrawAccountName(vPlayerWithdraw.getWithdrawAccountName());
-                vPlayerWithdraw.set_bankCode(vPlayerWithdraw.getBankCode());
+                vPlayerWithdraw.set_bankCode(dictsMap.get("common").get("bankname").get(vPlayerWithdraw.getBankCode()));
                 vPlayerWithdraw.set_merchantAccount(vPlayerWithdraw.getMerchantAccount());
             }
         }
