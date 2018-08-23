@@ -39,14 +39,14 @@
                                    prompt="${views.common['all']}" cssClass=""></gb:select>
                     </c:if>
                     <c:if test="${accountListVo.result.size()==0}">
-                    <span class="co-red m-r-sm">代付出款账户不可用，请设置：运营--代付出款账户</span>
+                        <span class="co-red m-r-sm">无可用的代付出款账户，请前往【运营-代付出款账户】设置出款账户</span>
+                    </c:if>
                 </div>
-                </c:if>
             </div>
         </c:if>
 
 
-            <%--v2029前易支付参数--%>
+            <%--v2029前易收付参数--%>
         <c:if test="${empty accountListVo || not empty command.result}">
             <div class="form-group over clearfix">
                 <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['出款渠道']}：</label>
