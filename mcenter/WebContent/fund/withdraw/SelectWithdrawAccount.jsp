@@ -17,9 +17,7 @@
 <!--//region your codes 3-->
 <form:form action="${root}/fund/withdraw/WithdrawAccount">
     <input type="hidden" name="search.transactionNo" value="${withdrawVo.search.transactionNo}"/>
-
-    <br/>
-    <div class="">
+    <div class="modal-body">
             <%--<c:if test="${not empty accountListVo && accountListVo.result.size()==0}">--%>
             <%--<div class="form-group over clearfix">--%>
             <%--<label class="col-xs-3 al-right"><span class="co-red m-r-sm"></span></label>--%>
@@ -32,7 +30,7 @@
             <div class="form-group over clearfix">
                     <%--代付出款账户--%>
                 <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>代付出款账户：</label>
-                <div class="col-xs-4 p-x">
+                <div class="col-xs-8 p-x">
                     <c:if test="${accountListVo.result.size()>0}">
                         <gb:select name="withdrawAccount.id" list="${accountListVo.result}" listKey="id"
                                    listValue="withdrawName"
@@ -40,7 +38,7 @@
                         </gb:select>
                     </c:if>
                     <c:if test="${accountListVo.result.size()==0}">
-                        <span class="co-red m-r-sm">无可用的代付出款账户，请前往【运营-代付出款账户】设置出款账户</span>
+                        <span class="co-red m-r-sm">当前无可用的代付出款账户，请前往【运营-代付出款账户】设置出款账户</span>
                     </c:if>
                 </div>
             </div>
@@ -70,8 +68,8 @@
                 </div>
             </div>
         </c:if>
+        <br><br><br><br>
     </div>
-
     <div class="modal-footer">
         <c:if test="${ (not empty accountListVo && accountListVo.result.size()>0) || (not empty command.result ) }">
             <soul:button precall="checkSelectOption" cssClass="btn btn-filter" opType="ajax" dataType="json"
