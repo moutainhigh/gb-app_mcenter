@@ -11,7 +11,7 @@
 <form:form>
     <gb:token/>
     <div style="display: none" id="existedSmsInterfaceMap">
-        ${existedSmsInterfaceMap}
+            ${existedSmsInterfaceMap}
     </div>
     <div class="clearfix">
         <div id="smsInterface" class="col-lg-6 site-switch">

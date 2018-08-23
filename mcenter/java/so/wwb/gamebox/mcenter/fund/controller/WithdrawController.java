@@ -53,6 +53,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.fund.IVPlayerWithdrawService;
@@ -85,6 +86,7 @@ import so.wwb.gamebox.model.listop.FilterRow;
 import so.wwb.gamebox.model.listop.FilterSelectConstant;
 import so.wwb.gamebox.model.listop.TabTypeEnum;
 import so.wwb.gamebox.model.master.content.vo.PayAccountListVo;
+import so.wwb.gamebox.model.master.content.vo.WithdrawAccountListVo;
 import so.wwb.gamebox.model.master.dataRight.DataRightModuleType;
 import so.wwb.gamebox.model.master.dataRight.po.SysUserDataRight;
 import so.wwb.gamebox.model.master.dataRight.vo.SysUserDataRightVo;
@@ -111,7 +113,6 @@ import so.wwb.gamebox.model.master.report.so.VPlayerTransactionSo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionVo;
 import so.wwb.gamebox.model.master.setting.vo.NoticeTmplVo;
 import so.wwb.gamebox.web.*;
-import so.wwb.gamebox.common.cache.Cache;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -164,6 +165,8 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
     private static final String MCENTER_PLAYER_WITHDRAW_URL = "fund/withdraw/withdrawAuditView.html";
     //保存出款账户
     public static final String WITHDRAW_ACCOUNT = "fund/withdraw/WithdrawAccount";
+    //选择出款账户
+    public static final String SELECT_WITHDRAW_ACCOUNT = "fund/withdraw/SelectWithdrawAccount";
     //出款详细页面
     private static final String WITHDRAW_STATUS_VIEW_URl = "/fund/withdraw/withdrawStatusView";
     //确认重新出款页面
@@ -440,6 +443,9 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 vPlayerWithdraw.set_islockPersonId(SessionManager.getAuditUserId().equals(vPlayerWithdraw.getLockPersonId()));
                 vPlayerWithdraw.set_formatDateTz_withdrawCheckTime(LocaleDateTool.formatDate(vPlayerWithdraw.getWithdrawCheckTime(), dateFormat.getDAY_SECOND(), timeZone));
                 vPlayerWithdraw.set_views_riskDataType(RiskTagTool.getRiskImgByUsername(vPlayerWithdraw.getUsername()));
+                vPlayerWithdraw.set_withdrawAccountName(vPlayerWithdraw.getWithdrawAccountName());
+                vPlayerWithdraw.set_bankCode(vPlayerWithdraw.getBankCode());
+                vPlayerWithdraw.set_merchantAccount(vPlayerWithdraw.getMerchantAccount());
             }
         }
     }
@@ -2309,6 +2315,77 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         }
         model.addAttribute("bankList", list);
         return WITHDRAW_ACCOUNT;
+    }
+    /**
+     * 出款账号选择页面
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping("/selectWithdrawAccount")
+    private String selectWithdrawAccount(VPlayerWithdrawVo objectVo,Model model) {
+        model.addAttribute("withdrawVo",objectVo);
+
+        //获取可用的代付出款账户
+        WithdrawAccountListVo accountListVo = ServiceSiteTool.WithdrawAccountService().
+                selectUsingWithdrawAccount(new WithdrawAccountListVo());
+
+        if (accountListVo.isSuccess()){
+            model.addAttribute("accountListVo",accountListVo);
+            return SELECT_WITHDRAW_ACCOUNT;
+        }
+        //如果没有设置过出款(代付)账户，取v2029之前版本的易收付参数
+        SysParam siteParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
+        SysParamVo sysParamVo = new SysParamVo();
+        sysParamVo.setResult(siteParam);
+        Map<String, Object> paramValueMap = JsonTool.fromJson(siteParam.getParamValue(), Map.class);
+        List<Map<String, String>> channelJson = new ArrayList<>();
+        Map<String,String> map = new HashMap<>();
+        Map<String,String> rMap = new HashMap<>();
+        Map<String,String> tMap = new HashMap<>();
+        for (String str : paramValueMap.keySet()){
+            if ("merchantCode".equals(str)){
+                map.put("column","merchantCode");
+                map.put("value",paramValueMap.get(str).toString());
+                map.put("view","merchantCode");
+                channelJson.add(map);
+            }else if ("key".equals(str)){
+                rMap.put("column","key");
+                rMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                rMap.put("view","key");
+                channelJson.add(rMap);
+            }else if("publicKey".equals(str)){
+                rMap.put("column","publicKey");
+                rMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                rMap.put("view","publicKey");
+                channelJson.add(rMap);
+            }else if ("private_key".equals(str)){
+                tMap.put("column","private_key");
+                tMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                tMap.put("view","private_key");
+                channelJson.add(tMap);
+            }
+        }
+        model.addAttribute("channelJson", channelJson);
+        model.addAttribute("paramValueMap", paramValueMap);
+        model.addAttribute("command", sysParamVo);
+//        model.addAttribute("validateRule", JsRuleCreator.create(PlayerWithdrawForm.class));
+        List<Bank> list = new ArrayList();
+        List<Bank> bankList = getBankList(BankPayTypeEnum.EASY_PAY.getCode());
+        if (bankList != null && bankList.size() > 0) {
+            for (Bank bank : bankList) {
+                //bankName国际化处理
+                String interlingua = LocaleTool.tranDict(DictEnum.BANKNAME, bank.getBankName());
+                if (StringTool.isNotEmpty(interlingua)) {
+                    bank.setInterlinguaBankName(interlingua);
+                } else {
+                    bank.setInterlinguaBankName(bank.getBankShortName());
+                }
+                list.add(bank);
+            }
+        }
+        model.addAttribute("bankList", list);
+        return SELECT_WITHDRAW_ACCOUNT;
     }
 
     /**

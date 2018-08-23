@@ -1429,9 +1429,9 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
             SysParamVo ParamVo = ServiceTool.getSysParamService().updateOnly(sysParamVo);
-           if (ParamVo.isSuccess()){
-               ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_POPUP_SWITCH);
-           }
+            if (ParamVo.isSuccess()){
+                ParamTool.refresh(SiteParamEnum.SETTING_SYSTEM_SETTINGS_POPUP_SWITCH);
+            }
         }
         return  map;
     }
@@ -1473,9 +1473,9 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
             SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
-          if (Param.isSuccess()){
-              ParamTool.refresh(SiteParamEnum.ELECTRIC_PIN_SWITCH);
-          }
+            if (Param.isSuccess()){
+                ParamTool.refresh(SiteParamEnum.ELECTRIC_PIN_SWITCH);
+            }
         }
         return  map;
     }
@@ -1537,10 +1537,10 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
             sysParamVo.getResult().setId(sysParam.getId());
             sysParamVo.setProperties(SysParam.PROP_PARAM_VALUE);
             SysParamVo Param = ServiceTool.getSysParamService().updateOnly(sysParamVo);
-          if (Param.isSuccess()){
-              ParamTool.refresh(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
-              map.put("state",true);
-          }
+            if (Param.isSuccess()){
+                ParamTool.refresh(SiteParamEnum.PLAYER_CONTACT_STATIONMASTER);
+                map.put("state",true);
+            }
         }
         return  map;
     }
