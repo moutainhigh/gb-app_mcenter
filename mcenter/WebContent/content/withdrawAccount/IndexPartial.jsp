@@ -68,7 +68,7 @@
                     <td>${p.account}</td>
                     <td>${dicts.common.bankname[p.bankCode]}</td>
                     <td>${empty p.withdrawCount?0:p.withdrawCount}${views.common['ci']}</td>
-                    <td>${empty p.withdrawTotal?0:soulFn:formatInteger(p.withdrawCount).concat(soulFn:formatDecimals(p.withdrawCount))}&nbsp;${siteCurrency}</td>
+                    <td>${empty p.withdrawTotal?0:soulFn:formatInteger(p.withdrawTotal).concat(soulFn:formatDecimals(p.withdrawTotal))}&nbsp;${siteCurrency}</td>
                     <td><span class="label ${color}" id="status${stat.index}">${dicts.content.pay_account_status[p.status]}</span></td>
                     <td>
                         <c:choose>

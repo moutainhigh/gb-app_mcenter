@@ -32,7 +32,7 @@
                 <th>${views.fund_auto['审核人']}</th>
                 <th>${views.fund_auto['审核时间']}</th>
                 <%--出款--%>
-                <c:if test="${isActive && easyPaymentStatus eq 'true'}">
+                <c:if test="${easyPaymentStatus eq 'true'}"><%--增加了出款账户，只要判断出款的总开关打开就可以有出款相关显示，去掉isActive限制--%>
                     <th>${views.fund_auto['出款确认']}</th>
                     <th>${views.fund_auto['出款账户']}</th>
                     <th>${views.fund_auto['确认人']}</th>
@@ -205,10 +205,10 @@
                 </span>
             </td>
             <%--出款列表: 同时满足开启易收付出款账户和易收付出款入口才展示--%>
-            {{if _isActive && _easyPaymentStatus=='true'}}
+            {{if _easyPaymentStatus=='true'}}<%--增加了出款账户，只要判断出款的总开关打开就可以有出款相关显示，去掉isActive限制--%>
                 <td>
                     {{if withdrawStatus=='4'}}
-                        {{if checkStatus=='success' &&  checkTime >= _withdrawAccountEnableTime}}
+                        {{if checkStatus=='success'}}
                         <shiro:hasPermission name="fund:withdraw_payment">
     <%--<soul:button target="${root}/fund/withdraw/payment.html?search.transactionNo={{:transactionNo}}" callback="query" confirm="${views.fund_auto['确认出款？']}" cssClass="label label-info p-x-md" text="${views.fund_auto['出款']}" opType="ajax" />--%>
                             <soul:button target="${root}/fund/withdraw/selectWithdrawAccount.html?search.transactionNo={{:transactionNo}}" callback="query" cssClass="label label-info p-x-md" text="${views.fund_auto['出款']}" opType="dialog" />
@@ -217,9 +217,9 @@
                             <span class="label p-x-md">${views.fund_auto['出款']}</span>
                         </shiro:lacksPermission>
                         {{/if}}
-                        {{if checkStatus=='success' &&  checkTime < _withdrawAccountEnableTime}}
+                        <%--{{if checkStatus=='success' &&  checkTime < _withdrawAccountEnableTime}}
                         --
-                        {{/if}}
+                        {{/if}}--%>
                         {{if checkStatus=='payment_processing'}}
                             <soul:button target="withdrawStatusView" dataId="{{:id}}" size="auditLogCss" callback="" cssClass="label label-timeout p-x-md" text="${views.fund_auto['出款处理中']}" opType="function" />
                         {{/if}}
@@ -241,6 +241,8 @@
                 <td>
                     {{if withdrawAccountName!=null&&_withdrawAccountName!=''}}
                         {{:_withdrawAccountName}}
+                    {{else bankCode!=null&&bankCode!=''}}
+                        {{:_bankCode}}
                     {{else}}
                         --
                     {{/if}}

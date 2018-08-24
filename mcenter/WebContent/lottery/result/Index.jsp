@@ -25,7 +25,7 @@
       <form:hidden path="search.type" id="lotteryType"></form:hidden>
   <div class="col-lg-12">
       <ul class="clearfix sys_tab_wrap" id="lotteryDiv">
-          <li class="active" data-code="ssclottery" ><a href="javascript:void(0)">时时彩<span class="badge badge-blue m-l-sm">7种</span></a></li>
+          <li class="active" data-code="ssclottery" ><a href="javascript:void(0)">时时彩<span class="badge badge-blue m-l-sm">4种</span></a></li>
           <li data-code="k3lottery" ><a href="javascript:void(0)">快3<span class="badge badge-blue m-l-sm">4种</span></a></li>
           <li data-code="pk10lottery" ><a href="javascript:void(0)">PK10<span class="badge badge-blue m-l-sm">3种</span></a></li>
           <li data-code="sfclottery" ><a href="javascript:void(0)">十分彩<span class="badge badge-blue m-l-sm">2种</span></a></li>

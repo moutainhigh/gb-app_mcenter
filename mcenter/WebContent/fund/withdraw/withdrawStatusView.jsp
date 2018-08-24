@@ -134,7 +134,8 @@
                     </span>
                     <c:if test="${command.result.checkStatus eq 'payment_fail'}">
                         <shiro:hasPermission name="fund:withdraw_payment">
-                            <soul:button target="${root}/fund/withdraw/checkWithdrawStatus.html?search.transactionNo=${command.result.transactionNo}" callback="refreshBack" text="${views.fund_auto['重新出款']}" opType="dialog" title="${views.fund_auto['出款查询']}" cssClass="label label-info p-x-md"/>
+                            <%--<soul:button target="${root}/fund/withdraw/checkWithdrawStatus.html?search.transactionNo=${command.result.transactionNo}" callback="refreshBack" text="${views.fund_auto['重新出款']}" opType="dialog" title="${views.fund_auto['出款查询']}" cssClass="label label-info p-x-md"/>--%>
+                            <soul:button target="${root}/fund/withdraw/selectWithdrawAccount.html?search.transactionNo=${command.result.transactionNo}" callback="refreshBack" text="${views.fund_auto['重新出款']}" opType="dialog" title="${views.fund_auto['出款查询']}" cssClass="label label-info p-x-md"/>
                             &nbsp;
                             <soul:button target="${root}/fund/withdraw/setPaymentStatus.html?search.transactionNo=${command.result.transactionNo}&search.checkStatus=payment_success" callback="closePageAndRefresh" confirm="${views.fund_auto['确认将该笔订单手动置为出款成功？']}" cssClass="label label-info p-x-md" text="${views.fund_auto['手动置为成功']}" opType="ajax" />
                         </shiro:hasPermission>
