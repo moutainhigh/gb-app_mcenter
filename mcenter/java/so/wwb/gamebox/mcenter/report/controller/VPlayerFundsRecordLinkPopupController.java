@@ -167,12 +167,9 @@ public class VPlayerFundsRecordLinkPopupController extends BaseCrudController<IV
         //model.addAttribute("dictFundType", dictFundType);
         model.addAttribute("validateRule", JsRuleCreator.create(VPlayerFundsRecordSearchForm.class));
 
-        //易收付出款入口开启状态
+        //出款入口开启状态
         model.addAttribute("easyPaymentStatus",ParamTool.getSysParam(SiteParamEnum.EASY_PAYMENT).getParamValue());
         //model.addAttribute("withdrawCkeckStatus", DictTool.get(DictEnum.WITHDRAW_CHECK_STATUS));
-        //易收付出款账户开启状态
-        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
-        model.addAttribute("isActive", sysParam.getActive());
     }
 
     /**
