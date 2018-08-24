@@ -5,7 +5,7 @@
 
 
     <!--消息生产者与消息的关系配置-->
-    <bean id="mqProducerConf" class="org.soul.commons.mq.conf.MQConf">
+    <bean class="org.soul.commons.mq.conf.MQProducerConf">
         <property name="itemConfs">
             <map></map>
         </property>
