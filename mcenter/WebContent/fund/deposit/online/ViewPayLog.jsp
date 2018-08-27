@@ -25,9 +25,11 @@
                     <c:forEach items="${command.result}" var="p" varStatus="status">
                         <%--errorLog为空不展示--%>
                         <c:if test="${!empty p.errorLog}" >
-                            <td>${soulFn:formatDateTz(p.operateTime, DateFormat.DAY_SECOND,timeZone)}</td>
-                            <td>${p.description}</td>
-                            <td>${p.errorLog==null?"--":p.errorLog}</td>
+                            <tr>
+                                <td>${soulFn:formatDateTz(p.operateTime, DateFormat.DAY_SECOND,timeZone)}</td>
+                                <td>${p.description}</td>
+                                <td>${p.errorLog==null?"--":p.errorLog}</td>
+                            </tr>
                         </c:if>
                     </c:forEach>
                     </tbody>
