@@ -2280,17 +2280,17 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 channelJson.add(map);
             }else if ("key".equals(str)){
                 rMap.put("column","key");
-                rMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                rMap.put("value",paramValueMap.get(str).toString());
                 rMap.put("view","key");
                 channelJson.add(rMap);
             }else if("publicKey".equals(str)){
                 rMap.put("column","publicKey");
-                rMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                rMap.put("value",paramValueMap.get(str).toString());
                 rMap.put("view","publicKey");
                 channelJson.add(rMap);
             }else if ("private_key".equals(str)){
                 tMap.put("column","private_key");
-                tMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                tMap.put("value",paramValueMap.get(str).toString());
                 tMap.put("view","private_key");
                 channelJson.add(tMap);
             }
@@ -2351,17 +2351,17 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
                 channelJson.add(map);
             }else if ("key".equals(str)){
                 rMap.put("column","key");
-                rMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                rMap.put("value",paramValueMap.get(str).toString());
                 rMap.put("view","key");
                 channelJson.add(rMap);
             }else if("publicKey".equals(str)){
                 rMap.put("column","publicKey");
-                rMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                rMap.put("value",paramValueMap.get(str).toString());
                 rMap.put("view","publicKey");
                 channelJson.add(rMap);
             }else if ("private_key".equals(str)){
                 tMap.put("column","private_key");
-                tMap.put("value",CryptoTool.aesDecrypt(paramValueMap.get(str).toString()));
+                tMap.put("value",paramValueMap.get(str).toString());
                 tMap.put("view","private_key");
                 channelJson.add(tMap);
             }
@@ -2426,14 +2426,14 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             String[] array = paramValues.split(",");
             if (array.length == 3 ){
                 paramValueMap.put("withdrawChannel", array[0]);
-                paramValueMap.put("key", CryptoTool.aesEncrypt(array[1]));
+                paramValueMap.put("key", array[1]);
                 paramValueMap.put("merchantCode", array[2]);
                 paramValueMap.remove("publicKey");
                 paramValueMap.remove("private_key");
             }else {
                 paramValueMap.put("withdrawChannel", array[0]);
-                paramValueMap.put("publicKey", CryptoTool.aesEncrypt(array[1]));
-                paramValueMap.put("private_key", CryptoTool.aesEncrypt(array[2]));
+                paramValueMap.put("publicKey", array[1]);
+                paramValueMap.put("private_key", array[2]);
                 paramValueMap.put("merchantCode", array[3]);
                 paramValueMap.remove("key");
 
