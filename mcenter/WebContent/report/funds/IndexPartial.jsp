@@ -30,7 +30,7 @@
                            list="${dictFundType}" listKey="key" listValue="${dicts.common.fund_type[key]}" callback="query"/>
             </th>
             <th>${views.report_auto['收款账号']}</th>
-            <th style="padding-left: 35px;">${views.report['fund.list.transactionNo']}</th>
+            <th style="padding-left: 35px;">${views.common['orderNum']}</th>
             <soul:orderColumn poType="${poType}" property="transactionMoney" column="${views.report['fund.list.money']}"/>
             <soul:orderColumn poType="${poType}" property="balance" column="${views.report['fund.list.balance']}"/>
             <th>API余额</th>

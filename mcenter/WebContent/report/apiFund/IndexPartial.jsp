@@ -21,7 +21,7 @@
                 <gb:select name="search.fundType" value="${command.search.fundType}" cssClass="btn-group chosen-select-no-single" prompt="${views.common['all']}"
                            list="${command.dictFundType}" listKey="key" listValue="value" callback="query"/>
             </th>
-            <th style="padding-left: 35px;">${views.report['fund.list.transactionNo']}</th>
+            <th style="padding-left: 35px;">${views.common['orderNum']}</th>
             <soul:orderColumn poType="${poType}" property="transactionMoney" column="${views.report['fund.list.money']}"/>
             <soul:orderColumn poType="${poType}" property="balance" column="${views.report['fund.list.balance']}"/>
             <soul:orderColumn poType="${poType}" property="apiMoney" column="${views.report['fund.list.apiMoney']}"/>

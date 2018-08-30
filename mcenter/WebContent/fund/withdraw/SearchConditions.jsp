@@ -37,7 +37,7 @@
             <%--交易号--%>
             <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm  hide senior transactionNo">
                 <div class="input-group date">
-                    <span class="input-group-addon bg-gray">&nbsp;${views.fund_auto['交易号']}&nbsp;&nbsp;</span>
+                    <span class="input-group-addon bg-gray">&nbsp;${views.common['orderNum']}&nbsp;&nbsp;</span>
                     <input  class="form-control search" type="text" name="search.transactionNo" value="${command.search.transactionNo}"/>
                 </div>
             </div>
