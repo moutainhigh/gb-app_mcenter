@@ -19,7 +19,7 @@
         </div>
         <div class="col-lg-12">
             <div class="wrapper white-bg shadow">
-                活动大厅参数关闭，请联系客服确认是否活动大厅。
+                活动大厅参数关闭，请联系客服确认是否开启活动大厅。
         </div>
     </div>
     <!--//endregion your codes 2-->
