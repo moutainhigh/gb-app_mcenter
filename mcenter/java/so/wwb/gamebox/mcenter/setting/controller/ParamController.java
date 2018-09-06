@@ -803,24 +803,25 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
         smsInterfaceVo._setDataSourceId(SessionManager.getSiteId());
         smsInterfaceVo = ServiceTool.smsInterfaceService().search(smsInterfaceVo);
         smsInterfaceVo.getQuery().setCriterions(new Criterion[]{
-                new Criterion(SmsInterface.PROP_USE_STATUS, Operator.EQ,"1")
+                new Criterion(SmsInterface.PROP_USE_STATUS, Operator.EQ, "1")
         });
         smsInterfaceVo = ServiceTool.smsInterfaceService().search(smsInterfaceVo);
         model.addAttribute("smsInterfaceVo", smsInterfaceVo);
 
+        //boss配置的短信接口列表
+        SmsInterfaceListVo bossInterfaceListVo = new SmsInterfaceListVo();
+        bossInterfaceListVo._setDataSourceId(Integer.valueOf(UserTypeEnum.BOSS.getCode()));
+        bossInterfaceListVo = ServiceTool.smsInterfaceService().search(bossInterfaceListVo);
+        model.addAttribute("interfaceListVo", bossInterfaceListVo.getResult());
+
         //站点已经保存的短信参数,切换时页面显示默认值
-        SmsInterfaceListVo existedInterfaceListVo = new SmsInterfaceListVo();
-        existedInterfaceListVo._setDataSourceId(SessionManager.getSiteId());
-        existedInterfaceListVo = ServiceTool.smsInterfaceService().search(existedInterfaceListVo);
-        Map<Object, SmsInterface> existedSmsInterfaceMap = CollectionTool.toEntityMap(existedInterfaceListVo.getResult(), SmsInterface.PROP_ID);
-        model.addAttribute("existedSmsInterfaceMap", JsonTool.toJson(existedSmsInterfaceMap));
-
-        //boss配置的参数
-        SmsInterfaceListVo interfaceListVo = new SmsInterfaceListVo();
-        interfaceListVo._setDataSourceId(Integer.valueOf(UserTypeEnum.BOSS.getCode()));
-        interfaceListVo = ServiceTool.smsInterfaceService().search(interfaceListVo);
-        model.addAttribute("interfaceListVo", interfaceListVo.getResult());
-
+        SmsInterfaceListVo siteInterfaceListVo = new SmsInterfaceListVo();
+        siteInterfaceListVo._setDataSourceId(SessionManager.getSiteId());
+        siteInterfaceListVo = ServiceTool.smsInterfaceService().search(siteInterfaceListVo);
+        Map<Object, SmsInterface> bossSmsInterfaceMap = CollectionTool.toEntityMap(bossInterfaceListVo.getResult(), SmsInterface.PROP_ID);
+        Map<Object, SmsInterface> siteSmsInterfaceMap = CollectionTool.toEntityMap(siteInterfaceListVo.getResult(), SmsInterface.PROP_ID);
+        model.addAttribute("bossSmsInterfaceMap", JsonTool.toJson(bossSmsInterfaceMap));
+        model.addAttribute("siteSmsInterfaceMap", JsonTool.toJson(siteSmsInterfaceMap));
     }
 
     private NoticeEmailInterface getDefaultEmailInterface() {
@@ -1594,9 +1595,9 @@ public class ParamController extends BaseCrudController<ISysParamService, SysPar
      * @return
      */
     @RequestMapping("/editSmsInterface")
-    public String editSmsInterface(Model model){
+    public String editSmsInterface(Model model) {
         getSmsInterfaceMessage(model);
-        return  "/setting/param/siteparameters/EditSmsInterface";
+        return "/setting/param/siteparameters/EditSmsInterface";
     }
 
     /**
