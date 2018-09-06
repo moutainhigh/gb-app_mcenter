@@ -33,14 +33,16 @@
                         </div>
 
                         <div class="clearfix m-b limit_title_wrap">
-                            <h3 class="limit_title divSelect div1 cur" tt="fee" ff="return" dd="isReturnFee"><i ${not empty command.result.isFee&&empty command.result.isReturnFee?'class="fa fa-check-square-o m-r-sm"':''}></i>${views.role['paylimit.one.fee']}</h3>
+                            <h3 class="limit_title divSelect div1 ${command.result.isFee?'cur':''}" tt="fee" ff="return" dd="isReturnFee">
+                                <i class="fa fa-check-square-o m-r-sm"></i>${views.role['paylimit.one.fee']}
+                            </h3>
                         </div>
                         <div class="div_css" id="div_fee">
                             <div class="clearfix m-t m-b fzcs">
                                 <b class="pull-left col-sm-3 al-right line-hi34">${views.role['paylimit.fee.money']}</b>
                                 <div class="col-sm-5">
                                     <input type="checkbox" class="i-checks" id="box_fee" name="my-checkbox" type="maxFee" data-size="mini" tt="isFee" ${command.result.isFee?'checked':''} />
-                                    <input id="isFee" name="result.isFee" type="hidden" value="${empty command.result.isFee?'':command.result.isFee}">
+                                    <input id="isFee" name="result.isFee" type="hidden" value="${empty command.result.isFee?'false':command.result.isFee}">
                                 </div>
                             </div>
                             <div id="first_div_fee">
@@ -95,7 +97,9 @@
                         </div>
 
                         <div class="clearfix m-b limit_title_wrap">
-                            <h3 class="limit_title divSelect div2 default" tt="return" ff="fee" dd="isFee"><i ${not empty command.result.isReturnFee&&empty command.result.isFee?'class="fa fa-check-square-o m-r-sm"':''} ></i>${views.role['paylimit.one.return.fee']}</h3>
+                            <h3 class="limit_title divSelect div2 default ${command.result.isReturnFee?'cur':''} " tt="return" ff="fee" dd="isFee">
+                                <i class="fa fa-check-square-o m-r-sm"  ></i>${views.role['paylimit.one.return.fee']}
+                            </h3>
                         </div>
 
                         <div  class="div_css" id="div_return">
@@ -103,7 +107,7 @@
                                 <b class="pull-left col-sm-3 al-right line-hi34">${views.role['paylimit.return.fee']}</b>
                                 <div class="col-sm-5">
                                     <input type="checkbox" class="i-checks" name="my-checkbox" id="box_return" data-size="mini" tt="isReturnFee" ${command.result.isReturnFee==true?'checked':''} />
-                                    <input id="isReturnFee" name="result.isReturnFee" type="hidden" value="${empty command.result.isReturnFee?'':command.result.isReturnFee}">
+                                    <input id="isReturnFee" name="result.isReturnFee" type="hidden" value="${empty command.result.isReturnFee?'false':command.result.isReturnFee}">
                                 </div>
                             </div>
                             <div  id="first_div_return">

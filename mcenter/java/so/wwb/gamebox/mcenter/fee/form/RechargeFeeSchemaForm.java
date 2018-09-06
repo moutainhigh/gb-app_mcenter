@@ -140,7 +140,7 @@ public class RechargeFeeSchemaForm implements IForm {
     }
 
     @Depends(property = "isReturnFee", operator = Operator.EQ, value = "true", message = "playerRank.notBlank", jsValueExp = "$(\"[name=\\'result.isReturnFee\\']\").val()=='true'")
-    @Pattern(regexp = FormValidRegExps.POSITIVE_INTEGER, message = "common.POSITIVE_INTEGER")
+    @Pattern(regexp = FormValidRegExps.POSITIVE, message = "common.POSITIVE_INTEGER")
     @Max(99999999)
     @Comment("满存金额")
     public String getReachMoney() {
