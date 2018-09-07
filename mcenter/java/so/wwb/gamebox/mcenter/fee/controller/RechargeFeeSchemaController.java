@@ -60,19 +60,24 @@ public class RechargeFeeSchemaController extends BaseCrudController<IRechargeFee
 
         //页面数据转换
         RechargeFeeSchema fee = objectVo.getResult();
-        //收取/返还
-        String feeType = fee.getFeeType() == null ? "1" : fee.getFeeType();
-        if ("1".equals(feeType)) {
-            fee.setFeeMoney(objectVo.getPercentageAmount());
-        } else {
-            fee.setFeeMoney(objectVo.getFixedAmount());
+
+        //收取
+        if (fee.getIsFee()) {
+            String feeType = fee.getFeeType() == null ? "1" : fee.getFeeType();
+            if ("1".equals(feeType)) {
+                fee.setFeeMoney(objectVo.getPercentageAmount());
+            } else {
+                fee.setFeeMoney(objectVo.getFixedAmount());
+            }
         }
-        //百分比/固定
-        String returnType = fee.getReturnType() == null ? "1" : fee.getReturnType();
-        if ("1".equals(returnType)) {
-            fee.setReturnMoney(objectVo.getReturnPercentageAmount());
-        } else {
-            fee.setReturnMoney(objectVo.getReturnFixedAmount());
+        //返还
+        if (fee.getIsReturnFee()) {
+            String returnType = fee.getReturnType() == null ? "1" : fee.getReturnType();
+            if ("1".equals(returnType)) {
+                fee.setReturnMoney(objectVo.getReturnPercentageAmount());
+            } else {
+                fee.setReturnMoney(objectVo.getReturnFixedAmount());
+            }
         }
         //创建时间，修改时间
         if (fee.getId() != null){
@@ -86,7 +91,7 @@ public class RechargeFeeSchemaController extends BaseCrudController<IRechargeFee
         Map persist = super.persist(objectVo, form, bindingResult);
         //日志
         if (MapTool.getBoolean(persist,"state")){
-            BussAuditLogTool.addLog("RECHARGE_FEE_SCHEMA", JsonTool.toJson(objectVo.getResult()));
+            BussAuditLogTool.addLog("RECHARGE_FEE_SCHEMA", "["+JsonTool.toJson(objectVo.getResult())+"]");
         }
         return persist;
     }
