@@ -6,10 +6,12 @@ import org.hibernate.validator.constraints.Range;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.validation.form.constraints.Compare;
 import org.soul.commons.validation.form.constraints.Depends;
+import org.soul.commons.validation.form.constraints.Remote;
 import org.soul.commons.validation.form.support.Comment;
 import org.soul.commons.validation.form.support.CompareLogic;
 import org.soul.web.support.IForm;
 import so.wwb.gamebox.mcenter.common.consts.FormValidRegExps;
+import so.wwb.gamebox.mcenter.fee.controller.RechargeFeeSchemaController;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
@@ -93,6 +95,7 @@ public class RechargeFeeSchemaForm implements IForm {
 
     @NotBlank(message = "common.手续费方案名称不能为空")
     @Length(min = 1,max = 150)
+    @Remote(message = "common.手续费方案名称已经存在",checkMethod = "checkSchemaNameExist",checkClass = RechargeFeeSchemaController.class, additionalProperties = {"result.id"})
     public String getSchemaName() {
         return schemaName;
     }

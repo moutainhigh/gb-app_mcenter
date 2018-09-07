@@ -1,8 +1,11 @@
 package so.wwb.gamebox.mcenter.fee.controller;
 
+import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.MapTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.lang.DateQuickPickerTool;
+import org.soul.commons.query.Criterion;
+import org.soul.commons.query.enums.Operator;
 import org.soul.model.log.audit.enums.OpType;
 import org.soul.web.controller.BaseCrudController;
 import org.soul.web.validation.form.annotation.FormModel;
@@ -10,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.iservice.master.fee.IRechargeFeeSchemaService;
 import so.wwb.gamebox.mcenter.fee.form.RechargeFeeSchemaForm;
 import so.wwb.gamebox.mcenter.fee.form.RechargeFeeSchemaSearchForm;
@@ -100,5 +105,25 @@ public class RechargeFeeSchemaController extends BaseCrudController<IRechargeFee
     public Map delete(RechargeFeeSchemaVo objectVo, Integer id) {
         this.getService().updateOnly(null);
         return super.delete(objectVo, id);
+    }
+
+
+    /**
+     * 验证该名称是否存在
+     */
+    @RequestMapping("/checkSchemaNameExist")
+    @ResponseBody
+    public boolean checkSchemaNameExist(@RequestParam("result.schemaName") String schemaName, @RequestParam("result.id") Integer id) {
+        RechargeFeeSchemaListVo listVo = new RechargeFeeSchemaListVo();
+        listVo.getQuery().setCriterions(new Criterion[]{
+                new Criterion(RechargeFeeSchema.PROP_SCHEMA_NAME, Operator.EQ, schemaName),
+                new Criterion(RechargeFeeSchema.PROP_ID, Operator.NE, id)
+        });
+        listVo = this.getService().search(listVo);
+        if (listVo.isSuccess() && CollectionTool.isEmpty(listVo.getResult())){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

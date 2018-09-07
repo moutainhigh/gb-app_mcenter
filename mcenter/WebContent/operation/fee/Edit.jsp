@@ -8,7 +8,9 @@
     <div id="validateRule" style="display: none">${command.validateRule}</div>
     <input type="hidden" name="result.feeType" id="feeType" value="${command.result.feeType}">
     <input type="hidden" name="result.returnType" id="returnType" value="${command.result.returnType}">
-    <input type="hidden" id="rankId" name="result.id" value="${command.result.id}">
+    <input type="hidden" name="result.id" value="${command.result.id}">
+    <input type="hidden" name="result.createTime" value="${soulFn:formatDateTz(command.result.createTime, DateFormat.DAY_SECOND,timeZone)}">
+
 
     <div id="wrapper">
         <div class="row">
