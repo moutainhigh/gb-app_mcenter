@@ -36,7 +36,7 @@
 
                         <div class="clearfix m-b limit_title_wrap">
                             <h3 class="limit_title divSelect div1 ${command.result.isFee?'cur':''}" tt="fee" ff="return" dd="isReturnFee">
-                                <i class="fa fa-check-square-o m-r-sm"></i>${views.role['paylimit.one.fee']}
+                                <i class="fa fa-check-square-o m-r-sm"></i>收取${views.role['paylimit.one.fee']}
                             </h3>
                         </div>
                         <div class="div_css" id="div_fee">
