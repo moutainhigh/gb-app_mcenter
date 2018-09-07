@@ -1,19 +1,29 @@
 package so.wwb.gamebox.mcenter.init;
 
 import org.soul.commons.spring.utils.SpringTool;
+import org.springframework.stereotype.Component;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 /**
- * Created by tony on 15-4-28.
- * 配置信息管理对象
+ * Created by Kevice on 2015/3/26 0026.
  */
-public class ConfigManager extends so.wwb.gamebox.web.init.ConfigBase {
-
+@Component
+public class ConfigManager extends ConfigBase {
     /**
-     * MCenter配置信息
+     * 总代理SubSysCode
      * @return
      */
-    public static MCenterConfigration get() {
-        return SpringTool.getBean(MCenterConfigration.class);
+    public String getTopAgentSubSysCode() {
+        return this.getSubsysCode()+"TopAgent";
     }
-
+    /**
+     * 代理SubSysCode
+     * @return
+     */
+    public String getAgentSubSysCode() {
+        return this.getSubsysCode()+"Agent";
+    }
+    public static ConfigManager get() {
+        return SpringTool.getBean(ConfigManager.class);
+    }
 }

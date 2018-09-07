@@ -33,7 +33,7 @@
     <!--基础Bean配置-->
     <import resource="classpath*:conf/service-*-bean.xml"/>
 
-    <bean class="so.wwb.gamebox.mweb.init.ServiceConf">
+    <bean class="so.wwb.gamebox.mweb.init.ConfigManager">
         <constructor-arg index="0" value="${dubbo.application.name}"></constructor-arg>
         <constructor-arg index="1" value="${dubbo.version}"></constructor-arg>
     </bean>
