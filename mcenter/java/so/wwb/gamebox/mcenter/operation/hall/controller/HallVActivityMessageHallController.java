@@ -108,7 +108,7 @@ public class HallVActivityMessageHallController extends BaseCrudController<IVAct
         if (ActivityHallSwitchSysParam == null || StringTool.isBlank(ActivityHallSwitchSysParam.getParamValue())
                 || !"true".equals(ActivityHallSwitchSysParam.getParamValue())) {
             LOG.error("活动大厅关闭:{0}", JsonTool.toJson(ActivityHallSwitchSysParam));
-            return "Index";
+            return getViewBasePath() + "ActivityHallClosed";
         }
         return super.list(listVo, form, result, model, request, response);
     }
