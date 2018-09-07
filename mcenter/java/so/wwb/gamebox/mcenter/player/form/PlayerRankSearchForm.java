@@ -162,7 +162,7 @@ public class PlayerRankSearchForm implements IForm {
     }
 
 
-    @Depends(property = {"isFee", "feeType"}, operator = {Operator.EQ, Operator.EQ}, value = {"true", "1"}, jsValueExp = {"$(\"[name=\\'result.isReturnFee\\']\").val()=='true'"}, message = "playerRank.notBlank")
+    @Depends(property = {"isFee", "feeType"}, operator = {Operator.EQ, Operator.EQ}, value = {"true", "1"}, jsValueExp = {"$(\"[name=\\'result.isFee\\']\").val()=='true'"}, message = "playerRank.notBlank")
     @Pattern(regexp = FormValidRegExps.POSITIVE, message = "common.POSITIVE")
     @Max(value = 100)
     @Comment("存款按比例收费金额")
@@ -170,7 +170,7 @@ public class PlayerRankSearchForm implements IForm {
         return $percentageAmount;
     }
 
-    @Depends(property = {"isFee", "feeType"}, operator = {Operator.EQ, Operator.EQ}, value = {"true", "2"}, jsValueExp = {"$(\"[name=\\'result.isReturnFee\\']\").val()=='true'"}, message = "playerRank.notBlank")
+    @Depends(property = {"isFee", "feeType"}, operator = {Operator.EQ, Operator.EQ}, value = {"true", "2"}, jsValueExp = {"$(\"[name=\\'result.isFee\\']\").val()=='true'"}, message = "playerRank.notBlank")
     @Digits(integer = 8, fraction = 2, message = "common.POSITIVE")
     @Compare(message = "playerRank.must.lower.than.max", logic = CompareLogic.LE, anotherProperty = "result_maxFee")
     @Comment("存款固定收费金额")

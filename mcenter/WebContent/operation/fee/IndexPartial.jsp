@@ -43,16 +43,114 @@
             <c:forEach items="${command.result}" var="p" varStatus="stat">
                 <tr class="tab-detail">
                     <td>${p.schemaName}</td>
-                    <td>${p.createTime}</td>
+                    <td>${soulFn:formatDateTz(p.createTime, DateFormat.DAY_SECOND,timeZone)}</td>
 
-                    <td>
-                            ${p.isFee} --${p.isReturnFee}
-                    </td>
-                    <td>${p.feeType}</td>
-                    <td>
-                        存满￥10返10.0%,上限￥10
-                    </td>
-                    <td>${p.maxFee}</td>
+                    <%--收取--%>
+                    <c:if test="${p.isFee}">
+                        <td>
+                            收手续费
+                        </td>
+                        <c:if test="${p.feeType=='1'}">
+                            <td>
+                                按比例收取
+                            </td>
+                            <td>
+                                <c:if test="${p.feeTime!=null}">
+                                    ${p.feeTime}小时内
+                                </c:if>
+                                <c:if test="${p.freeCount!=null}">
+                                    免手续费${p.freeCount}次,
+                                </c:if>
+                                <c:if test="${p.freeCount==null}">
+                                    免手续费0次,
+                                </c:if>
+                                单笔存款收取${p.feeMoney}%
+                            </td>
+                            <td>
+                                    ${p.maxFee}
+                            </td>
+                        </c:if>
+                        <c:if test="${p.feeType=='2'}">
+                            <td>
+                                固定收取
+                            </td>
+                            <td>
+                                <c:if test="${p.feeTime!=null}">
+                                    ${p.feeTime}小时内
+                                </c:if>
+                                <c:if test="${p.freeCount!=null}">
+                                    免手续费${p.freeCount}次,
+                                </c:if>
+                                <c:if test="${p.freeCount==null}">
+                                    免手续费0次,
+                                </c:if>
+                                单笔存款收取${siteCurrencySign}${p.feeMoney}
+                            </td>
+                            <td>
+                                    ${p.maxFee}
+                            </td>
+                        </c:if>
+                    </c:if>
+
+                    <%--返还--%>
+                    <c:if test="${p.isReturnFee}">
+                        <td>
+                            返手续费
+                        </td>
+                        <c:if test="${p.returnType=='1'}">
+                            <td>
+                                按比例返还
+                            </td>
+                            <td>
+                                存满${p.reachMoney},返${p.returnMoney}%
+                                <c:if test="${p.returnTime!=null}">
+                                    ${p.returnTime}小时内
+                                </c:if>
+                                <c:if test="${p.returnFeeCount!=null}">
+                                    返手续费${p.returnFeeCount}次,
+                                </c:if>
+                                <c:if test="${p.returnFeeCount==null}">
+                                    返手续费0次,
+                                </c:if>
+                            </td>
+
+                        </c:if>
+                        <c:if test="${p.returnType=='2'}">
+                            <td>
+                                固定返还
+                            </td>
+                            <td>
+                                <c:if test="${p.returnTime!=null}">
+                                    ${p.returnTime}小时内
+                                </c:if>
+                                <c:if test="${p.returnFeeCount!=null}">
+                                    返手续费${p.returnFeeCount}次,
+                                </c:if>
+                                <c:if test="${p.returnFeeCount==null}">
+                                    返手续费0次,
+                                </c:if>
+                                存满${p.reachMoney},返${siteCurrencySign}${p.returnMoney}
+                            </td>
+                        </c:if>
+                        <td>
+                                ${p.maxReturnFee}
+                        </td>
+                    </c:if>
+                    <%--不收不返--%>
+                    <c:if test="${(p.isReturnFee == null && p.isFee == null ) || (!p.isReturnFee && !p.isFee)}">
+                        <td>
+                            无
+                        </td>
+                        <td>
+                            无
+                        </td>
+                        <td>
+                            无
+                        </td>
+                        <td>
+                            无
+                        </td>
+                    </c:if>
 
                     <td>账号</td>
                     <td>
@@ -60,7 +158,7 @@
                             <a href="/rechargeFeeSchema/edit.html?search.id=${p.id}" nav-target="mainFrame">${views.common['edit']}</a>
                         </shiro:hasPermission>
                         <span class="dividing-line m-r-xs m-l-xs">|</span>
-                        <a href="/rechargeFeeSchema/view.html?search.id=${p.id}" nav-target="mainFrame">${views.common['detail']}</a>
+                        <a href="/rechargeFeeSchema/delete.html?search.id=${p.id}" nav-target="mainFrame">${views.common['detail']}</a>
                     </td>
                 </tr>
             </c:forEach>
