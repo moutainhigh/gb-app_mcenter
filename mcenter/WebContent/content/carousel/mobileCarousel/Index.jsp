@@ -19,7 +19,7 @@
             <%@include file="../CarouselTop.jsp"%>
             <!--筛选条件-->
             <div class="clearfix filter-wraper border-b-1">
-                <soul:button target="${root}/content/cttCarousel/mobileCarousel/create.html" callback="query" cssClass="btn btn-info btn-addon" text="${views.common['create']}" opType="dialog" tag="button">
+                <soul:button target="${root}/content/cttCarousel/mobileCarousel/create.html" callback="query" cssClass="btn btn-info btn-addon" text="${views.content['新增手机轮播图']}" opType="dialog" tag="button">
                     <i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span>
                 </soul:button>
                 <a class="btn btn-outline btn-filter" nav-target="mainFrame"

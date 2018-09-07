@@ -54,4 +54,6 @@ public interface FormValidRegExps extends RegExpConstants {
     String ENGLISH_NUMBER = "^[a-zA-Z0-9]+$";
     //ｕrl链接验证含前缀验证或只验证域名
     String PREFIX_LINK = "^((http|ftp|https):\\/\\/)?[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
+    //英文数字或半角逗号和-
+    String ENGLISH_NUMBER_CHAR="^[a-zA-Z0-9_\\-\\,\\r\\n\\s+]+$";
 }

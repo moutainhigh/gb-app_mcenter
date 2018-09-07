@@ -45,7 +45,7 @@
                             </div>
                             <div class="form-group clearfix pull-left col-md-4 col-sm-12 m-b-sm padding-r-none-sm">
                                 <div class="input-group date">
-                                    <span class="input-group-addon bg-gray">${views.report_auto['交易号']}</span>
+                                    <span class="input-group-addon bg-gray">${views.common['orderNum']}</span>
                                     <input type="text" class="form-control" id="operator2" name="search.transactionNo" value="${command.search.transactionNo}">
                                 </div>
                             </div>

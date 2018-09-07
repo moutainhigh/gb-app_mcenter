@@ -7,7 +7,7 @@
         >
 
     <dubbo:consumer id="dubboConsumer"
-                    timeout="180000"
+                    timeout="${dubbo.consumer.timeout}"
                     check="false" scope="remote"
                     registry="zookeeperClient"
                     application="dubboApplication"

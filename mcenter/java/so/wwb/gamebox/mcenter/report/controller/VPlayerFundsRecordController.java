@@ -112,8 +112,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
 
         Map<String, SiteApi> siteApiMaps = Cache.getSiteApi(SessionManager.getSiteId());
         model.addAttribute("siteApiMaps", siteApiMaps);
-        withdrawAccountIsActive(model);//是否开启易收付出款账户
-        model.addAttribute("easyPaymentStatus",ParamTool.getSysParam(SiteParamEnum.EASY_PAYMENT).getParamValue());//易收付出款入口开启状态
+        model.addAttribute("easyPaymentStatus",ParamTool.getSysParam(SiteParamEnum.EASY_PAYMENT).getParamValue());//出款入口开启状态
         model.addAttribute("withdrawCkeckStatus", DictTool.get(DictEnum.WITHDRAW_CHECK_STATUS));
 
         //默认搜索成功订单:列表页面
@@ -440,6 +439,7 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
                 RakebackPlayerVo rakebackPlayerVo = new RakebackPlayerVo();
                 rakebackPlayerVo.getSearch().setPlayerId(vo.getResult().getPlayerId());
                 rakebackPlayerVo.getSearch().setRakebackBillId(rakebackBillVo.getResult().getId());
+                rakebackPlayerVo.getSearch().setAgentId(vo.getResult().getAgentid());
                 rakebackPlayerVo = ServiceSiteTool.rakebackPlayerService().getOneByPlayerAndBill(rakebackPlayerVo);
                 if (rakebackPlayerVo != null && rakebackPlayerVo.getResult() != null) {
                     vo.setBackwaterTotal(rakebackPlayerVo.getResult().getRakebackTotal());
@@ -503,17 +503,6 @@ public class VPlayerFundsRecordController extends AbstractExportController<IVPla
             so.setTransactionNo(so.getTransactionNo());
         }
     }
-
-    /**
-     * 是否开启出款账户
-     *
-     * @param model
-     */
-    private void withdrawAccountIsActive(Model model) {
-        SysParam sysParam = ParamTool.getSysParam(SiteParamEnum.WITHDRAW_ACCOUNT);
-        model.addAttribute("isActive", sysParam.getActive());
-    }
-
     //endregion your codes 3
 
 }

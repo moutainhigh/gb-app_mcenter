@@ -9,12 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
 import so.wwb.gamebox.mcenter.setting.form.SmsInterfaceForm;
 import so.wwb.gamebox.mcenter.setting.form.SmsInterfaceSearchForm;
-import so.wwb.gamebox.common.cache.Cache;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -48,13 +49,25 @@ public class SmsInterfaceController extends BaseCrudController<ISmsInterfaceServ
     @RequestMapping({"/saveSmsInterface"})
     @ResponseBody
     public Map saveSmsInterface(SmsInterfaceVo smsInterfaceVo,Model model){
+        //把所有都置为0：状态1使用0停用
+        SmsInterfaceListVo smsInterfaceListVo = new SmsInterfaceListVo();
+        List<SmsInterface> smsInterfaces = ServiceTool.smsInterfaceService().allSearch(smsInterfaceListVo);
+        smsInterfaces.forEach(si -> si.setUseStatus("0"));
+        smsInterfaceVo.setEntities(smsInterfaces);
+        smsInterfaceVo.setProperties(SmsInterface.PROP_USE_STATUS);
+        ServiceTool.smsInterfaceService().batchUpdateOnly(smsInterfaceVo);
+        smsInterfaceVo.setEntities(null);
+        smsInterfaceVo.setProperties(null);
+
+        //保存新设置的置
         smsInterfaceVo._setDataSourceId(SessionManager.getSiteId());
         SmsInterface sms = smsInterfaceVo.getSms();
+        sms.setUseStatus("1");//设置为可用
         smsInterfaceVo.setResult(sms);
         smsInterfaceVo.getSearch().setId(sms.getId());
         SmsInterfaceVo vo = ServiceTool.smsInterfaceService().get(smsInterfaceVo);
         if(vo != null && vo.getResult() != null){
-            smsInterfaceVo.setProperties(SmsInterface.PROP_SIGNATURE,SmsInterface.PROP_REQUEST_URL,SmsInterface.PROP_USERNAME,SmsInterface.PROP_PASSWORD,SmsInterface.PROP_DATA_KEY);
+            smsInterfaceVo.setProperties(SmsInterface.PROP_SIGNATURE,SmsInterface.PROP_REQUEST_URL,SmsInterface.PROP_USERNAME,SmsInterface.PROP_PASSWORD,SmsInterface.PROP_DATA_KEY,SmsInterface.PROP_USE_STATUS,SmsInterface.PROP_APP_ID);
             ServiceTool.smsInterfaceService().updateOnly(smsInterfaceVo);
         }else{
             ServiceTool.smsInterfaceService().insert(smsInterfaceVo);

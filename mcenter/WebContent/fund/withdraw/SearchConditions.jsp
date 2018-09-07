@@ -37,7 +37,7 @@
             <%--交易号--%>
             <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm  hide senior transactionNo">
                 <div class="input-group date">
-                    <span class="input-group-addon bg-gray">&nbsp;${views.fund_auto['交易号']}&nbsp;&nbsp;</span>
+                    <span class="input-group-addon bg-gray">&nbsp;${views.common['orderNum']}&nbsp;&nbsp;</span>
                     <input  class="form-control search" type="text" name="search.transactionNo" value="${command.search.transactionNo}"/>
                 </div>
             </div>
@@ -192,13 +192,13 @@
             <div>
                 <soul:button target="query" opType="function" text="${views.fund_auto['搜索']}" cssClass="btn btn-filter search_btn pull-left m-r-sm playerWithdrawSearch _enter_submit"><i class="fa fa-search"></i><span class="hd">&nbsp;${views.fund_auto['搜索']}</span></soul:button>
             </div>
-                <c:if test="${easyPaymentStatus eq 'true'}">
+                <%--<c:if test="${easyPaymentStatus eq 'true'}">
                 <div>
                     <shiro:hasPermission name="fund:withdraw_account">
-                        <soul:button callback="reloadMainFrame" text="${views.fund_auto['易收付出款']}" opType="dialog" cssClass="btn btn-filter btn-outline pull-left" target="${root}/fund/withdraw/withdrawAccount.html">${views.fund_auto['易收付出款']}</soul:button>
+                        <soul:button callback="reloadMainFrame" size="size-wide" text="${views.fund_auto['易收付出款']}" opType="dialog" cssClass="btn btn-filter btn-outline pull-left" target="${root}/fund/withdraw/withdrawAccount.html">${views.fund_auto['易收付出款']}</soul:button>
                     </shiro:hasPermission>
                 </div>
-                </c:if>
+                </c:if>--%>
                 <span class="btn btn-filter btn-outline pull-left show-demand-b m-r-sm" id="openSearch">
                 <i class="fa fa-chevron-down"></i>${views.common['advancedFilter']}
             </span>

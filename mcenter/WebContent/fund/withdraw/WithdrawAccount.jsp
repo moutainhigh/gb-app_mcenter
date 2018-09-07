@@ -16,6 +16,7 @@
 <body>
 <!--//region your codes 3-->
 <form:form action="${root}/fund/withdraw/WithdrawAccount">
+<form:hidden path="result.id" id="resultId" />
 
     <%--<input type="hidden" value="${command.creditId}" name="creditId" id="creditId">--%>
     <%--<div id="validateRule" style="display: none">${validateRule}</div>--%>
@@ -37,15 +38,30 @@
         <div class="form-group over clearfix">
             <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['出款渠道']}：</label>
             <div class="col-xs-8 p-x">
-                <select  id="withdrawChannel" name="result.paramValue" class="btn btn-group btn-default dropdown-toggle" style="height: 35px">
+                <input type="hidden" id="middleValue" name="middleValue" value="" />
+                <input type="hidden" id="lastSavedChannel" value="${paramValueMap.withdrawChannel}" />
+                <select  id="withdrawChannel" name="result.paramValue" class="chosen-select-no-single" callback="bankChannel">
                         <option value="">${views.common['pleaseSelect']}</option>
+                    <c:if test="${command.result != null}">
                         <c:forEach items="${bankList}" var="b">
                             <option value="${b.bankName}" ${p.get("withdrawChannel")==b.bankName?'selected':''}>${(dicts.common.bankname[b.bankName]==null)?b.bankShortName:dicts.common.bankname[b.bankName]}</option>
                         </c:forEach>
+                    </c:if>
                 </select>
             </div>
         </div>
-        <div class="form-group over clearfix">
+
+
+        <div class="form-group clearfix third">
+            <c:forEach items="${channelJson}" var="json">
+                <c:if test="${json.get('view')=='payDomain'}">
+                    <c:set var="doamin" value="${json.get('value')}"></c:set>
+                </c:if>
+
+                <input type="hidden" name="${json.get('view')}" value="${json.get("value")}">
+            </c:forEach>
+        </div>
+        <%--<div class="form-group over clearfix">
             <label class="col-xs-3 al-right"><span class="co-red m-r-sm">*</span>${views.fund_auto['商户号']}：</label>
             <div class="col-xs-8 p-x">
                 <input id="merchantCode" type="text" name="result.paramValue" class="form-control" value="${p.get("merchantCode")}"/>
@@ -63,9 +79,9 @@
                 <input id="key" type="text" name="result.paramValue" class="form-control" value="${p.get("key")}"/>
             </div>
         </div>
-    </div>
+    </div>--%>
     <div class="modal-footer">
-        <soul:button precall="accountValidateForm" cssClass="btn btn-filter" opType="ajax" dataType="json" text="${views.common['OK']}" target="${root}/fund/withdraw/saveWithdrawAccount.html" post="getCurrentFormData" callback="saveCallbak"/>
+        <soul:button precall="" cssClass="btn btn-filter" opType="ajax" dataType="json" text="${views.common['OK']}" target="${root}/fund/withdraw/saveWithdrawAccount.html" post="getCurrentFormData" callback="saveCallbak"/>
         <soul:button target="closePage" text="${views.common['cancel']}" cssClass="btn btn-outline btn-filter" opType="function"/>
     </div>
 </form:form>

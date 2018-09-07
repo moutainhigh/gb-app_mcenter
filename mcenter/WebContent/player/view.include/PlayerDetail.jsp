@@ -81,6 +81,15 @@
                                                 <%--<a tabindex="0" role="button" data-container="body" data-toggle="popover" data-trigger="focus"
                                              data-placement="top" data-html="true" data-content="<a href='#'>youtob.com/mens/html/5481?</a> "
                                              class="btn btn-link co-blue help-popover">查看来源URL</a>--%>
+                                    <c:if test="${not empty command.result.recommendUserId}">
+                                        ${views.player_auto['推荐人：']}
+                                        <c:if test="${command.result.recommendUserType eq '24'}">
+                                            <a href="/player/playerView.html?search.id=${command.result.recommendUserId}" nav-target="mainFrame">${command.result.recommendUsername}</a>
+                                        </c:if>
+                                        <c:if test="${command.result.recommendUserType eq '23'}">
+                                            <a href="/userAgent/agent/detail.html?search.id=${command.result.recommendUserId}" nav-target="mainFrame">${command.result.recommendUsername}</a>
+                                        </c:if>
+                                    </c:if>
                                 </div>
                             </c:if>
                             <c:if test="${command.result.createChannel=='2'}">
@@ -234,6 +243,7 @@
                                            relSelect="result.agentId" value="" />
                                 <gb:select name="result.agentId" prompt="${views.common['pleaseSelect']}" cssClass="btn-group chosen-select-no-single" callback="changeAgentLine"
                                            relSelectPath="${root}/player/getRank/#search.agentRanks#.html"  listKey="id" listValue="username" value=""/>
+                                <div style="display: inline-block; padding-right: 30px;" class="text-center co-gray9" id="loading_agent_data"><span class="fa fa-spinner fa-pulse"></span>${views.player_auto['数据加载中…']}</div>
                                 <soul:button target="updateAgentLine" text="${views.common['save']}" opType="function" cssClass="btn btn-link co-blue btn-save-agent hide" confirm="${messages.content['confirm.update.agent']}"></soul:button>
                                 <soul:button target="cancelEditAgentLine" text="${views.common['cancel']}" opType="function" cssClass="btn btn-link co-blue"></soul:button>
                                 <div style="font-size: 12px;color: #9c9c9c; display: inline-block; padding-right: 30px;">${messages.content['prompt.update.agent']}</div>

@@ -41,7 +41,7 @@ public class UserPlayerTransferController extends BaseCrudController<IUserPlayer
     @Override
     protected UserPlayerTransferListVo doList(UserPlayerTransferListVo listVo, UserPlayerTransferSearchForm form, BindingResult result, Model model) {
         if(StringTool.isNotBlank(listVo.getSearch().getPlayerAccount())){
-            String playerAccount = listVo.getSearch().getPlayerAccount();
+            String playerAccount = listVo.getSearch().getPlayerAccount().toLowerCase();
             String[] usernames = playerAccount.split(",");
             List<String> nameList = Arrays.asList(usernames);
             listVo.getSearch().setUsernameList(nameList);
