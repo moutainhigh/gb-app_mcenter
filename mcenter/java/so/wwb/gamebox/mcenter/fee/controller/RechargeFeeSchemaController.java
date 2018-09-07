@@ -60,14 +60,14 @@ public class RechargeFeeSchemaController extends BaseCrudController<IRechargeFee
 
         //页面数据转换
         RechargeFeeSchema fee = objectVo.getResult();
-        //收取
+        //收取/返还
         String feeType = fee.getFeeType() == null ? "1" : fee.getFeeType();
         if ("1".equals(feeType)) {
             fee.setFeeMoney(objectVo.getPercentageAmount());
         } else {
             fee.setFeeMoney(objectVo.getFixedAmount());
         }
-        //返还
+        //百分比/固定
         String returnType = fee.getReturnType() == null ? "1" : fee.getReturnType();
         if ("1".equals(returnType)) {
             fee.setReturnMoney(objectVo.getReturnPercentageAmount());
@@ -91,4 +91,9 @@ public class RechargeFeeSchemaController extends BaseCrudController<IRechargeFee
         return persist;
     }
 
+    @Override
+    public Map delete(RechargeFeeSchemaVo objectVo, Integer id) {
+        this.getService().updateOnly(null);
+        return super.delete(objectVo, id);
+    }
 }
