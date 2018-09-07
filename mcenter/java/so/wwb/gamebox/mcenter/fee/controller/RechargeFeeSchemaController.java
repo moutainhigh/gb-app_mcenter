@@ -103,7 +103,7 @@ public class RechargeFeeSchemaController extends BaseCrudController<IRechargeFee
 
     @Override
     public Map delete(RechargeFeeSchemaVo objectVo, Integer id) {
-        this.getService().updateOnly(null);
+//        this.getService().updateOnly(null);
         return super.delete(objectVo, id);
     }
 

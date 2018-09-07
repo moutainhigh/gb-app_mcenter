@@ -4,7 +4,7 @@
 <!--//region your codes 1-->
 <!--//endregion your codes 1-->
 <body>
-<form:form action="${root}/withdrawAccount/list.html" method="post">
+<form:form action="${root}/rechargeFeeSchema/list.html" method="post">
     <div id="validateRule" style="display: none">${command.validateRule}</div>
     <!--//region your codes 2-->
     <div class="row">
@@ -67,5 +67,5 @@
 </form:form>
 </body>
 <!--//region your codes 3-->
-<soul:import res="site/content/withdrawAccount/Index"/>
+<soul:import type="list"/>
 <!--//endregion your codes 3-->

@@ -157,8 +157,10 @@
                         <shiro:hasPermission name="content:withdraw_account_edit">
                             <a href="/rechargeFeeSchema/edit.html?search.id=${p.id}" nav-target="mainFrame">${views.common['edit']}</a>
                         </shiro:hasPermission>
-                        <span class="dividing-line m-r-xs m-l-xs">|</span>
-                        <a href="/rechargeFeeSchema/delete.html?search.id=${p.id}" nav-target="mainFrame">${views.common['detail']}</a>
+
+
+                        <soul:button permission="role:rank_delete" target="${root}/rechargeFeeSchema/delete.html?id=${p.id}" confirm="${views.player_auto['确认删除该手续费方案']}"
+                                     callback="query" text="${views.common['delete']}" opType="ajax" cssClass="co-blue">${views.common['delete']}</soul:button>
                     </td>
                 </tr>
             </c:forEach>
