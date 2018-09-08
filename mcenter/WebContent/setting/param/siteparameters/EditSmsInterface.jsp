@@ -21,7 +21,7 @@
             <ul class="clearfix">
                 <div class="clearfix m-b">
                     <div class="ft-bold pull-left line-hi34"
-                         style="width: 100px;text-align: right;">${views.setting_auto['接口名称']}：
+                         style="width: 100px;text-align: right;">${views.setting_auto['接口名称']}
                     </div>
                     <div class="col-xs-5">
                         <gb:select name="sms.id" value="${smsInterfaceVo.result.id}" callback="changeSmsInterface"
