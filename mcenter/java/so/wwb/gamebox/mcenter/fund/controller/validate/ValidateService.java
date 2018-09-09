@@ -39,14 +39,14 @@ public class ValidateService {
         for (ValidateVo trvo : vlateVos) {
             PlayerTransactionVo trRecord = getTrRecord(trvo.getTid());//获取库的记录
             if (trRecord.getResult() == null) {
-                LOG.info("发现存在未正常的交易信息！疑似交易记录被删除！！！trNo=" + trvo.getTid());
+                LOG.warn("发现存在未正常的交易信息！疑似交易记录被删除！！！trNo=" + trvo.getTid());
                 model.addAttribute("funds_error", "1");
                 break;
             } else {
                 ValidateVo vvo = new ValidateVo(trRecord.getResult());//转换成秘钥对应vo
                 String keyStr = vvo.genKey();//生成密钥
                 if (!keyStr.equals(trvo.getKeyStr())) {//与之前存储匹配，如果有不正确则。。。
-                    LOG.info("发现存在未正常的交易信息！trNo=" + trvo.getTid());
+                    LOG.warn("发现存在未正常的交易信息！trNo=" + trvo.getTid());
                     model.addAttribute("funds_error", "1");
                     break;
                 }
@@ -56,13 +56,17 @@ public class ValidateService {
 
     private List<ValidateVo> loadValidateVo(Integer playerId) {
         List<ValidateVo> result = new ArrayList<>();
-        List<Map<String, Object>> mapList = ServiceSiteTool.getPlayerTransactionService().queryTranLog(playerId, SessionManager.getSiteId());
-        for (Map<String, Object> map : mapList) {
-            ValidateVo vo = new ValidateVo();
-            vo.setKeyStr(map.get("store_text") == null ? "" : map.get("store_text").toString());
-            vo.setPlid(map.get("plid") == null ? null : Integer.parseInt(map.get("plid").toString()));
-            vo.setTid(map.get("trno") == null ? "" : map.get("trno").toString());
-            result.add(vo);
+        try {
+            List<Map<String, Object>> mapList = ServiceSiteTool.getPlayerTransactionService().queryTranLog(playerId, SessionManager.getSiteId());
+            for (Map<String, Object> map : mapList) {
+                ValidateVo vo = new ValidateVo();
+                vo.setKeyStr(map.get("store_text") == null ? "" : map.get("store_text").toString());
+                vo.setPlid(map.get("plid") == null ? null : Integer.parseInt(map.get("plid").toString()));
+                vo.setTid(map.get("trno") == null ? "" : map.get("trno").toString());
+                result.add(vo);
+            }
+        } catch (Exception e) {
+            LOG.warn("查询表失败，疑似未创建表结构。无法校验资金合法性");
         }
         return result;
     }
