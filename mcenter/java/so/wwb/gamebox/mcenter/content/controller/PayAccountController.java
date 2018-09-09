@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.content.IPayAccountService;
@@ -74,6 +75,9 @@ import so.wwb.gamebox.model.master.digiccy.po.DigiccyAccountInfo;
 import so.wwb.gamebox.model.master.enums.PayAccountAccountType;
 import so.wwb.gamebox.model.master.enums.PayAccountType;
 import so.wwb.gamebox.model.master.enums.UserTaskEnum;
+import so.wwb.gamebox.model.master.fee.po.FeeAccountRelation;
+import so.wwb.gamebox.model.master.fee.vo.FeeAccountRelationVo;
+import so.wwb.gamebox.model.master.fee.vo.RechargeFeeSchemaListVo;
 import so.wwb.gamebox.model.master.fund.enums.RechargeTypeParentEnum;
 import so.wwb.gamebox.model.master.fund.so.VPlayerRechargeSo;
 import so.wwb.gamebox.model.master.fund.vo.VPlayerRechargeListVo;
@@ -84,7 +88,6 @@ import so.wwb.gamebox.model.master.setting.enums.SiteCurrencyEnum;
 import so.wwb.gamebox.model.master.tasknotify.vo.UserTaskReminderVo;
 import so.wwb.gamebox.model.report.vo.AddLogVo;
 import so.wwb.gamebox.web.BussAuditLogTool;
-import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.web.common.token.Token;
 import so.wwb.gamebox.web.common.token.TokenHandler;
 
@@ -407,6 +410,9 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         model.addAttribute("command", objectVo);
         objectVo.setValidateRule(JsRuleCreator.create(PayAccountOnlineForm.class, "result"));
         model.addAttribute("bankPayTypes", BankPayTypeEnum.values());
+        RechargeFeeSchemaListVo schemaListVo = new RechargeFeeSchemaListVo();
+        schemaListVo = ServiceSiteTool.rechargeFeeSchemaService().searchList(schemaListVo);
+        model.addAttribute("schemaListVo", schemaListVo);
         return "/content/payaccount/onLine/Add";
     }
 
@@ -459,6 +465,17 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         model.addAttribute("channelJson", channelJson);
         model.addAttribute("command", objectVo);
         model.addAttribute("bankPayTypes", BankPayTypeEnum.values());
+        //手续费列表
+        RechargeFeeSchemaListVo schemaListVo = new RechargeFeeSchemaListVo();
+        schemaListVo = ServiceSiteTool.rechargeFeeSchemaService().searchList(schemaListVo);
+        model.addAttribute("schemaListVo", schemaListVo);
+        //账户关联的手续费
+        FeeAccountRelationVo feeAccountRelationVo = new FeeAccountRelationVo();
+        feeAccountRelationVo.getQuery().setCriterions(new Criterion[]{
+                new Criterion(FeeAccountRelation.PROP_PAY_ACCOUNT_ID,Operator.EQ,objectVo.getResult().getId())
+        });
+        feeAccountRelationVo = ServiceSiteTool.feeAccountRelationService().search(feeAccountRelationVo);
+        model.addAttribute("feeAccountRelation", feeAccountRelationVo.getResult());
         return "/content/payaccount/onLine/Add";
     }
 
