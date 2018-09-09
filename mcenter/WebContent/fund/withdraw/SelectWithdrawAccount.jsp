@@ -16,6 +16,7 @@
 <body>
 <!--//region your codes 3-->
 <form:form action="${root}/fund/withdraw/WithdrawAccount">
+    <input type="hidden" id="funds_error" value="${funds_error}"/>
     <input type="hidden" name="search.transactionNo" value="${withdrawVo.search.transactionNo}"/>
     <div class="modal-body">
             <%--<c:if test="${not empty accountListVo && accountListVo.result.size()==0}">--%>

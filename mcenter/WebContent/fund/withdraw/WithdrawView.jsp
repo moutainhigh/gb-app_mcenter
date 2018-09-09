@@ -4,6 +4,7 @@
 <%@ include file="/include/include.inc.jsp" %>
 
 <form name="withdrawViewForm" action="${root}/fund/withdraw/WithdrawAuditView.html?search.id=${command.result.id}&pageType=detail">
+    <input type="hidden" id="funds_error" value="${funds_error}"/>
     <div class="row">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
