@@ -411,7 +411,6 @@ public class IndexController extends BasePhoneApiController {
         Map<String, String> map = new HashMap<>(2, 1f);
         map.put("dateTimeFromat", CommonContext.getDateFormat().getDAY_SECOND());
         map.put("dateTime", SessionManager.getUserDate(CommonContext.getDateFormat().getDAY_SECOND()));
-        map.put("dateTime", DateTool.formatDate(new Date(), SessionManagerBase.getLocale(), TimeZone.getTimeZone(sysSite.getTimezone()), CommonContext.getDateFormat().getDAY_SECOND()));
         map.put("time", String.valueOf(new Date().getTime()));
         return JsonTool.toJson(map);
     }
