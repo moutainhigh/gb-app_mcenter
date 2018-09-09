@@ -139,16 +139,16 @@
                     <%--不收不返--%>
                     <c:if test="${(p.isReturnFee == null && p.isFee == null ) || (!p.isReturnFee && !p.isFee)}">
                         <td>
-                            无
+                            --
                         </td>
                         <td>
-                            无
+                            --
                         </td>
                         <td>
-                            无
+                            --
                         </td>
                         <td>
-                            无
+                            --
                         </td>
                     </c:if>
 
