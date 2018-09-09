@@ -4,6 +4,7 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.MapTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.lang.DateQuickPickerTool;
+import org.soul.commons.net.ServletTool;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.model.log.audit.enums.OpType;
@@ -15,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.fee.IRechargeFeeSchemaService;
 import so.wwb.gamebox.mcenter.fee.form.RechargeFeeSchemaForm;
 import so.wwb.gamebox.mcenter.fee.form.RechargeFeeSchemaSearchForm;
@@ -51,7 +53,13 @@ public class RechargeFeeSchemaController extends BaseCrudController<IRechargeFee
 
     @Override
     public String list(RechargeFeeSchemaListVo listVo, @FormModel("search") @Valid RechargeFeeSchemaSearchForm form, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response) {
-        return super.list(listVo, form, result, model, request, response);
+        listVo = ServiceSiteTool.rechargeFeeSchemaService().searchList(listVo);
+        model.addAttribute("command", listVo);
+        if(ServletTool.isAjaxSoulRequest(request)) {
+            return this.getViewBasePath() + "IndexPartial";
+        } else {
+            return this.getViewBasePath() + "Index";
+        }
     }
 
     @Override
@@ -103,8 +111,10 @@ public class RechargeFeeSchemaController extends BaseCrudController<IRechargeFee
 
     @Override
     public Map delete(RechargeFeeSchemaVo objectVo, Integer id) {
-//        this.getService().updateOnly(null);
-        return super.delete(objectVo, id);
+        objectVo.getResult().setIsDelete(true);
+        objectVo.setProperties(RechargeFeeSchema.PROP_IS_DELETE);
+        objectVo = this.getService().updateOnly(objectVo);
+        return getVoMessage(objectVo);
     }
 
 

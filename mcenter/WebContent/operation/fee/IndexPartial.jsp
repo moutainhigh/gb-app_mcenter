@@ -152,14 +152,13 @@
                         </td>
                     </c:if>
 
-                    <td>账号</td>
+                    <td>${p.accountCount}</td>
                     <td>
                         <shiro:hasPermission name="content:withdraw_account_edit">
                             <a href="/rechargeFeeSchema/edit.html?search.id=${p.id}" nav-target="mainFrame">${views.common['edit']}</a>
                         </shiro:hasPermission>
-
-
-                        <soul:button permission="role:rank_delete" target="${root}/rechargeFeeSchema/delete.html?id=${p.id}" confirm="${views.player_auto['确认删除该手续费方案']}"
+                        &nbsp;&nbsp;
+                        <soul:button permission="role:rank_delete" target="${root}/rechargeFeeSchema/delete.html?id=${p.id}&result.id=${p.id}" confirm="${views.player_auto['确认删除该手续费方案']}"
                                      callback="query" text="${views.common['delete']}" opType="ajax" cssClass="co-blue">${views.common['delete']}</soul:button>
                     </td>
                 </tr>
