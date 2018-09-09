@@ -10,7 +10,7 @@
     <input type="hidden" name="result.returnType" id="returnType" value="${command.result.returnType}">
     <input type="hidden" name="result.id" value="${command.result.id}">
     <input type="hidden" name="result.createTime" value="${soulFn:formatDateTz(command.result.createTime, DateFormat.DAY_SECOND,timeZone)}">
-    <input type="hidden" name="result.isDelete" value="${command.result.isDelete}">
+    <input type="hidden" name="result.isDelete" value="${command.result.isDelete!=null?command.result.isDelete:false}">
 
 
     <div id="wrapper">
