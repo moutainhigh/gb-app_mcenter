@@ -58,6 +58,7 @@ import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.fund.IVPlayerWithdrawService;
 import so.wwb.gamebox.mcenter.enmus.ListOpEnum;
+import so.wwb.gamebox.mcenter.fund.controller.validate.ValidateService;
 import so.wwb.gamebox.mcenter.fund.form.PlayerWithdrawRemindForm;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerWithdrawForm;
 import so.wwb.gamebox.mcenter.fund.form.VPlayerWithdrawSearchForm;
@@ -108,6 +109,7 @@ import so.wwb.gamebox.model.master.player.po.PlayerRank;
 import so.wwb.gamebox.model.master.player.po.PlayerTransaction;
 import so.wwb.gamebox.model.master.player.po.Remark;
 import so.wwb.gamebox.model.master.player.po.VUserPlayer;
+import so.wwb.gamebox.model.master.player.so.PlayerTransactionSo;
 import so.wwb.gamebox.model.master.player.vo.*;
 import so.wwb.gamebox.model.master.report.so.VPlayerTransactionSo;
 import so.wwb.gamebox.model.master.report.vo.VPlayerTransactionVo;
@@ -789,6 +791,9 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (vo.getResult() == null) {
             return null;
         }
+
+        ValidateService.getInstance().validateDraw(vo.getResult().getPlayerId(), model);
+
         Double counterFee = vo.getResult().getCounterFee() == null ? 0d : vo.getResult().getCounterFee();
         Double administrativeFee = vo.getResult().getAdministrativeFee() == null ? 0d : vo.getResult().getAdministrativeFee();
         Double deductFavorable = vo.getResult().getDeductFavorable() == null ? 0d : vo.getResult().getDeductFavorable();
@@ -1273,9 +1278,9 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         //int count = ServiceSiteTool.getPlayerTransactionService().batchUpdateOnly(transactionVo);
         result.put("state", true);
         //添加成功日志
-        Integer playerId=jsonObject.getInteger("playerId");
+        Integer playerId = jsonObject.getInteger("playerId");
         objVo.getSearch().setPlayerId(playerId);
-        addUpdateAuditLog(objVo,"FUN_UPDATE_AUDIT_SUCCESS");
+        addUpdateAuditLog(objVo, "FUN_UPDATE_AUDIT_SUCCESS");
         return result;
     }
 
@@ -1311,7 +1316,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
             Map map = reAuditTransaction(objVo.getSearch().getPlayerId(), new Date());
             updateWithdrawRecord(objVo.getSearch().getPlayerId(), map);
             //操作成功记录日志
-            addUpdateAuditLog(objVo,"PLAYER_FUN_UPDATE_AUDIT_SUCCESS");
+            addUpdateAuditLog(objVo, "PLAYER_FUN_UPDATE_AUDIT_SUCCESS");
         } catch (Exception ex) {
             result.put("state", false);
             result.put("msg", ex.getMessage());
@@ -1324,16 +1329,17 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
 
     /**
      * 添加修改稽核日志
+     *
      * @param objectVo
      */
-    private void addUpdateAuditLog(VPlayerTransactionVo objectVo,String logDesc) {
+    private void addUpdateAuditLog(VPlayerTransactionVo objectVo, String logDesc) {
         try {
             //取玩家名称
             SysUserVo sysUserVo = new SysUserVo();
             sysUserVo._setContextParam(objectVo._getContextParam());
             sysUserVo.getSearch().setId(objectVo.getSearch().getPlayerId());
             sysUserVo = ServiceTool.sysUserService().get(sysUserVo);
-            BussAuditLogTool.addLog(logDesc, sysUserVo.getResult()==null?"":sysUserVo.getResult().getUsername());
+            BussAuditLogTool.addLog(logDesc, sysUserVo.getResult() == null ? "" : sysUserVo.getResult().getUsername());
         } catch (Exception ex) {
             LOG.error("修改稽核成功后，添加日志报错");
         }
@@ -1886,7 +1892,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         }
     }
 
-    public void sendSms(PlayerWithdrawVo vo){
+    public void sendSms(PlayerWithdrawVo vo) {
         //联系方式
         NoticeContactWayListVo listVo = new NoticeContactWayListVo();
         listVo.getSearch().setUserId(vo.getResult().getPlayerId());
@@ -1897,10 +1903,10 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         noticeTmplVo.getSearch().setLocale(SessionManagerCommon.getLocale().toString());
         noticeTmplVo.getSearch().setPublishMethod(PublishMethodEnum.SMS.getCode());
         noticeTmplVo = ServiceSiteTool.noticeTmplService().search(noticeTmplVo);
-        if(noticeTmplVo.getResult()!=null && noticeTmplVo.getResult().getActive()){
+        if (noticeTmplVo.getResult() != null && noticeTmplVo.getResult().getActive()) {
             Map map = new HashMap();
-            map.put("mobile","");
-            map.put("content",noticeTmplVo.getResult().getContent());
+            map.put("mobile", "");
+            map.put("content", noticeTmplVo.getResult().getContent());
             vo.getResult().getPlayerId();
             SmsTool.sendSmsContent(map);
         }
@@ -2269,29 +2275,29 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         sysParamVo.setResult(siteParam);
         Map<String, Object> paramValueMap = JsonTool.fromJson(siteParam.getParamValue(), Map.class);
         List<Map<String, String>> channelJson = new ArrayList<>();
-        Map<String,String> map = new HashMap<>();
-        Map<String,String> rMap = new HashMap<>();
-        Map<String,String> tMap = new HashMap<>();
-        for (String str : paramValueMap.keySet()){
-            if ("merchantCode".equals(str)){
-                map.put("column","merchantCode");
-                map.put("value",paramValueMap.get(str).toString());
-                map.put("view","merchantCode");
+        Map<String, String> map = new HashMap<>();
+        Map<String, String> rMap = new HashMap<>();
+        Map<String, String> tMap = new HashMap<>();
+        for (String str : paramValueMap.keySet()) {
+            if ("merchantCode".equals(str)) {
+                map.put("column", "merchantCode");
+                map.put("value", paramValueMap.get(str).toString());
+                map.put("view", "merchantCode");
                 channelJson.add(map);
-            }else if ("key".equals(str)){
-                rMap.put("column","key");
-                rMap.put("value",paramValueMap.get(str).toString());
-                rMap.put("view","key");
+            } else if ("key".equals(str)) {
+                rMap.put("column", "key");
+                rMap.put("value", paramValueMap.get(str).toString());
+                rMap.put("view", "key");
                 channelJson.add(rMap);
-            }else if("publicKey".equals(str)){
-                rMap.put("column","publicKey");
-                rMap.put("value",paramValueMap.get(str).toString());
-                rMap.put("view","publicKey");
+            } else if ("publicKey".equals(str)) {
+                rMap.put("column", "publicKey");
+                rMap.put("value", paramValueMap.get(str).toString());
+                rMap.put("view", "publicKey");
                 channelJson.add(rMap);
-            }else if ("private_key".equals(str)){
-                tMap.put("column","private_key");
-                tMap.put("value",paramValueMap.get(str).toString());
-                tMap.put("view","private_key");
+            } else if ("private_key".equals(str)) {
+                tMap.put("column", "private_key");
+                tMap.put("value", paramValueMap.get(str).toString());
+                tMap.put("view", "private_key");
                 channelJson.add(tMap);
             }
         }
@@ -2316,6 +2322,7 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         model.addAttribute("bankList", list);
         return WITHDRAW_ACCOUNT;
     }
+
     /**
      * 出款账号选择页面
      *
@@ -2323,15 +2330,16 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
      * @return
      */
     @RequestMapping("/selectWithdrawAccount")
-    private String selectWithdrawAccount(VPlayerWithdrawVo objectVo,Model model) {
-        model.addAttribute("withdrawVo",objectVo);
+    private String selectWithdrawAccount(VPlayerWithdrawVo objectVo, Model model) {
+        model.addAttribute("withdrawVo", objectVo);
 
         //获取可用的代付出款账户
         WithdrawAccountListVo accountListVo = ServiceSiteTool.WithdrawAccountService().
                 selectUsingWithdrawAccount(new WithdrawAccountListVo());
-
-        if (accountListVo.isSuccess()){
-            model.addAttribute("accountListVo",accountListVo);
+        //验证该订单的玩家是否有异常订单
+        ValidateService.getInstance().validateDraw(objectVo.getSearch().getTransactionNo(), model);
+        if (accountListVo.isSuccess()) {
+            model.addAttribute("accountListVo", accountListVo);
             return SELECT_WITHDRAW_ACCOUNT;
         }
         //如果没有设置过出款(代付)账户，取v2029之前版本的易收付参数
@@ -2340,29 +2348,29 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         sysParamVo.setResult(siteParam);
         Map<String, Object> paramValueMap = JsonTool.fromJson(siteParam.getParamValue(), Map.class);
         List<Map<String, String>> channelJson = new ArrayList<>();
-        Map<String,String> map = new HashMap<>();
-        Map<String,String> rMap = new HashMap<>();
-        Map<String,String> tMap = new HashMap<>();
-        for (String str : paramValueMap.keySet()){
-            if ("merchantCode".equals(str)){
-                map.put("column","merchantCode");
-                map.put("value",paramValueMap.get(str).toString());
-                map.put("view","merchantCode");
+        Map<String, String> map = new HashMap<>();
+        Map<String, String> rMap = new HashMap<>();
+        Map<String, String> tMap = new HashMap<>();
+        for (String str : paramValueMap.keySet()) {
+            if ("merchantCode".equals(str)) {
+                map.put("column", "merchantCode");
+                map.put("value", paramValueMap.get(str).toString());
+                map.put("view", "merchantCode");
                 channelJson.add(map);
-            }else if ("key".equals(str)){
-                rMap.put("column","key");
-                rMap.put("value",paramValueMap.get(str).toString());
-                rMap.put("view","key");
+            } else if ("key".equals(str)) {
+                rMap.put("column", "key");
+                rMap.put("value", paramValueMap.get(str).toString());
+                rMap.put("view", "key");
                 channelJson.add(rMap);
-            }else if("publicKey".equals(str)){
-                rMap.put("column","publicKey");
-                rMap.put("value",paramValueMap.get(str).toString());
-                rMap.put("view","publicKey");
+            } else if ("publicKey".equals(str)) {
+                rMap.put("column", "publicKey");
+                rMap.put("value", paramValueMap.get(str).toString());
+                rMap.put("view", "publicKey");
                 channelJson.add(rMap);
-            }else if ("private_key".equals(str)){
-                tMap.put("column","private_key");
-                tMap.put("value",paramValueMap.get(str).toString());
-                tMap.put("view","private_key");
+            } else if ("private_key".equals(str)) {
+                tMap.put("column", "private_key");
+                tMap.put("value", paramValueMap.get(str).toString());
+                tMap.put("view", "private_key");
                 channelJson.add(tMap);
             }
         }
@@ -2424,13 +2432,13 @@ public class WithdrawController extends NoMappingCrudController<IVPlayerWithdraw
         if (isActiveNew) {
             String paramValues = sysParamVo.getResult().getParamValue();
             String[] array = paramValues.split(",");
-            if (array.length == 3 ){
+            if (array.length == 3) {
                 paramValueMap.put("withdrawChannel", array[0]);
                 paramValueMap.put("key", array[1]);
                 paramValueMap.put("merchantCode", array[2]);
                 paramValueMap.remove("publicKey");
                 paramValueMap.remove("private_key");
-            }else {
+            } else {
                 paramValueMap.put("withdrawChannel", array[0]);
                 paramValueMap.put("publicKey", array[1]);
                 paramValueMap.put("private_key", array[2]);
