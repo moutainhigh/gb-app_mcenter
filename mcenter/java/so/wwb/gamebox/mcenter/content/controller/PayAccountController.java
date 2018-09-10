@@ -358,6 +358,16 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         }
         model.addAttribute("bitChannel", BitCoinChannelEnum.values());
         model.addAttribute("command", objectVo);
+        RechargeFeeSchemaListVo schemaListVo = new RechargeFeeSchemaListVo();
+        schemaListVo = ServiceSiteTool.rechargeFeeSchemaService().searchList(schemaListVo);
+        model.addAttribute("schemaListVo", schemaListVo);
+        //账户关联的手续费
+        FeeAccountRelationVo feeAccountRelationVo = new FeeAccountRelationVo();
+        feeAccountRelationVo.getQuery().setCriterions(new Criterion[]{
+                new Criterion(FeeAccountRelation.PROP_PAY_ACCOUNT_ID,Operator.EQ,objectVo.getResult().getId())
+        });
+        feeAccountRelationVo = ServiceSiteTool.feeAccountRelationService().search(feeAccountRelationVo);
+        model.addAttribute("feeAccountRelation", feeAccountRelationVo.getResult());
         return "/content/payaccount/company/Add";
     }
 
