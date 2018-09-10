@@ -324,6 +324,9 @@ public class PayAccountController extends BaseCrudController<IPayAccountService,
         model.addAttribute("bitChannel", BitCoinChannelEnum.values());
         objectVo.setValidateRule(JsRuleCreator.create(PayAccountCompanyForm.class, "result"));
         model.addAttribute("command", objectVo);
+        RechargeFeeSchemaListVo schemaListVo = new RechargeFeeSchemaListVo();
+        schemaListVo = ServiceSiteTool.rechargeFeeSchemaService().searchList(schemaListVo);
+        model.addAttribute("schemaListVo", schemaListVo);
         return "/content/payaccount/company/Add";
     }
 
