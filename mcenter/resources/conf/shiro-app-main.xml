@@ -41,22 +41,23 @@
 				<entry key="subsys" value-ref="subsysCodeFilter"></entry>
 				<entry key="captcha" value-ref="captcha"></entry>
 				<entry key="access" value-ref="accessFilter"></entry>
+				<entry key="ip" value-ref="ipFilterCenter"></entry>
 			</map>
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
-				/message_*.js = anon
-				/index/language.html = anon
-				/index/language/change.html = anon
-				/forgetPassword/** = anon
-				/images/favicon.ico = agent,anon <!--for chrome-->
-				/resource/** = agent,anon
-				/template/email/** = agent,anon
-				/errors/** = agent,anon
-				/captcha/*.html = agent,captcha
-				/passport/login.html = agent,subsys,login
-				/master/passport/login.html = agent,subsys,login
-				/** = agent,subsys,kickout,authc,access,autho
+				/images/favicon.ico = anon <!--for chrome-->
+				/resource/** = anon
+				/template/email/** = anon
+				/errors/** = anon
+				/message_*.js = ip
+				/index/language.html = ip
+				/index/language/change.html = ip
+				/forgetPassword/** = ip
+				/captcha/*.html = ip,captcha
+				/passport/login.html = ip,subsys,login
+				/master/passport/login.html = ip,subsys,login
+				/** = ip,subsys,kickout,authc,access,autho
 			</value>
 		</property>
 	</bean>
