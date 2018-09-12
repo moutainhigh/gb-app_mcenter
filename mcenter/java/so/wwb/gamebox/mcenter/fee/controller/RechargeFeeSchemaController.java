@@ -104,7 +104,7 @@ public class RechargeFeeSchemaController extends BaseCrudController<IRechargeFee
         Map persist = super.persist(objectVo, form, bindingResult);
         //日志
         if (MapTool.getBoolean(persist,"state")){
-            BussAuditLogTool.addLog("RECHARGE_FEE_SCHEMA", "["+JsonTool.toJson(objectVo.getResult())+"]");
+            BussAuditLogTool.addLog("RECHARGE_FEE_SCHEMA", "["+JsonTool.toJson(objectVo.getResult()).replace("{","").replace("}","")+"]");
         }
         return persist;
     }
