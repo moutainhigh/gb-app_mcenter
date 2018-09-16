@@ -157,9 +157,17 @@
                         <shiro:hasPermission name="operate:recharge_fee_edit">
                             <a href="/rechargeFeeSchema/edit.html?search.id=${p.id}" nav-target="mainFrame">${views.common['edit']}</a>
                         </shiro:hasPermission>
+                        <shiro:lacksPermission name="operate:recharge_fee_edit">
+                            --
+                        </shiro:lacksPermission>
                         &nbsp;&nbsp;
                         <soul:button permission="operate:recharge_fee_delete" target="${root}/rechargeFeeSchema/delete.html?id=${p.id}&result.id=${p.id}" confirm="确认删除该手续费方案"
                                      callback="query" text="${views.common['delete']}" opType="ajax" cssClass="co-blue">${views.common['delete']}</soul:button>
+
+                        <shiro:lacksPermission name="operate:recharge_fee_delete">
+                            --
+                        </shiro:lacksPermission>
+
                     </td>
                 </tr>
             </c:forEach>
