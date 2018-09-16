@@ -19,7 +19,9 @@
             <div class="wrapper white-bg shadow">
                 <!--筛选条件-->
                 <div class="clearfix filter-wraper border-b-1">
-                    <a href="/rechargeFeeSchema/create.html" class="btn btn-info btn-addon pull-left m-r-sm" nav-target="mainFrame"><i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span></a>
+                    <shiro:hasPermission name="operate:recharge_fee_create">
+                        <a href="/rechargeFeeSchema/create.html" class="btn btn-info btn-addon pull-left m-r-sm" nav-target="mainFrame"><i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span></a>
+                    </shiro:hasPermission>
                     <soul:button tag="button" precall="" target="query" opType="function" cssClass="btn btn-primary-hide" text="${views.common['refresh']}"><i class="fa fa-refresh"></i><span class="hd">${views.common['refresh']}</span></soul:button>
                         <%--删除--%>
                     <div class="function-menu-show hide">
