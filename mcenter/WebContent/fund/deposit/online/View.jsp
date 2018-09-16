@@ -100,7 +100,9 @@
 									<c:if test="${r.counterFee < 0 }">
 										negative
 									</c:if>
-								">${siteCurrencySign}${r.counterFee>0?'+':''} ${soulFn:formatInteger(r.counterFee)}<i>${soulFn:formatDecimals(r.counterFee)}</i></td>
+								">${siteCurrencySign}${r.counterFee>0?'+':''} ${soulFn:formatInteger(r.counterFee)}<i>${soulFn:formatDecimals(r.counterFee)}</i>
+							<span class="co-gray9 m-l-md">${r.feeFlag == "1"?"独立手续费":"层级手续费"}</span>
+						</td>
 					</tr>
 					<tr>
 						<th scope="row" class="text-right">${views.fund['优惠金额：']}</th>

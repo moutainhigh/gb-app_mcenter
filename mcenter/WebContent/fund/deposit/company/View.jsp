@@ -238,7 +238,9 @@
 								<td class="money">--</td>
 							</c:if>
 							<c:if test="${r.counterFee!=0}">
-								<td class="money  ${r.counterFee>0?'positive':'negative'}">${r.currencySign} ${r.counterFee>0?'+':''}${soulFn:formatInteger(r.counterFee)}<i>${soulFn:formatDecimals(r.counterFee)}</i></td>
+								<td class="money  ${r.counterFee>0?'positive':'negative'}">${r.currencySign} ${r.counterFee>0?'+':''}${soulFn:formatInteger(r.counterFee)}<i>${soulFn:formatDecimals(r.counterFee)}</i>
+									<span class="co-gray9 m-l-md">${r.feeFlag == "1"?"独立手续费":"层级手续费"}</span>
+								</td>
 							</c:if>
 						</tr>
 						<tr>
