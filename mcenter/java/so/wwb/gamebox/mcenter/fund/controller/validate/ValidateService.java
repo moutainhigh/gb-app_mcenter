@@ -57,7 +57,10 @@ public class ValidateService {
     private List<ValidateVo> loadValidateVo(Integer playerId) {
         List<ValidateVo> result = new ArrayList<>();
         try {
-            List<Map<String, Object>> mapList = ServiceSiteTool.getPlayerTransactionService().queryTranLog(playerId, SessionManager.getSiteId());
+            PlayerTransactionVo ptvo = new PlayerTransactionVo();
+            ptvo.setPlayerId(playerId);
+            ptvo._setDataSourceId(SessionManager.getSiteId());
+            List<Map<String, Object>> mapList = ServiceSiteTool.getPlayerTransactionService().queryTranLog(ptvo);
             for (Map<String, Object> map : mapList) {
                 ValidateVo vo = new ValidateVo();
                 vo.setKeyStr(map.get("store_text") == null ? "" : map.get("store_text").toString());

@@ -227,6 +227,9 @@ public class VDomainCheckResultStatisticsController extends BaseCrudController<I
         param.setMethod(HttpRequestMethod.GET);
         String result = HttpClientTool.sync(param);
         LOG.info("域名检测返回值内容：{0}", new Object[]{result});
+        if(StringTool.isBlank(result)){
+            return MANUAL_CHECK_ERROR;
+        }
         //{"error_code":"0/1","error":"only value at code=1","task_id":"sucess return","pedding":"wait for pedding"}
         //当task_id有值，则返回。否则提示错误信息
         JSONObject jsonObj = JSONObject.parseObject(result);
