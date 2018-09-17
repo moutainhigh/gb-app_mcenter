@@ -22,36 +22,15 @@
                     <shiro:hasPermission name="operate:recharge_fee_create">
                         <a href="/rechargeFeeSchema/create.html" class="btn btn-info btn-addon pull-left m-r-sm" nav-target="mainFrame"><i class="fa fa-plus"></i><span class="hd">${views.common['create']}</span></a>
                     </shiro:hasPermission>
-                    <soul:button tag="button" precall="" target="query" opType="function" cssClass="btn btn-primary-hide" text="${views.common['refresh']}"><i class="fa fa-refresh"></i><span class="hd">${views.common['refresh']}</span></soul:button>
-                        <%--删除--%>
-                    <div class="function-menu-show hide">
-                        <div class="btn-group" style="padding-left: 10px">
-                            <shiro:hasPermission name="content:withdraw_account_delete">
-                                <soul:button tag="button" text="${views.common['delete']}" confirm="确认删除吗？"
-                                             target="${root}/withdrawAccount/delete.html" post="getSelectIds"
-                                             opType="ajax" cssClass="btn btn-danger-hide"
-                                             callback="deleteCallbak"><i class="fa fa-trash-o"></i><span
-                                        class="hd">${views.common['delete']}</span></soul:button>
-                            </shiro:hasPermission>
-                        </div>
-                    </div>
+
                     <div class="search-wrapper btn-group pull-right m-r-n-xs">
                         <div class="input-group">
-                            <%--下拉筛选--%>
-                            <div class="input-group-btn">
-                                <select id="searchlist" data-placeholder="${views.column['VPayAccount.accountName']}" class="btn-group chosen-select-no-single" tabindex="-1">
-                                    <%--<c:forEach items="${command.searchList()}" var="item" varStatus="status">--%>
-                                        <%--<option value="${item.key}" ${status.index==0?'selected':''}>${item.value}</option>--%>
-                                        <%--<c:if test="${status.index==0}">--%>
-                                            <%--<c:set value="${item.key}" var="firstSelectKey"/>--%>
-                                        <%--</c:if>--%>
-                                    <%--</c:forEach>--%>
-                                </select>
-                            </div>
-                            <input type="text" class="form-control list-search-input-text" id="searchtext" name="${firstSelectKey}">
+
+                            <input type="text" class="form-control list-search-input-text" name="search.schemaName"
+                                   placeholder="请输入手续费方案名称">
                                 <%--查询--%>
                             <span class="input-group-btn">
-                                <soul:button cssClass="btn btn-filter btn-query-css _enter_submit" precall="checksearch" tag="button" opType="function" text="${views.common['search']}" target="query">
+                                <soul:button cssClass="btn btn-filter btn-query-css _enter_submit" precall="" tag="button" opType="function" text="${views.common['search']}" target="query">
                                     <i class="fa fa-search"></i><span class="hd">&nbsp;${views.common['search']}</span>
                                 </soul:button>
                             </span>
