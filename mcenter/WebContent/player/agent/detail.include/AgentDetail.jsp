@@ -45,7 +45,12 @@
             <th class="bg-tbcolor">${views.column['VUserAgentManage.defaultTimezone']}：</th>
             <td>${map.default_timezone}</td>
             <th class="bg-tbcolor">${views.column['VUserAgentManage.registCode']}：</th>
-            <td>${map.regist_code}</td>
+            <td>${map.regist_code}
+            <%--修改推广码--%>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <soul:button target="${root}/userAgent/generateRegistCode.html?result.id=${map.id}" confirm="重新生成推广码,旧的将不可用,确认重新生成?"
+                             callback="query" text="精简推广码" opType="ajax" cssClass="co-blue">精简推广码</soul:button>
+            </td>
             <th class="bg-tbcolor">${views.column['VUserAgentManage.createChannel']}：</th>
             <td>${dicts.player.create_channel[map.create_channel]}</td>
         </tr>
