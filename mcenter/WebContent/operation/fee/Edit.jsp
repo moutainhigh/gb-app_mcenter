@@ -17,8 +17,8 @@
         <div class="row">
             <div class="position-wrap clearfix">
                 <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
-                <span>${views.sysResource['角色']}</span><span>/</span>
-                <span>${views.sysResource['层级设置']}</span>
+                <span>${views.sysResource['运营']}</span><span>/</span>
+                <span>手续费设置</span>
                 <soul:button target="goToLastPage" cssClass="m-l-sm btn btn-outline btn-default btn-xs co-gray6 return-btn" text="" opType="function">
                     <em class="fa fa-caret-left"></em>${views.common['return']}
                 </soul:button>
