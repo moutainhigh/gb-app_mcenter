@@ -55,7 +55,7 @@
                             </c:choose>
                         </div>
                     </c:if>
-                    <%--交易号--%>
+                    <%--订单号--%>
                     <div class="pull-right">
                             ${views.column["VPlayerWithdraw.transactionNo"]}：
                         <span id="transactionNo">${command.result.transactionNo}</span>

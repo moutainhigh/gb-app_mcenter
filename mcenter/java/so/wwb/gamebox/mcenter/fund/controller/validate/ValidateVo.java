@@ -35,7 +35,7 @@ public class ValidateVo {
 
     public String genKey() {
         try {
-            //交易号@玩家ID@交易金额
+            //订单号@玩家ID@交易金额
             String md5Str = this.tid + "@" + this.plid + "@" + this.relValue;
             System.out.println(md5Str);
             MessageDigest md5 = MessageDigest.getInstance("MD5");
