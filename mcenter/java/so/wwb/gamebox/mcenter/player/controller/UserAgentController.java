@@ -183,7 +183,7 @@ public class UserAgentController extends BaseUserAgentController {
     public Map generateRegistCode(UserAgentVo vo){
         vo = this.getService().generateRegistCode(vo);
         if (vo.isSuccess()){
-            BussAuditLogTool.addLog("AGENT_GENERATE_REGISTCODE",vo.getResult().getId(),vo.getRealNameAffirm(),vo.getResult().getRegistCode());
+            BussAuditLogTool.addLog("AGENT_GENERATE_REGISTCODE",vo.getResult().getId().toString(),vo.getRealNameAffirm(),vo.getResult().getRegistCode());
         }
         return getVoMessage(vo);
     }
