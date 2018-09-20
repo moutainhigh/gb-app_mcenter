@@ -26,7 +26,7 @@ public class VPlayerFundsRecordSearchForm implements IForm {
     private Double search_endMoney;
     //用户名
     private String search_usernames;
-    //交易号
+    //订单号
     private  String search_transactionNo;
 
     //开始时间

@@ -66,7 +66,7 @@
                                         </c:choose>
                                     </div>
                                 </c:if>
-                                　<%--交易号--%>
+                                　<%--订单号--%>
                                 <div class="pull-right"> ${views.column["VPlayerWithdraw.transactionNo"]}：<span id="transactionNo">${command.result.transactionNo}</span>
                                     <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-placement="left" data-clipboard-text="${command.result.transactionNo}" name="copy"><i class="fa fa-copy"></i></a>
                                 </div>
