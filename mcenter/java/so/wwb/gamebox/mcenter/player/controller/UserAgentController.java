@@ -8,6 +8,7 @@ import org.soul.commons.dict.DictTool;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Order;
+import org.soul.model.log.audit.enums.OpType;
 import org.soul.model.security.privilege.po.SysUser;
 import org.soul.model.security.privilege.po.SysUserStatus;
 import org.soul.model.security.privilege.so.SysUserSo;
@@ -16,21 +17,23 @@ import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.model.sys.po.SysParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.mcenter.session.SessionManager;
-import so.wwb.gamebox.model.DictEnum;
-import so.wwb.gamebox.model.ParamTool;
-import so.wwb.gamebox.model.SiteParamEnum;
+import so.wwb.gamebox.model.*;
+import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.enums.UserTypeEnum;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
 import so.wwb.gamebox.model.master.player.vo.PlayerRankVo;
 import so.wwb.gamebox.model.master.player.vo.UserAgentVo;
 import so.wwb.gamebox.model.master.setting.po.FieldSort;
+import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.agent.controller.BaseUserAgentController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -167,6 +170,22 @@ public class UserAgentController extends BaseUserAgentController {
                 userAgentVo.setSomePlayerRanks(ServiceSiteTool.playerRankService().queryUsableRankList(playerRankVo));
             }
         }
+    }
+
+    /**
+     * 重新生成5位推广码保存到DB
+     * @param vo
+     * @return
+     */
+    @RequestMapping("/generateRegistCode")
+    @ResponseBody
+    @Audit(module = Module.ROLE, moduleType = ModuleType.AGENT_GENERATE_REGISTCODE, opType = OpType.UPDATE)
+    public Map generateRegistCode(UserAgentVo vo){
+        vo = this.getService().generateRegistCode(vo);
+        if (vo.isSuccess()){
+            BussAuditLogTool.addLog("AGENT_GENERATE_REGISTCODE",vo.getResult().getId().toString(),vo.getRealNameAffirm(),vo.getResult().getRegistCode());
+        }
+        return getVoMessage(vo);
     }
     //endregion your codes 3
 

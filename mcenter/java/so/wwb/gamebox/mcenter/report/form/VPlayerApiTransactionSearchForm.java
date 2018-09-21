@@ -39,7 +39,7 @@ public class VPlayerApiTransactionSearchForm implements IForm {
         return search_endTime;
     }
 
-    //交易号
+    //订单号
     private  String search_transactionNo;
 
     @Range(min = -99999999,max =99999999 )

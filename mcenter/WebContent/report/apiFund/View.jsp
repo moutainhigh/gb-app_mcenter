@@ -44,7 +44,7 @@
                         <tbody>
                         <tr>
                             <td colspan="2" class="text-right">
-                                    ${views.report_auto['交易号']}：${command.result.transactionNo}
+                                    ${views.report_auto['订单号']}：${command.result.transactionNo}
                                 <a type="button" class="btn btn-sm btn-info btn-stroke m-l-sm" name="copy"
                                    data-clipboard-text="${command.result.transactionNo}"><i class="fa fa-copy"
                                                                                             title="${views.report_auto['复制']}"></i></a>

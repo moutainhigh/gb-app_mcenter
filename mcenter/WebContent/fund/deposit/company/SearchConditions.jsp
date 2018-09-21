@@ -43,7 +43,7 @@
 
 
 
-            <%--交易号--%>
+            <%--订单号--%>
             <div class="form-group clearfix pull-left col-md-2 col-sm-12 m-b-sm padding-r-none-sm senior hide transactionNo">
                 <div class="input-group date">
                     <span class="input-group-addon bg-gray">&nbsp;&nbsp;&nbsp;${views.common['orderNum']}&nbsp;&nbsp;&nbsp;</span>

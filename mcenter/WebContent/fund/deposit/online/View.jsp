@@ -38,7 +38,7 @@
 					<tbody>
 					<tr>
 						<td colspan="2" class="text-right">
-								${views.fund['交易号：']}<span id="transactionNo">${r.transactionNo}</span>
+								${views.fund['订单号：']}<span id="transactionNo">${r.transactionNo}</span>
 							<a type="button" class="btn btn-sm btn-info btn-stroke m-l-sm" data-clipboard-text="${r.transactionNo}" name="copy"><i class="fa fa-copy" title="${views.fund_auto['复制']}"></i></a>
 						</td>
 					</tr>
@@ -100,7 +100,9 @@
 									<c:if test="${r.counterFee < 0 }">
 										negative
 									</c:if>
-								">${siteCurrencySign}${r.counterFee>0?'+':''} ${soulFn:formatInteger(r.counterFee)}<i>${soulFn:formatDecimals(r.counterFee)}</i></td>
+								">${siteCurrencySign}${r.counterFee>0?'+':''} ${soulFn:formatInteger(r.counterFee)}<i>${soulFn:formatDecimals(r.counterFee)}</i>
+							<span class="co-gray9 m-l-md">${r.feeFlag == "1"?"独立手续费":"层级手续费"}</span>
+						</td>
 					</tr>
 					<tr>
 						<th scope="row" class="text-right">${views.fund['优惠金额：']}</th>

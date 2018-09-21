@@ -652,7 +652,7 @@ public abstract class BaseDepositController extends BaseCrudController<IVPlayerD
      * 存款审核：确定更新审核状态
      */
     public Map confirmCheck(PlayerRechargeVo vo) {
-        LOG.info("账号【{0}】审核存款交易号【{1}】", SessionManager.getUserName(), vo.getSearch().getTransactionNo());
+        LOG.info("账号【{0}】审核存款订单号【{1}】", SessionManager.getUserName(), vo.getSearch().getTransactionNo());
         // 更新订单状态
         vo = updateRechargeStatus(vo);
 

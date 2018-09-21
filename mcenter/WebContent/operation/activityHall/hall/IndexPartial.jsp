@@ -147,11 +147,11 @@
                         </c:otherwise>--%>
                     </c:choose>
                     <%--暂时隐藏，不发测试线--%>
-                    <%--<c:if test="${p.code eq 'money'}">--%>
-                        <%--<shiro:hasPermission name="operate:activity_moneyrecord">--%>
-                            <%--<a href="/activityMoneyPlayRecord/list.html?search.activityMessageId=${p.id}" nav-target="mainFrame">${views.content['vSiteApi.record']}</a>--%>
-                        <%--</shiro:hasPermission>--%>
-                    <%--</c:if>--%>
+                    <c:if test="${p.code eq 'money'}">
+                        <shiro:hasPermission name="operate:activity_moneyrecord">
+                            <a href="/activityHall/activityMoneyPlayRecord/list.html?search.activityMessageId=${p.id}" nav-target="mainFrame">${views.content['vSiteApi.record']}</a>
+                        </shiro:hasPermission>
+                    </c:if>
                 </td>
             </tr>
         </c:forEach>

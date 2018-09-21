@@ -4,6 +4,7 @@
 <%@ include file="/include/include.inc.jsp" %>
 
 <form name="withdrawViewForm" action="${root}/fund/withdraw/WithdrawAuditView.html?search.id=${command.result.id}&pageType=detail">
+    <input type="hidden" id="funds_error" value="${funds_error}"/>
     <div class="row">
         <div class="position-wrap clearfix">
             <h2><a class="navbar-minimalize" href="javascript:void(0)"><i class="icon iconfont">&#xe610;</i> </a></h2>
@@ -65,7 +66,7 @@
                                         </c:choose>
                                     </div>
                                 </c:if>
-                                　<%--交易号--%>
+                                　<%--订单号--%>
                                 <div class="pull-right"> ${views.column["VPlayerWithdraw.transactionNo"]}：<span id="transactionNo">${command.result.transactionNo}</span>
                                     <a class="btn btn-sm btn-info btn-stroke m-l-sm" type="button" data-clipboard-placement="left" data-clipboard-text="${command.result.transactionNo}" name="copy"><i class="fa fa-copy"></i></a>
                                 </div>

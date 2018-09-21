@@ -115,7 +115,7 @@
                                                 ${dicts.common.currency_symbol[command.result.defaultCurrency]}
                                                 ${soulFn:formatInteger(playerWithdraw.withdrawAmount)}${soulFn:formatDecimals(playerWithdraw.withdrawAmount)}
                                         </span>
-                                                    ${views.player_auto['取款订单待处理，交易号']}
+                                                    ${views.player_auto['取款订单待处理，订单号']}
                                                 <span class="co-gray">【${playerWithdraw.transactionNo}】</span>
 
                                     </a>

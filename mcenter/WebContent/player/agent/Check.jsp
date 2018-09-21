@@ -114,8 +114,8 @@
                 <!--表格内容 结束-->
             </div>
             <div class="operate-btn al-center">
-                <soul:button target="${root}/userAgent/check.html?bo=true" text="${views.role['agent.check.ok']}" tt="success" cssClass="btn btn-filter btn-lg" precall="myValidateForm" opType="ajax" callback="showNextRecord" post="getCurrentFormData" title="">${views.role['agent.check.ok']}</soul:button>
-                <soul:button target="${root}/userAgent/check.html?bo=false" text="${views.role['agent.check.cancel']}" tt="failure" cssClass="btn btn-outline btn-filter btn-lg" opType="ajax" callback="showNextRecord" post="getCurrentFormData" title="">${views.role['agent.check.cancel']}</soul:button>
+                <soul:button target="${root}/userAgent/check.html?realNameAffirm=${map.username}&bo=true" text="${views.role['agent.check.ok']}" tt="success" cssClass="btn btn-filter btn-lg" precall="myValidateForm" opType="ajax" callback="showNextRecord" post="getCurrentFormData" title="">${views.role['agent.check.ok']}</soul:button>
+                <soul:button target="${root}/userAgent/check.html?realNameAffirm=${map.username}&bo=false" text="${views.role['agent.check.cancel']}" tt="failure" cssClass="btn btn-outline btn-filter btn-lg" opType="ajax" callback="showNextRecord" post="getCurrentFormData" title="">${views.role['agent.check.cancel']}</soul:button>
                 <c:if test="${not empty nextCheckAgentId}">
                     <soul:button target="showNextRecord" text="${views.role['agent.check.next']}" opType="function" permission="role:agent_check" cssClass="pull-right btn btn-outline btn-filter btn-lg"></soul:button>
                     <%--<shiro:hasPermission name="role:agent_check">

@@ -20,6 +20,7 @@
 </style>
 <body>
 <form name="withdrawAuditViewForm">
+    <input type="hidden" id="funds_error" value="${funds_error}"/>
     <div class="modal-body clearfix">
         <div id="validateRule" style="display: none">${validateRule}</div>
         <input type="hidden" name="transactionNo" value="${command.result.transactionNo}">
@@ -54,7 +55,7 @@
                             </c:choose>
                         </div>
                     </c:if>
-                    <%--交易号--%>
+                    <%--订单号--%>
                     <div class="pull-right">
                             ${views.column["VPlayerWithdraw.transactionNo"]}：
                         <span id="transactionNo">${command.result.transactionNo}</span>

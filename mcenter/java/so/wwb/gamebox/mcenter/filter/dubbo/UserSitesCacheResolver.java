@@ -6,7 +6,7 @@ import org.soul.commons.init.context.ContextParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import so.wwb.gamebox.model.company.sys.po.VSysSiteUser;
 import so.wwb.gamebox.common.cache.Cache;
-import so.wwb.gamebox.web.init.ExtBaseWebConf;
+import so.wwb.gamebox.web.init.ConfigBase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class UserSitesCacheResolver implements IUserSitesCacheResolver {
 
     @Autowired
-    private ExtBaseWebConf extBaseWebConf;
+    private ConfigBase configBase;
 
     @Override
     public List<Integer> getSiteIds(ContextParam contextParam) {
@@ -43,9 +43,9 @@ public class UserSitesCacheResolver implements IUserSitesCacheResolver {
     @Override
     public List<Integer> getSiteIds4Demo() {
         return Arrays.asList(new Integer[]{
-                extBaseWebConf.getDsIdModelLottery() == null ? null : Integer.valueOf(extBaseWebConf.getDsIdModelLottery()),
-                extBaseWebConf.getDsIdModelMockAccount() == null ? null : Integer.valueOf(extBaseWebConf.getDsIdModelMockAccount()),
-                extBaseWebConf.getDsIdModelPlatform() == null ? null : Integer.valueOf(extBaseWebConf.getDsIdModelPlatform()),
+                configBase.getDsIdModelLottery() == null ? null : Integer.valueOf(configBase.getDsIdModelLottery()),
+                configBase.getDsIdModelMockAccount() == null ? null : Integer.valueOf(configBase.getDsIdModelMockAccount()),
+                configBase.getDsIdModelPlatform() == null ? null : Integer.valueOf(configBase.getDsIdModelPlatform()),
         });
     }
 }
