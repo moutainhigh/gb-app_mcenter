@@ -8,6 +8,7 @@
         <tr role="row" class="bg-gray">
             <th>序号</th>
             <th>游戏大厅陈列项</th>
+            <th>所属API</th>
             <th>图标</th>
             <th>展示状态</th>
             <th>上下架管理</th>
@@ -31,6 +32,7 @@
                 <td>${(command.paging.pageNumber-1)*command.paging.pageSize+(status.index+1)}</td>
                     <%--游戏大厅陈列项--%>
                 <td>${gbFn:getGameName(p.gameId).toString()}</td>
+                <td>${gbFn:getSiteApiName(p.apiId)}</td>
                     <%--图标--%>
                 <td>
                     <c:if test="${not empty siteGames[p.gameId.toString()].cover}">
