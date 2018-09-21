@@ -36,7 +36,7 @@
                                     ${views.fund['锁定后才可查看完整的收款账号']}
                             </div>
                             <div class="pull-right">
-                                    ${views.fund['交易号：']}${command.result.transactionNo}
+                                    ${views.fund['订单号：']}${command.result.transactionNo}
                                 <a name="copy" data-clipboard-placement="left" data-clipboard-text="${command.result.transactionNo}" id="transactionNo-copy"
                                    class="btn btn-sm btn-info btn-stroke m-l-sm" title="${views.fund_auto['复制']}"><li class="fa fa-copy" ></li></a>
                             </div>
@@ -58,7 +58,7 @@
                                             ${views.fund['锁定人：']}${command.result.lockPersonName}
                                     </div>
                                     <div class="pull-right">
-                                            ${views.fund['交易号：']}${command.result.transactionNo}
+                                            ${views.fund['订单号：']}${command.result.transactionNo}
                                         <a name="copy" data-clipboard-placement="left" data-clipboard-text="${command.result.transactionNo}" id="transactionNo-copy"
                                            class="btn btn-sm btn-info btn-stroke m-l-sm" title="${views.fund_auto['复制']}"><li class="fa fa-copy" ></li></a>
                                     </div>
@@ -73,7 +73,7 @@
                                             ${views.fund['锁定人：']}${command.result.lockPersonName}
                                     </div>
                                     <div class="pull-right">
-                                            ${views.fund['交易号：']}${command.result.transactionNo}
+                                            ${views.fund['订单号：']}${command.result.transactionNo}
                                         <a name="copy" data-clipboard-placement="left" data-clipboard-text="${command.result.transactionNo}" id="transactionNo-copy"
                                            class="btn btn-sm btn-info btn-stroke m-l-sm" title="${views.fund_auto['复制']}"><li class="fa fa-copy" ></li></a>
                                     </div>

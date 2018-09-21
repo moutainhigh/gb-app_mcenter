@@ -29,7 +29,7 @@
                         <tbody>
                         <tr>
                             <td colspan="2" class="text-right">
-                                    ${views.fund['交易号：']}<span id="transactionNo">${r.transactionNo}</span>
+                                    ${views.fund['订单号：']}<span id="transactionNo">${r.transactionNo}</span>
                                 <a type="button" class="btn btn-sm btn-info btn-stroke m-l-sm" data-clipboard-text="${r.transactionNo}" name="copy"><i class="fa fa-copy" title="${views.fund_auto['复制']}"></i></a>
                             </td>
                         </tr>
@@ -118,7 +118,7 @@
                         </c:if>
                         <c:if test="${!empty transactionData['rechargeTransactionNo']}">
                             <tr>
-                                <th scope="row" class="text-right">${views.fund_auto['关联存款交易号']}：</th>
+                                <th scope="row" class="text-right">${views.fund_auto['关联存款订单号']}：</th>
                                 <td>${transactionData['rechargeTransactionNo']}</td>
                             </tr>
                         </c:if>

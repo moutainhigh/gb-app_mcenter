@@ -29,7 +29,7 @@ public class VPlayerWithdrawSearchForm implements IForm {
 
     /*IP*/
     private String search_ipStr;
-    /*交易号*/
+    /*订单号*/
     private String search_transactionNo;
 
     @Range(min = 0,max =99999999 )

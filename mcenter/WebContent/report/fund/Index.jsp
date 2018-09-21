@@ -76,7 +76,7 @@
                                               startName="search.startTime"  endName="search.endTime">
                                     <span class="input-group-addon abroder-no"><b>${views.report_auto['完成时间']}：</b></span></gb:dateRange>
                             </div>
-                            <%-- 交易号　--%>
+                            <%-- 订单号　--%>
                             <div class="form-group clearfix pull-left content-width-limit-30 m-t-sm m-b-none">
                                 <div class="input-group order_parent">
                                     <span class="input-group-addon abroder-no"><b>${views.report['fund.list.transactionNo']}：</b></span>

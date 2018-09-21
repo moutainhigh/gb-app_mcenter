@@ -25,7 +25,7 @@
                             <th colspan="5"><div class="al-left">${views.report_auto['订单信息']}</div></th>
                         </tr>
                         <tr>
-                            <th>${views.report_auto['交易号']}</th>
+                            <th>${views.report_auto['订单号']}</th>
                             <th>${views.report_auto['交易描述']}</th>
                             <th>${views.report_auto['金额']}</th>
                             <th>${views.report_auto['钱包余额']}</th>

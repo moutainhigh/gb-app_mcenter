@@ -34,7 +34,7 @@
             <tbody>
             <tr>
                 <td colspan="2" class="text-right">
-                    <%--交易号--%>
+                    <%--订单号--%>
                     <div class="pull-right">
                         ${views.column["VPlayerWithdraw.transactionNo"]}：
                             <span id="transactionNo">${command.result.transactionNo}</span>

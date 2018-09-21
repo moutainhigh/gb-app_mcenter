@@ -209,7 +209,7 @@ public class CreditPayController {
                 }
             }
         } catch (Exception ex) {
-            LOG.info("添加额度充值日志报错:bankCode:{0},金额：{1}", bankCode, amount);
+            LOG.error(ex,"添加额度充值日志报错:bankCode:{0},金额：{1}", bankCode, amount);
         }
     }
 

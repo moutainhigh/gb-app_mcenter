@@ -41,7 +41,7 @@
                                                     ${views.fund['锁定后才可查看完整的收款账号']}
                                             </div>
                                             <div class="pull-right">
-                                                    ${views.fund['交易号：']}${vo.result.transactionNo}
+                                                    ${views.fund['订单号：']}${vo.result.transactionNo}
                                                 <a name="copy" data-clipboard-placement="left" data-clipboard-text="${vo.result.transactionNo}" id="transactionNo-copy"
                                                    class="btn btn-sm btn-info btn-stroke m-l-sm" ><li class="fa fa-copy" ></li></a>
                                             </div>
@@ -63,7 +63,7 @@
                                                             ${views.fund['锁定人：']}${vo.result.lockPersonName}
                                                     </div>
                                                     <div class="pull-right">
-                                                            ${views.fund['交易号：']}${vo.result.transactionNo}
+                                                            ${views.fund['订单号：']}${vo.result.transactionNo}
                                                         <a name="copy" data-clipboard-placement="left" data-clipboard-text="${vo.result.transactionNo}" id="transactionNo-copy"
                                                            class="btn btn-sm btn-info btn-stroke m-l-sm" ><li class="fa fa-copy" ></li></a>
                                                     </div>
@@ -78,7 +78,7 @@
                                                             ${views.fund['锁定人：']}${vo.result.lockPersonName}
                                                     </div>
                                                     <div class="pull-right">
-                                                            ${views.fund['交易号：']}${vo.result.transactionNo}
+                                                            ${views.fund['订单号：']}${vo.result.transactionNo}
                                                         <a name="copy" data-clipboard-placement="left" data-clipboard-text="${vo.result.transactionNo}" id="transactionNo-copy"
                                                            class="btn btn-sm btn-info btn-stroke m-l-sm" ><li class="fa fa-copy" ></li></a>
                                                     </div>
@@ -97,7 +97,7 @@
                             <tr>
                                 <td colspan="2">
                                     <div class="pull-right">
-                                            ${views.fund['交易号：']}${vo.result.transactionNo}
+                                            ${views.fund['订单号：']}${vo.result.transactionNo}
                                         <a name="copy" data-clipboard-text="${vo.result.transactionNo}" id="transactionNo-copy"
                                            class="btn btn-sm btn-info btn-stroke m-l-sm" ><li class="fa fa-copy" ></li></a>
                                     </div>

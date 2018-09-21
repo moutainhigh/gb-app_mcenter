@@ -176,7 +176,7 @@
                     <td colspan="13" class="no-content_wrap">
                         <div>
                             <i class="fa fa-exclamation-circle"></i>
-                            暂无代付出款账户信息
+                            暂无手续费设置信息
                         </div>
                     </td>
                 </tr>

@@ -26,7 +26,7 @@ public class VAgentWithdrawOrderSearchForm implements IForm {
 
     /*IP*/
     private String search_ipStr;
-    /*交易号*/
+    /*订单号*/
     private String search_transactionNo;
 
 

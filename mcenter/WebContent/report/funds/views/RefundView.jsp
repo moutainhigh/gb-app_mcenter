@@ -69,7 +69,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-right">${views.report_auto['存款订单交易号']}：</th>
+                    <th scope="row" class="text-right">${views.report_auto['存款订单订单号']}：</th>
                     <td>${command.depositTransactionNo}</td>
                 </tr>
                 <tr>

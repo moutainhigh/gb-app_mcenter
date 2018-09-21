@@ -40,7 +40,7 @@
 
                 {{for data}}
                      <tr class="tab-detail">
-                        <%--交易号--%>
+                        <%--订单号--%>
                         <td>
                             <a href="/fund/deposit/online/view.html?search.id={{:id}}" nav-target="mainFrame" class="co-blue">{{:transactionNo}}</a>
                         </td>
