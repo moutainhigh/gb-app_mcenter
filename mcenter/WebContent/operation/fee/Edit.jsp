@@ -29,9 +29,24 @@
                         <hr class="m-t-xs">
 
                         <div class="clearfix m-t m-b fzcs">
-                            <b class="pull-left col-sm-3 al-left line-hi34">手续费方案名称${siteCurrency}</b>
+                            <b class="pull-left col-sm-3 al-right line-hi34">手续费方案名称${siteCurrency}</b>
                             <div class="col-sm-5">
                                 <form:input path="result.schemaName" cssClass="form-control" maxlength="150"/>
+                            </div>
+                        </div>
+
+                        <div class="clearfix m-t m-b fzcs">
+                            <b class="pull-left col-sm-3 al-right line-hi34">存款类型</b>
+                            <div class="col-sm-5">
+                                <gb:select name="search.checkState" value="${command.result.allBankCode}" prompt="请选择" callback=""
+                                           list="{'1':'${views.home_auto['公司入款']}','2':'${views.home_auto['线上支付']}'}"/>
+                            </div>
+                        </div>
+
+                        <div class="clearfix m-t m-b fzcs">
+                            <b class="pull-left col-sm-3 al-right line-hi34">存款渠道</b>
+                            <div class="col-sm-5" id="bank_div">
+
                             </div>
                         </div>
 
