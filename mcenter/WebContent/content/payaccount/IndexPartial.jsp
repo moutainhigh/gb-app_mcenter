@@ -37,8 +37,7 @@
                         </c:forEach>
                     </select>--%>
             </th>
-            <th>手续费方案</th>
-            <c:if test="${command.search.type=='1'}">
+        <c:if test="${command.search.type=='1'}">
             <th>${views.content_auto['姓名']}</th>
             <th>${views.content_auto['别名']}</th>
         </c:if>
@@ -94,14 +93,6 @@
                     <td>${p.payName}</td>
                     <td>${p.account}</td>
                     <td>${dicts.common.bankname[p.bankCode]}</td>
-                    <td>
-                        <c:if test="${p.feeSchemaName != null && p.feeSchemaName != ''}">
-                            ${p.feeSchemaName}
-                        </c:if>
-                        <c:if test="${p.feeSchemaName == null || p.feeSchemaName == ''}">
-                            --
-                        </c:if>
-                    </td>
                     <c:if test="${command.search.type=='1'}">
                     <td>${p.fullName}</td>
                     <td>

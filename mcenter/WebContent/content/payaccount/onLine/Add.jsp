@@ -180,14 +180,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group clearfix">
-                        <label class="ft-bold col-sm-3 al-right line-hi34">手续费方案：</label>
-                        <div class="col-sm-5">
-                            <div class="input-group date">
-                                <gb:select name="result.feeSchemaId"  cssClass="btn-group chosen-select-no-single" prompt="${views.common['pleaseSelect']}" list="${schemaListVo.result}" listKey="id" listValue="schemaName" value="${feeAccountRelation.feeSchemaId}"/>
-                            </div>
-                        </div>
-                    </div>
                     <%-- 有效分钟数--%>
                    <%-- <div class="form-group clearfix">
                         <label class="ft-bold col-sm-3 al-right line-hi34">${views.column['PayAccount.effectiveMinutes']}：</label>
