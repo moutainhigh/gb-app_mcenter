@@ -20,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import so.wwb.gamebox.common.cache.Cache;
+import so.wwb.gamebox.common.cache.ExportCriteriaTool;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.common.dubbo.ServiceTool;
 import so.wwb.gamebox.iservice.master.player.IVUserAgentManageService;
@@ -46,8 +48,6 @@ import so.wwb.gamebox.model.master.player.po.VUserAgentManage;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentManageListVo;
 import so.wwb.gamebox.model.master.player.vo.VUserAgentManageVo;
 import so.wwb.gamebox.model.master.setting.po.RebateSet;
-import so.wwb.gamebox.common.cache.Cache;
-import so.wwb.gamebox.common.cache.ExportCriteriaTool;
 import so.wwb.gamebox.web.report.controller.AbstractExportController;
 
 import javax.servlet.http.HttpServletRequest;
