@@ -5,6 +5,7 @@ import org.soul.commons.collections.CollectionTool;
 import org.soul.commons.collections.ListTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.dict.DictTool;
+import org.soul.commons.init.context.CommonContext;
 import org.soul.commons.query.Criterion;
 import org.soul.commons.query.enums.Operator;
 import org.soul.commons.query.sort.Order;
@@ -16,6 +17,7 @@ import org.soul.model.security.privilege.vo.SysUserListVo;
 import org.soul.model.security.privilege.vo.SysUserVo;
 import org.soul.model.sys.po.SysParam;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
@@ -30,6 +32,7 @@ import so.wwb.gamebox.model.master.player.vo.UserAgentVo;
 import so.wwb.gamebox.model.master.setting.po.FieldSort;
 import so.wwb.gamebox.web.BussAuditLogTool;
 import so.wwb.gamebox.web.agent.controller.BaseUserAgentController;
+import so.wwb.gamebox.web.common.token.Token;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,10 +186,21 @@ public class UserAgentController extends BaseUserAgentController {
     public Map generateRegistCode(UserAgentVo vo){
         vo = this.getService().generateRegistCode(vo);
         if (vo.isSuccess()){
-            BussAuditLogTool.addLog("AGENT_GENERATE_REGISTCODE",vo.getResult().getId().toString(),vo.getRealNameAffirm(),vo.getResult().getRegistCode());
+            BussAuditLogTool.addLog("AGENT_GENERATE_REGISTCODE",
+                    vo.getResult().getId().toString(),vo.getRealNameAffirm(),vo.getResult().getRegistCode());
         }
         return getVoMessage(vo);
     }
+
+    @RequestMapping("/editAgent")
+    @Token(generate = true)
+    @Override
+    public String editAgent(UserAgentVo userAgentVo, Model model) {
+        String s = super.editAgent(userAgentVo, model);
+        userAgentVo.getResult().setRegistCode(randomRegistCode(CommonContext.get().getSiteId()));
+        return s;
+    }
+
     //endregion your codes 3
 
 }
