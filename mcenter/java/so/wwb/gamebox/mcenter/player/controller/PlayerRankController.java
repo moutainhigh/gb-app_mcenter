@@ -25,6 +25,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import so.wwb.gamebox.common.cache.Cache;
 import so.wwb.gamebox.common.dubbo.ServiceSiteTool;
 import so.wwb.gamebox.iservice.master.player.IPlayerRankService;
 import so.wwb.gamebox.mcenter.player.form.PlayerRankAddForm;
@@ -36,9 +37,12 @@ import so.wwb.gamebox.model.ModuleType;
 import so.wwb.gamebox.model.RankStatusEnum;
 import so.wwb.gamebox.model.common.Audit;
 import so.wwb.gamebox.model.common.MessageI18nConst;
+import so.wwb.gamebox.model.company.enums.BankEnum;
+import so.wwb.gamebox.model.company.po.Bank;
 import so.wwb.gamebox.model.master.content.enums.PayAccountStatusEnum;
 import so.wwb.gamebox.model.master.content.po.PayAccount;
 import so.wwb.gamebox.model.master.content.vo.PayAccountListVo;
+import so.wwb.gamebox.model.master.content.vo.PayAccountVo;
 import so.wwb.gamebox.model.master.enums.PlayerStatusEnum;
 import so.wwb.gamebox.model.master.player.enums.PlayerRankEnum;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
@@ -219,6 +223,24 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
         model.addAttribute("command", v);
         //model.addAttribute("strPayId", strPayId);
         return PLAYER_RANK_PAY_LIMIT;
+    }
+
+
+    private void getBankList(PayAccountVo objectVo) {
+        Map<String, Bank> bankMap = Cache.getBank();
+        List<Bank> bankList = new LinkedList<>();
+        List<Bank> thirdBankList = new ArrayList<>();
+        String bankType = BankEnum.TYPE_BANK.getCode();
+        String thirdType = BankEnum.TYPE_THIRD.getCode();
+        for (Bank bank : bankMap.values()) {
+            if (bankType.equals(bank.getType())) {
+                bankList.add(bank);
+            } else if (thirdType.equals(bank.getType())) {
+                thirdBankList.add(bank);
+            }
+        }
+        objectVo.setBankList(bankList);
+        objectVo.setThirdBankList(thirdBankList);
     }
 
     /**
