@@ -42,7 +42,6 @@ import so.wwb.gamebox.model.company.po.Bank;
 import so.wwb.gamebox.model.master.content.enums.PayAccountStatusEnum;
 import so.wwb.gamebox.model.master.content.po.PayAccount;
 import so.wwb.gamebox.model.master.content.vo.PayAccountListVo;
-import so.wwb.gamebox.model.master.content.vo.PayAccountVo;
 import so.wwb.gamebox.model.master.enums.PlayerStatusEnum;
 import so.wwb.gamebox.model.master.player.enums.PlayerRankEnum;
 import so.wwb.gamebox.model.master.player.enums.UserAgentEnum;
@@ -215,18 +214,23 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
         //this.getService().saveMoreAccount(vo);
         PlayerRankVo v = new PlayerRankVo();
         v.getSearch().setId(rankId);
-        v = this.getService().get(v);
+        v = this.getService().getPlayerRankById(v);
         v.setValidateRule(JsRuleCreator.create(PlayerRankSearchForm.class, "result"));
         v.setCurrency(SessionManager.getUser().getDefaultCurrency());
         //v.getResult().setIsFee(v.getResult().getIsFee()==null||!v.getResult().getIsFee()?false:true);
         //v.getResult().setIsReturnFee(v.getResult().getIsReturnFee()==null||!v.getResult().getIsReturnFee()?false:true);
+        getBankList(v);//第三方存款渠道
+        //查询已经被勾选的存款渠道
         model.addAttribute("command", v);
         //model.addAttribute("strPayId", strPayId);
         return PLAYER_RANK_PAY_LIMIT;
     }
 
-
-    private void getBankList(PayAccountVo objectVo) {
+    /**
+     * 第三方存款渠道
+     * @param objectVo
+     */
+    private void getBankList(PlayerRankVo objectVo) {
         Map<String, Bank> bankMap = Cache.getBank();
         List<Bank> bankList = new LinkedList<>();
         List<Bank> thirdBankList = new ArrayList<>();
@@ -239,7 +243,7 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
                 thirdBankList.add(bank);
             }
         }
-        objectVo.setBankList(bankList);
+        //objectVo.setBankList(bankList);
         objectVo.setThirdBankList(thirdBankList);
     }
 
