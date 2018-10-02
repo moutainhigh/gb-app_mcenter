@@ -9,23 +9,23 @@
                                 <div class="col-sm-5">
                                     <div>
                                         <label class="m-r-sm">
-                                            <input type="checkbox" class="i-checks" name="result.isDepositCompanyAll"
+                                            <input type="checkbox" class="i-checks" name="isDepositCompanyAll${feeOrReturn}"
                                             ${command.result.isDepositCompanyAll?'checked':''}>
                                                 所有公司入款
                                         </label>
                                     </div>
                                     <div class="div_bank" style="display: ${command.result.isDepositCompanyAll?'none':'block'};">
-                                        <%--<input type="hidden" class="i-checks" name="result.depositCompanyBank" value="${command.result.depositCompanyBank}">--%>
+                                        <input type="hidden" class="i-checks" name="depositCompanyBank${feeOrReturn}" value="${command.result.depositCompanyBank}">
                                         <label class="m-r-sm">
                                             <input type="checkbox" class="i-checks company_item" bank_item="company_item"
-                                                   name="result.depositCompanyBank" value="bank_pay"
+                                                   value="bank_pay"
                                                 ${fn:contains(command.result.depositCompanyBank,'bank_pay')?'checked':''}>
                                                     银行直连
                                         </label>
                                         <c:forEach items="${command.thirdBankList}" var="bank">
                                             <label class="m-r-sm">
                                                 <input type="checkbox" class="i-checks company_item" bank_item="company_item"
-                                                       name="result.depositCompanyBank" value="${bank.bankName}"
+                                                     value="${bank.bankName}"
                                                     ${fn:contains(command.result.depositCompanyBank,bank.bankName)?'checked':''}>
                                                         ${dicts.common.bankname[bank.bankName]}
                                             </label>
@@ -38,22 +38,22 @@
                                 <div class="col-sm-5">
                                     <div>
                                         <label class="m-r-sm">
-                                            <input type="checkbox" class="i-checks" name="result.isDepositOnlineAll"
+                                            <input type="checkbox" class="i-checks" name="isDepositOnlineAll${feeOrReturn}"
                                             ${command.result.isDepositOnlineAll?'checked':''}>
                                                 所有线上支付
                                         </label>
                                     </div>
                                     <div class="div_bank"  style="display: ${command.result.isDepositOnlineAll?'none':'block'};">
-                                        <%--<input type="hidden" class="i-checks" name="result.depositOnlineBank" value="${command.result.depositOnlineBank}">--%>
+                                        <input type="hidden" class="i-checks" name="depositOnlineBank${feeOrReturn}" value="${command.result.depositOnlineBank}">
                                         <label class="m-r-sm">
                                             <input type="checkbox" class="i-checks online_item" bank_item="online_item"
-                                                   name="result.depositOnlineBank" value="bank_pay">
+                                                   value="bank_pay">
                                             银行账户
                                         </label>
                                         <c:forEach items="${command.thirdBankList}" var="bank">
                                             <label class="m-r-sm">
                                                 <input type="checkbox" class="i-checks online_item" bank_item="online_item"
-                                                       name="result.depositOnlineBank" value="${bank.bankName}"
+                                                       value="${bank.bankName}"
                                                     ${fn:contains(command.result.depositOnlineBank,bank.bankName)?'checked':''}>
                                                     ${dicts.common.bankname[bank.bankName]}
                                             </label>

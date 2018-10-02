@@ -74,6 +74,7 @@
                             </div>
                             <%--收取手续费渠道--%>
                             <div class="fee_bank_div">
+                                <c:set value="Fee" var="feeOrReturn"/>
                                 <%@ include file="PayLimitPartial.jsp" %>
                             </div>
                             <div id="first_div_fee">
@@ -136,6 +137,7 @@
                             </div>
                                 <%--返还手续费渠道--%>
                             <div class="return_bank_div">
+                                <c:set value="Return" var="feeOrReturn"/>
                                 <%@ include file="PayLimitPartial.jsp" %>
                             </div>
                             <div  id="first_div_return">

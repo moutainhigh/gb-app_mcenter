@@ -3,6 +3,7 @@ package so.wwb.gamebox.mcenter.player.controller;
 import org.soul.commons.collections.MapTool;
 import org.soul.commons.data.json.JsonTool;
 import org.soul.commons.exception.SystemException;
+import org.soul.commons.lang.BooleanTool;
 import org.soul.commons.locale.LocaleTool;
 import org.soul.commons.log.Log;
 import org.soul.commons.log.LogFactory;
@@ -214,7 +215,7 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
         //this.getService().saveMoreAccount(vo);
         PlayerRankVo v = new PlayerRankVo();
         v.getSearch().setId(rankId);
-        v = this.getService().getPlayerRankById(v);
+        v = this.getService().get(v);
         v.setValidateRule(JsRuleCreator.create(PlayerRankSearchForm.class, "result"));
         v.setCurrency(SessionManager.getUser().getDefaultCurrency());
         //v.getResult().setIsFee(v.getResult().getIsFee()==null||!v.getResult().getIsFee()?false:true);
@@ -260,6 +261,21 @@ public class PlayerRankController extends BaseCrudController<IPlayerRankService,
     @ResponseBody
     public Map savePayLimit(PlayerRankVo vo, @FormModel("result") @Valid PlayerRankSearchForm form, BindingResult result,HttpServletRequest request) {
         if (!result.hasErrors()) {
+            //由于isDepositCompanyAll等字段在界面收取返还共有两条，在数据库中只有一个，所有在vo中暂存，保存时做判断取值
+            PlayerRank rank = vo.getResult();
+            if (rank !=null) {
+                if (BooleanTool.isTrue(rank.getIsFee())) {
+                    rank.setIsDepositCompanyAll(vo.getIsDepositCompanyAllFee());
+                    rank.setDepositCompanyBank(vo.getDepositCompanyBankFee());
+                    rank.setIsDepositOnlineAll(vo.getIsDepositOnlineAllFee());
+                    rank.setDepositOnlineBank(vo.getDepositOnlineBankFee());
+                } else if (BooleanTool.isTrue(rank.getIsReturnFee())) {
+                    rank.setIsDepositCompanyAll(vo.getIsDepositCompanyAllReturn());
+                    rank.setDepositCompanyBank(vo.getDepositCompanyBankReturn());
+                    rank.setIsDepositOnlineAll(vo.getIsDepositOnlineAllReturn());
+                    rank.setDepositOnlineBank(vo.getDepositOnlineBankReturn());
+                }
+            }
             vo = this.getService().savePayLimit(vo);
             if (vo.isSuccess()) {
                 addLog(request,vo,"rank.pay.limit");
