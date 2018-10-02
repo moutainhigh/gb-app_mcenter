@@ -10,28 +10,23 @@
                                     <div>
                                         <label class="m-r-sm">
                                             <input type="checkbox" class="i-checks" name="result.isDepositCompanyAll"
-                                            ${command.result.isDepositCompanyAll?'checked':''}
-                                                    &nbsp;
-                                            ${command.otherDepositPlayerRank.isDepositCompanyAll?'checked disabled':''}
-                                            ${not empty command.otherDepositPlayerRank.depositCompanyBank?'disabled':''}>
+                                            ${command.result.isDepositCompanyAll?'checked':''}>
                                                 所有公司入款
                                         </label>
                                     </div>
-                                    <div id="div_company_bank" style="display: ${command.result.isDepositCompanyAll?'none':'block'};">
-                                        <input type="hidden" class="i-checks" name="result.depositCompanyBank" value="${command.result.depositCompanyBank}">
+                                    <div class="div_bank" style="display: ${command.result.isDepositCompanyAll?'none':'block'};">
+                                        <%--<input type="hidden" class="i-checks" name="result.depositCompanyBank" value="${command.result.depositCompanyBank}">--%>
                                         <label class="m-r-sm">
-                                            <input type="checkbox" class="i-checks company_item" bank_item="company_item" name="" value="bank_pay"
-                                                ${fn:contains(command.result.depositCompanyBank,'bank_pay')?'checked':''}
-                                                    &nbsp;
-                                                ${fn:contains(command.otherDepositPlayerRank.depositCompanyBank,'bank_pay')?'disabled checked':''}>
+                                            <input type="checkbox" class="i-checks company_item" bank_item="company_item"
+                                                   name="result.depositCompanyBank" value="bank_pay"
+                                                ${fn:contains(command.result.depositCompanyBank,'bank_pay')?'checked':''}>
                                                     银行直连
                                         </label>
                                         <c:forEach items="${command.thirdBankList}" var="bank">
                                             <label class="m-r-sm">
-                                                <input type="checkbox" class="i-checks company_item" bank_item="company_item" name="" value="${bank.bankName}"
-                                                    ${fn:contains(command.result.depositCompanyBank,bank.bankName)?'checked':''}
-                                                       &nbsp;
-                                                    ${fn:contains(command.otherDepositPlayerRank.depositCompanyBank,bank.bankName)?'disabled checked':''}>
+                                                <input type="checkbox" class="i-checks company_item" bank_item="company_item"
+                                                       name="result.depositCompanyBank" value="${bank.bankName}"
+                                                    ${fn:contains(command.result.depositCompanyBank,bank.bankName)?'checked':''}>
                                                         ${dicts.common.bankname[bank.bankName]}
                                             </label>
                                         </c:forEach>
@@ -44,25 +39,22 @@
                                     <div>
                                         <label class="m-r-sm">
                                             <input type="checkbox" class="i-checks" name="result.isDepositOnlineAll"
-                                            ${command.result.isDepositOnlineAll?'checked':''}
-                                                   &nbsp;
-                                            ${command.otherDepositPlayerRank.isDepositOnlineAll?'checked disabled':''}
-                                            ${not empty command.otherDepositPlayerRank.depositOnlineBank?'disabled':''}>
+                                            ${command.result.isDepositOnlineAll?'checked':''}>
                                                 所有线上支付
                                         </label>
                                     </div>
-                                    <div id="div_online_bank"  style="display: ${command.result.isDepositOnlineAll?'none':'block'};">
-                                        <input type="hidden" class="i-checks" name="result.depositOnlineBank" value="${command.result.depositOnlineBank}">
+                                    <div class="div_bank"  style="display: ${command.result.isDepositOnlineAll?'none':'block'};">
+                                        <%--<input type="hidden" class="i-checks" name="result.depositOnlineBank" value="${command.result.depositOnlineBank}">--%>
                                         <label class="m-r-sm">
-                                            <input type="checkbox" class="i-checks online_item" bank_item="online_item" name="" value="bank_pay">
+                                            <input type="checkbox" class="i-checks online_item" bank_item="online_item"
+                                                   name="result.depositOnlineBank" value="bank_pay">
                                             银行账户
                                         </label>
                                         <c:forEach items="${command.thirdBankList}" var="bank">
                                             <label class="m-r-sm">
-                                                <input type="checkbox" class="i-checks online_item" bank_item="online_item" name="" value="${bank.bankName}"
-                                                    ${fn:contains(command.result.depositOnlineBank,bank.bankName)?'checked':''}
-                                                       &nbsp;
-                                                    ${fn:contains(command.otherDepositPlayerRank.depositOnlineBank,bank.bankName)?'disabled checked':''}>
+                                                <input type="checkbox" class="i-checks online_item" bank_item="online_item"
+                                                       name="result.depositOnlineBank" value="${bank.bankName}"
+                                                    ${fn:contains(command.result.depositOnlineBank,bank.bankName)?'checked':''}>
                                                     ${dicts.common.bankname[bank.bankName]}
                                             </label>
                                         </c:forEach>

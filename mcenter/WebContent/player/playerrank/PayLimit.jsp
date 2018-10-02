@@ -74,7 +74,7 @@
                             </div>
                             <%--收取手续费渠道--%>
                             <div class="fee_bank_div">
-                                <%--<%@ include file="PayLimitPartial.jsp" %>--%>
+                                <%@ include file="PayLimitPartial.jsp" %>
                             </div>
                             <div id="first_div_fee">
                                 <div class="clearfix m-t m-b fzcs">
@@ -136,7 +136,7 @@
                             </div>
                                 <%--返还手续费渠道--%>
                             <div class="return_bank_div">
-
+                                <%@ include file="PayLimitPartial.jsp" %>
                             </div>
                             <div  id="first_div_return">
                                 <div class="clearfix m-t m-b fzcs">
@@ -224,10 +224,6 @@
         </div>
     </div>
 </form:form>
-<%--由于渠道要根据其他层级的选择来确定哪些是可以勾选的，哪些不可以勾选，所有当操作这点击了开启按钮后，要重置渠道的勾选，重置就把div重新加载；不能像其他的input一样只要启用或者禁用就可以了--%>
-<div class="template_bank_div" style="display: none">
-    <%@ include file="PayLimitPartial.jsp" %>
-</div>
 <soul:import res="site/player/playerrank/PayLimit"/>
 <!--//region your codes 4-->
 <!--//endregion your codes 4-->
